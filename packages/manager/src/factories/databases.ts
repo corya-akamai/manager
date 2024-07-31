@@ -1,3 +1,8 @@
+import { v4 } from 'uuid';
+
+import Factory from 'src/factories/factoryProxy';
+import { pickRandom, randomDate } from 'src/utilities/random';
+
 import type {
   ClusterSize,
   Database,
@@ -10,19 +15,18 @@ import type {
   MySQLReplicationType,
   PostgresReplicationType,
 } from '@linode/api-v4/lib/databases/types';
-import Factory from 'src/factories/factoryProxy';
-import { v4 } from 'uuid';
-
-import { pickRandom, randomDate } from 'src/utilities/random';
 
 // These are not all of the possible statuses, but these are some common ones.
 export const possibleStatuses: DatabaseStatus[] = [
-  'provisioning',
   'active',
-  'failed',
   'degraded',
-  'restoring',
+  'failed',
+  'provisioning',
   'resizing',
+  'restoring',
+  'resuming',
+  'suspended',
+  'suspending',
 ];
 
 export const possibleMySQLReplicationTypes: MySQLReplicationType[] = [

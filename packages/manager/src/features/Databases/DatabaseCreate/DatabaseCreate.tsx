@@ -32,6 +32,7 @@ import { TextField } from 'src/components/TextField';
 import { Typography } from 'src/components/Typography';
 import { PlansPanel } from 'src/features/components/PlansPanel/PlansPanel';
 import { EngineOption } from 'src/features/Databases/DatabaseCreate/EngineOption';
+import { DatabaseLogo } from 'src/features/Databases/DatabaseLanding/DatabaseLogo';
 import { databaseEngineMap } from 'src/features/Databases/DatabaseLanding/DatabaseRow';
 import { enforceIPMasks } from 'src/features/Firewalls/FirewallDetail/Rules/FirewallRuleDrawer.utils';
 import { typeLabelDetails } from 'src/features/Linodes/presentation';
@@ -48,6 +49,9 @@ import { getSelectedOptionFromGroupedOptions } from 'src/utilities/getSelectedOp
 import { ipFieldPlaceholder, validateIPs } from 'src/utilities/ipUtils';
 import { scrollErrorIntoViewV2 } from 'src/utilities/scrollErrorIntoViewV2';
 
+import { useAccount } from '../../../queries/account/account';
+
+import type { Capabilities } from '@linode/api-v4';
 import type {
   ClusterSize,
   ComprehensiveReplicationType,
@@ -62,6 +66,9 @@ import type { Theme } from '@mui/material/styles';
 import type { Item } from 'src/components/EnhancedSelect/Select';
 import type { PlanSelectionType } from 'src/features/components/PlansPanel/types';
 import type { ExtendedIP } from 'src/utilities/ipUtils';
+
+const V1 = 'Managed Databases';
+const V2 = `Managed Databases V2`;
 
 const useStyles = makeStyles()((theme: Theme) => ({
   btnCtn: {
@@ -186,6 +193,7 @@ const getEngineOptions = (engines: DatabaseEngine[]) => {
 };
 
 interface NodePricing {
+  double: DatabasePriceObject | undefined;
   multi: DatabasePriceObject | undefined;
   single: DatabasePriceObject | undefined;
 }
@@ -212,6 +220,10 @@ const DatabaseCreate = () => {
     error: typesError,
     isLoading: typesLoading,
   } = useDatabaseTypesQuery();
+
+  const { data: account } = useAccount();
+  const hasV2 = account?.capabilities?.includes(V2);
+  const currentCapability: Capabilities = hasV2 ? V2 : V1;
 
   const formRef = React.useRef<HTMLFormElement>(null);
   const { mutateAsync: createDatabase } = useCreateDatabaseMutation();
@@ -366,36 +378,70 @@ const DatabaseCreate = () => {
     </div>
   );
 
-  const nodeOptions = [
-    {
-      label: (
-        <Typography>
-          1 Node {` `}
-          <br />
-          <span style={{ fontSize: '12px' }}>
-            {`$${nodePricing?.single?.monthly || 0}/month $${
-              nodePricing?.single?.hourly || 0
-            }/hr`}
-          </span>
-        </Typography>
-      ),
-      value: 1,
-    },
-    {
+  const getNodeOptions = (hasDualNodeOption = false) => {
+    const options = [
+      {
+        label: (
+          <Typography>
+            1 Node {` `}
+            <br />
+            <span style={{ fontSize: '12px' }}>
+              {`$${nodePricing?.single?.monthly ?? 0}/month $${
+                nodePricing?.single?.hourly ?? 0
+              }/hr`}
+            </span>
+          </Typography>
+        ),
+        value: 1,
+      },
+    ];
+
+    if (hasDualNodeOption) {
+      options.push({
+        label: (
+          <Typography>
+            2 Nodes - High Availability
+            <br />
+            <span style={{ fontSize: '12px' }}>
+              {`$${nodePricing?.double?.monthly ?? 0}/month $${
+                nodePricing?.double?.hourly ?? 0
+              }/hr`}
+            </span>
+          </Typography>
+        ),
+        value: 2,
+      });
+    }
+
+    options.push({
       label: (
         <Typography>
           3 Nodes - High Availability (recommended)
           <br />
           <span style={{ fontSize: '12px' }}>
-            {`$${nodePricing?.multi?.monthly || 0}/month $${
-              nodePricing?.multi?.hourly || 0
+            {`$${nodePricing?.multi?.monthly ?? 0}/month $${
+              nodePricing?.multi?.hourly ?? 0
             }/hr`}
           </span>
         </Typography>
       ),
       value: 3,
-    },
-  ];
+    });
+
+    return options;
+  };
+
+  const hasDedicated = displayTypes.some((type) => type.class === 'dedicated');
+
+  const [nodeOptions, setNodeOptions] = React.useState<any[]>(
+    getNodeOptions(hasDedicated)
+  );
+
+  const handleTabChange = (index: number) => {
+    const hasDualNodeOption =
+      index === 0 && hasDedicated && currentCapability === V2;
+    setNodeOptions(getNodeOptions(hasDualNodeOption));
+  };
 
   React.useEffect(() => {
     if (values.type.length === 0 || !dbtypes) {
@@ -410,6 +456,9 @@ const DatabaseCreate = () => {
     const engineType = values.engine.split('/')[0] as Engine;
 
     setNodePricing({
+      double: type.engines[engineType].find(
+        (cluster: DatabaseClusterSizeObject) => cluster.quantity === 2
+      )?.price,
       multi: type.engines[engineType].find(
         (cluster: DatabaseClusterSizeObject) => cluster.quantity === 3
       )?.price,
@@ -500,7 +549,7 @@ const DatabaseCreate = () => {
         </Grid>
         <Grid>
           <RegionSelect
-            currentCapability="Managed Databases"
+            currentCapability={currentCapability}
             disableClearable
             errorText={errors.region}
             onChange={(e, region) => setFieldValue('region', region.id)}
@@ -518,6 +567,7 @@ const DatabaseCreate = () => {
             className={classes.selectPlanPanel}
             data-qa-select-plan
             error={errors.type}
+            handleTabChange={handleTabChange}
             header="Choose a Plan"
             isCreate
             regionsData={regionsData}
@@ -634,6 +684,7 @@ const DatabaseCreate = () => {
           Create Database Cluster
         </Button>
       </Grid>
+      {currentCapability === V2 && <DatabaseLogo />}
     </form>
   );
 };
