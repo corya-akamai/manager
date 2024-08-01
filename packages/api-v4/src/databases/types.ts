@@ -81,6 +81,8 @@ export interface DatabaseInstance {
    * A key/value object where the key is an IP address and the value is a member type.
    */
   members: Record<string, MemberType>;
+  // TODO change after agreement
+  platform: 'db' | 'adb';
 }
 
 export type ClusterSize = 1 | 3;

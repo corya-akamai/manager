@@ -155,6 +155,7 @@ export const databaseInstanceFactory = Factory.Sync.makeFactory<DatabaseInstance
     members: {
       '2.2.2.2': 'primary',
     },
+    platform: Factory.each(() => pickRandom(['adb', 'db'])),
     region: 'us-east',
     status: Factory.each(() => pickRandom(possibleStatuses)),
     type: databaseTypeFactory.build().id,
