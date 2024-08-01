@@ -5,15 +5,15 @@ import { BetaChip } from 'src/components/BetaChip/BetaChip';
 import { Box } from 'src/components/Box';
 import { Typography } from 'src/components/Typography';
 
-interface BrandingProps {
+interface DbLogoProps {
   style?: React.CSSProperties;
 }
 
-export const DatabaseLogo = ({ style }: BrandingProps) => {
+export const DatabaseLogo = ({ style }: DbLogoProps) => {
   return (
     <Box
       display="flex"
-      id="aBranding"
+      id="dbLogo"
       justifyContent="center"
       sx={style ? style : { margin: '20px' }}
     >
