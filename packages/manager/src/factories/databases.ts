@@ -181,8 +181,9 @@ export const databaseInstanceFactory = Factory.Sync.makeFactory<DatabaseInstance
     created: '2021-12-09T17:15:12',
     engine: Factory.each((i) => ['mysql', 'postgresql'][i % 2] as Engine),
     hosts: {
-      primary: 'db-primary-0.b.linodeb.net',
-      secondary: 'db-secondary-0.b.linodeb.net',
+      primary: 'db-mysql-primary-0.b.linodeb.net',
+      readOnly: 'db-mysql-primary-0.b.linodeb.net',
+      secondary: 'db-mysql-secondary-0.b.linodeb.net',
     },
     id: Factory.each((i) => i),
     instance_uri: '',
@@ -215,6 +216,7 @@ export const databaseFactory = Factory.Sync.makeFactory<Database>({
   engine: 'mysql',
   hosts: {
     primary: 'db-mysql-primary-0.b.linodeb.net',
+    readOnly: 'db-mysql-secondary-0.b.linodeb.net',
     secondary: 'db-mysql-secondary-0.b.linodeb.net',
   },
   id: Factory.each((i) => i),
@@ -222,6 +224,7 @@ export const databaseFactory = Factory.Sync.makeFactory<Database>({
   members: {
     '2.2.2.2': 'primary',
   },
+  platform: pickRandom(['adb10', 'adb20']),
   port: 3306,
   region: 'us-east',
   ssl_connection: false,

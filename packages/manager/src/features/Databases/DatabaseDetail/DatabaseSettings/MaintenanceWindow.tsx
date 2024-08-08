@@ -1,6 +1,3 @@
-import { Database, UpdatesSchedule } from '@linode/api-v4/lib/databases';
-import { APIError } from '@linode/api-v4/lib/types';
-import { Theme } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import { DateTime } from 'luxon';
 import { useSnackbar } from 'notistack';
@@ -9,15 +6,20 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from 'tss-react/mui';
 
 import { Button } from 'src/components/Button/Button';
-import Select, { Item } from 'src/components/EnhancedSelect/Select';
-import { Notice } from 'src/components/Notice/Notice';
-import { Radio } from 'src/components/Radio/Radio';
-import { TooltipIcon } from 'src/components/TooltipIcon';
-import { Typography } from 'src/components/Typography';
+import Select from 'src/components/EnhancedSelect/Select';
 import { FormControl } from 'src/components/FormControl';
 import { FormControlLabel } from 'src/components/FormControlLabel';
+import { Notice } from 'src/components/Notice/Notice';
+import { Radio } from 'src/components/Radio/Radio';
 import { RadioGroup } from 'src/components/RadioGroup';
+import { TooltipIcon } from 'src/components/TooltipIcon';
+import { Typography } from 'src/components/Typography';
 import { useDatabaseMutation } from 'src/queries/databases/databases';
+
+import type { Database, UpdatesSchedule } from '@linode/api-v4/lib/databases';
+import type { APIError } from '@linode/api-v4/lib/types';
+import type { Theme } from '@mui/material/styles';
+import type { Item } from 'src/components/EnhancedSelect/Select';
 
 // import { updateDatabaseSchema } from '@linode/validation/src/databases.schema';
 
@@ -173,12 +175,20 @@ export const MaintenanceWindow = (props: Props) => {
     onSubmit: handleSaveMaintenanceWindow,
   });
 
+  // TODO change after confirmation
+  const isADatabase = database.platform === 'adb10';
+  const typographyForADatabase =
+    'Select when you want the required OS and DB engine updates to take place. The maintenance may cause downtime on clusters with less than 3 nodes (non high-availability clusters).';
+  const typographyForBDatabase =
+    "OS and DB engine updates will be performed on the schedule below. Select the frequency, day, and time you'd prefer maintenance to occur.";
   return (
     <form onSubmit={handleSubmit}>
       <div className={classes.topSection}>
         <div className={classes.sectionTitleAndText}>
           <Typography className={classes.sectionTitle} variant="h3">
-            Maintenance Window
+            {isADatabase
+              ? 'Set a Weekly Maintenance Window'
+              : 'Maintenance Window'}
           </Typography>
           {maintenanceUpdateError ? (
             <Notice spacingTop={8} variant="error">
@@ -186,9 +196,7 @@ export const MaintenanceWindow = (props: Props) => {
             </Notice>
           ) : null}
           <Typography className={classes.sectionText}>
-            OS and DB engine updates will be performed on the schedule below.
-            Select the frequency, day, and time you&rsquo;d prefer maintenance
-            to occur.{' '}
+            {isADatabase ? typographyForADatabase : typographyForBDatabase}
             {database.cluster_size !== 3
               ? 'For non-HA plans, expect downtime during this window.'
               : null}
@@ -301,19 +309,23 @@ export const MaintenanceWindow = (props: Props) => {
             }}
             disabled={disabled}
           >
-            <RadioGroup
-              style={{ marginBottom: 0, marginTop: 0 }}
-              value={values.frequency}
-            >
-              {maintenanceFrequencyMap.map((option) => (
-                <FormControlLabel
-                  control={<Radio />}
-                  key={option.value}
-                  label={option.key}
-                  value={option.value}
-                />
-              ))}
-            </RadioGroup>
+            {!isADatabase ? (
+              <RadioGroup
+                style={{ marginBottom: 0, marginTop: 0 }}
+                value={values.frequency}
+              >
+                {maintenanceFrequencyMap.map((option) => (
+                  <FormControlLabel
+                    control={<Radio />}
+                    key={option.value}
+                    label={option.key}
+                    value={option.value}
+                  />
+                ))}
+              </RadioGroup>
+            ) : (
+              ' '
+            )}
           </FormControl>
           <div>
             {values.frequency === 'monthly' ? (
