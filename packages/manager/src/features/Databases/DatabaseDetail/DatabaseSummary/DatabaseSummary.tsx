@@ -1,4 +1,3 @@
-import { Database } from '@linode/api-v4/lib/databases/types';
 import Grid from '@mui/material/Unstable_Grid2';
 import * as React from 'react';
 
@@ -10,6 +9,8 @@ import { Typography } from 'src/components/Typography';
 import AccessControls from '../AccessControls';
 import ClusterConfiguration from './DatabaseSummaryClusterConfiguration';
 import ConnectionDetails from './DatabaseSummaryConnectionDetails';
+
+import type { Database } from '@linode/api-v4/lib/databases/types';
 
 interface Props {
   database: Database;

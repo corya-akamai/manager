@@ -1,9 +1,8 @@
-import { Database } from '@linode/api-v4/lib/databases/types';
 import * as React from 'react';
 
 import { Divider } from 'src/components/Divider';
-import { Typography } from 'src/components/Typography';
 import { Paper } from 'src/components/Paper';
+import { Typography } from 'src/components/Typography';
 import { useProfile } from 'src/queries/profile/profile';
 
 import AccessControls from '../AccessControls';
@@ -11,6 +10,8 @@ import DatabaseSettingsDeleteClusterDialog from './DatabaseSettingsDeleteCluster
 import DatabaseSettingsMenuItem from './DatabaseSettingsMenuItem';
 import DatabaseSettingsResetPasswordDialog from './DatabaseSettingsResetPasswordDialog';
 import MaintenanceWindow from './MaintenanceWindow';
+
+import type { Database } from '@linode/api-v4/lib/databases/types';
 
 interface Props {
   database: Database;
@@ -33,6 +34,11 @@ export const DatabaseSettings: React.FC<Props> = (props) => {
   const deleteClusterCopy =
     'Deleting a database cluster is permanent and cannot be undone.';
 
+  const resetRootPasswordCopyNew =
+    'Reset your root password if someone should no longer have access to the root user or if you believe your password may have been compromised. This will automatically generate a new password that you’ll be able to see on your database cluster summary page.';
+
+  const deleteClusterCopyNew = 'Permanently remove an unused database cluster.';
+
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
   const [
     isResetRootPasswordDialogOpen,
@@ -54,22 +60,26 @@ export const DatabaseSettings: React.FC<Props> = (props) => {
   const onResetRootPasswordClose = () => {
     setIsResetRootPasswordDialogOpen(false);
   };
-
+  const isNewDatabase = database.platform === 'adb20';
   return (
     <>
       <Paper>
         <AccessControls database={database} description={accessControlCopy} />
         <Divider spacingBottom={22} spacingTop={28} />
         <DatabaseSettingsMenuItem
+          descriptiveText={
+            isNewDatabase ? resetRootPasswordCopyNew : resetRootPasswordCopy
+          }
           buttonText="Reset Root Password"
-          descriptiveText={resetRootPasswordCopy}
           onClick={onResetRootPassword}
           sectionTitle="Reset Root Password"
         />
         <Divider spacingBottom={22} spacingTop={28} />
         <DatabaseSettingsMenuItem
+          descriptiveText={
+            isNewDatabase ? deleteClusterCopyNew : deleteClusterCopy
+          }
           buttonText="Delete Cluster"
-          descriptiveText={deleteClusterCopy}
           disabled={Boolean(profile?.restricted)}
           onClick={onDeleteCluster}
           sectionTitle="Delete Cluster"

@@ -55,6 +55,7 @@ export interface DatabaseCredentials {
 interface DatabaseHosts {
   primary: string;
   secondary: string;
+  readOnly: string;
 }
 
 export interface SSLFields {
