@@ -55,6 +55,7 @@ export interface DatabaseCredentials {
 interface DatabaseHosts {
   primary: string;
   secondary: string;
+  readOnly: string;
 }
 
 export interface SSLFields {
@@ -81,8 +82,8 @@ export interface DatabaseInstance {
    * A key/value object where the key is an IP address and the value is a member type.
    */
   members: Record<string, MemberType>;
-  // TODO change after agreement
-  platform: 'db' | 'adb';
+  // TODO change after confirmation
+  platform: 'adb10' | 'adb20';
 }
 
 export type ClusterSize = 1 | 3;
@@ -151,6 +152,8 @@ export interface BaseDatabase {
    * A key/value object where the key is an IP address and the value is a member type.
    */
   members: Record<string, MemberType>;
+  // TODO change after confirmation
+  platform: 'adb10' | 'adb20';
 }
 
 export interface MySQLDatabase extends BaseDatabase {

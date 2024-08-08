@@ -73,7 +73,7 @@ const DatabaseLanding = () => {
   const aDatabases: DatabaseInstance[] = [];
   const bDatabases: DatabaseInstance[] = [];
   data?.data.forEach((database: DatabaseInstance) => {
-    return database.platform === 'adb'
+    return database.platform === 'adb10'
       ? aDatabases?.push(database)
       : bDatabases?.push(database);
   });

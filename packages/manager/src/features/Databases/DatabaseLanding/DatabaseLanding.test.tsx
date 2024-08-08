@@ -109,7 +109,7 @@ describe('Database Table', () => {
     server.use(
       http.get('*/databases/instances', () => {
         const databases = databaseInstanceFactory.buildList(1, {
-          platform: 'db',
+          platform: 'adb20',
           status: 'active',
         });
         return HttpResponse.json(makeResourcePage(databases));

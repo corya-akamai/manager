@@ -1,4 +1,9 @@
-import {
+import { v4 } from 'uuid';
+
+import Factory from 'src/factories/factoryProxy';
+import { pickRandom, randomDate } from 'src/utilities/random';
+
+import type {
   Database,
   DatabaseBackup,
   DatabaseEngine,
@@ -8,10 +13,6 @@ import {
   MySQLReplicationType,
   PostgresReplicationType,
 } from '@linode/api-v4/lib/databases/types';
-import Factory from 'src/factories/factoryProxy';
-import { v4 } from 'uuid';
-
-import { pickRandom, randomDate } from 'src/utilities/random';
 
 // These are not all of the possible statuses, but these are some common ones.
 export const possibleStatuses: DatabaseStatus[] = [
@@ -147,6 +148,7 @@ export const databaseInstanceFactory = Factory.Sync.makeFactory<DatabaseInstance
     engine: 'mysql',
     hosts: {
       primary: 'db-mysql-primary-0.b.linodeb.net',
+      readOnly: 'db-mysql-primary-0.b.linodeb.net',
       secondary: 'db-mysql-secondary-0.b.linodeb.net',
     },
     id: Factory.each((i) => i),
@@ -155,7 +157,7 @@ export const databaseInstanceFactory = Factory.Sync.makeFactory<DatabaseInstance
     members: {
       '2.2.2.2': 'primary',
     },
-    platform: Factory.each(() => pickRandom(['adb', 'db'])),
+    platform: Factory.each(() => pickRandom(['adb10', 'adb20'])),
     region: 'us-east',
     status: Factory.each(() => pickRandom(possibleStatuses)),
     type: databaseTypeFactory.build().id,
@@ -178,6 +180,7 @@ export const databaseFactory = Factory.Sync.makeFactory<Database>({
   engine: 'mysql',
   hosts: {
     primary: 'db-mysql-primary-0.b.linodeb.net',
+    readOnly: 'db-mysql-secondary-0.b.linodeb.net',
     secondary: 'db-mysql-secondary-0.b.linodeb.net',
   },
   id: Factory.each((i) => i),
@@ -185,6 +188,7 @@ export const databaseFactory = Factory.Sync.makeFactory<Database>({
   members: {
     '2.2.2.2': 'primary',
   },
+  platform: pickRandom(['adb10', 'adb20']),
   port: 3306,
   region: 'us-east',
   ssl_connection: false,
