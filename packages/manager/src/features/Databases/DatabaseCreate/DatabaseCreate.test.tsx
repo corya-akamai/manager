@@ -39,7 +39,7 @@ describe('Database Create', () => {
     const standardTypes = [
       databaseTypeFactory.build({
         class: 'nanode',
-        id: 'g6-standard-0',
+        id: 'g6-nanode-1',
         label: `Nanode 1 GB`,
         memory: 1024,
       }),
@@ -113,11 +113,11 @@ describe('Database Create', () => {
     expect(nodeRadioBtns).toHaveTextContent('$140/month $0.21/hr');
   });
 
-  it('should display the correct nodes for account with Managed Databases V2', async () => {
+  it('should display the correct nodes for account with Managed Databases  Beta', async () => {
     server.use(
       http.get('*/account', () => {
         const account = accountFactory.build({
-          capabilities: ['Managed Databases V2'],
+          capabilities: ['Managed Databases Beta'],
         });
         return HttpResponse.json(account);
       })
