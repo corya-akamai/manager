@@ -1,7 +1,5 @@
 import { getSSLFields } from '@linode/api-v4/lib/databases/databases';
-import { Database, SSLFields } from '@linode/api-v4/lib/databases/types';
 import { useTheme } from '@mui/material';
-import { Theme } from '@mui/material/styles';
 import { useSnackbar } from 'notistack';
 import * as React from 'react';
 import { makeStyles } from 'tss-react/mui';
@@ -17,6 +15,9 @@ import { DB_ROOT_USERNAME } from 'src/constants';
 import { useDatabaseCredentialsQuery } from 'src/queries/databases/databases';
 import { downloadFile } from 'src/utilities/downloadFile';
 import { getErrorStringOrDefault } from 'src/utilities/errorUtils';
+
+import type { Database, SSLFields } from '@linode/api-v4/lib/databases/types';
+import type { Theme } from '@mui/material/styles';
 
 const useStyles = makeStyles()((theme: Theme) => ({
   actionBtnsCtn: {
@@ -369,6 +370,17 @@ export const DatabaseSummaryConnectionDetails = (props: Props) => {
               status="help"
               sxTooltipIcon={sxTooltipIcon}
               text={privateHostCopy}
+            />
+          </Box>
+        ) : null}
+        {database.platform === 'adb20' && database.hosts.readOnly ? (
+          <Box alignItems="center" display="flex" flexDirection="row">
+            <Typography>
+              <span>read-only host</span> = {database.hosts.readOnly}
+            </Typography>
+            <CopyTooltip
+              className={classes.inlineCopyToolTip}
+              text={database.hosts.readOnly}
             />
           </Box>
         ) : null}
