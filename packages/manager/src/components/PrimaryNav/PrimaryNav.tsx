@@ -108,7 +108,7 @@ export const PrimaryNav = (props: PrimaryNavProps) => {
   const { isACLPEnabled } = useIsACLPEnabled();
 
   const { isPlacementGroupsEnabled } = useIsPlacementGroupsEnabled();
-  const { isDatabasesEnabled, isDatabasesV2Enabled } = useIsDatabasesEnabled();
+  const { isDatabasesEnabled } = useIsDatabasesEnabled();
 
   const prefetchMarketplace = () => {
     if (!enableMarketplacePrefetch) {
