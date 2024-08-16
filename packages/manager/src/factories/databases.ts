@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 
 import Factory from 'src/factories/factoryProxy';
-import { pickRandom, randomDate } from 'src/utilities/random';
+import { pickRandom } from 'src/utilities/random';
 
 import type {
   ClusterSize,
@@ -244,7 +244,8 @@ export const databaseFactory = Factory.Sync.makeFactory<Database>({
 });
 
 export const databaseBackupFactory = Factory.Sync.makeFactory<DatabaseBackup>({
-  created: Factory.each(() => randomDate().toISOString()),
+  // created: Factory.each(() => generateRandomDateTime()),
+  created: '2024-08-26T01:00:00.000Z',
   id: Factory.each((i) => i),
   label: Factory.each(() => `backup-${v4()}`),
   type: pickRandom(['snapshot', 'auto']),
