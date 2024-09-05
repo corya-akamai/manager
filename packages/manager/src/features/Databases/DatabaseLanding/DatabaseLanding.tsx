@@ -34,7 +34,6 @@ const DatabaseLanding = () => {
   const isRestricted = useRestrictedGlobalGrantCheck({
     globalGrantType: 'add_databases',
   });
-  const account = useAccount();
 
   const { isLoading: isTypeLoading } = useDatabaseTypesQuery();
   const { isDatabasesV2Enabled } = useIsDatabasesEnabled();
