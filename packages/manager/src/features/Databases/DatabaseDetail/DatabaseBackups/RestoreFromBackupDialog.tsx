@@ -47,9 +47,8 @@ export const RestoreFromBackupDialog: React.FC<Props> = (props) => {
     .split('T')[1]
     .slice(0, 5)} (UTC)`;
 
-  // const isDisplayFlowA = database?.platform === 'adb10';
-  const isDisplayFlowA = true;
-  return isDisplayFlowA ? (
+  const isNewDatabase = database?.platform === 'rdbms-default';
+  return isNewDatabase ? (
     <Dialog
       onClose={onClose}
       open={open}

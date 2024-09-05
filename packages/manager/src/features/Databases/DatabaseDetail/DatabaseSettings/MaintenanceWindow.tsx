@@ -175,8 +175,7 @@ export const MaintenanceWindow = (props: Props) => {
     onSubmit: handleSaveMaintenanceWindow,
   });
 
-  // TODO change after confirmation
-  const isADatabase = database.platform === 'adb10';
+  const isADatabase = database.platform === 'rdbms-default';
   const typographyForADatabase =
     'Select when you want the required OS and DB engine updates to take place. The maintenance may cause downtime on clusters with less than 3 nodes (non high-availability clusters).';
   const typographyForBDatabase =

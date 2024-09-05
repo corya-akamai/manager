@@ -1,9 +1,8 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Grid from '@mui/material/Grid';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
+import { DateTime } from 'luxon';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -38,7 +37,6 @@ import { BackupTableRow } from './DatabaseBackupTableRow';
 import RestoreFromBackupDialog from './RestoreFromBackupDialog';
 
 import type { DatabaseBackup, Engine } from '@linode/api-v4/lib/databases';
-import type { Dayjs } from 'dayjs';
 
 interface Props {
   disabled?: boolean;
@@ -56,10 +54,10 @@ export const DatabaseBackups = (props: Props) => {
     number | undefined
   >();
 
-  const [selectedDate, setSelectedDate] = React.useState<Dayjs | null>(null);
+  const [selectedDate, setSelectedDate] = React.useState<DateTime | null>(null);
   const [selectedBackup, setSelectedBackup] = React.useState<DatabaseBackup>();
-  const [selectedTime, setSelectedTime] = React.useState<Dayjs | null>(
-    dayjs().hour(1).minute(0).second(0).millisecond(0)
+  const [selectedTime, setSelectedTime] = React.useState<DateTime | null>(
+    DateTime.now().set({ hour: 1, minute: 0, second: 0, millisecond: 0 })
   );
 
   const id = Number(databaseId);
@@ -125,26 +123,33 @@ export const DatabaseBackups = (props: Props) => {
     return null;
   };
 
-  const isWithinLastTenDays = (date: Dayjs) => {
-    const today = dayjs().startOf('day');
-    const tenDaysAgo = today.subtract(9, 'day');
+  const isWithinLastTenDays = (date: DateTime) => {
+    const today = DateTime.now().startOf('day');
+    const tenDaysAgo = today.minus({ days: 9 });
 
-    return date.isBefore(tenDaysAgo, 'day') || date.isAfter(today, 'day');
+    return !(date >= tenDaysAgo && date <= today);
   };
 
-  const backupsCount = backups?.data.length;
-  const newestBackup = backups?.data[0]
-    ? formatDate(backups?.data[0].created, { timezone: 'utc' })
-    : '';
-  const oldestBackup = backupsCount
-    ? formatDate(backups?.data[backupsCount - 1].created, { timezone: 'utc' })
-    : '';
-  // const isDisplayFlowA = database?.platform === 'adb10';
-  const isDisplayFlowA = true;
-  const onRestoreFlowA = (selectedDate: Dayjs | null) => {
-    const d = selectedDate?.format('YYYY-MM-DD');
-    const t = selectedTime?.format('HH:mm:ss.SSS');
-    const selectedDateTime = `${d}T${t}Z`;
+  const backupsCount = backups?.data.length || 0;
+  const sortedBackups = backups?.data.sort(
+    (a, b) => new Date(a.created).getTime() - new Date(b.created).getTime()
+  );
+
+  const newestBackup =
+    backupsCount > 0 && sortedBackups?.[backupsCount - 1]
+      ? formatDate(sortedBackups[backupsCount - 1].created, { timezone: 'utc' })
+      : '';
+
+  const oldestBackup =
+    backupsCount > 0 && sortedBackups?.[0]
+      ? formatDate(sortedBackups[0].created, { timezone: 'utc' })
+      : '';
+
+  const isNewDatabase = database?.platform === 'rdbms-default';
+  const onRestoreNewDatabase = (selectedDate: DateTime | null) => {
+    const day = selectedDate?.toISODate();
+    const time = selectedTime?.toISOTime({ includeOffset: false });
+    const selectedDateTime = `${day}T${time}Z`;
 
     const backup = backups?.data.find((backup) => {
       return backup.created === selectedDateTime;
@@ -152,8 +157,8 @@ export const DatabaseBackups = (props: Props) => {
     setSelectedBackup(backup);
     setIsRestoreDialogOpen(true);
   };
-  dayjs.extend(utc);
-  return isDisplayFlowA ? (
+
+  return isNewDatabase ? (
     <Paper style={{ marginTop: 16 }}>
       <Typography variant="h2">Summary</Typography>
       <StyledTypography>
@@ -193,16 +198,17 @@ export const DatabaseBackups = (props: Props) => {
       <Grid container justifyContent="flex-start" mt={2}>
         <Grid item lg={3} md={4} xs={12}>
           <Typography variant="h3">Date</Typography>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <LocalizationProvider dateAdapter={AdapterLuxon}>
             <StyledDateCalendar
-              onChange={(date) => setSelectedDate(date)}
-              shouldDisableDate={(date) => isWithinLastTenDays(dayjs(date))}
+              onChange={(newDate) => setSelectedDate(newDate)}
+              shouldDisableDate={(date) => isWithinLastTenDays(date)}
+              value={selectedDate}
             />
           </LocalizationProvider>
         </Grid>
         <Grid item lg={3} md={4} xs={12}>
           <Typography variant="h3">Time(UTC)</Typography>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <LocalizationProvider dateAdapter={AdapterLuxon}>
             <StyledTimePicker
               slotProps={{
                 desktopPaper: {
@@ -220,7 +226,6 @@ export const DatabaseBackups = (props: Props) => {
               onChange={(time) => setSelectedTime(time)}
               slots={{ openPickerIcon: KeyboardArrowDownIcon }}
               timeSteps={{ hours: 1, minutes: 1 }}
-              // timezone="UTC"
               value={selectedTime}
             />
           </LocalizationProvider>
@@ -232,7 +237,7 @@ export const DatabaseBackups = (props: Props) => {
             buttonType="primary"
             data-qa-settings-button="restore"
             disabled={selectedDate ? false : true}
-            onClick={() => onRestoreFlowA(selectedDate)}
+            onClick={() => onRestoreNewDatabase(selectedDate)}
           >
             Restore
           </Button>

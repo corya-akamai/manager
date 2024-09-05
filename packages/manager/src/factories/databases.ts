@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 
 import Factory from 'src/factories/factoryProxy';
-import { pickRandom } from 'src/utilities/random';
+import { pickRandom, randomDate } from 'src/utilities/random';
 
 import type {
   ClusterSize,
@@ -224,7 +224,7 @@ export const databaseFactory = Factory.Sync.makeFactory<Database>({
   members: {
     '2.2.2.2': 'primary',
   },
-  platform: pickRandom(['adb10', 'adb20']),
+  platform: pickRandom(['rdbms-legacy', 'rdbms-default']),
   port: 3306,
   region: 'us-east',
   ssl_connection: false,
@@ -244,8 +244,12 @@ export const databaseFactory = Factory.Sync.makeFactory<Database>({
 });
 
 export const databaseBackupFactory = Factory.Sync.makeFactory<DatabaseBackup>({
-  // created: Factory.each(() => generateRandomDateTime()),
-  created: '2024-08-26T01:00:00.000Z',
+  created: Factory.each(() =>
+    randomDate(
+      new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
+      new Date()
+    ).toISOString()
+  ),
   id: Factory.each((i) => i),
   label: Factory.each(() => `backup-${v4()}`),
   type: pickRandom(['snapshot', 'auto']),

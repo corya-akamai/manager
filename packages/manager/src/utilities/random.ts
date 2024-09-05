@@ -18,19 +18,3 @@ export const randomDate = (
   end: Date = new Date(2021, 10, 25)
 ) =>
   new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-
-/**
- * Generates a random date with a fixed time, ten days before today.
- * @returns {string} A string representing the date in the format 'YYYY-MM-DDTHH:mm:00.000Z'
- */
-export const generateRandomDateTime = () => {
-  const daysAgo = Math.floor(Math.random() * 11);
-  const date = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000);
-
-  date.setHours(1);
-  date.setMinutes(0);
-  date.setSeconds(0);
-  date.setMilliseconds(0);
-
-  return date.toISOString();
-};

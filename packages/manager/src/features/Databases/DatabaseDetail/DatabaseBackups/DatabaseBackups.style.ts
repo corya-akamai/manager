@@ -50,7 +50,7 @@ export const StyledDateCalendar = styled(DateCalendar)(() => ({
   width: '260px',
 }));
 
-export const StyledBox = styled(Box)(() => ({
+export const StyledBox = styled(Box)(({ theme }) => ({
   '& h6': {
     fontSize: '0.875rem',
   },
@@ -59,13 +59,14 @@ export const StyledBox = styled(Box)(() => ({
     marginTop: '7px',
   },
   alignItems: 'flex-start',
-  background: '#FBFBFB',
+
   border: '1px solid #F4F4F4',
-  color: '#555555',
+  color: theme.name === 'light' ? '#555555' : theme.color.headline,
   display: 'flex',
   flexDirection: 'column',
   height: '100%',
   padding: '8px 15px',
+  background: theme.name === 'light' ? '#FBFBFB' : theme.color.grey2,
 }));
 
 export const StyledTypography = styled(Typography)(() => ({
