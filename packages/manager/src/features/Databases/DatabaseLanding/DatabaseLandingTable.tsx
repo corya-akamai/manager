@@ -4,7 +4,6 @@ import { Hidden } from 'src/components/Hidden';
 import { PaginationFooter } from 'src/components/PaginationFooter/PaginationFooter';
 import { Table } from 'src/components/Table';
 import { TableBody } from 'src/components/TableBody';
-import { TableCell } from 'src/components/TableCell';
 import { TableHead } from 'src/components/TableHead';
 import { TableRow } from 'src/components/TableRow/TableRow';
 import { TableRowEmpty } from 'src/components/TableRowEmpty/TableRowEmpty';
@@ -14,10 +13,7 @@ import DatabaseRow from 'src/features/Databases/DatabaseLanding/DatabaseRow';
 import { usePagination } from 'src/hooks/usePagination';
 import { useInProgressEvents } from 'src/queries/events/events';
 
-import type {
-  DatabaseInstance,
-  DatabaseType,
-} from '@linode/api-v4/lib/databases';
+import type { DatabaseInstance } from '@linode/api-v4/lib/databases';
 import type { Order } from 'src/hooks/useOrder';
 
 const preferenceKey = 'databases';
@@ -25,21 +21,20 @@ const preferenceKey = 'databases';
 interface Props {
   data: DatabaseInstance[] | undefined;
   handleOrderChange: (newOrderBy: string, newOrder: Order) => void;
-  isADatabases?: boolean;
+  isNewDatabase?: boolean;
   order: 'asc' | 'desc';
   orderBy: string;
-  types: DatabaseType[] | undefined;
 }
 const DatabaseLandingTable = ({
   data,
   handleOrderChange,
-  isADatabases,
+  isNewDatabase,
   order,
   orderBy,
-  types,
 }: Props) => {
   const { data: events } = useInProgressEvents();
-  const dbPlatformType = isADatabases ? 'a' : 'b';
+
+  const dbPlatformType = isNewDatabase ? 'new' : 'legacy';
   const pagination = usePagination(1, preferenceKey, dbPlatformType);
 
   return (
@@ -63,9 +58,17 @@ const DatabaseLandingTable = ({
             >
               Status
             </TableSortCell>
-            {isADatabases && (
+            {isNewDatabase && (
               /* TODO add back TableSortCell once API is updated to support sort by Plan */
-              <TableCell>Plan</TableCell>
+              // <TableCell>Plan</TableCell>
+              <TableSortCell
+                active={orderBy === 'plan'}
+                direction={order}
+                handleClick={handleOrderChange}
+                label="plan"
+              >
+                Plan
+              </TableSortCell>
             )}
             <Hidden smDown>
               <TableSortCell
@@ -74,7 +77,7 @@ const DatabaseLandingTable = ({
                 handleClick={handleOrderChange}
                 label="cluster_size"
               >
-                {isADatabases ? 'Nodes' : 'Configuration'}
+                {isNewDatabase ? 'Nodes' : 'Configuration'}
               </TableSortCell>
             </Hidden>
             <TableSortCell
@@ -87,7 +90,15 @@ const DatabaseLandingTable = ({
             </TableSortCell>
             <Hidden mdDown>
               {/* TODO add back TableSortCell once API is updated to support sort by Region */}
-              <TableCell>Region</TableCell>
+              {/* <TableCell>Region</TableCell> */}
+              <TableSortCell
+                active={orderBy === 'region'}
+                direction={order}
+                handleClick={handleOrderChange}
+                label="region"
+              >
+                Region
+              </TableSortCell>
             </Hidden>
             <Hidden lgDown>
               <TableSortCell
@@ -106,15 +117,14 @@ const DatabaseLandingTable = ({
             <DatabaseRow
               database={database}
               events={events}
-              isADatabases={isADatabases}
+              isNewDatabase={isNewDatabase}
               key={database.id}
-              types={types}
             />
           ))}
           {data?.length === 0 && (
             <TableRowEmpty
               message={
-                isADatabases
+                isNewDatabase
                   ? 'You don’t have any Aiven Database Clusters created yet. Click Create Database Cluster to create one.'
                   : ''
               }
@@ -131,7 +141,7 @@ const DatabaseLandingTable = ({
         page={pagination.page}
         pageSize={pagination.pageSize}
       />
-      {isADatabases && <DatabaseLogo />}
+      {isNewDatabase && <DatabaseLogo />}
     </>
   );
 };
