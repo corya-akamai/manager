@@ -61,7 +61,15 @@ const DatabaseLandingTable = ({
             </TableSortCell>
             {isNewDatabase && (
               /* TODO add back TableSortCell once API is updated to support sort by Plan */
-              <TableCell>Plan</TableCell>
+              // <TableCell>Plan</TableCell>
+              <TableSortCell
+                active={orderBy === 'plan'}
+                direction={order}
+                handleClick={handleOrderChange}
+                label="plan"
+              >
+                Plan
+              </TableSortCell>
             )}
             <Hidden smDown>
               <TableSortCell
