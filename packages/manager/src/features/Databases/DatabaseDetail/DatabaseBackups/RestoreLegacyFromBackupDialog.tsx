@@ -2,8 +2,6 @@ import { useSnackbar } from 'notistack';
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { ActionsPanel } from 'src/components/ActionsPanel/ActionsPanel';
-import { Dialog } from 'src/components/Dialog/Dialog';
 import { Notice } from 'src/components/Notice/Notice';
 import { TypeToConfirmDialog } from 'src/components/TypeToConfirmDialog/TypeToConfirmDialog';
 import { Typography } from 'src/components/Typography';
@@ -22,7 +20,7 @@ interface Props extends Omit<DialogProps, 'title'> {
   open: boolean;
 }
 
-export const RestoreFromBackupDialog: React.FC<Props> = (props) => {
+export const RestoreLegacyFromBackupDialog: React.FC<Props> = (props) => {
   const { backup, database, onClose, open } = props;
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
@@ -32,7 +30,7 @@ export const RestoreFromBackupDialog: React.FC<Props> = (props) => {
     error,
     isPending,
     mutateAsync: restore,
-  } = useRestoreFromBackupMutation(database.engine, database.id, backup.id);
+  } = useRestoreFromBackupMutation(database.engine, database.id, backup?.id);
 
   const handleRestoreDatabase = () => {
     restore().then(() => {
@@ -43,44 +41,8 @@ export const RestoreFromBackupDialog: React.FC<Props> = (props) => {
       onClose();
     });
   };
-  const formatedDate = `${backup.created.split('T')[0]} ${backup.created
-    .split('T')[1]
-    .slice(0, 5)} (UTC)`;
 
-  const isNewDatabase = database?.platform === 'rdbms-default';
-  return isNewDatabase ? (
-    <Dialog
-      onClose={onClose}
-      open={open}
-      subtitle={`From ${formatedDate}`}
-      title={`Restore ${database.label}`}
-    >
-      <Typography sx={{ marginBottom: '20px' }}>
-        Restoring a backup creates a fork from this backup. If you proceed and
-        the fork is created successfully, you have 10 days to delete the
-        original database cluster. Failing to do so, will lead to additional
-        billing caused by two running clusters instead of one.
-      </Typography>
-      <ActionsPanel
-        primaryButtonProps={{
-          'data-testid': 'submit',
-          label: 'Restore',
-          onClick: handleRestoreDatabase,
-        }}
-        secondaryButtonProps={{
-          'data-testid': 'cancel',
-          label: 'Cancel',
-          onClick: onClose,
-        }}
-        sx={{
-          display: 'flex',
-          marginBottom: '0',
-          paddingBottom: '0',
-          paddingTop: '10px',
-        }}
-      />
-    </Dialog>
-  ) : (
+  return (
     <TypeToConfirmDialog
       entity={{
         action: 'restoration',
@@ -117,4 +79,4 @@ export const RestoreFromBackupDialog: React.FC<Props> = (props) => {
   );
 };
 
-export default RestoreFromBackupDialog;
+export default RestoreLegacyFromBackupDialog;

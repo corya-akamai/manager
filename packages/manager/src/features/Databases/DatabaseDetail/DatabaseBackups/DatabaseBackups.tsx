@@ -21,20 +21,19 @@ import { TableRowLoading } from 'src/components/TableRowLoading/TableRowLoading'
 import { TableSortCell } from 'src/components/TableSortCell';
 import { Typography } from 'src/components/Typography';
 import {
-  StyledBox,
   StyledDateCalendar,
   StyledTimePicker,
   StyledTypography,
 } from 'src/features/Databases/DatabaseDetail/DatabaseBackups/DatabaseBackups.style';
+import RestoreLegacyFromBackupDialog from 'src/features/Databases/DatabaseDetail/DatabaseBackups/RestoreLegacyFromBackupDialog';
+import RestoreNewFromBackupDialog from 'src/features/Databases/DatabaseDetail/DatabaseBackups/RestoreNewFromBackupDialog';
 import { useOrder } from 'src/hooks/useOrder';
 import {
   useDatabaseBackupsQuery,
   useDatabaseQuery,
 } from 'src/queries/databases/databases';
-import { formatDate } from 'src/utilities/formatDate';
 
 import { BackupTableRow } from './DatabaseBackupTableRow';
-import RestoreFromBackupDialog from './RestoreFromBackupDialog';
 
 import type { DatabaseBackup, Engine } from '@linode/api-v4/lib/databases';
 
@@ -55,10 +54,13 @@ export const DatabaseBackups = (props: Props) => {
   >();
 
   const [selectedDate, setSelectedDate] = React.useState<DateTime | null>(null);
-  const [selectedBackup, setSelectedBackup] = React.useState<DatabaseBackup>();
   const [selectedTime, setSelectedTime] = React.useState<DateTime | null>(
-    DateTime.now().set({ hour: 1, minute: 0, second: 0, millisecond: 0 })
+    DateTime.now().set({ hour: 1, minute: 0, second: 0 })
   );
+  const [
+    selectedRestoreTime,
+    setSelectedRestoreTime,
+  ] = React.useState<string>();
 
   const id = Number(databaseId);
 
@@ -67,6 +69,8 @@ export const DatabaseBackups = (props: Props) => {
     error: databaseError,
     isLoading: isDatabaseLoading,
   } = useDatabaseQuery(engine, id);
+
+  const isNewDatabase = database?.platform === 'rdbms-default';
 
   const {
     data: backups,
@@ -79,12 +83,12 @@ export const DatabaseBackups = (props: Props) => {
     orderBy: 'created',
   });
 
-  const onRestore = (id: number) => {
+  const onRestoreLegacyDatabase = (id: number) => {
     setIdOfBackupToRestore(id);
     setIsRestoreDialogOpen(true);
   };
 
-  const backupToRestore = backups?.data.find(
+  const backupToRestoreLegacy = backups?.data.find(
     (backup) => backup.id === idOfBackupToRestore
   );
 
@@ -116,45 +120,39 @@ export const DatabaseBackups = (props: Props) => {
             backup={backup}
             disabled={disabled}
             key={backup.id}
-            onRestore={onRestore}
+            onRestore={onRestoreLegacyDatabase}
           />
         ));
     }
     return null;
   };
 
-  const isWithinLastTenDays = (date: DateTime) => {
-    const today = DateTime.now().startOf('day');
-    const tenDaysAgo = today.minus({ days: 9 });
+  const oldestBackup = database?.oldest_restore_time
+    ? DateTime.fromISO(database.oldest_restore_time)
+    : null;
 
-    return !(date >= tenDaysAgo && date <= today);
+  const isWithinBackupTimeframe = (
+    date: DateTime,
+    oldestBackup: DateTime | null
+  ) => {
+    const today = DateTime.now().startOf('day');
+    if (!oldestBackup) {
+      return false;
+    }
+    const backupStart = oldestBackup.startOf('day');
+    const dateStart = date.startOf('day');
+
+    return dateStart < backupStart || dateStart > today;
   };
 
-  const backupsCount = backups?.data.length || 0;
-  const sortedBackups = backups?.data.sort(
-    (a, b) => new Date(a.created).getTime() - new Date(b.created).getTime()
-  );
-
-  const newestBackup =
-    backupsCount > 0 && sortedBackups?.[backupsCount - 1]
-      ? formatDate(sortedBackups[backupsCount - 1].created, { timezone: 'utc' })
-      : '';
-
-  const oldestBackup =
-    backupsCount > 0 && sortedBackups?.[0]
-      ? formatDate(sortedBackups[0].created, { timezone: 'utc' })
-      : '';
-
-  const isNewDatabase = database?.platform === 'rdbms-default';
   const onRestoreNewDatabase = (selectedDate: DateTime | null) => {
     const day = selectedDate?.toISODate();
     const time = selectedTime?.toISOTime({ includeOffset: false });
     const selectedDateTime = `${day}T${time}Z`;
 
-    const backup = backups?.data.find((backup) => {
-      return backup.created === selectedDateTime;
-    });
-    setSelectedBackup(backup);
+    const selectedTimestamp = new Date(selectedDateTime).toISOString();
+
+    setSelectedRestoreTime(selectedTimestamp);
     setIsRestoreDialogOpen(true);
   };
 
@@ -167,28 +165,31 @@ export const DatabaseBackups = (props: Props) => {
         version-specific binary backups, which when combined with binary
         logs allow for consistent recovery to a specific point in time (PITR).
       </StyledTypography>
-      <Grid alignItems="stretch" container mt={2} spacing={1}>
-        <Grid item md={4} xs={12}>
-          <StyledBox>
-            <Typography variant="h2">Number of Full Backups</Typography>
-            <Typography component="span" variant="h1">
-              {backups?.data.length}
-            </Typography>
-          </StyledBox>
+      {/* TODO: Uncomment when the all data is available (Number of Full Backups, Newest Full Backup, Oldest Full Backup) */}
+      {/* <Hidden xlDown={true} xlUp={true}>
+        <Grid alignItems="stretch" container mt={2} spacing={1}>
+          <Grid item md={4} xs={12}>
+            <StyledBox>
+              <Typography variant="h2">Number of Full Backups</Typography>
+              <Typography component="span" variant="h1">
+                {backups?.data.length}
+              </Typography>
+            </StyledBox>
+          </Grid>
+          <Grid item md={4} xs={12}>
+            <StyledBox>
+              <Typography variant="h2">Newest Full Backup</Typography>
+              <Typography variant="subtitle2">{newestBackup} (UTC)</Typography>
+            </StyledBox>
+          </Grid>
+          <Grid item md={4} xs={12}>
+            <StyledBox>
+              <Typography variant="h2">Oldest Full Backup</Typography>
+              <Typography variant="subtitle2">{oldestBackup} (UTC)</Typography>
+            </StyledBox>
+          </Grid>
         </Grid>
-        <Grid item md={4} xs={12}>
-          <StyledBox>
-            <Typography variant="h2">Newest Backup</Typography>
-            <Typography variant="subtitle2">{newestBackup} (UTC)</Typography>
-          </StyledBox>
-        </Grid>
-        <Grid item md={4} xs={12}>
-          <StyledBox>
-            <Typography variant="h2">Oldest Backup</Typography>
-            <Typography variant="subtitle2">{oldestBackup} (UTC)</Typography>
-          </StyledBox>
-        </Grid>
-      </Grid>
+      </Hidden> */}
       <Divider spacingBottom={25} spacingTop={25} />
       <Typography variant="h2">Restore a Backup</Typography>
       <StyledTypography>
@@ -200,8 +201,10 @@ export const DatabaseBackups = (props: Props) => {
           <Typography variant="h3">Date</Typography>
           <LocalizationProvider dateAdapter={AdapterLuxon}>
             <StyledDateCalendar
+              shouldDisableDate={(date) =>
+                isWithinBackupTimeframe(date, oldestBackup)
+              }
               onChange={(newDate) => setSelectedDate(newDate)}
-              shouldDisableDate={(date) => isWithinLastTenDays(date)}
               value={selectedDate}
             />
           </LocalizationProvider>
@@ -243,12 +246,12 @@ export const DatabaseBackups = (props: Props) => {
           </Button>
         </Box>
       </Grid>
-      {database && selectedBackup ? (
-        <RestoreFromBackupDialog
-          backup={selectedBackup}
+      {database && selectedRestoreTime ? (
+        <RestoreNewFromBackupDialog
           database={database}
           onClose={() => setIsRestoreDialogOpen(false)}
           open={isRestoreDialogOpen}
+          restoreTime={selectedRestoreTime}
         />
       ) : null}
     </Paper>
@@ -279,9 +282,9 @@ export const DatabaseBackups = (props: Props) => {
           retained for 7 days.
         </Typography>
       </Paper>
-      {database && backupToRestore ? (
-        <RestoreFromBackupDialog
-          backup={backupToRestore}
+      {database && backupToRestoreLegacy ? (
+        <RestoreLegacyFromBackupDialog
+          backup={backupToRestoreLegacy}
           database={database}
           onClose={() => setIsRestoreDialogOpen(false)}
           open={isRestoreDialogOpen}

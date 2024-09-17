@@ -124,7 +124,7 @@ describe('Database Backups', () => {
     });
   });
 
-  it('should render a date picker when it is a new database', async () => {
+  it('should render a time picker when it is a new database', async () => {
     const mockDatabase = databaseFactory.build({
       platform: 'rdbms-default',
     });
@@ -145,7 +145,7 @@ describe('Database Backups', () => {
     const { findByText } = renderWithTheme(
       <DatabaseBackups disabled={false} />
     );
-    const datePicker = await findByText('Number of Full Backups');
-    expect(datePicker).toBeInTheDocument();
+    const timePickerLabel = await findByText('Time(UTC)');
+    expect(timePickerLabel).toBeInTheDocument();
   });
 });

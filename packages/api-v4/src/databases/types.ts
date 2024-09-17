@@ -153,6 +153,7 @@ export interface BaseDatabase {
    */
   members: Record<string, MemberType>;
   platform?: string;
+  oldest_restore_time?: string;
 }
 
 export interface MySQLDatabase extends BaseDatabase {

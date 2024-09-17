@@ -224,6 +224,7 @@ export const databaseFactory = Factory.Sync.makeFactory<Database>({
   members: {
     '2.2.2.2': 'primary',
   },
+  oldest_restore_time: '2024-09-15T17:15:12',
   platform: pickRandom(['rdbms-legacy', 'rdbms-default']),
   port: 3306,
   region: 'us-east',
