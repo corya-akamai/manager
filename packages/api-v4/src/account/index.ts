@@ -19,3 +19,7 @@ export * from './types';
 export * from './maintenance';
 
 export * from './logins';
+
+export * from './permissions';
+
+export * from './resources';
