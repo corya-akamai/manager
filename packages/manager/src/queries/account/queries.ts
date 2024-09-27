@@ -5,6 +5,8 @@ import {
   getAccountInfo,
   getAccountLogins,
   getAccountMaintenance,
+  getAccountPermissions,
+  getAccountResources,
   getAccountSettings,
   getChildAccounts,
   getClientToken,
@@ -106,6 +108,14 @@ export const accountQueries = createQueryKeys('account', {
     queryFn: () => getAllAccountPayments(params, filter),
     queryKey: [params, filter],
   }),
+  permissions: {
+    queryFn: getAccountPermissions,
+    queryKey: null,
+  },
+  resources: {
+    queryFn: getAccountResources,
+    queryKey: null,
+  },
   settings: {
     queryFn: getAccountSettings,
     queryKey: null,
