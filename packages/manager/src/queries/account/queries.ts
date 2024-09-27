@@ -26,6 +26,7 @@ import {
 } from './requests';
 
 import type { Filter, Params, RequestOptions } from '@linode/api-v4';
+import { getPermissions, getResources } from '@linode/api-v4/src/account';
 
 export const accountQueries = createQueryKeys('account', {
   account: {
@@ -106,6 +107,14 @@ export const accountQueries = createQueryKeys('account', {
     queryFn: () => getAllAccountPayments(params, filter),
     queryKey: [params, filter],
   }),
+  permissions: {
+    queryFn: getPermissions,
+    queryKey: null,
+  },
+  resources: {
+    queryFn: getResources,
+    queryKey: null,
+  },
   settings: {
     queryFn: getAccountSettings,
     queryKey: null,
