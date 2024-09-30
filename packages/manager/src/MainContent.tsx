@@ -196,6 +196,12 @@ const CloudPulse = React.lazy(() =>
   }))
 );
 
+const IdentityAccessManagement = React.lazy(() =>
+  import('src/features/IdentityAccessManagement').then((module) => ({
+    default: module.IdentityAccessManagement,
+  }))
+);
+
 export const MainContent = () => {
   const { classes, cx } = useStyles();
   const flags = useFlags();
@@ -347,6 +353,10 @@ export const MainContent = () => {
                             path="/object-storage"
                           />
                           <Route component={Kubernetes} path="/kubernetes" />
+                          <Route
+                            component={IdentityAccessManagement}
+                            path="/identity-access-management"
+                          />
                           <Route component={Account} path="/account" />
                           <Route component={Profile} path="/profile" />
                           <Route component={Help} path="/support" />
