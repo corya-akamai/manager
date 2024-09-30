@@ -19,6 +19,7 @@ import type {
   ResourcePage,
   User,
 } from '@linode/api-v4';
+import { UserPermissions } from '@linode/api-v4/src/account/types';
 
 export const useAccountUsers = ({
   enabled = true,
@@ -119,3 +120,9 @@ function getIsBlocklistedUser(username: string) {
   }
   return false;
 }
+
+export const useAccountUserPermissions = (username: string) => {
+  return useQuery<UserPermissions, APIError[]>(
+    accountQueries.users._ctx.user(username)._ctx.permissions
+  );
+};

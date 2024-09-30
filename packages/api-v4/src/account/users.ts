@@ -11,7 +11,7 @@ import Request, {
   setXFilter,
 } from '../request';
 import { Filter, Params, ResourcePage } from '../types';
-import { Grants, User } from './types';
+import { Grants, User, UserPermissions } from './types';
 
 /**
  * getUsers
@@ -121,6 +121,37 @@ export const getGrants = (username: string) =>
 export const updateGrants = (username: string, data: Partial<Grants>) =>
   Request<Grants>(
     setURL(`${API_ROOT}/account/users/${encodeURIComponent(username)}/grants`),
+    setMethod('PUT'),
+    setData(data)
+  );
+
+/**
+ * getUserPermissions
+ *
+ * Returns the full permissions structure for this User. This includes all entities on
+ * the Account alongside what level of access this User has to each of them.
+ *
+ * @param username { number } the username to look up.
+ *
+ */
+export const getUserPermissions = (username: string) =>
+  Request<UserPermissions>(
+    setURL(`${API_ROOT}/account/users/${encodeURIComponent(username)}/permissions`),
+    setMethod('GET')
+  );
+
+/**
+ * updateUserPermissions
+ *
+ * Update the permissions a User has.
+ *
+ * @param username { number } ID of the client to be viewed.
+ * @param data { object } the Permissions object to update.
+ *
+ */
+export const updateUserPermissions = (username: string, data: Partial<UserPermissions>) =>
+  Request<UserPermissions>(
+    setURL(`${API_ROOT}/account/users/${encodeURIComponent(username)}/permissions`),
     setMethod('PUT'),
     setData(data)
   );
