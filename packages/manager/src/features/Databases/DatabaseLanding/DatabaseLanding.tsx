@@ -132,7 +132,8 @@ const DatabaseLanding = () => {
   const showTabs = isV2ExistingBetaUser && legacyDatabases?.data.length !== 0;
 
   const showEmpty =
-    newDatabases?.data.length === 0 && legacyDatabases?.data.length === 0;
+    (newDatabases?.data.length === 0 || newDatabases === undefined) &&
+    (legacyDatabases?.data.length === 0 || legacyDatabases === undefined);
 
   if (showEmpty) {
     return <DatabaseEmptyState />;
