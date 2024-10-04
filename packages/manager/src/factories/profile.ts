@@ -1,5 +1,6 @@
 import {
   Profile,
+  ProfilePermissions,
   SSHKey,
   SecurityQuestionsData,
   UserPreferences,
@@ -158,3 +159,21 @@ export const sshKeyFactory = Factory.Sync.makeFactory<SSHKey>({
   ssh_key:
     'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6p4bIK6Cfhy6BLQE7CUcBw6VNxibMsq+v7Y09aLcwkJu7rE7RzgHFwnw09hb1TRI9mZmb/mQaYB44WoA9NK2UMXjK4OXP+vFTk//4M9TIxqKs1oKzoOtZk/Q99gW7bIuVkax3eH4HocZ09IeF1qzM3ff0mY64hy+hD2bd5eEF6oSZZnM8WZqDbTP6jYb/LO0geW18vsueD7+DgEVUODYh7FkQ/HCDyqcGlWvDoJho62u/heOiaZQp25puTCWbNxhSck4GTRIU25febH2xX2OxRp/NRzchS4HvK/iC/mNaLE23gDBN73j/JS+oWwcu7zZk/VN+QUHCPw4fMI6wJdnl',
 });
+
+export const profilePermissionsFactory = Factory.Sync.makeFactory<ProfilePermissions>(
+  {
+    account_access: ['accountLinodeAdmin', 'linodeCreator', 'firewallCreator'],
+    resource_access: [
+      {
+        resource_id: 'L1000',
+        resource_type: 'linode',
+        roles: ['linodeContributor'],
+      },
+      {
+        resource_id: 'firewall_1000',
+        resource_type: 'firewall',
+        roles: ['firewallAdmin'],
+      },
+    ],
+  }
+);

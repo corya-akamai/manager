@@ -102,3 +102,14 @@ export interface SendPhoneVerificationCodePayload {
   phone_number: string;
   iso_code: string;
 }
+
+export interface ProfilePermissions {
+  account_access: string[];
+  resource_access: Access[];
+}
+
+export interface Access {
+  resource_id: string;
+  resource_type: string;
+  roles: string[];
+}

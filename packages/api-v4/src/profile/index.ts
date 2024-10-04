@@ -9,3 +9,5 @@ export * from './profile';
 export * from './appTokens';
 
 export * from './accessTokens';
+
+export * from './permissions';

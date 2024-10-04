@@ -4,6 +4,7 @@ import {
   deleteTrustedDevice,
   disableTwoFactor,
   getAppTokens,
+  getPermissions,
   getPersonalAccessTokens,
   getProfile,
   getSSHKeys,
@@ -57,6 +58,10 @@ export const profileQueries = createQueryKeys('profile', {
     queryFn: () => getPersonalAccessTokens(params, filter),
     queryKey: [params, filter],
   }),
+  permissions: {
+    queryFn: getPermissions,
+    queryKey: null,
+  },
   preferences: {
     queryFn: getUserPreferences,
     queryKey: null,
