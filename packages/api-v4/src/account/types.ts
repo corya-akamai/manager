@@ -614,7 +614,7 @@ export interface AccountPermissions {
   resource_access: Access[];
 }
 
-export interface Access {
+interface Access {
   resource_type: string;
   roles: Roles[];
 }
@@ -633,4 +633,4 @@ export type AccountResource = {
 export interface Resource {
   name: string;
   id: string;
-} 
+}

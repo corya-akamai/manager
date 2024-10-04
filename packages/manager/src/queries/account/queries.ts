@@ -5,6 +5,8 @@ import {
   getAccountInfo,
   getAccountLogins,
   getAccountMaintenance,
+  getAccountPermissions,
+  getAccountResources,
   getAccountSettings,
   getChildAccounts,
   getClientToken,
@@ -26,7 +28,6 @@ import {
 } from './requests';
 
 import type { Filter, Params, RequestOptions } from '@linode/api-v4';
-import { getPermissions, getResources } from '@linode/api-v4/src/account';
 
 export const accountQueries = createQueryKeys('account', {
   account: {
@@ -108,11 +109,11 @@ export const accountQueries = createQueryKeys('account', {
     queryKey: [params, filter],
   }),
   permissions: {
-    queryFn: getPermissions,
+    queryFn: getAccountPermissions,
     queryKey: null,
   },
   resources: {
-    queryFn: getResources,
+    queryFn: getAccountResources,
     queryKey: null,
   },
   settings: {

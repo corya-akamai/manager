@@ -1,19 +1,16 @@
 import { API_ROOT } from '../constants';
-import Request, {
-  setMethod,
-  setURL
-} from '../request';
-import {
-  AccountPermissions,
-} from './types';
+import Request, { setMethod, setURL } from '../request';
+import { AccountPermissions } from './types';
 
 /**
- * getPermissions
+ * getAccountPermissions
  *
  * Return all permissions for account.
  *
  */
-export const getPermissions = () => {
-  return Request<AccountPermissions>(setURL(`${API_ROOT}/permissions`), setMethod('GET'));
+export const getAccountPermissions = () => {
+  return Request<AccountPermissions>(
+    setURL(`${API_ROOT}/account/permissions`),
+    setMethod('GET')
+  );
 };
-

@@ -1,18 +1,16 @@
 import { API_ROOT } from '../constants';
-import Request, {
-  setMethod,
-  setURL
-} from '../request';
-import {
-  AccountResource
-} from './types';
+import Request, { setMethod, setURL } from '../request';
+import { AccountResource } from './types';
 
 /**
- * getResources
+ * getAccountResources
  *
  * Return all resources for account.
  *
  */
-export const getResources = () => {
-  return Request<AccountResource>(setURL(`${API_ROOT}/resources`), setMethod('GET'));
+export const getAccountResources = () => {
+  return Request<AccountResource>(
+    setURL(`${API_ROOT}/account/resources`),
+    setMethod('GET')
+  );
 };
