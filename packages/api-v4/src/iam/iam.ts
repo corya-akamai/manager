@@ -1,6 +1,6 @@
 import { API_ROOT } from '../constants';
 import Request, { setData, setMethod, setURL } from '../request';
-import { UserPermissions } from './types';
+import { AccountPermissions, AccountResource, UserPermissions } from './types';
 
 /**
  * getUserPermissions
@@ -42,3 +42,29 @@ export const updateUserPermissions = (
     setMethod('PUT'),
     setData(data)
   );
+
+/**
+ * getAccountResources
+ *
+ * Return all resources for account.
+ *
+ */
+export const getAccountResources = () => {
+  return Request<AccountResource>(
+    setURL(`${API_ROOT}/iam/account/resources`),
+    setMethod('GET')
+  );
+};
+
+/**
+ * getAccountPermissions
+ *
+ * Return all permissions for account.
+ *
+ */
+export const getAccountPermissions = () => {
+  return Request<AccountPermissions>(
+    setURL(`${API_ROOT}/iam/account/role-permissions`),
+    setMethod('GET')
+  );
+};

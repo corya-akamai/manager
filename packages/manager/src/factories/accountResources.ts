@@ -1,25 +1,29 @@
-import { AccountResource } from '@linode/api-v4/src/account';
+import { AccountResource } from '@linode/api-v4';
 import Factory from 'src/factories/factoryProxy';
 
 export const accountResourcesFactory = Factory.Sync.makeFactory<AccountResource>(
   [
     {
-      resource_type: "linode",
+      resource_type: 'linode',
       resources: [
         {
-          name: "debian-us-123",
-          id: "linode1234"
-        }
-      ]
+          name: 'debian-us-123',
+          id: '12345678',
+        },
+        {
+          name: 'linode-uk-123',
+          id: '23456789',
+        },
+      ],
     },
     {
-      resource_type: "firewall",
+      resource_type: 'firewall',
       resources: [
         {
-          name: "firewall-us-123",
-          id: "firewall123"
-        }
-      ]
-    }
+          name: 'firewall-us-123',
+          id: '45678901',
+        },
+      ],
+    },
   ]
 );
