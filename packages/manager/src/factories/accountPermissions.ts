@@ -1,72 +1,66 @@
-import { AccountPermissions } from '@linode/api-v4/src/account';
+import { AccountPermissions } from '@linode/api-v4';
 import Factory from 'src/factories/factoryProxy';
 
-export const accountPermissionsFactory = Factory.Sync.makeFactory<AccountPermissions>({
-  account_access: [
-    {
-      resource_type: "account",
-      roles: [
-        {
-          name: "accountAdmin",
-          description: "Access to perform any supported action on all resources in the account",
-          permissions: [
-            "createLinode",
-            "updateLinode",
-            "updateFirewall"
-          ]
-        }
-      ]
-    },
-    {
-      resource_type: "firewall",
-      roles: [
-        {
-          name: "firewallCreator",
-          description: "Access to create a firewall instance",
-        }
-      ]
-    },
-    {
-      resource_type: "linode",
-      roles: [
-        {
-          name: "accountLinodeAdmin",
-          description: "Access to perform any supported action on all linode instances in the account",
-          permissions: [
-            "createLinode",
-            "updateLinode",
-            "deleteLinode"
-          ]
-        }
-      ]
-    }
-  ],
-  resource_access: [
-    {
-      resource_type: "linode",
-      roles: [
-        {
-          name: "linodeContributor",
-          description: "Access to update a linode instance",
-          permissions: [
-            "updateLinode",
-            "viewLinode"
-          ]
-        }
-      ]
-    },
-    {
-      resource_type: "firewall",
-      roles: [
-        {
-          name: "firewallViewer",
-          description: "Access to view a firewall instance"
-        },
-        {
-          name: "firewallAdmin",
-          description: "Access to perform any supported action on a firewall instance"
-        }
-      ]
-    }
-  ]
-});
+export const accountPermissionsFactory = Factory.Sync.makeFactory<AccountPermissions>(
+  {
+    account_access: [
+      {
+        resource_type: 'account',
+        roles: [
+          {
+            name: 'account_admin',
+            description:
+              'Access to perform any supported action on all resources in the account',
+            permissions: ['create_linode', 'update_linode', 'update_firewall'],
+          },
+        ],
+      },
+      {
+        resource_type: 'firewall',
+        roles: [
+          {
+            name: 'firewall_creator',
+            description: 'Access to create a firewall instance',
+          },
+        ],
+      },
+      {
+        resource_type: 'linode',
+        roles: [
+          {
+            name: 'account_linode_admin',
+            description:
+              'Access to perform any supported action on all linode instances in the account',
+            permissions: ['create_linode', 'update_linode', 'delete_linode'],
+          },
+        ],
+      },
+    ],
+    resource_access: [
+      {
+        resource_type: 'linode',
+        roles: [
+          {
+            name: 'linode_contributor',
+            description: 'Access to update a linode instance',
+            permissions: ['update_linode', 'view_linode'],
+          },
+        ],
+      },
+      {
+        resource_type: 'firewall',
+        roles: [
+          {
+            name: 'firewall_viewer',
+            description: 'Access to view a firewall instance',
+          },
+          {
+            name: 'firewall_admin',
+            description:
+              'Access to perform any supported action on a firewall instance',
+          },
+        ],
+      },
+    ],
+  }
+);
