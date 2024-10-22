@@ -1,15 +1,19 @@
 import * as React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { ProductInformationBanner } from 'src/components/ProductInformationBanner/ProductInformationBanner';
 import { SuspenseLoader } from 'src/components/SuspenseLoader';
-
-import UsersLanding from './Users/Users';
 
 import type { RouteComponentProps } from 'react-router-dom';
 
 const IdentityAccessManagementLanding = React.lazy(
   () => import('./IdentityAccessManagementLanding')
+);
+
+const UserDetails = React.lazy(() =>
+  import('./UserDetails').then((module) => ({
+    default: module.UserDetails,
+  }))
 );
 
 type CombinedProps = RouteComponentProps;
@@ -21,12 +25,11 @@ export const IdentityAccessManagement: React.FC<CombinedProps> = (props) => {
     <React.Suspense fallback={<SuspenseLoader />}>
       <ProductInformationBanner bannerLocation="Identity and Access Management" />
       <Switch>
+        <Route component={UserDetails} path={`${path}/users/name/`} />
+
+        <Redirect exact from={path} to={`${path}/users`} />
+
         <Route component={IdentityAccessManagementLanding} path={`${path}`} />
-        <Route component={UsersLanding} path={`${path}/users`} />
-        {/* <Route
-          component={RolesPermissionsLanding}
-          path={`${path}/roles-permissions`}
-        /> */}
       </Switch>
     </React.Suspense>
   );

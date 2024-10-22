@@ -12,7 +12,17 @@ import { Tabs } from 'src/components/Tabs/Tabs';
 import type { RouteComponentProps } from 'react-router-dom';
 type Props = RouteComponentProps<{}>;
 
-import UsersLanding from 'src/features/IdentityAccessManagement/Users/Users';
+const Users = React.lazy(() =>
+  import('./Users/Users').then((module) => ({
+    default: module.UsersLanding,
+  }))
+);
+
+const Roles = React.lazy(() =>
+  import('./Roles/Roles').then((module) => ({
+    default: module.RolesLanding,
+  }))
+);
 
 const IdentityAccessManagementLanding = React.memo((props: Props) => {
   const tabs = [
@@ -22,44 +32,49 @@ const IdentityAccessManagementLanding = React.memo((props: Props) => {
     },
     {
       routeName: `${props.match.url}/roles-permissions`,
-      title: 'Roles & Permissions',
+      title: 'Roles',
     },
   ];
-
-  const matches = (p: string) => {
-    return Boolean(matchPath(p, { path: props.location.pathname }));
-  };
 
   const navToURL = (index: number) => {
     props.history.push(tabs[index].routeName);
   };
 
+  const getDefaultTabIndex = () => {
+    const tabChoice = tabs.findIndex((tab) =>
+      Boolean(matchPath(tab.routeName, { path: location.pathname }))
+    );
+
+    return tabChoice;
+  };
+
+  const landingHeaderProps = {
+    breadcrumbProps: {
+      pathname: '/identity-access-management',
+    },
+    docsLink:
+      'https://www.linode.com/docs/platform/identity-access-management/',
+    entity: 'Identity and Access Management',
+    title: 'Identity and Access',
+  };
+
+  let idx = 0;
+
   return (
     <>
       <DocumentTitleSegment segment="Identity and Access Management" />
-      <LandingHeader
-        breadcrumbProps={{ pathname: '/identity-access-management' }}
-        docsLink="https://www.linode.com/docs/platform/identity-access-management/"
-        entity="Identity and Access Management"
-        title="Identity and Access Management"
-      />
-      <Tabs
-        index={Math.max(
-          tabs.findIndex((tab) => matches(tab.routeName)),
-          0
-        )}
-        onChange={navToURL}
-      >
+      <LandingHeader {...landingHeaderProps} />
+
+      <Tabs index={getDefaultTabIndex()} onChange={navToURL}>
         <TabLinkList tabs={tabs} />
 
         <React.Suspense fallback={<SuspenseLoader />}>
           <TabPanels>
-            <SafeTabPanel index={0}>
-              <h3>Users tab</h3>
-              <UsersLanding {...props} />
+            <SafeTabPanel index={idx}>
+              <Users />
             </SafeTabPanel>
-            <SafeTabPanel index={1}>
-              <h3>Roles & Permissions tab</h3>
+            <SafeTabPanel index={++idx}>
+              <Roles />
             </SafeTabPanel>
           </TabPanels>
         </React.Suspense>

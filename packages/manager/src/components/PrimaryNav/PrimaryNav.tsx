@@ -22,6 +22,7 @@ import VPC from 'src/assets/icons/entityIcons/vpc.svg';
 import TooltipIcon from 'src/assets/icons/get_help.svg';
 import Longview from 'src/assets/icons/longview.svg';
 import AkamaiLogo from 'src/assets/logo/akamai-logo.svg';
+import IAM from 'src/assets/icons/entityIcons/iam.svg';
 import { BetaChip } from 'src/components/BetaChip/BetaChip';
 import { Box } from 'src/components/Box';
 import { Divider } from 'src/components/Divider';
@@ -47,6 +48,7 @@ type NavEntity =
   | 'Domains'
   | 'Firewalls'
   | 'Help & Support'
+  | 'Identity and Access'
   | 'Images'
   | 'Kubernetes'
   | 'Linodes'
@@ -202,6 +204,11 @@ export const PrimaryNav = (props: PrimaryNavProps) => {
         },
       ],
       [
+        {
+          display: 'Identity and Access',
+          href: '/identity-access-management',
+          icon: <IAM />,
+        },
         {
           display: 'Account',
           href: '/account',

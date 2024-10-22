@@ -1,64 +1,30 @@
 import React from 'react';
-import { matchPath, RouteComponentProps } from 'react-router-dom';
-import { SuspenseLoader } from 'src/components/SuspenseLoader';
-import { SafeTabPanel } from 'src/components/Tabs/SafeTabPanel';
-import { TabLinkList } from 'src/components/Tabs/TabLinkList';
-import { TabPanels } from 'src/components/Tabs/TabPanels';
-import { Tabs } from 'src/components/Tabs/Tabs';
+import { useHistory } from 'react-router-dom';
+import { ActionMenu } from 'src/components/ActionMenu/ActionMenu';
 
-type Props = RouteComponentProps<{}>;
+export const UsersLanding = () => {
+  const history = useHistory();
 
-const UsersLanding = React.memo((props: Props) => {
-  const tabs = [
+  const actions: any[] = [
     {
-      routeName: `${props.match.url}/users/:username`,
-      title: 'User Details',
+      onClick: () => {
+        history.push(`/identity-access-management/users/name/details`);
+      },
+      title: 'View User Details',
     },
     {
-      routeName: `${props.match.url}/users/:username/roles`,
-      title: 'User Roles',
+      onClick: () => {
+        history.push(`/identity-access-management/users/name/roles`);
+      },
+      title: 'View User Roles',
     },
   ];
 
-  const matches = (p: string) => {
-    return Boolean(matchPath(p, { path: props.location.pathname }));
-  };
-
-  const navToURL = (index: number) => {
-    props.history.push(tabs[index].routeName);
-  };
-
   return (
     <>
-      {/* Contionally show tabs or Assign New Roles form */}
-      <Tabs
-        index={Math.max(
-          tabs.findIndex((tab) => matches(tab.routeName)),
-          0
-        )}
-        onChange={(value) => navToURL(value)}
-      >
-        <TabLinkList tabs={tabs} />
+      <p>Users Table - UIE-8136 </p>
 
-        <React.Suspense fallback={<SuspenseLoader />}>
-          <TabPanels>
-            <SafeTabPanel index={0}>
-              <h3>User Avatar</h3>
-              <p>Username</p>
-              <p>Email</p>
-            </SafeTabPanel>
-            <SafeTabPanel index={1}>
-              <h3>Assigned Roles</h3>
-              <p>Table</p>
-              <h3>Look Up Role By Reference</h3>
-              <p>Table</p>
-            </SafeTabPanel>
-          </TabPanels>
-        </React.Suspense>
-      </Tabs>
-      {/* Assign New Roles */}
+      <ActionMenu actionsList={actions} ariaLabel={`Action menu for user`} />
     </>
   );
-});
-
-export default UsersLanding;
+};
