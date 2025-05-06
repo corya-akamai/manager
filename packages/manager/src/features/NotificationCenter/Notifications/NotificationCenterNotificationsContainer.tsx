@@ -19,7 +19,7 @@ interface NotificationCenterNotificationsContainerProps {
   showMoreTarget?: string;
   showMoreText?: string;
 }
-
+/** IAM RBAC - Initialization */
 export const NotificationCenterNotificationsContainer = (
   props: NotificationCenterNotificationsContainerProps
 ) => {
@@ -57,6 +57,7 @@ export const NotificationCenterNotificationsContainer = (
               <Typography variant="h3">{header}</Typography>
               {showMoreTarget && (
                 <strong>
+                  {/* IAM RBAC - Initialization */}
                   <Link
                     onClick={onCloseNotificationCenter}
                     style={{ padding: 0 }}

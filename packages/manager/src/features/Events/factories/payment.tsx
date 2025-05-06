@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import type { PartialEventMap } from '../types';
-
+/** IAM RBAC - Initialization */
 export const payment: PartialEventMap<'payment'> = {
   payment_method_add: {
     notification: () => (

@@ -12,6 +12,7 @@ import type { RestrictedGlobalGrantType } from 'src/features/Account/utils';
  *   permittedGrantLevel: 'read_write',
  * });
  * // Returns: true
+ * IAM RBAC - Initialization
  */
 export const useRestrictedGlobalGrantCheck = ({
   globalGrantType,

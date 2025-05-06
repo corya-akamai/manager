@@ -15,6 +15,7 @@ import { getStorage } from 'src/utilities/storage';
 
 import type { Token, UserType } from '@linode/api-v4';
 
+/** IAM RBAC - Initialization */
 export const useParentChildAuthentication = () => {
   const currentTokenWithBearer = useCurrentToken() ?? '';
 

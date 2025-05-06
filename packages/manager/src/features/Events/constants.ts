@@ -1,5 +1,5 @@
 import type { Event, EventAction } from '@linode/api-v4';
-
+/** IAM RBAC - Initialization */
 export const ACTIONS_TO_INCLUDE_AS_PROGRESS_EVENTS: Event['action'][] = [
   'linode_resize',
   'linode_migrate',
@@ -23,7 +23,7 @@ export const ACTIONS_TO_INCLUDE_AS_PROGRESS_EVENTS: Event['action'][] = [
   'volume_migrate',
   'database_resize',
 ];
-
+/** IAM RBAC - Initialization */
 export const ACTIONS_WITHOUT_USERNAMES: EventAction[] = [
   'entity_transfer_accept',
   'entity_transfer_accept_recipient',

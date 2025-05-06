@@ -40,6 +40,7 @@ export const updateParentTokenInLocalStorage = ({
 
 /**
  * Determine whether the tokens used for switchable accounts are still valid.
+ * IAM RBAC - Initialization
  */
 export const isParentTokenValid = (): boolean => {
   const now = new Date().toISOString();
@@ -78,6 +79,7 @@ export const setTokenInLocalStorage = ({
 
 /**
  * Set the active token in the local storage.
+ * IAM RBAC - Initialization
  */
 export const updateCurrentTokenBasedOnUserType = ({
   userType,

@@ -33,7 +33,7 @@ export const adjustSeverity = ({
 
   return severity;
 };
-
+/** IAM RBAC - Initalization */
 export const getEntityLinks = (
   notificationType?: NotificationType,
   entityType?: string,
@@ -45,5 +45,6 @@ export const getEntityLinks = (
   }
 
   // The only entity.type we currently expect and can handle for is "linode"
+  // IAM RBAC - Initalization
   return entityType === 'linode' ? `/linodes/${id}` : null;
 };

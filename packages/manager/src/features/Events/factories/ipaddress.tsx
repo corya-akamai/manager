@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import type { PartialEventMap } from '../types';
-
+/** IAM RBAC - Initialization */
 export const ip: PartialEventMap<'ipaddress'> = {
   ipaddress_update: {
     notification: () => (

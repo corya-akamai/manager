@@ -20,6 +20,7 @@ interface NotificationCenterNotificationsProps {
   loading: boolean;
 }
 
+/** IAM RBAC - Initalization */
 export const NotificationCenterNotifications = React.memo(
   (props: NotificationCenterNotificationsProps) => {
     const { classes, cx } = useStyles();

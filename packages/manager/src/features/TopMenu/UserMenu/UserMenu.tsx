@@ -24,6 +24,7 @@ import { getCompanyNameOrEmail } from './utils';
 
 import type { Theme } from '@mui/material';
 
+/** IAM RBAC - Initialization */
 export const UserMenu = React.memo(() => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -135,12 +136,14 @@ export const UserMenu = React.memo(() => {
           </Stack>
         </StyledUserMenuButton>
       </Tooltip>
+      {/* IAM RBAC - Initialization */}
       <UserMenuPopover
         anchorEl={anchorEl}
         isDrawerOpen={isDrawerOpen}
         onClose={() => setAnchorEl(null)}
         onDrawerOpen={() => setIsDrawerOpen(true)}
       />
+      {/* IAM RBAC - Initialization */}
       <SwitchAccountDrawer
         onClose={() => setIsDrawerOpen(false)}
         open={isDrawerOpen}

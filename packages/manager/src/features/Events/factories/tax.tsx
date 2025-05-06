@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import type { PartialEventMap } from '../types';
-
+/** IAM RBAC - Initialization */
 export const tax: PartialEventMap<'tax'> = {
   tax_id_invalid: {
     notification: () => (

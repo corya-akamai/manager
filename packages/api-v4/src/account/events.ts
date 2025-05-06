@@ -8,7 +8,7 @@ import type { Event, Notification } from './types';
  * getEvents
  *
  * Retrieve a list of events on your account.
- *
+ * IAM RBAC - Initalization
  */
 export const getEvents = (params: Params = {}, filter: Filter = {}) =>
   Request<ResourcePage<Event>>(
@@ -36,6 +36,7 @@ export const getEvent = (eventId: number) =>
  * Set the "seen" property of an event to true
  *
  * @param eventId { number } ID of the event to designate as seen
+ * IAM RBAC - Initalization
  */
 export const markEventSeen = (eventId: number) =>
   Request<{}>(

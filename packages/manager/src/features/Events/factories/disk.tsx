@@ -6,7 +6,7 @@ import { sendLinodeDiskEvent } from 'src/utilities/analytics/customEventAnalytic
 import { EventLink } from '../EventLink';
 
 import type { PartialEventMap } from '../types';
-
+/** IAM RBAC - Initalization */
 export const disk: PartialEventMap<'disk'> = {
   disk_create: {
     failed: (e) => (

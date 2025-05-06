@@ -42,6 +42,7 @@ const defaultCreatedFilter = DateTime.now()
  * The magic here is that we're doing cursor based pagination using the event `id`.
  * We are doing this as opposed to page based pagination because we need an accurate way to get
  * the next set of events when the items returned by the server may have shifted.
+ * IAM RBAC - Initalization
  */
 export const useEventsInfiniteQuery = (filter: Filter = EVENTS_LIST_FILTER) => {
   const queryClient = useQueryClient();
@@ -136,6 +137,7 @@ export const useInProgressEvents = () => {
  * update our cache as new events come in.
  *
  * *Warning* This hook should only be mounted once!
+ * IAM RBAC - Initalization
  */
 export const useEventsPoller = () => {
   const { handleGlobalToast } = useToastNotifications();
@@ -231,7 +233,7 @@ export const useEventsPollingActions = () => {
     checkForNewEvents,
   };
 };
-
+/** IAM RBAC - Initialization */
 export const useMarkEventsAsSeen = () => {
   const queryClient = useQueryClient();
 

@@ -16,7 +16,7 @@ import type {
   ResourcePage,
   Token,
 } from '@linode/api-v4';
-
+/** IAM RBAC - Initialization */
 export const useAccount = () => {
   const { data: profile } = useProfile();
 
@@ -54,7 +54,7 @@ export const useChildAccountsInfiniteQuery = (options: RequestOptions) => {
     ...accountQueries.childAccounts(options),
   });
 };
-
+/** IAM RBAC - Initialization */
 export const useCreateChildAccountPersonalAccessTokenMutation = () =>
   useMutation<Token, APIError[], ChildAccountPayload>({
     mutationFn: ({ euuid, headers }: ChildAccountPayload) =>

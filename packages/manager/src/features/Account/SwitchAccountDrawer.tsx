@@ -29,7 +29,7 @@ interface HandleSwitchToChildAccountProps {
   onClose: (e: React.SyntheticEvent<HTMLElement>) => void;
   userType: undefined | UserType;
 }
-
+/** IAM RBAC - Initialization */
 export const SwitchAccountDrawer = (props: Props) => {
   const { onClose, open, userType } = props;
   const [isSubmitting, setSubmitting] = React.useState<boolean>(false);

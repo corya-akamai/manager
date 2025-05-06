@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import type { PartialEventMap } from '../types';
-
+/** IAM RBAC - Initialization */
 export const profile: PartialEventMap<'profile'> = {
   profile_update: {
     notification: (e) => (

@@ -18,6 +18,7 @@ export interface SearchableItem {
   value: number | string;
 }
 
+/** RBAC | CM Initialization: Searchable entities */
 export type SearchableEntityType =
   | 'bucket'
   | 'database'

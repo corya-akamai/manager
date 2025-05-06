@@ -10,7 +10,7 @@ import { StyledLink } from '../NotificationCenter.styles';
 import { getEntityLinks } from '../utils';
 
 import type { NotificationCenterNotificationMessageProps } from '../types';
-
+/** IAM RBAC - Initialization */
 export const NotificationCenterNotificationMessage = (
   props: NotificationCenterNotificationMessageProps
 ) => {
@@ -89,7 +89,8 @@ export const NotificationCenterNotificationMessage = (
           {notification.jsx ? (
             notification.jsx
           ) : linkTarget ? (
-            <StyledLink onClick={onClose} to={linkTarget}>
+            // IAM RBAC - Initialization
+            <StyledLwink onClick={onClose} to={linkTarget}>
               {message}
             </StyledLink>
           ) : (

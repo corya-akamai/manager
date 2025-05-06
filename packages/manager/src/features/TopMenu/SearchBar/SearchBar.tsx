@@ -56,6 +56,7 @@ export const SearchBar = () => {
   const theme = useTheme();
 
   // Sync state with query params
+  /** RBAC | CM Initialization: No search API check */
   React.useEffect(() => {
     const { pathname, search } = history.location;
     const query = getQueryParamsFromQueryString(search);
@@ -120,6 +121,7 @@ export const SearchBar = () => {
     }
   };
 
+  /** RBAC | CM Initialization: No view entity check */
   const onSelect = (item: SearchResultItem) => {
     if (!item || item.label === '') {
       return;

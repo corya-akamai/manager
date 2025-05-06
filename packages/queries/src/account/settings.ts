@@ -9,6 +9,7 @@ import type { AccountSettings } from '@linode/api-v4/lib/account';
 import type { APIError } from '@linode/api-v4/lib/types';
 import type { QueryClient } from '@tanstack/react-query';
 
+/** IAM RBAC - Initialization */
 export const useAccountSettings = () => {
   const { data: profile } = useProfile();
 

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Link } from 'src/components/Link';
 
 import type { PartialEventMap } from '../types';
-
+/** IAM RBAC - Initialization */
 export const backup: PartialEventMap<'backups'> = {
   backups_cancel: {
     notification: (e) => (

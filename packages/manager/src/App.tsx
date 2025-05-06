@@ -20,6 +20,7 @@ import { useEventsPoller } from './queries/events/events';
 import { useSetupFeatureFlags } from './useSetupFeatureFlags';
 
 // Ensure component's display name is 'App'
+/** IAM RBAC - Initalization */
 export const App = () => <BaseApp />;
 
 const BaseApp = withDocumentTitleProvider(
@@ -57,7 +58,7 @@ const BaseApp = withDocumentTitleProvider(
     );
   })
 );
-
+/** IAM RBAC - Initalization */
 const GlobalListeners = () => {
   useEventsPoller();
   useAdobeAnalytics();

@@ -13,6 +13,7 @@ interface MessageLinkEntity {
 /**
  * A component that renders a link to an entity or secondary entity.
  * Meant to be used in the context of an event message.
+ * IAM RBAC - Initalization
  */
 export const EventLink = (props: MessageLinkEntity) => {
   const { event, to } = props;

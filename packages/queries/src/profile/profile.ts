@@ -78,7 +78,7 @@ export const profileQueries = createQueryKeys('profile', {
     queryKey: [params, filter],
   }),
 });
-
+/** IAM RBAC - Initialization */
 export const useProfile = (options: RequestOptions = {}) => {
   return useQuery<Profile, APIError[]>({
     ...profileQueries.profile(options),
@@ -120,7 +120,7 @@ export const updateProfileData = (
     }),
   );
 };
-
+/** IAM RBAC - Initialization */
 export const useGrants = () => {
   const { data: profile } = useProfile();
   return useQuery<Grants, APIError[]>({

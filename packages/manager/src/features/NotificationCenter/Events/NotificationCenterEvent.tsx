@@ -22,7 +22,7 @@ interface NotificationEventProps {
   event: Event;
   onClose: () => void;
 }
-
+/** IAM RBAC - Initialization */
 export const NotificationCenterEvent = React.memo(
   (props: NotificationEventProps) => {
     const { event } = props;

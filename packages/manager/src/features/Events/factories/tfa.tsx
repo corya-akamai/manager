@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import type { PartialEventMap } from '../types';
-
+/** IAM RBAC - Initialization */
 export const tfa: PartialEventMap<'tfa'> = {
   tfa_disabled: {
     notification: () => (

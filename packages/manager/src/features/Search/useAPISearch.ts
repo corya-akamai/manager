@@ -31,6 +31,7 @@ interface Props {
   query: string;
 }
 
+/** IAM RBAC - Initialization */
 const entities = [
   {
     getSearchableItem: linodeToSearchableItem,
@@ -118,6 +119,8 @@ const entities = [
  * The main advantage of this hook over useClientSideSearch is that it uses
  * server-side filtering (X-Filters) so that we don't need to fetch all entities
  * and do the filtering client-side.
+ *
+ * IAM RBAC - Initialization
  */
 export const useAPISearch = ({ enabled, query }: Props) => {
   const deboundedQuery = useDebouncedValue(query);

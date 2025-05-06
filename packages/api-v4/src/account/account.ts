@@ -193,6 +193,7 @@ export const getChildAccount = ({ euuid, headers }: ChildAccountPayload) =>
  * restrictions.
  *
  * setHeaders() will be used for creating tokens from within the proxy account.
+ * IAM RBAC - Initialization
  */
 export const createChildAccountPersonalAccessToken = ({
   euuid,

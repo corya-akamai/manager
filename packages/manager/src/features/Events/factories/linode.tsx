@@ -9,7 +9,7 @@ import { EventLink } from '../EventLink';
 
 import type { PartialEventMap } from '../types';
 import type { Event } from '@linode/api-v4';
-
+/** IAM RBAC - Initalization */
 export const linode: PartialEventMap<'linode'> = {
   linode_addip: {
     notification: (e) => (

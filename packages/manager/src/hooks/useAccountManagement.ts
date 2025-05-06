@@ -8,7 +8,7 @@ import {
 import { useRestrictedGlobalGrantCheck } from './useRestrictedGlobalGrantCheck';
 
 import type { GlobalGrantTypes } from '@linode/api-v4/lib/account';
-
+/** IAM RBAC - Initialization */
 export const useAccountManagement = () => {
   const { data: account, error: accountError } = useAccount();
   const { data: profile } = useProfile();
@@ -30,6 +30,7 @@ export const useAccountManagement = () => {
 
   const hasReadWriteAccess = _hasGrant('account_access') === 'read_write';
 
+  /** IAM RBAC - Initialization */
   const canSwitchBetweenParentOrProxyAccount =
     (profile?.user_type === 'parent' && !isRestrictedGlobalGrant) ||
     profile?.user_type === 'proxy';

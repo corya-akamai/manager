@@ -9,6 +9,7 @@ import type { ManagerPreferences } from '@linode/utilities';
 import type { QueryClient } from '@tanstack/react-query';
 
 // Reference for this pattern: https://tkdodo.eu/blog/react-query-data-transformations#3-using-the-select-option
+/** IAM RBAC - Initialization */
 export const usePreferences = <TData = ManagerPreferences>(
   select?: (data: ManagerPreferences | undefined) => TData,
   enabled = true,
@@ -19,7 +20,7 @@ export const usePreferences = <TData = ManagerPreferences>(
     enabled,
     select,
   });
-
+/** IAM RBAC - Initialization */
 export const useMutatePreferences = (replace = false) => {
   const queryClient = useQueryClient();
 

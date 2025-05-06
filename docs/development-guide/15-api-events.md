@@ -1,4 +1,5 @@
 # API Events
+IAM RBAC - Initialization
 
 In order to display Events, Cloud Manager polls the [account/events](https://techdocs.akamai.com/linode-api/reference/get-events) endpoint at a 16 second interval, or every 2 seconds if there are “in-progress” events.
 
@@ -29,7 +30,7 @@ export const linode: PartialEventMap<'linode'> = {
 The convention to compose the message is as follows:
 - Use the `<EventLink />` component for linking `entity` or `secondary_entity`. This component includes a lookup util to format the link `href` according to the feature.
 - The bolding should only be applied to:
-  - the primary action: (ex: `<strong>created</strong>`) 
+  - the primary action: (ex: `<strong>created</strong>`)
   - its correlated negation for negative actions (ex: `could <strong>not</strong> be <strong>created</strong>.`)
 - The `message` should be also handled via the `<EventMessage message={e.message} />` in order to handle potential formatting from the API string (ticks to indicate code blocks).
 - The message composition can be enhanced by using custom components. For instance, if we need to fetch extra data based on an event entity, we can simply write a new component to include in the message:

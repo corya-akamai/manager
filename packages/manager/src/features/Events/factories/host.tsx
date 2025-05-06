@@ -3,7 +3,7 @@ import * as React from 'react';
 import { EventLink } from '../EventLink';
 
 import type { PartialEventMap } from '../types';
-
+/** IAM RBAC - Initalization */
 export const host: PartialEventMap<'host'> = {
   host_reboot: {
     failed: (e) => (

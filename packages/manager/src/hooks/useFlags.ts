@@ -17,7 +17,7 @@ export { useLDClient } from 'launchdarkly-react-client-sdk';
  * const flags = useFlags();
  */
 // export default ldUseFlags as () => FlagSet;
-
+/** IAM RBAC - Initialization */
 export const useFlags = () => {
   const flags = ldUseFlags() as FlagSet;
 

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { EventLink } from '../EventLink';
 
 import type { PartialEventMap } from '../types';
-
+/** IAM RBAC - Initalization */
 export const lassie: PartialEventMap<'lassie'> = {
   lassie_reboot: {
     failed: (e) => (

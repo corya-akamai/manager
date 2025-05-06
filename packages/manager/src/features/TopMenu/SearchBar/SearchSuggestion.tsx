@@ -30,6 +30,7 @@ export const SearchSuggestion = (props: SearchSuggestionProps) => {
 
   const Icon = searchableEntityIconMap[data.entityType];
 
+  /** RBAC | CM Initialization: No view entity check */
   const handleClick = () => {
     selectOption(data);
   };

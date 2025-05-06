@@ -53,7 +53,7 @@ export const useRegionQuery = (regionId: string) => {
     }),
   });
 };
-
+/** IAM RBAC - Initialization */
 export const useRegionsQuery = () =>
   useQuery<Region[], APIError[]>({
     ...regionQueries.regions,

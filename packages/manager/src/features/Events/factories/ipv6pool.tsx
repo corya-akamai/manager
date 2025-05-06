@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import type { PartialEventMap } from '../types';
-
+/** IAM RBAC - Initialization */
 export const ipv6pool: PartialEventMap<'ipv6pool'> = {
   ipv6pool_add: {
     notification: () => (

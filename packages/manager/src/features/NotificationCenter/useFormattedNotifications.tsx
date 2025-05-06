@@ -51,6 +51,7 @@ const formatNotificationForDisplay = (
   id: `notification-${idx}`,
 });
 
+/** IAM RBAC - Initialization */
 export const useFormattedNotifications =
   (): NotificationCenterNotificationsItem[] => {
     const notificationContext = React.useContext(_notificationContext);

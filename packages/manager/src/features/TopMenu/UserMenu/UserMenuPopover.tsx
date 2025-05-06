@@ -47,7 +47,7 @@ const profileLinks: MenuLink[] = [
   { display: 'My Settings', href: '/profile/settings' },
   { display: 'Log Out', href: '/logout' },
 ];
-
+/** IAM RBAC - Initialization */
 export const UserMenuPopover = (props: UserMenuPopoverProps) => {
   const { anchorEl, isDrawerOpen, onClose, onDrawerOpen } = props;
   const sessionContext = React.useContext(switchAccountSessionContext);
@@ -82,7 +82,7 @@ export const UserMenuPopover = (props: UserMenuPopoverProps) => {
   const userName = (isProxyUser ? parentProfile : profile)?.username ?? '';
 
   const { isParentTokenExpired } = useIsParentTokenExpired({ isProxyUser });
-
+  /** IAM RBAC - Initialization */
   const accountLinks: MenuLink[] = React.useMemo(
     () => [
       {
@@ -120,6 +120,7 @@ export const UserMenuPopover = (props: UserMenuPopoverProps) => {
     [hasReadWriteAccess, _isRestrictedUser]
   );
 
+  /** IAM RBAC - Initialization */
   const renderLink = (link: MenuLink) => {
     if (link.hide) {
       return null;
@@ -127,6 +128,7 @@ export const UserMenuPopover = (props: UserMenuPopoverProps) => {
 
     return (
       <Grid key={link.display} size={12}>
+        {/* IAM RBAC - Initialization */}
         <Link
           data-testid={`menu-item-${link.display}`}
           onClick={onClose}
@@ -142,6 +144,7 @@ export const UserMenuPopover = (props: UserMenuPopoverProps) => {
     );
   };
 
+  /** IAM RBAC - Initialization */
   const handleAccountSwitch = () => {
     if (isParentTokenExpired) {
       return sessionContext.updateState({
@@ -182,6 +185,7 @@ export const UserMenuPopover = (props: UserMenuPopoverProps) => {
         minWidth={250}
       >
         <Stack display="flex" gap={(theme) => theme.tokens.spacing.S8}>
+          {/* IAM RBAC - Initialization */}
           {canSwitchBetweenParentOrProxyAccount && (
             <Typography
               sx={(theme) => ({
@@ -198,10 +202,12 @@ export const UserMenuPopover = (props: UserMenuPopoverProps) => {
               font: theme.tokens.alias.Typography.Label.Bold.L,
             })}
           >
+            {/* IAM RBAC - Initialization */}
             {canSwitchBetweenParentOrProxyAccount && companyNameOrEmail
               ? companyNameOrEmail
               : userName}
           </Typography>
+          {/* IAM RBAC - Initialization */}
           {canSwitchBetweenParentOrProxyAccount && (
             <SwitchAccountButton
               buttonType="outlined"
@@ -225,6 +231,7 @@ export const UserMenuPopover = (props: UserMenuPopoverProps) => {
             </Grid>
           </Grid>
         </Box>
+        {/* IAM RBAC - Initialization */}
         {_hasAccountAccess && (
           <Box>
             <Heading>Account</Heading>
@@ -233,6 +240,7 @@ export const UserMenuPopover = (props: UserMenuPopoverProps) => {
               gap={(theme) => theme.tokens.spacing.S8}
               mt={(theme) => theme.tokens.spacing.S8}
             >
+              {/* IAM RBAC - Initialization */}
               {accountLinks.map((menuLink) =>
                 menuLink.hide ? null : (
                   <Link

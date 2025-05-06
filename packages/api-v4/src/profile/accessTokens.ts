@@ -16,7 +16,7 @@ import type { Token, TokenRequest } from './types';
  * getPersonalAccessTokens
  *
  * Returns a paginated list of Personal Access Tokens currently active for your User.
- *
+ * IAM RBAC - Initialization
  */
 export const getPersonalAccessTokens = (params?: Params, filters?: Filter) =>
   Request<Page<Token>>(
@@ -91,7 +91,7 @@ export const updatePersonalAccessToken = (
  * Deletes a single Personal Access Token.
  *
  * @param tokenId { number } the ID of the token to be deleted.
- *
+ * IAM RBAC - Initialization
  */
 export const deletePersonalAccessToken = (tokenId: number) =>
   Request<{}>(

@@ -26,6 +26,7 @@ import {
 
 import { topMenuIconButtonSx, TopMenuTooltip } from '../TopMenuTooltip';
 
+/** IAM RBAC - Initialization */
 export const NotificationMenu = () => {
   const history = useHistory();
   const { dismissNotifications } = useDismissibleNotifications();
@@ -67,6 +68,7 @@ export const NotificationMenu = () => {
     if (prevOpen && !notificationContext.menuOpen) {
       // Dismiss seen notifications after the menu has closed.
       if (events && events.length >= 1 && !events[0].seen) {
+
         markEventsAsSeen(events[0].id);
       }
       dismissNotifications(notifications ?? [], { prefix: 'notificationMenu' });

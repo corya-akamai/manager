@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import type { PartialEventMap } from '../types';
-
+/** IAM RBAC - Initialization */
 export const account: PartialEventMap<'account'> = {
   account_agreement_eu_model: {
     notification: () => (

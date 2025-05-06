@@ -270,7 +270,7 @@ export interface Agreements {
   eu_model: boolean;
   privacy_policy: boolean;
 }
-
+/** IAM RBAC - Initalization */
 export type NotificationType =
   | 'billing_email_bounce'
   | 'maintenance'
@@ -290,7 +290,7 @@ export type NotificationType =
   | 'volume_migration_scheduled';
 
 export type NotificationSeverity = 'critical' | 'major' | 'minor';
-
+/** IAM RBAC - Initalization */
 export interface Notification {
   body: null | string;
   entity: Entity | null;
@@ -301,7 +301,7 @@ export interface Notification {
   until: null | string;
   when: null | string;
 }
-
+/** IAM RBAC - Initalization */
 export interface Entity {
   id: number;
   label: null | string;
@@ -309,6 +309,7 @@ export interface Entity {
   url: string;
 }
 
+/** IAM RBAC - Initalization */
 export const EventActionKeys = [
   'account_agreement_eu_model',
   'account_promo_apply',
@@ -504,7 +505,7 @@ export type EventStatus =
   | 'notification'
   | 'scheduled'
   | 'started';
-
+/** IAM RBAC - Initialization */
 export interface Event {
   action: EventAction;
   created: string;

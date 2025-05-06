@@ -6,7 +6,7 @@ import { EventLink } from '../EventLink';
 
 import type { PartialEventMap } from '../types';
 import type { FirewallDeviceEntityType } from '@linode/api-v4';
-
+/** IAM RBAC - Initalization */
 export const firewall: PartialEventMap<'firewall'> = {
   firewall_apply: {
     notification: (e) => (

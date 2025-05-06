@@ -3,7 +3,7 @@ import * as React from 'react';
 import { EventLink } from '../EventLink';
 
 import type { PartialEventMap } from '../types';
-
+/** IAM RBAC - Initialization */
 export const managed: PartialEventMap<'managed'> = {
   managed_enabled: {
     notification: () => (

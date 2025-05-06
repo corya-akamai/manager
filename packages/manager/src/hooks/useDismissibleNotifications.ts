@@ -44,7 +44,7 @@ export interface DismissibleNotificationsHook {
     prefix?: string
   ) => boolean;
 }
-
+/** IAM RBAC - Initialization */
 export const useDismissibleNotifications = (): DismissibleNotificationsHook => {
   const { data: dismissedNotificationPreferences } = usePreferences(
     (preferences) => preferences?.dismissed_notifications
@@ -104,6 +104,7 @@ const getHashKey = (notification: unknown, prefix: string = '') =>
  *  2. Removes any notifications older than 1.5 months (45 days).
  *     We do this to prevent user preferences from turning into
  *     an ever-expanding blob of old notification hashes.
+ * IAM RBAC - Initialization
  */
 export const updateDismissedNotifications = (
   notifications: Record<string, DismissedNotification>,
