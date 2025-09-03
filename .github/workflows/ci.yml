@@ -17,8 +17,8 @@ jobs:
       matrix:
         package:
           [
-            "linode-manager",
             "@linode/api-v4",
+            "@linode/cloud-manager",
             "@linode/queries",
             "@linode/shared",
             "@linode/ui",
@@ -165,7 +165,7 @@ jobs:
           name: packages-api-v4-lib
           path: packages/api-v4/lib
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run --filter linode-manager test
+      - run: pnpm run --filter @linode/cloud-manager test
 
   test-search:
     runs-on: ubuntu-latest
@@ -363,7 +363,7 @@ jobs:
           name: packages-api-v4-lib
           path: packages/api-v4/lib
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run --filter linode-manager typecheck
+      - run: pnpm run --filter @linode/cloud-manager typecheck
 
   publish-packages:
     runs-on: ubuntu-latest
@@ -430,7 +430,7 @@ jobs:
           name: packages-api-v4-lib
           path: packages/api-v4/lib
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run --filter linode-manager build-storybook
+      - run: pnpm run --filter @linode/cloud-manager build-storybook
       - uses: actions/upload-artifact@v4
         with:
           name: storybook-build

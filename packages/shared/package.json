@@ -16,12 +16,12 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "start": "tsc -w --preserveWatchOutput",
     "lint": "eslint . --quiet --ext .js,.ts,.tsx",
-    "typecheck": "tsc",
-    "test": "vitest run",
+    "precommit": "lint-staged",
+    "start": "tsc -w --preserveWatchOutput",
     "test:watch": "vitest",
-    "precommit": "lint-staged"
+    "test": "vitest run",
+    "typecheck": "tsc"
   },
   "lint-staged": {
     "*.{ts,tsx,js}": [

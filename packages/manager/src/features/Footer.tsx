@@ -50,7 +50,7 @@ export const Footer = React.memo(() => {
         >
           <StyledLink
             sx={{ paddingLeft: 0 }}
-            to={`https://github.com/linode/manager/releases/tag/linode-manager@v${packageJson.version}`}
+            to={`https://github.com/linode/manager/releases/tag/cloud-manager@v${packageJson.version}`}
           >
             v{packageJson.version}
           </StyledLink>

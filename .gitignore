@@ -144,3 +144,5 @@ docs/.vitepress/cache
 
 # pnpm store will be generated if you run pnpm install in docker environments
 .pnpm-store
+
+.nx/cache

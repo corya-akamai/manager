@@ -16,13 +16,13 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "start": "tsc -w --preserveWatchOutput",
-    "lint": "eslint . --quiet --ext .js,.ts,.tsx",
-    "typecheck": "tsc",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "coverage:summary": "vitest run --coverage.enabled --reporter=junit --coverage.reporter=json-summary",
     "coverage": "vitest run --coverage && open coverage/index.html",
-    "coverage:summary": "vitest run --coverage.enabled --reporter=junit --coverage.reporter=json-summary"
+    "lint": "eslint . --quiet --ext .js,.ts,.tsx",
+    "start": "tsc -w --preserveWatchOutput",
+    "test:watch": "vitest",
+    "test": "vitest run",
+    "typecheck": "tsc"
   },
   "lint-staged": {
     "*.{ts,tsx,js}": [

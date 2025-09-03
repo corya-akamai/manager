@@ -1,0 +1,75 @@
+{
+  "targetDefaults": {
+    "build": {
+      "cache": true,
+      "dependsOn": [],
+      "outputs": [
+        "{projectRoot}/build"
+      ]
+    },
+    "lint": {
+      "dependsOn": []
+    },
+    "start": {
+      "dependsOn": []
+    },
+    "test": {
+      "cache": true,
+      "dependsOn": []
+    },
+    "typecheck": {
+      "dependsOn": []
+    },
+    "start:expose": {
+      "dependsOn": []
+    },
+    "start:ci": {
+      "dependsOn": []
+    },
+    "build:analyze": {
+      "dependsOn": []
+    },
+    "test:ui": {
+      "dependsOn": []
+    },
+    "storybook": {
+      "dependsOn": []
+    },
+    "storybook-static": {
+      "dependsOn": []
+    },
+    "build-storybook": {
+      "dependsOn": []
+    },
+    "cy:run": {
+      "dependsOn": []
+    },
+    "cy:e2e": {
+      "dependsOn": []
+    },
+    "cy:debug": {
+      "dependsOn": []
+    },
+    "cy:component": {
+      "dependsOn": []
+    },
+    "cy:component:run": {
+      "dependsOn": []
+    },
+    "cy:rec-snap": {
+      "dependsOn": []
+    },
+    "coverage": {
+      "dependsOn": []
+    },
+    "coverage:summary": {
+      "dependsOn": []
+    },
+    "precommit": {
+      "dependsOn": []
+    },
+    "test:watch": {
+      "dependsOn": []
+    }
+  }
+}

@@ -16,10 +16,10 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "start": "tsc -w --preserveWatchOutput",
     "lint": "eslint . --quiet --ext .js,.ts,.tsx",
-    "typecheck": "tsc",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "start": "tsc -w --preserveWatchOutput",
+    "typecheck": "tsc"
   },
   "lint-staged": {
     "*.{ts,tsx,js}": [

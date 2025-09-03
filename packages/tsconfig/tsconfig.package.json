@@ -3,15 +3,15 @@
    * This tsconfig is our base config for packages.
    */
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
     "esModuleInterop": true,
+    "incremental": true,
+    "module": "esnext",
     "moduleResolution": "bundler",
+    "noEmit": true,
+    "noUnusedLocals": true,
     "skipLibCheck": true,
     "strict": true,
-    "noUnusedLocals": true,
-    "incremental": true,
-    "noEmit": true
+    "target": "esnext"
   },
   "include": [
     "src"

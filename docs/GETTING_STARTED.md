@@ -44,9 +44,9 @@ pnpm run --filter @linode/validation build # build the @linode/validation packag
 
 pnpm run --filter @linode/api-v4 build # build the @linode/api-v4 (it depends on @linode/validation)
 
-pnpm run --filter linode-manager build # build a production bundle of Cloud Manager
+pnpm run --filter @linode/cloud-manager build # build a production bundle of Cloud Manager
 
-pnpm run --filter linode-manager start:ci # start a local http server on http://localhost:3000/
+pnpm run --filter @linode/cloud-manager start:ci # start a local http server on http://localhost:3000/
 ```
 
 ## Exposing Cloud Manager's dev server to the network
