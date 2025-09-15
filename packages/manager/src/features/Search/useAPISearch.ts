@@ -1,5 +1,6 @@
 import {
   useDatabasesInfiniteQuery,
+  useDestinationsInfiniteQuery,
   useDomainsInfiniteQuery,
   useFirewallsInfiniteQuery,
   useImagesInfiniteQuery,
@@ -7,6 +8,7 @@ import {
   useInfiniteNodebalancersQuery,
   useInfiniteVolumesQuery,
   useStackScriptsInfiniteQuery,
+  useStreamsInfiniteQuery,
 } from '@linode/queries';
 import { getAPIFilterFromQuery } from '@linode/search';
 import { useDebouncedValue } from '@linode/utilities';
@@ -14,6 +16,7 @@ import { useDebouncedValue } from '@linode/utilities';
 import { useKubernetesClustersInfiniteQuery } from 'src/queries/kubernetes';
 import {
   databaseToSearchableItem,
+  destinationToSearchableItem,
   domainToSearchableItem,
   firewallToSearchableItem,
   imageToSearchableItem,
@@ -21,6 +24,7 @@ import {
   linodeToSearchableItem,
   nodeBalToSearchableItem,
   stackscriptToSearchableItem,
+  streamToSearchableItem,
   volumeToSearchableItem,
 } from 'src/store/selectors/getSearchEntities';
 
@@ -106,6 +110,22 @@ const entities = [
     query: useInfiniteNodebalancersQuery,
     searchOptions: {
       searchableFieldsWithoutOperator: ['label', 'ipv4', 'tags'],
+    },
+  },
+  {
+    getSearchableItem: streamToSearchableItem,
+    name: 'stream' as const,
+    query: useStreamsInfiniteQuery,
+    searchOptions: {
+      searchableFieldsWithoutOperator: ['label'],
+    },
+  },
+  {
+    getSearchableItem: destinationToSearchableItem,
+    name: 'destination' as const,
+    query: useDestinationsInfiniteQuery,
+    searchOptions: {
+      searchableFieldsWithoutOperator: ['label'],
     },
   },
 ];
