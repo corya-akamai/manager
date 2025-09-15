@@ -242,7 +242,7 @@ export const PrimaryNav = (props: PrimaryNavProps) => {
               {
                 display: 'DataStream',
                 hide: !flags.aclpLogs?.enabled,
-                to: '/datastream',
+                to: '/',
                 isBeta: flags.aclpLogs?.beta,
               },
             ],
