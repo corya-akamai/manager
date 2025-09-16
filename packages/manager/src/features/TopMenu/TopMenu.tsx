@@ -3,10 +3,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton, useMediaQuery, useTheme } from '@mui/material';
 import * as React from 'react';
 
-import { AppBar } from 'src/components/AppBar';
 import { Link } from 'src/components/Link';
-import { StyledAkamaiLogo } from 'src/components/PrimaryNav/PrimaryNav.styles';
-import { Toolbar } from 'src/components/Toolbar';
+import { StyledAkamaiLogo } from 'src/features/PrimaryNav/PrimaryNav.styles';
+import { AppBar } from 'src/features/TopMenu/AppBar';
+import { Toolbar } from 'src/features/TopMenu/Toolbar';
 import { getIsLoggedInAsCustomer } from 'src/OAuth/oauth';
 
 import { Community } from './Community';

@@ -19,8 +19,8 @@ import { ProductFamilyGroup } from './ProductFamilyGroup';
 
 import type { Theme } from '@mui/material';
 import type { LinkProps } from '@tanstack/react-router';
-import type { BaseNavLink } from 'src/components/PrimaryNav/PrimaryLink';
-import type { ProductFamilyLinkGroup } from 'src/components/PrimaryNav/PrimaryNav';
+import type { BaseNavLink } from 'src/features/PrimaryNav/PrimaryLink';
+import type { ProductFamilyLinkGroup } from 'src/features/PrimaryNav/PrimaryNav';
 
 export type CreateEntity =
   | 'Bucket'

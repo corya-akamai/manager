@@ -5,12 +5,11 @@
   "type": "module",
   "devDependencies": {
     "@eslint/js": "^9.23.0",
-    "concurrently": "9.1.0",
-    "husky": "^9.1.6",
-    "typescript": "^5.7.3",
-    "vitest": "^3.1.2",
+    "@linode/eslint-plugin-cloud-manager": "^0.0.11",
+    "@typescript-eslint/eslint-plugin": "^8.38.0",
+    "@typescript-eslint/parser": "^8.38.0",
     "@vitest/ui": "^3.1.2",
-    "lint-staged": "^15.4.3",
+    "concurrently": "9.1.0",
     "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-cypress": "^4.2.1",
@@ -23,11 +22,13 @@
     "eslint-plugin-sonarjs": "^3.0.2",
     "eslint-plugin-testing-library": "^7.1.1",
     "eslint-plugin-xss": "^0.1.12",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.4.3",
     "prettier": "~3.5.3",
+    "rollup-plugin-visualizer": "^6.0.3",
+    "typescript": "^5.7.3",
     "typescript-eslint": "^8.29.0",
-    "@typescript-eslint/eslint-plugin": "^8.38.0",
-    "@typescript-eslint/parser": "^8.38.0",
-    "@linode/eslint-plugin-cloud-manager": "^0.0.11"
+    "vitest": "^3.1.2"
   },
   "scripts": {
     "lint:all": "pnpm -r --parallel lint",
@@ -88,5 +89,6 @@
     "onlyBuiltDependencies": [
       "cypress"
     ]
-  }
+  },
+  "packageManager": "pnpm@9.13.2+sha512.88c9c3864450350e65a33587ab801acf946d7c814ed1134da4a924f6df5a2120fd36b46aab68f7cd1d413149112d53c7db3a4136624cfd00ff1846a0c6cef48a"
 }

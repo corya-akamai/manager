@@ -1,9 +1,9 @@
 import { createRoute, redirect } from '@tanstack/react-router';
 
-import { rootRoute } from '../root';
+import { rootRoute } from '../../routes/root';
 import { VPCRoute } from './VPCRoute';
 
-import type { TableSearchParams } from '../types';
+import type { TableSearchParams } from '../../routes/types';
 
 export interface SubnetSearchParams extends TableSearchParams {
   query?: string;

@@ -10,7 +10,7 @@ import {
 } from './CreateMenu.styles';
 
 import type { CreateMenuLink } from './CreateMenu';
-import type { ProductFamilyLinkGroup } from 'src/components/PrimaryNav/PrimaryNav';
+import type { ProductFamilyLinkGroup } from 'src/features/PrimaryNav/PrimaryNav';
 
 interface ProductFamilyGroupProps {
   handleClose: () => void;

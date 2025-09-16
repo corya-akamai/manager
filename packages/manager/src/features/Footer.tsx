@@ -3,9 +3,12 @@ import { styled } from '@mui/material/styles';
 import * as React from 'react';
 
 import { Link } from 'src/components/Link';
-import { DEVELOPERS_LINK, FEEDBACK_LINK } from 'src/constants';
 
 import packageJson from '../../package.json';
+
+export const DEVELOPERS_LINK = 'https://developers.linode.com';
+
+export const FEEDBACK_LINK = 'https://www.linode.com/feedback/';
 
 export const FOOTER_HEIGHT = 45;
 

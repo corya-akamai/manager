@@ -14,14 +14,14 @@ import Monitor from 'src/assets/icons/entityIcons/monitor.svg';
 import Networking from 'src/assets/icons/entityIcons/networking.svg';
 import Storage from 'src/assets/icons/entityIcons/storage.svg';
 import More from 'src/assets/icons/more.svg';
-import {
-  PRIMARY_NAV_TOGGLE_HEIGHT,
-  SIDEBAR_WIDTH,
-} from 'src/components/PrimaryNav/constants';
 import { useIsACLPEnabled } from 'src/features/CloudPulse/Utils/utils';
 import { useIsDatabasesEnabled } from 'src/features/Databases/utilities';
 import { useIsIAMEnabled } from 'src/features/IAM/hooks/useIsIAMEnabled';
 import { useIsPlacementGroupsEnabled } from 'src/features/PlacementGroups/utils';
+import {
+  PRIMARY_NAV_TOGGLE_HEIGHT,
+  SIDEBAR_WIDTH,
+} from 'src/features/PrimaryNav/constants';
 import { useFlags } from 'src/hooks/useFlags';
 
 import PrimaryLink from './PrimaryLink';

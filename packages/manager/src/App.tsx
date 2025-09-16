@@ -5,13 +5,12 @@ import {
   DocumentTitleSegment,
   withDocumentTitleProvider,
 } from 'src/components/DocumentTitle';
+import { SplashScreen } from 'src/components/SplashScreen';
 import withFeatureFlagProvider from 'src/containers/withFeatureFlagProvider.container';
 import { ErrorBoundaryFallback } from 'src/features/ErrorBoundary/ErrorBoundaryFallback';
-
-import { SplashScreen } from './components/SplashScreen';
-import { useInitialRequests } from './hooks/useInitialRequests';
-import { Router } from './Router';
-import { useSetupFeatureFlags } from './useSetupFeatureFlags';
+import { useInitialRequests } from 'src/hooks/useInitialRequests';
+import { Router } from 'src/Router';
+import { useSetupFeatureFlags } from 'src/useSetupFeatureFlags';
 
 export const App = withDocumentTitleProvider(
   withFeatureFlagProvider(() => {

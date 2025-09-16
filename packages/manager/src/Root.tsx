@@ -1,10 +1,10 @@
 // Supports weights 300-700
 import '@fontsource/fira-code';
+import '@fontsource/nunito-sans/400-italic.css';
 import '@fontsource/nunito-sans/400.css';
 import '@fontsource/nunito-sans/600.css';
 import '@fontsource/nunito-sans/700.css';
 import '@fontsource/nunito-sans/800.css';
-import '@fontsource/nunito-sans/400-italic.css';
 import {
   useMutatePreferences,
   usePreferences,
@@ -19,13 +19,12 @@ import { makeStyles } from 'tss-react/mui';
 
 import { MainContentBanner } from 'src/components/MainContentBanner';
 import { MaintenanceScreen } from 'src/components/MaintenanceScreen';
-import {
-  SIDEBAR_COLLAPSED_WIDTH,
-  SIDEBAR_WIDTH,
-} from 'src/components/PrimaryNav/constants';
-import { SideMenu } from 'src/components/PrimaryNav/SideMenu';
 import { Snackbar } from 'src/components/Snackbar/Snackbar';
 import { SuspenseLoader } from 'src/components/SuspenseLoader';
+import { ENABLE_MAINTENANCE_MODE } from 'src/constants';
+import { complianceUpdateContext } from 'src/context/complianceUpdateContext';
+import { sessionExpirationContext } from 'src/context/sessionExpirationContext';
+import { switchAccountSessionContext } from 'src/context/switchAccountSessionContext';
 import { useDialogContext } from 'src/context/useDialogContext';
 import { ErrorBoundaryFallback } from 'src/features/ErrorBoundary/ErrorBoundaryFallback';
 import { Footer } from 'src/features/Footer';
@@ -34,21 +33,21 @@ import {
   notificationCenterContext,
   useNotificationContext,
 } from 'src/features/NotificationCenter/NotificationCenterContext';
+import {
+  SIDEBAR_COLLAPSED_WIDTH,
+  SIDEBAR_WIDTH,
+} from 'src/features/PrimaryNav/constants';
+import { SideMenu } from 'src/features/PrimaryNav/SideMenu';
+import { useIsPageScrollable } from 'src/features/PrimaryNav/utils';
+import { TOPMENU_HEIGHT } from 'src/features/TopMenu/constants';
 import { TopMenu } from 'src/features/TopMenu/TopMenu';
-
-import { useIsPageScrollable } from './components/PrimaryNav/utils';
-import { ENABLE_MAINTENANCE_MODE } from './constants';
-import { complianceUpdateContext } from './context/complianceUpdateContext';
-import { sessionExpirationContext } from './context/sessionExpirationContext';
-import { switchAccountSessionContext } from './context/switchAccountSessionContext';
-import { TOPMENU_HEIGHT } from './features/TopMenu/constants';
-import { GoTo } from './GoTo';
-import { useAdobeAnalytics } from './hooks/useAdobeAnalytics';
-import { useGlobalErrors } from './hooks/useGlobalErrors';
-import { useNewRelic } from './hooks/useNewRelic';
-import { usePendo } from './hooks/usePendo';
-import { useSessionExpiryToast } from './hooks/useSessionExpiryToast';
-import { useEventsPoller } from './queries/events/events';
+import { GoTo } from 'src/GoTo';
+import { useAdobeAnalytics } from 'src/hooks/useAdobeAnalytics';
+import { useGlobalErrors } from 'src/hooks/useGlobalErrors';
+import { useNewRelic } from 'src/hooks/useNewRelic';
+import { usePendo } from 'src/hooks/usePendo';
+import { useSessionExpiryToast } from 'src/hooks/useSessionExpiryToast';
+import { useEventsPoller } from 'src/queries/events/events';
 
 import type { Theme } from '@mui/material/styles';
 

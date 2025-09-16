@@ -5,16 +5,17 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider as ReduxStoreProvider } from 'react-redux';
 
-import { CookieWarning } from 'src/components/CookieWarning';
+import { App } from 'src/App';
 import 'src/exceptionReporting';
+import { CookieWarning } from 'src/components/CookieWarning';
 import { SplashScreen } from 'src/components/SplashScreen';
-import { setupInterceptors } from 'src/request';
-import { storeFactory } from 'src/store';
+import { ENABLE_DEV_TOOLS } from 'src/constants';
 
 import './index.css';
-import { App } from './App';
-import { ENABLE_DEV_TOOLS } from './constants';
-import { LinodeThemeWrapper } from './LinodeThemeWrapper';
+
+import { LinodeThemeWrapper } from 'src/LinodeThemeWrapper';
+import { setupInterceptors } from 'src/request';
+import { storeFactory } from 'src/store';
 
 const queryClient = queryClientFactory('longLived');
 const store = storeFactory();

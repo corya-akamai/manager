@@ -1,7 +1,7 @@
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
 
-import { themes, useColorMode } from './utilities/theme';
+import { themes, useColorMode } from 'src/utilities/theme';
 
 import type { ThemeName } from '@linode/ui';
 

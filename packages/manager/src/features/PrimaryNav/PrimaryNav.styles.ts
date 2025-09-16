@@ -3,7 +3,7 @@ import { Chip, styled } from '@mui/material';
 
 import AkamaiLogo from 'src/assets/logo/akamai-logo.svg';
 import { Link } from 'src/components/Link';
-import { SIDEBAR_WIDTH } from 'src/components/PrimaryNav/constants';
+import { SIDEBAR_WIDTH } from 'src/features/PrimaryNav/constants';
 
 export const StyledAkamaiLogo = styled(AkamaiLogo, {
   label: 'StyledAkamaiLogo',
