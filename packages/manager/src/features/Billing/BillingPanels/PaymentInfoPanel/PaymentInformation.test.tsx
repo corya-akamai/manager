@@ -1,9 +1,9 @@
+import { PAYPAL_CLIENT_ID } from '@linode/core/constants';
 import { profileFactory } from '@linode/utilities';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import { PAYPAL_CLIENT_ID } from 'src/constants';
 import { paymentMethodFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

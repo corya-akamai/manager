@@ -1,6 +1,6 @@
 import { isEmpty } from '@linode/api-v4';
+import { DEFAULT_DEVICE_LIMIT } from '@linode/core/constants';
 
-import { DEFAULT_DEVICE_LIMIT } from 'src/constants';
 import { useFlags } from 'src/hooks/useFlags';
 
 import type { DiskDevice, Interface, VolumeDevice } from '@linode/api-v4';

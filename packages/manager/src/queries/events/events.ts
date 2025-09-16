@@ -1,5 +1,9 @@
 import { getEvents, markEventSeen } from '@linode/api-v4';
 import {
+  ISO_DATETIME_NO_TZ_FORMAT,
+  POLLING_INTERVALS,
+} from '@linode/core/constants';
+import {
   useInfiniteQuery,
   useMutation,
   useQuery,
@@ -8,7 +12,6 @@ import {
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 
-import { ISO_DATETIME_NO_TZ_FORMAT, POLLING_INTERVALS } from 'src/constants';
 import { EVENTS_LIST_FILTER } from 'src/features/Events/constants';
 import { useEventHandlers } from 'src/hooks/useEventHandlers';
 import { useToastNotifications } from 'src/hooks/useToastNotifications';

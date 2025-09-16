@@ -1,3 +1,4 @@
+import { NO_PERMISSION_TOOLTIP_TEXT } from '@linode/core/constants';
 import {
   useAllLinodeConfigsQuery,
   useGrants,
@@ -18,7 +19,6 @@ import { TableContentWrapper } from 'src/components/TableContentWrapper/TableCon
 import { TableHead } from 'src/components/TableHead';
 import { TableRow } from 'src/components/TableRow';
 import { TableSortCell } from 'src/components/TableSortCell';
-import { NO_PERMISSION_TOOLTIP_TEXT } from 'src/constants';
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 import { useCanUpgradeInterfaces } from 'src/hooks/useCanUpgradeInterfaces';
 import { useOrderV2 } from 'src/hooks/useOrderV2';

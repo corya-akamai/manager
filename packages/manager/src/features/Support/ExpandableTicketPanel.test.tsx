@@ -1,8 +1,8 @@
+import { ISO_DATETIME_NO_TZ_FORMAT } from '@linode/core/constants';
 import { screen } from '@testing-library/react';
 import { DateTime } from 'luxon';
 import * as React from 'react';
 
-import { ISO_DATETIME_NO_TZ_FORMAT } from 'src/constants';
 import { supportReplyFactory } from 'src/factories/support';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

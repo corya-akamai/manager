@@ -1,4 +1,5 @@
 import { getObjectList, getObjectURL } from '@linode/api-v4/lib/object-storage';
+import { OBJECT_STORAGE_DELIMITER } from '@linode/core/constants';
 import { useAccount } from '@linode/queries';
 import { ActionsPanel, Box } from '@linode/ui';
 import { Hidden } from '@linode/ui';
@@ -19,7 +20,6 @@ import { TableCell } from 'src/components/TableCell';
 import { TableHead } from 'src/components/TableHead';
 import { TableRow } from 'src/components/TableRow';
 import { ObjectUploader } from 'src/components/Uploaders/ObjectUploader/ObjectUploader';
-import { OBJECT_STORAGE_DELIMITER } from 'src/constants';
 import { useFlags } from 'src/hooks/useFlags';
 import {
   getObjectBucketObjectsQueryKey,

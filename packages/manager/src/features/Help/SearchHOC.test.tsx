@@ -1,9 +1,10 @@
+import { COMMUNITY_BASE_URL, DOCS_BASE_URL } from '@linode/core/constants';
+
 import {
   community_answer,
   community_question,
   docs_result,
 } from 'src/__data__/searchResults';
-import { COMMUNITY_BASE_URL, DOCS_BASE_URL } from 'src/constants';
 
 import {
   cleanDescription,

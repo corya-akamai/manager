@@ -1,9 +1,8 @@
-import { DateTime, Duration } from 'luxon';
-
 import {
   DATETIME_DISPLAY_FORMAT,
   ISO_DATETIME_NO_TZ_FORMAT,
-} from 'src/constants';
+} from '@linode/core/constants';
+import { DateTime, Duration } from 'luxon';
 
 import { formatDate, shouldHumanize } from './formatDate';
 

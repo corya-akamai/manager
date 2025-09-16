@@ -1,8 +1,7 @@
+import { MINIMUM_PASSWORD_STRENGTH } from '@linode/core/constants';
 import { string } from 'yup';
 import { object } from 'yup';
 import zxcvbn from 'zxcvbn';
-
-import { MINIMUM_PASSWORD_STRENGTH } from 'src/constants';
 
 export const validatePassword = (password: string) => {
   // This method does not evaluate whether a password is required.

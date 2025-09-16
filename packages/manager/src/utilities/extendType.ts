@@ -1,6 +1,6 @@
+import { LINODE_NETWORK_IN } from '@linode/core/constants';
 import { formatStorageUnits, isNotNullOrUndefined } from '@linode/utilities';
 
-import { LINODE_NETWORK_IN } from 'src/constants';
 import { typeLabelDetails } from 'src/features/Linodes/presentation';
 
 import type { APIError, LinodeType } from '@linode/api-v4';

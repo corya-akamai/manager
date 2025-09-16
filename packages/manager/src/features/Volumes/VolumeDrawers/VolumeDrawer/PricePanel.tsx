@@ -1,9 +1,9 @@
+import { MAX_VOLUME_SIZE } from '@linode/core/constants';
 import { useVolumeTypesQuery } from '@linode/queries';
 import { Box, CircleProgress } from '@linode/ui';
 import * as React from 'react';
 
 import { DisplayPrice } from 'src/components/DisplayPrice';
-import { MAX_VOLUME_SIZE } from 'src/constants';
 import { getDCSpecificPriceByType } from 'src/utilities/pricing/dynamicPricing';
 
 interface Props {

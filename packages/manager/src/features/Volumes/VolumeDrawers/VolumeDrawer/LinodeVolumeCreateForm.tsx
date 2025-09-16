@@ -1,3 +1,4 @@
+import { MAX_VOLUME_SIZE } from '@linode/core/constants';
 import {
   useCreateVolumeMutation,
   useRegionsQuery,
@@ -20,7 +21,6 @@ import {
 import { Encryption } from 'src/components/Encryption/Encryption';
 import { useIsBlockStorageEncryptionFeatureEnabled } from 'src/components/Encryption/utils';
 import { TagsInput } from 'src/components/TagsInput/TagsInput';
-import { MAX_VOLUME_SIZE } from 'src/constants';
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 import { useEventsPollingActions } from 'src/queries/events/events';
 import { sendCreateVolumeEvent } from 'src/utilities/analytics/customEventAnalytics';

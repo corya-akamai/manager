@@ -3,7 +3,7 @@ import {
   PAYMENT_HARD_MAX,
   PAYMENT_MIN,
   PAYMENT_SOFT_MAX,
-} from 'src/constants';
+} from '@linode/core/constants';
 
 import {
   cleanCVV,

@@ -1,6 +1,6 @@
+import { ADDRESSES } from '@linode/core/constants';
 import { regionFactory } from '@linode/utilities';
 
-import { ADDRESSES } from 'src/constants';
 import { invoiceItemFactory } from 'src/factories';
 
 import {

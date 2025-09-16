@@ -1,3 +1,4 @@
+import { MBpsIntraDC } from '@linode/core/constants';
 import {
   useAllLinodeDisksQuery,
   useLinodeQuery,
@@ -9,7 +10,6 @@ import { styled } from '@mui/material/styles';
 import { useSnackbar } from 'notistack';
 import * as React from 'react';
 
-import { MBpsIntraDC } from 'src/constants';
 import { useEventsPollingActions } from 'src/queries/events/events';
 
 import { MutateDrawer } from '../MutateDrawer/MutateDrawer';

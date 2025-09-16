@@ -1,4 +1,4 @@
-import { ADOBE_ANALYTICS_URL } from 'src/constants';
+import { ADOBE_ANALYTICS_URL } from '@linode/core/constants';
 
 import type {
   AnalyticsEvent,

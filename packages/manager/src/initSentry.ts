@@ -1,7 +1,6 @@
+import { ENVIRONMENT_NAME, SENTRY_URL } from '@linode/core/constants';
 import { deepStringTransform, redactAccessToken } from '@linode/utilities';
 import { init } from '@sentry/react';
-
-import { ENVIRONMENT_NAME, SENTRY_URL } from 'src/constants';
 
 import packageJson from '../package.json';
 

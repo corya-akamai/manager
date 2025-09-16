@@ -1,4 +1,5 @@
-import { FORCE_SEARCH_TYPE } from 'src/constants';
+import { FORCE_SEARCH_TYPE } from '@linode/core/constants';
+
 import { useIsLargeAccount } from 'src/hooks/useIsLargeAccount';
 
 import { useAPISearch } from './useAPISearch';

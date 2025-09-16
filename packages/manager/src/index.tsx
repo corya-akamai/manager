@@ -1,3 +1,4 @@
+import { ENABLE_DEV_TOOLS } from '@linode/core/constants';
 import { queryClientFactory } from '@linode/queries';
 import CssBaseline from '@mui/material/CssBaseline';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -5,11 +6,10 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider as ReduxStoreProvider } from 'react-redux';
 
-import { App } from 'src/App';
 import 'src/exceptionReporting';
+import { App } from 'src/App';
 import { CookieWarning } from 'src/components/CookieWarning';
 import { SplashScreen } from 'src/components/SplashScreen';
-import { ENABLE_DEV_TOOLS } from 'src/constants';
 
 import './index.css';
 

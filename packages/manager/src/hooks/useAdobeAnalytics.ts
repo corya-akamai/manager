@@ -1,8 +1,8 @@
+import { ADOBE_ANALYTICS_URL } from '@linode/core/constants';
 import { loadScript } from '@linode/utilities';
 import { useLocation } from '@tanstack/react-router';
 import React from 'react';
 
-import { ADOBE_ANALYTICS_URL } from 'src/constants';
 import { reportException } from 'src/exceptionReporting';
 
 /**

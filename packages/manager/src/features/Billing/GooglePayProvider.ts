@@ -2,10 +2,10 @@ import {
   addPaymentMethod,
   makePayment,
 } from '@linode/api-v4/lib/account/payments';
+import { GPAY_CLIENT_ENV, GPAY_MERCHANT_ID } from '@linode/core/constants';
 import { accountQueries } from '@linode/queries';
 import braintree from 'braintree-web';
 
-import { GPAY_CLIENT_ENV, GPAY_MERCHANT_ID } from 'src/constants';
 import { reportException } from 'src/exceptionReporting';
 import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
 

@@ -1,3 +1,4 @@
+import { PAYPAL_CLIENT_ID } from '@linode/core/constants';
 import {
   useAccount,
   useAllPaymentMethodsQuery,
@@ -10,7 +11,6 @@ import { styled } from '@mui/material/styles';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import * as React from 'react';
 
-import { PAYPAL_CLIENT_ID } from 'src/constants';
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
 

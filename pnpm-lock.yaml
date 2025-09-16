@@ -122,6 +122,9 @@ importers:
 
   packages/core:
     dependencies:
+      '@linode/utilities':
+        specifier: workspace:*
+        version: link:../utilities
       react:
         specifier: ^19.1.0
         version: 19.1.0

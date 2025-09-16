@@ -1,3 +1,4 @@
+import { LINODE_NETWORK_IN } from '@linode/core/constants';
 import { useLinodeQuery } from '@linode/queries';
 import { Chip, FormControlLabel, Radio } from '@linode/ui';
 import { Hidden } from '@linode/ui';
@@ -8,7 +9,6 @@ import { Currency } from 'src/components/Currency';
 import { SelectionCard } from 'src/components/SelectionCard/SelectionCard';
 import { TableCell } from 'src/components/TableCell';
 import { TableRow } from 'src/components/TableRow';
-import { LINODE_NETWORK_IN } from 'src/constants';
 import {
   PRICE_ERROR_TOOLTIP_TEXT,
   UNKNOWN_PRICE,

@@ -1,7 +1,11 @@
 import { baseRequest } from '@linode/api-v4/lib/request';
+import {
+  ACCESS_TOKEN,
+  API_ROOT,
+  DEFAULT_ERROR_MESSAGE,
+} from '@linode/core/constants';
 import { AxiosHeaders } from 'axios';
 
-import { ACCESS_TOKEN, API_ROOT, DEFAULT_ERROR_MESSAGE } from 'src/constants';
 import {
   clearAuthDataFromLocalStorage,
   redirectToLogin,

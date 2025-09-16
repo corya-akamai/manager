@@ -1,4 +1,4 @@
-import { ENABLE_DEV_TOOLS } from 'src/constants';
+import { ENABLE_DEV_TOOLS } from '@linode/core/constants';
 
 import type { RegionSite } from '@linode/api-v4';
 import type { StackScriptPayload } from '@linode/api-v4/lib/stackscripts/types';

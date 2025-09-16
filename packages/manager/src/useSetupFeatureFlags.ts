@@ -1,8 +1,7 @@
+import { LAUNCH_DARKLY_API_KEY } from '@linode/core/constants';
 import { useAccount, useProfile } from '@linode/queries';
 import { useLDClient } from 'launchdarkly-react-client-sdk';
 import * as React from 'react';
-
-import { LAUNCH_DARKLY_API_KEY } from 'src/constants';
 
 import { configureErrorReportingUser } from './exceptionReporting';
 

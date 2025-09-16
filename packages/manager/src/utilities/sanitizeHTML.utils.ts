@@ -1,5 +1,8 @@
-import { OFFSITE_URL_REGEX, ONSITE_URL_REGEX } from 'src/constants';
-import { allowedHTMLTagsFlexible, allowedHTMLTagsStrict } from 'src/constants';
+import { OFFSITE_URL_REGEX, ONSITE_URL_REGEX } from '@linode/core/constants';
+import {
+  allowedHTMLTagsFlexible,
+  allowedHTMLTagsStrict,
+} from '@linode/core/constants';
 
 /**
  * Returns the list of allowed HTML tags for a given tier.

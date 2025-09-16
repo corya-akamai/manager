@@ -1,4 +1,4 @@
-import { DEFAULT_ERROR_MESSAGE } from 'src/constants';
+import { DEFAULT_ERROR_MESSAGE } from '@linode/core/constants';
 
 import type { APIError } from '@linode/api-v4/lib/types';
 

@@ -1,6 +1,5 @@
+import { MAX_MONTHS_EOL_FILTER } from '@linode/core/constants';
 import { DateTime } from 'luxon';
-
-import { MAX_MONTHS_EOL_FILTER } from 'src/constants';
 
 import type { ImageSelectVariant } from './ImageSelect';
 import type { Image, RegionSite } from '@linode/api-v4';

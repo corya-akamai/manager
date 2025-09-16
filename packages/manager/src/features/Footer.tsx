@@ -1,4 +1,6 @@
-import { Sample } from '@linode/core';
+import * as constants from '@linode/core/constants';
+import { MAX_MONTHS_EOL_FILTER } from '@linode/core/constants';
+import { Sample } from '@linode/core/Sample';
 import { Stack, Typography } from '@linode/ui';
 import { styled } from '@mui/material/styles';
 import * as React from 'react';
@@ -78,7 +80,7 @@ export const Footer = React.memo(() => {
             variant="body1"
           >
             © {new Date().getFullYear()} Akamai Technologies, Inc. All Rights
-            Reserved
+            Reserved {constants.API_ROOT}, {MAX_MONTHS_EOL_FILTER}
           </Typography>
         </Stack>
       </Stack>

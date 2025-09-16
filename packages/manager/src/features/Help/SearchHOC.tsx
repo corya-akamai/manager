@@ -1,13 +1,12 @@
-import { truncate } from '@linode/utilities';
-import Algolia from 'algoliasearch';
-import * as React from 'react';
-
 import {
   ALGOLIA_APPLICATION_ID,
   ALGOLIA_SEARCH_KEY,
   COMMUNITY_BASE_URL,
   DOCS_BASE_URL,
-} from 'src/constants';
+} from '@linode/core/constants';
+import { truncate } from '@linode/utilities';
+import Algolia from 'algoliasearch';
+import * as React from 'react';
 
 import type { SearchClient } from 'algoliasearch';
 

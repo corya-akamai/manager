@@ -5,6 +5,7 @@ import '@fontsource/nunito-sans/400.css';
 import '@fontsource/nunito-sans/600.css';
 import '@fontsource/nunito-sans/700.css';
 import '@fontsource/nunito-sans/800.css';
+import { ENABLE_MAINTENANCE_MODE } from '@linode/core/constants';
 import {
   useMutatePreferences,
   usePreferences,
@@ -21,7 +22,6 @@ import { MainContentBanner } from 'src/components/MainContentBanner';
 import { MaintenanceScreen } from 'src/components/MaintenanceScreen';
 import { Snackbar } from 'src/components/Snackbar/Snackbar';
 import { SuspenseLoader } from 'src/components/SuspenseLoader';
-import { ENABLE_MAINTENANCE_MODE } from 'src/constants';
 import { complianceUpdateContext } from 'src/context/complianceUpdateContext';
 import { sessionExpirationContext } from 'src/context/sessionExpirationContext';
 import { switchAccountSessionContext } from 'src/context/switchAccountSessionContext';
