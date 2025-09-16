@@ -6,7 +6,10 @@ import * as React from 'react';
 import { useFlags } from 'src/hooks/useFlags';
 import { useGlobalErrors } from 'src/hooks/useGlobalErrors';
 
+import { useIsACLPEnabled } from './features/CloudPulse/Utils/utils';
+import { useIsDatabasesEnabled } from './features/Databases/utilities';
 import { ErrorBoundaryFallback } from './features/ErrorBoundary/ErrorBoundaryFallback';
+import { useIsPlacementGroupsEnabled } from './features/PlacementGroups/utils';
 import { router } from './routes';
 
 export const Router = () => {
@@ -14,9 +17,9 @@ export const Router = () => {
   const globalErrors = useGlobalErrors();
 
   const { data: accountSettings } = useAccountSettings();
-  // const { isDatabasesEnabled } = useIsDatabasesEnabled();
-  // const { isPlacementGroupsEnabled } = useIsPlacementGroupsEnabled();
-  // const { isACLPEnabled } = useIsACLPEnabled();
+  const { isDatabasesEnabled } = useIsDatabasesEnabled();
+  const { isPlacementGroupsEnabled } = useIsPlacementGroupsEnabled();
+  const { isACLPEnabled } = useIsACLPEnabled();
   const flags = useFlags();
 
   // Update the router's context
@@ -25,9 +28,9 @@ export const Router = () => {
       accountSettings,
       flags,
       globalErrors,
-      // isACLPEnabled,
-      // isDatabasesEnabled,
-      // isPlacementGroupsEnabled,
+      isACLPEnabled,
+      isDatabasesEnabled,
+      isPlacementGroupsEnabled,
       queryClient,
     },
   });
