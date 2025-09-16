@@ -1,3 +1,4 @@
+import { Sample } from '@linode/core';
 import { Stack, Typography } from '@linode/ui';
 import { styled } from '@mui/material/styles';
 import * as React from 'react';
@@ -69,6 +70,7 @@ export const Footer = React.memo(() => {
             '&&': { marginLeft: 0, marginTop: 0 },
           }}
         >
+          <Sample />
           <Typography
             sx={(theme) => ({
               color: theme.tokens.alias.Content.Text.Primary.Default,
