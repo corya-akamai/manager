@@ -6,6 +6,10 @@ export * from './cloudnat';
 
 export * from './cloudpulse';
 
+export * from './common';
+
+export * from './common/types';
+
 export * from './databases';
 
 export * from './delivery';
@@ -44,13 +48,6 @@ export * from './quotas';
 
 export * from './regions';
 
-export {
-  baseRequest,
-  convertYupToLinodeErrors,
-  isEmpty,
-  setToken,
-} from './request';
-
 export * from './service-transfers';
 
 export * from './stackscripts';
@@ -58,8 +55,6 @@ export * from './stackscripts';
 export * from './support';
 
 export * from './tags';
-
-export * from './types';
 
 export * from './vlans';
 

@@ -1,7 +1,12 @@
-import { BETA_API_ROOT } from '../constants';
-import Request, { setMethod, setParams, setURL, setXFilter } from '../request';
+import { BETA_API_ROOT } from '../common/constants';
+import Request, {
+  setMethod,
+  setParams,
+  setURL,
+  setXFilter,
+} from '../common/request';
 
-import type { Filter, Params, ResourcePage } from '../types';
+import type { Filter, Params, ResourcePage } from '../common/types';
 import type { AccountMaintenance, MaintenancePolicy } from './types';
 
 /**

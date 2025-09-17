@@ -5,16 +5,16 @@ import {
   UpgradeToLinodeInterfaceSchema,
 } from '@linode/validation';
 
-import { BETA_API_ROOT } from '../constants';
+import { BETA_API_ROOT } from '../common/constants';
 import Request, {
   setData,
   setMethod,
   setParams,
   setURL,
   setXFilter,
-} from '../request';
+} from '../common/request';
 
-import type { Filter, ResourcePage as Page, Params } from '../types';
+import type { Filter, ResourcePage as Page, Params } from '../common/types';
 import type {
   CreateLinodeInterfacePayload,
   LinodeInterface,

@@ -1,15 +1,15 @@
 import { longviewClientCreate } from '@linode/validation/lib/longview.schema';
 
-import { API_ROOT } from '../constants';
+import { API_ROOT } from '../common/constants';
 import Request, {
   setData,
   setMethod,
   setParams,
   setURL,
   setXFilter,
-} from '../request';
+} from '../common/request';
 
-import type { Filter, Params, ResourcePage } from '../types';
+import type { Filter, Params, ResourcePage } from '../common/types';
 import type {
   ActiveLongviewPlan,
   LongviewClient,

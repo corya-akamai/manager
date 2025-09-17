@@ -34,6 +34,10 @@
     "./lib/*": {
       "import": "./lib/index.js",
       "require": "./lib/index.cjs"
+    },
+    "./common": {
+      "import": "./lib/common/index.js",
+      "require": "./lib/common/index.cjs"
     }
   },
   "types": "./lib/index.d.ts",

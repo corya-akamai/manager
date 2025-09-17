@@ -1,11 +1,16 @@
-import { API_ROOT } from '../constants';
-import Request, { setMethod, setParams, setURL, setXFilter } from '../request';
+import { API_ROOT } from '../common/constants';
+import Request, {
+  setMethod,
+  setParams,
+  setURL,
+  setXFilter,
+} from '../common/request';
 
 import type {
   NetworkTransfer,
   RegionalNetworkUtilization,
 } from '../account/types';
-import type { Filter, ResourcePage as Page, Params } from '../types';
+import type { Filter, ResourcePage as Page, Params } from '../common/types';
 import type { Kernel, Stats, LinodeType as Type } from './types';
 
 /**

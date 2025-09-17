@@ -4,21 +4,21 @@ import {
   UploadCertificateSchema,
 } from '@linode/validation/lib/buckets.schema';
 
-import { API_ROOT } from '../constants';
+import { API_ROOT } from '../common/constants';
 import Request, {
   setData,
   setMethod,
   setParams,
   setURL,
   setXFilter,
-} from '../request';
+} from '../common/request';
 
 import type {
   Filter,
   ResourcePage as Page,
   Params,
   RequestOptions,
-} from '../types';
+} from '../common/types';
 import type {
   CreateObjectStorageBucketPayload,
   CreateObjectStorageBucketSSLPayload,

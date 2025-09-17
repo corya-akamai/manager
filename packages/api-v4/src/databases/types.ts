@@ -1,4 +1,4 @@
-import type { BaseType } from '../linodes/types';
+import type { BaseType } from '../common';
 
 export type DatabaseTypeClass = 'dedicated' | 'nanode' | 'premium' | 'standard';
 

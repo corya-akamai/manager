@@ -3,16 +3,16 @@ import {
   editAlertDefinitionSchema,
 } from '@linode/validation';
 
-import { BETA_API_ROOT as API_ROOT } from '../constants';
+import { BETA_API_ROOT as API_ROOT } from '../common/constants';
 import Request, {
   setData,
   setMethod,
   setParams,
   setURL,
   setXFilter,
-} from '../request';
+} from '../common/request';
 
-import type { Filter, Params, ResourcePage } from '../types';
+import type { Filter, Params, ResourcePage } from '../common/types';
 import type {
   Alert,
   CloudPulseAlertsPayload,
