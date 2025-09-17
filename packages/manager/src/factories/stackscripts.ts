@@ -4,7 +4,7 @@ import type {
   StackScript,
   UserDefinedField,
 } from '@linode/api-v4/lib/stackscripts/types';
-import type { OCA } from 'src/features/OneClickApps/types';
+import type { OCA } from '@linode/core/OneClickApps/types';
 
 export const stackScriptFactory = Factory.Sync.makeFactory<StackScript>({
   created: '2010-12-31T23:59:58',

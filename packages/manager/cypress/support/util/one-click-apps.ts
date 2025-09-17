@@ -1,6 +1,6 @@
+import { oneClickApps } from '@linode/core/OneClickApps/oneClickApps';
 import { randomItem } from 'support/util/random';
 
-import { oneClickApps } from 'src/features/OneClickApps/oneClickApps';
 /**
  * Returns the id of a randomly selected oneClickApp
  * @returns number

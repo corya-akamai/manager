@@ -1,11 +1,11 @@
+import { oneClickApps } from '@linode/core/OneClickApps/oneClickApps';
 import { useMarketplaceAppsQuery } from '@linode/queries';
 import { decode } from 'he';
 
-import { oneClickApps } from 'src/features/OneClickApps/oneClickApps';
 import { useFlags } from 'src/hooks/useFlags';
 
 import type { StackScript } from '@linode/api-v4';
-import type { AppCategory, OCA } from 'src/features/OneClickApps/types';
+import type { AppCategory, OCA } from '@linode/core/OneClickApps/types';
 
 /**
  * Get all categories from our marketplace apps list so
