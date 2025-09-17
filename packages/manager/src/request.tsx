@@ -4,13 +4,13 @@ import {
   API_ROOT,
   DEFAULT_ERROR_MESSAGE,
 } from '@linode/core/constants';
+import { setErrors } from '@linode/core/store/globalErrors';
 import { AxiosHeaders } from 'axios';
 
 import {
   clearAuthDataFromLocalStorage,
   redirectToLogin,
 } from 'src/OAuth/oauth';
-import { setErrors } from 'src/store/globalErrors/globalErrors.actions';
 import { getEnvLocalStorageOverrides, storage } from 'src/utilities/storage';
 
 import type { APIError, Profile } from '@linode/api-v4';

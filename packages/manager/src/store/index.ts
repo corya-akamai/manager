@@ -1,9 +1,9 @@
+import globalErrors, {
+  defaultState as defaultGlobalErrorState,
+} from '@linode/core/store/globalErrors';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
-import globalErrors, {
-  defaultState as defaultGlobalErrorState,
-} from 'src/store/globalErrors';
 import longview, {
   defaultState as defaultLongviewState,
 } from 'src/store/longview/longview.reducer';
@@ -20,8 +20,8 @@ import pendingUpload, {
 
 import type { MockFeatureFlagState } from './mockFeatureFlags';
 import type { State as PendingUploadState } from './pendingUpload';
+import type { State as GlobalErrorState } from '@linode/core/store/globalErrors';
 import type { Store } from 'redux';
-import type { State as GlobalErrorState } from 'src/store/globalErrors';
 import type { State as LongviewState } from 'src/store/longview/longview.reducer';
 import type { State as LongviewStatsState } from 'src/store/longviewStats/longviewStats.reducer';
 

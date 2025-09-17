@@ -18,7 +18,7 @@ export default defineConfig({
     react(),
     svgr({ exportAsDefault: true }),
     urlCanParsePolyfill(),
-    visualizer({ open: true }),
+    visualizer(/* { open: true } */),
   ],
   resolve: {
     alias: {
