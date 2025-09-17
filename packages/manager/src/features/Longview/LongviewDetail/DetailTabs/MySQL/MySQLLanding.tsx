@@ -11,8 +11,8 @@ import { StyledTypography } from '../CommonStyles.styles';
 import { useGraphs } from '../OverviewGraphs/useGraphs';
 import { MySQLGraphs } from './MySQLGraphs';
 
-import type { WithStartAndEnd } from '../../../request.types';
 import type { APIError } from '@linode/api-v4/lib/types';
+import type { WithStartAndEnd } from '@linode/api-v4/longview';
 
 interface Props {
   clientAPIKey?: string;

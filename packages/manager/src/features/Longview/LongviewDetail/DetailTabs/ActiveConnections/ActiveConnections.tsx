@@ -17,7 +17,7 @@ import { useOrderV2 } from 'src/hooks/useOrderV2';
 
 import { ConnectionRow } from './ConnectionRow';
 
-import type { LongviewPort } from 'src/features/Longview/request.types';
+import type { LongviewPort } from '@linode/api-v4/longview';
 
 export interface TableProps {
   connections: LongviewPort[];

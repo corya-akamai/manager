@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import { getLastUpdated } from '../request';
 
-import type { LongviewNotification } from '../request.types';
 import type { APIError } from '@linode/api-v4/lib/types';
+import type { LongviewNotification } from '@linode/api-v4/longview';
 
 export const useClientLastUpdated = (
   clientAPIKey?: string,

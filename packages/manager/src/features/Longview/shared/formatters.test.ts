@@ -1,6 +1,6 @@
 import { formatCPU, pathMaybeAddDataInThePast } from './formatters';
 
-import type { CPU } from '../request.types';
+import type { CPU } from '@linode/api-v4/longview';
 
 describe('formatCPU', () => {
   it('should round values >= 1 to the nearest whole number', () => {

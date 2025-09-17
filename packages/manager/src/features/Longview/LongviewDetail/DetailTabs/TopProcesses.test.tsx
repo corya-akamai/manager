@@ -6,7 +6,7 @@ import { renderWithTheme } from 'src/utilities/testHelpers';
 import { extendTopProcesses, TopProcesses } from './TopProcesses';
 
 import type { Props } from './TopProcesses';
-import type { LongviewTopProcesses } from 'src/features/Longview/request.types';
+import type { LongviewTopProcesses } from '@linode/api-v4/longview';
 
 const props: Props = {
   clientID: 1,

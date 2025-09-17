@@ -12,8 +12,8 @@ import {
 } from '../../shared/utilities';
 import { baseGaugeProps } from './common';
 
-import type { LongviewNetwork } from '../../request.types';
 import type { BaseProps as Props } from './common';
+import type { LongviewNetwork } from '@linode/api-v4/longview';
 import type { Props as LVDataProps } from 'src/containers/longview.stats.container';
 
 interface NetworkProps extends Props, LVDataProps {}

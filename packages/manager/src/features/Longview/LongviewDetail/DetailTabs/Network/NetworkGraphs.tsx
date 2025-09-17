@@ -17,7 +17,7 @@ import GraphCard from '../../GraphCard';
 import type {
   InboundOutboundNetwork,
   LongviewNetworkInterface,
-} from '../../../request.types';
+} from '@linode/api-v4/longview';
 
 interface Props {
   end: number;

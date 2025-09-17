@@ -2,15 +2,15 @@ import { pluralize, readableBytes } from '@linode/utilities';
 
 import type {
   CPU,
-  Disk,
   InboundOutboundNetwork,
+  LongviewDisk,
   LongviewNetwork,
   LongviewPackage,
   LongviewProcesses,
   ProcessStats,
   Stat,
   StatWithDummyPoint,
-} from '../request.types';
+} from '@linode/api-v4/longview';
 import type { Props as LVDataProps } from 'src/containers/longview.stats.container';
 
 interface Storage {
@@ -41,7 +41,9 @@ export const getTotalMemoryUsage = (used: number, free: number) => {
   });
 };
 
-export const sumStorage = (DiskData: Record<string, Disk> = {}): Storage => {
+export const sumStorage = (
+  DiskData: Record<string, LongviewDisk> = {}
+): Storage => {
   let free = 0;
   let total = 0;
   Object.keys(DiskData).forEach((key) => {

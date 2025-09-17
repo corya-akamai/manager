@@ -2,7 +2,6 @@ import { Factory } from '@linode/utilities';
 
 import type {
   CPU,
-  Disk,
   InboundOutboundNetwork,
   LongviewCPU,
   LongviewDisk,
@@ -12,7 +11,7 @@ import type {
   LongviewNetworkInterface,
   LongviewSystemInfo,
   Uptime,
-} from 'src/features/Longview/request.types';
+} from '@linode/api-v4/longview';
 
 const mockStats = [
   { x: 1717770900, y: 0 },
@@ -34,7 +33,7 @@ const mockStats = [
   { x: 1717770900, y: 365385.893333333 },
 ];
 
-export const diskFactory = Factory.Sync.makeFactory<Disk>({
+export const diskFactory = Factory.Sync.makeFactory<LongviewDisk>({
   childof: 0,
   children: 0,
   dm: 0,
@@ -64,6 +63,11 @@ export const longviewDiskFactory = Factory.Sync.makeFactory<LongviewDisk>({
     '/dev/sda': diskFactory.build(),
     '/dev/sdb': diskFactory.build({ isswap: 1 }),
   },
+  childof: 0,
+  children: 0,
+  dm: 0,
+  isswap: 0,
+  mounted: 0,
 });
 
 export const longviewCPUFactory = Factory.Sync.makeFactory<LongviewCPU>({

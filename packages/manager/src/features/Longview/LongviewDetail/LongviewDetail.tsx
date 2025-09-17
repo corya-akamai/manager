@@ -24,14 +24,14 @@ import { StyledTabs } from './LongviewDetail.styles';
 
 import type { LongviewClient } from '@linode/api-v4/lib/longview';
 import type {
+  LongviewPortsResponse,
+  LongviewTopProcesses,
+} from '@linode/api-v4/longview';
+import type {
   DispatchProps,
   Props as LVProps,
 } from 'src/containers/longview.container';
 import type { Props as LVDataProps } from 'src/containers/longview.stats.container';
-import type {
-  LongviewPortsResponse,
-  LongviewTopProcesses,
-} from 'src/features/Longview/request.types';
 
 const topProcessesEmptyDataSet: LongviewTopProcesses = { Processes: {} };
 

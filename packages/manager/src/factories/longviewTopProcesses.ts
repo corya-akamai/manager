@@ -1,9 +1,6 @@
 import { Factory } from '@linode/utilities';
 
-import type {
-  LongviewTopProcesses,
-  TopProcess,
-} from 'src/features/Longview/request.types';
+import type { LongviewTopProcesses, TopProcess } from '@linode/api-v4/longview';
 
 export const topProcessFactory = Factory.Sync.makeFactory<TopProcess>({
   root: {

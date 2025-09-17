@@ -5,7 +5,7 @@ import * as React from 'react';
 import { TableCell } from 'src/components/TableCell';
 import { TableRow } from 'src/components/TableRow';
 
-import type { LongviewPackage } from './request.types';
+import type { LongviewPackage } from '@linode/api-v4/longview';
 
 interface Props {
   lvPackage: LongviewPackage;

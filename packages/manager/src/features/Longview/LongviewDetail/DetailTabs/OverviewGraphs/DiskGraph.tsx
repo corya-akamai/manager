@@ -7,8 +7,8 @@ import { appendStats } from 'src/features/Longview/shared/utilities';
 import { convertData } from '../../../shared/formatters';
 import { useGraphs } from './useGraphs';
 
-import type { Disk, StatWithDummyPoint } from '../../../request.types';
 import type { GraphProps } from './types';
+import type { LongviewDisk, StatWithDummyPoint } from '@linode/api-v4/longview';
 
 export const DiskGraph = (props: GraphProps) => {
   const {
@@ -108,7 +108,7 @@ export const emptyState: DiskData = {
  * (`read` and `write`)
  */
 export const processDiskData = (
-  d: Record<string, Disk>,
+  d: Record<string, LongviewDisk>,
   type: string
 ): DiskData => {
   // God alone knows what LV will return, so better check to be safe.
@@ -137,7 +137,7 @@ export const processDiskData = (
   // We have real data now; sum up however many disks there are,
   // separating out swap.
   return disks.reduce(
-    (acc: DiskData, thisDisk: Disk) => {
+    (acc: DiskData, thisDisk: LongviewDisk) => {
       if (thisDisk.isswap === 1) {
         // For swap, Classic combines reads and writes into a single metric
         // Note: we are assuming only one disk will have isswap === 1

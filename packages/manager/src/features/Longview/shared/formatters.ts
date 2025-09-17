@@ -1,4 +1,4 @@
-import type { CPU, StatWithDummyPoint } from '../request.types';
+import type { CPU, StatWithDummyPoint } from '@linode/api-v4/longview';
 
 // This formatting is from Classic
 export const formatCPU = (n: number) => {

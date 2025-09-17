@@ -8,7 +8,7 @@ import { convertData } from '../../../shared/formatters';
 import { StyledRootPaper, StyledSmallGraphGrid } from '../CommonStyles.styles';
 import { ProcessGraphs } from '../ProcessGraphs';
 
-import type { LongviewProcesses, NginxResponse } from '../../../request.types';
+import type { LongviewProcesses, NginxResponse } from '@linode/api-v4/longview';
 
 interface Props {
   data?: NginxResponse;

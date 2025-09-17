@@ -4,7 +4,7 @@ import { MaskableText } from 'src/components/MaskableText/MaskableText';
 import { TableCell } from 'src/components/TableCell';
 import { TableRow } from 'src/components/TableRow';
 
-import type { LongviewService } from 'src/features/Longview/request.types';
+import type { LongviewService } from '@linode/api-v4/longview';
 
 interface Props {
   service: LongviewService;

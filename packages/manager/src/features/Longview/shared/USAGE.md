@@ -28,7 +28,7 @@ Here's an example:
 import * as React from 'react';
 import { TimeRangeSelect } from '../../shared/TimeRangeSelect';
 import { get } from '../../request';
-import { LongviewCPU } from '../../request.types';
+import { LongviewCPU } from '@linode/api-v4/longview';
 
 interface Props {
   clientAPIKey: string;

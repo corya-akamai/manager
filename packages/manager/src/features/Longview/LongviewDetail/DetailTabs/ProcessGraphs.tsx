@@ -12,7 +12,7 @@ import {
 } from '../../shared/utilities';
 import { StyledSmallGraphGrid } from './CommonStyles.styles';
 
-import type { LongviewProcesses } from '../../request.types';
+import type { LongviewProcesses } from '@linode/api-v4/longview';
 
 interface Props {
   data: LongviewProcesses;

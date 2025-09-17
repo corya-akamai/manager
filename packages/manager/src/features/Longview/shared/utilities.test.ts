@@ -16,7 +16,7 @@ import type {
   InboundOutboundNetwork,
   LongviewNetwork,
   Stat,
-} from '../request.types';
+} from '@linode/api-v4/longview';
 
 const generateStats = (yValues: number[]): Stat[] => {
   return yValues.map((n) => ({ x: 0, y: n }));

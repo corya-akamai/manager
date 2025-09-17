@@ -12,7 +12,7 @@ import { convertData } from '../../../shared/formatters';
 import { StyledRootPaper, StyledSmallGraphGrid } from '../CommonStyles.styles';
 import { ProcessGraphs } from '../ProcessGraphs';
 
-import type { LongviewProcesses, MySQLResponse } from '../../../request.types';
+import type { LongviewProcesses, MySQLResponse } from '@linode/api-v4/longview';
 
 interface Props {
   data?: MySQLResponse;

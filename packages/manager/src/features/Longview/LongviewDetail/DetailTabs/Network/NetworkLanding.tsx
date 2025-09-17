@@ -9,11 +9,11 @@ import { StyledBox } from '../Disks/Disks.styles';
 import { useGraphs } from '../OverviewGraphs/useGraphs';
 import { NetworkGraphs } from './NetworkGraphs';
 
+import type { APIError } from '@linode/api-v4';
 import type {
   LongviewNetworkInterface,
   WithStartAndEnd,
-} from '../../../request.types';
-import type { APIError } from '@linode/api-v4';
+} from '@linode/api-v4/longview';
 
 interface Props {
   clientAPIKey: string;

@@ -1,9 +1,6 @@
 import { Factory } from '@linode/utilities';
 
-import type {
-  LongviewProcesses,
-  ProcessStats,
-} from 'src/features/Longview/request.types';
+import type { LongviewProcesses, ProcessStats } from '@linode/api-v4/longview';
 
 const mockStats = [
   { x: 0, y: 1 },

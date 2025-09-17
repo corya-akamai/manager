@@ -1,10 +1,10 @@
 import { sumStorage } from '../../shared/utilities';
 
-import type { Disk } from '../../request.types';
+import type { LongviewDisk } from '@linode/api-v4/longview';
 
 describe('Storage Gauge', () => {
   describe('sumStorage', () => {
-    const storageData: Record<string, Disk> = {
+    const storageData: Record<string, LongviewDisk> = {
       '/dev/sda': {
         childof: 0,
         children: 0,

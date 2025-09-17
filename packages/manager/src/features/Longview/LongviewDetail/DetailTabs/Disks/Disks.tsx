@@ -8,8 +8,8 @@ import { useGraphs } from '../OverviewGraphs/useGraphs';
 import { DiskGraph } from './DiskGraph';
 import { StyledBox, StyledTimeRangeSelect } from './Disks.styles';
 
-import type { WithStartAndEnd } from '../../../request.types';
 import type { APIError } from '@linode/api-v4/lib/types';
+import type { WithStartAndEnd } from '@linode/api-v4/longview';
 
 interface Props {
   clientAPIKey: string;

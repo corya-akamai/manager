@@ -3,11 +3,12 @@ import { apiMatcher } from 'support/util/intercepts';
 import { paginateResponse } from 'support/util/paginate';
 import { makeResponse } from 'support/util/response';
 
-import type { ActiveLongviewPlan, LongviewClient } from '@linode/api-v4';
 import type {
+  ActiveLongviewPlan,
   LongviewAction,
+  LongviewClient,
   LongviewResponse,
-} from 'src/features/Longview/request.types';
+} from '@linode/api-v4/longview';
 
 /**
  * Intercepts request to retrieve Longview status for a Longview client.

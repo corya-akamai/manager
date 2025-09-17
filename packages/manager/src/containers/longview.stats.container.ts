@@ -5,7 +5,7 @@ import { getClientStats } from 'src/store/longviewStats/longviewStats.requests';
 import type {
   LongviewNotification,
   LongviewResponse,
-} from 'src/features/Longview/request.types';
+} from '@linode/api-v4/longview';
 import type { ApplicationState } from 'src/store';
 import type { ThunkDispatch } from 'src/store/types';
 

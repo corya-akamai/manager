@@ -18,7 +18,7 @@ import type { APIError } from '@linode/api-v4/lib/types';
 import type {
   LongviewProcesses,
   WithStartAndEnd,
-} from 'src/features/Longview/request.types';
+} from '@linode/api-v4/longview';
 
 interface Props {
   clientAPIKey?: string;

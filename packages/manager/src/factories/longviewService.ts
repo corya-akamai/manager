@@ -4,7 +4,7 @@ import type {
   LongviewPort,
   LongviewPortsResponse,
   LongviewService,
-} from 'src/features/Longview/request.types';
+} from '@linode/api-v4/longview';
 
 export const longviewPortFactory = Factory.Sync.makeFactory<LongviewPort>({
   count: Factory.each((i) => i),

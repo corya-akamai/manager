@@ -14,7 +14,7 @@ import type { Process } from './types';
 import type {
   LongviewProcesses,
   WithStartAndEnd,
-} from 'src/features/Longview/request.types';
+} from '@linode/api-v4/longview';
 
 interface Props {
   clientAPIKey: string;

@@ -12,8 +12,8 @@ import { LoadGraph } from './LoadGraph';
 import { MemoryGraph } from './MemoryGraph';
 import { NetworkGraph } from './NetworkGraph';
 
-import type { WithStartAndEnd } from '../../../request.types';
 import type { GraphProps } from './types';
+import type { WithStartAndEnd } from '@linode/api-v4/longview';
 
 interface Props {
   clientAPIKey: string;

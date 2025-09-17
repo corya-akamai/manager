@@ -34,12 +34,12 @@ import type {
   ServiceTypesList,
   TimeDuration,
 } from '@linode/api-v4';
-import type { AclpServices } from '@linode/core/featureFlags';
-import type { UseQueryResult } from '@tanstack/react-query';
 import type {
   StatWithDummyPoint,
   WithStartAndEnd,
-} from 'src/features/Longview/request.types';
+} from '@linode/api-v4/longview';
+import type { AclpServices } from '@linode/core/featureFlags';
+import type { UseQueryResult } from '@tanstack/react-query';
 
 interface AclpSupportedRegionProps {
   /**

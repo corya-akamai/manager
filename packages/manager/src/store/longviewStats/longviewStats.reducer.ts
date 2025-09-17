@@ -6,7 +6,7 @@ import type { RelationalDataSet } from '../types';
 import type {
   LongviewNotification,
   LongviewResponse,
-} from 'src/features/Longview/request.types';
+} from '@linode/api-v4/longview';
 
 export type State = RelationalDataSet<
   LongviewResponse['DATA'],

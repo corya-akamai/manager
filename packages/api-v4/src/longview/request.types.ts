@@ -27,7 +27,7 @@ interface FS<WithDummy extends '' | 'yAsNull' = ''> {
   total: WithDummy extends 'yAsNull' ? StatWithDummyPoint[] : Stat[];
 }
 
-export interface Disk<WithDummy extends '' | 'yAsNull' = ''> {
+export interface LongviewDisk<WithDummy extends '' | 'yAsNull' = ''> {
   childof: number;
   children: number;
   dm: number;
@@ -51,7 +51,7 @@ export interface Disk<WithDummy extends '' | 'yAsNull' = ''> {
 
 */
 export interface LongviewDisk<WithDummy extends '' | 'yAsNull' = ''> {
-  Disk: Record<string, Disk<WithDummy>>;
+  Disk?: Record<string, LongviewDisk<WithDummy>>;
 }
 
 interface RealMemory<WithDummy extends '' | 'yAsNull' = ''> {
@@ -227,12 +227,12 @@ export interface Get {
   (
     token: string,
     action: 'getLatestValue' | 'getValues' | 'lastUpdated',
-    options?: Options
+    options?: Options,
   ): Promise<LongviewResponse>;
   (
     token: string,
     action: 'getTopProcesses',
-    options?: Options
+    options?: Options,
   ): Promise<LongviewResponse<LongviewTopProcesses>>;
 }
 

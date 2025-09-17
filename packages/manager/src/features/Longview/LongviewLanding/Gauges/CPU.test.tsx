@@ -1,6 +1,6 @@
 import { normalizeValue, sumCPUUsage } from './CPU';
 
-import type { CPU } from '../../request.types';
+import type { CPU } from '@linode/api-v4/longview';
 
 describe('CPU Gauge', () => {
   describe('sumCPUUSage', () => {

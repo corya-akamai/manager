@@ -12,7 +12,7 @@ import withLongviewStats from 'src/containers/longview.stats.container';
 
 import { LongviewPackageRow } from './LongviewPackageRow';
 
-import type { LongviewPackage } from './request.types';
+import type { LongviewPackage } from '@linode/api-v4/longview';
 import type {
   DispatchProps,
   LVClientData,

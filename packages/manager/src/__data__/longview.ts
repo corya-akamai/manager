@@ -1,10 +1,10 @@
-import type { LongviewClient } from '@linode/api-v4/lib/longview';
 import type {
+  LongviewClient,
   LongviewLoad,
   LongviewMemory,
   LongviewNetwork,
   LongviewSystemInfo,
-} from 'src/features/Longview/request.types';
+} from '@linode/api-v4/lib/longview';
 
 export const longviewLoad: LongviewLoad = {
   Load: [

@@ -21,7 +21,7 @@ import type { APIError } from '@linode/api-v4/lib/types';
 import type {
   LongviewTopProcesses,
   TopProcessStat,
-} from 'src/features/Longview/request.types';
+} from '@linode/api-v4/longview';
 
 export interface Props {
   clientID: number;

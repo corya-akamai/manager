@@ -14,7 +14,7 @@ import type {
   AllData,
   LongviewPackage,
   LongviewResponse,
-} from 'src/features/Longview/request.types';
+} from '@linode/api-v4/longview';
 
 const longviewResponseData = () => {
   const diskData = longviewDiskFactory.build();

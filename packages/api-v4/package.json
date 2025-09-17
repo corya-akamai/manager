@@ -34,6 +34,10 @@
     "./lib/*": {
       "import": "./lib/index.js",
       "require": "./lib/index.cjs"
+    },
+    "./longview": {
+      "import": "./lib/longview/index.js",
+      "require": "./lib/longview/index.cjs"
     }
   },
   "types": "./lib/index.d.ts",

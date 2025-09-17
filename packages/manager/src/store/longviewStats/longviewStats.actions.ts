@@ -3,7 +3,7 @@ import actionCreatorFactory from 'typescript-fsa';
 import type {
   LongviewNotification,
   LongviewResponse,
-} from 'src/features/Longview/request.types';
+} from '@linode/api-v4/longview';
 
 export const actionCreator = actionCreatorFactory(`@@manager/longview/stats`);
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { getValues } from '../../../request';
 
-import type { AllData, LongviewFieldName } from '../../../request.types';
+import type { AllData, LongviewFieldName } from '@linode/api-v4/longview';
 
 export const useGraphs = (
   requestFields: LongviewFieldName[],

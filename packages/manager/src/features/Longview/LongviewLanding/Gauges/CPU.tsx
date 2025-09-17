@@ -8,8 +8,8 @@ import withClientStats from 'src/containers/longview.stats.container';
 
 import { baseGaugeProps } from './common';
 
-import type { CPU } from '../../request.types';
 import type { BaseProps as Props } from './common';
+import type { CPU } from '@linode/api-v4/longview';
 import type { Props as LVDataProps } from 'src/containers/longview.stats.container';
 
 interface GetFinalUsedCPUProps extends Props, LVDataProps {}

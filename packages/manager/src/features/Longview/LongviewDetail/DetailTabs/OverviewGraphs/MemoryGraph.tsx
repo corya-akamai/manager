@@ -8,8 +8,8 @@ import { convertData, formatMemory } from '../../../shared/formatters';
 import { generateUsedMemory, getMaxUnit } from '../../../shared/utilities';
 import { useGraphs } from './useGraphs';
 
-import type { Stat } from '../../../request.types';
 import type { GraphProps } from './types';
+import type { Stat } from '@linode/api-v4/longview';
 
 export const MemoryGraph = (props: GraphProps) => {
   const {

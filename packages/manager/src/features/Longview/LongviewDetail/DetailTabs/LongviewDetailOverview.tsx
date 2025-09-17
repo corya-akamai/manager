@@ -13,11 +13,11 @@ import { OverviewGraphs } from './OverviewGraphs/OverviewGraphs';
 import { TopProcesses } from './TopProcesses';
 
 import type { APIError } from '@linode/api-v4/lib/types';
-import type { Props as LVDataProps } from 'src/containers/longview.stats.container';
 import type {
   LongviewPortsResponse,
   LongviewTopProcesses,
-} from 'src/features/Longview/request.types';
+} from '@linode/api-v4/longview';
+import type { Props as LVDataProps } from 'src/containers/longview.stats.container';
 
 interface Props {
   client: string;

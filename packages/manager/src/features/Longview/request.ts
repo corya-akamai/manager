@@ -8,7 +8,7 @@ import type {
   LongviewNotification,
   LongviewResponse,
   Options,
-} from './request.types';
+} from '@linode/api-v4/longview';
 import type { AxiosResponse } from 'axios';
 
 /**

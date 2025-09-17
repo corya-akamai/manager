@@ -9,7 +9,7 @@ import { convertData } from '../../../shared/formatters';
 import GraphCard from '../../GraphCard';
 import { StyledDiv } from './Graphs.styles';
 
-import type { Stat, StatWithDummyPoint } from '../../../request.types';
+import type { Stat, StatWithDummyPoint } from '@linode/api-v4/longview';
 
 export interface GraphProps {
   childOf: boolean;

@@ -3,7 +3,7 @@ import { get } from 'src/features/Longview/request';
 import { createRequestThunk } from '../store.helpers';
 import { requestClientStats } from './longviewStats.actions';
 
-import type { LongviewPackage } from 'src/features/Longview/request.types';
+import type { LongviewPackage } from '@linode/api-v4/longview';
 
 export const getClientStats = createRequestThunk(
   requestClientStats,

@@ -16,7 +16,7 @@ import { useOrderV2 } from 'src/hooks/useOrderV2';
 
 import { LongviewServiceRow } from './LongviewServiceRow';
 
-import type { LongviewService } from 'src/features/Longview/request.types';
+import type { LongviewService } from '@linode/api-v4/longview';
 
 export interface TableProps {
   services: LongviewService[];

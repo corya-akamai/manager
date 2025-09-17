@@ -2,14 +2,14 @@ import * as React from 'react';
 
 import { Graphs } from './Graphs';
 
-import type { Disk } from '../../../request.types';
+import type { LongviewDisk } from '@linode/api-v4/longview';
 
 interface Props {
   diskLabel: string;
   endTime: number;
   loading: boolean;
   startTime: number;
-  stats: Partial<Disk>;
+  stats: Partial<LongviewDisk>;
   sysInfoType: string;
   timezone: string;
 }
