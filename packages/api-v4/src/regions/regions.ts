@@ -1,9 +1,14 @@
-import { BETA_API_ROOT } from '../constants';
-import Request, { setMethod, setParams, setURL, setXFilter } from '../request';
-import { Region } from './types';
+import { BETA_API_ROOT } from '../common/constants';
+import { Region } from '../common/region.types';
+import Request, {
+  setMethod,
+  setParams,
+  setURL,
+  setXFilter,
+} from '../common/request';
 
-import type { Filter, ResourcePage as Page, Params } from '../types';
-import type { RegionAvailability } from './types';
+import type { RegionAvailability } from '../common/region.types';
+import type { Filter, ResourcePage as Page, Params } from '../common/types';
 
 /**
  * getRegions

@@ -1,5 +1,5 @@
-import { API_ROOT } from '../constants';
-import Request, { setMethod, setURL } from '../request';
+import { API_ROOT } from '../common/constants';
+import Request, { setMethod, setURL } from '../common/request';
 
 /**
  * cancelObjectStorage

@@ -1,7 +1,12 @@
-import { API_ROOT } from '../constants';
-import Request, { setMethod, setParams, setURL, setXFilter } from '../request';
+import { API_ROOT } from '../common/constants';
+import Request, {
+  setMethod,
+  setParams,
+  setURL,
+  setXFilter,
+} from '../common/request';
 
-import type { Filter, Params, ResourcePage } from '../types';
+import type { Filter, Params, ResourcePage } from '../common/types';
 import type { Invoice, InvoiceItem } from './types';
 
 /**

@@ -35,6 +35,10 @@
       "import": "./lib/index.js",
       "require": "./lib/index.cjs"
     },
+    "./common": {
+      "import": "./lib/common/index.js",
+      "require": "./lib/common/index.cjs"
+    },
     "./longview": {
       "import": "./lib/longview/index.js",
       "require": "./lib/longview/index.cjs"

@@ -3,7 +3,7 @@ import {
   UpdateAccountSettingsSchema,
 } from '@linode/validation/lib/account.schema';
 
-import { API_ROOT, BETA_API_ROOT } from '../constants';
+import { API_ROOT, BETA_API_ROOT } from '../common/constants';
 import Request, {
   setData,
   setHeaders,
@@ -11,10 +11,15 @@ import Request, {
   setParams,
   setURL,
   setXFilter,
-} from '../request';
+} from '../common/request';
 
+import type {
+  Filter,
+  Params,
+  RequestOptions,
+  ResourcePage,
+} from '../common/types';
 import type { Token } from '../profile';
-import type { Filter, Params, RequestOptions, ResourcePage } from '../types';
 import type {
   Account,
   AccountAvailability,

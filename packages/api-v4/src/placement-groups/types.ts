@@ -1,4 +1,4 @@
-import type { Region } from '../regions/types';
+import type { Region } from '../common';
 
 export const PLACEMENT_GROUP_TYPES = {
   'affinity:local': 'Affinity',

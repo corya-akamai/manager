@@ -5,7 +5,7 @@ import {
 } from '@linode/validation/lib/profile.schema';
 import { updateProfileSchema } from '@linode/validation/lib/profile.schema';
 
-import { API_ROOT } from '../constants';
+import { API_ROOT } from '../common/constants';
 import Request, {
   setData,
   setHeaders,
@@ -13,11 +13,11 @@ import Request, {
   setParams,
   setURL,
   setXFilter,
-} from '../request';
+} from '../common/request';
 
 import type { Grants } from '../account';
-import type { Filter, Params, ResourcePage } from '../types';
-import type { RequestOptions } from '../types';
+import type { Filter, Params, ResourcePage } from '../common/types';
+import type { RequestOptions } from '../common/types';
 import type {
   Profile,
   ProfileLogin,

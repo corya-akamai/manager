@@ -1,4 +1,4 @@
-import type { PriceObject, RegionPriceObject } from './linodes/types';
+import type { Region } from './region.types';
 
 export interface APIError {
   field?: string;
@@ -125,4 +125,13 @@ export interface PriceType {
   price: PriceObject;
   region_prices: RegionPriceObject[];
   transfer: number;
+}
+
+export interface PriceObject {
+  hourly: null | number;
+  monthly: null | number;
+}
+
+export interface RegionPriceObject extends PriceObject {
+  id: Region['id'];
 }

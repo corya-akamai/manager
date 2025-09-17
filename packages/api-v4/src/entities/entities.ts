@@ -1,8 +1,8 @@
-import { BETA_API_ROOT } from '../constants';
-import Request, { setMethod, setParams, setURL } from '../request';
+import { BETA_API_ROOT } from '../common/constants';
+import Request, { setMethod, setParams, setURL } from '../common/request';
 
 import type { AccountEntity } from './types';
-import type { Params, ResourcePage } from 'src/types';
+import type { Params, ResourcePage } from 'src/common/types';
 
 /**
  * getAccountEntities

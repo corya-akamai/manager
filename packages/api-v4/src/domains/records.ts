@@ -3,10 +3,15 @@ import {
   updateRecordSchema,
 } from '@linode/validation/lib/records.schema';
 
-import { API_ROOT } from '../constants';
-import Request, { setData, setMethod, setParams, setURL } from '../request';
+import { API_ROOT } from '../common/constants';
+import Request, {
+  setData,
+  setMethod,
+  setParams,
+  setURL,
+} from '../common/request';
 
-import type { ResourcePage as Page, Params } from '../types';
+import type { ResourcePage as Page, Params } from '../common/types';
 import type { DomainRecord } from './types';
 
 /**

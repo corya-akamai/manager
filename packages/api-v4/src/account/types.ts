@@ -1,5 +1,4 @@
-import type { Capabilities, Region } from '../regions';
-import type { APIWarning, RequestOptions } from '../types';
+import { APIWarning, Capabilities, Region, RequestOptions } from '../common';
 
 export type UserType = 'child' | 'default' | 'parent' | 'proxy';
 

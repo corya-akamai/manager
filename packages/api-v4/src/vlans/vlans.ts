@@ -1,7 +1,12 @@
-import { BETA_API_ROOT as API_ROOT } from '../constants';
-import Request, { setMethod, setParams, setURL, setXFilter } from '../request';
+import { BETA_API_ROOT as API_ROOT } from '../common/constants';
+import Request, {
+  setMethod,
+  setParams,
+  setURL,
+  setXFilter,
+} from '../common/request';
 
-import type { Filter, ResourcePage as Page, Params } from '../types';
+import type { Filter, ResourcePage as Page, Params } from '../common/types';
 import type { VLAN } from './types';
 
 /**

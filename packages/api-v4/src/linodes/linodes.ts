@@ -3,22 +3,22 @@ import {
   UpdateLinodeSchema,
 } from '@linode/validation/lib/linodes.schema';
 
-import { API_ROOT, BETA_API_ROOT } from '../constants';
+import { API_ROOT, BETA_API_ROOT } from '../common/constants';
 import Request, {
   setData,
   setMethod,
   setParams,
   setURL,
   setXFilter,
-} from '../request';
+} from '../common/request';
 
-import type { Firewall } from '../firewalls/types';
 import type {
   DeepPartial,
   Filter,
   ResourcePage as Page,
   Params,
-} from '../types';
+} from '../common/types';
+import type { Firewall } from '../firewalls/types';
 import type { Volume } from '../volumes/types';
 import type { CreateLinodeRequest, Linode, LinodeLishData } from './types';
 

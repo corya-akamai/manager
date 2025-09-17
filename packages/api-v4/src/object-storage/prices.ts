@@ -1,7 +1,7 @@
-import { API_ROOT } from '../constants';
-import Request, { setMethod, setParams, setURL } from '../request';
+import { API_ROOT } from '../common/constants';
+import Request, { setMethod, setParams, setURL } from '../common/request';
 
-import type { Params, PriceType, ResourcePage } from 'src/types';
+import type { Params, PriceType, ResourcePage } from 'src/common/types';
 
 /**
  * getObjectStorageTypes

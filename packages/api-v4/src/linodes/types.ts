@@ -1,8 +1,9 @@
 import type { MaintenancePolicySlug } from '../account/types';
 import type { CloudPulseAlertsPayload } from '../cloudpulse/types';
+import type { RegionSite } from '../common';
+import type { PriceObject, RegionPriceObject } from '../common/types';
 import type { IPAddress, IPRange } from '../networking/types';
 import type { LinodePlacementGroupPayload } from '../placement-groups/types';
-import type { Region, RegionSite } from '../regions';
 import type {
   CreateLinodeInterfaceSchema,
   ModifyLinodeInterfaceSchema,
@@ -528,15 +529,6 @@ export interface LinodeConfigCreationData {
   root_device: string;
   run_level?: 'binbash' | 'default' | 'single';
   virt_mode?: 'fullvirt' | 'paravirt';
-}
-
-export interface PriceObject {
-  hourly: null | number;
-  monthly: null | number;
-}
-
-export interface RegionPriceObject extends PriceObject {
-  id: Region['id'];
 }
 
 export interface BaseType {
