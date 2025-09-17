@@ -7,8 +7,8 @@ import { DismissibleBanner } from 'src/components/DismissibleBanner/DismissibleB
 import { Link } from 'src/components/Link';
 import { sanitizeHTML } from 'src/utilities/sanitizeHTML';
 
+import type { SuppliedMaintenanceData } from '@linode/core/featureFlags';
 import type { Maintenance } from '@linode/queries';
-import type { SuppliedMaintenanceData } from 'src/featureFlags';
 
 interface Props {
   suppliedMaintenances: SuppliedMaintenanceData[] | undefined;

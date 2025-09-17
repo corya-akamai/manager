@@ -1,6 +1,6 @@
 import { Factory } from '@linode/utilities';
 
-import type { PromotionalOffer } from 'src/featureFlags';
+import type { PromotionalOffer } from '@linode/core/featureFlags';
 
 export const promotionalOfferFactory =
   Factory.Sync.makeFactory<PromotionalOffer>({

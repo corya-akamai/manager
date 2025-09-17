@@ -1,6 +1,9 @@
 import { Factory } from '@linode/utilities';
 
-import type { Flags, ProductInformationBannerFlag } from 'src/featureFlags';
+import type {
+  Flags,
+  ProductInformationBannerFlag,
+} from '@linode/core/featureFlags';
 
 export const productInformationBannerFactory =
   Factory.Sync.makeFactory<ProductInformationBannerFlag>({

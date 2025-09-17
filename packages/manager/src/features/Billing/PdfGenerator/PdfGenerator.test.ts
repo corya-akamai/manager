@@ -17,7 +17,7 @@ import { printInvoice, printPayment } from './PdfGenerator';
 import { dateConversion, getRemitAddress, getTaxSummaryBody } from './utils';
 
 import type { Account, Invoice } from '@linode/api-v4/lib/account/types';
-import type { FlagSet, TaxDetail } from 'src/featureFlags';
+import type { FlagSet, TaxDetail } from '@linode/core/featureFlags';
 
 type Taxes = FlagSet['taxBanner'] | FlagSet['taxes'];
 type CountryTax = TaxDetail | undefined;

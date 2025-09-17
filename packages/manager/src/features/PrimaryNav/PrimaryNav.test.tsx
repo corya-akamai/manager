@@ -8,8 +8,8 @@ import { renderWithTheme, wrapWithTheme } from 'src/utilities/testHelpers';
 
 import PrimaryNav from './PrimaryNav';
 
+import type { Flags } from '@linode/core/featureFlags';
 import type { ManagerPreferences } from '@linode/utilities';
-import type { Flags } from 'src/featureFlags';
 
 const props = {
   closeMenu: vi.fn(),

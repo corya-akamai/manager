@@ -8,8 +8,8 @@ import { queryOptions } from '@tanstack/react-query';
 
 import { useFlags } from 'src/hooks/useFlags';
 
+import type { FlagSet } from '@linode/core/featureFlags';
 import type { QueryClient } from '@tanstack/react-query';
-import type { FlagSet } from 'src/featureFlags';
 
 /**
  * Hook to determine if the IAM feature is enabled for the current user.

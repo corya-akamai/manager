@@ -8,8 +8,8 @@ import HeavenlyBucketIcon from 'src/assets/icons/promotionalOffers/heavenly-buck
 import { Link } from 'src/components/Link';
 import { useWindowDimensions } from 'src/hooks/useWindowDimensions';
 
+import type { PromotionalOffer } from '@linode/core/featureFlags';
 import type { Theme } from '@mui/material/styles';
-import type { PromotionalOffer } from 'src/featureFlags';
 
 const useStyles = makeStyles()((theme: Theme) => ({
   alignLeft: {

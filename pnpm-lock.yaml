@@ -122,6 +122,12 @@ importers:
 
   packages/core:
     dependencies:
+      '@linode/api-v4':
+        specifier: workspace:*
+        version: link:../api-v4
+      '@linode/ui':
+        specifier: workspace:*
+        version: link:../ui
       '@linode/utilities':
         specifier: workspace:*
         version: link:../utilities

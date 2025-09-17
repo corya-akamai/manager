@@ -27,7 +27,7 @@ import type {
   InvoiceItem,
   Payment,
 } from '@linode/api-v4/lib/account';
-import type { FlagSet, TaxDetail } from 'src/featureFlags';
+import type { FlagSet, TaxDetail } from '@linode/core/featureFlags';
 
 const baseFont = 'helvetica';
 

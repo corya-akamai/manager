@@ -24,11 +24,11 @@ import type { AlertRegion } from '../AlertRegions/DisplayAlertRegions';
 import type { AlertDimensionsProp } from '../AlertsDetail/DisplayAlertDetailChips';
 import type { CreateAlertDefinitionForm } from '../CreateAlert/types';
 import type { MonitoringCapabilities } from '@linode/api-v4';
-import type { Theme } from '@mui/material';
 import type {
   AclpAlertServiceTypeConfig,
   AclpServices,
-} from 'src/featureFlags';
+} from '@linode/core/featureFlags';
+import type { Theme } from '@mui/material';
 import type { ObjectSchema } from 'yup';
 
 interface AlertChipBorderProps {

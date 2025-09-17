@@ -21,7 +21,7 @@ import {
   widgetFactory,
 } from 'src/factories';
 
-import type { Flags } from 'src/featureFlags';
+import type { Flags } from '@linode/core/featureFlags';
 
 /**
  * This test ensures that widget titles are displayed correctly on the dashboard.

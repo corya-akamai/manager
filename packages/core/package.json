@@ -10,6 +10,7 @@
     ".": "./src/index.ts",
     "./Sample": "./src/features/sample.tsx",
     "./constants": "./src/constants.ts",
+    "./featureFlags": "./src/featureFlags.ts",
     "./OneClickApps/oneClickApps": "./src/features/OneClickApps/oneClickApps.ts",
     "./OneClickApps/types": "./src/features/OneClickApps/types.ts"
   },
@@ -24,7 +25,9 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@linode/api-v4": "workspace:*",
     "@linode/utilities": "workspace:*",
+    "@linode/ui": "workspace:*",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tss-react": "^4.8.2"

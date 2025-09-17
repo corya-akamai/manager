@@ -2,10 +2,10 @@
  * @file Utilities for component testing.
  */
 
+import type { Flags } from '@linode/core/featureFlags';
 import type { ThemeName } from '@linode/ui';
 import type { AnyRoute } from '@tanstack/react-router';
 import type { MountReturn } from 'cypress/react';
-import type { Flags } from 'src/featureFlags';
 /**
  * Array of themes for which to test components.
  */

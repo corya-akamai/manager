@@ -6,7 +6,7 @@ import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { CreateAlertDefinition } from './CreateAlertDefinition';
 
-import type { AclpServices } from 'src/featureFlags';
+import type { AclpServices } from '@linode/core/featureFlags';
 
 vi.mock('src/queries/cloudpulse/resources', () => ({
   ...vi.importActual('src/queries/cloudpulse/resources'),

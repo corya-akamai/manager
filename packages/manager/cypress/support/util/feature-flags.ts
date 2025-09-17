@@ -2,7 +2,7 @@
  * @file Types and utilities related to Cloud Manager feature flags.
  */
 
-import type { Flags } from 'src/featureFlags';
+import type { Flags } from '@linode/core/featureFlags';
 
 const defaultFeatureFlagData = {
   flagVersion: 1,

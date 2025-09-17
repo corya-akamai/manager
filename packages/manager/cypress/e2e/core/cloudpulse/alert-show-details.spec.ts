@@ -33,7 +33,7 @@ import {
 import { formatDate } from 'src/utilities/formatDate';
 
 import type { Database } from '@linode/api-v4';
-import type { Flags } from 'src/featureFlags';
+import type { Flags } from '@linode/core/featureFlags';
 
 const flags: Partial<Flags> = { aclp: { beta: true, enabled: true } };
 const mockAccount = accountFactory.build();

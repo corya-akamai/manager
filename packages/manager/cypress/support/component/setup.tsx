@@ -33,9 +33,9 @@ import { Provider } from 'react-redux';
 import { LinodeThemeWrapper } from 'src/LinodeThemeWrapper';
 import { storeFactory } from 'src/store';
 
+import type { Flags } from '@linode/core/featureFlags';
 import type { ThemeName } from '@linode/ui';
 import type { AnyRoute, AnyRouter } from '@tanstack/react-router';
-import type { Flags } from 'src/featureFlags';
 
 /**
  * Mounts a component with a Cloud Manager theme applied.

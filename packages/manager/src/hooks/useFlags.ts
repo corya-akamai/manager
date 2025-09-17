@@ -1,7 +1,7 @@
 import { useFlags as ldUseFlags } from 'launchdarkly-react-client-sdk';
 import { useSelector } from 'react-redux';
 
-import type { FlagSet } from 'src/featureFlags';
+import type { FlagSet } from '@linode/core/featureFlags';
 import type { ApplicationState } from 'src/store';
 export { useLDClient } from 'launchdarkly-react-client-sdk';
 

@@ -28,7 +28,7 @@ import type {
 import type {
   AclpAlertServiceTypeConfig,
   AclpServices,
-} from 'src/featureFlags';
+} from '@linode/core/featureFlags';
 
 it('test getServiceTypeLabel method', () => {
   const services = serviceTypesFactory.buildList(3);

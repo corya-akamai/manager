@@ -15,7 +15,7 @@ import {
   metricLimitMessage,
 } from './constants';
 
-import type { AclpServices } from 'src/featureFlags';
+import type { AclpServices } from '@linode/core/featureFlags';
 
 const queryMocks = vi.hoisted(() => ({
   useAllAlertDefinitionsQuery: vi.fn().mockReturnValue({}),

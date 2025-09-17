@@ -7,8 +7,8 @@ import { isAfter } from 'src/utilities/date';
 
 import { DismissibleBanner } from '../DismissibleBanner/DismissibleBanner';
 
+import type { ProductInformationBannerLocation } from '@linode/core/featureFlags';
 import type { NoticeProps } from '@linode/ui';
-import type { ProductInformationBannerLocation } from 'src/featureFlags';
 
 interface Props {
   bannerLocation: ProductInformationBannerLocation;

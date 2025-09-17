@@ -34,8 +34,8 @@ import type {
   ServiceTypesList,
   TimeDuration,
 } from '@linode/api-v4';
+import type { AclpServices } from '@linode/core/featureFlags';
 import type { UseQueryResult } from '@tanstack/react-query';
-import type { AclpServices } from 'src/featureFlags';
 import type {
   StatWithDummyPoint,
   WithStartAndEnd,

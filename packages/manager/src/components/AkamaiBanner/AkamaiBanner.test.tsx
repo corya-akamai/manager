@@ -6,7 +6,7 @@ import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { AkamaiBanner } from './AkamaiBanner';
 
-import type { Flags } from 'src/featureFlags';
+import type { Flags } from '@linode/core/featureFlags';
 
 describe('AkamaiBanner', () => {
   it('should display text without a link', () => {

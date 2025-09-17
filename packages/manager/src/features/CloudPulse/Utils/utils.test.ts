@@ -26,7 +26,7 @@ import {
   validationFunction,
 } from './utils';
 
-import type { AclpServices } from 'src/featureFlags';
+import type { AclpServices } from '@linode/core/featureFlags';
 
 describe('isValidPort', () => {
   it('should return valid for empty string and valid ports', () => {

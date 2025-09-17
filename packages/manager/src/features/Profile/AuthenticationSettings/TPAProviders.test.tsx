@@ -6,7 +6,7 @@ import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { TPAProviders } from './TPAProviders';
 
-import type { Provider } from 'src/featureFlags';
+import type { Provider } from '@linode/core/featureFlags';
 
 const providers: Provider[] = [
   {

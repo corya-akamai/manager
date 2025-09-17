@@ -3,8 +3,8 @@ import { usePreferences } from '@linode/queries';
 import { useFlags } from './useFlags';
 import { useIsAkamaiAccount } from './useIsAkamaiAccount';
 
+import type { FlagSet } from '@linode/core/featureFlags';
 import type { ManagerPreferences } from '@linode/utilities';
-import type { FlagSet } from 'src/featureFlags';
 
 export const useSecureVMNoticesEnabled = () => {
   const { data: secureVMsNoticePreference } = usePreferences(

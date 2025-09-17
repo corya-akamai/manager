@@ -7,7 +7,7 @@ import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { ProductInformationBanner } from './ProductInformationBanner';
 
-import type { ProductInformationBannerFlag } from 'src/featureFlags';
+import type { ProductInformationBannerFlag } from '@linode/core/featureFlags';
 
 const _render = (banner: ProductInformationBannerFlag) =>
   renderWithTheme(

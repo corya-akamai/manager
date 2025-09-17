@@ -5,7 +5,7 @@ import { wrapWithTheme } from 'src/utilities/testHelpers';
 
 import { useSecureVMNoticesEnabled } from './useSecureVMNoticesEnabled';
 
-import type { Flags } from 'src/featureFlags';
+import type { Flags } from '@linode/core/featureFlags';
 
 describe('useSecureVMNoticesEnabled', () => {
   it('returns true when the header is included', async () => {

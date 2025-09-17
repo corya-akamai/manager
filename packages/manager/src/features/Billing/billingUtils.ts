@@ -8,7 +8,7 @@ import { DateTime } from 'luxon';
 
 import { parseAPIDate } from 'src/utilities/date';
 
-import type { TaxDetail } from 'src/featureFlags';
+import type { TaxDetail } from '@linode/core/featureFlags';
 
 export const cleanCVV = (input: string): string => {
   // All characters except numbers

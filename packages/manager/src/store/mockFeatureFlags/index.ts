@@ -1,7 +1,7 @@
 import actionCreatorFactory, { isType } from 'typescript-fsa';
 
+import type { FlagSet } from '@linode/core/featureFlags';
 import type { Reducer } from 'redux';
-import type { FlagSet } from 'src/featureFlags';
 
 export const actionCreator = actionCreatorFactory(
   '@@manager/mock-feature-flags'

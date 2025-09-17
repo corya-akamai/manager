@@ -27,7 +27,7 @@ import type {
   Region,
   RegionAvailability,
 } from '@linode/api-v4';
-import type { Flags } from 'src/featureFlags';
+import type { Flags } from '@linode/core/featureFlags';
 import type { ExtendedType } from 'src/utilities/extendType';
 
 export type PlansTypes<T> = Record<LinodeTypeClass, T[]>;

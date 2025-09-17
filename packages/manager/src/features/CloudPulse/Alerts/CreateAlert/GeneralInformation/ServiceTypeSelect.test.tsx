@@ -7,7 +7,7 @@ import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';
 
 import { CloudPulseServiceSelect } from './ServiceTypeSelect';
 
-import type { AclpServices } from 'src/featureFlags';
+import type { AclpServices } from '@linode/core/featureFlags';
 
 const queryMocks = vi.hoisted(() => ({
   useCloudPulseServiceTypes: vi.fn().mockReturnValue({}),
