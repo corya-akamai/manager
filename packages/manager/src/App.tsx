@@ -1,11 +1,11 @@
 import '@reach/tabs/styles.css';
+import { SplashScreen } from '@linode/ui';
 import * as React from 'react';
 
 import {
   DocumentTitleSegment,
   withDocumentTitleProvider,
 } from 'src/components/DocumentTitle';
-import { SplashScreen } from 'src/components/SplashScreen';
 import withFeatureFlagProvider from 'src/containers/withFeatureFlagProvider.container';
 import { ErrorBoundaryFallback } from 'src/features/ErrorBoundary/ErrorBoundaryFallback';
 import { useInitialRequests } from 'src/hooks/useInitialRequests';

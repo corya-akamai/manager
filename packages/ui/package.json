@@ -19,6 +19,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@linode/design-language-system": "^5.0.0",
+    "@linode/utilities": "workspace:*",
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
     "@mui/utils": "^7.1.0",

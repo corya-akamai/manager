@@ -39,6 +39,7 @@ export * from './Paper';
 export * from './Radio';
 export * from './RadioGroup';
 export * from './Select/Select';
+export * from './SplashScreen';
 export * from './Stack';
 export * from './SvgIcon';
 export * from './TextField';

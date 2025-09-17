@@ -1,8 +1,8 @@
+import { SplashScreen } from '@linode/ui';
 import * as Sentry from '@sentry/react';
 import { useNavigate } from '@tanstack/react-router';
 import React, { useEffect } from 'react';
 
-import { SplashScreen } from 'src/components/SplashScreen';
 import {
   clearStorageAndRedirectToLogout,
   handleLoginAsCustomerCallback,

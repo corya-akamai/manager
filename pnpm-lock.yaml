@@ -167,7 +167,7 @@ importers:
         version: 5.4.20(@types/node@20.17.6)(terser@5.36.0)
       vitest:
         specifier: ^1.0.0
-        version: 1.6.1(@types/node@20.17.6)(@vitest/ui@3.1.2(vitest@3.1.2))(jsdom@24.1.3)(terser@5.36.0)
+        version: 1.6.1(@types/node@20.17.6)(@vitest/ui@3.1.2)(jsdom@24.1.3)(terser@5.36.0)
 
   packages/manager:
     dependencies:
@@ -702,6 +702,9 @@ importers:
       '@linode/design-language-system':
         specifier: ^5.0.0
         version: 5.0.0
+      '@linode/utilities':
+        specifier: workspace:*
+        version: link:../utilities
       '@mui/icons-material':
         specifier: ^7.1.0
         version: 7.1.0(@mui/material@7.1.0(@emotion/react@11.13.5(@types/react@19.1.6)(react@19.1.0))(@emotion/styled@11.13.5(@emotion/react@11.13.5(@types/react@19.1.6)(react@19.1.0))(@types/react@19.1.6)(react@19.1.0))(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(@types/react@19.1.6)(react@19.1.0)
@@ -13259,7 +13262,7 @@ snapshots:
       tsx: 4.19.3
       yaml: 2.6.1
 
-  vitest@1.6.1(@types/node@20.17.6)(@vitest/ui@3.1.2(vitest@3.1.2))(jsdom@24.1.3)(terser@5.36.0):
+  vitest@1.6.1(@types/node@20.17.6)(@vitest/ui@3.1.2)(jsdom@24.1.3)(terser@5.36.0):
     dependencies:
       '@vitest/expect': 1.6.1
       '@vitest/runner': 1.6.1
