@@ -3,4 +3,4 @@ interface S {
   api_maintenance_mode: boolean;
 }
 
-export type State = Partial<S>;
+export type GlobalErrorState = Partial<S>;

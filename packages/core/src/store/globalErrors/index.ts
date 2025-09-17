@@ -1,3 +1,3 @@
 export * from './globalErrors.actions';
-export { default, defaultState } from './globalErrors.reducer';
-export type { State } from './types';
+export * from './globalErrors.reducer';
+export * from './types';

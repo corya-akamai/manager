@@ -1,10 +1,10 @@
+import { setMockFeatureFlags } from '@linode/core/store/mockFeatureFlags';
 import { useFlags as ldUseFlags } from 'launchdarkly-react-client-sdk';
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
 
 import withFeatureFlagProvider from 'src/containers/withFeatureFlagProvider.container';
 import { useFlags } from 'src/hooks/useFlags';
-import { setMockFeatureFlags } from 'src/store/mockFeatureFlags';
 import { getStorage, setStorage } from 'src/utilities/storage';
 
 import type { Flags, FlagSet } from '@linode/core/featureFlags';

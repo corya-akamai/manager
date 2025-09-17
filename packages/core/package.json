@@ -14,7 +14,9 @@
     "./OneClickApps/oneClickApps": "./src/features/OneClickApps/oneClickApps.ts",
     "./OneClickApps/types": "./src/features/OneClickApps/types.ts",
     "./store": "./src/store/index.ts",
-    "./store/globalErrors": "./src/store/globalErrors/index.ts"
+    "./store/globalErrors": "./src/store/globalErrors/index.ts",
+    "./store/mockFeatureFlags": "./src/store/mockFeatureFlags/index.ts",
+    "./store/pendingUpload": "./src/store/pendingUpload/index.ts"
   },
   "license": "Apache-2.0",
   "repository": {

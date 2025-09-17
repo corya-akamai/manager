@@ -3,7 +3,7 @@ import actionCreatorFactory, { isType } from 'typescript-fsa';
 import type { FlagSet } from '@linode/core/featureFlags';
 import type { Reducer } from 'redux';
 
-export const actionCreator = actionCreatorFactory(
+const actionCreator = actionCreatorFactory(
   '@@manager/mock-feature-flags'
 );
 
@@ -15,7 +15,7 @@ export type MockFeatureFlagState = Partial<FlagSet>;
 
 export const defaultMockFeatureFlagState: MockFeatureFlagState = {};
 
-export const reducer: Reducer<MockFeatureFlagState> = (
+export const mockFeatureFlagReducer: Reducer<MockFeatureFlagState> = (
   state = defaultMockFeatureFlagState,
   action
 ) => {
@@ -28,4 +28,3 @@ export const reducer: Reducer<MockFeatureFlagState> = (
   return state;
 };
 
-export default reducer;

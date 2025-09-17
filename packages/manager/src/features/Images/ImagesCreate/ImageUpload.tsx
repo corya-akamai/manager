@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { setPendingUpload } from '@linode/core/store/pendingUpload';
 import {
   useAccountAgreements,
   useMutateAccountAgreements,
@@ -34,7 +35,6 @@ import { MAX_FILE_SIZE_IN_BYTES } from 'src/components/Uploaders/reducer';
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 import { useFlags } from 'src/hooks/useFlags';
 import { usePendingUpload } from 'src/hooks/usePendingUpload';
-import { setPendingUpload } from 'src/store/pendingUpload';
 import { getGDPRDetails } from 'src/utilities/formatRegion';
 import { reportAgreementSigningError } from 'src/utilities/reportAgreementSigningError';
 

@@ -1,9 +1,11 @@
 import { actionCreatorFactory } from 'typescript-fsa';
 
-import type { State } from './types';
+import type { GlobalErrorState } from './types';
 
-export const actionCreator = actionCreatorFactory('@@manager/globalErrors');
+const actionCreator = actionCreatorFactory('@@manager/globalErrors');
 
-export const setErrors = actionCreator<Partial<State>>('/set');
+export const setErrors = actionCreator<Partial<GlobalErrorState>>('/set');
 
-export const clearErrors = actionCreator<Partial<State> | undefined>('/clear');
+export const clearErrors = actionCreator<Partial<GlobalErrorState> | undefined>(
+  '/clear',
+);
