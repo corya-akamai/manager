@@ -1,4 +1,4 @@
-import { nonClickEvents } from 'src/constants';
+import { nonClickEvents } from '@linode/core/constants';
 
 import type { Entity, EventAction } from '@linode/api-v4/lib/account';
 

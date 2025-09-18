@@ -1,6 +1,5 @@
+import { DISALLOWED_IMAGE_REGIONS } from '@linode/core/constants';
 import { useRegionsQuery } from '@linode/queries';
-
-import { DISALLOWED_IMAGE_REGIONS } from 'src/constants';
 
 import type { Event, Image, Linode } from '@linode/api-v4';
 

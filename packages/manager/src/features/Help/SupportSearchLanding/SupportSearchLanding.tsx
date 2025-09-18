@@ -1,3 +1,4 @@
+import { COMMUNITY_SEARCH_URL, DOCS_SEARCH_URL } from '@linode/core/constants';
 import { Box, H1Header, InputAdornment, Notice, TextField } from '@linode/ui';
 import { getQueryParamFromQueryString } from '@linode/utilities';
 import Search from '@mui/icons-material/Search';
@@ -5,8 +6,6 @@ import Grid from '@mui/material/Grid';
 import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 import { makeStyles } from 'tss-react/mui';
-
-import { COMMUNITY_SEARCH_URL, DOCS_SEARCH_URL } from 'src/constants';
 
 import withSearch from '../SearchHOC';
 import { DocumentationResults } from './DocumentationResults';

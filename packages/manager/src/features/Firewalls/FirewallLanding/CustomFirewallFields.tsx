@@ -1,3 +1,4 @@
+import { FIREWALL_LIMITS_CONSIDERATIONS_LINK } from '@linode/core/constants';
 import {
   useAllFirewallsQuery,
   useAllLinodesQuery,
@@ -18,7 +19,6 @@ import * as React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { Link } from 'src/components/Link';
-import { FIREWALL_LIMITS_CONSIDERATIONS_LINK } from 'src/constants';
 import { useQueryWithPermissions } from 'src/features/IAM/hooks/usePermissions';
 import { NodeBalancerSelect } from 'src/features/NodeBalancers/NodeBalancerSelect';
 import { sendLinodeCreateFormInputEvent } from 'src/utilities/analytics/formEventAnalytics';

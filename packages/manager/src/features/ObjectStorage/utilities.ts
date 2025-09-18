@@ -1,4 +1,4 @@
-import { OBJECT_STORAGE_DELIMITER } from 'src/constants';
+import { OBJECT_STORAGE_DELIMITER } from '@linode/core/constants';
 
 import type { AccountSettings } from '@linode/api-v4/lib/account';
 import type { ObjectStorageObject } from '@linode/api-v4/lib/object-storage';

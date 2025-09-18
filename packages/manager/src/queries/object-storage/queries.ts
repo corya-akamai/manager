@@ -14,6 +14,7 @@ import {
   updateObjectACL,
   uploadSSLCert,
 } from '@linode/api-v4';
+import { OBJECT_STORAGE_DELIMITER as delimiter } from '@linode/core/constants';
 import {
   accountQueries,
   queryPresets,
@@ -32,7 +33,6 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 
-import { OBJECT_STORAGE_DELIMITER as delimiter } from 'src/constants';
 import { useFlags } from 'src/hooks/useFlags';
 
 import {

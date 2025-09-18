@@ -5,6 +5,7 @@ import '@fontsource/nunito-sans/600.css';
 import '@fontsource/nunito-sans/700.css';
 import '@fontsource/nunito-sans/800.css';
 import '@fontsource/nunito-sans/400-italic.css';
+import { ENABLE_MAINTENANCE_MODE } from '@linode/core/constants';
 import {
   useMutatePreferences,
   usePreferences,
@@ -37,7 +38,6 @@ import {
 import { TopMenu } from 'src/features/TopMenu/TopMenu';
 
 import { useIsPageScrollable } from './components/PrimaryNav/utils';
-import { ENABLE_MAINTENANCE_MODE } from './constants';
 import { complianceUpdateContext } from './context/complianceUpdateContext';
 import { sessionExpirationContext } from './context/sessionExpirationContext';
 import { switchAccountSessionContext } from './context/switchAccountSessionContext';

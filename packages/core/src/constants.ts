@@ -1,7 +1,8 @@
-import { getBooleanEnv } from '@linode/utilities';
-
 // Whether or not this is a Vite production build
 // This does not necessarily mean Cloud is running in a production environment.
+
+import { getBooleanEnv } from './utilities/env';
+
 // For example, cloud.dev.linode.com is technically a production build.
 export const isProductionBuild = import.meta.env.PROD;
 
@@ -13,7 +14,7 @@ export const ENABLE_DEV_TOOLS =
 
 // allow us to explicity enable maintenance mode
 export const ENABLE_MAINTENANCE_MODE = getBooleanEnv(
-  import.meta.env.REACT_APP_ENABLE_MAINTENANCE_MODE
+  import.meta.env.REACT_APP_ENABLE_MAINTENANCE_MODE,
 );
 
 /**

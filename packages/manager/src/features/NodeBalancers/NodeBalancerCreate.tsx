@@ -1,3 +1,4 @@
+import { FIREWALL_GET_STARTED_LINK } from '@linode/core/constants';
 import {
   useAccountAgreements,
   useMutateAccountAgreements,
@@ -37,7 +38,6 @@ import { RegionSelect } from 'src/components/RegionSelect/RegionSelect';
 import { SelectFirewallPanel } from 'src/components/SelectFirewallPanel/SelectFirewallPanel';
 import { RegionHelperText } from 'src/components/SelectRegionPanel/RegionHelperText';
 import { TagsInput } from 'src/components/TagsInput/TagsInput';
-import { FIREWALL_GET_STARTED_LINK } from 'src/constants';
 import { getRestrictedResourceText } from 'src/features/Account/utils';
 import { useFlags } from 'src/hooks/useFlags';
 import { sendCreateNodeBalancerEvent } from 'src/utilities/analytics/customEventAnalytics';

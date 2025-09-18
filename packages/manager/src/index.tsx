@@ -1,3 +1,4 @@
+import { ENABLE_DEV_TOOLS } from '@linode/core/constants';
 import { queryClientFactory } from '@linode/queries';
 import CssBaseline from '@mui/material/CssBaseline';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -5,15 +6,16 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider as ReduxStoreProvider } from 'react-redux';
 
-import { CookieWarning } from 'src/components/CookieWarning';
 import 'src/exceptionReporting';
+import { CookieWarning } from 'src/components/CookieWarning';
 import { SplashScreen } from 'src/components/SplashScreen';
 import { setupInterceptors } from 'src/request';
-import { storeFactory } from 'src/store';
 
 import './index.css';
+
+import { storeFactory } from 'src/store';
+
 import { App } from './App';
-import { ENABLE_DEV_TOOLS } from './constants';
 import { LinodeThemeWrapper } from './LinodeThemeWrapper';
 
 const queryClient = queryClientFactory('longLived');

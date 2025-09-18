@@ -1,7 +1,10 @@
+import {
+  DATETIME_DISPLAY_FORMAT,
+  ISO_DATE_FORMAT,
+} from '@linode/core/constants';
 import { getUserTimezone } from '@linode/utilities';
 import { DateTime, Duration } from 'luxon';
 
-import { DATETIME_DISPLAY_FORMAT, ISO_DATE_FORMAT } from 'src/constants';
 import { reportException } from 'src/exceptionReporting';
 import { parseAPIDate } from 'src/utilities/date';
 

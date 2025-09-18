@@ -1,11 +1,11 @@
-import { DateTime } from 'luxon';
-
 import {
   AKAMAI_DATE,
   PAYMENT_HARD_MAX,
   PAYMENT_MIN,
   PAYMENT_SOFT_MAX,
-} from 'src/constants';
+} from '@linode/core/constants';
+import { DateTime } from 'luxon';
+
 import { parseAPIDate } from 'src/utilities/date';
 
 import type { TaxDetail } from 'src/featureFlags';

@@ -1,8 +1,8 @@
+import { PENDO_API_KEY } from '@linode/core/constants';
 import { useAccount, useProfile } from '@linode/queries';
 import { loadScript } from '@linode/utilities'; // `loadScript` from `useScript` hook
 import React from 'react';
 
-import { PENDO_API_KEY } from 'src/constants';
 import { reportException } from 'src/exceptionReporting';
 import { getAppRoot } from 'src/OAuth/constants';
 import {

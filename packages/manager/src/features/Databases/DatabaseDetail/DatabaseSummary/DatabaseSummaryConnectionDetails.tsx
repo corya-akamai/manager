@@ -1,4 +1,5 @@
 import { getSSLFields } from '@linode/api-v4/lib/databases/databases';
+import { DB_ROOT_USERNAME } from '@linode/core/constants';
 import { useDatabaseCredentialsQuery } from '@linode/queries';
 import { Box, CircleProgress, TooltipIcon, Typography } from '@linode/ui';
 import { downloadFile } from '@linode/utilities';
@@ -10,7 +11,6 @@ import * as React from 'react';
 import DownloadIcon from 'src/assets/icons/lke-download.svg';
 import { CopyTooltip } from 'src/components/CopyTooltip/CopyTooltip';
 import { Link } from 'src/components/Link';
-import { DB_ROOT_USERNAME } from 'src/constants';
 import { useFlags } from 'src/hooks/useFlags';
 import { getErrorStringOrDefault } from 'src/utilities/errorUtils';
 

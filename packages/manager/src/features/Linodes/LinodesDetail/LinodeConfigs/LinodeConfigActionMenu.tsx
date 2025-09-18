@@ -1,8 +1,8 @@
+import { NO_PERMISSION_TOOLTIP_TEXT } from '@linode/core/constants';
 import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 
 import { ActionMenu } from 'src/components/ActionMenu/ActionMenu';
-import { NO_PERMISSION_TOOLTIP_TEXT } from 'src/constants';
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 
 import type { Config } from '@linode/api-v4/lib/linodes';

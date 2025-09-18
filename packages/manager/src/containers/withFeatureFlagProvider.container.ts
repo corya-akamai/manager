@@ -1,6 +1,5 @@
+import { LAUNCH_DARKLY_API_KEY } from '@linode/core/constants';
 import { withLDProvider } from 'launchdarkly-react-client-sdk';
-
-import { LAUNCH_DARKLY_API_KEY } from 'src/constants';
 
 /**
  * only wrap the component in the HOC if we've passed

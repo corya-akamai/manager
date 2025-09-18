@@ -1,4 +1,4 @@
-import { DEFAULT_ERROR_MESSAGE } from 'src/constants';
+import { DEFAULT_ERROR_MESSAGE } from '@linode/core/constants';
 
 import { getAPIErrorOrDefault, getErrorStringOrDefault } from './errorUtils';
 

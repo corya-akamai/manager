@@ -1,10 +1,10 @@
+import { PAYPAL_CLIENT_ID } from '@linode/core/constants';
 import { promoFactory } from '@linode/dev-tools/factories';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import { PAYPAL_CLIENT_ID } from 'src/constants';
 import { renderWithTheme, withMarkup } from 'src/utilities/testHelpers';
 
 import BillingSummary from './BillingSummary';

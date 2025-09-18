@@ -1,3 +1,4 @@
+import { FIREWALL_LIMITS_CONSIDERATIONS_LINK } from '@linode/core/constants';
 import {
   useAddFirewallDeviceMutation,
   useAllFirewallsQuery,
@@ -13,7 +14,6 @@ import * as React from 'react';
 
 import { Link } from 'src/components/Link';
 import { SupportLink } from 'src/components/SupportLink';
-import { FIREWALL_LIMITS_CONSIDERATIONS_LINK } from 'src/constants';
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 import { NodeBalancerSelect } from 'src/features/NodeBalancers/NodeBalancerSelect';
 import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';

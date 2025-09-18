@@ -1,10 +1,10 @@
+import { NO_PERMISSION_TOOLTIP_TEXT } from '@linode/core/constants';
 import { useRegionsQuery } from '@linode/queries';
 import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 
 import { ActionMenu } from 'src/components/ActionMenu/ActionMenu';
 import { getIsDistributedRegion } from 'src/components/RegionSelect/RegionSelect.utils';
-import { NO_PERMISSION_TOOLTIP_TEXT } from 'src/constants';
 import { getRestrictedResourceText } from 'src/features/Account/utils';
 import { isMTCPlan } from 'src/features/components/PlansPanel/utils';
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';

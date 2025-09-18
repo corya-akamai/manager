@@ -1,0 +1,16 @@
+{
+  "extends": ["@linode/tsconfig/package", "@linode/tsconfig/react"],
+  "compilerOptions": {
+    /* Modules */
+    "baseUrl": ".",
+    "moduleResolution": "bundler",
+    "paths": {
+      "src/*": ["src/*"]
+    },
+    "resolveJsonModule": true,
+    "rootDir": ".",
+
+    "types": ["@testing-library/jest-dom"]
+  },
+  "include": ["src"]
+}

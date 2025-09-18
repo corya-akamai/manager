@@ -1,3 +1,4 @@
+import { MBpsInterDC } from '@linode/core/constants';
 import {
   useAccountAgreements,
   useAllLinodeDisksQuery,
@@ -28,7 +29,6 @@ import * as React from 'react';
 
 import { ErrorMessage } from 'src/components/ErrorMessage';
 import { getIsDistributedRegion } from 'src/components/RegionSelect/RegionSelect.utils';
-import { MBpsInterDC } from 'src/constants';
 import { EUAgreementCheckbox } from 'src/features/Account/Agreements/EUAgreementCheckbox';
 import { isMTCPlan } from 'src/features/components/PlansPanel/utils';
 import { useFlags } from 'src/hooks/useFlags';

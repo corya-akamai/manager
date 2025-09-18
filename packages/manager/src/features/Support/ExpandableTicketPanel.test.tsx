@@ -1,9 +1,9 @@
+import { ISO_DATETIME_NO_TZ_FORMAT } from '@linode/core/constants';
 import { supportReplyFactory } from '@linode/dev-tools/factories';
 import { screen } from '@testing-library/react';
 import { DateTime } from 'luxon';
 import * as React from 'react';
 
-import { ISO_DATETIME_NO_TZ_FORMAT } from 'src/constants';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { ExpandableTicketPanel } from './ExpandableTicketPanel';

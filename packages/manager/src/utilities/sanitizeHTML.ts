@@ -1,6 +1,5 @@
+import { allowedHTMLAttr } from '@linode/core/constants';
 import DOMPurify from 'dompurify';
-
-import { allowedHTMLAttr } from 'src/constants';
 
 import { getAllowedHTMLTags, isURLValid } from './sanitizeHTML.utils';
 

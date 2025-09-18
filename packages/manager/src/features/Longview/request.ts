@@ -1,6 +1,5 @@
+import { LONGVIEW_ROOT } from '@linode/core/constants';
 import Axios from 'axios';
-
-import { LONGVIEW_ROOT } from 'src/constants';
 
 import type {
   Get,

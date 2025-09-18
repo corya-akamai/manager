@@ -1,6 +1,6 @@
+import { SENTRY_URL } from '@linode/core/constants';
 import { captureException, getCurrentScope, withScope } from '@sentry/react';
 
-import { SENTRY_URL } from 'src/constants';
 import { initSentry } from 'src/initSentry';
 
 initSentry();

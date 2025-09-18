@@ -1,6 +1,7 @@
+import { DISALLOWED_IMAGE_REGIONS } from '@linode/core/constants';
 import { eventFactory, imageFactory } from '@linode/dev-tools/factories';
-import { makeResourcePage } from '@src/mocks/serverHandlers';
 import 'cypress-file-upload';
+import { makeResourcePage } from '@src/mocks/serverHandlers';
 import { DateTime } from 'luxon';
 import { authenticate } from 'support/api/authentication';
 import {
@@ -15,8 +16,6 @@ import { cleanUp } from 'support/util/cleanup';
 import { apiMatcher } from 'support/util/intercepts';
 import { randomLabel, randomPhrase } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
-
-import { DISALLOWED_IMAGE_REGIONS } from 'src/constants';
 
 import type { EventStatus } from '@linode/api-v4';
 import type { RecPartial } from 'factory.ts';

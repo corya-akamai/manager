@@ -1,3 +1,4 @@
+import { MAXIMUM_PAYMENT_METHODS } from '@linode/core/constants';
 import { useProfile } from '@linode/queries';
 import {
   Divider,
@@ -11,7 +12,6 @@ import Grid from '@mui/material/Grid';
 import * as React from 'react';
 
 import { LinearProgress } from 'src/components/LinearProgress';
-import { MAXIMUM_PAYMENT_METHODS } from 'src/constants';
 import { getRestrictedResourceText } from 'src/features/Account/utils';
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 
