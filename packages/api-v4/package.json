@@ -38,6 +38,10 @@
     "./common": {
       "import": "./lib/common/index.js",
       "require": "./lib/common/index.cjs"
+    },
+    "./databases": {
+      "import": "./lib/databases/index.js",
+      "require": "./lib/databases/index.cjs"
     }
   },
   "types": "./lib/index.d.ts",

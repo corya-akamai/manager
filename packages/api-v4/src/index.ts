@@ -8,8 +8,6 @@ export * from './cloudpulse';
 
 export * from './common';
 
-export * from './common/types';
-
 export * from './databases';
 
 export * from './delivery';
