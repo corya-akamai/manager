@@ -1,3 +1,4 @@
+import { accountMaintenanceFactory } from '@linode/dev-tools/factories';
 import { linodeFactory, profileFactory } from '@linode/utilities';
 import { mockGetMaintenance } from 'support/intercepts/account';
 import { mockGetNotifications } from 'support/intercepts/events';
@@ -6,8 +7,6 @@ import { mockGetLinode, mockGetLinodes } from 'support/intercepts/linodes';
 import { mockGetProfile } from 'support/intercepts/profile';
 import { randomLabel } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
-
-import { accountMaintenanceFactory } from 'src/factories';
 
 const mockProfile = profileFactory.build({
   timezone: 'America/New_York',

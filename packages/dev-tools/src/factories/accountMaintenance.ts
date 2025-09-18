@@ -19,10 +19,10 @@ export const accountMaintenanceFactory =
           type: 'volume',
           url: `/v4/volume/${id}`,
         },
-      ])
+      ]),
     ),
     maintenance_policy_set: Factory.each(() =>
-      pickRandom(['linode/migrate', 'linode/power_off_on'])
+      pickRandom(['linode/migrate', 'linode/power_off_on']),
     ),
     reason: Factory.each(() =>
       pickRandom([
@@ -35,26 +35,26 @@ export const accountMaintenanceFactory =
         `We have detected an issue with the RAID card of your Linode's host.`,
         `There is an issue with the power supply of your Linode's host.`,
         `We must replace faulty RAM in your Linode's host.`,
-      ])
+      ]),
     ),
     description: Factory.each(() =>
-      pickRandom<AccountMaintenance['description']>(['emergency', 'scheduled'])
+      pickRandom<AccountMaintenance['description']>(['emergency', 'scheduled']),
     ),
     source: Factory.each(() => pickRandom(['user', 'platform'])),
     status: Factory.each(() => pickRandom(['pending', 'started'])),
     type: Factory.each(() =>
-      pickRandom(['cold_migration', 'live_migration', 'reboot'])
+      pickRandom(['cold_migration', 'live_migration', 'reboot']),
     ),
     when: Factory.each(
-      () => randomDate().toISO({ includeOffset: false }) ?? ''
+      () => randomDate().toISO({ includeOffset: false }) ?? '',
     ),
     not_before: Factory.each(
-      () => randomDate().toISO({ includeOffset: false }) ?? ''
+      () => randomDate().toISO({ includeOffset: false }) ?? '',
     ),
     start_time: Factory.each(
-      () => randomDate().toISO({ includeOffset: false }) ?? ''
+      () => randomDate().toISO({ includeOffset: false }) ?? '',
     ),
     complete_time: Factory.each(
-      () => randomDate().toISO({ includeOffset: false }) ?? ''
+      () => randomDate().toISO({ includeOffset: false }) ?? '',
     ),
   });

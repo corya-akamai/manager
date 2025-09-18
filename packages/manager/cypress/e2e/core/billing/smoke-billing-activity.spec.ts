@@ -1,4 +1,5 @@
 import { getProfile } from '@linode/api-v4';
+import { invoiceFactory, paymentFactory } from '@linode/dev-tools/factories';
 import { profileFactory } from '@linode/utilities';
 import { formatDate } from '@src/utilities/formatDate';
 import { DateTime } from 'luxon';
@@ -13,8 +14,6 @@ import { mockGetProfile, mockUpdateProfile } from 'support/intercepts/profile';
 import { ui } from 'support/ui';
 import { buildArray } from 'support/util/arrays';
 import { randomNumber } from 'support/util/random';
-
-import { invoiceFactory, paymentFactory } from 'src/factories/billing';
 
 import type { Invoice, Payment, Profile } from '@linode/api-v4';
 

@@ -3,6 +3,8 @@
  */
 
 import 'cypress-file-upload';
+import { accountFactory } from '@linode/dev-tools/factories';
+import { objectStorageBucketFactory } from '@linode/dev-tools/factories';
 import { mockGetAccount } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import {
@@ -20,8 +22,6 @@ import { chooseCluster } from 'support/util/clusters';
 import { randomLabel } from 'support/util/random';
 import { getRegionById } from 'support/util/regions';
 
-import { accountFactory } from 'src/factories';
-import { objectStorageBucketFactory } from 'src/factories/objectStorage';
 describe('object storage smoke tests', () => {
   /*
    * - Tests core object storage bucket create flow using mocked API responses.

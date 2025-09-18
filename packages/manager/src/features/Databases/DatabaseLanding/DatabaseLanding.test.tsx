@@ -1,3 +1,5 @@
+import { accountFactory } from '@linode/dev-tools/factories';
+import { databaseInstanceFactory } from '@linode/dev-tools/factories';
 import { capitalize } from '@linode/utilities';
 import {
   fireEvent,
@@ -8,7 +10,6 @@ import {
 import { DateTime } from 'luxon';
 import * as React from 'react';
 
-import { accountFactory, databaseInstanceFactory } from 'src/factories';
 import { DatabaseLanding } from 'src/features/Databases/DatabaseLanding/DatabaseLanding';
 import DatabaseRow from 'src/features/Databases/DatabaseLanding/DatabaseRow';
 import { makeResourcePage } from 'src/mocks/serverHandlers';

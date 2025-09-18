@@ -2,9 +2,11 @@
  * @file Integration tests for restricted user billing flows.
  */
 
+import {
+  accountUserFactory,
+  paymentMethodFactory,
+} from '@linode/dev-tools/factories';
 import { grantsFactory, profileFactory } from '@linode/utilities';
-import { paymentMethodFactory } from '@src/factories';
-import { accountUserFactory } from '@src/factories/accountUsers';
 import { mockGetPaymentMethods, mockGetUser } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import {

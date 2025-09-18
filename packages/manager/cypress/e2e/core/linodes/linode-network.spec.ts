@@ -1,16 +1,16 @@
 import {
-  linodeInterfaceFactoryPublic,
-  linodeInterfaceFactoryVPC,
-} from '@linode/utilities';
-import { linodeFactory } from '@linode/utilities';
-import {
   accountFactory,
   firewallDeviceFactory,
   firewallFactory,
   ipAddressFactory,
   subnetFactory,
   vpcFactory,
-} from '@src/factories';
+} from '@linode/dev-tools/factories';
+import {
+  linodeInterfaceFactoryPublic,
+  linodeInterfaceFactoryVPC,
+} from '@linode/utilities';
+import { linodeFactory } from '@linode/utilities';
 import { mockGetAccount } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import {

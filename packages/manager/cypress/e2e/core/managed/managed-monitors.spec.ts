@@ -2,6 +2,7 @@
  * @file Integration tests for Managed monitors.
  */
 
+import { monitorFactory } from '@linode/dev-tools/factories';
 import { visitUrlWithManagedEnabled } from 'support/api/managed';
 import {
   mockCreateServiceMonitor,
@@ -14,8 +15,6 @@ import {
 } from 'support/intercepts/managed';
 import { ui } from 'support/ui';
 import { randomLabel } from 'support/util/random';
-
-import { monitorFactory } from 'src/factories/managed';
 
 // Message that's shown when no Managed service monitors are set up.
 const noMonitorsMessage = "You don't have any Monitors on your account.";

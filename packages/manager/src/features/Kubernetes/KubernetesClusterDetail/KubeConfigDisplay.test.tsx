@@ -1,7 +1,7 @@
+import { kubeEndpointFactory } from '@linode/dev-tools/factories';
 import { waitFor } from '@testing-library/react';
 import * as React from 'react';
 
-import { kubeEndpointFactory } from 'src/factories/kubernetesCluster';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';

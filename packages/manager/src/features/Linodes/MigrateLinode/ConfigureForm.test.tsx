@@ -1,7 +1,7 @@
 import { waitFor } from '@testing-library/react';
 import React from 'react';
 
-import { typeFactory } from 'src/factories/types';
+import { typeFactory } from 'src/factories';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

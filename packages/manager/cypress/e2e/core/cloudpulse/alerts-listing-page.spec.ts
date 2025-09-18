@@ -1,3 +1,8 @@
+import {
+  accountFactory,
+  alertFactory,
+  alertRulesFactory,
+} from '@linode/dev-tools/factories';
 import { profileFactory } from '@linode/utilities';
 /**
  * @file Integration Tests for the CloudPulse Alerts Listing Page.
@@ -15,12 +20,7 @@ import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import { mockGetProfile } from 'support/intercepts/profile';
 import { ui } from 'support/ui';
 
-import {
-  accountFactory,
-  alertFactory,
-  alertRulesFactory,
-  flagsFactory,
-} from 'src/factories';
+import { flagsFactory } from 'src/factories';
 import {
   alertLimitMessage,
   alertToolTipText,

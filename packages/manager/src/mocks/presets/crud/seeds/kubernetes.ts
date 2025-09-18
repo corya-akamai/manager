@@ -1,5 +1,9 @@
+import {
+  kubernetesClusterFactory,
+  nodePoolFactory,
+} from '@linode/dev-tools/factories';
+
 import { getSeedsCountMap } from 'src/dev-tools/utils';
-import { kubernetesClusterFactory, nodePoolFactory } from 'src/factories';
 import { mswDB } from 'src/mocks/indexedDB';
 import { seedWithUniqueIds } from 'src/mocks/presets/crud/seeds/utils';
 

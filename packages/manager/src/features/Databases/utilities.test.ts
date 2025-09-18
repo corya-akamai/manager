@@ -1,11 +1,11 @@
+import { accountFactory } from '@linode/dev-tools/factories';
+import {
+  databaseFactory,
+  databaseTypeFactory,
+} from '@linode/dev-tools/factories';
 import { renderHook, waitFor } from '@testing-library/react';
 import { DateTime } from 'luxon';
 
-import {
-  accountFactory,
-  databaseFactory,
-  databaseTypeFactory,
-} from 'src/factories';
 import {
   getDatabasesDescription,
   getReadOnlyHost,

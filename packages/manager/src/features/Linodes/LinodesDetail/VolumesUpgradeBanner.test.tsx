@@ -1,6 +1,9 @@
+import {
+  notificationFactory,
+  volumeFactory,
+} from '@linode/dev-tools/factories';
 import React from 'react';
 
-import { notificationFactory, volumeFactory } from 'src/factories';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';

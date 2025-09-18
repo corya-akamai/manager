@@ -1,4 +1,4 @@
-import { subnetFactory, vpcFactory } from '@src/factories';
+import { subnetFactory, vpcFactory } from '@linode/dev-tools/factories';
 import {
   MOCK_DELETE_VPC_ERROR,
   mockDeleteVPC,

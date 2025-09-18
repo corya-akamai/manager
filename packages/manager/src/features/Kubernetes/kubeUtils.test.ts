@@ -1,13 +1,12 @@
-import { accountBetaFactory, linodeTypeFactory } from '@linode/utilities';
-import { extendType } from '@linode/utilities';
-import { renderHook } from '@testing-library/react';
-
 import {
   kubeLinodeFactory,
   kubernetesEnterpriseTierVersionFactory,
   kubernetesVersionFactory,
   nodePoolFactory,
-} from 'src/factories';
+} from '@linode/dev-tools/factories';
+import { accountBetaFactory, linodeTypeFactory } from '@linode/utilities';
+import { extendType } from '@linode/utilities';
+import { renderHook } from '@testing-library/react';
 
 import {
   compareByKubernetesVersion,

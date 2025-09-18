@@ -1,8 +1,8 @@
+import { alertFactory } from '@linode/dev-tools/factories';
 import { capitalize } from '@linode/utilities';
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { alertFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { alertScopeLabelMap } from '../AlertsListing/constants';

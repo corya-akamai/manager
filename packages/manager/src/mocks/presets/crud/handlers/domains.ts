@@ -1,7 +1,10 @@
+import {
+  domainFactory,
+  domainRecordFactory,
+} from '@linode/dev-tools/factories';
 import { DateTime } from 'luxon';
 import { http } from 'msw';
 
-import { domainFactory, domainRecordFactory } from 'src/factories';
 import { mswDB } from 'src/mocks/indexedDB';
 import { queueEvents } from 'src/mocks/utilities/events';
 import {

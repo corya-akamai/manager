@@ -1,3 +1,4 @@
+import { accountUserFactory } from '@linode/dev-tools/factories';
 import { grantsFactory, profileFactory } from '@linode/utilities';
 import { authenticate } from 'support/api/authentication';
 import { longviewEmptyStateMessage } from 'support/constants/longview';
@@ -16,7 +17,6 @@ import { ui } from 'support/ui';
 import { cleanUp } from 'support/util/cleanup';
 import { randomLabel } from 'support/util/random';
 
-import { accountUserFactory } from 'src/factories';
 import { longviewActivePlanFactory } from 'src/factories';
 
 import type { ActiveLongviewPlan } from '@linode/api-v4';

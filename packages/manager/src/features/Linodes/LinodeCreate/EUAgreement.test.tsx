@@ -1,7 +1,7 @@
+import { accountAgreementsFactory } from '@linode/dev-tools/factories';
 import { regionFactory } from '@linode/utilities';
 import React from 'react';
 
-import { accountAgreementsFactory } from 'src/factories';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';

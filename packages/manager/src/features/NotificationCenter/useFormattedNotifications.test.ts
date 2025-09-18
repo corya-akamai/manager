@@ -1,4 +1,7 @@
-import { gdprComplianceNotification, notificationFactory } from 'src/factories';
+import {
+  gdprComplianceNotification,
+  notificationFactory,
+} from '@linode/dev-tools/factories';
 
 import { adjustSeverity, isEUModelContractNotification } from './utils';
 

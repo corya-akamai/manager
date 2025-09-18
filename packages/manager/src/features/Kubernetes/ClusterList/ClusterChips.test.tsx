@@ -1,6 +1,6 @@
+import { kubernetesClusterFactory } from '@linode/dev-tools/factories';
 import React from 'react';
 
-import { kubernetesClusterFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { ClusterChips } from './ClusterChips';

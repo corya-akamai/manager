@@ -1,10 +1,10 @@
 /* eslint-disable sonarjs/no-duplicate-string */
+import { firewallFactory } from '@linode/dev-tools/factories';
 import {
   createLinodeRequestFactory,
   linodeFactory,
   regionFactory,
 } from '@linode/utilities';
-import { firewallFactory } from '@src/factories';
 import { authenticate } from 'support/api/authentication';
 import {
   interceptCreateFirewall,

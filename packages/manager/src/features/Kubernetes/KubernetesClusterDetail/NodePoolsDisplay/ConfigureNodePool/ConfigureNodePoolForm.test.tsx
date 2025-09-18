@@ -1,9 +1,9 @@
+import { accountFactory, nodePoolFactory } from '@linode/dev-tools/factories';
 import { linodeTypeFactory } from '@linode/utilities';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { accountFactory, nodePoolFactory } from 'src/factories';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

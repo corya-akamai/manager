@@ -1,11 +1,11 @@
+import {
+  supportReplyFactory,
+  supportTicketFactory,
+} from '@linode/dev-tools/factories';
 import { breakpoints } from '@linode/ui';
 import { render, screen } from '@testing-library/react';
 import * as React from 'react';
 
-import {
-  supportReplyFactory,
-  supportTicketFactory,
-} from 'src/factories/support';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import {

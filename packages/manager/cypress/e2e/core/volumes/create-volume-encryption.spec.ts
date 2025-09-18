@@ -1,3 +1,8 @@
+import {
+  accountFactory,
+  linodeDiskFactory,
+  volumeFactory,
+} from '@linode/dev-tools/factories';
 /**
  * @file UI tests involving Volume creation with Block Storage Encryption functionality.
  */
@@ -16,11 +21,6 @@ import { ui } from 'support/ui';
 import { randomLabel } from 'support/util/random';
 
 import { checkboxTestId } from 'src/components/Encryption/constants';
-import {
-  accountFactory,
-  linodeDiskFactory,
-  volumeFactory,
-} from 'src/factories';
 
 import type { Linode } from '@linode/api-v4';
 

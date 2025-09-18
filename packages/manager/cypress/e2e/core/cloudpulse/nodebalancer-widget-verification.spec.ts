@@ -1,3 +1,4 @@
+import { accountFactory, kubeLinodeFactory } from '@linode/dev-tools/factories';
 /**
  * @file Integration Tests for CloudPulse nodebalancer Dashboard.
  */
@@ -26,12 +27,10 @@ import { generateRandomMetricsData } from 'support/util/cloudpulse';
 import { randomNumber } from 'support/util/random';
 
 import {
-  accountFactory,
   cloudPulseMetricsResponseFactory,
   dashboardFactory,
   dashboardMetricFactory,
   flagsFactory,
-  kubeLinodeFactory,
   widgetFactory,
 } from 'src/factories';
 import { generateGraphData } from 'src/features/CloudPulse/Utils/CloudPulseWidgetUtils';

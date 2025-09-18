@@ -1,8 +1,8 @@
+import { vpcIPFactory } from '@linode/dev-tools/factories';
 import { linodeIPFactory } from '@linode/utilities';
 import { fireEvent } from '@testing-library/react';
 import * as React from 'react';
 
-import { vpcIPFactory } from 'src/factories';
 import { PUBLIC_IP_ADDRESSES_CONFIG_INTERFACE_TOOLTIP_TEXT } from 'src/features/Linodes/constants';
 import { renderWithTheme, wrapWithTableBody } from 'src/utilities/testHelpers';
 

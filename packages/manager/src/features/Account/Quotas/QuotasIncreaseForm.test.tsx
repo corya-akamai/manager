@@ -1,7 +1,7 @@
+import { quotaFactory, quotaUsageFactory } from '@linode/dev-tools/factories';
 import { act, fireEvent, waitFor } from '@testing-library/react';
 import * as React from 'react';
 
-import { quotaFactory, quotaUsageFactory } from 'src/factories/quotas';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { QuotasIncreaseForm } from './QuotasIncreaseForm';

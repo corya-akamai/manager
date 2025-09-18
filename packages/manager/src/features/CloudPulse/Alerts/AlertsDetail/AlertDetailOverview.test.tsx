@@ -1,6 +1,7 @@
+import { alertFactory } from '@linode/dev-tools/factories';
+import { serviceTypesFactory } from '@linode/dev-tools/factories';
 import React from 'react';
 
-import { alertFactory, serviceTypesFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { convertStringToCamelCasesWithSpaces } from '../../Utils/utils';

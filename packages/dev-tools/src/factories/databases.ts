@@ -39,7 +39,7 @@ export const possiblePostgresReplicationTypes: PostgresReplicationType[] = [
   'asynch',
 ];
 
-export const possibleTypes: string[] = [
+export const databasePossibleTypes: string[] = [
   'g6-nanode-1',
   'g6-standard-2',
   'g6-standard-4',
@@ -119,7 +119,9 @@ export const databaseTypeFactory = Factory.Sync.makeFactory<DatabaseType>({
       },
     ],
   },
-  id: Factory.each((i) => possibleTypes[i % possibleTypes.length]),
+  id: Factory.each(
+    (i) => databasePossibleTypes[i % databasePossibleTypes.length],
+  ),
   label: Factory.each((i) => `Linode ${i} GB`),
   memory: Factory.each((i) => i * 2048),
   vcpus: Factory.each((i) => i * 2),
@@ -158,14 +160,14 @@ export const databaseInstanceFactory =
     cluster_size: Factory.each((i) =>
       adb10(i)
         ? ([1, 3][i % 2] as ClusterSize)
-        : ([1, 2, 3][i % 3] as ClusterSize)
+        : ([1, 2, 3][i % 3] as ClusterSize),
     ),
     connection_strings: [],
     created: '2021-12-09T17:15:12',
     encrypted: false,
     engine: Factory.each((i) => ['mysql', 'postgresql'][i % 2] as Engine),
     engine_config: Factory.each((i) =>
-      adb10(i) ? mysqlEngineConfig : postgresqlEngineConfig
+      adb10(i) ? mysqlEngineConfig : postgresqlEngineConfig,
     ),
     hosts: Factory.each((i) =>
       adb10(i)
@@ -176,7 +178,7 @@ export const databaseInstanceFactory =
         : {
             primary: 'db-mysql-primary-0.b.linodeb.net',
             standby: 'db-mysql-secondary-0.b.linodeb.net',
-          }
+          },
     ),
     id: Factory.each((i) => i),
     instance_uri: '',
@@ -185,11 +187,13 @@ export const databaseInstanceFactory =
       '2.2.2.2': 'primary',
     },
     platform: Factory.each((i) =>
-      adb10(i) ? 'rdbms-legacy' : 'rdbms-default'
+      adb10(i) ? 'rdbms-legacy' : 'rdbms-default',
     ),
     region: Factory.each((i) => possibleRegions[i % possibleRegions.length]),
     status: Factory.each((i) => possibleStatuses[i % possibleStatuses.length]),
-    type: Factory.each((i) => possibleTypes[i % possibleTypes.length]),
+    type: Factory.each(
+      (i) => databasePossibleTypes[i % databasePossibleTypes.length],
+    ),
     updated: '2021-12-16T17:15:12',
     updates: {
       day_of_week: 1,
@@ -221,7 +225,7 @@ export const databaseFactory = Factory.Sync.makeFactory<Database>({
   encrypted: false,
   engine: 'mysql',
   engine_config: Factory.each((i) =>
-    adb10(i) ? mysqlEngineConfig : postgresqlEngineConfig
+    adb10(i) ? mysqlEngineConfig : postgresqlEngineConfig,
   ),
   hosts: Factory.each((i) =>
     adb10(i)
@@ -232,7 +236,7 @@ export const databaseFactory = Factory.Sync.makeFactory<Database>({
       : {
           primary: 'db-mysql-primary-0.b.linodeb.net',
           standby: 'db-mysql-secondary-0.b.linodeb.net',
-        }
+        },
   ),
   id: Factory.each((i) => i),
   label: Factory.each((i) => `database-${i}`),
@@ -451,5 +455,5 @@ export const postgresConfigResponse = {
   },
 };
 export const databaseEngineConfigFactory = Factory.each((i) =>
-  adb10(i) ? mysqlConfigResponse : postgresConfigResponse
+  adb10(i) ? mysqlConfigResponse : postgresConfigResponse,
 );

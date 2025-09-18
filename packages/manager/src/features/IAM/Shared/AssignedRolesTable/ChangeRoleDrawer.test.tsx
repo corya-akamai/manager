@@ -1,9 +1,9 @@
+import { accountEntityFactory } from '@linode/dev-tools/factories';
+import { accountRolesFactory } from '@linode/dev-tools/factories';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { accountEntityFactory } from 'src/factories/accountEntities';
-import { accountRolesFactory } from 'src/factories/accountRoles';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { ChangeRoleDrawer } from './ChangeRoleDrawer';

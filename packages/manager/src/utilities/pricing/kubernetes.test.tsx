@@ -1,7 +1,6 @@
+import { nodePoolFactory } from '@linode/dev-tools/factories';
 import { linodeTypeFactory } from '@linode/utilities';
 import { extendType } from '@linode/utilities';
-
-import { nodePoolFactory } from 'src/factories';
 
 import { getKubernetesMonthlyPrice, getTotalClusterPrice } from './kubernetes';
 

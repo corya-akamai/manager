@@ -2,15 +2,14 @@
  * @file Cypress intercepts and mocks for Linode Managed operations.
  */
 
+import {
+  managedSSHPubKeyFactory,
+  managedStatsFactory,
+} from '@linode/dev-tools/factories';
 import { makeErrorResponse } from 'support/util/errors';
 import { apiMatcher } from 'support/util/intercepts';
 import { paginateResponse } from 'support/util/paginate';
 import { makeResponse } from 'support/util/response';
-
-import {
-  managedSSHPubKeyFactory,
-  managedStatsFactory,
-} from 'src/factories/managed';
 
 import type {
   ManagedContact,

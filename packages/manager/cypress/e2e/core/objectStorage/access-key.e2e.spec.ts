@@ -3,6 +3,8 @@
  */
 
 import { createBucket } from '@linode/api-v4/lib/object-storage';
+import { accountFactory } from '@linode/dev-tools/factories';
+import { createObjectStorageBucketFactoryLegacy } from '@linode/dev-tools/factories';
 import { authenticate } from 'support/api/authentication';
 import { mockGetAccount } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
@@ -14,9 +16,6 @@ import { ui } from 'support/ui';
 import { cleanUp } from 'support/util/cleanup';
 import { chooseCluster } from 'support/util/clusters';
 import { randomLabel } from 'support/util/random';
-
-import { accountFactory } from 'src/factories';
-import { createObjectStorageBucketFactoryLegacy } from 'src/factories/objectStorage';
 
 authenticate();
 describe('object storage access key end-to-end tests', () => {

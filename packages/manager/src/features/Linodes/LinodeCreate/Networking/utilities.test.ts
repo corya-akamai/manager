@@ -1,10 +1,9 @@
+import { firewallSettingsFactory } from '@linode/dev-tools/factories';
 import { omitProps } from '@linode/ui';
 import {
   linodeInterfaceFactoryPublic,
   linodeInterfaceFactoryVPC,
 } from '@linode/utilities';
-
-import { firewallSettingsFactory } from 'src/factories';
 
 import {
   getCleanedLinodeInterfaceValues,

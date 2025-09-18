@@ -1,13 +1,13 @@
-/**
- * @file Cypress integration tests for OBJ enrollment and cancellation.
- */
-import { profileFactory, regionFactory } from '@linode/utilities';
 import {
   accountFactory,
   accountSettingsFactory,
   objectStorageClusterFactory,
   objectStorageKeyFactory,
-} from '@src/factories';
+} from '@linode/dev-tools/factories';
+/**
+ * @file Cypress integration tests for OBJ enrollment and cancellation.
+ */
+import { profileFactory, regionFactory } from '@linode/utilities';
 import {
   mockGetAccount,
   mockGetAccountSettings,

@@ -2,6 +2,7 @@
  * @file Integration tests for Firewall creation flows involving custom rules.
  */
 
+import { accountFactory, firewallFactory } from '@linode/dev-tools/factories';
 import { linodeFactory, nodeBalancerFactory } from '@linode/utilities';
 import { mockGetAccount } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
@@ -14,8 +15,6 @@ import { mockGetNodeBalancers } from 'support/intercepts/nodebalancers';
 import { ui } from 'support/ui';
 import { randomLabel } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
-
-import { accountFactory, firewallFactory } from 'src/factories';
 
 describe('Can create Firewalls using custom rules', () => {
   beforeEach(() => {

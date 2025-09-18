@@ -1,4 +1,9 @@
 import { createFirewall } from '@linode/api-v4';
+import {
+  firewallFactory,
+  firewallRuleFactory,
+  firewallRulesFactory,
+} from '@linode/dev-tools/factories';
 import { createLinodeRequestFactory } from '@linode/utilities';
 import { authenticate } from 'support/api/authentication';
 import {
@@ -10,12 +15,6 @@ import { cleanUp } from 'support/util/cleanup';
 import { createTestLinode } from 'support/util/linodes';
 import { randomItem, randomLabel, randomString } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
-
-import {
-  firewallFactory,
-  firewallRuleFactory,
-  firewallRulesFactory,
-} from 'src/factories';
 
 import type {
   CreateFirewallPayload,

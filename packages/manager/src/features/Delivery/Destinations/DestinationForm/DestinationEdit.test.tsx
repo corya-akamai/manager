@@ -1,3 +1,4 @@
+import { destinationFactory } from '@linode/dev-tools/factories';
 import {
   screen,
   waitFor,
@@ -7,7 +8,6 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { describe, expect } from 'vitest';
 
-import { destinationFactory } from 'src/factories/delivery';
 import { DestinationEdit } from 'src/features/Delivery/Destinations/DestinationForm/DestinationEdit';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';

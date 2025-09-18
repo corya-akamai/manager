@@ -1,7 +1,7 @@
+import { accountEntityFactory } from '@linode/dev-tools/factories';
 import { fireEvent, screen } from '@testing-library/react';
 import React from 'react';
 
-import { accountEntityFactory } from 'src/factories/accountEntities';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

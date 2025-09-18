@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { planSelectionTypeFactory } from 'src/factories/types';
+import { planSelectionTypeFactory } from 'src/factories';
 import { PLAN_SELECTION_NO_REGION_SELECTED_MESSAGE } from 'src/utilities/pricing/constants';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 

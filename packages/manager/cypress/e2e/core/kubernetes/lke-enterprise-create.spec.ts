@@ -2,6 +2,13 @@
  * Confirms create operations on LKE-Enterprise clusters.
  */
 
+import {
+  accountFactory,
+  firewallFactory,
+  kubernetesClusterFactory,
+  subnetFactory,
+  vpcFactory,
+} from '@linode/dev-tools/factories';
 import { linodeTypeFactory, regionFactory } from '@linode/utilities';
 import {
   clusterPlans,
@@ -32,13 +39,6 @@ import { lkeClusterCreatePage } from 'support/ui/pages';
 import { randomLabel } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
 
-import {
-  accountFactory,
-  firewallFactory,
-  kubernetesClusterFactory,
-  subnetFactory,
-  vpcFactory,
-} from 'src/factories';
 import { extendType } from 'src/utilities/extendType';
 
 const clusterLabel = randomLabel();

@@ -1,8 +1,8 @@
+import { firewallSettingsFactory } from '@linode/dev-tools/factories';
 import { linodeFactory } from '@linode/utilities';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import { firewallSettingsFactory } from 'src/factories';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';

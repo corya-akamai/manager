@@ -1,7 +1,7 @@
+import { accountSettingsFactory } from '@linode/dev-tools/factories';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { accountSettingsFactory } from 'src/factories';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';
 

@@ -1,8 +1,8 @@
+import { appTokenFactory } from '@linode/dev-tools/factories';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import { appTokenFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { RevokeTokenDialog } from './RevokeTokenDialog';

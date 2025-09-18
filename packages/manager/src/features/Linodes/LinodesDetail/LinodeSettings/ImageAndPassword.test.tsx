@@ -1,6 +1,6 @@
+import { accountUserFactory } from '@linode/dev-tools/factories';
 import * as React from 'react';
 
-import { accountUserFactory } from 'src/factories/accountUsers';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import {

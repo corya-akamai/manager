@@ -1,7 +1,7 @@
+import { databaseFactory } from '@linode/dev-tools/factories';
+import { entityFactory, eventFactory } from '@linode/dev-tools/factories';
 import React from 'react';
 
-import { databaseFactory } from 'src/factories';
-import { entityFactory, eventFactory } from 'src/factories/events';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import { DatabaseStatusDisplay } from '../DatabaseDetail/DatabaseStatusDisplay';

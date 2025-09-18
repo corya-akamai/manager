@@ -1,5 +1,5 @@
 import { getProfile } from '@linode/api-v4/lib/profile';
-import { accessFactory, appTokenFactory } from '@src/factories';
+import { accessFactory, appTokenFactory } from '@linode/dev-tools/factories';
 import 'cypress-file-upload';
 import { authenticate } from 'support/api/authentication';
 import {

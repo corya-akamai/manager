@@ -1,6 +1,6 @@
+import { userEntityPermissionsFactory } from '@linode/dev-tools/factories';
 import { http } from 'msw';
 
-import { userEntityPermissionsFactory } from 'src/factories/userEntityPermissions';
 import { makeResponse } from 'src/mocks/utilities/response';
 
 import type { PermissionType } from '@linode/api-v4';

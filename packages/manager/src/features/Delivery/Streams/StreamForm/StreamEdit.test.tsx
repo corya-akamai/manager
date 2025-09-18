@@ -1,3 +1,4 @@
+import { destinationFactory, streamFactory } from '@linode/dev-tools/factories';
 import {
   screen,
   waitFor,
@@ -7,7 +8,6 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { describe, expect } from 'vitest';
 
-import { destinationFactory, streamFactory } from 'src/factories/delivery';
 import { StreamEdit } from 'src/features/Delivery/Streams/StreamForm/StreamEdit';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';

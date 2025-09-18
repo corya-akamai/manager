@@ -1,8 +1,8 @@
+import { imageFactory } from '@linode/dev-tools/factories';
 import { regionFactory } from '@linode/utilities';
 import { fireEvent } from '@testing-library/react';
 import * as React from 'react';
 
-import { imageFactory } from 'src/factories';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';

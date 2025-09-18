@@ -1,3 +1,4 @@
+import { firewallDeviceFactory } from '@linode/dev-tools/factories';
 import {
   nodeBalancerConfigFactory,
   nodeBalancerConfigNodeFactory,
@@ -7,7 +8,7 @@ import {
 import { DateTime } from 'luxon';
 import { http } from 'msw';
 
-import { firewallDeviceFactory, nodeBalancerTypeFactory } from 'src/factories';
+import { nodeBalancerTypeFactory } from 'src/factories';
 import { queueEvents } from 'src/mocks/utilities/events';
 import {
   makeNotFoundResponse,

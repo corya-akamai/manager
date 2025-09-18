@@ -18,7 +18,7 @@ const createResourceRoles = (
     contributor = [],
     creator = [],
     viewer = [],
-  }: CreateResourceRoles
+  }: CreateResourceRoles,
 ) => ({
   roles: [
     accountAdmin.length > 0

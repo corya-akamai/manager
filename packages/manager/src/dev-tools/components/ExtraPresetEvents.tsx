@@ -1,8 +1,8 @@
 import { type Event, EventActionKeys } from '@linode/api-v4';
+import { eventFactory } from '@linode/dev-tools/factories';
 import { Typography } from '@linode/ui';
 import * as React from 'react';
 
-import { eventFactory } from 'src/factories';
 import { extraMockPresets } from 'src/mocks/presets';
 import { setCustomEventsData } from 'src/mocks/presets/extra/account/customEvents';
 

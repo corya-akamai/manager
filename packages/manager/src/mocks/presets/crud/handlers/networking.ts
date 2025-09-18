@@ -1,6 +1,6 @@
+import { ipAddressFactory } from '@linode/dev-tools/factories';
 import { http } from 'msw';
 
-import { ipAddressFactory } from 'src/factories';
 import { mswDB } from 'src/mocks/indexedDB';
 import {
   // makeErrorResponse,

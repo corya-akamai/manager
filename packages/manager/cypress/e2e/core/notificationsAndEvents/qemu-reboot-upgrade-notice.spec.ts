@@ -1,10 +1,17 @@
 import {
+  accountFactory,
+  accountMaintenanceFactory,
+  linodeConfigFactory,
+  VLANFactory,
+  volumeFactory,
+} from '@linode/dev-tools/factories';
+import { notificationFactory } from '@linode/dev-tools/factories';
+import {
   capitalize,
   linodeConfigInterfaceFactory,
   linodeFactory,
   profileFactory,
 } from '@linode/utilities';
-import { notificationFactory } from '@src/factories/notification';
 import { mockGetAccount, mockGetMaintenance } from 'support/intercepts/account';
 import { mockGetLinodeConfigs } from 'support/intercepts/configs';
 import { mockGetNotifications } from 'support/intercepts/events';
@@ -18,13 +25,6 @@ import { mockGetVLANs } from 'support/intercepts/vlans';
 import { randomIp, randomLabel, randomNumber } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
 
-import {
-  accountFactory,
-  accountMaintenanceFactory,
-  linodeConfigFactory,
-  VLANFactory,
-  volumeFactory,
-} from 'src/factories';
 import { formatDate } from 'src/utilities/formatDate';
 
 import type { Notification } from '@linode/api-v4';

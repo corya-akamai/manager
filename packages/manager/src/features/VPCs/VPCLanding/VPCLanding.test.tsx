@@ -1,7 +1,7 @@
+import { subnetFactory } from '@linode/dev-tools/factories';
+import { vpcFactory } from '@linode/dev-tools/factories';
 import * as React from 'react';
 
-import { subnetFactory } from 'src/factories';
-import { vpcFactory } from 'src/factories/vpcs';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import VPCLanding from './VPCLanding';

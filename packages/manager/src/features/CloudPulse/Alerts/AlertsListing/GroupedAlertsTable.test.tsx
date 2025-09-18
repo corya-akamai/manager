@@ -1,9 +1,9 @@
+import { alertFactory } from '@linode/dev-tools/factories';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { vi } from 'vitest';
 
-import { alertFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { GroupedAlertsTable } from './GroupedAlertsTable';

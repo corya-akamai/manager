@@ -1,6 +1,6 @@
+import { accountUserFactory } from '@linode/dev-tools/factories';
 import React from 'react';
 
-import { accountUserFactory } from 'src/factories/accountUsers';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { UsersLandingTableBody } from './UsersLandingTableBody';

@@ -2,6 +2,11 @@
  * @file Integration tests for Firewall creation flows involving templates.
  */
 
+import {
+  accountFactory,
+  firewallFactory,
+  firewallTemplateFactory,
+} from '@linode/dev-tools/factories';
 import { mockGetAccount } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import {
@@ -13,12 +18,6 @@ import {
 import { mockApiInternalUser } from 'support/intercepts/general';
 import { ui } from 'support/ui';
 import { randomLabel } from 'support/util/random';
-
-import {
-  accountFactory,
-  firewallFactory,
-  firewallTemplateFactory,
-} from 'src/factories';
 
 const mockFirewallTemplateVpc = firewallTemplateFactory.build({
   slug: 'vpc',

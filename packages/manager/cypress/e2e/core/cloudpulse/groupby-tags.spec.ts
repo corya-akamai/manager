@@ -1,9 +1,9 @@
+import { accountFactory, alertFactory } from '@linode/dev-tools/factories';
 /**
  * @file Integration Tests for the CloudPulse Alerts Listing Page (Grouped by Tags).
  *
  * This spec verifies the grouping, display, and filtering behavior of alerts when grouped by tags.
-
-*/
+ */
 import { mockGetAccount } from 'support/intercepts/account';
 import {
   mockGetAllAlertDefinitions,
@@ -13,7 +13,7 @@ import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import { mockGetUserPreferences } from 'support/intercepts/profile';
 import { ui } from 'support/ui';
 
-import { accountFactory, alertFactory, flagsFactory } from 'src/factories';
+import { flagsFactory } from 'src/factories';
 
 import type {
   Alert,

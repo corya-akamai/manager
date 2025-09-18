@@ -1,7 +1,7 @@
 import { linodeFactory } from '@linode/utilities';
 import * as React from 'react';
 
-import { typeFactory } from 'src/factories/types';
+import { typeFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { RescueDialog } from './RescueDialog';

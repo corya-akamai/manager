@@ -1,9 +1,9 @@
+import { subnetFactory, vpcFactory } from '@linode/dev-tools/factories';
 import { regionFactory } from '@linode/utilities';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import { subnetFactory, vpcFactory } from 'src/factories';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 

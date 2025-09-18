@@ -2,11 +2,10 @@
  * @file Integration tests for Moniter navigation.
  */
 
+import { accountFactory } from '@linode/dev-tools/factories';
 import { mockGetAccount } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import { ui } from 'support/ui';
-
-import { accountFactory } from 'src/factories';
 
 const mockAccount = accountFactory.build();
 

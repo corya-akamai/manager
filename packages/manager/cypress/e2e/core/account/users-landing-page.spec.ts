@@ -1,5 +1,5 @@
+import { accountUserFactory } from '@linode/dev-tools/factories';
 import { grantsFactory, profileFactory } from '@linode/utilities';
-import { accountUserFactory } from '@src/factories/accountUsers';
 import {
   mockAddUser,
   mockDeleteUser,

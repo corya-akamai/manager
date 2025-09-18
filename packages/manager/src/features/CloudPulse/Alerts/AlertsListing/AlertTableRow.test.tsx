@@ -1,9 +1,9 @@
+import { alertFactory } from '@linode/dev-tools/factories';
 import { capitalize } from '@linode/utilities';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import * as React from 'react';
 
-import { alertFactory } from 'src/factories/cloudpulse/alerts';
 import { renderWithTheme, wrapWithTableBody } from 'src/utilities/testHelpers';
 
 import { AlertTableRow } from './AlertTableRow';

@@ -1,4 +1,4 @@
-import { entityTransferFactory } from 'src/factories/entityTransfers';
+import { entityTransferFactory } from '@linode/dev-tools/factories';
 
 import { formatEntitiesCell } from './RenderTransferRow';
 

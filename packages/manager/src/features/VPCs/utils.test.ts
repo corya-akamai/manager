@@ -1,15 +1,14 @@
+import { linodeConfigFactory } from '@linode/dev-tools/factories';
+import {
+  subnetAssignedLinodeDataFactory,
+  subnetAssignedNodebalancerDataFactory,
+  subnetFactory,
+} from '@linode/dev-tools/factories';
 import {
   linodeConfigInterfaceFactory,
   linodeConfigInterfaceFactoryWithVPC,
   linodeInterfaceFactoryVPC,
 } from '@linode/utilities';
-
-import { linodeConfigFactory } from 'src/factories/linodeConfigs';
-import {
-  subnetAssignedLinodeDataFactory,
-  subnetAssignedNodebalancerDataFactory,
-  subnetFactory,
-} from 'src/factories/subnets';
 
 import {
   generateVPCIPv6InputHelperText,

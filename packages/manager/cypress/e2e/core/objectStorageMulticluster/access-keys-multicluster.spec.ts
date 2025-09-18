@@ -1,3 +1,8 @@
+import {
+  accountFactory,
+  objectStorageBucketFactory,
+  objectStorageKeyFactory,
+} from '@linode/dev-tools/factories';
 import { regionFactory } from '@linode/utilities';
 import { mockGetAccount } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
@@ -17,12 +22,6 @@ import {
   randomString,
 } from 'support/util/random';
 import { extendRegion } from 'support/util/regions';
-
-import {
-  accountFactory,
-  objectStorageBucketFactory,
-  objectStorageKeyFactory,
-} from 'src/factories';
 
 import type { ObjectStorageKeyBucketAccess } from '@linode/api-v4';
 

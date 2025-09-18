@@ -1,12 +1,12 @@
-import { waitForElementToBeRemoved } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import * as React from 'react';
-
 import {
   databaseFactory,
   databaseTypeFactory,
   vpcFactory,
-} from 'src/factories';
+} from '@linode/dev-tools/factories';
+import { waitForElementToBeRemoved } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import * as React from 'react';
+
 import { DatabaseCreate } from 'src/features/Databases/DatabaseCreate/DatabaseCreate';
 import { DatabaseResize } from 'src/features/Databases/DatabaseDetail/DatabaseResize/DatabaseResize';
 import { makeResourcePage } from 'src/mocks/serverHandlers';

@@ -1,8 +1,8 @@
+import { accountSettingsFactory } from '@linode/dev-tools/factories';
+import { maintenancePolicyFactory } from '@linode/dev-tools/factories';
 import { userEvent } from '@testing-library/user-event';
 import React from 'react';
 
-import { accountSettingsFactory } from 'src/factories';
-import { maintenancePolicyFactory } from 'src/factories/maintenancePolicy';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';

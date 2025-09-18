@@ -1,8 +1,9 @@
+import { serviceTypesFactory } from '@linode/dev-tools/factories';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { dashboardFactory, serviceTypesFactory } from 'src/factories';
+import { dashboardFactory } from 'src/factories';
 import * as utils from 'src/features/CloudPulse/Utils/utils';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

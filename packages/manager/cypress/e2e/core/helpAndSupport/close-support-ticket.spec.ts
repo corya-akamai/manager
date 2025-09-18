@@ -1,4 +1,5 @@
 import 'cypress-file-upload';
+import { supportTicketFactory } from '@linode/dev-tools/factories';
 import {
   closableMessage,
   closeButtonText,
@@ -18,7 +19,6 @@ import {
   randomPhrase,
 } from 'support/util/random';
 
-import { supportTicketFactory } from 'src/factories';
 import { SEVERITY_LABEL_MAP } from 'src/features/Support/SupportTickets/constants';
 
 describe('close support tickets', () => {

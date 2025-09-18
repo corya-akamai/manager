@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
+import { volumeFactory } from '@linode/dev-tools/factories';
 import { linodeFactory } from '@linode/utilities';
-import { volumeFactory, volumeTypeFactory } from '@src/factories';
 import {
   mockGetLinodeDetails,
   mockGetLinodeDisks,
@@ -20,6 +20,7 @@ import { randomLabel, randomNumber } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
 
 import { checkboxTestId } from 'src/components/Encryption/constants';
+import { volumeTypeFactory } from 'src/factories';
 import {
   PRICES_RELOAD_ERROR_NOTICE_TEXT,
   UNKNOWN_PRICE,

@@ -1,5 +1,8 @@
+import {
+  databaseEngineFactory,
+  databaseTypeFactory,
+} from '@linode/dev-tools/factories';
 import { regionAvailabilityFactory } from '@linode/utilities';
-import { databaseEngineFactory, databaseTypeFactory } from '@src/factories';
 import { randomIp, randomLabel } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
 

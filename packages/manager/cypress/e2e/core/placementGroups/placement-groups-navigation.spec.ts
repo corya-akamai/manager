@@ -2,10 +2,9 @@
  * @file Integration tests for Placement Groups navigation.
  */
 
+import { accountFactory } from '@linode/dev-tools/factories';
 import { mockGetAccount } from 'support/intercepts/account';
 import { ui } from 'support/ui';
-
-import { accountFactory } from 'src/factories';
 
 const mockAccount = accountFactory.build();
 

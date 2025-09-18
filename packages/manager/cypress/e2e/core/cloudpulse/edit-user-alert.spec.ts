@@ -5,6 +5,17 @@
  * It verifies that alert details are correctly displayed, interactive, and editable.
  */
 
+import {
+  accountFactory,
+  alertFactory,
+  cpuRulesFactory,
+  databaseFactory,
+  memoryRulesFactory,
+  notificationChannelFactory,
+  serviceAlertFactory,
+  serviceTypesFactory,
+  triggerConditionFactory,
+} from '@linode/dev-tools/factories';
 import { profileFactory, regionFactory } from '@linode/utilities';
 import {
   EVALUATION_PERIOD_DESCRIPTION,
@@ -30,19 +41,7 @@ import { mockGetProfile } from 'support/intercepts/profile';
 import { mockGetRegions } from 'support/intercepts/regions';
 import { ui } from 'support/ui';
 
-import {
-  accountFactory,
-  alertFactory,
-  cpuRulesFactory,
-  dashboardMetricFactory,
-  databaseFactory,
-  flagsFactory,
-  memoryRulesFactory,
-  notificationChannelFactory,
-  serviceAlertFactory,
-  serviceTypesFactory,
-  triggerConditionFactory,
-} from 'src/factories';
+import { dashboardMetricFactory, flagsFactory } from 'src/factories';
 import {
   ACCOUNT_GROUP_INFO_MESSAGE,
   entityGroupingOptions,

@@ -1,9 +1,8 @@
-import { renderHook } from '@testing-library/react';
-
 import {
   kubeLinodeFactory,
   nodePoolFactory,
-} from 'src/factories/kubernetesCluster';
+} from '@linode/dev-tools/factories';
+import { renderHook } from '@testing-library/react';
 
 import { useDefaultExpandedNodePools } from './useDefaultExpandedNodePools';
 

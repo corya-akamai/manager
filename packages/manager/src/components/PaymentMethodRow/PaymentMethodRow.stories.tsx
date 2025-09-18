@@ -1,7 +1,6 @@
+import { paymentMethodFactory } from '@linode/dev-tools/factories';
 import React from 'react';
 import { action } from 'storybook/actions';
-
-import { paymentMethodFactory } from 'src/factories';
 
 import { PaymentMethodRow } from './PaymentMethodRow';
 

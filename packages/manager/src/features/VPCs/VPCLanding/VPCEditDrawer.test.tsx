@@ -1,6 +1,6 @@
+import { vpcFactory } from '@linode/dev-tools/factories';
 import * as React from 'react';
 
-import { vpcFactory } from 'src/factories/vpcs';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { VPCEditDrawer } from './VPCEditDrawer';

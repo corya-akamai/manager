@@ -1,14 +1,14 @@
 import {
+  linodeConfigFactory,
+  VLANFactory,
+  volumeFactory,
+} from '@linode/dev-tools/factories';
+import {
   createLinodeRequestFactory,
   linodeConfigInterfaceFactory,
   linodeFactory,
   regionFactory,
 } from '@linode/utilities';
-import {
-  linodeConfigFactory,
-  VLANFactory,
-  volumeFactory,
-} from '@src/factories';
 import { authenticate } from 'support/api/authentication';
 import {
   dcPricingDocsLabel,

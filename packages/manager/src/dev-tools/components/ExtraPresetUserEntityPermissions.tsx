@@ -1,7 +1,7 @@
+import { userEntityPermissionsFactory } from '@linode/dev-tools/factories';
 import { Dialog } from '@linode/ui';
 import * as React from 'react';
 
-import { userEntityPermissionsFactory } from 'src/factories/userEntityPermissions';
 import { extraMockPresets } from 'src/mocks/presets';
 import { setCustomUserEntityPermissionsData } from 'src/mocks/presets/extra/userPermissions/customUserEntityPermissions';
 

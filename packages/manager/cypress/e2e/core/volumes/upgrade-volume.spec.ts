@@ -1,9 +1,9 @@
-import { linodeFactory } from '@linode/utilities';
 import {
   eventFactory,
   notificationFactory,
   volumeFactory,
-} from '@src/factories';
+} from '@linode/dev-tools/factories';
+import { linodeFactory } from '@linode/utilities';
 import { mockGetEvents, mockGetNotifications } from 'support/intercepts/events';
 import {
   mockGetLinodeDetails,

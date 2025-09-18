@@ -1,8 +1,8 @@
+import { nodePoolFactory } from '@linode/dev-tools/factories';
 import { regionFactory } from '@linode/utilities';
 import * as React from 'react';
 
 import { typeFactory } from 'src/factories';
-import { nodePoolFactory } from 'src/factories/kubernetesCluster';
 import { UNKNOWN_PRICE } from 'src/utilities/pricing/constants';
 import { LKE_CREATE_CLUSTER_CHECKOUT_MESSAGE } from 'src/utilities/pricing/constants';
 import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';

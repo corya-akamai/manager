@@ -1,13 +1,13 @@
+import { accountFactory } from '@linode/dev-tools/factories';
+import {
+  databaseFactory,
+  databaseTypeFactory,
+} from '@linode/dev-tools/factories';
 import { regionAvailabilityFactory } from '@linode/utilities';
 import { waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import {
-  accountFactory,
-  databaseFactory,
-  databaseTypeFactory,
-} from 'src/factories';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import {

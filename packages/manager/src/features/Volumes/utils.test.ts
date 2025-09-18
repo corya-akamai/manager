@@ -2,7 +2,7 @@ import {
   eventFactory,
   notificationFactory,
   volumeFactory,
-} from 'src/factories';
+} from '@linode/dev-tools/factories';
 
 import {
   getDerivedVolumeStatusFromStatusAndEvent,

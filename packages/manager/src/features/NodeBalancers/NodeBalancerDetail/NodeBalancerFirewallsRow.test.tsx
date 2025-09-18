@@ -1,7 +1,7 @@
+import { firewallFactory } from '@linode/dev-tools/factories';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import { firewallFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { NodeBalancerFirewallsRow } from './NodeBalancerFirewallsRow';

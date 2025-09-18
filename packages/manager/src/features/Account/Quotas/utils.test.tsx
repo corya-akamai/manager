@@ -1,9 +1,8 @@
+import { quotaFactory, quotaUsageFactory } from '@linode/dev-tools/factories';
 import { profileFactory } from '@linode/utilities';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook } from '@testing-library/react';
 import * as React from 'react';
-
-import { quotaFactory, quotaUsageFactory } from 'src/factories/quotas';
 
 import {
   convertResourceMetric,

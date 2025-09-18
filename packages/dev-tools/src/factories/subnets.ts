@@ -17,7 +17,7 @@ export const subnetAssignedLinodeDataFactory =
         active: false,
         config_id: i * 10 + arrIdx,
         id: i * 10 + arrIdx,
-      }))
+      })),
     ),
   });
 
@@ -36,15 +36,15 @@ export const subnetFactory = Factory.Sync.makeFactory<Subnet>({
     Array.from({ length: 5 }, (_, arrIdx) =>
       subnetAssignedLinodeDataFactory.build({
         id: i * 10 + arrIdx,
-      })
-    )
+      }),
+    ),
   ),
   nodebalancers: Factory.each((i) =>
     Array.from({ length: 3 }, (_, arrIdx) =>
       subnetAssignedNodebalancerDataFactory.build({
         id: i * 10 + arrIdx,
-      })
-    )
+      }),
+    ),
   ),
   updated: '2023-07-12T16:08:53',
 });

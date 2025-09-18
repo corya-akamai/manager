@@ -1,7 +1,7 @@
+import { eventFactory } from '@linode/dev-tools/factories';
 import { screen } from '@testing-library/react';
 import * as React from 'react';
 
-import { eventFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { EventLink } from './EventLink';

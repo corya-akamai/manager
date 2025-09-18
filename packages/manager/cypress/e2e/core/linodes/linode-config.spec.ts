@@ -1,4 +1,12 @@
 import {
+  accountFactory,
+  kernelFactory,
+  linodeConfigFactory,
+  subnetFactory,
+  VLANFactory,
+  vpcFactory,
+} from '@linode/dev-tools/factories';
+import {
   configFactory,
   linodeConfigInterfaceFactory,
   linodeConfigInterfaceFactoryWithVPC,
@@ -7,14 +15,6 @@ import {
   regionFactory,
   upgradeLinodeInterfaceFactory,
 } from '@linode/utilities';
-import {
-  accountFactory,
-  kernelFactory,
-  linodeConfigFactory,
-  subnetFactory,
-  VLANFactory,
-  vpcFactory,
-} from '@src/factories';
 import { authenticate } from 'support/api/authentication';
 import { dcPricingMockLinodeTypes } from 'support/constants/dc-specific-pricing';
 import {

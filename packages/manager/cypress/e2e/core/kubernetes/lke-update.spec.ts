@@ -1,4 +1,12 @@
 import {
+  accountFactory,
+  kubeLinodeFactory,
+  kubernetesClusterFactory,
+  kubernetesControlPlaneACLFactory,
+  kubernetesControlPlaneACLOptionsFactory,
+  nodePoolFactory,
+} from '@linode/dev-tools/factories';
+import {
   linodeFactory,
   linodeTypeFactory,
   regionFactory,
@@ -42,14 +50,6 @@ import { buildArray } from 'support/util/arrays';
 import { randomIp, randomLabel, randomString } from 'support/util/random';
 import { extendRegion } from 'support/util/regions';
 
-import {
-  accountFactory,
-  kubeLinodeFactory,
-  kubernetesClusterFactory,
-  kubernetesControlPlaneACLFactory,
-  kubernetesControlPlaneACLOptionsFactory,
-  nodePoolFactory,
-} from 'src/factories';
 import { extendType } from 'src/utilities/extendType';
 
 import type { Label, Linode, PoolNodeResponse, Taint } from '@linode/api-v4';

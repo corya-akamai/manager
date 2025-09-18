@@ -1,4 +1,4 @@
-import { domainFactory } from '@src/factories';
+import { domainFactory } from '@linode/dev-tools/factories';
 import { authenticate } from 'support/api/authentication';
 import {
   interceptCreateDomain,

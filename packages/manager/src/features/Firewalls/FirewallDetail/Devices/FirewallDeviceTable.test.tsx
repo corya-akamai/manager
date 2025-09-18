@@ -1,6 +1,6 @@
+import { firewallDeviceFactory } from '@linode/dev-tools/factories';
 import * as React from 'react';
 
-import { firewallDeviceFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { FirewallDeviceTable } from './FirewallDeviceTable';

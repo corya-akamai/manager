@@ -1,12 +1,10 @@
+import { accountSettingsFactory } from '@linode/dev-tools/factories';
+import { objectStorageClusterFactory } from '@linode/dev-tools/factories';
 import { regionFactory } from '@linode/utilities';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import {
-  accountSettingsFactory,
-  objectStorageClusterFactory,
-} from 'src/factories';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';

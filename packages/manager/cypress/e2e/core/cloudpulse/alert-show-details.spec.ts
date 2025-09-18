@@ -1,3 +1,10 @@
+import {
+  accountFactory,
+  alertFactory,
+  alertRulesFactory,
+  databaseFactory,
+  notificationChannelFactory,
+} from '@linode/dev-tools/factories';
 /**
  * @file Integration Tests for the CloudPulse Alerts Show Detail Page.
  *
@@ -23,13 +30,6 @@ import { mockGetProfile } from 'support/intercepts/profile';
 import { mockGetRegions } from 'support/intercepts/regions';
 import { ui } from 'support/ui';
 
-import {
-  accountFactory,
-  alertFactory,
-  alertRulesFactory,
-  databaseFactory,
-  notificationChannelFactory,
-} from 'src/factories';
 import {
   ACCOUNT_GROUP_INFO_MESSAGE,
   entityGroupingOptions,

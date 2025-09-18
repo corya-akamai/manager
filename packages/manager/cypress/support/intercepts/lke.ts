@@ -5,7 +5,7 @@
 import {
   kubeEndpointFactory,
   kubernetesDashboardUrlFactory,
-} from '@src/factories';
+} from '@linode/dev-tools/factories';
 import {
   kubernetesVersions,
   latestEnterpriseTierKubernetesVersion,

@@ -1,12 +1,12 @@
+import { firewallSettingsFactory } from '@linode/dev-tools/factories';
+import {
+  subnetAssignedLinodeDataFactory,
+  subnetFactory,
+} from '@linode/dev-tools/factories';
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import { firewallSettingsFactory } from 'src/factories';
-import {
-  subnetAssignedLinodeDataFactory,
-  subnetFactory,
-} from 'src/factories/subnets';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import { VPCSubnetsTable } from './VPCSubnetsTable';

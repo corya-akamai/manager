@@ -1,10 +1,9 @@
 import { deleteDomain, getDomains } from '@linode/api-v4';
+import { createDomainPayloadFactory } from '@linode/dev-tools/factories';
 import { isTestLabel } from 'support/api/common';
 import { oauthToken, pageSize } from 'support/constants/api';
 import { depaginate } from 'support/util/paginate';
 import { randomDomainName } from 'support/util/random';
-
-import { createDomainPayloadFactory } from 'src/factories';
 
 import { apiCheckErrors } from './common';
 

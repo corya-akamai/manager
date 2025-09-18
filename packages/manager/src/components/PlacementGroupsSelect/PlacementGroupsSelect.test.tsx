@@ -1,8 +1,8 @@
+import { placementGroupFactory } from '@linode/dev-tools/factories';
 import { regionFactory } from '@linode/utilities';
 import { fireEvent } from '@testing-library/react';
 import * as React from 'react';
 
-import { placementGroupFactory } from 'src/factories';
 import { PLACEMENT_GROUP_HAS_NO_CAPACITY } from 'src/features/PlacementGroups/constants';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

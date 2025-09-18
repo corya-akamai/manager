@@ -1,7 +1,7 @@
+import { appTokenFactory } from '@linode/dev-tools/factories';
 import { profileFactory } from '@linode/utilities';
 import * as React from 'react';
 
-import { appTokenFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { basePerms } from './utils';

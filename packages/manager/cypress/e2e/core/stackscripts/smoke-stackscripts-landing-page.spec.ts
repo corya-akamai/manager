@@ -1,8 +1,7 @@
+import { stackScriptFactory } from '@src/factories';
 import { authenticate } from 'support/api/authentication';
 import { mockGetStackScripts } from 'support/intercepts/stackscripts';
 import { ui } from 'support/ui';
-
-import { stackScriptFactory } from 'src/factories';
 
 authenticate();
 describe('Display stackscripts', () => {

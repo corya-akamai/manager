@@ -1,6 +1,6 @@
+import { accountMaintenanceFactory } from '@linode/dev-tools/factories';
 import React from 'react';
 
-import { accountMaintenanceFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { LinodeMaintenanceBanner } from './LinodeMaintenanceBanner';

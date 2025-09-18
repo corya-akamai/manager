@@ -1,7 +1,8 @@
+import { accountSettingsFactory } from '@linode/dev-tools/factories';
 import { linodeFactory } from '@linode/utilities';
 import * as React from 'react';
 
-import { accountSettingsFactory, typeFactory } from 'src/factories';
+import { typeFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { BackupDrawer } from './BackupDrawer';

@@ -1,11 +1,13 @@
+import {
+  managedIssueFactory,
+  monitorFactory,
+} from '@linode/dev-tools/factories';
 import { visitUrlWithManagedEnabled } from 'support/api/managed';
 import {
   mockGetIssues,
   mockGetServiceMonitors,
   mockGetStats,
 } from 'support/intercepts/managed';
-
-import { managedIssueFactory, monitorFactory } from 'src/factories/managed';
 
 describe('Managed Summary tab', () => {
   /**

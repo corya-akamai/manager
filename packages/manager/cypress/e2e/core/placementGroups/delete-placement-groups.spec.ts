@@ -2,6 +2,10 @@
  * @file Cypress integration tests for VM Placement Groups deletion flows.
  */
 
+import {
+  accountFactory,
+  placementGroupFactory,
+} from '@linode/dev-tools/factories';
 import { linodeFactory } from '@linode/utilities';
 import { mockGetAccount } from 'support/intercepts/account';
 import { mockGetLinodes } from 'support/intercepts/linodes';
@@ -18,7 +22,6 @@ import { buildArray } from 'support/util/arrays';
 import { randomLabel, randomNumber } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
 
-import { accountFactory, placementGroupFactory } from 'src/factories';
 import { headers as emptyStatePageHeaders } from 'src/features/PlacementGroups/PlacementGroupsLanding/PlacementGroupsLandingEmptyStateData';
 
 // Mock an account with 'Placement Group' capability.

@@ -1,3 +1,8 @@
+import {
+  accountFactory,
+  alertFactory,
+  databaseFactory,
+} from '@linode/dev-tools/factories';
 /**
  * @file Integration Tests for the CloudPulse Edit Alert Page.
  *
@@ -16,12 +21,7 @@ import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import { mockGetRegions } from 'support/intercepts/regions';
 import { ui } from 'support/ui';
 
-import {
-  accountFactory,
-  alertFactory,
-  databaseFactory,
-  flagsFactory,
-} from 'src/factories';
+import { flagsFactory } from 'src/factories';
 
 import type { Alert, Database } from '@linode/api-v4';
 

@@ -1,4 +1,11 @@
 import {
+  accountFactory,
+  accountSettingsFactory,
+  linodeConfigFactory,
+  subnetFactory,
+  vpcFactory,
+} from '@linode/dev-tools/factories';
+import {
   linodeConfigInterfaceFactoryWithVPC,
   linodeFactory,
   regionFactory,
@@ -33,13 +40,6 @@ import {
 } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
 
-import {
-  accountFactory,
-  accountSettingsFactory,
-  linodeConfigFactory,
-  subnetFactory,
-  vpcFactory,
-} from 'src/factories';
 import { WARNING_ICON_UNRECOMMENDED_CONFIG } from 'src/features/VPCs/constants';
 
 import type { Region } from '@linode/api-v4';

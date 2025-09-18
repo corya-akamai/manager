@@ -1,9 +1,9 @@
+import { databaseFactory } from '@linode/dev-tools/factories';
 import { regionFactory } from '@linode/utilities';
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { databaseFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { REGION_GROUP_INFO_MESSAGE } from '../constants';

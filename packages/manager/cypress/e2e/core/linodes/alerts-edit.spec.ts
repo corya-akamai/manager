@@ -1,3 +1,4 @@
+import { alertFactory } from '@linode/dev-tools/factories';
 import { linodeFactory, regionFactory } from '@linode/utilities';
 import { mockGetAlertDefinition } from 'support/intercepts/cloudpulse';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
@@ -10,7 +11,6 @@ import { ui } from 'support/ui';
 import { assertLinodeAlertsEnabled } from 'support/util/linodes';
 import { randomLabel } from 'support/util/random';
 
-import { alertFactory } from 'src/factories';
 import {
   ALERTS_BETA_MODE_BANNER_TEXT,
   ALERTS_BETA_MODE_BUTTON_TEXT,

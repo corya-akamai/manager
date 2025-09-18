@@ -1,7 +1,7 @@
+import { ipAddressFactory } from '@linode/dev-tools/factories';
 import { fireEvent } from '@testing-library/react';
 import * as React from 'react';
 
-import { ipAddressFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { EditIPRDNSDrawer } from './EditIPRDNSDrawer';

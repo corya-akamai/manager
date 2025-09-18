@@ -1,3 +1,7 @@
+import {
+  accountFactory,
+  accountUserFactory,
+} from '@linode/dev-tools/factories';
 import { profileFactory } from '@linode/utilities';
 import { DateTime } from 'luxon';
 import {
@@ -8,8 +12,6 @@ import { mockGetLinodes } from 'support/intercepts/linodes';
 import { mockGetProfile } from 'support/intercepts/profile';
 import { ui } from 'support/ui';
 import { randomLabel, randomString } from 'support/util/random';
-
-import { accountFactory, accountUserFactory } from 'src/factories';
 
 const mockChildAccount = accountFactory.build({
   company: 'Partner Company',

@@ -2,6 +2,9 @@
  * Integration tests involving Host Maintenance Policy account settings.
  */
 
+import { accountMaintenanceFactory } from '@linode/dev-tools/factories';
+import { accountSettingsFactory } from '@linode/dev-tools/factories';
+import { maintenancePolicyFactory } from '@linode/dev-tools/factories';
 import {
   mockGetAccountSettings,
   mockGetMaintenance,
@@ -11,10 +14,6 @@ import {
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import { mockGetMaintenancePolicies } from 'support/intercepts/maintenance';
 import { ui } from 'support/ui';
-
-import { accountSettingsFactory } from 'src/factories';
-import { accountMaintenanceFactory } from 'src/factories/accountMaintenance';
-import { maintenancePolicyFactory } from 'src/factories/maintenancePolicy';
 
 describe('Host Maintenance Policy account settings', () => {
   const mockMaintenancePolicies = [

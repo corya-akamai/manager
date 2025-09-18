@@ -1,5 +1,5 @@
 import { createDomain } from '@linode/api-v4/lib/domains';
-import { domainFactory } from '@src/factories';
+import { domainFactory } from '@linode/dev-tools/factories';
 import { authenticate } from 'support/api/authentication';
 import { ui } from 'support/ui';
 import { randomDomainName } from 'support/util/random';

@@ -1,11 +1,10 @@
+import { volumeRequestPayloadFactory } from '@linode/dev-tools/factories';
 import { authenticate } from 'support/api/authentication';
 import { createActiveVolume } from 'support/api/volumes';
 import { interceptCloneVolume } from 'support/intercepts/volumes';
 import { cleanUp } from 'support/util/cleanup';
 import { randomLabel } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
-
-import { volumeRequestPayloadFactory } from 'src/factories/volume';
 
 import type { Volume } from '@linode/api-v4';
 

@@ -1,4 +1,12 @@
 import {
+  accountFactory,
+  firewallFactory,
+  kubernetesClusterFactory,
+  subnetAssignedLinodeDataFactory,
+  subnetFactory,
+  vpcFactory,
+} from '@linode/dev-tools/factories';
+import {
   linodeConfigInterfaceFactoryWithVPC,
   linodeFactory,
   linodeInterfaceFactoryPublic,
@@ -7,14 +15,6 @@ import {
 import { waitFor } from '@testing-library/react';
 import * as React from 'react';
 
-import {
-  accountFactory,
-  firewallFactory,
-  kubernetesClusterFactory,
-  subnetAssignedLinodeDataFactory,
-  subnetFactory,
-  vpcFactory,
-} from 'src/factories';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';

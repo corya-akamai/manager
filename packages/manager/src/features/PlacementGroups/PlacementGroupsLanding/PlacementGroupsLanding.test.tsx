@@ -1,6 +1,6 @@
+import { placementGroupFactory } from '@linode/dev-tools/factories';
 import * as React from 'react';
 
-import { placementGroupFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { PlacementGroupsLanding } from './PlacementGroupsLanding';

@@ -1,3 +1,4 @@
+import { accountSettingsFactory } from '@linode/dev-tools/factories';
 import { grantsFactory, profileFactory } from '@linode/utilities';
 import {
   screen,
@@ -8,7 +9,6 @@ import {
 import * as React from 'react';
 
 import { withDocumentTitleProvider } from 'src/components/DocumentTitle';
-import { accountSettingsFactory } from 'src/factories';
 import { longviewSubscriptionFactory } from 'src/factories/longviewSubscription';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';

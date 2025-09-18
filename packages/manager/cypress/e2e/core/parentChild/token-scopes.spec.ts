@@ -1,6 +1,6 @@
+import { accountFactory, appTokenFactory } from '@linode/dev-tools/factories';
+import { accountUserFactory } from '@linode/dev-tools/factories';
 import { grantsFactory, profileFactory } from '@linode/utilities';
-import { accountFactory, appTokenFactory } from '@src/factories';
-import { accountUserFactory } from '@src/factories/accountUsers';
 import { DateTime } from 'luxon';
 import {
   mockGetAccount,

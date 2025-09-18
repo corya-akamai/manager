@@ -1,3 +1,8 @@
+import {
+  kubernetesClusterFactory,
+  kubernetesControlPlaneACLFactory,
+  nodePoolFactory,
+} from '@linode/dev-tools/factories';
 import { latestKubernetesVersion } from 'support/constants/lke';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import {
@@ -13,12 +18,6 @@ import {
 import { ui } from 'support/ui';
 import { readDownload } from 'support/util/downloads';
 import { randomLabel } from 'support/util/random';
-
-import {
-  kubernetesClusterFactory,
-  kubernetesControlPlaneACLFactory,
-  nodePoolFactory,
-} from 'src/factories';
 
 const mockKubeconfigContents = '---'; // Valid YAML.
 const mockKubeconfigResponse = {

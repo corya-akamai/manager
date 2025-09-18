@@ -1,3 +1,4 @@
+import { eventFactory } from '@linode/dev-tools/factories';
 import { Chip, Typography } from '@linode/ui';
 import React from 'react';
 
@@ -6,7 +7,6 @@ import { TableBody } from 'src/components/TableBody';
 import { TableCell } from 'src/components/TableCell';
 import { TableHead } from 'src/components/TableHead';
 import { TableRow } from 'src/components/TableRow';
-import { eventFactory } from 'src/factories/events';
 import { eventMessages } from 'src/features/Events/factory';
 
 import type { EventMessage } from './types';

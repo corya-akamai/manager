@@ -1,6 +1,6 @@
+import { databaseFactory } from '@linode/dev-tools/factories';
 import * as React from 'react';
 
-import { databaseFactory } from 'src/factories/databases';
 import {
   getShadowRootElement,
   mockMatchMedia,

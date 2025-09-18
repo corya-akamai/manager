@@ -1,7 +1,7 @@
+import { firewallDeviceFactory } from '@linode/dev-tools/factories';
 import { fireEvent, waitFor } from '@testing-library/react';
 import * as React from 'react';
 
-import { firewallDeviceFactory } from 'src/factories';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

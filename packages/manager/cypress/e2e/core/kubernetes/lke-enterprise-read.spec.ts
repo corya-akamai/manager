@@ -3,6 +3,14 @@
  */
 
 import {
+  accountFactory,
+  kubeLinodeFactory,
+  kubernetesClusterFactory,
+  nodePoolFactory,
+  subnetFactory,
+  vpcFactory,
+} from '@linode/dev-tools/factories';
+import {
   linodeFactory,
   linodeIPFactory,
   profileFactory,
@@ -20,15 +28,6 @@ import {
 } from 'support/intercepts/lke';
 import { mockGetProfile } from 'support/intercepts/profile';
 import { mockGetVPC } from 'support/intercepts/vpc';
-
-import {
-  accountFactory,
-  kubeLinodeFactory,
-  kubernetesClusterFactory,
-  nodePoolFactory,
-  subnetFactory,
-  vpcFactory,
-} from 'src/factories';
 
 const mockProfile = profileFactory.build();
 

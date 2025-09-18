@@ -1,9 +1,9 @@
+import { databaseFactory } from '@linode/dev-tools/factories';
+import { IPv4List } from '@linode/dev-tools/factories';
 import { fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import { databaseFactory } from 'src/factories';
-import { IPv4List } from 'src/factories/databases';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import AccessControls from './AccessControls';

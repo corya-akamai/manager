@@ -1,7 +1,7 @@
+import { domainFactory } from '@linode/dev-tools/factories';
 import { userEvent } from '@testing-library/user-event';
 import * as React from 'react';
 
-import { domainFactory } from 'src/factories/domain';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { DomainActionMenu } from './DomainActionMenu';

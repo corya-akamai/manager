@@ -1,5 +1,5 @@
-import { accountRolesFactory } from 'src/factories/accountRoles';
-import { userRolesFactory } from 'src/factories/userRoles';
+import { accountRolesFactory } from '@linode/dev-tools/factories';
+import { userRolesFactory } from '@linode/dev-tools/factories';
 
 import {
   addEntitiesNamesToRoles,

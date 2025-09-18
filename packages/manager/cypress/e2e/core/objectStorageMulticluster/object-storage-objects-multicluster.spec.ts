@@ -1,5 +1,6 @@
 import { createBucket } from '@linode/api-v4';
 import 'cypress-file-upload';
+import { createObjectStorageBucketFactoryGen1 } from '@linode/dev-tools/factories';
 import { authenticate } from 'support/api/authentication';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import { interceptUploadBucketObjectS3 } from 'support/intercepts/object-storage';
@@ -7,8 +8,6 @@ import { ui } from 'support/ui';
 import { cleanUp } from 'support/util/cleanup';
 import { chooseCluster } from 'support/util/clusters';
 import { randomLabel } from 'support/util/random';
-
-import { createObjectStorageBucketFactoryGen1 } from 'src/factories';
 
 // Message shown on-screen when user navigates to an empty bucket.
 const emptyBucketMessage = 'This bucket is empty.';

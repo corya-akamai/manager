@@ -1,3 +1,4 @@
+import { accountFactory } from '@linode/dev-tools/factories';
 /**
  * @file Integration tests for feature flag behavior on the Metrics page.
  */
@@ -14,7 +15,6 @@ import { mockGetUserPreferences } from 'support/intercepts/profile';
 import { ui } from 'support/ui';
 
 import {
-  accountFactory,
   dashboardFactory,
   dashboardMetricFactory,
   flagsFactory,

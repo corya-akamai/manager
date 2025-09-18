@@ -1,3 +1,4 @@
+import { imageFactory } from '@linode/dev-tools/factories';
 import { linodeFactory, regionFactory } from '@linode/utilities';
 import { mockGetAllImages, mockGetImage } from 'support/intercepts/images';
 import {
@@ -9,8 +10,6 @@ import { ui } from 'support/ui';
 import { linodeCreatePage } from 'support/ui/pages';
 import { randomLabel, randomNumber, randomString } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
-
-import { imageFactory } from 'src/factories';
 
 describe('Create Linode with user data', () => {
   /*

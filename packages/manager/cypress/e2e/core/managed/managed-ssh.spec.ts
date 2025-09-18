@@ -2,6 +2,10 @@
  * @file Integration tests for Managed SSH access.
  */
 
+import {
+  managedLinodeSettingFactory,
+  managedSSHSettingFactory,
+} from '@linode/dev-tools/factories';
 import { linodeFactory } from '@linode/utilities';
 import { visitUrlWithManagedEnabled } from 'support/api/managed';
 import { mockGetLinodeDetails } from 'support/intercepts/linodes';
@@ -17,11 +21,6 @@ import {
   randomNumber,
   randomString,
 } from 'support/util/random';
-
-import {
-  managedLinodeSettingFactory,
-  managedSSHSettingFactory,
-} from 'src/factories/managed';
 
 import type { ManagedLinodeSetting } from '@linode/api-v4';
 

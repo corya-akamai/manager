@@ -1,8 +1,8 @@
+import { nodePoolFactory } from '@linode/dev-tools/factories';
 import { linodeTypeFactory } from '@linode/utilities';
 import { fireEvent } from '@testing-library/react';
 import * as React from 'react';
 
-import { nodePoolFactory } from 'src/factories';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

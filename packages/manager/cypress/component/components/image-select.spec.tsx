@@ -1,5 +1,5 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import { imageFactory } from '@src/factories';
+import { imageFactory } from '@linode/dev-tools/factories';
 import { DateTime } from 'luxon';
 import React, { useState } from 'react';
 import { mockGetAllImages } from 'support/intercepts/images';

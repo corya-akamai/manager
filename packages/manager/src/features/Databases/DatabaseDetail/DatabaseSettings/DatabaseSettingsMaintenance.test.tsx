@@ -1,6 +1,6 @@
+import { databaseFactory } from '@linode/dev-tools/factories';
 import React from 'react';
 
-import { databaseFactory } from 'src/factories';
 import { DatabaseSettingsMaintenance } from 'src/features/Databases/DatabaseDetail/DatabaseSettings/DatabaseSettingsMaintenance';
 import {
   getShadowRootElement,

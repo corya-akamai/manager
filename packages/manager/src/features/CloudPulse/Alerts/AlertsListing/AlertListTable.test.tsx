@@ -1,8 +1,8 @@
+import { alertFactory } from '@linode/dev-tools/factories';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { alertFactory } from 'src/factories';
 import { formatDate } from 'src/utilities/formatDate';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

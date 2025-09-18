@@ -1,7 +1,11 @@
+import {
+  subnetFactory,
+  vpcFactory,
+  vpcIPFactory,
+} from '@linode/dev-tools/factories';
 import { DateTime } from 'luxon';
 import { http } from 'msw';
 
-import { subnetFactory, vpcFactory, vpcIPFactory } from 'src/factories';
 import { queueEvents } from 'src/mocks/utilities/events';
 import {
   makeErrorResponse,

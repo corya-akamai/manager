@@ -2,13 +2,12 @@
  * @file Integration tests for Cloud Manager's events menu.
  */
 
+import { eventFactory } from '@linode/dev-tools/factories';
 import { DateTime } from 'luxon';
 import { mockGetEvents, mockMarkEventSeen } from 'support/intercepts/events';
 import { ui } from 'support/ui';
 import { buildArray } from 'support/util/arrays';
 import { randomLabel, randomNumber } from 'support/util/random';
-
-import { eventFactory } from 'src/factories';
 
 describe('Notifications Menu', () => {
   /*

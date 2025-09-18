@@ -1,7 +1,7 @@
+import { databaseInstanceFactory } from '@linode/dev-tools/factories';
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { databaseInstanceFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { GlobalFilters } from './GlobalFilters';

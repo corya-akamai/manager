@@ -1,4 +1,4 @@
-import { linodeDiskFactory } from 'src/factories';
+import { linodeDiskFactory } from '@linode/dev-tools/factories';
 
 import { getSelectedDeviceOption } from './utilities';
 

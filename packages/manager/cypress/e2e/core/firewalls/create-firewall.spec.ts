@@ -1,3 +1,4 @@
+import { accountUserFactory } from '@linode/dev-tools/factories';
 import { grantsFactory, profileFactory } from '@linode/utilities';
 import { createLinodeRequestFactory } from '@linode/utilities';
 import { authenticate } from 'support/api/authentication';
@@ -12,8 +13,6 @@ import { cleanUp } from 'support/util/cleanup';
 import { createTestLinode } from 'support/util/linodes';
 import { randomLabel, randomString } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
-
-import { accountUserFactory } from 'src/factories';
 authenticate();
 
 describe('create firewall', () => {

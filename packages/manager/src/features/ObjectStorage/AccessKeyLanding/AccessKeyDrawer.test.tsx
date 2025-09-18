@@ -1,7 +1,7 @@
+import { objectStorageBucketFactory } from '@linode/dev-tools/factories';
 import { screen } from '@testing-library/react';
 import * as React from 'react';
 
-import { objectStorageBucketFactory } from 'src/factories/objectStorage';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { AccessKeyDrawer, getDefaultScopes } from './AccessKeyDrawer';

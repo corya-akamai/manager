@@ -1,7 +1,7 @@
+import { nodePoolFactory } from '@linode/dev-tools/factories';
 import { linodeTypeFactory } from '@linode/utilities';
 import { renderHook, waitFor } from '@testing-library/react';
 
-import { nodePoolFactory } from 'src/factories/kubernetesCluster';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { wrapWithTheme as wrapper } from 'src/utilities/testHelpers';
 

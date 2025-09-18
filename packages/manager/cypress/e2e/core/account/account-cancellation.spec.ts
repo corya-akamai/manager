@@ -2,6 +2,7 @@
  * @file Integration tests for Cloud Manager account cancellation flows.
  */
 
+import { accountFactory } from '@linode/dev-tools/factories';
 import { grantsFactory, profileFactory } from '@linode/utilities';
 import {
   cancellationDataLossWarning,
@@ -25,7 +26,6 @@ import {
   randomString,
 } from 'support/util/random';
 
-import { accountFactory } from 'src/factories/account';
 import {
   CHILD_USER_CLOSE_ACCOUNT_TOOLTIP_TEXT,
   PARENT_USER_CLOSE_ACCOUNT_TOOLTIP_TEXT,

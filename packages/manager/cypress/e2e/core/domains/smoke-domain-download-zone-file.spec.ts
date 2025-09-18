@@ -2,7 +2,7 @@ import {
   domainFactory,
   domainRecordFactory,
   domainZoneFileFactory,
-} from '@src/factories';
+} from '@linode/dev-tools/factories';
 import { authenticate } from 'support/api/authentication';
 import {
   mockGetDomain,

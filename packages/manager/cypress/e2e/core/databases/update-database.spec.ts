@@ -2,7 +2,8 @@
  * @file DBaaS integration tests for update operations.
  */
 
-import { accountFactory } from '@src/factories';
+import { accountFactory } from '@linode/dev-tools/factories';
+import { databaseFactory } from '@linode/dev-tools/factories';
 import {
   databaseConfigurations,
   mockDatabaseNodeTypes,
@@ -29,8 +30,6 @@ import {
   randomNumber,
   randomString,
 } from 'support/util/random';
-
-import { databaseFactory } from 'src/factories/databases';
 
 import type { Database } from '@linode/api-v4';
 import type { DatabaseClusterConfiguration } from 'support/constants/databases';

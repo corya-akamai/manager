@@ -1,9 +1,8 @@
+import { accountMaintenanceFactory } from '@linode/dev-tools/factories';
 import { mockGetMaintenance } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import { ui } from 'support/ui';
 import { parseCsv } from 'support/util/csv';
-
-import { accountMaintenanceFactory } from 'src/factories';
 
 describe('Maintenance', () => {
   /*

@@ -1,3 +1,8 @@
+import {
+  accountFactory,
+  accountSettingsFactory,
+  VLANFactory,
+} from '@linode/dev-tools/factories';
 import { linodeFactory, regionFactory } from '@linode/utilities';
 import {
   mockGetAccount,
@@ -17,12 +22,6 @@ import {
   randomString,
 } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
-
-import {
-  accountFactory,
-  accountSettingsFactory,
-  VLANFactory,
-} from 'src/factories';
 
 import type { Region } from '@linode/api-v4';
 

@@ -1,9 +1,9 @@
-import * as React from 'react';
-
 import {
   objectStorageBucketFactory,
   objectStorageBucketFactoryGen2,
-} from 'src/factories';
+} from '@linode/dev-tools/factories';
+import * as React from 'react';
+
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import { BucketTable } from './BucketTable';

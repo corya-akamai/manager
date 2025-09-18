@@ -1,6 +1,6 @@
+import { eventFactory } from '@linode/dev-tools/factories';
 import * as React from 'react';
 
-import { eventFactory } from 'src/factories';
 import {
   renderWithTheme,
   resizeScreenSize,

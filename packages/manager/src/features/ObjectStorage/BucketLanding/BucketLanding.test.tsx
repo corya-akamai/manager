@@ -1,10 +1,10 @@
-import { screen, waitFor } from '@testing-library/react';
-import * as React from 'react';
-
 import {
   objectStorageBucketFactory,
   objectStorageClusterFactory,
-} from 'src/factories/objectStorage';
+} from '@linode/dev-tools/factories';
+import { screen, waitFor } from '@testing-library/react';
+import * as React from 'react';
+
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';

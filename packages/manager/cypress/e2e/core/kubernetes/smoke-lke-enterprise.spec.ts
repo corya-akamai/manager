@@ -4,14 +4,14 @@
  * TODO: M3-8838 - Delete this spec file once LKE-E is released to GA.
  */
 
-import { regionFactory } from '@linode/utilities';
 import {
   accountFactory,
   kubernetesClusterFactory,
   nodePoolFactory,
   subnetFactory,
   vpcFactory,
-} from '@src/factories';
+} from '@linode/dev-tools/factories';
+import { regionFactory } from '@linode/utilities';
 import {
   latestEnterpriseTierKubernetesVersion,
   minimumNodeNotice,

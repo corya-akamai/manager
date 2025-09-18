@@ -11,5 +11,5 @@ export const accountSettingsFactory = Factory.Sync.makeFactory<AccountSettings>(
     managed: false,
     network_helper: false,
     object_storage: 'active',
-  }
+  },
 );

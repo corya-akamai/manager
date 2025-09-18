@@ -1,3 +1,4 @@
+import { firewallFactory } from '@linode/dev-tools/factories';
 import {
   nodeBalancerConfigFactory,
   nodeBalancerConfigVPCFactory,
@@ -6,7 +7,6 @@ import {
 import { waitFor } from '@testing-library/react';
 import * as React from 'react';
 
-import { firewallFactory } from 'src/factories';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

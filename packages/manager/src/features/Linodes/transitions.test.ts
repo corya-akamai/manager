@@ -1,4 +1,4 @@
-import { eventFactory } from 'src/factories/events';
+import { eventFactory } from '@linode/dev-tools/factories';
 
 import { transitionText } from './transitions';
 

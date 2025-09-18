@@ -2,8 +2,11 @@
  * Tests basic functionality for standard LKE creation.
  */
 
+import {
+  accountUserFactory,
+  kubernetesClusterFactory,
+} from '@linode/dev-tools/factories';
 import { grantsFactory, profileFactory } from '@linode/utilities';
-import { accountUserFactory, kubernetesClusterFactory } from '@src/factories';
 import { minimumNodeNotice } from 'support/constants/lke';
 import { mockGetUser } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';

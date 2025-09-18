@@ -1,7 +1,7 @@
+import { databaseFactory } from '@linode/dev-tools/factories';
 import { fireEvent, screen } from '@testing-library/react';
 import * as React from 'react';
 
-import { databaseFactory } from 'src/factories';
 import {
   getShadowRootElement,
   mockMatchMedia,

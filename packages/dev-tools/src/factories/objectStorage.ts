@@ -14,7 +14,7 @@ export const objectStorageBucketFactory =
     cluster: 'us-east-1',
     created: '2019-12-12T00:00:00',
     hostname: Factory.each(
-      (i) => `obj-bucket-${i}.us-east-1.linodeobjects.com`
+      (i) => `obj-bucket-${i}.us-east-1.linodeobjects.com`,
     ),
     label: Factory.each((i) => `obj-bucket-${i}`),
     objects: 103,
@@ -29,7 +29,7 @@ export const objectStorageBucketFactoryGen2 =
     created: '2019-12-12T00:00:00',
     endpoint_type: 'E3',
     hostname: Factory.each(
-      (i) => `obj-bucket-${i}.us-iad-12.linodeobjects.com`
+      (i) => `obj-bucket-${i}.us-iad-12.linodeobjects.com`,
     ),
     label: Factory.each((i) => `obj-bucket-${i}`),
     objects: 103,
@@ -70,7 +70,7 @@ export const objectStorageClusterFactory =
     id: Factory.each((id) => `cluster-${id}`) as any,
     region: 'us-east',
     static_site_domain: Factory.each(
-      (id) => `website-cluster-${id}.linodeobjects.com`
+      (id) => `website-cluster-${id}.linodeobjects.com`,
     ),
     status: 'available',
   });
@@ -113,7 +113,7 @@ export const objectStorageKeyFactoryGen2 =
 
 export const makeObjectsPage = (
   e: ObjectStorageObject[],
-  override: { is_truncated: boolean; next_marker: null | string }
+  override: { is_truncated: boolean; next_marker: null | string },
 ) => ({
   data: e,
   is_truncated: override.is_truncated || false,

@@ -1,3 +1,5 @@
+import { accountFactory } from '@linode/dev-tools/factories';
+import { accountAgreementsFactory } from '@linode/dev-tools/factories';
 import {
   mockGetAccount,
   mockUpdateAccount,
@@ -7,8 +9,6 @@ import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import { mockGetUserPreferences } from 'support/intercepts/profile';
 import { ui } from 'support/ui';
 
-import { accountAgreementsFactory } from 'src/factories';
-import { accountFactory } from 'src/factories/account';
 import {
   TAX_ID_AGREEMENT_TEXT,
   TAX_ID_HELPER_TEXT,

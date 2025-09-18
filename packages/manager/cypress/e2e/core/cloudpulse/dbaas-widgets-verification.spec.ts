@@ -1,6 +1,8 @@
-/**
- * @file Integration Tests for CloudPulse Dbass Dashboard.
- */
+import {
+  accountFactory,
+  databaseFactory,
+  kubeLinodeFactory,
+} from '@linode/dev-tools/factories';
 import { linodeFactory, regionFactory } from '@linode/utilities';
 import { widgetDetails } from 'support/constants/widgets';
 import { mockGetAccount } from 'support/intercepts/account';
@@ -21,14 +23,11 @@ import { ui } from 'support/ui';
 import { generateRandomMetricsData } from 'support/util/cloudpulse';
 
 import {
-  accountFactory,
   cloudPulseMetricsResponseFactory,
   dashboardFactory,
   dashboardMetricFactory,
-  databaseFactory,
   dimensionFilterFactory,
   flagsFactory,
-  kubeLinodeFactory,
   widgetFactory,
 } from 'src/factories';
 import { generateGraphData } from 'src/features/CloudPulse/Utils/CloudPulseWidgetUtils';

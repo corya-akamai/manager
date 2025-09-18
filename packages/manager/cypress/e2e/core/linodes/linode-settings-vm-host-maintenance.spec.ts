@@ -1,3 +1,5 @@
+import { accountSettingsFactory } from '@linode/dev-tools/factories';
+import { maintenancePolicyFactory } from '@linode/dev-tools/factories';
 import { linodeFactory, regionFactory } from '@linode/utilities';
 import { mockGetAccountSettings } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
@@ -11,9 +13,6 @@ import { mockGetMaintenancePolicies } from 'support/intercepts/maintenance';
 import { mockGetRegions } from 'support/intercepts/regions';
 import { ui } from 'support/ui';
 import { randomLabel, randomNumber } from 'support/util/random';
-
-import { accountSettingsFactory } from 'src/factories';
-import { maintenancePolicyFactory } from 'src/factories/maintenancePolicy';
 
 import type { Disk } from '@linode/api-v4';
 

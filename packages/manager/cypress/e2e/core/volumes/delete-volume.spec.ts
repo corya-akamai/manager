@@ -1,4 +1,5 @@
 import { createVolume } from '@linode/api-v4/lib/volumes';
+import { volumeRequestPayloadFactory } from '@linode/dev-tools/factories';
 import { authenticate } from 'support/api/authentication';
 import { interceptDeleteVolume } from 'support/intercepts/volumes';
 import { ui } from 'support/ui';
@@ -7,8 +8,6 @@ import { cleanUp } from 'support/util/cleanup';
 import { pollVolumeStatus } from 'support/util/polling';
 import { randomLabel } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
-
-import { volumeRequestPayloadFactory } from 'src/factories/volume';
 
 import type { Volume } from '@linode/api-v4';
 import type { VolumeRequestPayload } from '@linode/api-v4/lib/volumes';

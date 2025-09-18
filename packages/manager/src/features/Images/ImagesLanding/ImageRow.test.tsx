@@ -1,7 +1,7 @@
+import { imageFactory } from '@linode/dev-tools/factories';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { imageFactory } from 'src/factories';
 import {
   mockMatchMedia,
   renderWithTheme,

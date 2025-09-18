@@ -1,7 +1,8 @@
+import { volumeFactory } from '@linode/dev-tools/factories';
 import { DateTime } from 'luxon';
 import { http } from 'msw';
 
-import { volumeFactory, volumeTypeFactory } from 'src/factories';
+import { volumeTypeFactory } from 'src/factories';
 import { mswDB } from 'src/mocks/indexedDB';
 import {
   makeNotFoundResponse,

@@ -1,6 +1,6 @@
+import { accountFactory } from '@linode/dev-tools/factories';
 import { http } from 'msw';
 
-import { accountFactory } from 'src/factories';
 import { makeResponse } from 'src/mocks/utilities/response';
 
 import type { Account } from '@linode/api-v4';

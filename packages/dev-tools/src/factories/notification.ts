@@ -5,7 +5,7 @@ import type { Entity, Notification } from '@linode/api-v4/lib/account';
 
 const generateEntity = (
   id: number,
-  url: string = 'linode/instances'
+  url: string = 'linode/instances',
 ): Entity => ({
   id,
   label: `linode-${id}`,

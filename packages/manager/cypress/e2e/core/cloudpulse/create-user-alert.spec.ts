@@ -1,3 +1,15 @@
+import {
+  accountFactory,
+  alertDefinitionFactory,
+  alertFactory,
+  cpuRulesFactory,
+  databaseFactory,
+  memoryRulesFactory,
+  notificationChannelFactory,
+  serviceAlertFactory,
+  serviceTypesFactory,
+  triggerConditionFactory,
+} from '@linode/dev-tools/factories';
 /**
  * @fileoverview Cypress test suite for the "Create Alert" functionality.
  */
@@ -19,20 +31,7 @@ import { mockGetProfile } from 'support/intercepts/profile';
 import { mockGetRegions } from 'support/intercepts/regions';
 import { ui } from 'support/ui';
 
-import {
-  accountFactory,
-  alertDefinitionFactory,
-  alertFactory,
-  cpuRulesFactory,
-  dashboardMetricFactory,
-  databaseFactory,
-  flagsFactory,
-  memoryRulesFactory,
-  notificationChannelFactory,
-  serviceAlertFactory,
-  serviceTypesFactory,
-  triggerConditionFactory,
-} from 'src/factories';
+import { dashboardMetricFactory, flagsFactory } from 'src/factories';
 import { CREATE_ALERT_SUCCESS_MESSAGE } from 'src/features/CloudPulse/Alerts/constants';
 import { entityGroupingOptions } from 'src/features/CloudPulse/Alerts/constants';
 import { formatDate } from 'src/utilities/formatDate';

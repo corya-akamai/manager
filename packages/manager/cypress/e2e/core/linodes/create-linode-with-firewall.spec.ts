@@ -1,3 +1,9 @@
+import {
+  accountFactory,
+  accountSettingsFactory,
+  firewallFactory,
+  firewallTemplateFactory,
+} from '@linode/dev-tools/factories';
 import { linodeFactory, regionFactory } from '@linode/utilities';
 import {
   mockGetAccount,
@@ -22,13 +28,6 @@ import { linodeCreatePage } from 'support/ui/pages';
 import { assertNewLinodeInterfacesIsAvailable } from 'support/util/linodes';
 import { randomLabel, randomNumber, randomString } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
-
-import {
-  accountFactory,
-  accountSettingsFactory,
-  firewallFactory,
-  firewallTemplateFactory,
-} from 'src/factories';
 
 import type { Region } from '@linode/api-v4';
 

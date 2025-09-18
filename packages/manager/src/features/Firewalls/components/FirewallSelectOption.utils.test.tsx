@@ -1,4 +1,5 @@
-import { firewallSettingsFactory } from 'src/factories';
+import { firewallSettingsFactory } from '@linode/dev-tools/factories';
+
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import {

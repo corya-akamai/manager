@@ -1,6 +1,6 @@
+import { placementGroupFactory } from '@linode/dev-tools/factories';
 import { http } from 'msw';
 
-import { placementGroupFactory } from 'src/factories';
 import { mswDB } from 'src/mocks/indexedDB';
 import {
   makeNotFoundResponse,

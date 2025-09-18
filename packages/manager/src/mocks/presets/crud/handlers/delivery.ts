@@ -1,7 +1,7 @@
+import { destinationFactory, streamFactory } from '@linode/dev-tools/factories';
 import { DateTime } from 'luxon';
 import { http } from 'msw';
 
-import { destinationFactory, streamFactory } from 'src/factories/delivery';
 import { mswDB } from 'src/mocks/indexedDB';
 import { queueEvents } from 'src/mocks/utilities/events';
 import {

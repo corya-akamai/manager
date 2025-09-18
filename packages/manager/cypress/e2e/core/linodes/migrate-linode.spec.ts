@@ -1,5 +1,5 @@
+import { linodeDiskFactory } from '@linode/dev-tools/factories';
 import { linodeFactory, regionFactory } from '@linode/utilities';
-import { linodeDiskFactory } from '@src/factories';
 import { authenticate } from 'support/api/authentication';
 import {
   dcPricingCurrentPriceLabel,

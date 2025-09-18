@@ -1,4 +1,4 @@
-import { notificationFactory } from '@src/factories/notification';
+import { notificationFactory } from '@linode/dev-tools/factories';
 import { mockGetNotifications } from 'support/intercepts/events';
 
 import type { Notification } from '@linode/api-v4';

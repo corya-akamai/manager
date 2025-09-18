@@ -1,9 +1,9 @@
+import { eventFactory } from '@linode/dev-tools/factories';
 import { Button, Stack } from '@linode/ui';
 import { useSnackbar } from 'notistack';
 import React from 'react';
 
 import { Snackbar } from 'src/components/Snackbar/Snackbar';
-import { eventFactory } from 'src/factories';
 import { getEventMessage } from 'src/features/Events/utils';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';

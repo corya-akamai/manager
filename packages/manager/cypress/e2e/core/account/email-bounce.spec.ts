@@ -2,15 +2,14 @@
  * @file Integration tests for Cloud Manager email bounce banners.
  */
 
-import { notificationFactory } from '@src/factories/notification';
+import { accountFactory } from '@linode/dev-tools/factories';
+import { notificationFactory } from '@linode/dev-tools/factories';
 import { getProfile } from 'support/api/account';
 import { mockGetAccount, mockUpdateAccount } from 'support/intercepts/account';
 import { mockGetNotifications } from 'support/intercepts/events';
 import { mockUpdateProfile } from 'support/intercepts/profile';
 import { ui } from 'support/ui';
 import { randomString } from 'support/util/random';
-
-import { accountFactory } from 'src/factories/account';
 
 import type { Notification } from '@linode/api-v4';
 

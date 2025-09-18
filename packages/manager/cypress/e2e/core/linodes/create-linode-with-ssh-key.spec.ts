@@ -1,3 +1,4 @@
+import { accountUserFactory } from '@linode/dev-tools/factories';
 import { linodeFactory, sshKeyFactory } from '@linode/utilities';
 import { mockGetUser, mockGetUsers } from 'support/intercepts/account';
 import { mockCreateLinode } from 'support/intercepts/linodes';
@@ -6,8 +7,6 @@ import { ui } from 'support/ui';
 import { linodeCreatePage } from 'support/ui/pages';
 import { randomLabel, randomNumber, randomString } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
-
-import { accountUserFactory } from 'src/factories';
 
 describe('Create Linode with SSH Key', () => {
   /*

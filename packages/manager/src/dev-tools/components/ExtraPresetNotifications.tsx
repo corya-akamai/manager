@@ -1,7 +1,7 @@
+import { notificationFactory } from '@linode/dev-tools/factories';
 import { Typography } from '@linode/ui';
 import * as React from 'react';
 
-import { notificationFactory } from 'src/factories';
 import { extraMockPresets } from 'src/mocks/presets';
 import { setCustomNotificationsData } from 'src/mocks/presets/extra/account/customNotifications';
 

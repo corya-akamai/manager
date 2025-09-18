@@ -1,3 +1,4 @@
+import { imageFactory } from '@linode/dev-tools/factories';
 import { useAllImagesQuery } from '@linode/queries';
 import {
   Autocomplete,
@@ -10,7 +11,6 @@ import {
 import { DateTime } from 'luxon';
 import React, { useMemo } from 'react';
 
-import { imageFactory } from 'src/factories/images';
 import { formatDate } from 'src/utilities/formatDate';
 
 import { OSIcon } from '../OSIcon';

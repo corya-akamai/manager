@@ -2,7 +2,7 @@ import { breakpoints } from '@linode/ui';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import * as React from 'react';
 
-import { extendedTypeFactory } from 'src/factories/types';
+import { extendedTypeFactory } from 'src/factories';
 import { LIMITED_AVAILABILITY_COPY } from 'src/features/components/PlansPanel/constants';
 import { PlanWithAvailability } from 'src/features/components/PlansPanel/types';
 import {

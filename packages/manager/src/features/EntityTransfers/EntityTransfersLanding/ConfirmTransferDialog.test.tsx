@@ -1,8 +1,8 @@
+import { entityTransferFactory } from '@linode/dev-tools/factories';
 import { screen } from '@testing-library/react';
 import { DateTime } from 'luxon';
 import * as React from 'react';
 
-import { entityTransferFactory } from 'src/factories/entityTransfers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

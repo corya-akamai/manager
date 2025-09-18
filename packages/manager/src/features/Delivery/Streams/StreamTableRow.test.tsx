@@ -1,9 +1,9 @@
+import { streamFactory } from '@linode/dev-tools/factories';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { beforeEach, describe, expect } from 'vitest';
 
-import { streamFactory } from 'src/factories/delivery';
 import { StreamTableRow } from 'src/features/Delivery/Streams/StreamTableRow';
 import {
   mockMatchMedia,

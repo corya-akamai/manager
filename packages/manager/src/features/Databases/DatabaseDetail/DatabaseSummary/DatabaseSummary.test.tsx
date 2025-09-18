@@ -1,8 +1,8 @@
+import { databaseFactory } from '@linode/dev-tools/factories';
 import { waitFor } from '@testing-library/react';
 import * as React from 'react';
 import { vi } from 'vitest';
 
-import { databaseFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import * as utils from '../../utilities';

@@ -2,6 +2,12 @@
  * @file Integration tests for Managed navigation.
  */
 
+import {
+  contactFactory,
+  credentialFactory,
+  managedIssueFactory,
+  monitorFactory,
+} from '@linode/dev-tools/factories';
 import { userPreferencesFactory } from '@linode/utilities';
 import {
   managedAccount,
@@ -20,13 +26,6 @@ import {
 } from 'support/intercepts/managed';
 import { mockGetUserPreferences } from 'support/intercepts/profile';
 import { ui } from 'support/ui';
-
-import {
-  contactFactory,
-  credentialFactory,
-  managedIssueFactory,
-  monitorFactory,
-} from 'src/factories/managed';
 
 import type { UserPreferences } from '@linode/api-v4';
 

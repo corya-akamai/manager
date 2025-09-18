@@ -3,6 +3,10 @@
  */
 
 import {
+  accountFactory,
+  accountUserFactory,
+} from '@linode/dev-tools/factories';
+import {
   grantsFactory,
   linodeFactory,
   linodeTypeFactory,
@@ -31,8 +35,6 @@ import { cleanUp } from 'support/util/cleanup';
 import { randomLabel, randomNumber, randomString } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
 import { skip } from 'support/util/skip';
-
-import { accountFactory, accountUserFactory } from 'src/factories';
 
 let username: string;
 

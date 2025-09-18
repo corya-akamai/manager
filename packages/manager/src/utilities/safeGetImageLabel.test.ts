@@ -1,4 +1,6 @@
-import { imageFactory, normalizeEntities } from 'src/factories';
+import { imageFactory } from '@linode/dev-tools/factories';
+
+import { normalizeEntities } from 'src/factories';
 
 import { safeGetImageLabel } from './safeGetImageLabel';
 

@@ -1,4 +1,4 @@
-import { firewallRuleFactory } from 'src/factories/firewalls';
+import { firewallRuleFactory } from '@linode/dev-tools/factories';
 
 import {
   curriedFirewallRuleEditorReducer,

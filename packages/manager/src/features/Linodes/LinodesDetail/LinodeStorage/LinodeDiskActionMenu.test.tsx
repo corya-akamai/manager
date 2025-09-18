@@ -1,8 +1,8 @@
+import { linodeDiskFactory } from '@linode/dev-tools/factories';
 import { fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import { linodeDiskFactory } from 'src/factories';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import { LinodeDiskActionMenu } from './LinodeDiskActionMenu';

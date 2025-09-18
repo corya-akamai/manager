@@ -1,7 +1,7 @@
+import { linodeDiskFactory } from '@linode/dev-tools/factories';
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { linodeDiskFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { LinodeDisks } from './LinodeDisks';

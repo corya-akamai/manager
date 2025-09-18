@@ -1,8 +1,8 @@
+import { invoiceFactory, paymentFactory } from '@linode/dev-tools/factories';
 import { fireEvent, waitFor } from '@testing-library/react';
 import { DateTime } from 'luxon';
 import * as React from 'react';
 
-import { invoiceFactory, paymentFactory } from 'src/factories/billing';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import {

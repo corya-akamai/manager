@@ -1,6 +1,6 @@
+import { accountFactory, firewallFactory } from '@linode/dev-tools/factories';
 import React from 'react';
 
-import { accountFactory, firewallFactory } from 'src/factories';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

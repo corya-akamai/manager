@@ -1,3 +1,9 @@
+import {
+  entityFactory,
+  linodeConfigFactory,
+  supportTicketFactory,
+  volumeFactory,
+} from '@linode/dev-tools/factories';
 import { linodeConfigInterfaceFactory, linodeFactory } from '@linode/utilities';
 import { mockGetLinodeConfigs } from 'support/intercepts/configs';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
@@ -19,12 +25,6 @@ import {
   randomPhrase,
 } from 'support/util/random';
 
-import {
-  entityFactory,
-  linodeConfigFactory,
-  supportTicketFactory,
-  volumeFactory,
-} from 'src/factories';
 import { SEVERITY_LABEL_MAP } from 'src/features/Support/SupportTickets/constants';
 
 import type { Config, Disk } from '@linode/api-v4';

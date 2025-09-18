@@ -2,10 +2,9 @@
  * @file Util functions and mock data related to Linode Managed.
  */
 
+import { accountSettingsFactory } from '@linode/dev-tools/factories';
 import { mockGetAccountSettings } from 'support/intercepts/account';
 import { skip } from 'support/util/skip';
-
-import { accountSettingsFactory } from 'src/factories/accountSettings';
 
 import type { AccountSettings } from '@linode/api-v4';
 

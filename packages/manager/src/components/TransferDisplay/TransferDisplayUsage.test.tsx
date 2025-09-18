@@ -1,9 +1,9 @@
-import React from 'react';
-
 import {
   accountTransferFactory,
   accountTransferNoResourceFactory,
-} from 'src/factories/account';
+} from '@linode/dev-tools/factories';
+import React from 'react';
+
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { TransferDisplayDialog } from './TransferDisplayDialog';

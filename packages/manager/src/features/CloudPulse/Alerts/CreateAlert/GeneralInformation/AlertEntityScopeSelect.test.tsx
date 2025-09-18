@@ -1,8 +1,11 @@
+import {
+  serviceAlertFactory,
+  serviceTypesFactory,
+} from '@linode/dev-tools/factories';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { serviceAlertFactory, serviceTypesFactory } from 'src/factories';
 import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';
 
 import { AlertEntityScopeSelect } from './AlertEntityScopeSelect';

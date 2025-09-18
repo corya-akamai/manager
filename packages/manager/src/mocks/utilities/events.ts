@@ -1,4 +1,4 @@
-import { eventFactory } from 'src/factories';
+import { eventFactory } from '@linode/dev-tools/factories';
 
 import { mswDB } from '../indexedDB';
 

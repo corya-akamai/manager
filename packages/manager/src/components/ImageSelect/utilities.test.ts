@@ -1,6 +1,5 @@
+import { imageFactory } from '@linode/dev-tools/factories';
 import { Settings } from 'luxon';
-
-import { imageFactory } from 'src/factories';
 
 import { isImageDeprecated, isImageTooFarPastEOL } from './utilities';
 

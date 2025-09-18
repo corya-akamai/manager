@@ -1,4 +1,8 @@
 import {
+  objectStorageBucketFactory,
+  objectStorageBucketFactoryGen2,
+} from '@linode/dev-tools/factories';
+import {
   profileFactory,
   readableBytes,
   regionFactory,
@@ -8,10 +12,6 @@ import { screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { vi } from 'vitest';
 
-import {
-  objectStorageBucketFactory,
-  objectStorageBucketFactoryGen2,
-} from 'src/factories';
 import { formatDate } from 'src/utilities/formatDate';
 import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';
 

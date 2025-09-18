@@ -1,11 +1,11 @@
+import {
+  firewallFactory,
+  subnetAssignedNodebalancerDataFactory,
+} from '@linode/dev-tools/factories';
 import { waitFor } from '@testing-library/react';
 import * as React from 'react';
 import { beforeAll, describe, it } from 'vitest';
 
-import {
-  firewallFactory,
-  subnetAssignedNodebalancerDataFactory,
-} from 'src/factories';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import {
   mockMatchMedia,

@@ -1,3 +1,8 @@
+import {
+  accountFactory,
+  kubernetesClusterFactory,
+  nodePoolFactory,
+} from '@linode/dev-tools/factories';
 import { regionFactory } from '@linode/utilities';
 import { mockGetAccount } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
@@ -15,12 +20,6 @@ import { mockGetRegions } from 'support/intercepts/regions';
 import { ui } from 'support/ui';
 import { readDownload } from 'support/util/downloads';
 import { getRegionById } from 'support/util/regions';
-
-import {
-  accountFactory,
-  kubernetesClusterFactory,
-  nodePoolFactory,
-} from 'src/factories';
 
 import type { KubernetesCluster } from '@linode/api-v4';
 

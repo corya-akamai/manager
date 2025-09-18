@@ -2,6 +2,10 @@
  * @file Integration tests for Placement Group update label flows.
  */
 
+import {
+  accountFactory,
+  placementGroupFactory,
+} from '@linode/dev-tools/factories';
 import { mockGetAccount } from 'support/intercepts/account';
 import {
   mockGetPlacementGroup,
@@ -12,8 +16,6 @@ import {
 import { ui } from 'support/ui';
 import { randomLabel, randomNumber } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
-
-import { accountFactory, placementGroupFactory } from 'src/factories';
 
 const mockAccount = accountFactory.build();
 

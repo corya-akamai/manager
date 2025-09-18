@@ -1,6 +1,6 @@
+import { cloudNATFactory } from '@linode/dev-tools/factories';
 import { http } from 'msw';
 
-import { cloudNATFactory } from 'src/factories';
 import { mswDB } from 'src/mocks/indexedDB';
 import {
   makeNotFoundResponse,

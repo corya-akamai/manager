@@ -1,6 +1,6 @@
+import { eventFactory } from '@linode/dev-tools/factories';
 import { DateTime } from 'luxon';
 
-import { eventFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import {

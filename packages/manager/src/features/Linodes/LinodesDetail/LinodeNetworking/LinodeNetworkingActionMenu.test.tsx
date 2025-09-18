@@ -1,6 +1,6 @@
+import { ipAddressFactory } from '@linode/dev-tools/factories';
 import * as React from 'react';
 
-import { ipAddressFactory } from 'src/factories/networking';
 import { renderWithTheme, resizeScreenSize } from 'src/utilities/testHelpers';
 
 import { LinodeNetworkingActionMenu } from './LinodeNetworkingActionMenu';

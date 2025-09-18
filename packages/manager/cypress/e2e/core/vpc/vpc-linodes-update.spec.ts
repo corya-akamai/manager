@@ -3,10 +3,14 @@
  */
 
 import {
+  linodeConfigFactory,
+  subnetFactory,
+  vpcFactory,
+} from '@linode/dev-tools/factories';
+import {
   linodeConfigInterfaceFactoryWithVPC,
   linodeFactory,
 } from '@linode/utilities';
-import { linodeConfigFactory, subnetFactory, vpcFactory } from '@src/factories';
 import {
   vpcConfigProfileInterfaceRebootNotice,
   vpcLinodeInterfaceShutDownNotice,

@@ -1,6 +1,6 @@
+import { accountSettingsFactory } from '@linode/dev-tools/factories';
 import * as React from 'react';
 
-import { accountSettingsFactory } from 'src/factories';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

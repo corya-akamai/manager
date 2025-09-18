@@ -1,4 +1,4 @@
-import { linodeConfigFactory } from 'src/factories/linodeConfigs';
+import { linodeConfigFactory } from '@linode/dev-tools/factories';
 
 import { selectDefaultConfig } from './PowerActionsDialogOrDrawer';
 

@@ -1,8 +1,13 @@
+import {
+  accountFactory,
+  databaseFactory,
+  getEngineConfig,
+  mysqlConfigResponse,
+  postgresConfigResponse,
+} from '@linode/dev-tools/factories';
 /**
  * @file DBaaS integration tests for advanced configuration operations.
  */
-
-import { accountFactory } from '@src/factories';
 import {
   databaseConfigurationsAdvConfig,
   mockDatabaseNodeTypes,
@@ -17,13 +22,6 @@ import {
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import { ui } from 'support/ui';
 import { randomIp, randomNumber } from 'support/util/random';
-
-import {
-  databaseFactory,
-  getEngineConfig,
-  mysqlConfigResponse,
-  postgresConfigResponse,
-} from 'src/factories/databases';
 
 import type {
   ConfigCategoryValues,

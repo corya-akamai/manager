@@ -1,5 +1,9 @@
 import { capabilityServiceTypeMapping } from '@linode/api-v4';
 import {
+  databaseInstanceFactory,
+  firewallFactory,
+} from '@linode/dev-tools/factories';
+import {
   linodeFactory,
   nodeBalancerFactory,
   regionFactory,
@@ -8,11 +12,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import {
-  dashboardFactory,
-  databaseInstanceFactory,
-  firewallFactory,
-} from 'src/factories';
+import { dashboardFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { NO_REGION_MESSAGE } from '../Utils/constants';

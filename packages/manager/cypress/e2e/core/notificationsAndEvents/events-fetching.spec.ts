@@ -2,12 +2,11 @@
  * @file Integration tests for Cloud Manager's events fetching and polling behavior.
  */
 
+import { eventFactory } from '@linode/dev-tools/factories';
 import { DateTime } from 'luxon';
 import { mockGetEvents, mockGetEventsPolling } from 'support/intercepts/events';
 import { mockGetVolumes } from 'support/intercepts/volumes';
 import { randomNumber } from 'support/util/random';
-
-import { eventFactory } from 'src/factories';
 
 import type { Interception } from 'support/cypress-exports';
 

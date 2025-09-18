@@ -1,10 +1,10 @@
-import { render, waitFor } from '@testing-library/react';
-import * as React from 'react';
-
 import {
   abuseTicketNotificationFactory,
   notificationFactory,
-} from 'src/factories/notification';
+} from '@linode/dev-tools/factories';
+import { render, waitFor } from '@testing-library/react';
+import * as React from 'react';
+
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { getAbuseTickets } from 'src/store/selectors/getAbuseTicket';

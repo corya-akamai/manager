@@ -1,7 +1,7 @@
+import { accountTransferFactory } from '@linode/dev-tools/factories';
 import { fireEvent } from '@testing-library/react';
 import React from 'react';
 
-import { accountTransferFactory } from 'src/factories/account';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

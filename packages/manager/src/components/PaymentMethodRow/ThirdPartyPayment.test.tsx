@@ -1,6 +1,6 @@
+import { paymentMethodFactory } from '@linode/dev-tools/factories';
 import * as React from 'react';
 
-import { paymentMethodFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { ThirdPartyPayment } from './ThirdPartyPayment';

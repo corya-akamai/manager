@@ -1,4 +1,4 @@
-import { userRolesFactory } from 'src/factories/userRoles';
+import { userRolesFactory } from '@linode/dev-tools/factories';
 
 import { addEntityNamesToRoles } from './utils';
 

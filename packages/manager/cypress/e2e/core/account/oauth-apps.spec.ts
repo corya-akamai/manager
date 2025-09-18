@@ -1,4 +1,4 @@
-import { oauthClientFactory } from '@src/factories';
+import { oauthClientFactory } from '@linode/dev-tools/factories';
 import {
   mockCreateOAuthApp,
   mockDeleteOAuthApps,

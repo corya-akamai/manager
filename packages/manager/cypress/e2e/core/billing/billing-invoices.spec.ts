@@ -2,7 +2,10 @@
  * @file Integration tests for account invoice functionality.
  */
 
-import { invoiceFactory, invoiceItemFactory } from '@src/factories';
+import {
+  invoiceFactory,
+  invoiceItemFactory,
+} from '@linode/dev-tools/factories';
 import { DateTime } from 'luxon';
 import { MAGIC_DATE_THAT_DC_SPECIFIC_PRICING_WAS_IMPLEMENTED } from 'support/constants/dc-specific-pricing';
 import {

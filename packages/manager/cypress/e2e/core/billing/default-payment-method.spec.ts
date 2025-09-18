@@ -1,4 +1,4 @@
-import { paymentMethodFactory } from '@src/factories/accountPayment';
+import { paymentMethodFactory } from '@linode/dev-tools/factories';
 import {
   mockGetPaymentMethods,
   mockSetDefaultPaymentMethod,

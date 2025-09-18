@@ -1,7 +1,10 @@
+import {
+  accountFactory,
+  accountMaintenanceFactory,
+} from '@linode/dev-tools/factories';
 import { linodeFactory } from '@linode/utilities';
 import { renderHook, waitFor } from '@testing-library/react';
 
-import { accountFactory, accountMaintenanceFactory } from 'src/factories';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 
 import {

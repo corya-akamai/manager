@@ -1,3 +1,7 @@
+import {
+  accountFactory,
+  placementGroupFactory,
+} from '@linode/dev-tools/factories';
 import { linodeFactory, regionFactory } from '@linode/utilities';
 import { mockGetAccount } from 'support/intercepts/account';
 import {
@@ -14,7 +18,6 @@ import { linodeCreatePage } from 'support/ui/pages';
 import { randomNumber, randomString } from 'support/util/random';
 import { extendRegion } from 'support/util/regions';
 
-import { accountFactory, placementGroupFactory } from 'src/factories';
 import { CANNOT_CHANGE_PLACEMENT_GROUP_POLICY_MESSAGE } from 'src/features/PlacementGroups/constants';
 
 const mockAccount = accountFactory.build();

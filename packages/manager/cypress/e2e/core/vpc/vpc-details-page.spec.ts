@@ -1,9 +1,13 @@
 import {
+  linodeConfigFactory,
+  subnetFactory,
+  vpcFactory,
+} from '@linode/dev-tools/factories';
+import {
   linodeConfigInterfaceFactory,
   linodeConfigInterfaceFactoryWithVPC,
   linodeFactory,
 } from '@linode/utilities';
-import { linodeConfigFactory, subnetFactory, vpcFactory } from '@src/factories';
 import { mockGetLinodeConfig } from 'support/intercepts/configs';
 import { mockGetLinodeDetails } from 'support/intercepts/linodes';
 import {

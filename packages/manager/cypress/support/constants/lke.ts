@@ -1,9 +1,11 @@
+import {
+  kubernetesEnterpriseTierVersionFactory,
+  kubernetesStandardTierVersionFactory,
+} from '@linode/dev-tools/factories';
 import { dedicatedTypeFactory, linodeTypeFactory } from '@linode/utilities';
 import { getLatestKubernetesVersion } from 'support/util/lke';
 
 import {
-  kubernetesEnterpriseTierVersionFactory,
-  kubernetesStandardTierVersionFactory,
   lkeEnterpriseTypeFactory,
   lkeHighAvailabilityTypeFactory,
 } from 'src/factories';

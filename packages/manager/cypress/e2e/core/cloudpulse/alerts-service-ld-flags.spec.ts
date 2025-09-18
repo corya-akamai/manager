@@ -1,3 +1,4 @@
+import { accountFactory } from '@linode/dev-tools/factories';
 /**
  * @file Integration tests for feature flag behavior on the alert page.
  */
@@ -11,11 +12,7 @@ import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import { mockGetUserPreferences } from 'support/intercepts/profile';
 import { ui } from 'support/ui';
 
-import {
-  accountFactory,
-  dashboardMetricFactory,
-  flagsFactory,
-} from 'src/factories';
+import { dashboardMetricFactory, flagsFactory } from 'src/factories';
 /**
  * This test ensures that widget titles are displayed correctly on the dashboard.
  * This test suite is dedicated to verifying the functionality and display of widgets on the Cloudpulse dashboard.

@@ -1,6 +1,6 @@
+import { eventFactory, imageFactory } from '@linode/dev-tools/factories';
 import React from 'react';
 
-import { eventFactory, imageFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { ImageStatus } from './ImageStatus';

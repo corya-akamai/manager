@@ -1,4 +1,4 @@
-import { databaseEngineConfigFactory } from 'src/factories';
+import { databaseEngineConfigFactory } from '@linode/dev-tools/factories';
 
 import {
   convertEngineConfigToOptions,

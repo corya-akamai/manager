@@ -1,7 +1,7 @@
+import { databaseFactory } from '@linode/dev-tools/factories';
 import { waitFor } from '@testing-library/react';
 import React from 'react';
 
-import { databaseFactory } from 'src/factories/databases';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import DatabaseSummaryConnectionDetails from './DatabaseSummaryConnectionDetails';

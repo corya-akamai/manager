@@ -1,4 +1,10 @@
 import {
+  firewallFactory,
+  subnetAssignedLinodeDataFactory,
+  subnetFactory,
+} from '@linode/dev-tools/factories';
+import { linodeConfigFactory } from '@linode/dev-tools/factories';
+import {
   linodeConfigInterfaceFactory,
   linodeConfigInterfaceFactoryWithVPC,
   linodeFactory,
@@ -8,12 +14,6 @@ import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import {
-  firewallFactory,
-  subnetAssignedLinodeDataFactory,
-  subnetFactory,
-} from 'src/factories';
-import { linodeConfigFactory } from 'src/factories/linodeConfigs';
 import {
   mockMatchMedia,
   renderWithTheme,

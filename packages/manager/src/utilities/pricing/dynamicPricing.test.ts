@@ -2,7 +2,7 @@ import {
   lkeHighAvailabilityTypeFactory,
   nodeBalancerTypeFactory,
   volumeTypeFactory,
-} from 'src/factories/types';
+} from 'src/factories';
 import { UNKNOWN_PRICE } from 'src/utilities/pricing/constants';
 
 import {

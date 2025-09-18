@@ -1,4 +1,10 @@
 import {
+  accountUserFactory,
+  eventFactory,
+  imageFactory,
+  linodeDiskFactory,
+} from '@linode/dev-tools/factories';
+import {
   grantsFactory,
   linodeFactory,
   profileFactory,
@@ -13,10 +19,6 @@ import {
 } from 'support/intercepts/profile';
 import { ui } from 'support/ui';
 import { randomLabel, randomNumber, randomPhrase } from 'support/util/random';
-
-import { accountUserFactory, eventFactory } from 'src/factories';
-import { linodeDiskFactory } from 'src/factories/disk';
-import { imageFactory } from 'src/factories/images';
 
 describe('create image (using mocks)', () => {
   it('create image from a linode', () => {

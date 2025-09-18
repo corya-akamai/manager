@@ -1,6 +1,5 @@
+import { eventFactory, imageFactory } from '@linode/dev-tools/factories';
 import { linodeFactory } from '@linode/utilities';
-
-import { eventFactory, imageFactory } from 'src/factories';
 
 import { getEventsForImages, getImageLabelForLinode } from './utils';
 

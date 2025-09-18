@@ -1,9 +1,9 @@
+import { vpcFactory } from '@linode/dev-tools/factories';
+import { databaseFactory } from '@linode/dev-tools/factories';
 import { screen } from '@testing-library/react';
 import * as React from 'react';
 import { describe, it } from 'vitest';
 
-import { vpcFactory } from 'src/factories';
-import { databaseFactory } from 'src/factories/databases';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { DatabaseDetailContext } from '../DatabaseDetailContext';

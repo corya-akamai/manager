@@ -1,9 +1,8 @@
+import { accountTransferFactory } from '@linode/dev-tools/factories';
 import {
   regionFactory,
   regionWithDynamicPricingFactory,
 } from '@linode/utilities';
-
-import { accountTransferFactory } from 'src/factories/account';
 
 import {
   calculatePoolUsagePct,

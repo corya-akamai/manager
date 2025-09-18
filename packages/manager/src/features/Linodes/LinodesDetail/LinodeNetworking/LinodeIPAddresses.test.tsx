@@ -1,8 +1,8 @@
+import { ipAddressFactory } from '@linode/dev-tools/factories';
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { ipAddressFactory } from 'src/factories/networking';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import { LinodeIPAddresses } from './LinodeIPAddresses';

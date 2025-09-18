@@ -1,6 +1,8 @@
+import {
+  accountMaintenanceFactory,
+  notificationFactory,
+} from '@linode/dev-tools/factories';
 import { renderHook } from '@testing-library/react';
-
-import { accountMaintenanceFactory, notificationFactory } from 'src/factories';
 
 import { usePlatformMaintenance } from './usePlatformMaintenance';
 

@@ -1,7 +1,7 @@
+import { accountUserFactory } from '@linode/dev-tools/factories';
 import { grantsFactory, profileFactory } from '@linode/utilities';
 import React from 'react';
 
-import { accountUserFactory } from 'src/factories/accountUsers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import {
   mockMatchMedia,

@@ -1,10 +1,10 @@
-import React from 'react';
-
 import {
   alertDimensionsFactory,
   alertFactory,
   alertRulesFactory,
-} from 'src/factories';
+} from '@linode/dev-tools/factories';
+import React from 'react';
+
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { metricOperatorTypeMap } from '../constants';

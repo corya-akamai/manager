@@ -1,3 +1,4 @@
+import { vpcFactory } from '@linode/dev-tools/factories';
 import { queryClientFactory } from '@linode/queries';
 import {
   linodeConfigInterfaceFactory,
@@ -6,7 +7,6 @@ import {
 import { waitFor } from '@testing-library/react';
 import * as React from 'react';
 
-import { vpcFactory } from 'src/factories';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 

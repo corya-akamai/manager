@@ -1,5 +1,5 @@
 import { EventActionKeys } from '@linode/api-v4';
-import { eventFactory } from '@src/factories/events';
+import { eventFactory } from '@linode/dev-tools/factories';
 import { mockGetEvents } from 'support/intercepts/events';
 
 import type { Event } from '@linode/api-v4';

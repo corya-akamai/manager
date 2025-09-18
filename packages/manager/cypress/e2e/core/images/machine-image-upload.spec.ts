@@ -1,4 +1,4 @@
-import { eventFactory, imageFactory } from '@src/factories';
+import { eventFactory, imageFactory } from '@linode/dev-tools/factories';
 import { makeResourcePage } from '@src/mocks/serverHandlers';
 import 'cypress-file-upload';
 import { DateTime } from 'luxon';

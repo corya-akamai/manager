@@ -1,3 +1,12 @@
+import {
+  accountFactory,
+  firewallFactory,
+  kubeLinodeFactory,
+  kubernetesClusterFactory,
+  kubernetesControlPlaneACLFactory,
+  kubernetesControlPlaneACLOptionsFactory,
+  nodePoolFactory,
+} from '@linode/dev-tools/factories';
 /**
  * @file LKE creation end-to-end tests.
  */
@@ -56,15 +65,6 @@ import { lkeClusterCreatePage } from 'support/ui/pages';
 import { randomItem, randomLabel, randomNumber } from 'support/util/random';
 import { chooseRegion, extendRegion } from 'support/util/regions';
 
-import {
-  accountFactory,
-  firewallFactory,
-  kubeLinodeFactory,
-  kubernetesClusterFactory,
-  kubernetesControlPlaneACLFactory,
-  kubernetesControlPlaneACLOptionsFactory,
-  nodePoolFactory,
-} from 'src/factories';
 import {
   CLUSTER_TIER_DOCS_LINK,
   CLUSTER_VERSIONS_DOCS_LINK,

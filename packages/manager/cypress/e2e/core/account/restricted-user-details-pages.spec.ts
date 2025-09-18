@@ -1,4 +1,14 @@
 import {
+  accountUserFactory,
+  databaseFactory,
+  imageFactory,
+  kubernetesClusterFactory,
+  linodeConfigFactory,
+  nodePoolFactory,
+  VLANFactory,
+  volumeFactory,
+} from '@linode/dev-tools/factories';
+import {
   grantsFactory,
   linodeConfigInterfaceFactory,
   linodeFactory,
@@ -54,17 +64,9 @@ import {
 import { chooseRegion } from 'support/util/regions';
 
 import {
-  accountUserFactory,
-  databaseFactory,
-  imageFactory,
-  kubernetesClusterFactory,
-  linodeConfigFactory,
   longviewAppsFactory,
   longviewClientFactory,
   longviewResponseFactory,
-  nodePoolFactory,
-  VLANFactory,
-  volumeFactory,
 } from 'src/factories';
 import { ADMINISTRATOR } from 'src/features/Account/constants';
 

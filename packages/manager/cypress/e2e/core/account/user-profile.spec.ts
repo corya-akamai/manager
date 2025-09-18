@@ -1,3 +1,4 @@
+import { accountUserFactory } from '@linode/dev-tools/factories';
 import { getProfile } from 'support/api/account';
 import {
   interceptGetUser,
@@ -9,7 +10,6 @@ import { mockUpdateProfile } from 'support/intercepts/profile';
 import { ui } from 'support/ui';
 import { randomString } from 'support/util/random';
 
-import { accountUserFactory } from 'src/factories/accountUsers';
 import {
   PARENT_USER,
   RESTRICTED_FIELD_TOOLTIP,

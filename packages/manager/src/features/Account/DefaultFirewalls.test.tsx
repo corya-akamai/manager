@@ -1,10 +1,10 @@
-import * as React from 'react';
-
 import {
   accountFactory,
   firewallFactory,
   firewallSettingsFactory,
-} from 'src/factories';
+} from '@linode/dev-tools/factories';
+import * as React from 'react';
+
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';

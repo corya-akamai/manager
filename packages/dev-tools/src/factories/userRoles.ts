@@ -16,7 +16,7 @@ const possibleRoles: EntityRoleType[] = [
   'linode_viewer',
 ];
 
-export const possibleTypes: EntityType[] = [
+export const userRolesPossibleTypes: EntityType[] = [
   'database',
   'domain',
   'firewall',
@@ -32,7 +32,9 @@ export const possibleTypes: EntityType[] = [
 export const entityAccessFactory = Factory.Sync.makeFactory<EntityAccess>({
   id: Factory.each((i) => i + 1),
   roles: Factory.each((i) => [possibleRoles[i % possibleRoles.length]]),
-  type: Factory.each((i) => possibleTypes[i % possibleTypes.length]),
+  type: Factory.each(
+    (i) => userRolesPossibleTypes[i % userRolesPossibleTypes.length],
+  ),
 });
 
 const entityAccessList = [

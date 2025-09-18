@@ -1,3 +1,7 @@
+import {
+  accountFactory,
+  objectStorageBucketFactory,
+} from '@linode/dev-tools/factories';
 import { mockGetAccount } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import {
@@ -7,8 +11,6 @@ import {
 import { ui } from 'support/ui';
 import { randomLabel } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
-
-import { accountFactory, objectStorageBucketFactory } from 'src/factories';
 
 describe('Object Storage Multicluster Bucket delete', () => {
   /*

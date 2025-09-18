@@ -1,9 +1,9 @@
+import { accountUserFactory } from '@linode/dev-tools/factories';
 import { profileFactory, sshKeyFactory } from '@linode/utilities';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import { accountUserFactory } from 'src/factories/accountUsers';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';

@@ -1,7 +1,7 @@
+import { linodeConfigFactory } from '@linode/dev-tools/factories';
 import { linodeConfigInterfaceFactory, linodeFactory } from '@linode/utilities';
 import React from 'react';
 
-import { linodeConfigFactory } from 'src/factories';
 import {
   LINODE_UNREACHABLE_HELPER_TEXT,
   NATTED_PUBLIC_IP_HELPER_TEXT,

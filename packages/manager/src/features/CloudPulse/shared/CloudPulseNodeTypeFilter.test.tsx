@@ -1,8 +1,8 @@
+import { databaseInstanceFactory } from '@linode/dev-tools/factories';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import { databaseInstanceFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { CloudPulseNodeTypeFilter } from './CloudPulseNodeTypeFilter';

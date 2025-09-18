@@ -1,6 +1,5 @@
+import { firewallMetricRulesFactory } from '@linode/dev-tools/factories';
 import { describe, expect, it } from 'vitest';
-
-import { firewallMetricRulesFactory } from 'src/factories';
 
 import {
   getResolvedDimensionValue,

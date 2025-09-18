@@ -1,11 +1,8 @@
+import { alertFactory, alertRulesFactory } from '@linode/dev-tools/factories';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import {
-  alertFactory,
-  alertRulesFactory,
-} from 'src/factories/cloudpulse/alerts';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { AlertListing } from './AlertListing';

@@ -1,5 +1,6 @@
+import { supportTicketFactory } from '@linode/dev-tools/factories';
+
 import { getSeedsCountMap } from 'src/dev-tools/utils';
-import { supportTicketFactory } from 'src/factories';
 import { mswDB } from 'src/mocks/indexedDB';
 
 import type { MockSeeder, MockState } from 'src/mocks/types';

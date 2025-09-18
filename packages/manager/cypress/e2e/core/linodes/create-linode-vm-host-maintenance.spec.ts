@@ -1,3 +1,4 @@
+import { accountSettingsFactory } from '@linode/dev-tools/factories';
 import { linodeFactory, regionFactory } from '@linode/utilities';
 import { mockGetAccountSettings } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
@@ -6,8 +7,6 @@ import { mockGetRegions } from 'support/intercepts/regions';
 import { ui } from 'support/ui';
 import { linodeCreatePage } from 'support/ui/pages';
 import { randomLabel, randomString } from 'support/util/random';
-
-import { accountSettingsFactory } from 'src/factories';
 const mockEnabledRegion = regionFactory.build({
   capabilities: ['Linodes', 'Maintenance Policy'],
 });

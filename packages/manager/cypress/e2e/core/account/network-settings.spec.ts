@@ -3,6 +3,12 @@
  */
 
 import {
+  accountFactory,
+  accountSettingsFactory,
+  firewallFactory,
+  firewallSettingsFactory,
+} from '@linode/dev-tools/factories';
+import {
   mockGetAccount,
   mockGetAccountSettings,
   mockUpdateAccountSettings,
@@ -16,13 +22,6 @@ import {
   mockUpdateFirewallSettingsError,
 } from 'support/intercepts/firewalls';
 import { ui } from 'support/ui';
-
-import {
-  accountFactory,
-  accountSettingsFactory,
-  firewallFactory,
-  firewallSettingsFactory,
-} from 'src/factories';
 
 import type { LinodeInterfaceAccountSetting } from '@linode/api-v4';
 

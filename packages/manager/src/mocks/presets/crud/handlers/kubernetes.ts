@@ -1,7 +1,3 @@
-import { linodeFactory, linodeIPFactory } from '@linode/utilities';
-import { DateTime } from 'luxon';
-import { http } from 'msw';
-
 import {
   kubeEndpointFactory,
   kubeLinodeFactory,
@@ -14,7 +10,11 @@ import {
   nodePoolFactory,
   subnetFactory,
   vpcFactory,
-} from 'src/factories';
+} from '@linode/dev-tools/factories';
+import { linodeFactory, linodeIPFactory } from '@linode/utilities';
+import { DateTime } from 'luxon';
+import { http } from 'msw';
+
 import { queueEvents } from 'src/mocks/utilities/events';
 import {
   makeNotFoundResponse,

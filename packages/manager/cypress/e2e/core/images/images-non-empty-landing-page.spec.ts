@@ -1,3 +1,5 @@
+import { imageFactory } from '@linode/dev-tools/factories';
+import { accountUserFactory } from '@linode/dev-tools/factories';
 import { profileFactory } from '@linode/utilities';
 import { grantsFactory } from '@linode/utilities';
 import { mockGetUser } from 'support/intercepts/account';
@@ -11,9 +13,6 @@ import {
 } from 'support/intercepts/profile';
 import { ui } from 'support/ui';
 import { randomLabel } from 'support/util/random';
-
-import { imageFactory } from 'src/factories';
-import { accountUserFactory } from 'src/factories';
 
 import type { Image } from '@linode/api-v4';
 

@@ -2,6 +2,7 @@
  * @file Integration tests for Cloud Manager account enable Linode Managed flows.
  */
 
+import { accountFactory } from '@linode/dev-tools/factories';
 import {
   grantsFactory,
   linodeFactory,
@@ -27,8 +28,6 @@ import {
 } from 'support/intercepts/profile';
 import { ui } from 'support/ui';
 import { chooseRegion } from 'support/util/regions';
-
-import { accountFactory } from 'src/factories/account';
 
 import type { Linode } from '@linode/api-v4';
 

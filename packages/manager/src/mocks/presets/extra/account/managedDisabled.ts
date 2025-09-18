@@ -1,6 +1,6 @@
+import { accountSettingsFactory } from '@linode/dev-tools/factories';
 import { http } from 'msw';
 
-import { accountSettingsFactory } from 'src/factories';
 import { makeResponse } from 'src/mocks/utilities/response';
 
 import type { MockPresetExtra } from 'src/mocks/types';

@@ -1,6 +1,6 @@
+import { firewallFactory } from '@linode/dev-tools/factories';
 import * as React from 'react';
 
-import { firewallFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { NodeBalancerFirewalls } from './NodeBalancerFirewalls';

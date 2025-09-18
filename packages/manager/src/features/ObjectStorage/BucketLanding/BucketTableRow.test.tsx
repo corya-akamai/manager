@@ -1,6 +1,6 @@
+import { objectStorageBucketFactory } from '@linode/dev-tools/factories';
 import * as React from 'react';
 
-import { objectStorageBucketFactory } from 'src/factories';
 import { renderWithTheme, wrapWithTableBody } from 'src/utilities/testHelpers';
 
 import { BucketTableRow } from './BucketTableRow';

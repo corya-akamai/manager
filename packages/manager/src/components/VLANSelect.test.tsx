@@ -1,7 +1,7 @@
+import { VLANFactory } from '@linode/dev-tools/factories';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { VLANFactory } from 'src/factories';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';

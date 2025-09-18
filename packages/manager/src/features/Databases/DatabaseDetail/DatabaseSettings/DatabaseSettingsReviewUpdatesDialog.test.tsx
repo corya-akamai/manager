@@ -1,6 +1,6 @@
+import { databaseFactory } from '@linode/dev-tools/factories';
 import React from 'react';
 
-import { databaseFactory } from 'src/factories/databases';
 import { DatabaseSettingsReviewUpdatesDialog } from 'src/features/Databases/DatabaseDetail/DatabaseSettings/DatabaseSettingsReviewUpdatesDialog';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

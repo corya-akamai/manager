@@ -1,5 +1,5 @@
+import { accountSettingsFactory } from '@linode/dev-tools/factories';
 import { createLinodeRequestFactory } from '@linode/utilities';
-import { accountSettingsFactory } from '@src/factories/accountSettings';
 import { authenticate } from 'support/api/authentication';
 import { mockGetAccountSettings } from 'support/intercepts/account';
 import { interceptDeleteLinode } from 'support/intercepts/linodes';

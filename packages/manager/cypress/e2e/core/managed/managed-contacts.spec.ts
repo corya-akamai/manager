@@ -2,6 +2,7 @@
  * @file Integration tests for Managed contacts.
  */
 
+import { contactFactory } from '@linode/dev-tools/factories';
 import { visitUrlWithManagedEnabled } from 'support/api/managed';
 import {
   mockCreateContact,
@@ -12,8 +13,6 @@ import {
 } from 'support/intercepts/managed';
 import { ui } from 'support/ui';
 import { randomPhoneNumber, randomString } from 'support/util/random';
-
-import { contactFactory } from 'src/factories/managed';
 
 // Message that's shown when there are no Managed contacts.
 const noContactsMessage = "You don't have any Contacts on your account.";

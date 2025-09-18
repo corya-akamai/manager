@@ -1,3 +1,4 @@
+import { firewallFactory } from '@linode/dev-tools/factories';
 import {
   screen,
   waitFor,
@@ -5,7 +6,6 @@ import {
 } from '@testing-library/react';
 import * as React from 'react';
 
-import { firewallFactory } from 'src/factories';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';

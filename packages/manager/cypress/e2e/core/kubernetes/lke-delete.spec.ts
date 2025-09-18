@@ -1,3 +1,4 @@
+import { kubernetesClusterFactory } from '@linode/dev-tools/factories';
 import {
   mockDeleteCluster,
   mockGetCluster,
@@ -5,8 +6,6 @@ import {
 } from 'support/intercepts/lke';
 import { ui } from 'support/ui';
 import { randomLabel } from 'support/util/random';
-
-import { kubernetesClusterFactory } from 'src/factories';
 
 /*
  * Fills out and submits Type to Confirm deletion dialog for cluster with the given label.

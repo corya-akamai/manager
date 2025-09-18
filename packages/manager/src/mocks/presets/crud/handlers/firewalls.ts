@@ -1,12 +1,12 @@
-import { DateTime } from 'luxon';
-import { http } from 'msw';
-
 import {
   firewallDeviceFactory,
   firewallFactory,
   firewallSettingsFactory,
   firewallTemplateFactory,
-} from 'src/factories';
+} from '@linode/dev-tools/factories';
+import { DateTime } from 'luxon';
+import { http } from 'msw';
+
 import { queueEvents } from 'src/mocks/utilities/events';
 import {
   makeNotFoundResponse,

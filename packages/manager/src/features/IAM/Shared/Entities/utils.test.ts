@@ -1,4 +1,4 @@
-import { accountEntityFactory } from 'src/factories/accountEntities';
+import { accountEntityFactory } from '@linode/dev-tools/factories';
 
 import {
   getCreateLinkForEntityType,

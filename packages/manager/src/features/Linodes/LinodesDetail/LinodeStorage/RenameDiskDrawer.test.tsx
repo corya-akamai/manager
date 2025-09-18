@@ -1,6 +1,6 @@
+import { linodeDiskFactory } from '@linode/dev-tools/factories';
 import React from 'react';
 
-import { linodeDiskFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { RenameDiskDrawer } from './RenameDiskDrawer';

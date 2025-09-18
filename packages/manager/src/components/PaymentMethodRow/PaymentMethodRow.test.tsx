@@ -1,11 +1,11 @@
 import { makeDefaultPaymentMethod } from '@linode/api-v4/lib';
+import { paymentMethodFactory } from '@linode/dev-tools/factories';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
 import { PAYPAL_CLIENT_ID } from 'src/constants';
-import { paymentMethodFactory } from 'src/factories';
 import BillingSummary from 'src/features/Billing/BillingPanels/BillingSummary';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

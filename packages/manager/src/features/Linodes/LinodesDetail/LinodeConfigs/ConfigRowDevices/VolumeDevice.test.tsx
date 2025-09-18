@@ -1,6 +1,6 @@
+import { volumeFactory } from '@linode/dev-tools/factories';
 import React from 'react';
 
-import { volumeFactory } from 'src/factories';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

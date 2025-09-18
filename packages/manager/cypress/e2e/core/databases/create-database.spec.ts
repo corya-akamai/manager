@@ -1,3 +1,9 @@
+import {
+  accountFactory,
+  accountUserFactory,
+  databaseFactory,
+  eventFactory,
+} from '@linode/dev-tools/factories';
 import { grantsFactory, profileFactory } from '@linode/utilities';
 import {
   databaseConfigurations,
@@ -19,13 +25,6 @@ import {
 import { ui } from 'support/ui';
 import { randomLabel } from 'support/util/random';
 import { getRegionById } from 'support/util/regions';
-
-import {
-  accountFactory,
-  accountUserFactory,
-  databaseFactory,
-  eventFactory,
-} from 'src/factories';
 
 import type { Database } from '@linode/api-v4';
 import type { DatabaseClusterConfiguration } from 'support/constants/databases';

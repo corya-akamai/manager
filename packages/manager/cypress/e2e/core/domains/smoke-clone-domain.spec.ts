@@ -1,5 +1,5 @@
 import { createDomain } from '@linode/api-v4/lib/domains';
-import { domainFactory } from '@src/factories';
+import { domainFactory } from '@linode/dev-tools/factories';
 import { authenticate } from 'support/api/authentication';
 import { createDomainRecords } from 'support/constants/domains';
 import { interceptCreateDomainRecord } from 'support/intercepts/domains';

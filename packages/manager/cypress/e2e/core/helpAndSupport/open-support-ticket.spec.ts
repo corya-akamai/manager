@@ -1,8 +1,13 @@
 // must turn off sort-objects rule in this file bc mockTicket.description is set by formatDescription fn in which attribute order is nonalphabetical and affects test result
 
-import { linodeFactory } from '@linode/utilities';
+import {
+  accountFactory,
+  domainFactory,
+  supportTicketFactory,
+} from '@linode/dev-tools/factories';
 /* eslint-disable sonarjs/no-duplicate-string */
 import 'cypress-file-upload';
+import { linodeFactory } from '@linode/utilities';
 import { mockGetAccount } from 'support/intercepts/account';
 import { mockGetDomains } from 'support/intercepts/domains';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
@@ -31,11 +36,6 @@ import {
 } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
 
-import {
-  accountFactory,
-  domainFactory,
-  supportTicketFactory,
-} from 'src/factories';
 import {
   ACCOUNT_LIMIT_DIALOG_TITLE,
   ACCOUNT_LIMIT_FIELD_NAME_TO_LABEL_MAP,

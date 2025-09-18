@@ -1,7 +1,6 @@
+import { serviceTypesFactory } from '@linode/dev-tools/factories';
 import { regionFactory } from '@linode/utilities';
 import { describe, expect, it } from 'vitest';
-
-import { serviceTypesFactory } from 'src/factories';
 
 import {
   INTERFACE_ID,

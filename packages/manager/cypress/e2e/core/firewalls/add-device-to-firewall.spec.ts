@@ -3,6 +3,11 @@
  */
 
 import {
+  accountFactory,
+  firewallDeviceFactory,
+  firewallFactory,
+} from '@linode/dev-tools/factories';
+import {
   linodeFactory,
   linodeInterfaceFactoryPublic,
   linodeInterfaceFactoryVlan,
@@ -21,12 +26,6 @@ import { mockGetLinodeInterfaces } from 'support/intercepts/linodes';
 import { mockGetLinodes } from 'support/intercepts/linodes';
 import { ui } from 'support/ui';
 import { randomLabel, randomNumber } from 'support/util/random';
-
-import {
-  accountFactory,
-  firewallDeviceFactory,
-  firewallFactory,
-} from 'src/factories';
 
 describe('Can add Linode and Linode Interface devices to firewalls', () => {
   beforeEach(() => {

@@ -2,13 +2,12 @@
  * @file Cypress intercepts and mocks for Cloud Manager Object Storage operations.
  */
 
+import { objectStorageBucketFactoryGen2 } from '@linode/dev-tools/factories';
 import { sequentialStub } from 'support/stubs/sequential-stub';
 import { makeErrorResponse } from 'support/util/errors';
 import { apiMatcher } from 'support/util/intercepts';
 import { paginateResponse } from 'support/util/paginate';
 import { makeResponse } from 'support/util/response';
-
-import { objectStorageBucketFactoryGen2 } from 'src/factories';
 
 import type { Quota, QuotaUsage } from '@linode/api-v4';
 import type {

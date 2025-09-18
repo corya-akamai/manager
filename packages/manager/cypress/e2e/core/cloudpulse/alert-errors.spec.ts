@@ -1,3 +1,4 @@
+import { accountFactory, alertFactory } from '@linode/dev-tools/factories';
 import { mockGetAccount } from 'support/intercepts/account';
 import {
   mockGetAllAlertDefinitions,
@@ -7,7 +8,7 @@ import {
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import { ui } from 'support/ui';
 
-import { accountFactory, alertFactory, flagsFactory } from 'src/factories';
+import { flagsFactory } from 'src/factories';
 const mockAccount = accountFactory.build();
 const mockAlerts = [
   alertFactory.build({

@@ -1,8 +1,8 @@
+import { objectStorageEndpointsFactory } from '@linode/dev-tools/factories';
+import { quotaFactory, quotaUsageFactory } from '@linode/dev-tools/factories';
 import { pickRandom, regions } from '@linode/utilities';
 import { http } from 'msw';
 
-import { objectStorageEndpointsFactory } from 'src/factories/objectStorage';
-import { quotaFactory, quotaUsageFactory } from 'src/factories/quotas';
 import {
   makeNotFoundResponse,
   makePaginatedResponse,

@@ -1,7 +1,7 @@
+import { accountUserFactory } from '@linode/dev-tools/factories';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { accountUserFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { UsernamePanel } from './UsernamePanel';

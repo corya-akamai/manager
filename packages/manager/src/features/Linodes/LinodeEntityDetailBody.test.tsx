@@ -1,11 +1,11 @@
-import { linodeInterfaceFactoryVPC } from '@linode/utilities';
-import * as React from 'react';
-
 import {
   subnetAssignedLinodeDataFactory,
   subnetFactory,
   vpcFactory,
-} from 'src/factories';
+} from '@linode/dev-tools/factories';
+import { linodeInterfaceFactoryVPC } from '@linode/utilities';
+import * as React from 'react';
+
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { LinodeEntityDetailBody } from './LinodeEntityDetailBody';

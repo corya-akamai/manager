@@ -3,6 +3,7 @@
  */
 
 import { getProfile } from '@linode/api-v4/lib/profile';
+import { entityTransferFactory } from '@linode/dev-tools/factories';
 import { createLinodeRequestFactory, linodeFactory } from '@linode/utilities';
 import { authenticate } from 'support/api/authentication';
 import { visitUrlWithManagedEnabled } from 'support/api/managed';
@@ -23,7 +24,6 @@ import { pollLinodeStatus } from 'support/util/polling';
 import { randomLabel, randomUuid } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
 
-import { entityTransferFactory } from 'src/factories/entityTransfers';
 import { formatDate } from 'src/utilities/formatDate';
 
 import type {

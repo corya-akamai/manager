@@ -1,3 +1,4 @@
+import { kubernetesClusterFactory } from '@linode/dev-tools/factories';
 import {
   screen,
   waitForElementToBeRemoved,
@@ -7,7 +8,6 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { describe, expect, it } from 'vitest';
 
-import { kubernetesClusterFactory } from 'src/factories';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';

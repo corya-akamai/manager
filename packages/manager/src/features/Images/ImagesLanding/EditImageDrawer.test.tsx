@@ -1,8 +1,8 @@
+import { imageFactory } from '@linode/dev-tools/factories';
 import { fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { imageFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { EditImageDrawer } from './EditImageDrawer';

@@ -1,4 +1,6 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
+
+import { accountFactory, databaseFactory } from '@linode/dev-tools/factories';
 /**
  * @file Integration Tests for CloudPulse Custom and Preset Verification
  */
@@ -25,11 +27,9 @@ import { ui } from 'support/ui';
 import { generateRandomMetricsData } from 'support/util/cloudpulse';
 
 import {
-  accountFactory,
   cloudPulseMetricsResponseFactory,
   dashboardFactory,
   dashboardMetricFactory,
-  databaseFactory,
   flagsFactory,
   widgetFactory,
 } from 'src/factories';
@@ -279,7 +279,6 @@ describe('Integration tests for verifying Cloudpulse custom and preset configura
       cy.get(`[aria-label="${startHour} hours"]`).click();
     });
 
-
     cy.findByLabelText('Select minutes')
       .as('selectMinutes')
       .scrollIntoView({ duration: 500, easing: 'linear' });
@@ -287,7 +286,6 @@ describe('Integration tests for verifying Cloudpulse custom and preset configura
     cy.get('@selectMinutes').within(() => {
       cy.get(`[aria-label="${startMinute} minutes"]`).click();
     });
-
 
     cy.findByLabelText('Select meridiem')
       .as('startMeridiemSelect')

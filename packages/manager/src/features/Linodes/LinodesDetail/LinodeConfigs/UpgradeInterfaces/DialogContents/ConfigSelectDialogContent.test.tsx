@@ -1,7 +1,7 @@
+import { linodeConfigFactory } from '@linode/dev-tools/factories';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { linodeConfigFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { ConfigSelectDialogContent } from './ConfigSelectDialogContent';

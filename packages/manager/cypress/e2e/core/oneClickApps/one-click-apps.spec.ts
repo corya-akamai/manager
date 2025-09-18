@@ -1,3 +1,4 @@
+import { imageFactory } from '@linode/dev-tools/factories';
 import { linodeFactory } from '@linode/utilities';
 import { mockGetAllImages } from 'support/intercepts/images';
 import { mockCreateLinode } from 'support/intercepts/linodes';
@@ -11,7 +12,6 @@ import { getRandomOCAId } from 'support/util/one-click-apps';
 import { randomLabel, randomString } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
 
-import { imageFactory } from 'src/factories';
 import { stackScriptFactory } from 'src/factories/stackscripts';
 import { getMarketplaceAppLabel } from 'src/features/Linodes/LinodeCreate/Tabs/Marketplace/utilities';
 import { oneClickApps } from 'src/features/OneClickApps/oneClickApps';

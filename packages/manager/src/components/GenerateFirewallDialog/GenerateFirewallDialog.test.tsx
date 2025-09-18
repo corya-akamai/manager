@@ -1,11 +1,11 @@
-import userEvent from '@testing-library/user-event';
-import React from 'react';
-
 import {
   firewallFactory,
   firewallRuleFactory,
   firewallTemplateFactory,
-} from 'src/factories';
+} from '@linode/dev-tools/factories';
+import userEvent from '@testing-library/user-event';
+import React from 'react';
+
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';

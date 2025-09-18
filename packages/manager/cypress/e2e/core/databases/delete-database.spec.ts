@@ -2,6 +2,7 @@
  * @file DBaaS integration tests for delete operations.
  */
 
+import { accountFactory, databaseFactory } from '@linode/dev-tools/factories';
 import {
   databaseConfigurations,
   mockDatabaseNodeTypes,
@@ -15,8 +16,6 @@ import {
 } from 'support/intercepts/databases';
 import { ui } from 'support/ui';
 import { randomIp, randomNumber } from 'support/util/random';
-
-import { accountFactory, databaseFactory } from 'src/factories';
 
 import type { DatabaseClusterConfiguration } from 'support/constants/databases';
 

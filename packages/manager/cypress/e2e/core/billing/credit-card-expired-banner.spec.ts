@@ -1,9 +1,8 @@
+import { accountFactory } from '@linode/dev-tools/factories';
 import { mockGetAccount } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import { mockGetUserPreferences } from 'support/intercepts/profile';
 import { ui } from 'support/ui';
-
-import { accountFactory } from 'src/factories';
 
 const creditCardExpiredBannerNotice =
   'Your credit card has expired! Please update your payment details.';

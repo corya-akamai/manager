@@ -1,3 +1,9 @@
+import {
+  quotaFactory,
+  quotaUsageFactory,
+  supportTicketFactory,
+} from '@linode/dev-tools/factories';
+import { objectStorageEndpointsFactory } from '@linode/dev-tools/factories';
 import { regionFactory } from '@linode/utilities';
 import { profileFactory } from '@linode/utilities';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
@@ -17,9 +23,6 @@ import {
 import { ui } from 'support/ui';
 import { randomDomainName, randomLabel } from 'support/util/random';
 
-import { supportTicketFactory } from 'src/factories';
-import { objectStorageEndpointsFactory } from 'src/factories';
-import { quotaFactory, quotaUsageFactory } from 'src/factories/quotas';
 import { getQuotaIncreaseMessage } from 'src/features/Account/Quotas/utils';
 
 import type { Quota } from '@linode/api-v4';

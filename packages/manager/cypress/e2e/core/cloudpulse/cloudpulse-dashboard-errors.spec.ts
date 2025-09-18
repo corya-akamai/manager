@@ -1,3 +1,4 @@
+import { accountFactory, databaseFactory } from '@linode/dev-tools/factories';
 /**
  * @file Error Handling Tests for CloudPulse Dashboard.
  */
@@ -29,10 +30,8 @@ import {
 import { ui } from 'support/ui';
 
 import {
-  accountFactory,
   dashboardFactory,
   dashboardMetricFactory,
-  databaseFactory,
   flagsFactory,
   widgetFactory,
 } from 'src/factories';

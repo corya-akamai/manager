@@ -1,3 +1,4 @@
+import { accountMaintenanceFactory } from '@linode/dev-tools/factories';
 import {
   screen,
   waitForElementToBeRemoved,
@@ -5,7 +6,6 @@ import {
 } from '@testing-library/react';
 import * as React from 'react';
 
-import { accountMaintenanceFactory } from 'src/factories';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { parseAPIDate } from 'src/utilities/date';

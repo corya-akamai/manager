@@ -1,6 +1,6 @@
+import { imageFactory } from '@linode/dev-tools/factories';
 import React from 'react';
 
-import { imageFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { ImageOption } from './ImageOption';

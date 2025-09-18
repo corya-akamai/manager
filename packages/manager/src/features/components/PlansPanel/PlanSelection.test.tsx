@@ -2,10 +2,7 @@ import { breakpoints } from '@linode/ui';
 import { fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
 
-import {
-  extendedTypeFactory,
-  planSelectionTypeFactory,
-} from 'src/factories/types';
+import { extendedTypeFactory, planSelectionTypeFactory } from 'src/factories';
 import { LIMITED_AVAILABILITY_COPY } from 'src/features/components/PlansPanel/constants';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 import { resizeScreenSize } from 'src/utilities/testHelpers';

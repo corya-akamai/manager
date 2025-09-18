@@ -1,8 +1,8 @@
+import { accountTransferFactory } from '@linode/dev-tools/factories';
 import { linodeTransferFactory, regionFactory } from '@linode/utilities';
 import React from 'react';
 
-import { accountTransferFactory } from 'src/factories';
-import { typeFactory } from 'src/factories/types';
+import { typeFactory } from 'src/factories';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';

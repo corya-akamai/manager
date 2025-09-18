@@ -1,9 +1,9 @@
+import { destinationFactory } from '@linode/dev-tools/factories';
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { beforeEach, describe, expect } from 'vitest';
 
-import { destinationFactory } from 'src/factories/delivery';
 import { DestinationsLanding } from 'src/features/Delivery/Destinations/DestinationsLanding';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';

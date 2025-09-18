@@ -1,3 +1,7 @@
+import {
+  accountSettingsFactory,
+  alertFactory,
+} from '@linode/dev-tools/factories';
 import { regionAvailabilityFactory, regionFactory } from '@linode/utilities';
 import { mockGetAccountSettings } from 'support/intercepts/account';
 import { mockGetAlertDefinition } from 'support/intercepts/cloudpulse';
@@ -10,7 +14,6 @@ import {
 import { ui } from 'support/ui';
 import { randomLabel, randomString } from 'support/util/random';
 
-import { accountSettingsFactory, alertFactory } from 'src/factories';
 import {
   ALERTS_BETA_MODE_BANNER_TEXT,
   ALERTS_BETA_MODE_BUTTON_TEXT,

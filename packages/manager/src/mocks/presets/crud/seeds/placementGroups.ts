@@ -1,5 +1,6 @@
+import { placementGroupFactory } from '@linode/dev-tools/factories';
+
 import { getSeedsCountMap } from 'src/dev-tools/utils';
-import { placementGroupFactory } from 'src/factories';
 import { mswDB } from 'src/mocks/indexedDB';
 import { seedWithUniqueIds } from 'src/mocks/presets/crud/seeds/utils';
 

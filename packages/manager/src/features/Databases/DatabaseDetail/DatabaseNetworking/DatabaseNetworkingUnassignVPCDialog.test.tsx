@@ -1,10 +1,10 @@
+import { subnetFactory, vpcFactory } from '@linode/dev-tools/factories';
+import { databaseFactory } from '@linode/dev-tools/factories';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { describe, it } from 'vitest';
 
-import { subnetFactory, vpcFactory } from 'src/factories';
-import { databaseFactory } from 'src/factories/databases';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { DatabaseNetworkingUnassignVPCDialog } from './DatabaseNetworkingUnassignVPCDialog';

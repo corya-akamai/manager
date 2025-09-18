@@ -2,6 +2,8 @@
  * @file Smoke tests for crucial Object Storage Access Keys operations.
  */
 
+import { accountFactory } from '@linode/dev-tools/factories';
+import { objectStorageKeyFactory } from '@linode/dev-tools/factories';
 import { mockGetAccount } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 import {
@@ -11,9 +13,6 @@ import {
 } from 'support/intercepts/object-storage';
 import { ui } from 'support/ui';
 import { randomLabel, randomNumber } from 'support/util/random';
-
-import { accountFactory } from 'src/factories';
-import { objectStorageKeyFactory } from 'src/factories/objectStorage';
 
 describe('object storage access keys smoke tests', () => {
   /*

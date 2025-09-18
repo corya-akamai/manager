@@ -1,7 +1,10 @@
+import {
+  databaseFactory,
+  databaseTypeFactory,
+} from '@linode/dev-tools/factories';
 import { waitForElementToBeRemoved } from '@testing-library/react';
 import * as React from 'react';
 
-import { databaseFactory, databaseTypeFactory } from 'src/factories';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';

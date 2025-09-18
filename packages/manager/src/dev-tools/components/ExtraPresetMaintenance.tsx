@@ -1,7 +1,7 @@
+import { accountMaintenanceFactory } from '@linode/dev-tools/factories';
 import { Typography } from '@linode/ui';
 import * as React from 'react';
 
-import { accountMaintenanceFactory } from 'src/factories';
 import { extraMockPresets } from 'src/mocks/presets';
 import { setCustomMaintenanceData } from 'src/mocks/presets/extra/account/customMaintenance';
 

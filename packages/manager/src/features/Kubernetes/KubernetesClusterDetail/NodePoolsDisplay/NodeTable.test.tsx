@@ -1,8 +1,8 @@
+import { kubeLinodeFactory } from '@linode/dev-tools/factories';
 import { linodeFactory } from '@linode/utilities';
 import { DateTime } from 'luxon';
 import React from 'react';
 
-import { kubeLinodeFactory } from 'src/factories/kubernetesCluster';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';

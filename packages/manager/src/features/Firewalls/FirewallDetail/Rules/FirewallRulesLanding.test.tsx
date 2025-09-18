@@ -1,6 +1,6 @@
+import { firewallRulesFactory } from '@linode/dev-tools/factories';
 import React from 'react';
 
-import { firewallRulesFactory } from 'src/factories/firewalls';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { FirewallRulesLanding } from './FirewallRulesLanding';

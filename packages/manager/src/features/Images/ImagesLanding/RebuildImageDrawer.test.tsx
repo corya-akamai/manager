@@ -1,8 +1,8 @@
+import { imageFactory } from '@linode/dev-tools/factories';
 import { linodeFactory } from '@linode/utilities';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { imageFactory } from 'src/factories';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';

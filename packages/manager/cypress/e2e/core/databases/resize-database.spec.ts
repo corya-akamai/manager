@@ -1,12 +1,5 @@
-/**
- * @file DBaaS integration tests for resize operations.
- */
-import {
-  ClusterSize,
-  DatabaseStatus,
-  RegionAvailability,
-} from '@linode/api-v4';
-import { accountFactory } from '@src/factories';
+import { accountFactory } from '@linode/dev-tools/factories';
+import { databaseFactory } from '@linode/dev-tools/factories';
 import {
   databaseConfigurationsResize,
   databaseRegionAvailability,
@@ -25,8 +18,14 @@ import { ui } from 'support/ui';
 import { randomIp, randomNumber, randomString } from 'support/util/random';
 import { getRegionById } from 'support/util/regions';
 
-import { databaseFactory } from 'src/factories/databases';
-
+/**
+ * @file DBaaS integration tests for resize operations.
+ */
+import type {
+  ClusterSize,
+  DatabaseStatus,
+  RegionAvailability,
+} from '@linode/api-v4';
 import type { DatabaseClusterConfiguration } from 'support/constants/databases';
 
 /**
@@ -63,13 +62,11 @@ const resizeDatabase = (initialLabel: string) => {
  * @param clusterSize - Database Cluster Size
  */
 const getNodes = (clusterSize: number) => {
-  const nodes =
-    clusterSize == 1
-      ? 'Primary (1 Node)'
-      : clusterSize == 2
-        ? 'Primary (+1 Node)'
-        : 'Primary (+2 Nodes)';
-  return nodes;
+  return clusterSize == 1
+    ? 'Primary (1 Node)'
+    : clusterSize == 2
+      ? 'Primary (+1 Node)'
+      : 'Primary (+2 Nodes)';
 };
 
 describe('Resizing existing clusters', () => {

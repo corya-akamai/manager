@@ -1,6 +1,6 @@
+import { notificationChannelFactory } from '@linode/dev-tools/factories';
 import React from 'react';
 
-import { notificationChannelFactory } from 'src/factories/cloudpulse/channels';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

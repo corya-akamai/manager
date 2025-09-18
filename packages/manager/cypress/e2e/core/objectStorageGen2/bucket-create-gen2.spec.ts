@@ -1,4 +1,9 @@
 import {
+  accountFactory,
+  objectStorageBucketFactoryGen2,
+  objectStorageEndpointsFactory,
+} from '@linode/dev-tools/factories';
+import {
   grantsFactory,
   profileFactory,
   regionFactory,
@@ -22,12 +27,6 @@ import { ui } from 'support/ui';
 import { checkRateLimitsTable } from 'support/util/object-storage-gen2';
 import { randomLabel } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
-
-import {
-  accountFactory,
-  objectStorageBucketFactoryGen2,
-  objectStorageEndpointsFactory,
-} from 'src/factories';
 
 import type { ACLType, ObjectStorageEndpoint } from '@linode/api-v4';
 

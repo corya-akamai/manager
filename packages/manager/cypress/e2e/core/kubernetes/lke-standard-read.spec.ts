@@ -2,6 +2,12 @@
  * Confirms read operations on LKE standard clusters.
  */
 
+import {
+  accountFactory,
+  kubeLinodeFactory,
+  kubernetesClusterFactory,
+  nodePoolFactory,
+} from '@linode/dev-tools/factories';
 import { linodeFactory, profileFactory } from '@linode/utilities';
 import { mockGetAccount } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
@@ -12,13 +18,6 @@ import {
   mockGetKubernetesVersions,
 } from 'support/intercepts/lke';
 import { mockGetProfile } from 'support/intercepts/profile';
-
-import {
-  accountFactory,
-  kubeLinodeFactory,
-  kubernetesClusterFactory,
-  nodePoolFactory,
-} from 'src/factories';
 
 const mockProfile = profileFactory.build();
 

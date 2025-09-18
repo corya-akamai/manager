@@ -1,6 +1,9 @@
+import {
+  accountMaintenanceFactory,
+  notificationFactory,
+} from '@linode/dev-tools/factories';
 import React from 'react';
 
-import { accountMaintenanceFactory, notificationFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { PlatformMaintenanceBanner } from './PlatformMaintenanceBanner';

@@ -1,8 +1,8 @@
+import { subnetFactory } from '@linode/dev-tools/factories';
 import userEvent from '@testing-library/user-event';
 import { PointerEventsCheckLevel } from '@testing-library/user-event';
 import * as React from 'react';
 
-import { subnetFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { SubnetActionMenu } from './SubnetActionMenu';

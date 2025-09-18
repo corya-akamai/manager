@@ -3,6 +3,10 @@
  */
 
 import { createBucket } from '@linode/api-v4/lib/object-storage';
+import {
+  accountFactory,
+  createObjectStorageBucketFactoryLegacy,
+} from '@linode/dev-tools/factories';
 import { authenticate } from 'support/api/authentication';
 import {
   interceptGetNetworkUtilization,
@@ -21,11 +25,6 @@ import { cleanUp } from 'support/util/cleanup';
 import { chooseCluster } from 'support/util/clusters';
 import { randomLabel } from 'support/util/random';
 import { getRegionById } from 'support/util/regions';
-
-import {
-  accountFactory,
-  createObjectStorageBucketFactoryLegacy,
-} from 'src/factories';
 
 /**
  * Create a bucket with the given label and cluster.

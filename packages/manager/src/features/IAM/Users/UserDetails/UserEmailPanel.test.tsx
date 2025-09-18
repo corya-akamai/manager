@@ -1,9 +1,9 @@
+import { accountUserFactory } from '@linode/dev-tools/factories';
 import { profileFactory } from '@linode/utilities';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { accountUserFactory } from 'src/factories';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 

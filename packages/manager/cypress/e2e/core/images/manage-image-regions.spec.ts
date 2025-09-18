@@ -1,3 +1,4 @@
+import { imageFactory } from '@linode/dev-tools/factories';
 import { regionFactory } from '@linode/utilities';
 import {
   mockGetCustomImages,
@@ -8,8 +9,6 @@ import {
 import { mockGetRegions } from 'support/intercepts/regions';
 import { ui } from 'support/ui';
 import { extendRegion } from 'support/util/regions';
-
-import { imageFactory } from 'src/factories';
 
 import type { Image, Region } from '@linode/api-v4';
 

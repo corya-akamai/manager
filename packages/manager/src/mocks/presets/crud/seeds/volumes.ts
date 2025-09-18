@@ -1,5 +1,6 @@
+import { volumeFactory } from '@linode/dev-tools/factories';
+
 import { getSeedsCountMap } from 'src/dev-tools/utils';
-import { volumeFactory } from 'src/factories';
 import { mswDB } from 'src/mocks/indexedDB';
 
 import type { MockSeeder, MockState } from 'src/mocks/types';

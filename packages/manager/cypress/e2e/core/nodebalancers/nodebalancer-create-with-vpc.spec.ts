@@ -1,3 +1,8 @@
+import {
+  subnetFactory,
+  vpcFactory,
+  vpcIPFactory,
+} from '@linode/dev-tools/factories';
 import { linodeFactory, nodeBalancerFactory } from '@linode/utilities';
 import { authenticate } from 'support/api/authentication';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
@@ -13,8 +18,6 @@ import { mockGetSubnets, mockGetVPCs } from 'support/intercepts/vpc';
 import { ui } from 'support/ui';
 import { randomIp, randomLabel, randomNumber } from 'support/util/random';
 import { chooseRegion } from 'support/util/regions';
-
-import { subnetFactory, vpcFactory, vpcIPFactory } from 'src/factories';
 
 authenticate();
 describe('Create a NodeBalancer with VPCs', () => {

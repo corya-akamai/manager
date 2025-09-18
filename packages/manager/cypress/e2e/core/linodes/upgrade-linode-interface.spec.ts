@@ -1,10 +1,10 @@
+import { accountFactory } from '@linode/dev-tools/factories';
 import {
   configFactory,
   linodeFactory,
   linodeInterfaceFactoryPublic,
   upgradeLinodeInterfaceFactory,
 } from '@linode/utilities';
-import { accountFactory } from '@src/factories';
 import { authenticate } from 'support/api/authentication';
 import {
   configSelectSharedText,

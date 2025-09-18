@@ -1,6 +1,7 @@
+import { accountUserFactory } from '@linode/dev-tools/factories';
+import { subnetFactory, vpcFactory } from '@linode/dev-tools/factories';
 import { linodeFactory, regionFactory } from '@linode/utilities';
 import { grantsFactory, profileFactory } from '@linode/utilities';
-import { subnetFactory, vpcFactory } from '@src/factories';
 import { mockGetUser } from 'support/intercepts/account';
 import { mockAppendFeatureFlags } from 'support/intercepts/feature-flags';
 /**
@@ -27,7 +28,6 @@ import {
 } from 'support/util/random';
 import { extendRegion } from 'support/util/regions';
 
-import { accountUserFactory } from 'src/factories';
 import { getUniqueLinodesFromSubnets } from 'src/features/VPCs/utils';
 
 import type { Subnet, VPC } from '@linode/api-v4';

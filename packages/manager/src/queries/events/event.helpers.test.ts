@@ -1,4 +1,4 @@
-import { entityFactory, eventFactory } from 'src/factories/events';
+import { entityFactory, eventFactory } from '@linode/dev-tools/factories';
 
 import {
   doesEventMatchAPIFilter,

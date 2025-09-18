@@ -1,6 +1,6 @@
+import { subnetFactory } from '@linode/dev-tools/factories';
 import * as React from 'react';
 
-import { subnetFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { SubnetDeleteDialog } from './SubnetDeleteDialog';

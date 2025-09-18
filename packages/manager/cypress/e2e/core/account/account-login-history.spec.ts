@@ -2,6 +2,7 @@
  * @file Integration tests for Cloud Manager account login history flows.
  */
 
+import { accountLoginFactory } from '@linode/dev-tools/factories';
 import { grantsFactory, profileFactory } from '@linode/utilities';
 import {
   loginEmptyStateMessageText,
@@ -13,7 +14,6 @@ import {
   mockGetProfileGrants,
 } from 'support/intercepts/profile';
 
-import { accountLoginFactory } from 'src/factories/accountLogin';
 import { PARENT_USER } from 'src/features/Account/constants';
 import { formatDate } from 'src/utilities/formatDate';
 

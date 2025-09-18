@@ -1,4 +1,9 @@
 import {
+  accountFactory,
+  objectStorageEndpointsFactory,
+  objectStorageKeyFactory,
+} from '@linode/dev-tools/factories';
+import {
   grantsFactory,
   profileFactory,
   regionFactory,
@@ -15,12 +20,6 @@ import {
 } from 'support/intercepts/profile';
 import { mockGetRegions } from 'support/intercepts/regions';
 import { ui } from 'support/ui';
-
-import {
-  accountFactory,
-  objectStorageEndpointsFactory,
-  objectStorageKeyFactory,
-} from 'src/factories';
 
 describe('Object Storage gen2 access keys tests', () => {
   /**

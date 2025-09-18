@@ -1,7 +1,7 @@
+import { kubernetesClusterFactory } from '@linode/dev-tools/factories';
 import { regionFactory } from '@linode/utilities';
 import * as React from 'react';
 
-import { kubernetesClusterFactory } from 'src/factories';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import {

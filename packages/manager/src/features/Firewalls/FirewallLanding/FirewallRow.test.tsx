@@ -1,12 +1,12 @@
+import { accountFactory } from '@linode/dev-tools/factories';
+import {
+  firewallDeviceFactory,
+  firewallFactory,
+} from '@linode/dev-tools/factories';
 import { capitalize } from '@linode/utilities';
 import { render } from '@testing-library/react';
 import * as React from 'react';
 
-import { accountFactory } from 'src/factories';
-import {
-  firewallDeviceFactory,
-  firewallFactory,
-} from 'src/factories/firewalls';
 import {
   mockMatchMedia,
   renderWithTheme,

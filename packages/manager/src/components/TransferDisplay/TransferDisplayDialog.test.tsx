@@ -1,11 +1,11 @@
+import {
+  accountTransferFactory,
+  accountTransferNoResourceFactory,
+} from '@linode/dev-tools/factories';
 import { regionFactory } from '@linode/utilities';
 import { fireEvent } from '@testing-library/react';
 import React from 'react';
 
-import {
-  accountTransferFactory,
-  accountTransferNoResourceFactory,
-} from 'src/factories/account';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import {

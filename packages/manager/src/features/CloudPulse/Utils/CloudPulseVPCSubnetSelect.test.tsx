@@ -1,8 +1,8 @@
+import { subnetFactory, vpcFactory } from '@linode/dev-tools/factories';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { subnetFactory, vpcFactory } from 'src/factories';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { CloudPulseVPCSubnetSelect } from './CloudPulseVPCSubnetSelect';

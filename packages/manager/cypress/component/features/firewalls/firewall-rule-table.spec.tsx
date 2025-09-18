@@ -1,5 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import '@4tw/cypress-drag-drop'; // Using this lib only for mouse drag-and-drop interactions
+import { firewallRuleFactory } from '@linode/dev-tools/factories';
 import * as React from 'react';
 import { ui } from 'support/ui';
 import { componentTests } from 'support/util/components';
@@ -10,7 +11,6 @@ import {
   randomString,
 } from 'support/util/random';
 
-import { firewallRuleFactory } from 'src/factories';
 import { FirewallRulesLanding } from 'src/features/Firewalls/FirewallDetail/Rules/FirewallRulesLanding';
 
 import type { FirewallPolicyType, FirewallRuleType } from '@linode/api-v4';

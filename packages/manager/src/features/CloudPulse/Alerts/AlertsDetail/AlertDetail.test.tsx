@@ -1,12 +1,12 @@
-import { linodeFactory, regionFactory } from '@linode/utilities';
-import { screen } from '@testing-library/react';
-import React from 'react';
-
 import {
   alertFactory,
   notificationChannelFactory,
   serviceTypesFactory,
-} from 'src/factories/';
+} from '@linode/dev-tools/factories';
+import { linodeFactory, regionFactory } from '@linode/utilities';
+import { screen } from '@testing-library/react';
+import React from 'react';
+
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { AlertDetail } from './AlertDetail';
