@@ -5,7 +5,7 @@ import {
   updateCloudNAT,
 } from 'src/mocks/presets/crud/handlers/cloudnats';
 
-import type { MockPresetCrud } from 'src/mocks/types';
+import type { MockPresetCrud } from '@linode/dev-tools/mocks';
 
 export const cloudNATCrudPreset: MockPresetCrud = {
   group: { id: 'CloudNATs' },

@@ -1,7 +1,7 @@
 /**
  * @file No mock MSW preset.
  */
-import type { MockPresetBaseline } from 'src/mocks/types';
+import type { MockPresetBaseline } from '@linode/dev-tools/mocks';
 
 /**
  * Baseline mock preset that does not mock any HTTP requests.

@@ -2,7 +2,7 @@ import { http, passthrough } from 'msw';
 
 import { makeErrorResponse } from 'src/mocks/utilities/response';
 
-import type { MockPresetBaseline } from 'src/mocks/types';
+import type { MockPresetBaseline } from '@linode/dev-tools/mocks';
 
 /**
  * The rate at which API responses will randomly fail.

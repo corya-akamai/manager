@@ -4,7 +4,7 @@ import type {
   MockPresetCrud,
   MockPresetExtra,
   MockState,
-} from './types';
+} from '@linode/dev-tools/mocks';
 import type { HttpHandler } from 'msw';
 
 /**

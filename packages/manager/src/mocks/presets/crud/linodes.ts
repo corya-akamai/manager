@@ -30,7 +30,7 @@ import {
   updateConfig,
 } from './handlers/linodes/configs';
 
-import type { MockPresetCrud } from 'src/mocks/types';
+import type { MockPresetCrud } from '@linode/dev-tools/mocks';
 
 export const linodeCrudPreset: MockPresetCrud = {
   group: { id: 'Linodes' },

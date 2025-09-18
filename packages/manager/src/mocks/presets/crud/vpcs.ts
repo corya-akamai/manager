@@ -9,7 +9,7 @@ import {
   updateVPC,
 } from './handlers/vpcs';
 
-import type { MockPresetCrud } from 'src/mocks/types';
+import type { MockPresetCrud } from '@linode/dev-tools/mocks';
 
 export const vpcCrudPreset: MockPresetCrud = {
   group: { id: 'VPCs' },

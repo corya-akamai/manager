@@ -1,6 +1,6 @@
 import { getQuotas, getS3Endpoint } from './handlers/quotas';
 
-import type { MockPresetCrud } from 'src/mocks/types';
+import type { MockPresetCrud } from '@linode/dev-tools/mocks';
 
 export const quotasCrudPreset: MockPresetCrud = {
   group: { id: 'Quotas' },

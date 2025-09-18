@@ -7,7 +7,7 @@ import {
   updateDomain,
 } from 'src/mocks/presets/crud/handlers/domains';
 
-import type { MockPresetCrud } from 'src/mocks/types';
+import type { MockPresetCrud } from '@linode/dev-tools/mocks';
 
 export const domainCrudPreset: MockPresetCrud = {
   group: { id: 'Domains' },

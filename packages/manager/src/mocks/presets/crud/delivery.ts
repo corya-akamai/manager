@@ -10,7 +10,7 @@ import {
   verifyDestination,
 } from 'src/mocks/presets/crud/handlers/delivery';
 
-import type { MockPresetCrud } from 'src/mocks/types';
+import type { MockPresetCrud } from '@linode/dev-tools/mocks';
 
 export const deliveryCrudPreset: MockPresetCrud = {
   group: { id: 'Delivery' },

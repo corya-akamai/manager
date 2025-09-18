@@ -3,7 +3,7 @@ import { volumeFactory } from '@linode/dev-tools/factories';
 import { getSeedsCountMap } from 'src/dev-tools/utils';
 import { mswDB } from 'src/mocks/indexedDB';
 
-import type { MockSeeder, MockState } from 'src/mocks/types';
+import type { MockSeeder, MockState } from '@linode/dev-tools/mocks';
 
 export const volumesSeeder: MockSeeder = {
   canUpdateCount: true,

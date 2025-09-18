@@ -55,7 +55,7 @@ import type {
   MockPresetExtraGroup,
   MockPresetExtraId,
   MockState,
-} from 'src/mocks/types';
+} from '@linode/dev-tools/mocks';
 
 interface ServiceWorkerSaveState {
   hasSaved: boolean;

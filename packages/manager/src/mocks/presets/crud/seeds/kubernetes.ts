@@ -8,7 +8,7 @@ import { mswDB } from 'src/mocks/indexedDB';
 import { seedWithUniqueIds } from 'src/mocks/presets/crud/seeds/utils';
 
 import type { MockKubeNodePoolResponse } from '../handlers/kubernetes';
-import type { MockSeeder, MockState } from 'src/mocks/types';
+import type { MockSeeder, MockState } from '@linode/dev-tools/mocks';
 
 export const kubernetesSeeder: MockSeeder = {
   canUpdateCount: true,

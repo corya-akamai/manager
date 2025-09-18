@@ -21,7 +21,10 @@ import { legacyRegionsPreset } from './extra/regions/legacyRegions';
 import { customUserAccountPermissionsPreset } from './extra/userPermissions/customUserAccountPermissions';
 import { customUserEntityPermissionsPreset } from './extra/userPermissions/customUserEntityPermissions';
 
-import type { MockPresetBaseline, MockPresetExtra } from '../types';
+import type {
+  MockPresetBaseline,
+  MockPresetExtra,
+} from '@linode/dev-tools/mocks';
 
 /** The preset that we fall back on if the local storage value is unset or invalid. */
 export const defaultBaselineMockPreset = baselineNoMocksPreset;

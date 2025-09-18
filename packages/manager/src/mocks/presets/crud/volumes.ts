@@ -5,7 +5,7 @@ import {
   updateVolumes,
 } from 'src/mocks/presets/crud/handlers/volumes';
 
-import type { MockPresetCrud } from 'src/mocks/types';
+import type { MockPresetCrud } from '@linode/dev-tools/mocks';
 
 export const volumeCrudPreset: MockPresetCrud = {
   group: { id: 'Volumes' },

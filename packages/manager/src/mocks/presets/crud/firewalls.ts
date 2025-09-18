@@ -11,7 +11,7 @@ import {
   updateFirewallSettings,
 } from 'src/mocks/presets/crud/handlers/firewalls';
 
-import type { MockPresetCrud } from 'src/mocks/types';
+import type { MockPresetCrud } from '@linode/dev-tools/mocks';
 
 export const firewallCrudPreset: MockPresetCrud = {
   group: { id: 'Firewalls' },

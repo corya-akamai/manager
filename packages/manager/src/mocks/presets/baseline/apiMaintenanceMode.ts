@@ -2,7 +2,7 @@ import { http } from 'msw';
 
 import { makeErrorResponse } from 'src/mocks/utilities/response';
 
-import type { MockPresetBaseline } from 'src/mocks/types';
+import type { MockPresetBaseline } from '@linode/dev-tools/mocks';
 
 /**
  * Mock all requests to Linode API v4 to respond with maintenance mode status and header.

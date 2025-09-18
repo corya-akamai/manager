@@ -1,6 +1,6 @@
 import { mswDB } from './indexedDB';
 
-import type { MockSeeder, MockState } from './types';
+import type { MockSeeder, MockState } from '@linode/dev-tools/mocks';
 
 /**
  * Describes a function that executes on each request to the events endpoint.

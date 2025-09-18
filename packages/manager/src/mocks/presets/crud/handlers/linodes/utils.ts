@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 
 import { mswDB } from '../../../../indexedDB';
 
-import type { MockState } from 'src/mocks/types';
+import type { MockState } from '@linode/dev-tools/mocks';
 // shared functionality between different linode related handlers
 
 export const addInterfaceToSubnet = async (inputs: {

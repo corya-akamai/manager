@@ -6,7 +6,7 @@ import {
   getSupportTickets,
 } from 'src/mocks/presets/crud/handlers/supportTickets';
 
-import type { MockPresetCrud } from 'src/mocks/types';
+import type { MockPresetCrud } from '@linode/dev-tools/mocks';
 
 export const supportTicketCrudPreset: MockPresetCrud = {
   group: { id: 'Support Tickets' },

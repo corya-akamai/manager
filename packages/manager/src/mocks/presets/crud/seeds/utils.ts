@@ -1,7 +1,7 @@
 import { mockState } from 'src/dev-tools/load';
 import { mswDB } from 'src/mocks/indexedDB';
 
-import type { MockSeeder, MockState } from 'src/mocks/types';
+import type { MockSeeder, MockState } from '@linode/dev-tools/mocks';
 
 /**
  * Removes the seeds from the database.

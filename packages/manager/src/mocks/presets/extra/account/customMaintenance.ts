@@ -3,7 +3,7 @@ import { http, HttpResponse } from 'msw';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 
 import type { AccountMaintenance } from '@linode/api-v4';
-import type { MockPresetExtra } from 'src/mocks/types';
+import type { MockPresetExtra } from '@linode/dev-tools/mocks';
 
 let customMaintenanceData: AccountMaintenance[] | null = null;
 

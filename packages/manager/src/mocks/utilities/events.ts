@@ -3,7 +3,7 @@ import { eventFactory } from '@linode/dev-tools/factories';
 import { mswDB } from '../indexedDB';
 
 import type { Event } from '@linode/api-v4';
-import type { MockState } from 'src/mocks/types';
+import type { MockState } from '@linode/dev-tools/mocks';
 
 interface QueuedEvents {
   event: {

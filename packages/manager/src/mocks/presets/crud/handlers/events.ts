@@ -13,8 +13,8 @@ import type {
   APIPaginatedResponse,
 } from '../../../utilities/response';
 import type { Event } from '@linode/api-v4';
+import type { MockState } from '@linode/dev-tools/mocks';
 import type { StrictResponse } from 'msw';
-import type { MockState } from 'src/mocks/types';
 
 /**
  * Filters events by their `created` date.

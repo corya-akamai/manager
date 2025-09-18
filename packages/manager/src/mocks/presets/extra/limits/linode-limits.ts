@@ -2,7 +2,7 @@ import { http } from 'msw';
 
 import { makeErrorResponse } from 'src/mocks/utilities/response';
 
-import type { MockPresetExtra } from 'src/mocks/types';
+import type { MockPresetExtra } from '@linode/dev-tools/mocks';
 
 const errorResponse =
   'You’ve reached the limit for the number of active vCPUs in this Linode plan. Please contact Support to request an increase and specify the total number of resources you may need.';

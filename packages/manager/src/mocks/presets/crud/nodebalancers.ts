@@ -8,7 +8,7 @@ import {
   updateNodeBalancer,
 } from './handlers/nodebalancers';
 
-import type { MockPresetCrud } from 'src/mocks/types';
+import type { MockPresetCrud } from '@linode/dev-tools/mocks';
 
 export const nodeBalancerCrudPreset: MockPresetCrud = {
   group: { id: 'NodeBalancers' },

@@ -16,7 +16,7 @@ import { supportTicketCrudPreset } from '../crud/supportTickets';
 import { volumeCrudPreset } from '../crud/volumes';
 import { vpcCrudPreset } from '../crud/vpcs';
 
-import type { MockPresetBaseline } from 'src/mocks/types';
+import type { MockPresetBaseline } from '@linode/dev-tools/mocks';
 
 export const baselineCrudPreset: MockPresetBaseline = {
   group: { id: 'General' },

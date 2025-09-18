@@ -10,7 +10,8 @@
   "exports": {
     ".": "./src/index.ts",
     "./__data__": "./src/__data__/index.ts",
-    "./factories": "./src/factories/index.ts"
+    "./factories": "./src/factories/index.ts",
+    "./mocks": "./src/mocks/index.ts"
   },
   "license": "Apache-2.0",
   "repository": {
@@ -21,7 +22,8 @@
     "@linode/api-v4": "workspace:*",
     "@linode/queries": "workspace:*",
     "@linode/utilities": "workspace:*",
-    "luxon": "3.4.4"
+    "luxon": "3.4.4",
+    "msw": "^2.2.3"
   },
   "scripts": {
     "start": "tsc -w --preserveWatchOutput",

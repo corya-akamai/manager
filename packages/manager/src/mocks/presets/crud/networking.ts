@@ -3,7 +3,7 @@ import {
   getIPAddresses,
 } from 'src/mocks/presets/crud/handlers/networking';
 
-import type { MockPresetCrud } from 'src/mocks/types';
+import type { MockPresetCrud } from '@linode/dev-tools/mocks';
 
 export const networkingCrudPreset: MockPresetCrud = {
   group: { id: 'IP Addresses' },

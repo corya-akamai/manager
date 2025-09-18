@@ -11,7 +11,11 @@ import {
   isMSWEnabled,
 } from './utils';
 
-import type { MockPresetExtra, MockSeeder, MockState } from 'src/mocks/types';
+import type {
+  MockPresetExtra,
+  MockSeeder,
+  MockState,
+} from '@linode/dev-tools/mocks';
 
 export let mockState: MockState;
 

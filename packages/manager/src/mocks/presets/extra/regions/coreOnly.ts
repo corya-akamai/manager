@@ -3,7 +3,7 @@ import { http } from 'msw';
 
 import { makePaginatedResponse } from 'src/mocks/utilities/response';
 
-import type { MockPresetExtra } from 'src/mocks/types';
+import type { MockPresetExtra } from '@linode/dev-tools/mocks';
 
 const mockCoreOnlyRegions = () => {
   return [

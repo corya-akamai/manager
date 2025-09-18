@@ -30,7 +30,7 @@ import type {
   MockPresetBaselineId,
   MockPresetExtraId,
   MockSeeder,
-} from 'src/mocks/types';
+} from '@linode/dev-tools/mocks';
 
 /**
  * Whether MSW is enabled via local storage setting.

@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
 
-import type { MockPresetBaseline } from 'src/mocks/types';
+import type { MockPresetBaseline } from '@linode/dev-tools/mocks';
 
 /**
  * Mock all requests to Linode API v4 to mock HTTP request failure.

@@ -4,7 +4,7 @@
 
 import { handlers } from '../../serverHandlers';
 
-import type { MockPresetBaseline } from 'src/mocks/types';
+import type { MockPresetBaseline } from '@linode/dev-tools/mocks';
 
 /**
  * Baseline mock preset that uses our legacy MSW handlers.

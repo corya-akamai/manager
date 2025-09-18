@@ -25,8 +25,8 @@ import type {
   FirewallSettings,
   FirewallTemplate,
 } from '@linode/api-v4';
+import type { MockState } from '@linode/dev-tools/mocks';
 import type { StrictResponse } from 'msw';
-import type { MockState } from 'src/mocks/types';
 import type {
   APIErrorResponse,
   APIPaginatedResponse,

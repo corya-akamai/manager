@@ -2,7 +2,7 @@ import { http } from 'msw';
 
 import { getExtraPresetsMap } from 'src/dev-tools/utils';
 
-import type { MockPresetExtra } from 'src/mocks/types';
+import type { MockPresetExtra } from '@linode/dev-tools/mocks';
 
 const APIResponseTime = () => {
   const extraPresetsMap = getExtraPresetsMap();

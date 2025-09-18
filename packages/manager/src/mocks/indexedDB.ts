@@ -1,6 +1,6 @@
 import { hasId } from './presets/crud/seeds/utils';
 
-import type { MockState } from './types';
+import type { MockState } from '@linode/dev-tools/mocks';
 
 type ObjectStore = 'mockState' | 'seedState';
 

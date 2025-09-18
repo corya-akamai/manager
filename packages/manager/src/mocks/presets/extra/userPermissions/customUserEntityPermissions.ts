@@ -4,7 +4,7 @@ import { http } from 'msw';
 import { makeResponse } from 'src/mocks/utilities/response';
 
 import type { PermissionType } from '@linode/api-v4';
-import type { MockPresetExtra } from 'src/mocks/types';
+import type { MockPresetExtra } from '@linode/dev-tools/mocks';
 
 let customUserEntityPermissionsData: null | PermissionType[] = null;
 
