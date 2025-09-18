@@ -1,3 +1,4 @@
+import { ADVANCED_CONFIG_LEARN_MORE_LINK } from '@linode/databases/constants';
 import { Box, Paper, Typography } from '@linode/ui';
 import Grid from '@mui/material/Grid';
 import { useNavigate } from '@tanstack/react-router';
@@ -6,7 +7,6 @@ import React from 'react';
 
 import { Link } from 'src/components/Link';
 
-import { ADVANCED_CONFIG_LEARN_MORE_LINK } from '../../constants';
 import { useDatabaseDetailContext } from '../DatabaseDetailContext';
 import {
   StyledGridContainer,

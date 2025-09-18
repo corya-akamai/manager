@@ -1,4 +1,9 @@
 import {
+  RESIZE_DISABLED_DEDICATED_SHARED_PLAN_TABS_TEXT,
+  RESIZE_DISABLED_PREMIUM_PLAN_TAB_TEXT,
+  RESIZE_DISABLED_SHARED_PLAN_TAB_LEGACY_TEXT,
+} from '@linode/databases/constants';
+import {
   useDatabaseMutation,
   useDatabaseTypesQuery,
   useRegionAvailabilityQuery,
@@ -34,11 +39,6 @@ import {
 import { typeLabelDetails } from 'src/features/Linodes/presentation';
 import { useFlags } from 'src/hooks/useFlags';
 
-import {
-  RESIZE_DISABLED_DEDICATED_SHARED_PLAN_TABS_TEXT,
-  RESIZE_DISABLED_PREMIUM_PLAN_TAB_TEXT,
-  RESIZE_DISABLED_SHARED_PLAN_TAB_LEGACY_TEXT,
-} from '../../constants';
 import { useDatabaseDetailContext } from '../DatabaseDetailContext';
 import {
   StyledGrid,

@@ -8,7 +8,11 @@
   "types": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./constants": "./src/constants.ts"
+    "./api": "./src/api/index.ts",
+    "./constants": "./src/constants.ts",
+    "./hooks": "./src/hooks/index.ts",
+    "./featureFlags": "./src/featureFlags.ts",
+    "./validation": "./src/validation/index.ts"
   },
   "license": "Apache-2.0",
   "repository": {
@@ -22,10 +26,13 @@
   },
   "dependencies": {
     "@linode/api-v4": "workspace:*",
+    "@linode/queries": "workspace:*",
     "@linode/utilities": "workspace:*",
     "@linode/ui": "workspace:*",
     "axios": "~1.12.0",
     "ipaddr.js": "^2.0.0",
+    "launchdarkly-react-client-sdk": "3.0.10",
+    "luxon": "3.4.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "redux": "^4.0.4",

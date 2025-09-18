@@ -119,12 +119,24 @@ importers:
       '@linode/api-v4':
         specifier: workspace:*
         version: link:../api-v4
+      '@linode/queries':
+        specifier: workspace:*
+        version: link:../queries
       '@linode/ui':
         specifier: workspace:*
         version: link:../ui
       '@linode/utilities':
         specifier: workspace:*
         version: link:../utilities
+      axios:
+        specifier: ~1.12.0
+        version: 1.12.0
+      ipaddr.js:
+        specifier: ^2.0.0
+        version: 2.2.0
+      launchdarkly-react-client-sdk:
+        specifier: 3.0.10
+        version: 3.0.10(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -207,6 +219,9 @@ importers:
       '@linode/api-v4':
         specifier: workspace:*
         version: link:../api-v4
+      '@linode/databases':
+        specifier: workspace:*
+        version: link:../databases
       '@linode/design-language-system':
         specifier: ^5.0.0
         version: 5.0.0

@@ -1,4 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  ADVANCED_CONFIG_INFO,
+  ADVANCED_CONFIG_LEARN_MORE_LINK,
+} from '@linode/databases/constants';
 import { useDatabaseEngineConfig, useDatabaseMutation } from '@linode/queries';
 import {
   ActionsPanel,
@@ -20,10 +24,6 @@ import type { SubmitHandler } from 'react-hook-form';
 
 import { Link } from 'src/components/Link';
 
-import {
-  ADVANCED_CONFIG_INFO,
-  ADVANCED_CONFIG_LEARN_MORE_LINK,
-} from '../../constants';
 import { DatabaseConfigurationItem } from './DatabaseConfigurationItem';
 import { DatabaseConfigurationSelect } from './DatabaseConfigurationSelect';
 import {

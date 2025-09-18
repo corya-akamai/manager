@@ -1,7 +1,3 @@
-import { useProfile } from '@linode/queries';
-import { Divider, Paper, Stack, Typography } from '@linode/ui';
-import * as React from 'react';
-
 import {
   ACCESS_CONTROLS_IN_SETTINGS_TEXT,
   ACCESS_CONTROLS_IN_SETTINGS_TEXT_LEGACY,
@@ -10,7 +6,11 @@ import {
   RESET_ROOT_PASSWORD_TEXT,
   RESET_ROOT_PASSWORD_TEXT_LEGACY,
   SUSPEND_CLUSTER_TEXT,
-} from 'src/features/Databases/constants';
+} from '@linode/databases/constants';
+import { useProfile } from '@linode/queries';
+import { Divider, Paper, Stack, Typography } from '@linode/ui';
+import * as React from 'react';
+
 import { DatabaseSettingsReviewUpdatesDialog } from 'src/features/Databases/DatabaseDetail/DatabaseSettings/DatabaseSettingsReviewUpdatesDialog';
 import { DatabaseSettingsUpgradeVersionDialog } from 'src/features/Databases/DatabaseDetail/DatabaseSettings/DatabaseSettingsUpgradeVersionDialog';
 import {

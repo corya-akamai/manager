@@ -1,3 +1,4 @@
+import { ACCESS_CONTROLS_IP_VALIDATION_ERROR_TEXT } from '@linode/databases/constants';
 import {
   useCreateDatabaseMutation,
   useDatabaseEnginesQuery,
@@ -39,7 +40,6 @@ import { useRestrictedGlobalGrantCheck } from 'src/hooks/useRestrictedGlobalGran
 import { handleAPIErrors } from 'src/utilities/formikErrorUtils';
 import { validateIPs } from 'src/utilities/ipUtils';
 
-import { ACCESS_CONTROLS_IP_VALIDATION_ERROR_TEXT } from '../constants';
 import { DatabaseCreateAccessControls } from './DatabaseCreateAccessControls';
 import { DatabaseCreateNetworkingConfiguration } from './DatabaseCreateNetworkingConfiguration';
 

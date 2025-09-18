@@ -1,3 +1,4 @@
+import { MANAGE_NETWORKING_LEARN_MORE_LINK } from '@linode/databases/constants';
 import { useAllVPCsQuery, useRegionQuery } from '@linode/queries';
 import {
   Autocomplete,
@@ -11,8 +12,6 @@ import * as React from 'react';
 
 import { Link } from 'src/components/Link';
 import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
-
-import { MANAGE_NETWORKING_LEARN_MORE_LINK } from '../constants';
 
 import type { DatabaseCreateValues } from './DatabaseClusterData';
 import type { PrivateNetwork, VPC } from '@linode/api-v4';

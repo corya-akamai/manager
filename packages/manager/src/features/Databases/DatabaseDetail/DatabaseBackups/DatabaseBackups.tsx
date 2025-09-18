@@ -1,3 +1,9 @@
+import {
+  BACKUPS_INVALID_TIME_VALIDATON_TEXT,
+  BACKUPS_MAX_TIME_EXCEEDED_VALIDATON_TEXT,
+  BACKUPS_MIN_TIME_EXCEEDED_VALIDATON_TEXT,
+  BACKUPS_UNABLE_TO_RESTORE_TEXT,
+} from '@linode/databases/constants';
 import { useDatabaseQuery } from '@linode/queries';
 import {
   Box,
@@ -31,12 +37,6 @@ import {
   useIsDatabasesEnabled,
 } from 'src/features/Databases/utilities';
 
-import {
-  BACKUPS_INVALID_TIME_VALIDATON_TEXT,
-  BACKUPS_MAX_TIME_EXCEEDED_VALIDATON_TEXT,
-  BACKUPS_MIN_TIME_EXCEEDED_VALIDATON_TEXT,
-  BACKUPS_UNABLE_TO_RESTORE_TEXT,
-} from '../../constants';
 import { useDatabaseDetailContext } from '../DatabaseDetailContext';
 import DatabaseBackupsDialog from './DatabaseBackupsDialog';
 import DatabaseBackupsLegacy from './legacy/DatabaseBackupsLegacy';
