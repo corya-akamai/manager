@@ -1,4 +1,5 @@
 import { useAllTypes, useRegionsQuery } from '@linode/queries';
+import { extendType } from '@linode/utilities';
 import React from 'react';
 import { useController, useWatch } from 'react-hook-form';
 
@@ -7,7 +8,6 @@ import { PlansPanel } from 'src/features/components/PlansPanel/PlansPanel';
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 import { sendLinodeCreateFlowDocsClickEvent } from 'src/utilities/analytics/customEventAnalytics';
 import { sendLinodeCreateFormInputEvent } from 'src/utilities/analytics/formEventAnalytics';
-import { extendType } from 'src/utilities/extendType';
 
 import { useGetLinodeCreateType } from './Tabs/utils/useGetLinodeCreateType';
 

@@ -1,11 +1,11 @@
 import { Factory } from '@linode/utilities';
 
 import type { LinodeType, PriceType } from '@linode/api-v4';
+import type { ExtendedType } from '@linode/utilities';
 import type {
   PlanSelectionAvailabilityTypes,
   PlanWithAvailability,
 } from 'src/features/components/PlansPanel/types';
-import type { ExtendedType } from 'src/utilities/extendType';
 
 export const typeFactory = Factory.Sync.makeFactory<LinodeType>({
   accelerated_devices: 0,

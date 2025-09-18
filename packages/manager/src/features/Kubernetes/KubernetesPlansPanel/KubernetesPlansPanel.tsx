@@ -23,8 +23,8 @@ import type {
   Region,
 } from '@linode/api-v4';
 import type { LinodeTypeClass } from '@linode/api-v4/lib/linodes/types';
+import type { ExtendedType } from '@linode/utilities';
 import type { PlanSelectionType } from 'src/features/components/PlansPanel/types';
-import type { ExtendedType } from 'src/utilities/extendType';
 
 interface Props {
   addPool?: (pool?: CreateNodePoolData) => void;

@@ -125,6 +125,7 @@
   },
   "devDependencies": {
     "@4tw/cypress-drag-drop": "^2.3.0",
+    "@linode/dev-tools": "workspace:*",
     "@storybook/addon-a11y": "^9.0.12",
     "@storybook/addon-docs": "^9.0.12",
     "@storybook/react-vite": "^9.0.12",

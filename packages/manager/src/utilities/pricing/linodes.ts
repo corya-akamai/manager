@@ -4,8 +4,8 @@ import type {
   Region,
   RegionalNetworkUtilization,
 } from '@linode/api-v4';
+import type { ExtendedType } from '@linode/utilities';
 import type { PlanSelectionType } from 'src/features/components/PlansPanel/types';
-import type { ExtendedType } from 'src/utilities/extendType';
 
 /**
  * Gets the price of a Linode type for a specific region.

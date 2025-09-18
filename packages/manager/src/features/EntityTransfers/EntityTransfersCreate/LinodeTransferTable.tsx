@@ -4,6 +4,7 @@ import {
   useSpecificTypes,
 } from '@linode/queries';
 import { Hidden } from '@linode/ui';
+import { extendType } from '@linode/utilities';
 import { useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
@@ -13,7 +14,6 @@ import { TableCell } from 'src/components/TableCell';
 import { TableContentWrapper } from 'src/components/TableContentWrapper/TableContentWrapper';
 import { useFlags } from 'src/hooks/useFlags';
 import { usePaginationV2 } from 'src/hooks/usePaginationV2';
-import { extendType } from 'src/utilities/extendType';
 
 import { TransferTable } from './TransferTable';
 

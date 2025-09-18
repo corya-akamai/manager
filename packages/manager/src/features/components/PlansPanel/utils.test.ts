@@ -1,7 +1,7 @@
+import { extendedTypes } from '@linode/dev-tools/__data__';
 import { regionAvailabilityFactory } from '@linode/utilities';
 import { renderHook } from '@testing-library/react';
 
-import { extendedTypes } from 'src/__data__/ExtendedType';
 import { planSelectionTypeFactory, typeFactory } from 'src/factories/types';
 
 import { PLAN_IS_CURRENTLY_UNAVAILABLE_COPY } from './constants';

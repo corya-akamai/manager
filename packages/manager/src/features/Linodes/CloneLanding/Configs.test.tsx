@@ -1,7 +1,7 @@
+import { linodeConfigs } from '@linode/dev-tools/__data__';
 import { fireEvent, render } from '@testing-library/react';
 import * as React from 'react';
 
-import { linodeConfigs } from 'src/__data__/linodeConfigs';
 import { wrapWithTheme } from 'src/utilities/testHelpers';
 
 import { Configs } from './Configs';

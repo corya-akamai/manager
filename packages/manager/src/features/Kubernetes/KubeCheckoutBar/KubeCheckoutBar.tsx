@@ -11,6 +11,7 @@ import {
   Stack,
   Typography,
 } from '@linode/ui';
+import { extendTypesQueryResult } from '@linode/utilities';
 import * as React from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
@@ -18,7 +19,6 @@ import { CheckoutBar } from 'src/components/CheckoutBar/CheckoutBar';
 import { Link } from 'src/components/Link';
 import { RenderGuard } from 'src/components/RenderGuard';
 import { EUAgreementCheckbox } from 'src/features/Account/Agreements/EUAgreementCheckbox';
-import { extendTypesQueryResult } from 'src/utilities/extendType';
 import { getGDPRDetails } from 'src/utilities/formatRegion';
 import {
   LKE_ADDITIONAL_PRICING,

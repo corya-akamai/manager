@@ -1,9 +1,9 @@
+import { extendedTypes } from '@linode/dev-tools/__data__';
 import { linodeBackupsFactory, regionFactory } from '@linode/utilities';
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import { extendedTypes } from 'src/__data__/ExtendedType';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { LinodeActionMenu } from './LinodeActionMenu';

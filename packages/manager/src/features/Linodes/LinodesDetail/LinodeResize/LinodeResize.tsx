@@ -18,6 +18,7 @@ import {
   Typography,
 } from '@linode/ui';
 import { scrollErrorIntoViewV2 } from '@linode/utilities';
+import { extendType } from '@linode/utilities';
 import { useTheme } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import { useSnackbar } from 'notistack';
@@ -30,7 +31,6 @@ import { PlansPanel } from 'src/features/components/PlansPanel/PlansPanel';
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 import { linodeInTransition } from 'src/features/Linodes/transitions';
 import { useEventsPollingActions } from 'src/queries/events/events';
-import { extendType } from 'src/utilities/extendType';
 
 import { HostMaintenanceError } from '../HostMaintenanceError';
 import { LinodePermissionsError } from '../LinodePermissionsError';

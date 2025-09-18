@@ -21,7 +21,7 @@ import { useIsLkeEnterpriseEnabled } from '../kubeUtils';
 
 import type { NodePoolConfigDrawerHandlerParams } from '../CreateCluster/CreateCluster';
 import type { KubernetesTier } from '@linode/api-v4';
-import type { ExtendedType } from 'src/utilities/extendType';
+import type { ExtendedType } from '@linode/utilities';
 
 export interface Props {
   clusterTier?: KubernetesTier;

@@ -1,4 +1,4 @@
-import type { ExtendedType } from 'src/utilities/extendType';
+import type { ExtendedType } from '@linode/utilities';
 
 export const LIMITED_AVAILABILITY_COPY =
   'This plan has limited deployment availability.';

@@ -1,4 +1,4 @@
-import { domainRecords as records } from 'src/__data__/domains';
+import { domainRecords as records } from '@linode/dev-tools/__data__';
 
 import {
   isEditableNameServer,

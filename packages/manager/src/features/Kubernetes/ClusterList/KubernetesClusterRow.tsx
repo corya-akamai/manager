@@ -1,6 +1,7 @@
 import { useRegionsQuery, useSpecificTypes } from '@linode/queries';
 import { Chip, Stack } from '@linode/ui';
 import { Hidden } from '@linode/ui';
+import { extendTypesQueryResult } from '@linode/utilities';
 import React from 'react';
 
 import { DateTimeDisplay } from 'src/components/DateTimeDisplay';
@@ -9,7 +10,6 @@ import { TableCell } from 'src/components/TableCell';
 import { TableRow } from 'src/components/TableRow';
 import { useIsResourceRestricted } from 'src/hooks/useIsResourceRestricted';
 import { useAllKubernetesNodePoolQuery } from 'src/queries/kubernetes';
-import { extendTypesQueryResult } from 'src/utilities/extendType';
 
 import {
   getNextVersion,

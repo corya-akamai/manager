@@ -1,6 +1,7 @@
 import { useRegionsQuery, useSpecificTypes } from '@linode/queries';
 import { CircleProgress, TooltipIcon, Typography } from '@linode/ui';
 import { pluralize } from '@linode/utilities';
+import { extendTypesQueryResult } from '@linode/utilities';
 import { useMediaQuery } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
@@ -11,7 +12,6 @@ import {
   useAllKubernetesNodePoolQuery,
   useKubernetesTypesQuery,
 } from 'src/queries/kubernetes';
-import { extendTypesQueryResult } from 'src/utilities/extendType';
 import {
   HA_PRICE_ERROR_MESSAGE,
   UNKNOWN_PRICE,

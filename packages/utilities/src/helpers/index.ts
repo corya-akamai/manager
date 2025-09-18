@@ -15,6 +15,7 @@ export * from './env';
 export * from './errors';
 export * from './escapeRegExp';
 export * from './evenizeNumber';
+export * from './extendType';
 export * from './formatDuration';
 export * from './formatStatus';
 export * from './formatStorageUnits';

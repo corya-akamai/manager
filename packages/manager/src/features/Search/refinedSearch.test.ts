@@ -1,6 +1,5 @@
+import { searchableItems } from '@linode/dev-tools/__data__';
 import searchString from 'search-string';
-
-import { searchableItems } from 'src/__data__/searchableItems';
 
 import * as RefinedSearch from './refinedSearch';
 import { COMPRESSED_IPV6_REGEX } from './refinedSearch';

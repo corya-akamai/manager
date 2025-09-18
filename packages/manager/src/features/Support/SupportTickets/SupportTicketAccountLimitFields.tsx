@@ -1,10 +1,10 @@
 import { useAccount, useSpecificTypes, useTypeQuery } from '@linode/queries';
 import { TextField } from '@linode/ui';
+import { extendTypesQueryResult } from '@linode/utilities';
 import * as React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { Link } from 'src/components/Link';
-import { extendTypesQueryResult } from 'src/utilities/extendType';
 
 import { ACCOUNT_LIMIT_FIELD_NAME_TO_LABEL_MAP } from './constants';
 import { SupportTicketProductSelectionFields } from './SupportTicketProductSelectionFields';

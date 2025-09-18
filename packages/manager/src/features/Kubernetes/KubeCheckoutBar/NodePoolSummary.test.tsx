@@ -1,7 +1,7 @@
+import { extendedTypes } from '@linode/dev-tools/__data__';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import { extendedTypes } from 'src/__data__/ExtendedType';
 import { nodePoolFactory } from 'src/factories/kubernetesCluster';
 import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';
 

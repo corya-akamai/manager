@@ -1,8 +1,8 @@
+import { extendedTypes } from '@linode/dev-tools/__data__';
+import { extDisk, swapDisk } from '@linode/dev-tools/__data__';
 import { waitFor } from '@testing-library/react';
 import * as React from 'react';
 
-import { extDisk, swapDisk } from 'src/__data__/disks';
-import { extendedTypes } from 'src/__data__/ExtendedType';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import { LinodeResize } from './LinodeResize';

@@ -11,6 +11,7 @@ import {
   pluralize,
   scrollErrorIntoView,
 } from '@linode/utilities';
+import { extendType } from '@linode/utilities';
 import React from 'react';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
 
@@ -21,7 +22,6 @@ import {
   nodeWarning,
 } from 'src/features/Kubernetes/constants';
 import { useCreateNodePoolMutation } from 'src/queries/kubernetes';
-import { extendType } from 'src/utilities/extendType';
 import { filterCurrentTypes } from 'src/utilities/filterCurrentLinodeTypes';
 import { PRICES_RELOAD_ERROR_NOTICE_TEXT } from 'src/utilities/pricing/constants';
 import { renderMonthlyPriceToCorrectDecimalPlace } from 'src/utilities/pricing/dynamicPricing';

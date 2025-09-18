@@ -1,7 +1,7 @@
+import { searchbarResult1, searchbarResult2 } from '@linode/dev-tools/__data__';
 import { fireEvent } from '@testing-library/react';
 import * as React from 'react';
 
-import { searchbarResult1, searchbarResult2 } from 'src/__data__/searchResults';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { ResultGroup } from './ResultGroup';

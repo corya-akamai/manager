@@ -48,4 +48,4 @@ export const contactWithoutGroup: ManagedContact = {
   updated: '2019-08-01T12:00:00',
 };
 
-export default [contact1, contact2, contact3];
+export const managedContacts = [contact1, contact2, contact3];

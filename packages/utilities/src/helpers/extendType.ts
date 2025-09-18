@@ -1,4 +1,4 @@
-import { formatStorageUnits, isNotNullOrUndefined } from '@linode/utilities';
+import { formatStorageUnits, isNotNullOrUndefined } from './';
 
 import type { APIError, LinodeType } from '@linode/api-v4';
 import type { UseQueryResult } from '@tanstack/react-query';
@@ -35,7 +35,7 @@ export const extendType = (type: LinodeType): ExtendedType => {
 
   if (network_out > 0) {
     subHeadings.push(
-      `${LINODE_NETWORK_IN} Gbps In / ${network_out / 1000} Gbps Out`
+      `${LINODE_NETWORK_IN} Gbps In / ${network_out / 1000} Gbps Out`,
     );
   }
 
@@ -49,7 +49,7 @@ export const extendType = (type: LinodeType): ExtendedType => {
 };
 
 export const extendTypesQueryResult = (
-  results: UseQueryResult<LinodeType, APIError[]>[]
+  results: UseQueryResult<LinodeType, APIError[]>[],
 ) =>
   results
     .map((result) => result.data)
@@ -59,7 +59,7 @@ export const extendTypesQueryResult = (
 export const typeLabelDetails = (
   memory: number,
   disk: number,
-  cpus: number
+  cpus: number,
 ) => {
   const memG = memory / 1024;
   const diskG = disk / 1024;

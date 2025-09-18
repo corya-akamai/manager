@@ -1,6 +1,6 @@
+import { extendedTypes } from '@linode/dev-tools/__data__';
 import * as React from 'react';
 
-import { extendedTypes } from 'src/__data__/ExtendedType';
 import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';
 
 import { NodePoolPanel } from './NodePoolPanel';

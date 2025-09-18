@@ -14,6 +14,7 @@ import {
   TextField,
 } from '@linode/ui';
 import { plansNoticesUtils, scrollErrorIntoViewV2 } from '@linode/utilities';
+import { extendType } from '@linode/utilities';
 import { createKubeClusterWithRequiredACLSchema } from '@linode/validation';
 import { Divider } from '@mui/material';
 import Grid from '@mui/material/Grid';
@@ -49,7 +50,6 @@ import {
   useKubernetesTypesQuery,
 } from 'src/queries/kubernetes';
 import { getAPIErrorOrDefault, getErrorMap } from 'src/utilities/errorUtils';
-import { extendType } from 'src/utilities/extendType';
 import { filterCurrentTypes } from 'src/utilities/filterCurrentLinodeTypes';
 import { stringToExtendedIP, validateIPs } from 'src/utilities/ipUtils';
 import {

@@ -1,10 +1,10 @@
 import { CircleProgress, ErrorState } from '@linode/ui';
+import { extendType } from '@linode/utilities';
 import Grid from '@mui/material/Grid';
 import * as React from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { useIsAcceleratedPlansEnabled } from 'src/features/components/PlansPanel/utils';
-import { extendType } from 'src/utilities/extendType';
 
 import {
   ADD_NODE_POOLS_DESCRIPTION,
@@ -16,7 +16,7 @@ import { PremiumCPUPlanNotice } from './PremiumCPUPlanNotice';
 
 import type { NodePoolConfigDrawerHandlerParams } from './CreateCluster';
 import type { KubernetesTier, LinodeTypeClass, Region } from '@linode/api-v4';
-import type { ExtendedType } from 'src/utilities/extendType';
+import type { ExtendedType } from '@linode/utilities';
 
 export interface NodePoolPanelProps {
   apiError?: string;

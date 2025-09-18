@@ -1,7 +1,7 @@
+import { attachment1, attachment3 } from '@linode/dev-tools/__data__';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import { attachment1, attachment3 } from 'src/__data__/fileAttachments';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { AttachFileForm } from './AttachFileForm';

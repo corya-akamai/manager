@@ -1,5 +1,10 @@
-import { disks, extDisk2, extDisk3, extDiskCopy } from 'src/__data__/disks';
-import { linodeConfig2, linodeConfigs } from 'src/__data__/linodeConfigs';
+import {
+  disks,
+  extDisk2,
+  extDisk3,
+  extDiskCopy,
+} from '@linode/dev-tools/__data__';
+import { linodeConfig2, linodeConfigs } from '@linode/dev-tools/__data__';
 
 import {
   attachAssociatedDisksToConfigs,

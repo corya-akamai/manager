@@ -1,6 +1,6 @@
+import { productionRegions } from '@linode/dev-tools/__data__';
 import { http } from 'msw';
 
-import { productionRegions } from 'src/__data__/productionRegionsData';
 import { makePaginatedResponse } from 'src/mocks/utilities/response';
 
 import type { MockPresetExtra } from 'src/mocks/types';

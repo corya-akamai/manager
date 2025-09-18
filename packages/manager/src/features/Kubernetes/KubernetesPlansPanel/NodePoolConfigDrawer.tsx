@@ -1,6 +1,7 @@
 import { useSpecificTypes } from '@linode/queries';
 import { ActionsPanel, Drawer, Notice, Typography } from '@linode/ui';
 import { isNumber, pluralize } from '@linode/utilities';
+import { extendType } from '@linode/utilities';
 import { Box, FormLabel } from '@mui/material';
 import * as React from 'react';
 import {
@@ -13,7 +14,6 @@ import {
 } from 'react-hook-form';
 
 import { EnhancedNumberInput } from 'src/components/EnhancedNumberInput/EnhancedNumberInput';
-import { extendType } from 'src/utilities/extendType';
 import { renderMonthlyPriceToCorrectDecimalPlace } from 'src/utilities/pricing/dynamicPricing';
 import { getLinodeRegionPrice } from 'src/utilities/pricing/linodes';
 

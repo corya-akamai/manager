@@ -1,11 +1,11 @@
-import { fireEvent } from '@testing-library/react';
-import * as React from 'react';
-
 import {
   attachment1,
   attachment2,
   attachment3,
-} from 'src/__data__/fileAttachments';
+} from '@linode/dev-tools/__data__';
+import { fireEvent } from '@testing-library/react';
+import * as React from 'react';
+
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { AttachFileListItem } from './AttachFileListItem';

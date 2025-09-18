@@ -1,4 +1,4 @@
-import { searchableItems } from 'src/__data__/searchableItems';
+import { searchableItems } from '@linode/dev-tools/__data__';
 
 import { separateResultsByEntity } from './utils';
 

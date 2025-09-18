@@ -2,7 +2,8 @@ import {
   community_answer,
   community_question,
   docs_result,
-} from 'src/__data__/searchResults';
+} from '@linode/dev-tools/__data__';
+
 import { COMMUNITY_BASE_URL, DOCS_BASE_URL } from 'src/constants';
 
 import {

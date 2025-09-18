@@ -1,7 +1,7 @@
+import { extDisk3, swapDisk } from '@linode/dev-tools/__data__';
 import { fireEvent, render } from '@testing-library/react';
 import * as React from 'react';
 
-import { extDisk3, swapDisk } from 'src/__data__/disks';
 import { wrapWithTheme } from 'src/utilities/testHelpers';
 
 import { Disks } from './Disks';

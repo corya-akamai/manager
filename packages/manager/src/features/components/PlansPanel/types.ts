@@ -1,5 +1,5 @@
 import type { BaseType, Engines, RegionPriceObject } from '@linode/api-v4';
-import type { ExtendedType } from 'src/utilities/extendType';
+import type { ExtendedType } from '@linode/utilities';
 
 export interface PlanSelectionWithDatabaseType extends PlanSelectionType {
   engines: Engines;

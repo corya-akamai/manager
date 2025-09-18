@@ -15,7 +15,7 @@ import type {
   KubernetesTieredVersion,
   KubernetesVersion,
 } from '@linode/api-v4/lib/kubernetes';
-import type { ExtendedType } from 'src/utilities/extendType';
+import type { ExtendedType } from '@linode/utilities';
 
 type SortOrder = 'asc' | 'desc';
 interface ClusterData {

@@ -1,4 +1,5 @@
 import { accountBetaFactory, linodeTypeFactory } from '@linode/utilities';
+import { extendType } from '@linode/utilities';
 import { renderHook } from '@testing-library/react';
 
 import {
@@ -7,7 +8,6 @@ import {
   kubernetesVersionFactory,
   nodePoolFactory,
 } from 'src/factories';
-import { extendType } from 'src/utilities/extendType';
 
 import {
   compareByKubernetesVersion,

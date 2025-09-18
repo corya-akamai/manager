@@ -1,6 +1,7 @@
-import managedContacts, {
+import {
   contactWithoutGroup,
-} from 'src/__data__/managedContacts';
+  managedContacts,
+} from '@linode/dev-tools/__data__';
 
 import { generateGroupsFromContacts } from '../utils';
 
