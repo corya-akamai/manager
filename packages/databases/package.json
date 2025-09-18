@@ -12,6 +12,8 @@
     "./constants": "./src/constants.ts",
     "./hooks": "./src/hooks/index.ts",
     "./featureFlags": "./src/featureFlags.ts",
+    "./types": "./src/types/index.ts",
+    "./utilities": "./src/utilities/index.ts",
     "./validation": "./src/validation/index.ts"
   },
   "license": "Apache-2.0",

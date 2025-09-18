@@ -1,6 +1,6 @@
 import { useFlags as ldUseFlags } from 'launchdarkly-react-client-sdk';
 
-import type { FlagSet } from '../featureFlags';
+import type { FlagSet } from 'src/types/featureFlags';
 export { useLDClient } from 'launchdarkly-react-client-sdk';
 
 /**

@@ -10,7 +10,7 @@ import {
 import {
   createDatabaseSchema,
   updateDatabaseSchema,
-} from '../../validation/databases.schema';
+} from 'src/validation/databases.schema';
 
 import type {
   CreateDatabasePayload,
