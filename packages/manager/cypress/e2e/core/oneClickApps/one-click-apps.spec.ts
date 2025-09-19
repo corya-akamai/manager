@@ -1,3 +1,4 @@
+import { oneClickApps } from '@linode/core/types';
 import { imageFactory } from '@linode/dev-tools/factories';
 import { linodeFactory } from '@linode/utilities';
 import { mockGetAllImages } from 'support/intercepts/images';
@@ -14,7 +15,6 @@ import { chooseRegion } from 'support/util/regions';
 
 import { stackScriptFactory } from 'src/factories/stackscripts';
 import { getMarketplaceAppLabel } from 'src/features/Linodes/LinodeCreate/Tabs/Marketplace/utilities';
-import { oneClickApps } from 'src/features/OneClickApps/oneClickApps';
 
 import type { StackScript } from '@linode/api-v4';
 

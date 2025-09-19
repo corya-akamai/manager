@@ -16,7 +16,7 @@ import { AppsList } from './AppsList';
 import { categoryOptions } from './utilities';
 
 import type { LinodeCreateFormValues } from '../../utilities';
-import type { AppCategory } from 'src/features/OneClickApps/types';
+import type { AppCategory } from '@linode/core/types';
 
 interface Props {
   /**

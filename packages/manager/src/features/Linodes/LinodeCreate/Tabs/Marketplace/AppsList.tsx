@@ -16,7 +16,7 @@ import {
 
 import type { LinodeCreateFormValues } from '../../utilities';
 import type { StackScript } from '@linode/api-v4';
-import type { AppCategory } from 'src/features/OneClickApps/types';
+import type { AppCategory } from '@linode/core/types';
 
 interface Props {
   /**

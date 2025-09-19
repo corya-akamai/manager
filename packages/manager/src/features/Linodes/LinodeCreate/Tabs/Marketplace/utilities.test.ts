@@ -1,7 +1,7 @@
+import { oneClickApps } from '@linode/core/types';
 import { renderHook, waitFor } from '@testing-library/react';
 
 import { stackScriptFactory } from 'src/factories';
-import { oneClickApps } from 'src/features/OneClickApps/oneClickApps';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { wrapWithTheme } from 'src/utilities/testHelpers';

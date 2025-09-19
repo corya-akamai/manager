@@ -1,3 +1,4 @@
+import { oneClickApps } from '@linode/core/types';
 import { useStackScriptQuery } from '@linode/queries';
 import {
   Box,
@@ -13,7 +14,6 @@ import { useFormContext, useWatch } from 'react-hook-form';
 
 import Info from 'src/assets/icons/info.svg';
 import { ShowMoreExpansion } from 'src/components/ShowMoreExpansion';
-import { oneClickApps } from 'src/features/OneClickApps/oneClickApps';
 
 import { getMarketplaceAppLabel } from '../../Marketplace/utilities';
 import { UserDefinedFieldInput } from './UserDefinedFieldInput';

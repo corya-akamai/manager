@@ -15,6 +15,7 @@
     "./hooks": "./src/hooks/index.ts",
     "./initSentry": "./src/initSentry.ts",
     "./LinodeThemeWrapper": "./src/LinodeThemeWrapper.ts",
+    "./types": "./src/types/index.ts",
     "./useSetupFeatureFlags": "./src/useSetupFeatureFlags.ts",
     "./utilities": "./src/utilities/index.ts"
   },

@@ -1,8 +1,8 @@
-import type { OCA } from './features/OneClickApps/types';
 import type {
   CloudPulseServiceType,
   TPAProvider,
 } from '@linode/api-v4/lib/profile';
+import type { OCA } from '@linode/core/types';
 import type { NoticeVariant } from '@linode/ui';
 
 // These flags should correspond with active features flags in LD
