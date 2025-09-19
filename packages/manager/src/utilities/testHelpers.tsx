@@ -1,3 +1,4 @@
+import { LinodeThemeWrapper } from '@linode/core';
 import { queryClientFactory } from '@linode/queries';
 import { CssBaseline } from '@mui/material';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -19,7 +20,6 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import { LinodeThemeWrapper } from 'src/LinodeThemeWrapper';
 import { setupInterceptors } from 'src/request';
 import { defaultState, storeFactory } from 'src/store';
 

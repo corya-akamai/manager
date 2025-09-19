@@ -122,9 +122,15 @@ importers:
       '@linode/queries':
         specifier: workspace:*
         version: link:../queries
+      '@linode/ui':
+        specifier: workspace:*
+        version: link:../ui
       '@linode/utilities':
         specifier: workspace:*
         version: link:../utilities
+      '@mui/material':
+        specifier: ^7.1.0
+        version: 7.1.0(@emotion/react@11.13.5(@types/react@19.1.6)(react@19.1.0))(@emotion/styled@11.13.5(@emotion/react@11.13.5(@types/react@19.1.6)(react@19.1.0))(@types/react@19.1.6)(react@19.1.0))(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@sentry/react':
         specifier: ^9.19.0
         version: 9.19.0(react@19.1.0)

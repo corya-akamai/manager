@@ -35,7 +35,7 @@ export const isValidTheme = (value: unknown): boolean => {
  */
 export const getThemeFromPreferenceValue = (
   value: unknown,
-  isSystemInDarkMode: boolean
+  isSystemInDarkMode: boolean,
 ): ThemeName => {
   const systemTheme = isSystemInDarkMode ? 'dark' : 'light';
   if (value === 'system') {
@@ -53,14 +53,14 @@ export const useColorMode = () => {
     // Disable this query so that it only reads from the React Query cache.
     // We don't want it to fetch because this hook us mounted before the user is
     // authenticated, which would result in a 401.
-    false
+    false,
   );
 
   const isSystemInDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   const colorMode = getThemeFromPreferenceValue(
     themePreference,
-    isSystemInDarkMode
+    isSystemInDarkMode,
   );
 
   return { colorMode };

@@ -1,3 +1,4 @@
+import { LinodeThemeWrapper } from '@linode/core';
 import { ENABLE_DEV_TOOLS } from '@linode/core/constants';
 import { queryClientFactory } from '@linode/queries';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,14 +10,13 @@ import { Provider as ReduxStoreProvider } from 'react-redux';
 // import 'src/exceptionReporting'; -> How do you init a common library?
 import { CookieWarning } from 'src/components/CookieWarning';
 import { SplashScreen } from 'src/components/SplashScreen';
-import { setupInterceptors } from 'src/request';
 
 import './index.css';
 
+import { setupInterceptors } from 'src/request';
 import { storeFactory } from 'src/store';
 
 import { App } from './App';
-import { LinodeThemeWrapper } from './LinodeThemeWrapper';
 
 const queryClient = queryClientFactory('longLived');
 const store = storeFactory();

@@ -13,8 +13,11 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
+import { LinodeThemeWrapper } from '@linode/core';
 import { queryClientFactory } from '@linode/queries';
 import { QueryClientProvider } from '@tanstack/react-query';
+import '@testing-library/cypress/add-commands';
+import 'cypress-axe';
 import {
   createMemoryHistory,
   createRootRoute,
@@ -22,15 +25,12 @@ import {
   createRouter,
   RouterProvider,
 } from '@tanstack/react-router';
-import '@testing-library/cypress/add-commands';
-import 'cypress-axe';
 import { mount } from 'cypress/react';
 import { LDProvider } from 'launchdarkly-react-client-sdk';
 import { SnackbarProvider } from 'notistack';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 
-import { LinodeThemeWrapper } from 'src/LinodeThemeWrapper';
 import { storeFactory } from 'src/store';
 
 import type { ThemeName } from '@linode/ui';

@@ -1,8 +1,7 @@
+import { themes } from '@linode/core/utilities';
 import { useAllLinodesQuery } from '@linode/queries';
 import { Autocomplete } from '@linode/ui';
 import React from 'react';
-
-import { themes } from 'src/utilities/theme';
 
 import type { FilterValueType } from '../Dashboard/CloudPulseDashboardLanding';
 import type { FilterValue, Linode } from '@linode/api-v4';

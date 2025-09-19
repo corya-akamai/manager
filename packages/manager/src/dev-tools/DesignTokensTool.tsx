@@ -1,4 +1,5 @@
 import { ThemeProvider } from '@emotion/react';
+import { themes } from '@linode/core/utilities';
 import {
   Box,
   CircleProgress,
@@ -18,7 +19,6 @@ import { Tab } from 'src/components/Tabs/Tab';
 import { TabList } from 'src/components/Tabs/TabList';
 import { TabPanels } from 'src/components/Tabs/TabPanels';
 import { Tabs } from 'src/components/Tabs/Tabs';
-import { themes } from 'src/utilities/theme';
 
 import { TokenSection } from './components/Tokens/TokenSection';
 import { countTokens, filterTokenObject } from './components/Tokens/utils';

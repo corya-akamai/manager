@@ -12,6 +12,7 @@
     "./constants": "./src/constants.ts",
     "./exceptionReporting": "./src/exceptionReporting.ts",
     "./initSentry": "./src/initSentry.ts",
+    "./LinodeThemeWrapper": "./src/LinodeThemeWrapper.ts",
     "./useSetupFeatureFlags": "./src/useSetupFeatureFlags.ts",
     "./utilities": "./src/utilities/index.ts"
   },
@@ -23,7 +24,9 @@
   "dependencies": {
     "@linode/api-v4": "workspace:*",
     "@linode/queries": "workspace:*",
+    "@linode/ui": "workspace:*",
     "@linode/utilities": "workspace:*",
+    "@mui/material": "^7.1.0",
     "@sentry/react": "^9.19.0",
     "launchdarkly-react-client-sdk": "3.0.10",
     "react": "^19.1.0"
