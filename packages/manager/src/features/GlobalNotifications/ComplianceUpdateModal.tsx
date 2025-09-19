@@ -1,3 +1,4 @@
+import { complianceUpdateContext } from '@linode/core/context';
 import { accountQueries, useMutateAccountAgreements } from '@linode/queries';
 import { ActionsPanel, Typography } from '@linode/ui';
 import { useQueryClient } from '@tanstack/react-query';
@@ -5,7 +6,6 @@ import * as React from 'react';
 
 import { ConfirmationDialog } from 'src/components/ConfirmationDialog/ConfirmationDialog';
 import { SupportLink } from 'src/components/SupportLink';
-import { complianceUpdateContext } from 'src/context/complianceUpdateContext';
 import { getErrorStringOrDefault } from 'src/utilities/errorUtils';
 
 import { EUAgreementCheckbox } from '../Account/Agreements/EUAgreementCheckbox';

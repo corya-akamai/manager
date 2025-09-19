@@ -1,3 +1,4 @@
+import { switchAccountSessionContext } from '@linode/core/context';
 import { useAccount, useProfile } from '@linode/queries';
 import { BetaChip, Box, Divider, Stack, Typography } from '@linode/ui';
 import { styled } from '@mui/material';
@@ -7,7 +8,6 @@ import { useTheme } from '@mui/material/styles';
 import React from 'react';
 
 import { Link } from 'src/components/Link';
-import { switchAccountSessionContext } from 'src/context/switchAccountSessionContext';
 import { SwitchAccountButton } from 'src/features/Account/SwitchAccountButton';
 import { useIsParentTokenExpired } from 'src/features/Account/SwitchAccounts/useIsParentTokenExpired';
 import { useIsIAMEnabled } from 'src/features/IAM/hooks/useIsIAMEnabled';

@@ -10,7 +10,9 @@
   "exports": {
     ".": "./src/index.ts",
     "./constants": "./src/constants.ts",
+    "./context": "./src/context/index.ts",
     "./exceptionReporting": "./src/exceptionReporting.ts",
+    "./hooks": "./src/hooks/index.ts",
     "./initSentry": "./src/initSentry.ts",
     "./LinodeThemeWrapper": "./src/LinodeThemeWrapper.ts",
     "./useSetupFeatureFlags": "./src/useSetupFeatureFlags.ts",

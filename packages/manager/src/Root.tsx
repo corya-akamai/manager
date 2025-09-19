@@ -6,6 +6,10 @@ import '@fontsource/nunito-sans/700.css';
 import '@fontsource/nunito-sans/800.css';
 import '@fontsource/nunito-sans/400-italic.css';
 import { ENABLE_MAINTENANCE_MODE } from '@linode/core/constants';
+import { useDialogContext } from '@linode/core/context';
+import { complianceUpdateContext } from '@linode/core/context';
+import { sessionExpirationContext } from '@linode/core/context';
+import { switchAccountSessionContext } from '@linode/core/context';
 import {
   useMutatePreferences,
   usePreferences,
@@ -27,7 +31,6 @@ import {
 import { SideMenu } from 'src/components/PrimaryNav/SideMenu';
 import { Snackbar } from 'src/components/Snackbar/Snackbar';
 import { SuspenseLoader } from 'src/components/SuspenseLoader';
-import { useDialogContext } from 'src/context/useDialogContext';
 import { ErrorBoundaryFallback } from 'src/features/ErrorBoundary/ErrorBoundaryFallback';
 import { Footer } from 'src/features/Footer';
 import { GlobalNotifications } from 'src/features/GlobalNotifications/GlobalNotifications';
@@ -38,9 +41,6 @@ import {
 import { TopMenu } from 'src/features/TopMenu/TopMenu';
 
 import { useIsPageScrollable } from './components/PrimaryNav/utils';
-import { complianceUpdateContext } from './context/complianceUpdateContext';
-import { sessionExpirationContext } from './context/sessionExpirationContext';
-import { switchAccountSessionContext } from './context/switchAccountSessionContext';
 import { TOPMENU_HEIGHT } from './features/TopMenu/constants';
 import { GoTo } from './GoTo';
 import { useAdobeAnalytics } from './hooks/useAdobeAnalytics';

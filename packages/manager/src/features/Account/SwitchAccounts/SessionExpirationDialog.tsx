@@ -1,3 +1,4 @@
+import { sessionExpirationContext as _sessionExpirationContext } from '@linode/core/context';
 import { useAccount } from '@linode/queries';
 import { ActionsPanel, Typography } from '@linode/ui';
 import { pluralize, useInterval } from '@linode/utilities';
@@ -5,7 +6,6 @@ import { useNavigate } from '@tanstack/react-router';
 import React, { useEffect } from 'react';
 
 import { ConfirmationDialog } from 'src/components/ConfirmationDialog/ConfirmationDialog';
-import { sessionExpirationContext as _sessionExpirationContext } from 'src/context/sessionExpirationContext';
 import { useParentChildAuthentication } from 'src/features/Account/SwitchAccounts/useParentChildAuthentication';
 import { setTokenInLocalStorage } from 'src/features/Account/SwitchAccounts/utils';
 import { parseAPIDate } from 'src/utilities/date';

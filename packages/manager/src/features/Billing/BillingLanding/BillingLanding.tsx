@@ -1,3 +1,4 @@
+import { switchAccountSessionContext } from '@linode/core/context';
 import { useAccount, useProfile } from '@linode/queries';
 import { Navigate, useLocation, useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
@@ -5,7 +6,6 @@ import * as React from 'react';
 import { DocumentTitleSegment } from 'src/components/DocumentTitle';
 import { LandingHeader } from 'src/components/LandingHeader';
 import { MaintenanceBannerV2 } from 'src/components/MaintenanceBanner/MaintenanceBannerV2';
-import { switchAccountSessionContext } from 'src/context/switchAccountSessionContext';
 import { useIsParentTokenExpired } from 'src/features/Account/SwitchAccounts/useIsParentTokenExpired';
 import { getRestrictedResourceText } from 'src/features/Account/utils';
 import { useFlags } from 'src/hooks/useFlags';

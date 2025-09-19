@@ -1,5 +1,5 @@
 import '@reach/tabs/styles.css';
-import { useSetupFeatureFlags } from '@linode/core/useSetupFeatureFlags';
+import { useSetupFeatureFlags } from '@linode/core/hooks';
 import * as React from 'react';
 
 import {

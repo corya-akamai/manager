@@ -3,7 +3,7 @@ import { useAccount, useProfile } from '@linode/queries';
 import { useLDClient } from 'launchdarkly-react-client-sdk';
 import * as React from 'react';
 
-import { configureErrorReportingUser } from './exceptionReporting';
+import { configureErrorReportingUser } from '../exceptionReporting';
 
 /**
  * This hook uses Linode account data to set Sentry and Launch Darkly context.

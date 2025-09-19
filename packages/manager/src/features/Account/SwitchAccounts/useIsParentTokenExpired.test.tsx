@@ -1,7 +1,7 @@
+import { switchAccountSessionContext } from '@linode/core/context';
 import { renderHook } from '@testing-library/react';
 import * as React from 'react';
 
-import { switchAccountSessionContext } from 'src/context/switchAccountSessionContext';
 import { useIsParentTokenExpired } from 'src/features/Account/SwitchAccounts/useIsParentTokenExpired';
 
 const queryMocks = vi.hoisted(() => ({

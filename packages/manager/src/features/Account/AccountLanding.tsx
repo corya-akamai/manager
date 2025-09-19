@@ -1,3 +1,4 @@
+import { switchAccountSessionContext } from '@linode/core/context';
 import { useAccount, useProfile } from '@linode/queries';
 import { NotFound } from '@linode/ui';
 import {
@@ -15,7 +16,6 @@ import { SuspenseLoader } from 'src/components/SuspenseLoader';
 import { TabPanels } from 'src/components/Tabs/TabPanels';
 import { Tabs } from 'src/components/Tabs/Tabs';
 import { TanStackTabLinkList } from 'src/components/Tabs/TanStackTabLinkList';
-import { switchAccountSessionContext } from 'src/context/switchAccountSessionContext';
 import { useIsParentTokenExpired } from 'src/features/Account/SwitchAccounts/useIsParentTokenExpired';
 import { getRestrictedResourceText } from 'src/features/Account/utils';
 import { useFlags } from 'src/hooks/useFlags';

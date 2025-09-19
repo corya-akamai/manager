@@ -1,3 +1,4 @@
+import { complianceUpdateContext } from '@linode/core/context';
 import { reportException } from '@linode/core/exceptionReporting';
 import {
   useNotificationsQuery,
@@ -10,7 +11,6 @@ import { DateTime } from 'luxon';
 import * as React from 'react';
 
 import { Link } from 'src/components/Link';
-import { complianceUpdateContext } from 'src/context/complianceUpdateContext';
 import { useDismissibleNotifications } from 'src/hooks/useDismissibleNotifications';
 import { formatDate } from 'src/utilities/formatDate';
 

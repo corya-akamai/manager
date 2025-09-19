@@ -23,23 +23,23 @@ export const defaultContext: DialogContextProps = {
 };
 
 export const useDialogContext = (
-  initialState: UseDialogContextOptions = {}
+  initialState: UseDialogContextOptions = {},
 ): DialogContextProps => {
   const [state, setState] = useState({ ...defaultContext, ...initialState });
 
   // TODO: We no longer need the open and close functions after we update other references
   const open = useCallback(
     () => setState((prevState) => ({ ...prevState, isOpen: true })),
-    []
+    [],
   );
   const close = useCallback(
     () => setState((prevState) => ({ ...prevState, isOpen: false })),
-    []
+    [],
   );
   const updateState = useCallback(
     (newState: UseDialogContextOptions) =>
       setState((prevState) => ({ ...prevState, ...newState })),
-    []
+    [],
   );
 
   return {

@@ -1,9 +1,9 @@
+import { sessionExpirationContext as _sessionExpirationContext } from '@linode/core/context';
+import { switchAccountSessionContext } from '@linode/core/context';
 import { useProfile, useSecurityQuestions } from '@linode/queries';
 import * as React from 'react';
 
 import AbuseTicketBanner from 'src/components/AbuseTicketBanner';
-import { sessionExpirationContext as _sessionExpirationContext } from 'src/context/sessionExpirationContext';
-import { switchAccountSessionContext } from 'src/context/switchAccountSessionContext';
 import { SwitchAccountSessionDialog } from 'src/features/Account/SwitchAccounts/SwitchAccountSessionDialog';
 import { useDismissibleNotifications } from 'src/hooks/useDismissibleNotifications';
 import { useFlags } from 'src/hooks/useFlags';
