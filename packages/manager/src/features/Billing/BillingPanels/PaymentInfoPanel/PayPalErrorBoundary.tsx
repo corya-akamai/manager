@@ -1,7 +1,6 @@
+import { reportException } from '@linode/core/exceptionReporting';
 import * as React from 'react';
 import type { JSX } from 'react';
-
-import { reportException } from 'src/exceptionReporting';
 
 interface State {
   error: boolean;

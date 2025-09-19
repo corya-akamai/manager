@@ -1,7 +1,7 @@
 import { SENTRY_URL } from '@linode/core/constants';
 import { captureException, getCurrentScope, withScope } from '@sentry/react';
 
-import { initSentry } from 'src/initSentry';
+import { initSentry } from './initSentry';
 
 initSentry();
 
@@ -10,7 +10,7 @@ initSentry();
 export const reportException = (
   error: Error | string,
   extra?: Record<string, any>,
-  tags?: Record<string, string>
+  tags?: Record<string, string>,
 ) => {
   // Don't report errors if the environment doesn't include a Sentry URL.
   if (!SENTRY_URL) {
@@ -56,7 +56,7 @@ export const reportException = (
 // called once, as soon as user data is available.
 export const configureErrorReportingUser = (
   userId: string,
-  username: string
+  username: string,
 ) => {
   getCurrentScope().setUser({
     user_id: userId,

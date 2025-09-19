@@ -1,6 +1,5 @@
+import { reportException } from '@linode/core/exceptionReporting';
 import md5 from 'md5';
-
-import { reportException } from 'src/exceptionReporting';
 
 /**
  * Return the fingerprint of an SSH pubkey.

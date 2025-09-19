@@ -1,4 +1,5 @@
 import { makePayment } from '@linode/api-v4/lib/account/payments';
+import { reportException } from '@linode/core/exceptionReporting';
 import { accountQueries, useAccount, useClientToken } from '@linode/queries';
 import { CircleProgress, Tooltip } from '@linode/ui';
 import Grid from '@mui/material/Grid';
@@ -13,7 +14,6 @@ import * as React from 'react';
 import type { JSX } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import { reportException } from 'src/exceptionReporting';
 import { getPaymentLimits } from 'src/features/Billing/billingUtils';
 import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
 

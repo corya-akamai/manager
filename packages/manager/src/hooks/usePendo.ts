@@ -1,9 +1,9 @@
 import { PENDO_API_KEY } from '@linode/core/constants';
+import { reportException } from '@linode/core/exceptionReporting';
 import { useAccount, useProfile } from '@linode/queries';
 import { loadScript } from '@linode/utilities'; // `loadScript` from `useScript` hook
 import React from 'react';
 
-import { reportException } from 'src/exceptionReporting';
 import { getAppRoot } from 'src/OAuth/constants';
 import {
   checkOptanonConsent,

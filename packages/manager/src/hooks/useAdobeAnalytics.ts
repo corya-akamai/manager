@@ -1,9 +1,8 @@
 import { ADOBE_ANALYTICS_URL } from '@linode/core/constants';
+import { reportException } from '@linode/core/exceptionReporting';
 import { loadScript } from '@linode/utilities';
 import { useLocation } from '@tanstack/react-router';
 import React from 'react';
-
-import { reportException } from 'src/exceptionReporting';
 
 /**
  * Initializes our Adobe Analytics script on mount and subscribes to page view events.

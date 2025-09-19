@@ -1,4 +1,4 @@
-import { reportException } from 'src/exceptionReporting';
+import { reportException } from '@linode/core/exceptionReporting';
 
 import type { Config, LinodeStatus } from '@linode/api-v4/lib/linodes';
 

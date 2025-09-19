@@ -1,4 +1,4 @@
-import { reportException } from 'src/exceptionReporting';
+import { reportException } from '@linode/core/exceptionReporting';
 
 export const reportAgreementSigningError = (err: unknown) => {
   let customErrorMessage =

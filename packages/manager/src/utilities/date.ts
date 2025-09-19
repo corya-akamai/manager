@@ -1,6 +1,5 @@
+import { reportException } from '@linode/core/exceptionReporting';
 import { DateTime } from 'luxon';
-
-import { reportException } from 'src/exceptionReporting';
 
 /**
  * @returns a valid Luxon date if the format is API or ISO, Null if not

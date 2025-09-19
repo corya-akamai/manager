@@ -1,4 +1,5 @@
 import { getKubeConfig } from '@linode/api-v4/lib/kubernetes';
+import { reportException } from '@linode/core/exceptionReporting';
 import { Hidden } from '@linode/ui';
 import { downloadFile } from '@linode/utilities';
 import { useTheme } from '@mui/material/styles';
@@ -8,7 +9,6 @@ import * as React from 'react';
 
 import { ActionMenu } from 'src/components/ActionMenu/ActionMenu';
 import { InlineMenuAction } from 'src/components/InlineMenuAction/InlineMenuAction';
-import { reportException } from 'src/exceptionReporting';
 import { getRestrictedResourceText } from 'src/features/Account/utils';
 import { getErrorStringOrDefault } from 'src/utilities/errorUtils';
 

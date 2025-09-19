@@ -1,3 +1,4 @@
+import { reportException } from '@linode/core/exceptionReporting';
 import {
   useNotificationsQuery,
   useProfile,
@@ -10,7 +11,6 @@ import * as React from 'react';
 
 import { Link } from 'src/components/Link';
 import { complianceUpdateContext } from 'src/context/complianceUpdateContext';
-import { reportException } from 'src/exceptionReporting';
 import { useDismissibleNotifications } from 'src/hooks/useDismissibleNotifications';
 import { formatDate } from 'src/utilities/formatDate';
 

@@ -88,7 +88,7 @@ export const initSentry = () => {
 };
 
 export const beforeSend = (
-  sentryEvent: SentryErrorEvent
+  sentryEvent: SentryErrorEvent,
 ): null | SentryErrorEvent => {
   const normalizedErrorMessage = normalizeErrorMessage(sentryEvent.message);
 
@@ -99,7 +99,7 @@ export const beforeSend = (
 
   if (
     errorsToIgnore.some((eachRegex) =>
-      Boolean(normalizedErrorMessage?.match(eachRegex))
+      Boolean(normalizedErrorMessage?.match(eachRegex)),
     )
   ) {
     return null;
@@ -110,7 +110,7 @@ export const beforeSend = (
   /** remove the user's access token from the event if one exists */
   const eventWithoutSensitiveInfo = deepStringTransform(
     sentryEvent,
-    redactAccessToken
+    redactAccessToken,
   );
 
   /** maybe add a custom fingerprint if this error is relevant */
@@ -144,7 +144,7 @@ export const errorsToIgnore: RegExp[] = [
 // the error, or appropriately report the message to Sentry (i.e. not "<unknown>").
 type ErrorMessage = (() => void) | [APIError] | object | string | undefined;
 export const normalizeErrorMessage = (
-  sentryErrorMessage: ErrorMessage
+  sentryErrorMessage: ErrorMessage,
 ): string => {
   if (typeof sentryErrorMessage === 'string') {
     return sentryErrorMessage;
@@ -166,7 +166,7 @@ export const normalizeErrorMessage = (
 };
 
 const maybeAddCustomFingerprint = (
-  event: SentryErrorEvent
+  event: SentryErrorEvent,
 ): SentryErrorEvent => {
   const fingerprint = Object.keys(customFingerPrintMap).reduce((acc, value) => {
     /** if our sentry error matches one of the keys in the map */

@@ -6,7 +6,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider as ReduxStoreProvider } from 'react-redux';
 
-import 'src/exceptionReporting';
+// import 'src/exceptionReporting'; -> How do you init a common library?
 import { CookieWarning } from 'src/components/CookieWarning';
 import { SplashScreen } from 'src/components/SplashScreen';
 import { setupInterceptors } from 'src/request';

@@ -1,8 +1,7 @@
-import { ErrorEvent } from '@sentry/react';
-
 import { beforeSend, normalizeErrorMessage } from './initSentry';
 
 import type { APIError } from '@linode/api-v4/lib/types';
+import type { ErrorEvent } from '@sentry/react';
 
 const INVALID_TOKEN = 'Invalid Token';
 
@@ -18,7 +17,7 @@ describe('normalizeErrorMessage', () => {
 
   it("returns the input stringified if it's anything else", () => {
     expect(normalizeErrorMessage([INVALID_TOKEN] as any)).toBe(
-      '["Invalid Token"]'
+      '["Invalid Token"]',
     );
     expect(normalizeErrorMessage(null as any)).toBe('null');
   });

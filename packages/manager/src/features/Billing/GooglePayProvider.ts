@@ -3,10 +3,10 @@ import {
   makePayment,
 } from '@linode/api-v4/lib/account/payments';
 import { GPAY_CLIENT_ENV, GPAY_MERCHANT_ID } from '@linode/core/constants';
+import { reportException } from '@linode/core/exceptionReporting';
 import { accountQueries } from '@linode/queries';
 import braintree from 'braintree-web';
 
-import { reportException } from 'src/exceptionReporting';
 import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
 
 import type { APIWarning } from '@linode/api-v4/lib/types';

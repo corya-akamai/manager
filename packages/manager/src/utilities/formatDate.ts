@@ -2,10 +2,10 @@ import {
   DATETIME_DISPLAY_FORMAT,
   ISO_DATE_FORMAT,
 } from '@linode/core/constants';
+import { reportException } from '@linode/core/exceptionReporting';
 import { getUserTimezone } from '@linode/utilities';
 import { DateTime, Duration } from 'luxon';
 
-import { reportException } from 'src/exceptionReporting';
 import { parseAPIDate } from 'src/utilities/date';
 
 export type TimeInterval = 'day' | 'month' | 'never' | 'week' | 'year';

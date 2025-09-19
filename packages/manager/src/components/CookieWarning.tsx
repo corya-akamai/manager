@@ -1,6 +1,5 @@
+import { reportException } from '@linode/core/exceptionReporting';
 import * as React from 'react';
-
-import { reportException } from 'src/exceptionReporting';
 
 export const CookieWarning = () => {
   React.useEffect(() => {

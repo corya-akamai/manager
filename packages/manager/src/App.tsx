@@ -1,4 +1,5 @@
 import '@reach/tabs/styles.css';
+import { useSetupFeatureFlags } from '@linode/core/useSetupFeatureFlags';
 import * as React from 'react';
 
 import {
@@ -11,7 +12,6 @@ import { ErrorBoundaryFallback } from 'src/features/ErrorBoundary/ErrorBoundaryF
 import { SplashScreen } from './components/SplashScreen';
 import { useInitialRequests } from './hooks/useInitialRequests';
 import { Router } from './Router';
-import { useSetupFeatureFlags } from './useSetupFeatureFlags';
 
 export const App = withDocumentTitleProvider(
   withFeatureFlagProvider(() => {

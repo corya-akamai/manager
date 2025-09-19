@@ -1,3 +1,4 @@
+import { reportException } from '@linode/core/exceptionReporting';
 import {
   accountQueries,
   useAccount,
@@ -23,7 +24,6 @@ import * as React from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 import { Link } from 'src/components/Link';
-import { reportException } from 'src/exceptionReporting';
 import {
   getRestrictedResourceText,
   useIsTaxIdEnabled,

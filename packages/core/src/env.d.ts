@@ -1,5 +1,6 @@
-// / <reference types="./vite.d.ts" />
-// / <reference types="vite/client" />
+/* eslint-disable spaced-comment */
+/// <reference types="./vite.d.ts" />
+/// <reference types="vite/client" />
 
 // This file is where we override Vite types for env typesafety
 // https://vitejs.dev/guide/env-and-mode.html#intellisense-for-typescript
