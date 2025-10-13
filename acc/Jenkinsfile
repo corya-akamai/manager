@@ -1,0 +1,240 @@
+pipeline {
+    agent {
+        label "cloud-focal"
+    }
+
+    options {
+        disableConcurrentBuilds()
+    }
+
+    stages {
+        stage("Setup pnpm") {
+            steps {
+              nodejs(configId: "npmrc-ro", nodeJSInstallationName: "v22") {
+                sh "node -v"
+                sh "npm -v"
+                sh "pnpm -v || corepack enable pnpm"
+                sh "pnpm install:all"
+              }
+            }
+        }
+
+
+        stage('Build feature') {
+            when {
+                branch pattern: "feature/*"
+            }
+            steps {
+                nodejs(configId: "npmrc-ro", nodeJSInstallationName: "v22") {
+                    sh "pnpm build"
+                }
+            }
+        }
+
+
+        stage("Build PR") {
+            when {
+                expression { env.CHANGE_ID != null } // It's a PR
+            }
+            steps {
+                nodejs(configId: "npmrc-ro", nodeJSInstallationName: "v22") {
+                    sh "pnpm build"
+                }
+            }
+        }
+
+
+        stage("Build dev") {
+            when {
+                anyOf {
+                    branch pattern: "dev"
+                }
+            }
+            environment {
+                REACT_APP_API_MAX_PAGE_SIZE = "500"
+                REACT_APP_API_ROOT = "https://api.devcloud.linode.com/v4"
+                REACT_APP_APP_ROOT = "https://cloud.devcloud.linode.com"
+                REACT_APP_CLIENT_ID = "4bd20531408b51e73313"
+                REACT_APP_LAUNCH_DARKLY_ID = "67ed97f93736be0c14fa0ea2"
+                REACT_APP_LKE_HIGH_AVAILABILITY_PRICE = "60"
+                REACT_APP_LOGIN_ROOT = "https://login.devcloud.linode.com"
+            }
+            steps {
+                nodejs(configId: "npmrc-ro", nodeJSInstallationName: "v22") {
+                    sh "pnpm build"
+                    sh "pnpm release --env=dev"
+                }
+            }
+        }
+
+
+        stage("Build stage") {
+            when {
+                anyOf {
+                    branch pattern: "stage"
+                }
+            }
+            environment {
+                REACT_APP_PAYPAL_CLIENT_ID = "AWdnFJ_Yx5X9uqKZQdbdkLfCnEJwtauQJ2tyesKf3S0IxSrkRLmB2ZN2ACSwy37gxY_AZoTagHWlZCOA"
+                REACT_APP_GPAY_MERCHANT_ID = "BCR2DN6TZ6OMNHTP"
+                REACT_APP_ALGOLIA_APPLICATION_ID = "KGUN8FAIPF"
+                REACT_APP_ALGOLIA_SEARCH_KEY = "d4847002cd30392fe0fbd00a1da933ed"
+                REACT_APP_API_ROOT = "https://cloud.staging.linode.com/api/v4"
+                REACT_APP_APP_ROOT = "https://cloud.staging.linode.com"
+                REACT_APP_CLIENT_ID = "6714f4f895cbe13a5781"
+                REACT_APP_ENVIRONMENT_NAME = "staging"
+                REACT_APP_LISH_ROOT = "webconsole.linode.com"
+                REACT_APP_LOGIN_ROOT = "https://login.staging.linode.com"
+                REACT_APP_ADOBE_ANALYTICS_URL = "https://assets.adobedtm.com/fcfd3580c848/15e23aa7fce2/launch-5bda4b7a1db9-staging.min.js"
+                REACT_APP_PENDO_API_KEY = "46f744c8-8628-4dc4-55f9-83fdd3bf2eef"
+                REACT_APP_SENTRY_URL = "https://ec5fcee0daee4bc9bb74e5b614e27ee0@o83654.ingest.sentry.io/182732"
+                REACT_APP_LAUNCH_DARKLY_ID = "5ed11a54d310ac0a0e542702"
+                REACT_APP_API_MAX_PAGE_SIZE = "500"
+                REACT_APP_STATUS_PAGE_URL = "https://status.linode.com/api/v2"
+            }
+            steps {
+                nodejs(configId: "npmrc-ro", nodeJSInstallationName: "v22") {
+                    sh "pnpm build"
+                    sh "pnpm release --env=stage"
+                }
+            }
+        }
+
+
+        stage("Build prod") {
+            when {
+                anyOf {
+                    branch pattern: "prod"
+                }
+            }
+            environment {
+                REACT_APP_ADOBE_ANALYTICS_URL = "https://assets.adobedtm.com/fcfd3580c848/15e23aa7fce2/launch-9ea21650035a.min.js"
+                REACT_APP_ALGOLIA_APPLICATION_ID = "KGUN8FAIPF"
+                REACT_APP_ALGOLIA_SEARCH_KEY = "d4847002cd30392fe0fbd00a1da933ed"
+                REACT_APP_API_MAX_PAGE_SIZE = "500"
+                REACT_APP_API_ROOT = "https://cloud.linode.com/api/v4"
+                REACT_APP_APP_ROOT = "https://cloud.linode.com"
+                REACT_APP_CLIENT_ID = "04b4276a4094ce378d27"
+                REACT_APP_ENVIRONMENT_NAME = "production"
+                REACT_APP_GPAY_MERCHANT_ID = "BCR2DN6TZ6OMNHTP"
+                REACT_APP_LAUNCH_DARKLY_ID = "5cd5be32283709081fd70fbc"
+                REACT_APP_LISH_ROOT = "webconsole.linode.com"
+                REACT_APP_LOGIN_ROOT = "https://login.linode.com"
+                REACT_APP_PAYPAL_CLIENT_ID = "AWdnFJ_Yx5X9uqKZQdbdkLfCnEJwtauQJ2tyesKf3S0IxSrkRLmB2ZN2ACSwy37gxY_AZoTagHWlZCOA"
+                REACT_APP_PENDO_API_KEY = '46f744c8-8628-4dc4-55f9-83fdd3bf2eef'
+                REACT_APP_SENTRY_URL = "https://ec5fcee0daee4bc9bb74e5b614e27ee0@o83654.ingest.sentry.io/182732"
+                REACT_APP_STATUS_PAGE_URL = "https://status.linode.com/api/v2"
+            }
+            steps {
+                nodejs(configId: "npmrc-ro", nodeJSInstallationName: "v22") {
+                    sh "pnpm build"
+                    sh "pnpm release --env=prod"
+                }
+            }
+        }
+
+
+        // stage("Build Dependencies") {
+        //     when {
+        //         not {
+        //             branch pattern: "feature/*"
+        //         }
+        //     }
+        //     steps {
+        //         nodejs(configId: "npmrc-ro", nodeJSInstallationName: "v22") {
+        //             sh "pnpm build:validation"
+        //             sh "pnpm build:sdk"
+        //             // Verify builds completed
+        //             sh "ls -la packages/validation/lib"
+        //             sh "ls -la packages/api-v4/lib"
+        //         }
+        //     }
+        // }
+
+
+        // TODO FIXME tests intermittently fail due
+        // stage("Test") {
+        //     when {
+        //         not {
+        //             branch pattern: "feature/*"
+        //         }
+        //     }
+        //     parallel {
+        //       stage("Test suite 1 (manager:comp,feat)") {
+        //             steps {
+        //                 nodejs(configId: "npmrc-ro", nodeJSInstallationName: "v22") {
+        //                     // Set environment variables that might be needed for tests
+        //                     sh """
+        //                         export NODE_OPTIONS='--max-old-space-size=4096'
+        //                         export CI=true
+        //                         # Run tests directly with npx to avoid pnpm issues
+        //                         npx vitest run packages/manager/src/components --reporter=verbose
+        //                         npx vitest run packages/manager/src/features --reporter=verbose
+        //                     """
+        //                 }
+        //             }
+        //         }
+
+
+        //         // stage("Test suite 2 (manager:lib)") {
+        //         //     steps {
+        //         //         nodejs(configId: "npmrc-ro", nodeJSInstallationName: "v22") {
+        //         //             // Set environment variables that might be needed for tests
+        //         //             sh """
+        //         //                 export NODE_OPTIONS='--max-old-space-size=4096'
+        //         //                 export CI=true
+        //         //                 cd packages/manager
+        //         //                 pwd && ls -la
+        //         //                 # Run tests directly with npx to avoid pnpm issues
+        //         //                 npx vitest run src/hooks
+        //         //                 npx vitest run src/oauth
+        //         //                 npx vitest run src/queries
+        //         //                 npx vitest run src/store
+        //         //                 npx vitest run src/root
+        //         //             """
+        //         //         }
+        //         //     }
+        //         // }
+
+
+        //         // stage("Test suite 3 (shared:lib)") {
+        //         //     steps {
+        //         //         nodejs(configId: "npmrc-ro", nodeJSInstallationName: "v22") {
+        //         //             sh "pnpm test:sdk"
+        //         //             sh "pnpm test:search"
+        //         //             sh "pnpm test:shared"
+        //         //             sh "pnpm test:ui"
+        //         //             sh "pnpm test:utilities"
+        //         //         }
+        //         //     }
+        //         // }
+        //     }
+        // }
+
+
+        // TODO need to setup sonar and blackduck
+        // stage("Scan") {
+        //     when {
+        //         not {
+        //             branch pattern: "feature/*"
+        //         }
+        //     }
+        //     steps {
+        //         pulsarBlackduck(bdApplicationId: "cloud-manager", buildType: "FREESTYLE")
+        //         pulsarSonar(jobType: "FREESTYLE", projectName: "cloud-manager")
+        //     }
+        // }
+
+
+        stage("Notifiy") {
+            steps {
+                sh "echo Notifying"
+            }
+            post {
+                always {
+                    pulsarEmail(recipients: "dl-uie-team@akamai.com", culprits: true)
+                }
+            }
+        }
+    }
+}

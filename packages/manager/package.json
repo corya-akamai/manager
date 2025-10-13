@@ -1,9 +1,11 @@
 {
-  "name": "linode-manager",
+  "name": "@linode/cloud-manager",
   "author": "Linode",
   "description": "The Linode Manager website",
   "version": "1.152.0",
-  "private": true,
+  "files": [
+    "build"
+  ],
   "type": "module",
   "bugs": {
     "url": "https://github.com/Linode/manager/issues"
