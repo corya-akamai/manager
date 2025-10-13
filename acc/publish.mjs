@@ -26,9 +26,9 @@ const currentDate = execSync("date +%Y%m%dT%H%M%S", {
 
 // uses a variable that we know exists on jenkins: https://wiki.jenkins.io/display/JENKINS/Git+Plugin
 const branch = (process.env.GIT_BRANCH || "").trim();
-const isDev = branch === "origin/dev";
-const isStage = branch === "origin/stage";
-const isProd = branch === "origin/prod";
+const isDev = branch === "dev";
+const isStage = branch === "stage";
+const isProd = branch === "prod";
 
 if (isDev || isStage) {
   console.log("Publishing develop:", pkg.version);
