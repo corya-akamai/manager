@@ -23,20 +23,26 @@ These are the steps you'll need to take to sync CM in Git Source with CM in the 
   ```
   2. Sync upstream/develop to acc/dev
   ```bash
-  git checkout acc dev
-  git pull --rebase upstream develop
+  git checkout dev && git pull
+  git checkout -b release/v<next-version>
+  git pull --no-rebase upstream develop --strategy-option=theirs
+  # verify packages/manager/package.json has "files": ["build"] and "private": false
   git push -u acc
   ```
   3. Sync upstream/staging to acc/stage
   ```bash
-  git checkout acc stage
-  git pull --rebase upstream staging
+  git checkout stage && git pull
+  git checkout -b release/v<next-version>
+  git pull --no-rebase upstream staging --strategy-option=theirs
+  # verify packages/manager/package.json has "files": ["build"] and "private": false
   git push -u acc
   ```
   4. Sync upstream/master to acc/prod
   ```bash
-  git checkout acc prod
-  git pull --rebase upstream master
+  git checkout prod && git pull
+  git checkout -b release/v<next-version>
+  git pull --no-rebase upstream master --strategy-option=theirs
+  # verify packages/manager/package.json has "files": ["build"] and "private": false
   git push -u acc
   ```
 

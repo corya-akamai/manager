@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { describe, expect } from 'vitest';
 
-import { destinationFactory, streamFactory } from 'src/factories/delivery';
+import { destinationFactory, streamFactory } from 'src/factories';
 import { StreamEdit } from 'src/features/Delivery/Streams/StreamForm/StreamEdit';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
@@ -83,7 +83,7 @@ describe('StreamEdit', () => {
     { timeout: 10000 },
     () => {
       const testConnectionButtonText = 'Test Connection';
-      const editStreamButtonText = 'Edit Stream';
+      const saveStreamButtonText = 'Save';
 
       const fillOutNewDestinationForm = async () => {
         const destinationNameInput = screen.getByLabelText('Destination Name');
@@ -147,21 +147,21 @@ describe('StreamEdit', () => {
             const testConnectionButton = screen.getByRole('button', {
               name: testConnectionButtonText,
             });
-            const editStreamButton = screen.getByRole('button', {
-              name: editStreamButtonText,
+            const saveStreamButton = screen.getByRole('button', {
+              name: saveStreamButtonText,
             });
-            expect(editStreamButton).toBeDisabled();
+            expect(saveStreamButton).toBeDisabled();
 
             // Test connection
             await userEvent.click(testConnectionButton);
             expect(verifyDestinationSpy).toHaveBeenCalled();
 
             await waitFor(() => {
-              expect(editStreamButton).toBeEnabled();
+              expect(saveStreamButton).toBeEnabled();
             });
 
             // Edit stream
-            await userEvent.click(editStreamButton);
+            await userEvent.click(saveStreamButton);
 
             expect(createDestinationSpy).toHaveBeenCalled();
             await waitFor(() => {
@@ -173,16 +173,11 @@ describe('StreamEdit', () => {
         describe('and selected existing destination', () => {
           const editStreamSpy = vi.fn();
           const createDestinationSpy = vi.fn();
-          const verifyDestinationSpy = vi.fn();
 
           it("should enable Edit Stream button and perform proper calls when it's clicked", async () => {
             server.use(
               http.get('*/monitor/streams/destinations', () => {
                 return HttpResponse.json(makeResourcePage(mockDestinations));
-              }),
-              http.post('*/monitor/streams/destinations/verify', () => {
-                verifyDestinationSpy();
-                return HttpResponse.json({});
               }),
               http.post('*/monitor/streams/destinations', () => {
                 createDestinationSpy();
@@ -211,19 +206,14 @@ describe('StreamEdit', () => {
               name: testConnectionButtonText,
             });
             const editStreamButton = screen.getByRole('button', {
-              name: editStreamButtonText,
+              name: saveStreamButtonText,
             });
 
             // Edit stream button should not be disabled with existing destination selected
             expect(editStreamButton).toBeEnabled();
 
-            // Test connection
-            await userEvent.click(testConnectionButton);
-            expect(verifyDestinationSpy).toHaveBeenCalled();
-
-            await waitFor(() => {
-              expect(editStreamButton).toBeEnabled();
-            });
+            // Test connection should be disabled when using existing destination
+            expect(testConnectionButton).toBeDisabled();
 
             // Edit stream
             await userEvent.click(editStreamButton);
@@ -263,18 +253,18 @@ describe('StreamEdit', () => {
           const testConnectionButton = screen.getByRole('button', {
             name: testConnectionButtonText,
           });
-          const editStreamButton = screen.getByRole('button', {
-            name: editStreamButtonText,
+          const saveStreamButton = screen.getByRole('button', {
+            name: saveStreamButtonText,
           });
 
           await fillOutNewDestinationForm();
 
-          expect(editStreamButton).toBeDisabled();
+          expect(saveStreamButton).toBeDisabled();
 
           await userEvent.click(testConnectionButton);
 
           expect(verifyDestinationSpy).toHaveBeenCalled();
-          expect(editStreamButton).toBeDisabled();
+          expect(saveStreamButton).toBeDisabled();
         });
       });
     }

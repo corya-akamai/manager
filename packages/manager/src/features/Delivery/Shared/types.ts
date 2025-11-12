@@ -1,19 +1,21 @@
 import { destinationType, streamStatus, streamType } from '@linode/api-v4';
 
 import type {
+  AkamaiObjectStorageDetailsExtended,
   CreateDestinationPayload,
-  DestinationDetails,
+  CustomHTTPsDetails,
 } from '@linode/api-v4';
 
 export type FormMode = 'create' | 'edit';
 export type FormType = 'destination' | 'stream';
 
-export interface LabelValueOption {
+export interface AutocompleteOption {
   label: string;
+  pendoId?: string;
   value: string;
 }
 
-export const destinationTypeOptions: LabelValueOption[] = [
+export const destinationTypeOptions: AutocompleteOption[] = [
   {
     value: destinationType.CustomHttps,
     label: 'Custom HTTPS',
@@ -24,7 +26,7 @@ export const destinationTypeOptions: LabelValueOption[] = [
   },
 ];
 
-export const streamTypeOptions: LabelValueOption[] = [
+export const streamTypeOptions: AutocompleteOption[] = [
   {
     value: streamType.AuditLogs,
     label: 'Audit Logs',
@@ -35,20 +37,26 @@ export const streamTypeOptions: LabelValueOption[] = [
   },
 ];
 
-export const streamStatusOptions: LabelValueOption[] = [
+export const streamStatusOptions: AutocompleteOption[] = [
   {
     value: streamStatus.Active,
     label: 'Active',
+    pendoId: 'Logs Delivery Streams-Status Active',
   },
   {
     value: streamStatus.Inactive,
     label: 'Inactive',
+    pendoId: 'Logs Delivery Streams-Status Inactive',
   },
 ];
 
+export type DestinationDetailsForm =
+  | AkamaiObjectStorageDetailsExtended
+  | CustomHTTPsDetails;
+
 export interface DestinationForm
   extends Omit<CreateDestinationPayload, 'details'> {
-  details: DestinationDetails;
+  details: DestinationDetailsForm;
 }
 
 export type DestinationFormType = DestinationForm;

@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { beforeEach, describe, expect } from 'vitest';
 
-import { destinationFactory } from 'src/factories/delivery';
+import { destinationFactory } from 'src/factories';
 import { makeResourcePage } from 'src/mocks/serverHandlers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';
@@ -30,6 +30,7 @@ describe('StreamFormDelivery', () => {
     renderWithThemeAndHookFormContext({
       component: (
         <StreamFormDelivery
+          mode="create"
           setDisableTestConnection={setDisableTestConnection}
         />
       ),
@@ -57,6 +58,7 @@ describe('StreamFormDelivery', () => {
     renderWithThemeAndHookFormContext({
       component: (
         <StreamFormDelivery
+          mode="create"
           setDisableTestConnection={setDisableTestConnection}
         />
       ),
@@ -91,6 +93,7 @@ describe('StreamFormDelivery', () => {
     renderWithThemeAndHookFormContext({
       component: (
         <StreamFormDelivery
+          mode="create"
           setDisableTestConnection={setDisableTestConnection}
         />
       ),
