@@ -1,9 +1,5 @@
-import {
-  useAccountMaintenancePoliciesQuery,
-  useProfile,
-} from '@linode/queries';
-import { Stack, Tooltip } from '@linode/ui';
-import { Hidden } from '@linode/ui';
+import { useProfile } from '@linode/queries';
+import { Hidden, Stack, Tooltip } from '@linode/ui';
 import { capitalize, getFormattedStatus, truncate } from '@linode/utilities';
 import * as React from 'react';
 
@@ -50,6 +46,8 @@ const statusIconMap: Record<AccountMaintenance['status'], Status> = {
   scheduled: 'active',
 };
 
+const MAX_REASON_DISPLAY_LENGTH = 93;
+
 interface MaintenanceTableRowProps {
   maintenance: AccountMaintenance;
   tableType: MaintenanceTableType;
@@ -77,29 +75,27 @@ export const MaintenanceTableRow = (props: MaintenanceTableRowProps) => {
 
   const eventProgress = recentEvent && formatProgressEvent(recentEvent);
 
-  const truncatedReason = truncate(reason, 93);
+  const truncatedReason = reason
+    ? truncate(reason, MAX_REASON_DISPLAY_LENGTH)
+    : '';
 
-  const isTruncated = reason !== truncatedReason;
+  const isTruncated = reason ? reason !== truncatedReason : false;
 
   const dateField = getMaintenanceDateField(tableType);
   const dateValue = props.maintenance[dateField];
 
-  // Fetch policies to derive a start time when the API doesn't provide one
-  const { data: policies } = useAccountMaintenancePoliciesQuery();
-
   // Precompute for potential use; currently used via getUpcomingRelativeLabel
   React.useMemo(
-    () => deriveMaintenanceStartISO(props.maintenance, policies),
-    [policies, props.maintenance]
+    () => deriveMaintenanceStartISO(props.maintenance),
+    [props.maintenance]
   );
 
-  const upcomingRelativeLabel = React.useMemo(
-    () =>
-      tableType === 'upcoming'
-        ? getUpcomingRelativeLabel(props.maintenance, policies)
-        : undefined,
-    [policies, props.maintenance, tableType]
-  );
+  const upcomingRelativeLabel = React.useMemo(() => {
+    if (tableType !== 'upcoming') {
+      return undefined;
+    }
+    return getUpcomingRelativeLabel(props.maintenance);
+  }, [props.maintenance, tableType]);
 
   return (
     <TableRow key={entity.id}>

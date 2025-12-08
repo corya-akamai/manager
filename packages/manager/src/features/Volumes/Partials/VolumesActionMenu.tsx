@@ -34,6 +34,7 @@ export const VolumesActionMenu = (props: Props) => {
   const isAttached = volume.linode_id !== null;
 
   const { data: accountPermissions } = usePermissions('account', [
+    'is_account_admin',
     'create_volume',
   ]);
   const { data: volumePermissions, isLoading } = usePermissions(
@@ -53,7 +54,7 @@ export const VolumesActionMenu = (props: Props) => {
 
   const { data: linodePermissions } = usePermissions(
     'linode',
-    ['delete_linode'],
+    ['update_linode'],
     volume.linode_id!,
     isOpen && isAttached
   );
@@ -76,15 +77,11 @@ export const VolumesActionMenu = (props: Props) => {
         : undefined,
     },
     MANAGE_TAGS: {
-      disabled: !volumePermissions?.update_volume,
+      disabled: !accountPermissions?.is_account_admin,
       onClick: handlers.handleManageTags,
       title: 'Manage Tags',
-      tooltip: !volumePermissions?.update_volume
-        ? getRestrictedResourceText({
-            action: 'edit',
-            isSingular: true,
-            resourceType: 'Volumes',
-          })
+      tooltip: !accountPermissions?.is_account_admin
+        ? "You don't have permissions to manage tags. Please contact an account administrator for details."
         : undefined,
     },
     RESIZE: {
@@ -100,8 +97,7 @@ export const VolumesActionMenu = (props: Props) => {
         : undefined,
     },
     CLONE: {
-      disabled:
-        !volumePermissions?.clone_volume || !accountPermissions?.create_volume,
+      disabled: !volumePermissions?.clone_volume,
       onClick: handlers.handleClone,
       title: 'Clone',
       tooltip:
@@ -127,12 +123,12 @@ export const VolumesActionMenu = (props: Props) => {
     },
     DETACH: {
       disabled: !(
-        volumePermissions?.detach_volume && linodePermissions?.delete_linode
+        volumePermissions?.detach_volume && linodePermissions?.update_linode
       ),
       onClick: handlers.handleDetach,
       title: 'Detach',
       tooltip: !(
-        volumePermissions?.detach_volume && linodePermissions?.delete_linode
+        volumePermissions?.detach_volume && linodePermissions?.update_linode
       )
         ? getRestrictedResourceText({
             action: 'detach',

@@ -1,3 +1,4 @@
+import type { CloudPulseResources } from '../shared/CloudPulseResourcesSelect';
 import type { AssociatedEntityType } from '../shared/types';
 import type {
   Capabilities,
@@ -6,6 +7,7 @@ import type {
   DatabaseInstance,
   DatabaseType,
   Firewall,
+  KubernetesCluster,
   Linode,
   NodeBalancer,
   ObjectStorageBucket,
@@ -55,15 +57,16 @@ export interface CloudPulseServiceTypeFilters {
  * As of now, the list of possible custom filters are engine, database type, this union type will be expanded if we start enhancing our custom select config
  */
 export type QueryFunctionType =
+  | CloudPulseResources[]
   | DatabaseEngine[]
   | DatabaseInstance[]
   | DatabaseType[]
   | Firewall[]
+  | KubernetesCluster[]
   | Linode[]
   | NodeBalancer[]
   | ObjectStorageBucket[]
   | Volume[];
-
 /**
  * The non array types of QueryFunctionType like DatabaseEngine|DatabaseType
  */
@@ -113,6 +116,10 @@ export interface CloudPulseServiceTypeFiltersConfiguration {
    * This is an optional field, controls the associated entity type for the dashboard
    */
   associatedEntityType?: AssociatedEntityType;
+  /**
+   * This is an optional field, it is used to define the child filters for a parent filter
+   */
+  children?: string[];
 
   /**
    * This is an optional field, it is used to disable a certain filter, untill of the dependent filters are selected
@@ -140,6 +147,11 @@ export interface CloudPulseServiceTypeFiltersConfiguration {
   filterType: string;
 
   /**
+   * If this is true, we will only allow users to select a certain threshold
+   */
+  hasRestrictedSelections?: boolean;
+
+  /**
    * If this is true, we will pass the filter in the metrics api otherwise, we don't
    */
   isFilterable: boolean;
@@ -152,7 +164,6 @@ export interface CloudPulseServiceTypeFiltersConfiguration {
    * If this is true, multiselect will be enabled for the filter, only applicable for static and dynamic, not for predefined ones
    */
   isMultiSelect?: boolean;
-
   /**
    * If this is true, we will pass filter as an optional filter
    */
@@ -162,6 +173,7 @@ export interface CloudPulseServiceTypeFiltersConfiguration {
    * If this is true, we will only allow users to select a certain threshold, only applicable for static and dynamic, not for predefined ones
    */
   maxSelections?: number;
+
   /**
    * The name of the filter
    */

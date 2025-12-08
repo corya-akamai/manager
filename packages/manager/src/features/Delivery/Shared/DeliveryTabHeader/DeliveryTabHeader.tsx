@@ -31,7 +31,7 @@ export const DeliveryTabHeader = ({
   entity,
   onButtonClick,
   spacingBottom = 24,
-  isSearching,
+  isSearching = false,
   selectList,
   onSelect,
   selectValue,
@@ -90,6 +90,9 @@ export const DeliveryTabHeader = ({
             clearable
             data-pendo-id={`Logs Delivery ${entity}s-Search`}
             hideLabel
+            inputProps={{
+              'data-pendo-id': `Logs Delivery ${entity}s-Search`,
+            }}
             isSearching={isSearching}
             label={searchLabel}
             onSearch={onSearch}
@@ -126,6 +129,11 @@ export const DeliveryTabHeader = ({
                     <SelectedIcon visible={selected} />
                   </li>
                 );
+              }}
+              textFieldProps={{
+                inputProps: {
+                  'data-pendo-id': `Logs Delivery ${entity}s-Status`,
+                },
               }}
               value={selectList.find(({ value }) => value === selectValue)}
             />

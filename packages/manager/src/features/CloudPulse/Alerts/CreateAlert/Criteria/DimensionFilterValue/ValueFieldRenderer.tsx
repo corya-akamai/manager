@@ -1,6 +1,7 @@
 import { TextField } from '@linode/ui';
 import React from 'react';
 
+import { BlockStorageDimensionFilterAutocomplete } from './BlockStorageDimensionFilterAutocomplete';
 import {
   MULTISELECT_PLACEHOLDER_TEXT,
   SINGLESELECT_PLACEHOLDER_TEXT,
@@ -18,6 +19,7 @@ import type {
   CloudPulseServiceType,
   DimensionFilterOperatorType,
 } from '@linode/api-v4';
+import type { AssociatedEntityType } from 'src/features/CloudPulse/shared/types';
 
 interface ValueFieldRendererProps {
   /**
@@ -34,6 +36,10 @@ interface ValueFieldRendererProps {
    * List of entity IDs used to filter resources like firewalls.
    */
   entities?: string[];
+  /**
+   * The entity type for firewall filtering (linode or nodebalancer).
+   */
+  entityType?: AssociatedEntityType;
   /**
    * Error message to be displayed under the input field, if any.
    */
@@ -86,16 +92,17 @@ interface ValueFieldRendererProps {
 
 export const ValueFieldRenderer = (props: ValueFieldRendererProps) => {
   const {
-    serviceType,
-    scope,
     dimensionLabel,
     disabled,
     entities,
+    entityType,
     errorText,
     name,
     onBlur,
     onChange,
     operator,
+    scope,
+    serviceType,
     value,
     values,
     selectedRegions,
@@ -145,58 +152,64 @@ export const ValueFieldRenderer = (props: ValueFieldRendererProps) => {
       ? MULTISELECT_PLACEHOLDER_TEXT
       : SINGLESELECT_PLACEHOLDER_TEXT;
 
-    switch (config.useCustomFetch) {
+    // Common props shared across all autocomplete components
+    const commonAutocompleteProps = {
+      dimensionLabel,
+      disabled,
+      errorText,
+      fieldOnBlur: onBlur,
+      fieldOnChange: onChange,
+      fieldValue: value,
+      multiple: config.multiple,
+      name,
+      placeholderText: config.placeholder ?? autocompletePlaceholder,
+      serviceType: serviceType ?? null,
+      type,
+    };
+
+    // Determine custom fetch behaviour if there are same dimension_labels across service types
+    const customFetch = Array.isArray(config.useCustomFetch)
+      ? config.useCustomFetch.includes(serviceType ?? '')
+        ? serviceType
+        : undefined
+      : config.useCustomFetch === serviceType
+        ? serviceType
+        : undefined;
+
+    switch (customFetch) {
+      case 'blockstorage':
+        return (
+          <BlockStorageDimensionFilterAutocomplete
+            {...commonAutocompleteProps}
+            entities={entities}
+            scope={scope}
+            selectedRegions={selectedRegions}
+          />
+        );
       case 'firewall':
         return (
           <FirewallDimensionFilterAutocomplete
-            dimensionLabel={dimensionLabel}
-            disabled={disabled}
+            {...commonAutocompleteProps}
             entities={entities}
-            errorText={errorText}
-            fieldOnBlur={onBlur}
-            fieldOnChange={onChange}
-            fieldValue={value}
-            multiple={config.multiple}
-            name={name}
+            entityType={entityType}
             placeholderText={config.placeholder ?? autocompletePlaceholder}
             scope={scope}
-            serviceType={serviceType ?? null}
-            type={type}
+            selectedRegions={selectedRegions}
           />
         );
       case 'objectstorage':
         return (
           <ObjectStorageDimensionFilterAutocomplete
-            dimensionLabel={dimensionLabel}
-            disabled={disabled}
+            {...commonAutocompleteProps}
             entities={entities ?? []}
-            errorText={errorText}
-            fieldOnBlur={onBlur}
-            fieldOnChange={onChange}
-            fieldValue={value}
-            multiple={config.multiple}
-            name={name}
-            placeholderText={config.placeholder ?? autocompletePlaceholder}
             scope={scope}
             selectedRegions={selectedRegions}
-            serviceType={serviceType ?? null}
-            type={type}
           />
         );
       default:
         return (
           <DimensionFilterAutocomplete
-            dimensionLabel={dimensionLabel}
-            disabled={disabled}
-            errorText={errorText}
-            fieldOnBlur={onBlur}
-            fieldOnChange={onChange}
-            fieldValue={value}
-            multiple={config.multiple}
-            name={name}
-            placeholderText={config.placeholder ?? autocompletePlaceholder}
-            serviceType={serviceType ?? null}
-            type={type}
+            {...commonAutocompleteProps}
             values={values}
           />
         );

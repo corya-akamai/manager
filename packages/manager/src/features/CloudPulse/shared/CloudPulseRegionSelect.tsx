@@ -6,19 +6,17 @@ import { RegionSelect } from 'src/components/RegionSelect/RegionSelect';
 import { useFlags } from 'src/hooks/useFlags';
 import { useResourcesQuery } from 'src/queries/cloudpulse/resources';
 
-import { useFirewallFetchOptions } from '../Alerts/CreateAlert/Criteria/DimensionFilterValue/useFirewallFetchOptions';
 import { filterRegionByServiceType } from '../Alerts/Utils/utils';
 import {
   NO_REGION_MESSAGE,
   PARENT_ENTITY_REGION,
   RESOURCE_FILTER_MAP,
 } from '../Utils/constants';
-import { deepEqual, filterUsingDependentFilters } from '../Utils/FilterBuilder';
-import { FILTER_CONFIG } from '../Utils/FilterConfig';
-import { getAssociatedEntityType } from '../Utils/utils';
+import { filterUsingDependentFilters } from '../Utils/FilterBuilder';
+import { FILTER_CONFIG, getResourcesFilterConfig } from '../Utils/FilterConfig';
+import { deepEqual } from '../Utils/utils';
 import { CLOUD_PULSE_TEXT_FIELD_PROPS } from './styles';
 
-import type { Item } from '../Alerts/constants';
 import type { CloudPulseMetricsFilter } from '../Dashboard/CloudPulseDashboardLanding';
 import type { Dashboard, FilterValue, Region } from '@linode/api-v4';
 
@@ -36,7 +34,6 @@ export interface CloudPulseRegionSelectProps {
   placeholder?: string;
   savePreferences?: boolean;
   selectedDashboard: Dashboard | undefined;
-  selectedEntities: string[];
   xFilter?: CloudPulseMetricsFilter;
 }
 
@@ -50,23 +47,32 @@ export const CloudPulseRegionSelect = React.memo(
       placeholder,
       savePreferences,
       selectedDashboard,
-      selectedEntities,
       disabled = false,
       xFilter,
     } = props;
 
     const { data: regions, isError, isLoading } = useRegionsQuery();
+    // Get the resources filter configuration for the dashboard
+    const resourcesFilterConfig = getResourcesFilterConfig(
+      selectedDashboard?.id
+    );
+    const filterFn = resourcesFilterConfig?.filterFn;
     const {
       data: resources,
       isError: isResourcesError,
       isLoading: isResourcesLoading,
     } = useResourcesQuery(
-      !disabled && selectedDashboard !== undefined && Boolean(regions?.length),
+      filterKey !== PARENT_ENTITY_REGION &&
+        !disabled &&
+        selectedDashboard !== undefined &&
+        Boolean(regions?.length),
       selectedDashboard?.service_type,
       {},
       {
         ...(RESOURCE_FILTER_MAP[selectedDashboard?.service_type ?? ''] ?? {}),
-      }
+      },
+      undefined,
+      filterFn
     );
 
     const flags = useFlags();
@@ -83,50 +89,20 @@ export const CloudPulseRegionSelect = React.memo(
 
     const [selectedRegion, setSelectedRegion] = React.useState<string>();
 
-    // Get the associated entity type for the dashboard
-    const associatedEntityType = getAssociatedEntityType(dashboardId);
-    const {
-      values: linodeRegions,
-      isLoading: isLinodeRegionIdLoading,
-      isError: isLinodeRegionIdError,
-    } = useFirewallFetchOptions({
-      dimensionLabel: filterKey,
-      entities: selectedEntities,
-      regions,
-      serviceType,
-      associatedEntityType,
-      type: 'metrics',
-    });
-    const linodeRegionIds = linodeRegions.map(
-      (option: Item<string, string>) => option.value
-    );
-
-    const supportedLinodeRegions = React.useMemo(() => {
-      return (
-        regions?.filter((region) => linodeRegionIds?.includes(region.id)) ?? []
-      );
-    }, [regions, linodeRegionIds]);
-
     const supportedRegions = React.useMemo<Region[]>(() => {
       return filterRegionByServiceType('metrics', regions, serviceType);
     }, [regions, serviceType]);
 
     const supportedRegionsFromResources = React.useMemo(() => {
       if (filterKey === PARENT_ENTITY_REGION) {
-        return supportedLinodeRegions;
+        return supportedRegions;
       }
       return supportedRegions.filter(({ id }) =>
         filterUsingDependentFilters(resources, xFilter)?.some(
           ({ region }) => region === id
         )
       );
-    }, [
-      filterKey,
-      supportedLinodeRegions,
-      supportedRegions,
-      resources,
-      xFilter,
-    ]);
+    }, [supportedRegions, resources, xFilter, filterKey]);
 
     const dependencyKey = supportedRegionsFromResources
       .map((region) => region.id)
@@ -182,9 +158,14 @@ export const CloudPulseRegionSelect = React.memo(
         currentCapability={capability}
         data-testid="region-select"
         disableClearable={false}
-        disabled={!selectedDashboard || !regions || disabled || !resources}
+        disabled={
+          !selectedDashboard ||
+          !regions ||
+          disabled ||
+          (!resources && filterKey !== PARENT_ENTITY_REGION)
+        }
         errorText={
-          isError || isResourcesError || isLinodeRegionIdError
+          isError || (isResourcesError && filterKey !== PARENT_ENTITY_REGION)
             ? `Failed to fetch ${label || 'Regions'}.`
             : ''
         }
@@ -193,7 +174,8 @@ export const CloudPulseRegionSelect = React.memo(
         label={label || 'Region'}
         loading={
           !disabled &&
-          (isLoading || isResourcesLoading || isLinodeRegionIdLoading)
+          (isLoading ||
+            (isResourcesLoading && filterKey !== PARENT_ENTITY_REGION))
         }
         noMarginTop
         noOptionsText={

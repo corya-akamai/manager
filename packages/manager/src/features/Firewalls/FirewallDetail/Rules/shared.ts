@@ -32,6 +32,12 @@ export const PORT_PRESETS_ITEMS = sortBy(
   Object.values(PORT_PRESETS)
 );
 
+export const RULESET_MARKED_FOR_DELETION_TEXT =
+  'This rule set will be automatically deleted when it’s no longer referenced by other firewalls.';
+
+export const PREFIXLIST_MARKED_FOR_DELETION_TEXT =
+  'This Prefix List will be automatically deleted when it’s no longer referenced by other firewalls.';
+
 /**
  * The API returns very good Firewall error messages that look like this:
  *
@@ -114,4 +120,33 @@ export const sortString = (_a: string, _b: string) => {
 // If a port range is included (80-1000) return the first element of the range
 const stripHyphen = (str: string) => {
   return str.match(/-/) ? str.split('-')[0] : str;
+};
+
+export const firewallRuleCreateOptions = [
+  {
+    label: 'Create a Rule',
+    value: 'rule',
+  },
+  {
+    label: 'Reference Rule Set',
+    value: 'ruleset',
+  },
+] as const;
+
+type PrefixListGroup = 'Account' | 'Other' | 'System';
+
+export const groupPriority: Record<PrefixListGroup, number> = {
+  Account: 1,
+  System: 2,
+  Other: 3,
+};
+
+export const getPrefixListType = (name: string): PrefixListGroup => {
+  if (name.startsWith('pl::')) {
+    return 'Account';
+  }
+  if (name.startsWith('pl:system:')) {
+    return 'System';
+  }
+  return 'Other'; // Safe fallback
 };

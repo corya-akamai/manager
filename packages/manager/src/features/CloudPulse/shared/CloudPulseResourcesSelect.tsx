@@ -5,8 +5,9 @@ import React from 'react';
 import { useFlags } from 'src/hooks/useFlags';
 import { useResourcesQuery } from 'src/queries/cloudpulse/resources';
 
-import { RESOURCE_FILTER_MAP } from '../Utils/constants';
-import { deepEqual, filterUsingDependentFilters } from '../Utils/FilterBuilder';
+import { CLUSTERS_TOOLTIP_TEXT, RESOURCE_FILTER_MAP } from '../Utils/constants';
+import { filterUsingDependentFilters } from '../Utils/FilterBuilder';
+import { deepEqual } from '../Utils/utils';
 import { CLOUD_PULSE_TEXT_FIELD_PROPS } from './styles';
 
 import type { CloudPulseMetricsFilter } from '../Dashboard/CloudPulseDashboardLanding';
@@ -23,6 +24,8 @@ export interface CloudPulseResources {
   label: string;
   region?: string;
   tags?: string[];
+  volumeLinodeId?: string;
+  volumeLinodeLabel?: null | string;
 }
 
 export interface CloudPulseResourcesSelectProps {
@@ -66,6 +69,8 @@ export const CloudPulseResourcesSelect = React.memo(
     } = props;
 
     const flags = useFlags();
+    const tooltipText =
+      resourceType === 'lke' ? CLUSTERS_TOOLTIP_TEXT : undefined;
 
     const {
       data: resources,
@@ -203,7 +208,10 @@ export const CloudPulseResourcesSelect = React.memo(
             </ListItem>
           );
         }}
-        textFieldProps={{ ...CLOUD_PULSE_TEXT_FIELD_PROPS }}
+        textFieldProps={{
+          ...CLOUD_PULSE_TEXT_FIELD_PROPS,
+          labelTooltipText: tooltipText,
+        }}
         value={selectedResources ?? []}
       />
     );

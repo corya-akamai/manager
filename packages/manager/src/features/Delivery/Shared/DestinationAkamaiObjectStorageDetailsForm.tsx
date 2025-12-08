@@ -50,6 +50,9 @@ export const DestinationAkamaiObjectStorageDetailsForm = ({
             aria-required
             data-pendo-id={`${pendoPageId}Host`}
             errorText={fieldState.error?.message}
+            inputProps={{
+              'data-pendo-id': `${pendoPageId}Host`,
+            }}
             label="Host"
             onBlur={field.onBlur}
             onChange={(value) => {
@@ -68,6 +71,9 @@ export const DestinationAkamaiObjectStorageDetailsForm = ({
             aria-required
             data-pendo-id={`${pendoPageId}Bucket`}
             errorText={fieldState.error?.message}
+            inputProps={{
+              'data-pendo-id': `${pendoPageId}Bucket`,
+            }}
             label="Bucket"
             onBlur={field.onBlur}
             onChange={(value) => {
@@ -86,6 +92,9 @@ export const DestinationAkamaiObjectStorageDetailsForm = ({
             aria-required
             data-pendo-id={`${pendoPageId}Access Key ID`}
             errorText={fieldState.error?.message}
+            inputProps={{
+              'data-pendo-id': `${pendoPageId}Access Key ID`,
+            }}
             label="Access Key ID"
             onBlur={field.onBlur}
             onChange={(value) => field.onChange(value)}
@@ -102,6 +111,9 @@ export const DestinationAkamaiObjectStorageDetailsForm = ({
             aria-required
             data-pendo-id={`${pendoPageId}Secret Access Key`}
             errorText={fieldState.error?.message}
+            inputProps={{
+              'data-pendo-id': `${pendoPageId}Secret Access Key`,
+            }}
             label="Secret Access Key"
             onBlur={field.onBlur}
             onChange={(value) => field.onChange(value)}
@@ -127,6 +139,9 @@ export const DestinationAkamaiObjectStorageDetailsForm = ({
               aria-required
               data-pendo-id={`${pendoPageId}Log Path Prefix`}
               errorText={fieldState.error?.message}
+              inputProps={{
+                'data-pendo-id': `${pendoPageId}Log Path Prefix`,
+              }}
               label="Log Path Prefix"
               onBlur={field.onBlur}
               onChange={(value) => field.onChange(value)}

@@ -6,7 +6,7 @@ import type { Destination } from '@linode/api-v4';
 export const destinationFactory = Factory.Sync.makeFactory<Destination>({
   details: {
     access_key_id: 'Access Id',
-    bucket_name: 'Bucket Name',
+    bucket_name: 'destinations-bucket-name',
     host: '3000',
     path: 'file',
   },
@@ -30,9 +30,7 @@ export const streamFactory = Factory.Sync.makeFactory<Stream>({
   updated_by: 'username',
   id: Factory.each((id) => id),
   label: Factory.each((id) => `Stream ${id}`),
-  primary_destination_id: 1,
   status: 'active',
-  stream_audit_id: 1,
   type: streamType.AuditLogs,
   version: '1.0',
   created: '2025-07-30',

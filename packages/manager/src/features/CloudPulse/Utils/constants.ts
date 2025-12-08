@@ -1,3 +1,4 @@
+import type { AssociatedEntityType } from '../shared/types';
 import type { Filter } from '@linode/api-v4';
 
 export const DASHBOARD_ID = 'dashboardId';
@@ -90,6 +91,9 @@ export const INTERFACE_IDS_LIMIT_ERROR_MESSAGE =
 
 export const INTERFACE_IDS_PLACEHOLDER_TEXT = 'e.g., 1234,5678';
 
+export const CLUSTERS_TOOLTIP_TEXT =
+  'This list includes only LKE Enterprise clusters.';
+
 export const NO_REGION_MESSAGE: Record<number, string> = {
   1: 'No database clusters configured in any regions.',
   2: 'No Linodes configured in any regions.',
@@ -98,6 +102,7 @@ export const NO_REGION_MESSAGE: Record<number, string> = {
   6: 'No Object Storage buckets configured in any region.',
   7: 'No volumes configured in any regions.',
   8: 'No firewalls configured in any Nodebalancer regions.',
+  9: 'No LKE clusters configured in any regions.',
 };
 
 export const HELPER_TEXT: Record<string, string> = {
@@ -135,4 +140,12 @@ export const RESOURCE_FILTER_MAP: Record<string, Filter> = {
   blockstorage: {
     ...ORDER_BY_LABLE_ASC,
   },
+};
+
+export const ASSOCIATED_ENTITY_METRIC_MAP: Record<
+  AssociatedEntityType,
+  string
+> = {
+  linode: 'Linode',
+  nodebalancer: 'Node Balancer',
 };

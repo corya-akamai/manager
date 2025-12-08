@@ -1,3 +1,35 @@
+## [2025-11-18] - v0.153.0
+
+
+### Added:
+
+- IAM Parent/Child: delegate permissions ([#13033](https://github.com/linode/manager/pull/13033))
+- Added `Akamai Cloud Pulse Logs ` to the `AccountCapability` type ([#13062](https://github.com/linode/manager/pull/13062))
+
+### Changed:
+
+- IAM: cleanup for nodebalancer permissions ([#13017](https://github.com/linode/manager/pull/13017))
+
+### Upcoming Features:
+
+- Clean up Delivery Stream and Destination interfaces ([#13038](https://github.com/linode/manager/pull/13038))
+- Add new API endpoints, and types for Firewall RS & PL ([#13061](https://github.com/linode/manager/pull/13061))
+- CloudPulse-Metrics: Update `CloudPulseServiceType` and `CapabilityServiceTypeMapping` at types.ts for new service - lke ([#13064](https://github.com/linode/manager/pull/13064))
+- New IAM getUserEntitiesByPermission endpoint ([#13070](https://github.com/linode/manager/pull/13070))
+
+## [2025-11-04] - v0.152.0
+
+
+### Changed:
+
+- Change `/linode/instances/<id>/clone` endpoint to use `v4beta` ([#13045](https://github.com/linode/manager/pull/13045))
+
+### Upcoming Features:
+
+- Add endpoints for `/v4/images/sharegroups/members` and `/v4/images/sharegroups/tokens` ([#12984](https://github.com/linode/manager/pull/12984))
+- Add endpoints for `/v4/images/sharegroups` and `/v4/images/sharegroups/images` ([#12985](https://github.com/linode/manager/pull/12985))
+- Add new `filters` prop in AclpWidget type and update `Filters` type to use `DimensionFilterOperatorType` for operator ([#13006](https://github.com/linode/manager/pull/13006))
+
 ## [2025-10-21] - v0.151.0
 
 

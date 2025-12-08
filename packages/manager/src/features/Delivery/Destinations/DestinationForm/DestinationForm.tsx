@@ -1,6 +1,6 @@
 import { destinationType } from '@linode/api-v4';
 import { Autocomplete, Paper, TextField } from '@linode/ui';
-import { capitalize } from '@linode/utilities';
+import { capitalize, scrollErrorIntoViewV2 } from '@linode/utilities';
 import Grid from '@mui/material/Grid';
 import * as React from 'react';
 import { useEffect } from 'react';
@@ -35,6 +35,7 @@ export const DestinationForm = (props: DestinationFormProps) => {
     setDestinationVerified,
   } = useVerifyDestination();
 
+  const formRef = React.useRef<HTMLFormElement>(null);
   const { control, handleSubmit } = useFormContext<DestinationFormType>();
   const destination = useWatch({
     control,
@@ -45,7 +46,7 @@ export const DestinationForm = (props: DestinationFormProps) => {
   }, [destination, setDestinationVerified]);
 
   return (
-    <form id="destinationForm">
+    <form id="destinationForm" ref={formRef}>
       <Grid container spacing={2}>
         <Grid size={{ lg: 9, md: 12, sm: 12, xs: 12 }}>
           <Paper>
@@ -63,6 +64,11 @@ export const DestinationForm = (props: DestinationFormProps) => {
                     field.onChange(value);
                   }}
                   options={destinationTypeOptions}
+                  textFieldProps={{
+                    inputProps: {
+                      'data-pendo-id': `Logs Delivery Destinations ${capitalize(mode)}-Destination Type`,
+                    },
+                  }}
                   value={getDestinationTypeOption(field.value)}
                 />
               )}
@@ -75,6 +81,9 @@ export const DestinationForm = (props: DestinationFormProps) => {
                   aria-required
                   data-pendo-id={`Logs Delivery Destinations ${capitalize(mode)}-Destination Name`}
                   errorText={fieldState.error?.message}
+                  inputProps={{
+                    'data-pendo-id': `Logs Delivery Destinations ${capitalize(mode)}-Destination Name`,
+                  }}
                   label="Destination Name"
                   onBlur={field.onBlur}
                   onChange={(value) => {
@@ -101,9 +110,12 @@ export const DestinationForm = (props: DestinationFormProps) => {
             isSubmitting={isSubmitting}
             isTesting={isVerifyingDestination}
             mode={mode}
-            onSubmit={handleSubmit(onSubmit)}
-            onTestConnection={handleSubmit(() =>
-              verifyDestination(destination)
+            onSubmit={handleSubmit(onSubmit, () =>
+              scrollErrorIntoViewV2(formRef)
+            )}
+            onTestConnection={handleSubmit(
+              () => verifyDestination(destination),
+              () => scrollErrorIntoViewV2(formRef)
             )}
           />
         </Grid>

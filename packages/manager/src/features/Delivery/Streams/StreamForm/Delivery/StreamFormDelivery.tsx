@@ -6,6 +6,7 @@ import {
   CircleProgress,
   ErrorState,
   Paper,
+  Stack,
   Typography,
 } from '@linode/ui';
 import { capitalize } from '@linode/utilities';
@@ -112,6 +113,11 @@ export const StreamFormDelivery = (props: StreamFormDeliveryProps) => {
               field.onChange(value);
             }}
             options={destinationTypeOptions}
+            textFieldProps={{
+              inputProps: {
+                'data-pendo-id': `Logs Delivery Streams ${capitalizedMode}-Destination Type`,
+              },
+            }}
             value={getDestinationTypeOption(field.value)}
           />
         )}
@@ -173,15 +179,46 @@ export const StreamFormDelivery = (props: StreamFormDeliveryProps) => {
               const { id, ...optionProps } = props;
               return (
                 <li data-pendo-id={option.pendoId} {...optionProps} key={id}>
-                  {option.create ? (
-                    <>
-                      <strong>Create&nbsp;</strong> &quot;{option.label}&quot;
-                    </>
-                  ) : (
-                    option.label
-                  )}
+                  <Stack
+                    alignItems="center"
+                    direction="row"
+                    justifyContent="space-between"
+                    width="100%"
+                  >
+                    <Stack direction="column">
+                      <Box
+                        sx={{
+                          fontWeight: theme.tokens.font.FontWeight.Semibold,
+                        }}
+                      >
+                        {option.create ? (
+                          <span>
+                            <strong>Create&nbsp;</strong> &quot;{option.label}
+                            &quot;
+                          </span>
+                        ) : (
+                          option.label
+                        )}
+                      </Box>
+                      {option.id && (
+                        <Box
+                          sx={{
+                            color:
+                              theme.tokens.component.Dropdown.Text.Description,
+                          }}
+                        >
+                          ID: {option.id}
+                        </Box>
+                      )}
+                    </Stack>
+                  </Stack>
                 </li>
               );
+            }}
+            textFieldProps={{
+              inputProps: {
+                'data-pendo-id': `Logs Delivery Streams ${capitalizedMode}-Destination Name`,
+              },
             }}
             value={field.value ? { label: field.value } : null}
           />
