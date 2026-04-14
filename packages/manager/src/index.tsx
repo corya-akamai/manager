@@ -21,6 +21,11 @@ const store = storeFactory();
 
 setupInterceptors(store);
 
+if (import.meta.env.VITE_MOCKS_ENABLED === 'true') {
+  const { initMocks } = await import('@akamai/compute-ui-mocks');
+  await initMocks();
+}
+
 const Main = () => {
   if (!navigator.cookieEnabled) {
     return <CookieWarning />;
@@ -41,20 +46,20 @@ const Main = () => {
 };
 
 async function loadApp() {
-  if (ENABLE_DEV_TOOLS && !window.location.pathname.includes('/lish/')) {
-    const devTools = await import('./dev-tools/load');
-    await devTools.loadDevTools();
+  // if (ENABLE_DEV_TOOLS && !window.location.pathname.includes('/lish/')) {
+  //   const devTools = await import('./dev-tools/load');
+  //   await devTools.loadDevTools();
 
-    const { DevTools } = await import('./dev-tools/DevTools');
+  //   const { DevTools } = await import('./dev-tools/DevTools');
 
-    const devToolsRootContainer = document.createElement('div');
-    devToolsRootContainer.id = 'dev-tools-root';
-    document.body.appendChild(devToolsRootContainer);
+  //   const devToolsRootContainer = document.createElement('div');
+  //   devToolsRootContainer.id = 'dev-tools-root';
+  //   document.body.appendChild(devToolsRootContainer);
 
-    const root = createRoot(devToolsRootContainer);
+  //   const root = createRoot(devToolsRootContainer);
 
-    root.render(<DevTools queryClient={queryClient} store={store} />);
-  }
+  //   root.render(<DevTools queryClient={queryClient} store={store} />);
+  // }
 
   const container = document.getElementById('root');
   createRoot(container!).render(<Main />);

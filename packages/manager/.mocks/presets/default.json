@@ -1,0 +1,36 @@
+[
+  {
+    "endpoint": "/v4/profile",
+    "method": "GET",
+    "paginated": false,
+    "data": {
+      "authentication_type": "password",
+      "authorized_keys": null,
+      "email": "dev-user@example.com",
+      "email_notifications": true,
+      "ip_whitelist_enabled": false,
+      "lish_auth_method": "keys_only",
+      "referrals": {
+        "code": "mock-referral-code",
+        "completed": 0,
+        "credit": 0,
+        "pending": 0,
+        "total": 0,
+        "url": "https://www.linode.com/?r=mock-referral-code"
+      },
+      "restricted": false,
+      "timezone": "UTC",
+      "two_factor_auth": false,
+      "uid": 1234567,
+      "user_type": "admin",
+      "username": "dev-user",
+      "verified_phone_number": null
+    },
+    "storeKey": "profile"
+  },
+  {
+    "endpoint": "/v4/profile",
+    "method": "PUT",
+    "storeKey": "profile"
+  }
+]
