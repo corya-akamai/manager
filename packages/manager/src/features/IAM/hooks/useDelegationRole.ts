@@ -9,8 +9,6 @@ type DelegationRole = {
   isDelegateUserType: boolean;
   isParentUserType: boolean;
   isProfileLoading: boolean;
-  isProxyOrDelegateUserType: boolean;
-  isProxyUserType: boolean;
   profile: Profile | undefined;
   profileUserName: string | undefined;
   profileUserType: undefined | UserType;
@@ -20,9 +18,6 @@ export const useDelegationRole = (): DelegationRole => {
   const { data: profile, isLoading: isProfileLoading } = useProfile();
 
   return {
-    isProxyOrDelegateUserType:
-      profile?.user_type === 'proxy' || profile?.user_type === 'delegate',
-    isProxyUserType: profile?.user_type === 'proxy',
     isDefaultUserType: profile?.user_type === 'default',
     isParentUserType: profile?.user_type === 'parent',
     isChildUserType: profile?.user_type === 'child',

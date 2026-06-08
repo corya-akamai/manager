@@ -22,7 +22,7 @@ export const useParentChildAuthentication = () => {
   const {
     error: generateTokenError,
     isPending: generateTokenLoading,
-    mutateAsync: generateProxyToken,
+    mutateAsync: generateDelegateToken,
   } = useGenerateChildAccountTokenQuery();
 
   const error = React.useMemo(() => generateTokenError, [generateTokenError]);
@@ -36,18 +36,18 @@ export const useParentChildAuthentication = () => {
     async (euuid: string): Promise<Token> => {
       const tokenParent = getStorage('authentication/parent_token/token');
 
-      return generateProxyToken({
+      return generateDelegateToken({
         euuid,
         headers: {
           /**
-           * Headers are required for proxy or delegate users when obtaining a proxy or delegate token.
-           * For 'proxy' or 'delegate' userType, use the stored parent token in the request.
+           * Headers are required for delegate users when obtaining a delegate token.
+           * For 'delegate' userType, use the stored parent token in the request.
            */
           Authorization: tokenParent,
         },
       });
     },
-    [generateProxyToken]
+    [generateDelegateToken]
   );
 
   const revokeToken = useCallback(async (): Promise<void> => {
@@ -69,11 +69,7 @@ export const useParentChildAuthentication = () => {
   }, [currentTokenWithBearer]);
 
   const updateCurrentToken = useCallback(
-    ({
-      userType,
-    }: {
-      userType: Extract<UserType, 'delegate' | 'parent' | 'proxy'>;
-    }) => {
+    ({ userType }: { userType: Extract<UserType, 'delegate' | 'parent'> }) => {
       updateCurrentTokenBasedOnUserType({ userType });
     },
     []

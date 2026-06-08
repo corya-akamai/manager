@@ -173,14 +173,14 @@ describe('UserDetailsPanel – Delete User button', () => {
     );
   };
 
-  it('disables the Delete User button for proxy users', () => {
+  it('disables the Delete User button for delegate users', () => {
     queryMocks.useProfile.mockReturnValue({
       data: profileFactory.build({ username: 'current_user' }),
     });
 
     const user = accountUserFactory.build({
-      user_type: 'proxy',
-      username: 'proxy_user',
+      user_type: 'delegate',
+      username: 'delegate_user',
     });
 
     const { container } = renderWithTheme(

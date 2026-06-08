@@ -4,7 +4,7 @@ import type { Event, EventAction } from '@akamai/compute-ui-core/events';
 
 export type { Event, EventAction };
 
-export type UserType = 'child' | 'default' | 'delegate' | 'parent' | 'proxy';
+export type UserType = 'child' | 'default' | 'delegate' | 'parent'; // 'proxy' is deprecated
 
 export interface User {
   email: string;

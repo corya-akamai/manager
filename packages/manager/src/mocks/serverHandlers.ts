@@ -817,10 +817,10 @@ const hourlyBillingSupportedTypes = [
 ];
 
 const proxyAccountUser = accountUserFactory.build({
-  email: 'partner@proxy.com',
+  email: 'delegate@delegate.com',
   last_login: null,
-  user_type: 'proxy',
-  username: 'ParentCompany_a1b2c3d4e5',
+  user_type: 'delegate',
+  username: 'delegateUsername',
 });
 const parentAccountUser = accountUserFactory.build({
   email: 'parent@acme.com',
@@ -2462,7 +2462,7 @@ export const handlers = [
     return HttpResponse.json(childAccount);
   }),
   http.post('*/account/child-accounts/:euuid/token', () => {
-    // Proxy tokens expire in 15 minutes.
+    // Delegate tokens expire in 15 minutes.
     const now = new Date();
     const expiry = new Date(now.setMinutes(now.getMinutes() + 15));
 

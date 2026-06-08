@@ -47,13 +47,12 @@ export const UserDetailsPanel = ({
   const navigate = useNavigate();
   const { profileUserName } = useDelegationRole();
 
-  const isProxyOrDelegateUserType =
-    activeUser.user_type === 'proxy' || activeUser.user_type === 'delegate';
+  const isDelegateUserType = activeUser.user_type === 'delegate';
 
   const isDeleteUserDisabled =
     !permissions.delete_user ||
     profileUserName === activeUser.username ||
-    isProxyOrDelegateUserType;
+    isDelegateUserType;
 
   const isEditUserDisabled =
     profileUserName !== activeUser.username ? !permissions.update_user : false;
@@ -65,7 +64,7 @@ export const UserDetailsPanel = ({
     deleteTooltipText = 'You do not have permission to delete this user.';
   } else if (profileUserName === activeUser.username) {
     deleteTooltipText = `You can’t delete the currently active user.`;
-  } else if (isProxyOrDelegateUserType) {
+  } else if (isDelegateUserType) {
     deleteTooltipText = `You can’t delete a ${PARENT_USER}.`;
   }
 

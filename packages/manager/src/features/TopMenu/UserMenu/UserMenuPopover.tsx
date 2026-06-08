@@ -48,19 +48,12 @@ export const UserMenuPopover = (props: UserMenuPopoverProps) => {
   const { anchorEl, isDrawerOpen, onClose, onDrawerOpen } = props;
   const sessionContext = React.useContext(switchAccountSessionContext);
   const { limitsEvolution, iamNewBadge } = useFlags();
-  const {
-    isProxyOrDelegateUserType,
-    isParentUserType,
-    isDelegateUserType,
-    isProxyUserType,
-    profile,
-  } = useDelegationRole();
+  const { isParentUserType, isDelegateUserType, profile } = useDelegationRole();
   const theme = useTheme();
 
   const { handleSwitchToParentAccount, isSubmitting } =
     useSwitchToParentAccount({
       isDelegateUserType,
-      isProxyUserType,
       onClose,
       onTokenExpired: () => {
         sessionContext.updateState({
@@ -73,7 +66,7 @@ export const UserMenuPopover = (props: UserMenuPopoverProps) => {
   const { isIAMEnabled } = useIsIAMEnabled();
 
   const canSwitchBetweenParentOrProxyAccount =
-    isParentUserType || isProxyOrDelegateUserType;
+    isParentUserType || isDelegateUserType;
 
   const open = Boolean(anchorEl);
   const id = open ? 'user-menu-popover' : undefined;
@@ -103,7 +96,7 @@ export const UserMenuPopover = (props: UserMenuPopoverProps) => {
   ];
 
   // Used for fetching parent profile and account data by making a request with the parent's token.
-  const proxyHeaders = isProxyOrDelegateUserType
+  const proxyHeaders = isDelegateUserType
     ? {
         Authorization: getStorage(`authentication/parent_token/token`),
       }
@@ -115,10 +108,10 @@ export const UserMenuPopover = (props: UserMenuPopoverProps) => {
   });
   const { data: parentProfile } = useProfile({ headers: proxyHeaders });
   const userName =
-    (isProxyOrDelegateUserType ? parentProfile : profile)?.username ?? '';
+    (isDelegateUserType ? parentProfile : profile)?.username ?? '';
 
   const { isParentTokenExpired } = useIsParentTokenExpired({
-    isProxyOrDelegateUserType,
+    isDelegateUserType,
   });
 
   const accountLinks: MenuLink[] = React.useMemo(

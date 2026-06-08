@@ -37,7 +37,7 @@ export const AccountLanding = () => {
   });
   const { data: account } = useAccount();
   const {
-    isProxyOrDelegateUserType,
+    isDelegateUserType,
     isChildUserType,
     isParentUserType,
     profileUserType,
@@ -58,7 +58,7 @@ export const AccountLanding = () => {
   const isReadOnly = !permissions.make_billing_payment || isChildUserType;
 
   const { isParentTokenExpired } = useIsParentTokenExpired({
-    isProxyOrDelegateUserType,
+    isDelegateUserType,
   });
 
   const { tabs, handleTabChange, tabIndex, getTabIndex } = useTabs([
@@ -120,7 +120,7 @@ export const AccountLanding = () => {
   };
 
   const isBillingTabSelected = getTabIndex('/account/billing') === tabIndex;
-  const canSwitchBetweenParentOrProxyAccount = isParentUserType;
+  const canSwitchAccount = isParentUserType;
 
   const landingHeaderProps: LandingHeaderProps = {
     breadcrumbProps: {
@@ -148,7 +148,7 @@ export const AccountLanding = () => {
           search: { action: 'make-payment' },
         });
     }
-    landingHeaderProps.extraActions = canSwitchBetweenParentOrProxyAccount ? (
+    landingHeaderProps.extraActions = canSwitchAccount ? (
       <SwitchAccountButton
         data-testid="switch-account-button"
         onClick={() => {

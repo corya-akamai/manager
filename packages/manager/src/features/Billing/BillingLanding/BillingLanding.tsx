@@ -22,7 +22,7 @@ import type { LandingHeaderProps } from 'src/components/LandingHeader';
 export const BillingLanding = () => {
   const navigate = useNavigate();
   const {
-    isProxyOrDelegateUserType,
+    isDelegateUserType,
     isChildUserType,
     isParentUserType,
     profileUserType,
@@ -42,7 +42,7 @@ export const BillingLanding = () => {
   const contactPerson = isChildUserType ? PARENT_USER : ADMINISTRATOR;
 
   const { isParentTokenExpired } = useIsParentTokenExpired({
-    isProxyOrDelegateUserType,
+    isDelegateUserType,
   });
 
   const isReadOnly = !permissions.make_billing_payment || isChildUserType;

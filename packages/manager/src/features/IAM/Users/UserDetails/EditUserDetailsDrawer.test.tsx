@@ -92,10 +92,10 @@ describe('EditUserDetailsDrawer', () => {
       ).toBeDefined();
     });
 
-    it('disables the username field for a proxy user', async () => {
+    it('disables the username field for a delegate user', async () => {
       const user = accountUserFactory.build({
-        user_type: 'proxy',
-        username: 'proxy-user-1',
+        user_type: 'delegate',
+        username: 'delegate-user-1',
       });
 
       renderWithTheme(
@@ -188,10 +188,10 @@ describe('EditUserDetailsDrawer', () => {
       ).toBeDefined();
     });
 
-    it('disables the email field for a proxy user', async () => {
+    it('disables the email field for a delegate user', async () => {
       const user = accountUserFactory.build({
-        user_type: 'proxy',
-        username: 'proxy-user-1',
+        user_type: 'delegate',
+        username: 'delegate-user-1',
       });
 
       renderWithTheme(

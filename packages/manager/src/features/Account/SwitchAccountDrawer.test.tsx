@@ -63,13 +63,13 @@ describe('SwitchAccountDrawer', () => {
     expect(getByText('Search')).toBeVisible();
   });
 
-  it('should include a link to switch back to the parent account if the active user is a proxy user', async () => {
+  it('should include a link to switch back to the parent account if the active user is a delegate user', async () => {
     queryMocks.useProfile.mockReturnValue({
-      data: profileFactory.build({ user_type: 'proxy' }),
+      data: profileFactory.build({ user_type: 'delegate' }),
     });
 
     const { findByLabelText, getByText } = renderWithTheme(
-      <SwitchAccountDrawer {...props} userType="proxy" />
+      <SwitchAccountDrawer {...props} userType="delegate" />
     );
 
     expect(

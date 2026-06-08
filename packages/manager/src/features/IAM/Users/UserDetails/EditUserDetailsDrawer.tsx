@@ -38,8 +38,7 @@ export const EditUserDetailsDrawer = (props: Props) => {
   const { enqueueSnackbar } = useSnackbar();
   const { profileUserName } = useDelegationRole();
 
-  const isProxyOrDelegateUserType =
-    activeUser?.user_type === 'proxy' || activeUser?.user_type === 'delegate';
+  const isDelegateUserType = activeUser?.user_type === 'delegate';
 
   const { mutateAsync: updateUsername } = useUpdateUserMutation(
     activeUser.username
@@ -101,19 +100,19 @@ export const EditUserDetailsDrawer = (props: Props) => {
   if (!canUpdateUser) {
     tooltipForDisabledUsernameField =
       'Restricted users cannot update their username. Please contact an account administrator.';
-  } else if (isProxyOrDelegateUserType) {
+  } else if (isDelegateUserType) {
     tooltipForDisabledUsernameField = RESTRICTED_FIELD_TOOLTIP;
   }
 
   let emailDisabledReason: string | undefined;
-  if (isProxyOrDelegateUserType) {
+  if (isDelegateUserType) {
     emailDisabledReason = RESTRICTED_FIELD_TOOLTIP;
   } else if (profileUserName !== activeUser.username) {
     emailDisabledReason = 'You can’t change another user’s email address.';
   }
 
   const disableEmailField =
-    profileUserName !== activeUser.username || isProxyOrDelegateUserType;
+    profileUserName !== activeUser.username || isDelegateUserType;
 
   return (
     <Drawer onClose={handleClose} open={open} title="Edit user details">
@@ -156,7 +155,7 @@ export const EditUserDetailsDrawer = (props: Props) => {
                   style={{ boxSizing: 'border-box' }}
                   value={field.value}
                 />
-                {!canUpdateUser || isProxyOrDelegateUserType ? (
+                {!canUpdateUser || isDelegateUserType ? (
                   <Tooltip
                     disabled={tooltipForDisabledUsernameField === undefined}
                     key={tooltipForDisabledUsernameField}
