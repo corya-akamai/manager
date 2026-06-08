@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   FormField,
@@ -9,7 +10,6 @@ import { Spacing } from '@akamai/cds-tokens';
 import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 import { useDeleteDatabaseMutation } from '@linode/queries';
 import { useNavigate } from '@tanstack/react-router';
-import { useSnackbar } from 'notistack';
 import * as React from 'react';
 
 import type { Engine } from '@linode/api-v4/lib/databases';
@@ -24,7 +24,7 @@ interface Props {
 
 export const DatabaseSettingsDeleteClusterDialog = (props: Props) => {
   const { databaseEngine, databaseID, databaseLabel, onClose, open } = props;
-  const { enqueueSnackbar } = useSnackbar();
+
   const {
     mutateAsync: deleteDatabase,
     error,
@@ -42,8 +42,9 @@ export const DatabaseSettingsDeleteClusterDialog = (props: Props) => {
 
   const onDeleteCluster = () => {
     deleteDatabase().then(() => {
-      enqueueSnackbar('Database Cluster deleted successfully.', {
-        variant: 'success',
+      toast.open({
+        text: 'Database Cluster deleted successfully.',
+        type: 'success',
       });
       _onClose();
       reset();

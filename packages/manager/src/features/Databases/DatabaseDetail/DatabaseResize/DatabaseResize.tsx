@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import { NotificationBanner } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { formatStorageUnits } from '@akamai/compute-ui-core/api';
@@ -9,7 +10,6 @@ import {
 } from '@linode/queries';
 import { Box, Typography } from '@linode/ui';
 import { useNavigate } from '@tanstack/react-router';
-import { useSnackbar } from 'notistack';
 import * as React from 'react';
 
 import { TypeToConfirmDialog } from 'src/components/TypeToConfirmDialog/TypeToConfirmDialog';
@@ -180,8 +180,6 @@ export const DatabaseResize = () => {
     isGenerationalPlansEnabled,
   ]);
 
-  const { enqueueSnackbar } = useSnackbar();
-
   const onResize = () => {
     const payload: UpdateDatabasePayload = {};
 
@@ -194,8 +192,9 @@ export const DatabaseResize = () => {
     }
 
     updateDatabase(payload).then(() => {
-      enqueueSnackbar(`Database cluster ${database.label} is being resized.`, {
-        variant: 'info',
+      toast.open({
+        text: `Database cluster ${database.label} is being resized.`,
+        type: 'info',
       });
       navigate({
         to: '/databases/$engine/$databaseId',

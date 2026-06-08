@@ -1,10 +1,10 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import { Button, Icon, Tooltip } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { useDatabaseCredentialsQuery } from '@linode/queries';
 import { Typography } from '@linode/ui';
 import { Box, styled } from '@mui/material';
 import copy from 'copy-to-clipboard';
-import { enqueueSnackbar } from 'notistack';
 import React, { useState } from 'react';
 
 import { Code } from 'src/components/Code/Code';
@@ -82,12 +82,12 @@ export const ServiceURI = (props: ServiceURIProps) => {
           // copy with revealed credentials
           copy(getServiceURIText(data, isGeneralServiceURI));
         } else {
-          enqueueSnackbar(CREDENTIALS_ERROR_TEXT, { variant: 'error' });
+          toast.open({ text: CREDENTIALS_ERROR_TEXT, type: 'error' });
         }
         setIsCopying(false);
       } catch {
         setIsCopying(false);
-        enqueueSnackbar(CREDENTIALS_ERROR_TEXT, { variant: 'error' });
+        toast.open({ text: CREDENTIALS_ERROR_TEXT, type: 'error' });
       }
     }
   };
@@ -118,7 +118,7 @@ export const ServiceURI = (props: ServiceURIProps) => {
   React.useEffect(() => {
     if (!hidePassword && credentialsError) {
       setHidePassword(true);
-      enqueueSnackbar(CREDENTIALS_ERROR_TEXT, { variant: 'error' });
+      toast.open({ text: CREDENTIALS_ERROR_TEXT, type: 'error' });
     }
   }, [credentialsError, hidePassword]);
 

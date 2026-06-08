@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   Modal,
@@ -5,7 +6,6 @@ import {
 } from '@akamai/cds-components/react';
 import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 import { usePatchDatabaseMutation } from '@linode/queries';
-import { useSnackbar } from 'notistack';
 import * as React from 'react';
 
 import type { Engine, PendingUpdates } from '@linode/api-v4/lib/databases';
@@ -21,7 +21,7 @@ interface Props {
 export const DatabaseSettingsReviewUpdatesDialog = (props: Props) => {
   const { databaseEngine, databaseID, databasePendingUpdates, onClose, open } =
     props;
-  const { enqueueSnackbar } = useSnackbar();
+
   const { mutateAsync: patchDatabase } = usePatchDatabaseMutation(
     databaseEngine,
     databaseID
@@ -35,8 +35,9 @@ export const DatabaseSettingsReviewUpdatesDialog = (props: Props) => {
     patchDatabase()
       .then(() => {
         setIsLoading(false);
-        enqueueSnackbar('Database maintenance started successfully.', {
-          variant: 'success',
+        toast.open({
+          text: 'Database maintenance started successfully.',
+          type: 'success',
         });
         onClose();
       })

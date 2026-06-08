@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import { NotificationBanner } from '@akamai/cds-components/react';
 import { Button } from '@akamai/cds-components/react/Button';
 import { Spacing } from '@akamai/cds-tokens';
@@ -6,7 +7,6 @@ import { useDatabaseMutation } from '@linode/queries';
 import { Box, Drawer } from '@linode/ui';
 import { updatePrivateNetworkSchema } from '@linode/validation';
 import { useNavigate } from '@tanstack/react-router';
-import { enqueueSnackbar } from 'notistack';
 import * as React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -59,8 +59,9 @@ const DatabaseManageNetworkingDrawer = (props: Props) => {
   const onSubmit = async (values: ManageNetworkingFormValues) => {
     try {
       await updateDatabase(values);
-      enqueueSnackbar('Changes are being applied.', {
-        variant: 'info',
+      toast.open({
+        text: 'Changes are being applied.',
+        type: 'info',
       });
 
       navigate({

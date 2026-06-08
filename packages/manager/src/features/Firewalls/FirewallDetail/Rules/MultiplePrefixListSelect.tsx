@@ -26,7 +26,10 @@ import {
   isSpecialPrefixList,
 } from './shared';
 
-import type { ExtendedPL, PrefixListRuleReference } from '@akamai/compute-ui-core/api';
+import type {
+  ExtendedPL,
+  PrefixListRuleReference,
+} from '@akamai/compute-ui-core/api';
 import type { FirewallPrefixList } from '@linode/api-v4';
 import type { Theme } from '@mui/material/styles';
 

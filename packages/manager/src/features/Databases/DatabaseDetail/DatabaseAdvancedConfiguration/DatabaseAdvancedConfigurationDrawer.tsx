@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import { Button, NotificationBanner } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -5,7 +6,6 @@ import { useDatabaseEngineConfig, useDatabaseMutation } from '@linode/queries';
 import { ActionsPanel, Drawer, Stack, Typography } from '@linode/ui';
 import { scrollErrorIntoViewV2 } from '@linode/utilities';
 import { createDynamicAdvancedConfigSchema } from '@linode/validation';
-import { enqueueSnackbar } from 'notistack';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Controller, get, useFieldArray, useForm } from 'react-hook-form';
 import type { SubmitHandler } from 'react-hook-form';
@@ -140,8 +140,9 @@ export const DatabaseAdvancedConfigurationDrawer = (props: Props) => {
     await updateDatabase(payload)
       .then(() => {
         handleClose();
-        enqueueSnackbar('Advanced Configuration settings saved', {
-          variant: 'success',
+        toast.open({
+          text: 'Advanced Configuration settings saved',
+          type: 'success',
         });
       })
       .catch((errors) => {

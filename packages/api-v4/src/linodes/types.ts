@@ -4,7 +4,11 @@ import type { LockType } from '../locks/types';
 import type { IPAddress, IPRange } from '../networking/types';
 import type { LinodePlacementGroupPayload } from '../placement-groups/types';
 import type { Region, RegionSite } from '../regions';
-import type { LinodeType, NetStats, StatsData } from '@akamai/compute-ui-core/api';
+import type {
+  LinodeType,
+  NetStats,
+  StatsData,
+} from '@akamai/compute-ui-core/api';
 import type {
   CreateLinodeInterfaceSchema,
   ModifyLinodeInterfaceSchema,

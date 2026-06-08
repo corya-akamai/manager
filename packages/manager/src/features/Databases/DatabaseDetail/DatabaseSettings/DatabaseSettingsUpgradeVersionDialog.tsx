@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   FormField,
@@ -8,7 +9,6 @@ import {
 import { Spacing } from '@akamai/cds-tokens';
 import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 import { useDatabaseEnginesQuery, useDatabaseMutation } from '@linode/queries';
-import { useSnackbar } from 'notistack';
 import * as React from 'react';
 
 import {
@@ -41,7 +41,7 @@ export const DatabaseSettingsUpgradeVersionDialog = (props: Props) => {
     onClose,
     open,
   } = props;
-  const { enqueueSnackbar } = useSnackbar();
+
   const { mutateAsync: updateDatabase } = useDatabaseMutation(
     databaseEngine,
     databaseID
@@ -75,8 +75,9 @@ export const DatabaseSettingsUpgradeVersionDialog = (props: Props) => {
     updateDatabase({ version: selectedVersion.value })
       .then(() => {
         setIsLoading(false);
-        enqueueSnackbar('Database version upgraded successfully.', {
-          variant: 'success',
+        toast.open({
+          text: 'Database version upgraded successfully.',
+          type: 'success',
         });
         handleClose();
       })

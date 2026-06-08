@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   Modal,
@@ -6,7 +7,6 @@ import {
 import { Spacing } from '@akamai/cds-tokens';
 import { useDatabaseMutation } from '@linode/queries';
 import { useNavigate } from '@tanstack/react-router';
-import { enqueueSnackbar } from 'notistack';
 import React from 'react';
 
 import type { Engine, UpdateDatabasePayload } from '@linode/api-v4';
@@ -36,8 +36,9 @@ export const DatabaseNetworkingUnassignVPCDialog = (props: Props) => {
 
     updateDatabase(payload).then(() => {
       onClose();
-      enqueueSnackbar('Changes are being applied.', {
-        variant: 'info',
+      toast.open({
+        text: 'Changes are being applied.',
+        type: 'info',
       });
 
       navigate({

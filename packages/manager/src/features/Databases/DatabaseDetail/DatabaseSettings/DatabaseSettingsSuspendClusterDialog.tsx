@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   Checkbox,
@@ -7,7 +8,6 @@ import {
 import { Spacing } from '@akamai/cds-tokens';
 import { useSuspendDatabaseMutation } from '@linode/queries';
 import { useNavigate } from '@tanstack/react-router';
-import { useSnackbar } from 'notistack';
 import * as React from 'react';
 
 import type { Engine } from '@linode/api-v4/lib/databases';
@@ -24,7 +24,7 @@ export const DatabaseSettingsSuspendClusterDialog = (
   props: SuspendDialogProps
 ) => {
   const { databaseEngine, databaseId, databaseLabel, onClose, open } = props;
-  const { enqueueSnackbar } = useSnackbar();
+
   const {
     error,
     isPending,
@@ -39,16 +39,18 @@ export const DatabaseSettingsSuspendClusterDialog = (
   const onSuspendCluster = async () => {
     try {
       await suspendDatabase();
-      enqueueSnackbar('Database Cluster suspended successfully.', {
-        variant: 'success',
+      toast.open({
+        text: 'Database Cluster suspended successfully.',
+        type: 'success',
       });
       onClose();
       navigate({
         to: '/databases',
       });
     } catch (error) {
-      enqueueSnackbar('Failed to suspend Database Cluster. Please try again.', {
-        variant: 'error',
+      toast.open({
+        text: 'Failed to suspend Database Cluster. Please try again.',
+        type: 'error',
       });
     } finally {
       setHasConfirmed(false);

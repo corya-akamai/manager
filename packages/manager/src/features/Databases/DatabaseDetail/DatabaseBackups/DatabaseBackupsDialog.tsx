@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   Modal,
@@ -8,7 +9,6 @@ import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 import { formatDate } from '@akamai/compute-ui-core/datetime';
 import { useProfile, useRestoreFromBackupMutation } from '@linode/queries';
 import { useNavigate } from '@tanstack/react-router';
-import { useSnackbar } from 'notistack';
 import * as React from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
@@ -27,7 +27,6 @@ interface Props extends Omit<DialogProps, 'title'> {
 export const DatabaseBackupsDialog = (props: Props) => {
   const { database, onClose, open } = props;
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
   const { data: profile } = useProfile();
 
   const { control } = useFormContext<DatabaseBackupsValues>();
@@ -73,8 +72,9 @@ export const DatabaseBackupsDialog = (props: Props) => {
           databaseId: database.id,
         },
       });
-      enqueueSnackbar('Your database is being restored.', {
-        variant: 'success',
+      toast.open({
+        text: 'Your database is being restored.',
+        type: 'success',
       });
       _onClose();
     });

@@ -1,9 +1,9 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import { Icon, Menu, MenuItem, Tooltip } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 import { useResumeDatabaseMutation } from '@linode/queries';
 import { useNavigate } from '@tanstack/react-router';
-import { enqueueSnackbar } from 'notistack';
 import * as React from 'react';
 
 import { getRestrictedResourceText } from 'src/features/Account/utils';
@@ -55,15 +55,16 @@ export const DatabaseActionMenu = (props: Props) => {
   const handleResume = async () => {
     try {
       await resumeDatabase();
-      return enqueueSnackbar('Database Cluster resumed successfully.', {
-        variant: 'success',
+      return toast.open({
+        text: 'Database Cluster resumed successfully.',
+        type: 'success',
       });
     } catch (e: any) {
       const error = getAPIErrorOrDefault(
         e,
         'There was an error resuming this Database Cluster.'
       )[0].reason;
-      return enqueueSnackbar(error, { variant: 'error' });
+      return toast.open({ text: error, type: 'error' });
     }
   };
 

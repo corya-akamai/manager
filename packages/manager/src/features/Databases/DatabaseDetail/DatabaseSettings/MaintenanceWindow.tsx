@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   FormLabel,
@@ -13,7 +14,6 @@ import { Autocomplete } from '@linode/ui';
 import { updateMaintenanceSchema } from '@linode/validation';
 import { styled } from '@mui/material/styles';
 import { DateTime } from 'luxon';
-import { useSnackbar } from 'notistack';
 import * as React from 'react';
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
@@ -31,8 +31,6 @@ export const MaintenanceWindow = (props: Props) => {
 
   const [modifiedWeekSelectionMap, setModifiedWeekSelectionMap] =
     React.useState<SelectOption<number>[]>([]);
-
-  const { enqueueSnackbar } = useSnackbar();
 
   const { mutateAsync: updateDatabase } = useDatabaseMutation(
     database.engine,
@@ -72,8 +70,9 @@ export const MaintenanceWindow = (props: Props) => {
         allow_list: database.allow_list,
         updates: values as UpdatesSchedule,
       });
-      enqueueSnackbar('Maintenance Window settings saved successfully.', {
-        variant: 'success',
+      toast.open({
+        text: 'Maintenance Window settings saved successfully.',
+        type: 'success',
       });
       // reset dirty state to disable Save Changes button
       reset(getValues(), { keepValues: true, keepDirty: false });

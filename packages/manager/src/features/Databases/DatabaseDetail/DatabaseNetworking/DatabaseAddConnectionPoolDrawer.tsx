@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Checkbox,
   FormError,
@@ -18,7 +19,6 @@ import {
   Typography,
 } from '@linode/ui';
 import { createDatabaseConnectionPoolSchema } from '@linode/validation';
-import { useSnackbar } from 'notistack';
 import * as React from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 
@@ -37,7 +37,6 @@ interface Props {
 
 export const DatabaseAddConnectionPoolDrawer = (props: Props) => {
   const { databaseId, onClose, open } = props;
-  const { enqueueSnackbar } = useSnackbar();
 
   const {
     isPending: submitInProgress,
@@ -83,8 +82,9 @@ export const DatabaseAddConnectionPoolDrawer = (props: Props) => {
 
     try {
       await createDatabaseConnectionPool(payload);
-      enqueueSnackbar('Connection Pool added successfully.', {
-        variant: 'success',
+      toast.open({
+        text: 'Connection Pool added successfully.',
+        type: 'success',
       });
       handleOnClose();
     } catch (errors) {

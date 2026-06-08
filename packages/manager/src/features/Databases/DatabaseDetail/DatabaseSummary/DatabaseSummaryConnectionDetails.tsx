@@ -1,8 +1,8 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import { Button, Icon, Tooltip } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { useDatabaseCredentialsQuery } from '@linode/queries';
 import { Box, Typography } from '@linode/ui';
-import { enqueueSnackbar } from 'notistack';
 import * as React from 'react';
 
 import { Link } from 'src/components/Link';
@@ -67,7 +67,7 @@ export const DatabaseSummaryConnectionDetails = (props: Props) => {
   React.useEffect(() => {
     if (showCredentials && credentialsError) {
       setShowPassword(false);
-      enqueueSnackbar(CREDENTIALS_ERROR_TEXT, { variant: 'error' });
+      toast.open({ text: CREDENTIALS_ERROR_TEXT, type: 'error' });
     }
   }, [showCredentials, credentialsError]);
 

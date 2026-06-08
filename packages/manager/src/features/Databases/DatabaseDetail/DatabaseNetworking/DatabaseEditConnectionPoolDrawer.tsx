@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Checkbox,
   FormError,
@@ -17,13 +18,13 @@ import {
   Stack,
 } from '@linode/ui';
 import { updateDatabaseConnectionPoolSchema } from '@linode/validation';
-import { enqueueSnackbar } from 'notistack';
 import * as React from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 
 import { poolModeOptions } from 'src/features/Databases/constants';
 
 import type { ConnectionPool } from '@linode/api-v4';
+
 interface Props {
   databaseId: number;
   onClose: () => void;
@@ -73,8 +74,9 @@ export const DatabaseEditConnectionPoolDrawer = (props: Props) => {
 
     try {
       await updateDatabaseConnectionPool(payload);
-      enqueueSnackbar(`Connection Pool ${label} edited successfully.`, {
-        variant: 'success',
+      toast.open({
+        text: `Connection Pool ${label} edited successfully.`,
+        type: 'success',
       });
       handleOnClose();
     } catch (errors) {

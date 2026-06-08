@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   FormField,
@@ -8,7 +9,6 @@ import {
 import { Spacing } from '@akamai/cds-tokens';
 import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 import { useDeleteDatabaseConnectionPoolMutation } from '@linode/queries';
-import { useSnackbar } from 'notistack';
 import * as React from 'react';
 
 interface Props {
@@ -20,7 +20,6 @@ interface Props {
 
 export const DatabaseConnectionPoolDeleteDialog = (props: Props) => {
   const { onClose, open, databaseId, poolLabel } = props;
-  const { enqueueSnackbar } = useSnackbar();
   const {
     error,
     isPending,
@@ -31,8 +30,9 @@ export const DatabaseConnectionPoolDeleteDialog = (props: Props) => {
 
   const onDelete = () => {
     deleteConnectionPool().then(() => {
-      enqueueSnackbar(`Connection Pool ${poolLabel} deleted successfully.`, {
-        variant: 'success',
+      toast.open({
+        text: `Connection Pool ${poolLabel} deleted successfully.`,
+        type: 'success',
       });
       onClose();
     });
