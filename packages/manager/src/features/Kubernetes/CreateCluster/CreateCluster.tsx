@@ -1,4 +1,5 @@
 import {
+  getAPIErrorOrDefault,
   getDCSpecificPriceByType,
   getErrorMap,
   stringToExtendedIP,
@@ -56,7 +57,6 @@ import {
   useKubernetesTieredVersionsQuery,
   useKubernetesTypesQuery,
 } from 'src/queries/kubernetes';
-import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
 import { extendType } from 'src/utilities/extendType';
 import { filterCurrentTypes } from 'src/utilities/filterCurrentLinodeTypes';
 import { DOCS_LINK_LABEL_DC_PRICING } from 'src/utilities/pricing/constants';

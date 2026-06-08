@@ -8,6 +8,7 @@ import {
   TableHeaderCell,
   TableRow,
 } from '@akamai/cds-components/react/Table';
+import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 import { formatDate } from '@akamai/compute-ui-core/datetime';
 import {
   useDeleteShareGroupImageMutation,
@@ -34,7 +35,6 @@ import { ConfirmationDialog } from 'src/components/ConfirmationDialog/Confirmati
 import { DebouncedSearchTextField } from 'src/components/DebouncedSearchTextField/DebouncedSearchTextField';
 import { useOrderV2 } from 'src/hooks/useOrderV2';
 import { usePaginationV2 } from 'src/hooks/usePaginationV2';
-import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
 
 import {
   DEFAULT_PAGE_SIZES,

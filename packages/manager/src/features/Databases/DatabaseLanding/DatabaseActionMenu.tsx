@@ -1,5 +1,6 @@
 import { Icon, Menu, MenuItem, Tooltip } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
+import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 import { useResumeDatabaseMutation } from '@linode/queries';
 import { useNavigate } from '@tanstack/react-router';
 import { enqueueSnackbar } from 'notistack';
@@ -7,7 +8,6 @@ import * as React from 'react';
 
 import { getRestrictedResourceText } from 'src/features/Account/utils';
 import { useIsResourceRestricted } from 'src/hooks/useIsResourceRestricted';
-import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
 
 import { useIsDatabasesEnabled } from '../utilities';
 

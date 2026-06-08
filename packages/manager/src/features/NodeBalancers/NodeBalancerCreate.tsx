@@ -1,4 +1,5 @@
 import {
+  getAPIErrorOrDefault,
   getDCSpecificPriceByType,
   renderMonthlyPriceToCorrectDecimalPlace,
 } from '@akamai/compute-ui-core/api';
@@ -46,7 +47,6 @@ import { getRestrictedResourceText } from 'src/features/Account/utils';
 import { useIsReserveIpEnabled } from 'src/features/ReservedIps/utils';
 import { useFlags } from 'src/hooks/useFlags';
 import { sendCreateNodeBalancerEvent } from 'src/utilities/analytics/customEventAnalytics';
-import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
 import { getGDPRDetails } from 'src/utilities/formatRegion';
 import { getAPIErrorFor } from 'src/utilities/getAPIErrorFor';
 import {

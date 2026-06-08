@@ -4,14 +4,13 @@ import {
   NotificationBanner,
 } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
+import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 import { formatDate } from '@akamai/compute-ui-core/datetime';
 import { useProfile, useRestoreFromBackupMutation } from '@linode/queries';
 import { useNavigate } from '@tanstack/react-router';
 import { useSnackbar } from 'notistack';
 import * as React from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
-
-import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
 
 import { toDatabaseFork, toFormattedDate } from '../../utilities';
 

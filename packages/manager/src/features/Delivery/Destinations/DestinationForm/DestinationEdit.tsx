@@ -1,3 +1,4 @@
+import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { destinationType } from '@linode/api-v4';
 import {
@@ -16,7 +17,6 @@ import { DocumentTitleSegment } from 'src/components/DocumentTitle';
 import { LandingHeader } from 'src/components/LandingHeader';
 import { getDestinationPayloadDetails } from 'src/features/Delivery/deliveryUtils';
 import { DestinationForm } from 'src/features/Delivery/Destinations/DestinationForm/DestinationForm';
-import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
 
 import type { UpdateDestinationPayloadWithId } from '@linode/api-v4';
 import type { LandingHeaderProps } from 'src/components/LandingHeader';

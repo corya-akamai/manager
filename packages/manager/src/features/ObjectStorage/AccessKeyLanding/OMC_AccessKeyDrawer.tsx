@@ -1,4 +1,4 @@
-import { getErrorMap } from '@akamai/compute-ui-core/api';
+import { getAPIErrorOrDefault, getErrorMap } from '@akamai/compute-ui-core/api';
 import { sortByString } from '@akamai/compute-ui-core/formatting';
 import { useAccountSettings, useProfile } from '@linode/queries';
 import {
@@ -25,7 +25,6 @@ import {
   useObjectStorageBuckets,
   useUpdateAccessKeyMutation,
 } from 'src/queries/object-storage/queries';
-import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
 
 import { EnableObjectStorageModal } from '../EnableObjectStorageModal';
 import { confirmObjectStorage } from '../utilities';

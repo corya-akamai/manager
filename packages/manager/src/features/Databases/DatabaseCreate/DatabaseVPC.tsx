@@ -6,6 +6,7 @@ import {
   Tooltip,
 } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
+import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 import { useAllVPCsQuery, useRegionQuery } from '@linode/queries';
 import { Autocomplete, Box, FormHelperText, Typography } from '@linode/ui';
 import * as React from 'react';
@@ -15,7 +16,6 @@ import { Controller } from 'react-hook-form';
 import { Link } from 'src/components/Link';
 import { MANAGE_NETWORKING_LEARN_MORE_LINK } from 'src/features/Databases/constants';
 import { useFlags } from 'src/hooks/useFlags';
-import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
 
 import type { PrivateNetwork, VPC } from '@linode/api-v4';
 import type { Theme } from '@mui/material/styles';

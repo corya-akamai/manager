@@ -1,6 +1,7 @@
 import {
   formatNumber,
   formatPercentage,
+  getAPIErrorOrDefault,
   getMetrics,
 } from '@akamai/compute-ui-core/api';
 import {
@@ -20,7 +21,6 @@ import * as React from 'react';
 import PendingIcon from 'src/assets/icons/pending.svg';
 import { AreaChart } from 'src/components/AreaChart/AreaChart';
 import { setUpCharts } from 'src/utilities/charts';
-import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
 
 import { getDateOptions } from './helpers';
 import { NetworkGraphs } from './NetworkGraphs';

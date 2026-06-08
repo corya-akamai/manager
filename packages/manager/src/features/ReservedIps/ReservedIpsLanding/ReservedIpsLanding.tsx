@@ -1,3 +1,4 @@
+import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 import { useReservedIPsQuery } from '@linode/queries';
 import { CircleProgress, ErrorState } from '@linode/ui';
 import * as React from 'react';
@@ -5,7 +6,6 @@ import * as React from 'react';
 import { LandingHeader } from 'src/components/LandingHeader';
 import { useOrderV2 } from 'src/hooks/useOrderV2';
 import { usePaginationV2 } from 'src/hooks/usePaginationV2';
-import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
 
 import { RESERVED_IPS_DOCS_LINK } from '../constants';
 import { ReserveIPDrawer } from '../ReserveIPDrawer';
@@ -25,7 +25,8 @@ export const ReservedIpsLanding = () => {
     React.useState<ReserveIPDrawerMode>('create');
   const [selectedIP, setSelectedIP] = React.useState<IPAddress | undefined>();
 
-  const [isUnreserveDialogOpen, setIsUnreserveDialogOpen] = React.useState(false);
+  const [isUnreserveDialogOpen, setIsUnreserveDialogOpen] =
+    React.useState(false);
 
   const pagination = usePaginationV2({
     currentRoute: '/reserved-ips',

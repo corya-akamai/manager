@@ -1,10 +1,10 @@
+import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 import { useUnReserveIPMutation } from '@linode/queries';
 import { ActionsPanel, Notice, Typography } from '@linode/ui';
 import { useSnackbar } from 'notistack';
 import * as React from 'react';
 
 import { ConfirmationDialog } from 'src/components/ConfirmationDialog/ConfirmationDialog';
-import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
 
 import type { IPAddress } from '@linode/api-v4';
 

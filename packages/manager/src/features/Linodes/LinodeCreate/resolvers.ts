@@ -18,7 +18,7 @@ import type {
   LinodeCreateFormContext,
   LinodeCreateFormValues,
 } from './utilities';
-import type { LinodeCreateType } from '@linode/utilities';
+import type { LinodeCreateType } from '@akamai/compute-ui-core/api';
 import type { QueryClient } from '@tanstack/react-query';
 
 export const getLinodeCreateResolver = (

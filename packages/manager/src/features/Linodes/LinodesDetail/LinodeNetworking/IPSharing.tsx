@@ -1,4 +1,4 @@
-import { getErrorMap } from '@akamai/compute-ui-core/api';
+import { getAPIErrorOrDefault, getErrorMap } from '@akamai/compute-ui-core/api';
 import {
   useAllDetailedIPv6RangesQuery,
   useAllLinodesQuery,
@@ -25,7 +25,6 @@ import type { JSX } from 'react';
 
 import { Link } from 'src/components/Link';
 import { useFlags } from 'src/hooks/useFlags';
-import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
 
 import type { Linode } from '@linode/api-v4/lib/linodes';
 import type { IPRangeInformation } from '@linode/api-v4/lib/networking';

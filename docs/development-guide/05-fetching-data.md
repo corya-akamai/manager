@@ -203,7 +203,7 @@ We have added an interceptor to our Axios instance that essentially guarantees t
 This makes it easy to work with errors, but the default message is not very situation specific. Often, what we want is to use a real error message from the API if it is available, and use a situation-specific fallback message otherwise. We have a helper in our utilities directory for this called `getAPIErrorOrDefault`.
 
 ```js
-import { getAPIErrorOrDefault } from "src/utilities/errorUtils";
+import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 
 apiRequest().catch((error) => {
   const apiError = getAPIErrorOrDefault(

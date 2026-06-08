@@ -23,6 +23,7 @@ import {
 import { getDefaultUDFData } from './Tabs/StackScripts/UserDefinedFields/utilities';
 
 import type { LinodeCreateInterface } from './Networking/utilities';
+import type { LinodeCreateType } from '@akamai/compute-ui-core/api';
 import type {
   AccountSettings,
   APIError,
@@ -36,7 +37,6 @@ import type {
   Profile,
   StackScript,
 } from '@linode/api-v4';
-import type { LinodeCreateType } from '@linode/utilities';
 import type { QueryClient } from '@tanstack/react-query';
 import type { LinodeCreateSearchParams } from 'src/routes/linodes';
 

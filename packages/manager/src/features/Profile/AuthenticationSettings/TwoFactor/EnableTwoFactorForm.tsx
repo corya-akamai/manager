@@ -1,10 +1,8 @@
-import { getErrorMap } from '@akamai/compute-ui-core/api';
+import { getAPIErrorOrDefault, getErrorMap } from '@akamai/compute-ui-core/api';
 import { confirmTwoFactor } from '@linode/api-v4/lib/profile';
 import { CircleProgress, Divider, Notice } from '@linode/ui';
 import { scrollErrorIntoView } from '@linode/utilities';
 import * as React from 'react';
-
-import { getAPIErrorOrDefault } from 'src/utilities/errorUtils';
 
 import { ConfirmToken } from './ConfirmToken';
 import { QRCodeForm } from './QRCodeForm';
