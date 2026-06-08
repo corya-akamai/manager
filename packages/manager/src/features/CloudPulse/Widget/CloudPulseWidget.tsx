@@ -1,5 +1,6 @@
+import { Font } from '@akamai/cds-tokens';
 import { useProfile, useRegionsQuery } from '@linode/queries';
-import { Box, Paper, Typography } from '@linode/ui';
+import { Box, Paper, TooltipIcon, Typography } from '@linode/ui';
 import { GridLegacy, Stack, useTheme } from '@mui/material';
 import { DateTime } from 'luxon';
 import React from 'react';
@@ -515,6 +516,11 @@ export const CloudPulseWidget = (props: CloudPulseWidgetProperties) => {
     linodeFromVolumes.isLoading,
   ]);
   const filterData = getGlobalFilterData();
+  const description = widget.description?.trim()
+    ? widget.description
+    : convertStringToCamelCasesWithSpaces(widget.label);
+
+  const isMaximizedWidget = widget.size === 12;
   return (
     <GridLegacy container item lg={widget.size} xs={12}>
       <Stack
@@ -537,14 +543,56 @@ export const CloudPulseWidget = (props: CloudPulseWidgetProperties) => {
               padding: 1,
             }}
           >
-            <Typography flex={{ sm: 2, xs: 0 }} marginLeft={1} variant="h2">
-              {convertStringToCamelCasesWithSpaces(widget.label)} (
-              {scaledWidgetUnit.current}
-              {unit.endsWith('ps') && !scaledWidgetUnit.current.endsWith('ps')
-                ? '/s'
-                : ''}
-              )
-            </Typography>
+            <Box
+              sx={{
+                alignItems: 'center',
+                display: 'flex',
+                flex: isMaximizedWidget ? '0 0 auto' : 1,
+                gap: 1,
+                minWidth: 0,
+              }}
+            >
+              <Typography
+                marginLeft={1}
+                sx={{
+                  fontSize: Font.FontSize.Xs,
+                  flex: isMaximizedWidget ? '0 0 auto' : 1,
+                  minWidth: 0,
+                  overflow: isMaximizedWidget ? 'visible' : 'hidden',
+                  textOverflow: isMaximizedWidget ? 'unset' : 'clip',
+                  whiteSpace: isMaximizedWidget ? 'nowrap' : 'normal',
+                }}
+                variant="h2"
+              >
+                {convertStringToCamelCasesWithSpaces(widget.label)} (
+                {scaledWidgetUnit.current}
+                {unit.endsWith('ps') && !scaledWidgetUnit.current.endsWith('ps')
+                  ? '/s'
+                  : ''}
+                )
+              </Typography>
+              <TooltipIcon
+                labelTooltipIconSize="small"
+                placement="bottom-end"
+                status="info"
+                sxTooltipIcon={{
+                  flexShrink: 0,
+                  p: 0,
+                }}
+                text={
+                  <Typography
+                    sx={{
+                      whiteSpace: 'pre-line',
+                      wordBreak: 'break-word',
+                    }}
+                    variant="body2"
+                  >
+                    {description}
+                  </Typography>
+                }
+                width={300}
+              />
+            </Box>
             <Stack
               direction={{ sm: 'row' }}
               sx={{

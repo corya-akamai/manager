@@ -52,6 +52,7 @@ const baseProps: CSVDataProps = {
   isDataLoading: false,
   serviceType: 'dbaas',
   widget: {
+    description: '',
     label: 'CPU Usage',
     unit: '%',
     aggregate_function: 'avg',

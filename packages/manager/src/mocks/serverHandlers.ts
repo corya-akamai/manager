@@ -4201,6 +4201,8 @@ export const handlers = [
               unit: '%',
               group_by: ['entity_id'],
               y_label: 'system_cpu_utilization_ratio',
+              description:
+                'Percentage of the available CPU capacity used by the Linode hosting the database.',
             }),
           ],
         })
@@ -4615,6 +4617,8 @@ export const handlers = [
           y_label: 'cpu_usage',
           group_by: ['entity_id'],
           aggregate_function: 'avg',
+          description:
+            'Percentage of the available CPU capacity used by the Linode hosting the database.',
         },
         {
           metric: 'memory_usage',
@@ -4626,6 +4630,11 @@ export const handlers = [
           y_label: 'memory_usage',
           group_by: ['entity_id'],
           aggregate_function: 'avg',
+          // intentionally add empty lines to the string to test/view the trimming behaviour.
+          description: `Number of available entries in the firewall’s connection table recorded each minute, showing how many more TCP, UDP, ICMP, and IPencap flows can be tracked.
+
+
+Number of available entries in the firewall’s connection table recorded each minute, showing how many more traffic flows can be tracked.`,
         },
       ];
     } else if (id === '3') {
@@ -4798,6 +4807,8 @@ export const handlers = [
           chart_type: 'line',
           y_label: 'nlb_ingress_traffic',
           aggregate_function: 'sum',
+          description:
+            'Amount of incoming data processed by the Network Load Balancer.',
         },
         {
           metric: 'nlb_ingress_packets',
@@ -4808,6 +4819,8 @@ export const handlers = [
           chart_type: 'line',
           y_label: 'nlb_ingress_packets',
           aggregate_function: 'sum',
+          description:
+            'Rate of inbound packets received by the Network Load Balancer.',
         },
         {
           metric: 'nlb_backend_ingress_traffic',
@@ -4818,6 +4831,8 @@ export const handlers = [
           chart_type: 'line',
           y_label: 'nlb_backend_ingress_traffic',
           aggregate_function: 'sum',
+          description:
+            'Rate of incoming data processed by the Network Load Balancer per backend node.',
         },
         {
           metric: 'nlb_backend_ingress_packets',
@@ -4828,6 +4843,7 @@ export const handlers = [
           chart_type: 'line',
           y_label: 'nlb_backend_ingress_packets',
           aggregate_function: 'sum',
+          description: '',
         },
       ];
       serviceType = 'netloadbalancer';
