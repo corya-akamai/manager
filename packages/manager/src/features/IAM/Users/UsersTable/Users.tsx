@@ -10,7 +10,6 @@ import {
 import { Spacing } from '@akamai/cds-tokens';
 import { useAccountUsers } from '@linode/queries';
 import { getAPIFilterFromQuery } from '@linode/search';
-import { Grid } from '@mui/material';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import React from 'react';
 
@@ -20,6 +19,7 @@ import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 
 import { useDelegationRole } from '../../hooks/useDelegationRole';
 import { usePermissions } from '../../hooks/usePermissions';
+import { Box } from '../../Shared/Box/Box';
 import {
   IAM_CHILD_USERS_PENDO_IDS,
   IAM_DELEGATE_USERS_PENDO_IDS,
@@ -167,23 +167,21 @@ export const UsersLanding = () => {
   return (
     <React.Fragment>
       <Paper>
-        <Grid
-          container
+        <Box
           direction="row"
-          rowSpacing={1}
-          sx={{
+          spacing={1}
+          style={{
             alignItems: 'center',
             justifyContent: 'space-between',
             marginBottom: Spacing.S12,
           }}
         >
-          <Grid container direction="row" rowSpacing={1}>
+          <Box direction="row" spacing={2}>
             <DebouncedSearchTextField
               clearable
               containerProps={{
                 sx: {
                   width: '320px',
-                  marginRight: { md: 2, xs: 2 },
                 },
               }}
               debounceTime={250}
@@ -220,31 +218,29 @@ export const UsersLanding = () => {
                 valueFn={(item) => (item as SelectOption).label}
               />
             )}
-          </Grid>
-          <Grid sx={{ alignSelf: 'flex-start' }}>
-            <Tooltip
-              disabled={canCreateUser}
-              tooltipPlacement="bottom"
-              tooltipText="You do not have permission to create other users."
+          </Box>
+          <Tooltip
+            disabled={canCreateUser}
+            tooltipPlacement="bottom"
+            tooltipText="You do not have permission to create other users."
+          >
+            <Button
+              data-pendo-id={
+                isDelegateUserType
+                  ? IAM_DELEGATE_USERS_PENDO_IDS.addUserButton
+                  : isChildUserType
+                    ? IAM_CHILD_USERS_PENDO_IDS.addUserButton
+                    : IAM_PARENT_USERS_PENDO_IDS.addUserButton
+              }
+              disabled={!canCreateUser}
+              onClick={() => setIsCreateDrawerOpen(true)}
+              variant="primary"
             >
-              <Button
-                data-pendo-id={
-                  isDelegateUserType
-                    ? IAM_DELEGATE_USERS_PENDO_IDS.addUserButton
-                    : isChildUserType
-                      ? IAM_CHILD_USERS_PENDO_IDS.addUserButton
-                      : IAM_PARENT_USERS_PENDO_IDS.addUserButton
-                }
-                disabled={!canCreateUser}
-                onClick={() => setIsCreateDrawerOpen(true)}
-                variant="primary"
-              >
-                Add a User
-                {!canCreateUser && <Icon icon="info-outline" size="m" />}
-              </Button>
-            </Tooltip>
-          </Grid>
-        </Grid>
+              Add a User
+              {!canCreateUser && <Icon icon="info-outline" size="m" />}
+            </Button>
+          </Tooltip>
+        </Box>
         <Table aria-label="List of Users">
           <UsersLandingTableHead order={order} />
           <TableBody>

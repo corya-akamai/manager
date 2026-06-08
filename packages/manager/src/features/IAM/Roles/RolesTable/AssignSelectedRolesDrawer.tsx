@@ -1,4 +1,5 @@
 import { Button, NotificationBanner } from '@akamai/cds-components/react';
+import { Spacing } from '@akamai/cds-tokens';
 import {
   useAccountRoles,
   useAccountUsersInfiniteQuery,
@@ -8,7 +9,6 @@ import {
 import { ActionsPanel, Autocomplete, Drawer, Typography } from '@linode/ui';
 import { useDebouncedValue } from '@linode/utilities';
 import { Stack, useTheme } from '@mui/material';
-import Grid from '@mui/material/Grid';
 import { enqueueSnackbar } from 'notistack';
 import React, { useCallback, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
@@ -16,6 +16,7 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { AssignSingleSelectedRole } from 'src/features/IAM/Roles/RolesTable/AssignSingleSelectedRole';
 
 import { usePermissions } from '../../hooks/usePermissions';
+import { Box } from '../../Shared/Box/Box';
 import {
   IAM_ROLES_PENDO_IDS,
   INTERNAL_ERROR_NO_CHANGES_SAVED,
@@ -177,13 +178,12 @@ export const AssignSelectedRolesDrawer = ({
             Select the user you want to assign selected roles to. Some roles
             require selecting entities they should apply to.
           </Typography>
-          <Grid
-            container
+          <Box
             direction="column"
-            sx={() => ({
+            style={{
               justifyContent: 'space-between',
-              marginBottom: theme.spacingFunction(20),
-            })}
+              marginBottom: Spacing.S20,
+            }}
           >
             <Typography mb={theme.spacingFunction(8)} variant="h3">
               User
@@ -251,15 +251,13 @@ export const AssignSelectedRolesDrawer = ({
               )}
               rules={{ required: 'Select a user.' }}
             />
-          </Grid>
+          </Box>
 
-          <Grid
-            container
+          <Box
             direction="row"
-            spacing={2}
-            sx={() => ({
+            style={{
               justifyContent: 'space-between',
-            })}
+            }}
           >
             <Typography variant={'h3'}>
               Role
@@ -273,7 +271,7 @@ export const AssignSelectedRolesDrawer = ({
                 {areDetailsHidden ? 'Show' : 'Hide'} details
               </Button>
             )}
-          </Grid>
+          </Box>
 
           {!!accountRoles &&
             selectedRoles.map((role, index) => (

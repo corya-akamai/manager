@@ -17,7 +17,6 @@ import { Spacing } from '@akamai/cds-tokens';
 import { capitalizeAllWords } from '@akamai/compute-ui-core/formatting';
 import { Hidden, Typography } from '@linode/ui';
 import { useTheme } from '@mui/material';
-import Grid from '@mui/material/Grid';
 import { useLocation, useNavigate, useSearch } from '@tanstack/react-router';
 import React, { useState } from 'react';
 
@@ -33,6 +32,7 @@ import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 
 import { useDelegationRole } from '../../hooks/useDelegationRole';
 import { usePermissions } from '../../hooks/usePermissions';
+import { Box } from '../../Shared/Box/Box';
 import {
   IAM_ROLES_PENDO_IDS,
   ROLES_LEARN_MORE_LINK,
@@ -183,20 +183,20 @@ export const RolesTable = ({ roles = [] }: Props) => {
         paddingBottom={Spacing.S0}
         paddingTop={Spacing.S0}
       >
-        <Grid
-          container
+        <Box
           direction="row"
           spacing={2}
-          sx={{
+          style={{
             justifyContent: 'space-between',
             marginBottom: Spacing.S12,
           }}
         >
-          <Grid
-            container
+          <Box
             direction="row"
-            sx={{
+            spacing={2}
+            style={{
               alignItems: 'center',
+              flexShrink: 0,
               justifyContent: 'flex-start',
             }}
           >
@@ -223,7 +223,7 @@ export const RolesTable = ({ roles = [] }: Props) => {
               style={{ minWidth: 250 }}
               valueFn={(item) => (item as SelectOption).label}
             />
-          </Grid>
+          </Box>
           <Tooltip
             disabled={isAccountAdmin && selectedRows.length > 0}
             tooltipPlacement="bottom"
@@ -254,7 +254,7 @@ export const RolesTable = ({ roles = [] }: Props) => {
               ) : null}
             </Button>
           </Tooltip>
-        </Grid>
+        </Box>
         <Table data-testid="roles-table">
           <TableHead>
             <TableRow

@@ -1,8 +1,8 @@
 import { sortByString } from '@akamai/compute-ui-core/formatting';
 import { Typography } from '@linode/ui';
-import { Grid } from '@mui/material';
 import * as React from 'react';
 
+import { Box } from '../Box/Box';
 import { TruncatedList } from '../TruncatedList';
 import { StyledPermissionItem, StyledTitle } from './Permissions.style';
 
@@ -19,7 +19,7 @@ export const Permissions = React.memo(({ permissions }: Props) => {
   });
 
   return (
-    <Grid container data-testid="parent" direction="column">
+    <Box data-testid="parent" direction="column">
       <StyledTitle>Permissions</StyledTitle>
       {!permissions.length ? (
         <Typography>
@@ -40,6 +40,6 @@ export const Permissions = React.memo(({ permissions }: Props) => {
           ))}
         </TruncatedList>
       )}
-    </Grid>
+    </Box>
   );
 });

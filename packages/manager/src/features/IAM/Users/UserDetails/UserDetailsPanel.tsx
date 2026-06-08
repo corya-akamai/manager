@@ -5,13 +5,13 @@ import {
   Typography as TypographyTokens,
 } from '@akamai/cds-tokens';
 import { Box, Stack, Typography } from '@linode/ui';
-import Grid from '@mui/material/Grid';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
 import { DateTimeDisplay } from 'src/components/DateTimeDisplay';
 import { PARENT_USER } from 'src/features/Account/constants';
 
+import { useActiveBreakpointIndex } from '../../hooks/useBreakpoint';
 import { useDelegationRole } from '../../hooks/useDelegationRole';
 import { EMAIL_MAX_LENGTH } from '../../Shared/constants';
 import { Divider } from '../../Shared/Divider/Divider';
@@ -21,9 +21,14 @@ import { StatusIcon } from '../../Shared/StatusIcon/StatusIcon';
 import { truncateEnd } from '../../Shared/truncate';
 import { UserDeleteConfirmation } from '../../Shared/UserDeleteConfirmation';
 import { EditUserDetailsDrawer } from './EditUserDetailsDrawer';
+import styles from './UserDetailsPanel.module.css';
 import { getTotalAssignedRoles } from './utils';
 
 import type { IamUserRoles, User } from '@linode/api-v4';
+
+interface ItemsGridStyle extends React.CSSProperties {
+  '--items-grid-columns': number;
+}
 
 interface Props {
   activeUser: User;
@@ -48,6 +53,18 @@ export const UserDetailsPanel = ({
   const { profileUserName } = useDelegationRole();
 
   const isDelegateUserType = activeUser.user_type === 'delegate';
+
+  const breakpointIndex = useActiveBreakpointIndex();
+  // xs=1 col, sm=2 cols, md+=3 cols
+  let gridColumnsCount = 1;
+  if (breakpointIndex >= 2) {
+    gridColumnsCount = 3;
+  } else if (breakpointIndex >= 1) {
+    gridColumnsCount = 2;
+  }
+  const itemsGridStyle: ItemsGridStyle = {
+    '--items-grid-columns': gridColumnsCount,
+  };
 
   const isDeleteUserDisabled =
     !permissions.delete_user ||
@@ -214,7 +231,7 @@ export const UserDetailsPanel = ({
           sx={{
             display: 'flex',
             alignItems: 'center',
-            gap: 1,
+            gap: 3,
             flexWrap: 'wrap',
           }}
         >
@@ -251,16 +268,9 @@ export const UserDetailsPanel = ({
         </Box>
         <Divider spacingBottom={Spacing.S16} spacingTop={Spacing.S24} />
       </Box>
-      <Grid columns={{ md: 6, sm: 4, xs: 2 }} container spacing={2}>
+      <div className={styles.itemsGrid} style={itemsGridStyle}>
         {items.map((item) => (
-          <Grid
-            key={item.label}
-            size={{
-              md: 2,
-              sm: 2,
-              xs: 2,
-            }}
-          >
+          <div key={item.label}>
             <Stack
               direction="column"
               spacing={0.25}
@@ -275,9 +285,9 @@ export const UserDetailsPanel = ({
               <Typography>{item.label}</Typography>
               {item.value}
             </Stack>
-          </Grid>
+          </div>
         ))}
-      </Grid>
+      </div>
       <EditUserDetailsDrawer
         activeUser={activeUser}
         canUpdateUser={permissions?.update_user}

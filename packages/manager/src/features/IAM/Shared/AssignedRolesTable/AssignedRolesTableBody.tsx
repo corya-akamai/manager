@@ -5,7 +5,6 @@ import {
 } from '@akamai/cds-components/react';
 import { Spacing, Typography as TypographyToken } from '@akamai/cds-tokens';
 import { Typography } from '@linode/ui';
-import Grid from '@mui/material/Grid';
 import React from 'react';
 
 import { AssignedEntities } from '../../Users/UserRoles/AssignedEntities';
@@ -124,9 +123,10 @@ export const AssignedRolesTableBody = ({
               width: '100%',
             }}
           >
-            <Grid
-              sx={{
+            <div
+              style={{
                 padding: `${Spacing.S0} ${Spacing.S16}`,
+                boxSizing: 'border-box',
               }}
             >
               <Typography
@@ -148,7 +148,7 @@ export const AssignedRolesTableBody = ({
                 )}
               </Typography>
               <Permissions permissions={role.permissions} />
-            </Grid>
+            </div>
           </TableRowExpanded>
         </TableRow>
       ))}

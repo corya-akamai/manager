@@ -7,12 +7,12 @@ import {
   TableBody,
   Tooltip,
 } from '@akamai/cds-components/react';
+import { Spacing } from '@akamai/cds-tokens';
 import {
   useAccountRoles,
   useGetDefaultDelegationAccessQuery,
   useUserRoles,
 } from '@linode/queries';
-import Grid from '@mui/material/Grid';
 import { useNavigate, useParams, useSearch } from '@tanstack/react-router';
 import React from 'react';
 
@@ -24,6 +24,7 @@ import { useAllAccountEntities } from 'src/queries/entities/entities';
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
 import { usePermissions } from '../../hooks/usePermissions';
 import { AssignNewRoleDrawer } from '../../Users/UserRoles/AssignNewRoleDrawer';
+import { Box } from '../Box/Box';
 import { CircleProgress } from '../CircleProgress/CircleProgress';
 import {
   ASSIGNED_ROLES_TABLE_PREFERENCE_KEY,
@@ -289,24 +290,21 @@ export const AssignedRolesTable = () => {
   };
 
   return (
-    <Grid>
-      <Grid
-        container
+    <>
+      <Box
         direction="row"
-        rowSpacing={1}
-        sx={{
-          alignItems: 'center',
+        spacing={1}
+        style={{
           justifyContent: 'space-between',
-          marginBottom: 2,
-          minHeight: 40,
+          marginBottom: Spacing.S12,
         }}
       >
-        <Grid container direction="row" rowSpacing={1}>
+        <Box direction="row" spacing={1}>
           <DebouncedSearchTextField
             clearable
             containerProps={{
               sx: {
-                marginRight: { md: 2, xs: 0 },
+                marginRight: { md: 1, xs: 0 },
                 width: { md: '416px', xs: '100%' },
                 height: 34,
               },
@@ -358,35 +356,33 @@ export const AssignedRolesTable = () => {
             style={{ minWidth: 250 }}
             valueFn={(item) => (item as SelectOption).label}
           />
-        </Grid>
-        <Grid sx={{ alignSelf: 'flex-start' }}>
-          <Tooltip
-            disabled={permissionToCheck}
-            tooltipPlacement="bottom"
-            tooltipText={
-              !permissionToCheck
-                ? 'You do not have permission to assign roles.'
+        </Box>
+        <Tooltip
+          disabled={permissionToCheck}
+          tooltipPlacement="bottom"
+          tooltipText={
+            !permissionToCheck
+              ? 'You do not have permission to assign roles.'
+              : undefined
+          }
+        >
+          <Button
+            data-pendo-id={
+              isDefaultDelegationRolesForChildAccount
+                ? IAM_ROLES_PENDO_IDS.addNewDefaultRoles
                 : undefined
             }
+            disabled={!permissionToCheck}
+            onClick={() => setIsAssignNewRoleDrawerOpen(true)}
+            variant="primary"
           >
-            <Button
-              data-pendo-id={
-                isDefaultDelegationRolesForChildAccount
-                  ? IAM_ROLES_PENDO_IDS.addNewDefaultRoles
-                  : undefined
-              }
-              disabled={!permissionToCheck}
-              onClick={() => setIsAssignNewRoleDrawerOpen(true)}
-              variant="primary"
-            >
-              {isDefaultDelegationRolesForChildAccount
-                ? 'Add New Default Roles'
-                : 'Assign New Roles'}
-              {!permissionToCheck && <Icon icon="info-outline" size="m" />}
-            </Button>
-          </Tooltip>
-        </Grid>
-      </Grid>
+            {isDefaultDelegationRolesForChildAccount
+              ? 'Add New Default Roles'
+              : 'Assign New Roles'}
+            {!permissionToCheck && <Icon icon="info-outline" size="m" />}
+          </Button>
+        </Tooltip>
+      </Box>
       <Table aria-label="collapsible table">
         <AssignedRolesTableHead
           handleOrderChange={handleOrderChange}
@@ -447,6 +443,6 @@ export const AssignedRolesTable = () => {
           style={{ border: 0 }}
         />
       )}
-    </Grid>
+    </>
   );
 };

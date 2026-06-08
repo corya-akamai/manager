@@ -33,7 +33,42 @@ const getMediaQuery = (
 
   return `(max-width: ${px - 1}px)`;
 };
+const BREAKPOINT_ORDER: readonly ThemeBreakpoint[] = [
+  'xs',
+  'sm',
+  'md',
+  'lg',
+  'xl',
+];
 
+/** Returns the index (0=xs … 4=xl) of the currently active breakpoint. */
+export const getActiveBreakpointIndex = (): number => {
+  if (typeof window === 'undefined') {
+    return 0;
+  }
+  let index = 0;
+  for (let i = 0; i < BREAKPOINT_ORDER.length; i++) {
+    if (window.innerWidth >= THEME_BREAKPOINT_PX[BREAKPOINT_ORDER[i]]) {
+      index = i;
+    }
+  }
+  return index;
+};
+
+/** Hook that re-renders when the active breakpoint index changes. */
+export const useActiveBreakpointIndex = (): number => {
+  return React.useSyncExternalStore(
+    (onStoreChange) => {
+      if (typeof window === 'undefined') {
+        return () => {};
+      }
+      window.addEventListener('resize', onStoreChange);
+      return () => window.removeEventListener('resize', onStoreChange);
+    },
+    getActiveBreakpointIndex,
+    () => 0
+  );
+};
 /**
  * Subscribes to a single viewport query derived from breakpoint widths.
  * Re-renders when the query’s `matches` value changes.

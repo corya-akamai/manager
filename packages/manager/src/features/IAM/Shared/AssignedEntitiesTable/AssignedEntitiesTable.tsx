@@ -4,12 +4,11 @@ import {
   Table,
   TableBody,
 } from '@akamai/cds-components/react';
+import { Spacing } from '@akamai/cds-tokens';
 import {
   useGetDefaultDelegationAccessQuery,
   useUserRoles,
 } from '@linode/queries';
-import { useTheme } from '@linode/ui';
-import Grid from '@mui/material/Grid';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import React from 'react';
 
@@ -24,6 +23,7 @@ import {
   addEntityNamesToRoles,
   getSearchableFields,
 } from '../../Users/UserEntities/utils';
+import { Box } from '../Box/Box';
 import { ENTITIES_TABLE_PREFERENCE_KEY } from '../constants';
 import { RemoveAssignmentConfirmationDialog } from '../RemoveAssignmentConfirmationDialog/RemoveAssignmentConfirmationDialog';
 import {
@@ -57,7 +57,6 @@ const USER_ENTITIES_URL = '/iam/users/$username/entities';
 const MIN_PAGE_SIZE = 25;
 
 export const AssignedEntitiesTable = ({ username }: Props) => {
-  const theme = useTheme();
   const { data: permissions } = usePermissions('account', [
     'is_account_admin',
     'update_default_delegate_access',
@@ -232,23 +231,20 @@ export const AssignedEntitiesTable = ({ username }: Props) => {
   }, [filteredAndSortedRoles]);
 
   return (
-    <Grid>
-      <Grid
-        container
+    <>
+      <Box
         direction="row"
-        rowSpacing={1}
-        sx={{
-          alignItems: 'center',
+        spacing={1}
+        style={{
           justifyContent: 'flex-start',
-          marginBottom: theme.tokens.spacing.S12,
-          minHeight: theme.spacingFunction(40),
+          marginBottom: Spacing.S12,
         }}
       >
         <DebouncedSearchTextField
           clearable
           containerProps={{
             sx: {
-              marginRight: { md: 2, xs: 0 },
+              marginRight: { md: 1, xs: 0 },
               width: { md: '416px', xs: '100%' },
             },
           }}
@@ -302,7 +298,7 @@ export const AssignedEntitiesTable = ({ username }: Props) => {
           style={{ maxWidth: 250 }}
           valueFn={(item) => (item as SelectOption).label}
         />
-      </Grid>
+      </Box>
       <Table aria-label="Assigned Entities">
         <AssignedEntitiesTableHead
           handleOrderChange={handleOrderChange}
@@ -353,6 +349,6 @@ export const AssignedEntitiesTable = ({ username }: Props) => {
           style={{ borderBottom: 0 }}
         />
       )}
-    </Grid>
+    </>
   );
 };

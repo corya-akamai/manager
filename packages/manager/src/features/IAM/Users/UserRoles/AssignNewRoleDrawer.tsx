@@ -9,8 +9,6 @@ import {
   useUserRolesMutation,
 } from '@linode/queries';
 import { ActionsPanel, Drawer, Typography } from '@linode/ui';
-import { useTheme } from '@mui/material';
-import Grid from '@mui/material/Grid';
 import { useParams } from '@tanstack/react-router';
 import { enqueueSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
@@ -19,6 +17,7 @@ import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { AssignSingleRole } from 'src/features/IAM/Users/UserRoles/AssignSingleRole';
 
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
+import { Box } from '../../Shared/Box/Box';
 import {
   IAM_ROLES_PENDO_IDS,
   INTERNAL_ERROR_NO_CHANGES_SAVED,
@@ -46,7 +45,6 @@ export const AssignNewRoleDrawer = ({
   onClose,
   open,
 }: Props) => {
-  const theme = useTheme();
   const queryClient = useQueryClient();
   const { username } = useParams({ strict: false });
   const { data: accountRoles } = useAccountRoles();
@@ -182,14 +180,12 @@ export const AssignNewRoleDrawer = ({
             </Link>
             .
           </Typography>
-          <Grid
-            container
+          <Box
             direction="row"
-            spacing={2}
-            sx={() => ({
+            style={{
               justifyContent: 'space-between',
-              marginBottom: theme.tokens.spacing.S16,
-            })}
+              marginBottom: Spacing.S16,
+            }}
           >
             <Typography variant={'h3'}>Roles</Typography>
             {roles.length > 0 && roles.some((field) => field.role) && (
@@ -200,7 +196,7 @@ export const AssignNewRoleDrawer = ({
                 {areDetailsHidden ? 'Show' : 'Hide'} details
               </Button>
             )}
-          </Grid>
+          </Box>
 
           {!!accountRoles &&
             fields.map((field, index) => (
