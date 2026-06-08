@@ -5,7 +5,8 @@ export const TuningSidebar = () => {
   return (
     <Box
       sx={(theme) => ({
-        bgcolor: theme.bg.offWhite,
+        bgcolor:
+          theme.palette.mode === 'light' ? theme.bg.white : theme.bg.offWhite,
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
