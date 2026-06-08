@@ -166,7 +166,7 @@ export const UsersLanding = () => {
   const canCreateUser = permissions.create_user;
   return (
     <React.Fragment>
-      <Paper marginTop={Spacing.S16}>
+      <Paper>
         <Grid
           container
           direction="row"

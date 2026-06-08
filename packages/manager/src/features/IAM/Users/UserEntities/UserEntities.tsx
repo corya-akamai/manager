@@ -56,7 +56,7 @@ export const UserEntities = () => {
       <DocumentTitleSegment segment={`${username} - User Entities`} />
 
       {hasAssignedRoles ? (
-        <Paper marginTop={Spacing.S16}>
+        <Paper>
           <Typography variant="h2">Entity Access</Typography>
           <Typography
             sx={{

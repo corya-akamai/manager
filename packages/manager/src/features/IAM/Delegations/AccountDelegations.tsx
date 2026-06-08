@@ -1,5 +1,4 @@
 import { NotificationBanner } from '@akamai/cds-components/react/NotificationBanner';
-import { Spacing } from '@akamai/cds-tokens';
 import { useGetChildAccountsQuery } from '@linode/queries';
 import { Stack } from '@linode/ui';
 import { useMediaQuery, useTheme } from '@mui/material';
@@ -94,7 +93,7 @@ export const AccountDelegations = () => {
   }
 
   return (
-    <Paper marginTop={Spacing.S16}>
+    <Paper>
       <Stack
         direction={isSmDown ? 'column' : 'row'}
         justifyContent="space-between"

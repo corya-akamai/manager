@@ -1,22 +1,26 @@
-import { Breadcrumb, BreadcrumbItem } from '@akamai/cds-components/react';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  Tab,
+  Tabs,
+} from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { NewFeatureChip } from '@linode/ui';
 import { Outlet, useLocation, useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 
-import { TabPanels } from 'src/components/Tabs/TabPanels';
-import { Tabs } from 'src/components/Tabs/Tabs';
-import { TanStackTabLinkList } from 'src/components/Tabs/TanStackTabLinkList';
 import { useFlags } from 'src/hooks/useFlags';
-import { useTabs } from 'src/hooks/useTabs';
 
 import { useDelegationRole } from './hooks/useDelegationRole';
 import { useIsIAMEnabled } from './hooks/useIsIAMEnabled';
 import { useIsIAMFederationEnabled } from './hooks/useIsIAMFederationEnabled';
+import { useTabs } from './hooks/useTabs';
 import { IAM_DOCS_LINK, ROLES_LEARN_MORE_LINK } from './Shared/constants';
 import { DocsLink } from './Shared/DocsLink/DocsLink';
 import { LandingHeader } from './Shared/LandingHeader/LandingHeader';
 import { SuspenseLoader } from './Shared/SuspenseLoader/SuspenseLoader';
+
+import type { TabsElement } from '@akamai/cds-components/react';
 
 export const IdentityAccessLanding = React.memo(() => {
   const flags = useFlags();
@@ -26,27 +30,31 @@ export const IdentityAccessLanding = React.memo(() => {
   const navigate = useNavigate();
   const { isParentUserType } = useDelegationRole();
   const { isIAMFederationEnabled } = useIsIAMFederationEnabled();
+  const tabsRef = React.useRef<TabsElement>(null);
 
-  const { tabs, tabIndex, handleTabChange } = useTabs([
-    {
-      to: `/iam/users`,
-      title: 'Users',
-    },
-    {
-      to: `/iam/roles`,
-      title: 'Roles',
-    },
-    {
-      hide: !isParentUserType,
-      to: `/iam/delegations`,
-      title: 'Account Delegations',
-    },
-    {
-      hide: !isIAMFederationEnabled,
-      to: `/iam/settings`,
-      title: 'Settings',
-    },
-  ]);
+  const { tabs, tabIndex, handleTabChange } = useTabs(
+    [
+      {
+        to: `/iam/users`,
+        title: 'Users',
+      },
+      {
+        to: `/iam/roles`,
+        title: 'Roles',
+      },
+      {
+        hide: !isParentUserType,
+        to: `/iam/delegations`,
+        title: 'Account Delegations',
+      },
+      {
+        hide: !isIAMFederationEnabled,
+        to: `/iam/settings`,
+        title: 'Settings',
+      },
+    ],
+    tabsRef
+  );
 
   if (location.pathname === '/iam') {
     navigate({ to: '/iam/users', replace: true });
@@ -65,14 +73,27 @@ export const IdentityAccessLanding = React.memo(() => {
           href={tabIndex === 0 ? IAM_DOCS_LINK : ROLES_LEARN_MORE_LINK}
         />
       </LandingHeader>
-      <Tabs index={tabIndex} onChange={handleTabChange}>
-        <TanStackTabLinkList tabs={tabs} />
-        <React.Suspense fallback={<SuspenseLoader />}>
-          <TabPanels>
-            <Outlet />
-          </TabPanels>
-        </React.Suspense>
-      </Tabs>
+      <div style={{ overflowX: 'auto' }}>
+        <Tabs
+          border={false}
+          onTabsChange={(e) => handleTabChange(e.detail.index)}
+          ref={tabsRef}
+          tabMaxWidth={250}
+        >
+          {tabs.map((tab, i) => (
+            <Tab
+              active={i === tabIndex || undefined}
+              key={String(tab.to)}
+              label={tab.title}
+            >
+              <span slot="tab-header">{tab.title}</span>
+            </Tab>
+          ))}
+        </Tabs>
+      </div>
+      <React.Suspense fallback={<SuspenseLoader />}>
+        <Outlet />
+      </React.Suspense>
     </>
   );
 });

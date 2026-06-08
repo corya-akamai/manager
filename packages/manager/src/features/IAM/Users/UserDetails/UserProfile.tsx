@@ -56,10 +56,7 @@ export const UserProfile = () => {
   return (
     <>
       <DocumentTitleSegment segment={`${username} - Profile`} />
-      <Stack
-        spacing={2}
-        sx={(theme) => ({ marginTop: theme.tokens.spacing.S16 })}
-      >
+      <Stack spacing={2}>
         <UserDetailsPanel
           activeUser={user}
           assignedRoles={assignedRoles}
