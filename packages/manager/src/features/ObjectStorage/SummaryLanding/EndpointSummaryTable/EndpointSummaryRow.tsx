@@ -80,10 +80,10 @@ export const EndpointSummaryRow = ({ endpoint }: Props) => {
     if (quotaWithUsage && !quotaWithUsage.fetchingUsageFailed) {
       return (
         <QuotaUsageBar
+          layout="wide"
           limit={quotaWithUsage.quota.quota_limit}
           resourceMetric={quotaWithUsage.quota.resource_metric}
           usage={quotaWithUsage.usage ?? 0}
-          variant="obj-summary"
         />
       );
     }

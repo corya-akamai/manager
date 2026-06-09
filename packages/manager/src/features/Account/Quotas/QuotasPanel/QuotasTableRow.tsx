@@ -119,10 +119,10 @@ export const QuotasTableRow = (props: QuotasTableRowProps) => {
             </Typography>
           ) : quotaWithUsage.usage !== null ? (
             <QuotaUsageBar
+              layout="slim"
               limit={quota.quota_limit}
               resourceMetric={quota.resource_metric}
               usage={quotaWithUsage.usage}
-              variant="quotas"
             />
           ) : quotaWithUsage.hasUsage ? (
             <Typography>Data not available</Typography>
