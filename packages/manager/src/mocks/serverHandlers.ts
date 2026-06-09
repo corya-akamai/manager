@@ -5114,7 +5114,7 @@ Number of available entries in the firewall’s connection table recorded each m
   ...entities,
   ...netLoadBalancers,
   ...marketplace,
-  http.get('*/v4beta/maintenance/policies', () => {
+  http.get('*/v4/maintenance/policies', () => {
     return HttpResponse.json(
       makeResourcePage(maintenancePolicyFactory.buildList(2))
     );
