@@ -52,14 +52,16 @@ describe('Users', () => {
       data: profileFactory.build({ user_type: 'default' }),
     });
 
-    const { getByText, getByPlaceholderText, queryByPlaceholderText } =
-      renderWithTheme(<UsersLanding />, {
+    const { container, getByText, queryByPlaceholderText } = renderWithTheme(
+      <UsersLanding />,
+      {
         initialRoute: '/iam',
-      });
+      }
+    );
 
     expect(getByText(user.username)).toBeVisible();
     expect(getByText(user.email)).toBeVisible();
-    expect(getByPlaceholderText('Filter')).toBeVisible();
+    expect(container.querySelector('cds-search-field')).toBeVisible();
 
     await waitFor(() => {
       expect(queryByPlaceholderText('All Users Type')).not.toBeInTheDocument();
@@ -80,11 +82,9 @@ describe('Users', () => {
       data: profileFactory.build({ user_type: 'child' }),
     });
 
-    const { container, getByPlaceholderText } = renderWithTheme(
-      <UsersLanding />
-    );
+    const { container } = renderWithTheme(<UsersLanding />);
 
-    expect(getByPlaceholderText('Filter')).toBeVisible();
+    expect(container.querySelector('cds-search-field')).toBeVisible();
     expect(container.querySelector('cds-select')).toBeVisible();
   });
 });

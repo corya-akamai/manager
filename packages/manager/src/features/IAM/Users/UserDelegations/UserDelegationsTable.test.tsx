@@ -1,6 +1,5 @@
 import { childAccountFactory } from '@linode/utilities';
-import { screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 
 import { accountRolesFactory } from 'src/factories/accountRoles';
@@ -23,6 +22,7 @@ const mockChildAccounts = {
 
 const queryMocks = vi.hoisted(() => ({
   useGetDelegatedChildAccountsForUserQuery: vi.fn().mockReturnValue({}),
+  useNavigate: vi.fn(),
   useParams: vi.fn().mockReturnValue({}),
   useSearch: vi.fn().mockReturnValue({}),
   useAccountRoles: vi.fn().mockReturnValue({}),
@@ -42,13 +42,18 @@ vi.mock('@tanstack/react-router', async () => {
   const actual = await vi.importActual('@tanstack/react-router');
   return {
     ...actual,
+    useNavigate: queryMocks.useNavigate,
     useParams: queryMocks.useParams,
     useSearch: queryMocks.useSearch,
   };
 });
 
 describe('UserDelegationsTable', () => {
+  const navigate = vi.fn();
+
   beforeEach(() => {
+    queryMocks.useNavigate.mockReturnValue(navigate);
+    navigate.mockReset();
     queryMocks.useParams.mockReturnValue({
       username: 'test-user',
     });
@@ -57,7 +62,7 @@ describe('UserDelegationsTable', () => {
       isLoading: false,
     });
     queryMocks.useSearch.mockReturnValue({
-      query: '',
+      company: '',
     });
     // Ensure IAM is considered enabled
     queryMocks.useAccountRoles.mockReturnValue({
@@ -103,31 +108,27 @@ describe('UserDelegationsTable', () => {
       isLoading: false,
     });
 
-    renderWithTheme(<UserDelegationsTable />, {
+    const { container } = renderWithTheme(<UserDelegationsTable />, {
       flags: {
         iam: { enabled: true },
       },
     });
 
-    const paginationRow = screen.getByRole('navigation', {
-      name: 'pagination navigation',
-    });
-
-    screen.getByText('child-account-31');
-    screen.getByText('child-account-32');
-
-    expect(paginationRow).toBeInTheDocument();
-
-    const searchInput = screen.getByPlaceholderText('Search');
-    await userEvent.type(searchInput, 'child-account-31');
-
-    screen.getByText('child-account-31');
+    const searchField = container.querySelector('cds-search-field');
+    fireEvent(
+      searchField!,
+      new CustomEvent('change', {
+        bubbles: true,
+        detail: { value: 'child-account-31' },
+      })
+    );
 
     await waitFor(() => {
-      expect(screen.queryByText('Child Account 32')).not.toBeInTheDocument();
-    });
-    await waitFor(() => {
-      expect(paginationRow).not.toBeInTheDocument();
+      expect(navigate).toHaveBeenCalledWith(
+        expect.objectContaining({
+          search: { company: 'child-account-31' },
+        })
+      );
     });
   });
 });

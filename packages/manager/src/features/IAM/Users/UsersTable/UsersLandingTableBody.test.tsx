@@ -54,7 +54,7 @@ describe('UsersLandingTableBody', () => {
     );
 
     const loadingRow = getByTestId('table-row-loading');
-    expect(loadingRow).toBeInTheDocument();
+    expect(loadingRow).toBeVisible();
     expect(loadingRow).toHaveAttribute(
       'aria-label',
       'Table content is loading'
@@ -78,7 +78,7 @@ describe('UsersLandingTableBody', () => {
     );
 
     const errorRow = getByTestId('table-row-error');
-    expect(errorRow).toBeInTheDocument();
+    expect(errorRow).toBeVisible();
   });
 
   it('renders empty state', async () => {
@@ -136,7 +136,7 @@ describe('UsersLandingTableBody', () => {
     );
 
     users.forEach((user) => {
-      expect(getByTestId(`user-row-${user.username}`)).toBeInTheDocument();
+      expect(getByTestId(`user-row-${user.username}`)).toBeVisible();
     });
   });
 });

@@ -77,14 +77,14 @@ describe('RolesTable', () => {
   it('renders no roles when roles array is empty', async () => {
     renderWithTheme(<RolesTable roles={[]} />);
 
-    screen.getByTestId('roles-table');
+    expect(screen.getByTestId('roles-table')).toBeVisible();
     screen.getByText('No items to display.');
   });
 
   it('renders roles correctly when roles array is provided', async () => {
     const { container } = renderWithTheme(<RolesTable roles={mockRoles} />);
 
-    screen.getByTestId('roles-table');
+    expect(screen.getByTestId('roles-table')).toBeVisible();
     expect(container.querySelector('cds-select')).toBeVisible();
     screen.getByText('Account linode admin');
   });
@@ -94,13 +94,15 @@ describe('RolesTable', () => {
       query: 'Account',
     });
 
-    renderWithTheme(<RolesTable roles={mockRoles} />);
+    const { container } = renderWithTheme(<RolesTable roles={mockRoles} />);
 
-    const searchInput: HTMLInputElement = screen.getByPlaceholderText('Search');
+    const searchField = container.querySelector<
+      HTMLElement & { value?: string }
+    >('cds-search-field');
 
-    screen.getByTestId('roles-table');
+    expect(screen.getByTestId('roles-table')).toBeVisible();
 
-    expect(searchInput.value).toBe('Account');
+    expect(searchField?.value).toBe('Account');
     expect(screen.queryByText('Database')).not.toBeInTheDocument();
     expect(screen.queryByText('No items to display.')).not.toBeInTheDocument();
   });
@@ -110,12 +112,14 @@ describe('RolesTable', () => {
       query: 'NonsenseThatWontMatchAnything',
     });
 
-    renderWithTheme(<RolesTable roles={mockRoles} />);
+    const { container } = renderWithTheme(<RolesTable roles={mockRoles} />);
 
-    const searchInput: HTMLInputElement = screen.getByPlaceholderText('Search');
+    const searchField = container.querySelector<
+      HTMLElement & { value?: string }
+    >('cds-search-field');
 
-    screen.getByTestId('roles-table');
-    expect(searchInput.value).toBe('NonsenseThatWontMatchAnything');
+    expect(screen.getByTestId('roles-table')).toBeVisible();
+    expect(searchField?.value).toBe('NonsenseThatWontMatchAnything');
     screen.getByText('No items to display.');
   });
 });

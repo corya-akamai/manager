@@ -1,5 +1,8 @@
 import {
+  FormField,
+  FormLabel,
   Pagination,
+  SearchField,
   Select,
   Table,
   TableBody,
@@ -11,9 +14,10 @@ import {
 } from '@linode/queries';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import React from 'react';
+import { debounce } from 'throttle-debounce';
 
-import { DebouncedSearchTextField } from 'src/components/DebouncedSearchTextField';
 import { PAGE_SIZES } from 'src/components/PaginationFooter/PaginationFooter.constants';
+import globalStyles from 'src/features/IAM/Shared/global.module.css';
 import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 import { useAllAccountEntities } from 'src/queries/entities/entities';
 
@@ -230,6 +234,31 @@ export const AssignedEntitiesTable = ({ username }: Props) => {
     return filteredAndSortedRoles.length;
   }, [filteredAndSortedRoles]);
 
+  const onSearch = React.useCallback(
+    (value: string) => {
+      navigate({
+        to: isDefaultDelegationRolesForChildAccount
+          ? DEFAULTS_ENTITIES_URL
+          : USER_ENTITIES_URL,
+        params:
+          isDefaultDelegationRolesForChildAccount && !username
+            ? undefined
+            : username,
+        search: (prev) => ({
+          ...prev,
+          page: 1,
+          query: value !== '' ? value : undefined,
+        }),
+      });
+    },
+    [navigate, isDefaultDelegationRolesForChildAccount, username]
+  );
+
+  const debouncedOnSearch = React.useMemo(
+    () => debounce(250, onSearch),
+    [onSearch]
+  );
+
   return (
     <>
       <Box
@@ -240,37 +269,26 @@ export const AssignedEntitiesTable = ({ username }: Props) => {
           marginBottom: Spacing.S12,
         }}
       >
-        <DebouncedSearchTextField
-          clearable
-          containerProps={{
-            sx: {
-              marginRight: { md: 1, xs: 0 },
-              width: { md: '416px', xs: '100%' },
-            },
-          }}
-          debounceTime={250}
-          hideLabel
-          label="Filter"
-          onSearch={(value) => {
-            navigate({
-              to: isDefaultDelegationRolesForChildAccount
-                ? DEFAULTS_ENTITIES_URL
-                : USER_ENTITIES_URL,
-              params:
-                isDefaultDelegationRolesForChildAccount && !username
-                  ? undefined
-                  : username,
-              search: (prev) => ({
-                ...prev,
-                page: 1,
-                query: value !== '' ? value : undefined,
-              }),
-            });
-          }}
-          placeholder="Search"
-          sx={{ height: 34 }}
-          value={appliedQuery}
-        />
+        <FormField
+          labelPosition="top"
+          style={{ padding: 0, marginRight: Spacing.S16 }}
+        >
+          <FormLabel
+            className={globalStyles.visuallyHidden}
+            htmlFor="filter-entities"
+            slot="label"
+          >
+            Search Entities
+          </FormLabel>
+          <SearchField
+            id="filter-entities"
+            onChange={(e: CustomEvent<{ value: string }>) =>
+              debouncedOnSearch(e.detail.value)
+            }
+            placeholder="Search"
+            value={appliedQuery}
+          />
+        </FormField>
         <Select
           items={filterableOptions}
           onChange={(event) => {

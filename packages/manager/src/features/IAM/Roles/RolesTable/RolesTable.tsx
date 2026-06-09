@@ -1,7 +1,10 @@
 import {
   Button,
+  FormField,
+  FormLabel,
   Icon,
   Pagination,
+  SearchField,
   Select,
   sortRows,
   Table,
@@ -19,11 +22,12 @@ import { Hidden, Typography } from '@linode/ui';
 import { useTheme } from '@mui/material';
 import { useLocation, useNavigate, useSearch } from '@tanstack/react-router';
 import React, { useState } from 'react';
+import { debounce } from 'throttle-debounce';
 
-import { DebouncedSearchTextField } from 'src/components/DebouncedSearchTextField';
 import { AssignSelectedRolesDrawer } from 'src/features/IAM/Roles/RolesTable/AssignSelectedRolesDrawer';
 import { RolesTableActionMenu } from 'src/features/IAM/Roles/RolesTable/RolesTableActionMenu';
 import { RolesTableExpandedRow } from 'src/features/IAM/Roles/RolesTable/RolesTableExpandedRow';
+import globalStyles from 'src/features/IAM/Shared/global.module.css';
 import {
   getFacadeRoleDescription,
   mapEntityTypesForSelect,
@@ -143,12 +147,15 @@ export const RolesTable = ({ roles = [] }: Props) => {
     }
   };
 
-  const handleTextFilter = (fs: string) => {
-    navigate({
-      to: location.pathname,
-      search: { query: fs !== '' ? fs : undefined },
-    });
-  };
+  const handleTextFilter = React.useCallback(
+    (fs: string) => {
+      navigate({
+        to: location.pathname,
+        search: { query: fs !== '' ? fs : undefined },
+      });
+    },
+    [navigate, location.pathname]
+  );
 
   const handleChangeEntityTypeFilter = (event: CustomEvent) => {
     const entityType = event.detail as null | SelectOption;
@@ -175,6 +182,11 @@ export const RolesTable = ({ roles = [] }: Props) => {
     pagination.handlePageSizeChange(newSize);
   };
 
+  const debouncedHandleSearch = React.useMemo(
+    () => debounce(250, handleTextFilter),
+    [handleTextFilter]
+  );
+
   return (
     <>
       <Paper
@@ -200,21 +212,24 @@ export const RolesTable = ({ roles = [] }: Props) => {
               justifyContent: 'flex-start',
             }}
           >
-            <DebouncedSearchTextField
-              clearable
-              containerProps={{
-                sx: {
-                  width: { md: '416px', xs: '100%' },
-                  height: 34,
-                },
-              }}
-              debounceTime={250}
-              hideLabel
-              label="Search"
-              onSearch={handleTextFilter}
-              placeholder="Search"
-              value={query ?? ''}
-            />
+            <FormField labelPosition="top" style={{ padding: 0 }}>
+              <FormLabel
+                className={globalStyles.visuallyHidden}
+                htmlFor="filter-roles"
+                slot="label"
+              >
+                Search Roles
+              </FormLabel>
+              <SearchField
+                id="filter-roles"
+                onChange={(e: CustomEvent<{ value: string }>) =>
+                  debouncedHandleSearch(e.detail.value)
+                }
+                placeholder="Search"
+                style={{ padding: 0 }}
+                value={query ?? ''}
+              />
+            </FormField>
             <Select
               items={filterableOptions}
               onChange={handleChangeEntityTypeFilter}

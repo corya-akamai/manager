@@ -115,7 +115,7 @@ describe('EnforcementSettings', () => {
 
     renderWithTheme(<EnforcementSettings />);
 
-    expect(screen.getByTestId('circle-progress')).toBeInTheDocument();
+    expect(screen.getByTestId('circle-progress')).toBeVisible();
   });
 
   it('shows a loading state while the IDP config is loading', () => {
@@ -127,7 +127,7 @@ describe('EnforcementSettings', () => {
 
     renderWithTheme(<EnforcementSettings />);
 
-    expect(screen.getByTestId('circle-progress')).toBeInTheDocument();
+    expect(screen.getByTestId('circle-progress')).toBeVisible();
   });
 
   it('shows an error state when fetching IDP configs fails', () => {
@@ -272,7 +272,7 @@ describe('EnforcementSettings', () => {
 
     renderWithTheme(<EnforcementSettings />);
 
-    expect(screen.getByTestId('circle-progress')).toBeInTheDocument();
+    expect(screen.getByTestId('circle-progress')).toBeVisible();
   });
 
   it('shows a loading state while excluded users are loading', () => {
@@ -284,7 +284,7 @@ describe('EnforcementSettings', () => {
 
     renderWithTheme(<EnforcementSettings />);
 
-    expect(screen.getByTestId('circle-progress')).toBeInTheDocument();
+    expect(screen.getByTestId('circle-progress')).toBeVisible();
   });
 
   it('shows an error state when fetching included users fails', () => {

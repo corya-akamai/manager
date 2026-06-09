@@ -1,9 +1,14 @@
+import {
+  FormField,
+  FormLabel,
+  SearchField,
+} from '@akamai/cds-components/react';
 import { useGetDelegatedChildAccountsForUserQuery } from '@linode/queries';
 import { Stack, Typography } from '@linode/ui';
 import { useNavigate, useParams, useSearch } from '@tanstack/react-router';
 import * as React from 'react';
+import { debounce } from 'throttle-debounce';
 
-import { DebouncedSearchTextField } from 'src/components/DebouncedSearchTextField';
 import { PaginationFooter } from 'src/components/PaginationFooter/PaginationFooter';
 import { MIN_PAGE_SIZE } from 'src/components/PaginationFooter/PaginationFooter.constants';
 import { Table } from 'src/components/Table';
@@ -15,6 +20,7 @@ import { TableRowEmpty } from 'src/components/TableRowEmpty/TableRowEmpty';
 import { TableSortCell } from 'src/components/TableSortCell';
 import { NO_ITEMS_TO_DISPLAY_TEXT } from 'src/features/IAM/Shared/constants';
 import { ErrorState } from 'src/features/IAM/Shared/ErrorState/ErrorState';
+import globalStyles from 'src/features/IAM/Shared/global.module.css';
 import { useOrderV2 } from 'src/hooks/useOrderV2';
 import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 
@@ -75,14 +81,22 @@ export const UserDelegationsTable = () => {
     filter,
   });
 
-  const handleSearch = (value: string) => {
-    pagination.handlePageChange(1);
-    navigate({
-      to: USER_DELEGATION_ROUTE,
-      params: { username },
-      search: { company: value || undefined },
-    });
-  };
+  const handleSearch = React.useCallback(
+    (value: string) => {
+      pagination.handlePageChange(1);
+      navigate({
+        to: USER_DELEGATION_ROUTE,
+        params: { username },
+        search: { company: value || undefined },
+      });
+    },
+    [navigate, pagination, username]
+  );
+
+  const debouncedHandleSearch = React.useMemo(
+    () => debounce(250, handleSearch),
+    [handleSearch]
+  );
 
   if (isLoadingChildAccounts) {
     return <CircleProgress />;
@@ -96,17 +110,25 @@ export const UserDelegationsTable = () => {
     <Paper>
       <Stack>
         <Typography variant="h2">Account Delegations</Typography>
-        <DebouncedSearchTextField
-          clearable
-          debounceTime={250}
-          hideLabel
-          isSearching={isFetchingChildAccounts}
-          label="Search"
-          onSearch={handleSearch}
-          placeholder="Search"
-          sx={{ mt: 3 }}
-          value={company ?? ''}
-        />
+        <FormField labelPosition="top" style={{ padding: 0 }}>
+          <FormLabel
+            className={globalStyles.visuallyHidden}
+            htmlFor="filter-delegations"
+            slot="label"
+          >
+            Search Accounts
+          </FormLabel>
+          <SearchField
+            id="filter-delegations"
+            isLoading={isFetchingChildAccounts}
+            onChange={(e: CustomEvent<{ value: string }>) =>
+              debouncedHandleSearch(e.detail.value)
+            }
+            placeholder="Search"
+            style={{ padding: 0 }}
+            value={company ?? ''}
+          />
+        </FormField>
         <Table sx={{ mt: 2 }}>
           <TableHead>
             <TableRow>

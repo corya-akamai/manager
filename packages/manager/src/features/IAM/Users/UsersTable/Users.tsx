@@ -1,7 +1,11 @@
 import {
   Button,
+  FormError,
+  FormField,
+  FormLabel,
   Icon,
   Pagination,
+  SearchField,
   Select,
   Table,
   TableBody,
@@ -12,8 +16,9 @@ import { useAccountUsers } from '@linode/queries';
 import { getAPIFilterFromQuery } from '@linode/search';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import React from 'react';
+import { debounce } from 'throttle-debounce';
 
-import { DebouncedSearchTextField } from 'src/components/DebouncedSearchTextField';
+import globalStyles from 'src/features/IAM/Shared/global.module.css';
 import { useOrderV2 } from 'src/hooks/useOrderV2';
 import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 
@@ -163,7 +168,13 @@ export const UsersLanding = () => {
     }
   };
 
+  const debouncedHandleSearch = React.useMemo(
+    () => debounce(250, handleSearch),
+    [handleSearch]
+  );
+
   const canCreateUser = permissions.create_user;
+
   return (
     <React.Fragment>
       <Paper>
@@ -177,23 +188,29 @@ export const UsersLanding = () => {
           }}
         >
           <Box direction="row" spacing={2}>
-            <DebouncedSearchTextField
-              clearable
-              containerProps={{
-                sx: {
-                  width: '320px',
-                },
-              }}
-              debounceTime={250}
-              disabled={!permissions?.view_user}
-              errorText={searchError?.message}
-              hideLabel
-              isSearching={isFetching}
-              label="Filter"
-              onSearch={handleSearch}
-              placeholder="Filter"
-              value={query ?? ''}
-            />
+            <FormField
+              error={Boolean(searchError?.message)}
+              labelPosition="top"
+              style={{ padding: 0, marginRight: Spacing.S16 }}
+            >
+              <FormLabel
+                className={globalStyles.visuallyHidden}
+                htmlFor="filter-users"
+                slot="label"
+              >
+                Filter Users
+              </FormLabel>
+              <SearchField
+                disabled={!permissions?.view_user}
+                id="filter-users"
+                onChange={(e: CustomEvent<{ value: string }>) =>
+                  debouncedHandleSearch(e.detail.value)
+                }
+                placeholder="Filter"
+                value={query ?? ''}
+              />
+              <FormError slot="error">{searchError?.message}</FormError>
+            </FormField>
             {isChildOrDelegate && (
               <Select
                 disabled={!permissions?.view_user}
@@ -246,7 +263,7 @@ export const UsersLanding = () => {
           <TableBody>
             <UsersLandingTableBody
               error={error}
-              isLoading={isLoading}
+              isLoading={isLoading || isFetching}
               onDelete={handleDelete}
               users={users?.data ?? []}
             />

@@ -1,12 +1,19 @@
-import { NotificationBanner } from '@akamai/cds-components/react/NotificationBanner';
+import {
+  FormError,
+  FormField,
+  FormLabel,
+  NotificationBanner,
+  SearchField,
+} from '@akamai/cds-components/react';
+import { Spacing } from '@akamai/cds-tokens';
 import { useGetChildAccountsQuery } from '@linode/queries';
-import { Stack } from '@linode/ui';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { useNavigate, useSearch } from '@tanstack/react-router';
-import React from 'react';
+import React, { useCallback } from 'react';
+import { debounce } from 'throttle-debounce';
 
-import { DebouncedSearchTextField } from 'src/components/DebouncedSearchTextField';
 import { PaginationFooter } from 'src/components/PaginationFooter/PaginationFooter';
+import globalStyles from 'src/features/IAM/Shared/global.module.css';
 import { useOrderV2 } from 'src/hooks/useOrderV2';
 import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 
@@ -75,13 +82,21 @@ export const AccountDelegations = () => {
     filter,
   });
 
-  const handleSearch = (value: string) => {
-    pagination.handlePageChange(1);
-    navigate({
-      to: DELEGATIONS_ROUTE,
-      search: { company: value || undefined },
-    });
-  };
+  const handleSearch = useCallback(
+    (value: string) => {
+      pagination.handlePageChange(1);
+      navigate({
+        to: DELEGATIONS_ROUTE,
+        search: { company: value || undefined },
+      });
+    },
+    [navigate, pagination]
+  );
+
+  const debouncedHandleSearch = React.useMemo(
+    () => debounce(250, handleSearch),
+    [handleSearch]
+  );
 
   if (!permissions?.list_all_child_accounts) {
     return (
@@ -94,28 +109,31 @@ export const AccountDelegations = () => {
 
   return (
     <Paper>
-      <Stack
-        direction={isSmDown ? 'column' : 'row'}
-        justifyContent="space-between"
-        marginBottom={2}
-        spacing={2}
+      <FormField
+        error={Boolean(error?.[0]?.reason)}
+        labelPosition="top"
+        style={{ padding: 0, marginBottom: Spacing.S16 }}
       >
-        <DebouncedSearchTextField
-          clearable
-          containerProps={{
-            sx: {
-              width: '320px',
-            },
-          }}
-          debounceTime={250}
-          hideLabel
-          isSearching={isFetching}
-          label="Search"
-          onSearch={handleSearch}
-          placeholder="Search"
+        <FormLabel
+          className={globalStyles.visuallyHidden}
+          htmlFor="filter-delegations"
+          slot="label"
+        >
+          Search Accounts
+        </FormLabel>
+
+        <SearchField
+          id="filter-delegations"
+          isLoading={isFetching}
+          onChange={(e: CustomEvent<{ value: string }>) =>
+            debouncedHandleSearch(e.detail.value)
+          }
+          placeholder="Filter"
+          style={{ padding: 0 }}
           value={company ?? ''}
         />
-      </Stack>
+        <FormError slot="error">{error?.[0]?.reason}</FormError>
+      </FormField>
       <AccountDelegationsTable
         delegations={childAccountsWithDelegates?.data ?? []}
         error={error}

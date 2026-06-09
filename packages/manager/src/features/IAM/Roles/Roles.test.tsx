@@ -53,7 +53,7 @@ describe('RolesLanding', () => {
 
     renderWithTheme(<RolesLanding />);
 
-    expect(screen.getByTestId('circle-progress')).toBeInTheDocument();
+    expect(screen.getByTestId('circle-progress')).toBeVisible();
   });
 
   it('renders roles table when permissions are loaded', async () => {
@@ -68,9 +68,8 @@ describe('RolesLanding', () => {
       isLoading: false,
     });
 
-    renderWithTheme(<RolesLanding />);
-    // RolesTable has a textbox at the top
-    expect(screen.getByRole('textbox')).toBeInTheDocument();
+    const { container } = renderWithTheme(<RolesLanding />);
+    expect(container.querySelector('cds-search-field')).toBeVisible();
   });
 
   it('should show an error message if user does not have permissions', () => {
@@ -114,6 +113,6 @@ describe('RolesLanding', () => {
         iam: { enabled: true },
       },
     });
-    expect(screen.getByText(DEFAULT_ROLES_PANEL_TEXT)).toBeInTheDocument();
+    expect(screen.getByText(DEFAULT_ROLES_PANEL_TEXT)).toBeVisible();
   });
 });

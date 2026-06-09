@@ -46,7 +46,7 @@ describe('AssignedEntitiesTableBody', () => {
       </table>
     );
 
-    expect(screen.getByTestId('table-row-loading')).toBeInTheDocument();
+    expect(screen.getByTestId('table-row-loading')).toBeVisible();
   });
 
   it('renders error state', () => {
@@ -69,7 +69,7 @@ describe('AssignedEntitiesTableBody', () => {
       </table>
     );
 
-    expect(screen.getByTestId('table-row-error')).toBeInTheDocument();
+    expect(screen.getByTestId('table-row-error')).toBeVisible();
     expect(
       screen.getByText(
         'Unable to load the assigned entities. Please try again.'
@@ -97,7 +97,7 @@ describe('AssignedEntitiesTableBody', () => {
       </table>
     );
 
-    expect(screen.getByTestId('table-row-empty')).toBeInTheDocument();
+    expect(screen.getByTestId('table-row-empty')).toBeVisible();
     expect(screen.getByText('No items to display.')).toBeVisible();
   });
 

@@ -146,10 +146,15 @@ describe('AssignedEntitiesTable', () => {
       data: mockEntities,
     });
 
-    renderWithTheme(<AssignedEntitiesTable />);
+    const { container } = renderWithTheme(<AssignedEntitiesTable />);
 
-    const searchInput = screen.getByPlaceholderText('Search');
-    await userEvent.type(searchInput, 'no_devices');
+    const searchField = container.querySelector('cds-search-field');
+    searchField!.dispatchEvent(
+      new CustomEvent('change', {
+        bubbles: true,
+        detail: { value: 'no_devices' },
+      })
+    );
 
     await waitFor(() => {
       expect(screen.queryByText('no_devices')).toBeVisible();

@@ -91,7 +91,7 @@ describe('DefaultEntityAccess', () => {
     expect(
       screen.getByText('Default Entity Access for Delegate Users')
     ).toBeVisible();
-    expect(screen.getByPlaceholderText('Search')).toBeVisible();
+    expect(container.querySelector('cds-search-field')).toBeVisible();
     expect(container.querySelector('cds-select')).toBeVisible();
     expect(screen.getByLabelText('Assigned Entities')).toBeVisible();
   });
