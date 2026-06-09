@@ -45,8 +45,10 @@ export const SummaryLanding = () => {
           </Box>
 
           <Typography>
-            Select one or more endpoints using the dropdown menu to view your
-            usage details for those endpoints.
+            Select one or more endpoints in the dropdown list to view usage
+            summaries for those endpoints. You can view quotas and request
+            increases on the {''}
+            <Link to="/quotas?service=object-storage">Quotas</Link> page.
           </Typography>
         </Box>
 
