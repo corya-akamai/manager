@@ -182,7 +182,11 @@ export const CloudPulseDashboardSelect = React.memo(
             {params.children}
           </Box>
         )}
-        renderOption={(props, option) => <li {...props}>{option.label}</li>}
+        renderOption={({ key, ...props }, option) => (
+          <li key={key} {...props}>
+            {option.label}
+          </li>
+        )}
         sx={(theme) => ({
           '& .MuiInputBase-input.Mui-disabled': {
             WebkitTextFillColor: theme.tokens.color.Neutrals.Black,
