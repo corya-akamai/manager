@@ -111,7 +111,6 @@ export const EndpointSummaryRow = ({ endpoint }: Props) => {
               <Typography
                 sx={(theme) => ({
                   font: theme.tokens.alias.Typography.Label.Regular.S,
-                  color: theme.tokens.color.Neutrals[70],
                   paddingY: theme.spacingFunction(2),
                 })}
               >

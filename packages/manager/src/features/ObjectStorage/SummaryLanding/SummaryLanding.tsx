@@ -44,11 +44,7 @@ export const SummaryLanding = () => {
             )}
           </Box>
 
-          <Typography
-            sx={(theme) => ({
-              color: theme.tokens.color.Neutrals[70],
-            })}
-          >
+          <Typography>
             Select one or more endpoints using the dropdown menu to view your
             usage details for those endpoints.
           </Typography>
