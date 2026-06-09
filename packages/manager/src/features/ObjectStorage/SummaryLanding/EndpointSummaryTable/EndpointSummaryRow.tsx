@@ -95,7 +95,7 @@ export const EndpointSummaryRow = ({ endpoint }: Props) => {
 
         {objectStorageSummaryPageLinks && (
           <Link
-            to={`/object-storage/buckets?endpoints=${endpoint.s3_endpoint}&regions=${endpoint.region}`}
+            to={`/object-storage/buckets?regions=${endpoint.region}&endpoints=${endpoint.s3_endpoint}`}
           >
             Show buckets
           </Link>
