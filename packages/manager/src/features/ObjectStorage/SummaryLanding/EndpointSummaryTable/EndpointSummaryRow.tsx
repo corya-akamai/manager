@@ -1,7 +1,8 @@
-import { Box, CircleProgress, ErrorState, Typography } from '@linode/ui';
+import { Box, ErrorState, Typography } from '@linode/ui';
 import { Grid } from '@mui/material';
 import * as React from 'react';
 
+import { LinearProgress } from 'src/components/LinearProgress';
 import { Link } from 'src/components/Link';
 import { QuotaUsageBar } from 'src/components/QuotaUsageBar/QuotaUsageBar';
 import { useQuotasWithUsageQuery } from 'src/features/Account/Quotas/hooks/useQuotasWithUsageQuery';
@@ -33,21 +34,9 @@ export const EndpointSummaryRow = ({ endpoint }: Props) => {
     enabled: Boolean(endpoint),
   });
 
-  if (
+  const isLoading =
     isFetchingQuotas ||
-    quotasWithUsage?.some((quotaWithUsage) => quotaWithUsage.isFetchingUsage)
-  ) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <CircleProgress size="md" />
-      </Box>
-    );
-  }
+    quotasWithUsage?.some((quotaWithUsage) => quotaWithUsage.isFetchingUsage);
 
   if (isError) {
     return (
@@ -75,6 +64,32 @@ export const EndpointSummaryRow = ({ endpoint }: Props) => {
     { label: 'Objects', type: 'obj-objects' },
     { label: 'Buckets', type: 'obj-buckets' },
   ];
+
+  function getUsageBar(quotaWithUsage: QuotaWithUsage) {
+    if (isLoading) {
+      return (
+        <LinearProgress
+          sx={(theme) => ({
+            padding: '4px',
+            marginBottom: theme.spacingFunction(24),
+          })}
+        />
+      );
+    }
+
+    if (quotaWithUsage && !quotaWithUsage.fetchingUsageFailed) {
+      return (
+        <QuotaUsageBar
+          limit={quotaWithUsage.quota.quota_limit}
+          resourceMetric={quotaWithUsage.quota.resource_metric}
+          usage={quotaWithUsage.usage ?? 0}
+          variant="obj-summary"
+        />
+      );
+    }
+
+    return <Typography>Data not available</Typography>;
+  }
 
   return (
     <Box>
@@ -117,16 +132,7 @@ export const EndpointSummaryRow = ({ endpoint }: Props) => {
                 {label}
               </Typography>
 
-              {quotaWithUsage && !quotaWithUsage.fetchingUsageFailed ? (
-                <QuotaUsageBar
-                  limit={quotaWithUsage.quota.quota_limit}
-                  resourceMetric={quotaWithUsage.quota.resource_metric}
-                  usage={quotaWithUsage.usage ?? 0}
-                  variant="obj-summary"
-                />
-              ) : (
-                <Typography>Data not available</Typography>
-              )}
+              {getUsageBar(quotaWithUsage)}
             </Grid>
           );
         })}
