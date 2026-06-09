@@ -1,5 +1,11 @@
 import { useRegionsQuery } from '@linode/queries';
-import { Checkbox, CircleProgress, Stack, Typography } from '@linode/ui';
+import {
+  Checkbox,
+  CircleProgress,
+  Notice,
+  Stack,
+  Typography,
+} from '@linode/ui';
 import { GridLegacy, useTheme } from '@mui/material';
 import React from 'react';
 
@@ -219,6 +225,7 @@ export const AlertResources = React.memo((props: AlertResourcesProp) => {
     data: resources,
     isError: isResourcesError,
     isLoading: isResourcesLoading,
+    error,
   } = useResourcesQuery(
     Boolean(
       serviceType &&
@@ -432,6 +439,13 @@ export const AlertResources = React.memo((props: AlertResourcesProp) => {
       ? Math.max(0, maxSelectionCount - selectedResources.length)
       : undefined;
 
+  const isUnAuthorizedError =
+    isResourcesError &&
+    ((error instanceof Error && error.message === 'Unauthorized') ||
+      (error instanceof Array &&
+        error.length > 0 &&
+        error[0]?.reason === 'Unauthorized'));
+
   return (
     <Stack gap={2}>
       {isLoading && (
@@ -539,6 +553,14 @@ export const AlertResources = React.memo((props: AlertResourcesProp) => {
             />
           </GridLegacy>
         )}
+        {isUnAuthorizedError && (
+          <GridLegacy item xs={12}>
+            <Notice
+              text="You don't have permission to view the entities behind these metrics. Contact your account administrator to request access."
+              variant="warning"
+            />
+          </GridLegacy>
+        )}
         {maxSelectionCount !== undefined && (
           <GridLegacy item xs={12}>
             <AlertListNoticeMessages
@@ -553,6 +575,7 @@ export const AlertResources = React.memo((props: AlertResourcesProp) => {
           </GridLegacy>
         )}
         {isSelectionsNeeded &&
+          !isUnAuthorizedError &&
           !isDataLoadingError &&
           regionFilteredResources &&
           regionFilteredResources.length > 0 && (
@@ -570,7 +593,7 @@ export const AlertResources = React.memo((props: AlertResourcesProp) => {
           <DisplayAlertResources
             filteredResources={filteredResources}
             handleSelection={handleSelection}
-            isDataLoadingError={isDataLoadingError}
+            isDataLoadingError={!isUnAuthorizedError && isDataLoadingError}
             isSelectionsNeeded={isSelectionsNeeded}
             maxSelectionCount={maxSelectionCount}
             scrollToElement={() =>
