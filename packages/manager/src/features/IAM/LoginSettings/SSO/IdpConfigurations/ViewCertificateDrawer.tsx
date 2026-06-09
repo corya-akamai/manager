@@ -3,6 +3,7 @@ import { truncateMiddle } from '@akamai/compute-ui-core/formatting';
 import { Drawer } from '@linode/ui';
 import * as React from 'react';
 
+import { useBreakpoint } from 'src/features/IAM/hooks/useBreakpoint';
 import { CopyTooltip } from 'src/features/IAM/Shared/CopyTooltip/CopyTooltip';
 import { DateTimeDisplay } from 'src/features/IAM/Shared/DateTimeDisplay/DateTimeDisplay';
 import { StatusIcon } from 'src/features/IAM/Shared/StatusIcon/StatusIcon';
@@ -23,6 +24,7 @@ export const ViewCertificateDrawer = ({ cert, onClose, open }: Props) => {
     onClose();
   };
 
+  const isSMUp = useBreakpoint('up', 'sm');
   return (
     // TODO: UIE-10784 - replace with CDS Drawer when available
     <Drawer onClose={handleClose} open={open} title="View Details">
@@ -59,7 +61,10 @@ export const ViewCertificateDrawer = ({ cert, onClose, open }: Props) => {
           <CopyTooltip text={cert.id} />
         </p>
         <p className={styles.viewCertFlex}>
-          <strong>Certificate:</strong> {truncateMiddle(cert.certificate, 38)}
+          <strong>Certificate:</strong>{' '}
+          {isSMUp
+            ? truncateMiddle(cert.certificate, 38)
+            : truncateMiddle(cert.certificate, 30)}
           <CopyTooltip text={cert.certificate} />
         </p>
       </div>

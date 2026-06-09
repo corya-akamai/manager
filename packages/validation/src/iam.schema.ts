@@ -8,6 +8,11 @@ export const CreateIdpConfigSchema = object({
     .required('This field is required.')
     .min(1, 'Label must be at least 1 character.')
     .max(128, 'Label can have up to 128 characters.')
+    .test(
+      'no-whitespace-only',
+      'Label cannot consist of only spaces.',
+      (value) => !value || value.trim().length > 0,
+    )
     .matches(
       /^[A-Za-z0-9 _.-]+$/,
       'Label can contain only letters, numbers, spaces, underscores, dashes, and periods.',
@@ -46,11 +51,32 @@ export const CreateIdpConfigSchema = object({
         object({
           certificate: string()
             .required('This field is required.')
-            .max(4000, 'Certificate must be at most 4000 characters.'),
+            .max(4000, 'Certificate must be at most 4000 characters.')
+            .test(
+              'no-leading-trailing-whitespace',
+              'Certificate cannot start or end with whitespace.',
+              (value) => !value || value === value.trim(),
+            ),
         }),
       )
       .min(1, 'At least one SAML Public Certificate is required.')
-      .max(10, 'At most 10 certificates are allowed.'),
+      .max(10, 'At most 10 certificates are allowed.')
+      .test('no-duplicates', '', function (value) {
+        if (!value) return true;
+        const seen = new Map<string, number>();
+        for (let i = 0; i < value.length; i++) {
+          const cert = value[i].certificate?.trim();
+          if (!cert) continue;
+          if (seen.has(cert)) {
+            return this.createError({
+              message: 'This certificate is already added.',
+              path: `${this.path}[${i}].certificate`,
+            });
+          }
+          seen.set(cert, i);
+        }
+        return true;
+      }),
     user_id_attribute: string().when('identity_element', {
       is: 'user_id_attribute',
       then: (schema) =>
@@ -70,6 +96,11 @@ export const UpdateIdpConfigSchema = object({
     .required('This field is required.')
     .min(1, 'Label must be at least 1 character.')
     .max(128, 'Label can have up to 128 characters.')
+    .test(
+      'no-whitespace-only',
+      'Label cannot consist of only spaces.',
+      (value) => !value || value.trim().length > 0,
+    )
     .matches(
       /^[A-Za-z0-9 _.-]+$/,
       'Label can contain only letters, numbers, spaces, underscores, dashes, and periods.',
@@ -108,14 +139,42 @@ export const UpdateIdpConfigSchema = object({
           });
         }
       }),
-    public_certificates: array().of(
-      object({
-        certificate: string().max(
-          4000,
-          'Certificate must be at most 4000 characters.',
-        ),
+    public_certificates: array()
+      .of(
+        object({
+          certificate: string()
+            .required('This field is required.')
+            .max(4000, 'Certificate must be at most 4000 characters.')
+            .test(
+              'no-leading-trailing-whitespace',
+              'Certificate cannot start or end with whitespace.',
+              (value) => !value || value === value.trim(),
+            ),
+        }),
+      )
+      .test('no-duplicates', '', function (value) {
+        if (!value) return true;
+        const ctx = this.options.context as
+          | undefined
+          | { existingCerts?: Array<{ certificate: string }> };
+        const seen = new Map<string, true>();
+        for (const existing of ctx?.existingCerts ?? []) {
+          const trimmed = existing.certificate?.trim();
+          if (trimmed) seen.set(trimmed, true);
+        }
+        for (let i = 0; i < value.length; i++) {
+          const cert = value[i].certificate?.trim();
+          if (!cert) continue;
+          if (seen.has(cert)) {
+            return this.createError({
+              message: 'This certificate is already added.',
+              path: `${this.path}[${i}].certificate`,
+            });
+          }
+          seen.set(cert, true);
+        }
+        return true;
       }),
-    ),
     user_id_attribute: string().when('identity_element', {
       is: 'user_id_attribute',
       then: (schema) =>
@@ -129,5 +188,10 @@ export const UpdateIdpConfigSchema = object({
 export const AddCertificateSchema = object({
   certificate: string()
     .required('This field is required.')
-    .max(4000, 'Certificate must be at most 4000 characters.'),
+    .max(4000, 'Certificate must be at most 4000 characters.')
+    .test(
+      'no-leading-trailing-whitespace',
+      'Certificate cannot start or end with whitespace.',
+      (value) => !value || value === value.trim(),
+    ),
 });

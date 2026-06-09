@@ -1,14 +1,15 @@
-import { Button, Modal } from '@akamai/cds-components/react';
+import {
+  Button,
+  Modal,
+  NotificationBanner,
+} from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { useDeleteIdpCertificateMutation } from '@linode/queries';
 import { useSnackbar } from 'notistack';
 import * as React from 'react';
 
-import { ErrorState } from '../../../Shared/ErrorState/ErrorState';
-
 import type { IdpCertificate } from '@linode/api-v4';
-// TODO: add api error handling to this component and display error state if delete fails
-// TODO: fix delete logic
+
 interface Props {
   certificate: IdpCertificate | null;
   idpConfigId: string;
@@ -64,7 +65,14 @@ export const DeleteCertificateDialog = ({
           You’re about to delete the certificate with the expiration date:{' '}
           <strong>{certificate.not_after}</strong>. This action can’t be undone.
         </p>
-        {error && <ErrorState errorText="Failed to delete certificate." />}
+
+        {error ? (
+          <NotificationBanner
+            style={{ marginTop: Spacing.S16 }}
+            text={error[0].reason}
+            type="error"
+          />
+        ) : undefined}
       </div>
       <div slot="actions">
         <Button onClick={handleClose} variant="secondary">

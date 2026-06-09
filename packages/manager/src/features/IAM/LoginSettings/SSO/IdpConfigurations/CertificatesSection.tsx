@@ -44,7 +44,9 @@ export const CertificatesSection = (props: Props) => {
     name: 'saml.public_certificates',
   });
 
-  const existingCertificatesCount = isEdit ? props.certificates.length : 0;
+  const existingCertificatesCount = isEdit
+    ? props.certificates.length - props.deletedCertificateIds.size
+    : 0;
   const totalCertificatesCount =
     existingCertificatesCount + certificateFields.length;
 
@@ -57,6 +59,8 @@ export const CertificatesSection = (props: Props) => {
         <CertificatesTable
           certificates={props.certificates}
           deletedIds={props.deletedCertificateIds}
+          hasNewCertificates={certificateFields.length > 0}
+          isAtMax={isMaxCertificatesReached}
           mode="edit"
           onToggleDelete={props.onToggleDeleteCertificate}
         />
@@ -87,6 +91,7 @@ export const CertificatesSection = (props: Props) => {
                   </FormLabel>
                   <TextArea
                     aria-invalid={!!fieldState.error}
+                    error={!!fieldState.error}
                     onChange={field.onChange}
                     placeholder="Enter a SAML public certificate"
                     rows={4}

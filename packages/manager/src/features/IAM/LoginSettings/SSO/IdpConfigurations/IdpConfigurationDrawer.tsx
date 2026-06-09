@@ -101,6 +101,14 @@ export const IdpConfigurationDrawer = ({
     setError,
     watch,
   } = useForm<CreateIdpConfigPayload>({
+    context: {
+      existingCerts:
+        isEdit && idpConfig
+          ? idpConfig.saml.public_certificates.filter(
+              (cert) => !deletedCertificateIds.has(cert.id)
+            )
+          : [],
+    },
     defaultValues,
     resolver: yupResolver(
       isEdit ? UpdateIdpConfigSchema : CreateIdpConfigSchema
@@ -160,16 +168,20 @@ export const IdpConfigurationDrawer = ({
 
       for (const error of apiErrors) {
         const field = error.field;
+        let errorMessage = error.reason;
+
+        // Override error message for expired certificates
+        if (errorMessage?.toLowerCase().includes('expired')) {
+          errorMessage =
+            "An IDP configuration can't be created or updated with expired certificate(s).";
+        }
 
         if (field?.startsWith('saml.public_certificates')) {
-          // TODO: UIE-11457 - Certificate errors are handled as root errors since API certificate indexes
-          // can differ from the form field indexes after certificate delete/update actions in edit mode.
-          // TODO: UIE-11457 - Refactor NotificationBanner error handling to support rendering multiple API errors as a list.
-          setError('root', { message: error.reason });
+          setError('root', { message: errorMessage });
           continue;
         }
 
-        setError(field ?? 'root', { message: error.reason });
+        setError(field ?? 'root', { message: errorMessage });
       }
 
       requestAnimationFrame(() => {
@@ -188,6 +200,21 @@ export const IdpConfigurationDrawer = ({
   };
 
   const hasChanges = isDirty || (isEdit && deletedCertificateIds.size > 0);
+
+  const allExistingCertsDeleted =
+    isEdit &&
+    idpConfig !== undefined &&
+    idpConfig.saml.public_certificates.length > 0 &&
+    idpConfig.saml.public_certificates.every((cert) =>
+      deletedCertificateIds.has(cert.id)
+    );
+
+  const newCertificates = watch('saml.public_certificates') ?? [];
+
+  const isSaveDisabled =
+    !hasChanges ||
+    isSubmitting ||
+    (allExistingCertsDeleted && newCertificates.length === 0);
 
   return (
     // TODO: UIE-10784 - replace with CDS Drawer when available
@@ -308,7 +335,8 @@ export const IdpConfigurationDrawer = ({
             Cancel
           </Button>
           <Button
-            disabled={!hasChanges || isSubmitting}
+            disabled={isSaveDisabled}
+            processing={isSubmitting}
             type="submit"
             variant="primary"
           >

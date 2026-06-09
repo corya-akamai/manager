@@ -28,6 +28,8 @@ import type { IdpCertificate } from '@linode/api-v4';
 interface EditModeProps {
   certificates: IdpCertificate[];
   deletedIds: Set<string>;
+  hasNewCertificates?: boolean;
+  isAtMax?: boolean;
   mode?: 'edit';
   onToggleDelete: (id: string) => void;
 }
@@ -71,7 +73,8 @@ export const CertificatesTable = (props: CombinedProps) => {
   const allDeleted =
     !isLandingMode &&
     certificates.length > 0 &&
-    certificates.every((cert) => props.deletedIds.has(cert.id));
+    certificates.every((cert) => props.deletedIds.has(cert.id)) &&
+    !props.hasNewCertificates;
 
   const handleSort = (orderBy: 'certificate' | 'not_after') => {
     order.handleOrderChange(
@@ -193,6 +196,7 @@ export const CertificatesTable = (props: CombinedProps) => {
 
                   <TableCell className={styles.actionCell}>
                     <Button
+                      disabled={isDeleted && props.isAtMax}
                       onClick={() => props.onToggleDelete(cert.id)}
                       style={{ lineHeight: 1 }}
                       type="button"

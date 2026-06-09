@@ -93,7 +93,7 @@ describe('AddCertificateDrawer', () => {
       expect(getTextArea()).toBeInTheDocument();
     });
 
-    await changeTextAreaValue('  test-certificate  ');
+    await changeTextAreaValue('test-certificate');
 
     const addButton = await getCdsButtonByText(
       document.body,
