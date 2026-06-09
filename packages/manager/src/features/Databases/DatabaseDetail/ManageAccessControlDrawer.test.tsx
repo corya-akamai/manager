@@ -20,10 +20,13 @@ describe('Manage Access Controls drawer', () => {
       <AccessControls database={database} />
     );
 
+    const drawer = document.body.querySelector('cds-drawer');
+    expect(drawer).toBeInTheDocument();
+
     const button = getByTestId('button-access-control');
     await userEvent.click(button);
-    // 'drawer' is the data-testid of the <Drawer /> component
-    expect(getByTestId('drawer')).toBeVisible();
+
+    expect(drawer?.open).toBe(true);
   });
 
   it('Should open with a full list of current inbound sources that are allow listed', async () => {

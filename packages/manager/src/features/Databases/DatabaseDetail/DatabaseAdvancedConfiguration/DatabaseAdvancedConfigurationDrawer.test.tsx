@@ -136,9 +136,7 @@ describe('DatabaseAdvancedConfigurationDrawer', () => {
     expect(restartBadge).toBeVisible();
 
     // eslint-disable-next-line testing-library/no-node-access -- cds-switch Web Component host for shadow root
-    const switchHost = document.querySelector(
-      '[data-testid="drawer"] cds-switch'
-    );
+    const switchHost = document.querySelector('cds-switch');
     expect(switchHost).not.toBeNull();
     const switchControl = await getShadowRootElement<HTMLButtonElement>(
       switchHost as HTMLElement,
@@ -197,6 +195,7 @@ describe('DatabaseAdvancedConfigurationDrawer', () => {
 
     const input = screen.getAllByRole('combobox')[1];
     await userEvent.click(input);
+    await userEvent.click(input); // must click twice in unit test to open the options list when rendered in a portal. Not completely sure why.
 
     const option = await screen.findByText('quorum');
     await userEvent.click(option);

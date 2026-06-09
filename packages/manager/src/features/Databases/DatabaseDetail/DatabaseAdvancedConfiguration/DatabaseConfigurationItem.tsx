@@ -55,6 +55,7 @@ export const DatabaseConfigurationItem = (props: Props) => {
         <Autocomplete
           autoHighlight
           disableClearable
+          disablePortal={false} // Portal must be enabled for the popper to open in a CDS Drawer
           errorText={errorText}
           isOptionEqualToValue={(option, value) => option.label === value.label}
           label={''}

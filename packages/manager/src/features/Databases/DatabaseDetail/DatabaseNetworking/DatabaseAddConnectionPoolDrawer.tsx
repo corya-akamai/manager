@@ -13,7 +13,6 @@ import { useCreateDatabaseConnectionPoolMutation } from '@linode/queries';
 import {
   ActionsPanel,
   Autocomplete,
-  Drawer,
   FormControlLabel,
   Stack,
   Typography,
@@ -26,6 +25,7 @@ import { Link } from 'src/components/Link';
 import { poolModeOptions } from 'src/features/Databases/constants';
 
 import { MANAGE_CONNECTION_POOLS_LEARN_MORE_LINK } from '../../constants';
+import { Drawer } from '../../shared/Drawer';
 
 import type { ConnectionPool } from '@linode/api-v4';
 
@@ -95,11 +95,8 @@ export const DatabaseAddConnectionPoolDrawer = (props: Props) => {
   };
 
   return (
-    <Drawer
-      onClose={handleOnClose}
-      open={open}
-      title="Add a New Connection Pool"
-    >
+    <Drawer onClose={handleOnClose} open={open}>
+      <span slot="header">Add a New Connection Pool</span>
       {errors.root?.message && (
         <NotificationBanner
           style={{ marginBottom: Spacing.S16 }}
@@ -171,6 +168,7 @@ export const DatabaseAddConnectionPoolDrawer = (props: Props) => {
                 {...field}
                 data-testid="pool-mode-select"
                 disableClearable={true}
+                disablePortal={false} // Portal must be enabled for the popper to open in a CDS Drawer
                 errorText={fieldState.error?.message}
                 id="poolMode"
                 onChange={(e, option) => {

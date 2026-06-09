@@ -87,9 +87,9 @@ describe('DatabaseConnectionPools Component', () => {
     });
     renderWithTheme(<DatabaseConnectionPools database={mockDatabase} />);
 
-    const heading = screen.getByRole('heading');
+    const heading = screen.getAllByRole('heading')[0]; // First heading is the section heading. Second heading is the drawer title.
     expect(heading.textContent).toBe('Manage PgBouncer Connection Pools');
-    const addPoolBtnLabel = screen.getByText('Add Pool');
+    const addPoolBtnLabel = screen.getAllByText('Add Pool')[0]; // The first "Add Pool" button is the one in the main component. The second "Add Pool" button is in the drawer.
     expect(addPoolBtnLabel).toBeInTheDocument();
   });
 
@@ -184,7 +184,9 @@ describe('DatabaseConnectionPools Component', () => {
       <DatabaseConnectionPools database={provisioningDatabase} />
     );
     // eslint-disable-next-line testing-library/no-node-access -- cds-button Web Component host
-    const addPoolHost = screen.getByText('Add Pool').closest('cds-button');
+    const addPoolHost = screen
+      .getAllByText('Add Pool')[0]
+      .closest('cds-button');
     expect(addPoolHost).not.toBeNull();
     const addPoolBtn = await getShadowRootElement(
       addPoolHost as HTMLElement,

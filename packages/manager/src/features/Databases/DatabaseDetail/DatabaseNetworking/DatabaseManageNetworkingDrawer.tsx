@@ -4,13 +4,15 @@ import { Button } from '@akamai/cds-components/react/Button';
 import { Spacing } from '@akamai/cds-tokens';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDatabaseMutation } from '@linode/queries';
-import { Box, Drawer } from '@linode/ui';
+import { Box } from '@linode/ui';
 import { updatePrivateNetworkSchema } from '@linode/validation';
 import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { DatabaseDetailVPC } from 'src/features/Databases/DatabaseDetail/DatabaseNetworking/DatabaseDetailVPC';
+
+import { Drawer } from '../../shared/Drawer';
 
 import type { Database, UpdateDatabasePayload, VPC } from '@linode/api-v4';
 import type { Theme } from '@linode/ui';
@@ -113,7 +115,8 @@ const DatabaseManageNetworkingDrawer = (props: Props) => {
   };
 
   return (
-    <Drawer onClose={handleOnClose} open={open} title="Manage Networking">
+    <Drawer onClose={handleOnClose} open={open}>
+      <span slot="header">Manage Networking</span>
       {errors.root?.message && (
         <NotificationBanner
           style={{ marginBottom: Spacing.S16 }}

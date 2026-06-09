@@ -115,6 +115,7 @@ export const DatabaseVPC = (props: DatabaseVPCProps) => {
               autoHighlight
               data-testid="database-vpc-selector"
               disabled={disableVPCSelectors}
+              disablePortal={false} // Portal must be enabled for the popper to open in a CDS Drawer
               errorText={vpcErrorMessage || fieldState.error?.message}
               helperText={disableVPCSelectors ? vpcHelperTextCopy : undefined}
               label="VPC"
@@ -151,6 +152,7 @@ export const DatabaseVPC = (props: DatabaseVPCProps) => {
                 autoHighlight
                 data-testid="database-subnet-selector"
                 disabled={disableVPCSelectors}
+                disablePortal={false} // Portal must be enabled for the popper to open in a CDS Drawer
                 errorText={fieldState.error?.message}
                 getOptionLabel={(subnet) => `${subnet.label} (${subnet.ipv4})`}
                 label="Subnet"

@@ -3,7 +3,7 @@ import { Button, NotificationBanner } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDatabaseEngineConfig, useDatabaseMutation } from '@linode/queries';
-import { ActionsPanel, Drawer, Stack, Typography } from '@linode/ui';
+import { ActionsPanel, Stack, Typography } from '@linode/ui';
 import { scrollErrorIntoViewV2 } from '@linode/utilities';
 import { createDynamicAdvancedConfigSchema } from '@linode/validation';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -18,6 +18,7 @@ import {
 } from '../../constants';
 import { CircleProgress } from '../../shared/CircleProgress/CircleProgress';
 import { Divider } from '../../shared/Divider/Divider';
+import { Drawer } from '../../shared/Drawer';
 import { DatabaseConfigurationItem } from './DatabaseConfigurationItem';
 import { DatabaseConfigurationSelect } from './DatabaseConfigurationSelect';
 import {
@@ -154,7 +155,8 @@ export const DatabaseAdvancedConfigurationDrawer = (props: Props) => {
   };
 
   return (
-    <Drawer onClose={handleClose} open={open} title="Advanced Configuration">
+    <Drawer onClose={handleClose} open={open}>
+      <span slot="header">Advanced Configuration</span>
       <form onSubmit={handleSubmit(onSubmit)} ref={formContainerRef}>
         {errors.root?.message && (
           <NotificationBanner

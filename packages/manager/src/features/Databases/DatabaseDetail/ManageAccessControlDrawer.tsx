@@ -7,7 +7,7 @@ import {
   validateIPs,
 } from '@akamai/compute-ui-core/api';
 import { useDatabaseMutation } from '@linode/queries';
-import { ActionsPanel, Drawer, Typography } from '@linode/ui';
+import { ActionsPanel, Typography } from '@linode/ui';
 import * as React from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
@@ -23,6 +23,8 @@ import {
 } from 'src/features/Databases/constants';
 import { isDefaultDatabase } from 'src/features/Databases/utilities';
 import { enforceIPMasks } from 'src/features/Firewalls/FirewallDetail/Rules/FirewallRuleDrawer.utils';
+
+import { Drawer } from '../shared/Drawer';
 
 import type { ExtendedIP } from '@akamai/compute-ui-core/api';
 import type { APIError, Database, DatabaseInstance } from '@linode/api-v4';
@@ -125,7 +127,8 @@ export const ManageAccessControlDrawer = (props: Props) => {
   const learnMoreLink = isDefaultDB ? LEARN_MORE_LINK : LEARN_MORE_LINK_LEGACY;
 
   return (
-    <Drawer onClose={onClose} open={open} title="Manage Access">
+    <Drawer onClose={onClose} open={open}>
+      <span slot="header">Manage Access</span>
       {errors.root && (
         <NotificationBanner
           style={{ marginBottom: Spacing.S16 }}

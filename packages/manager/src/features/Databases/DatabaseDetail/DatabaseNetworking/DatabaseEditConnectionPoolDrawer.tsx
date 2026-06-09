@@ -13,7 +13,6 @@ import { useUpdateDatabaseConnectionPoolMutation } from '@linode/queries';
 import {
   ActionsPanel,
   Autocomplete,
-  Drawer,
   FormControlLabel,
   Stack,
 } from '@linode/ui';
@@ -22,6 +21,8 @@ import * as React from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 
 import { poolModeOptions } from 'src/features/Databases/constants';
+
+import { Drawer } from '../../shared/Drawer';
 
 import type { ConnectionPool } from '@linode/api-v4';
 
@@ -92,7 +93,8 @@ export const DatabaseEditConnectionPoolDrawer = (props: Props) => {
   });
 
   return (
-    <Drawer onClose={handleOnClose} open={open} title="Edit Connection Pool">
+    <Drawer onClose={handleOnClose} open={open}>
+      <span slot="header">Edit Connection Pool</span>
       {errors.root?.message && (
         <NotificationBanner
           style={{ marginBottom: Spacing.S16 }}
@@ -159,6 +161,7 @@ export const DatabaseEditConnectionPoolDrawer = (props: Props) => {
                 {...field}
                 data-testid="pool-mode-select"
                 disableClearable={true}
+                disablePortal={false} // Disable the portal to ensure the popper is rendered within the CDS Drawer
                 errorText={fieldState.error?.message}
                 id="poolMode"
                 onChange={(e, option) => {
