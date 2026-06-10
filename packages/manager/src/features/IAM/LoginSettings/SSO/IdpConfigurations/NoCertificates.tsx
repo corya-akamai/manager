@@ -30,9 +30,9 @@ export const NoCertificates = ({ idpConfigId }: Props) => {
     <>
       <ZeroErrorState>
         <ZeroErrorIcon icon="doc-no-selection" />
-        <ZeroErrorTitle>No certificates to display</ZeroErrorTitle>
+        <ZeroErrorTitle>This list is empty</ZeroErrorTitle>
         <ZeroErrorDescription style={{ maxWidth: 320 }}>
-          {`Add a certificate to enable SSO for this provider. Once created, it will show up here.`}
+          {`There are no certificates added yet. Once you add one, it will show up here.`}
         </ZeroErrorDescription>
         <ZeroErrorActions>
           <Tooltip

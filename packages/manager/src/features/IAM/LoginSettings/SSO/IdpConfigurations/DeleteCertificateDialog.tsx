@@ -59,7 +59,7 @@ export const DeleteCertificateDialog = ({
       role="dialog"
       size={error ? 'medium' : 'small'}
     >
-      <span slot="title">Delete the Certificate?</span>
+      <span slot="title">Delete the certificate?</span>
       <div slot="body">
         <p style={{ margin: Spacing.S0 }}>
           You’re about to delete the certificate with the expiration date:{' '}

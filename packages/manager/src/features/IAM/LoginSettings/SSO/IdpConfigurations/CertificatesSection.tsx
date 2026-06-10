@@ -133,7 +133,7 @@ export const CertificatesSection = (props: Props) => {
           type="button"
           variant="link"
         >
-          Add another certificate
+          Add Another Certificate
           {isMaxCertificatesReached && <Icon icon="info-outline" size="m" />}
         </Button>
       </Tooltip>

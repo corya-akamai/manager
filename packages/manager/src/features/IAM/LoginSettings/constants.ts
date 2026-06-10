@@ -20,7 +20,7 @@ export const IDENTITY_PROVIDER_DESCRIPTION =
 export const UPDATE_SUCCESS = 'IDP configuration updated successfully.';
 
 export const SSO_REQUIRES_ACTIVE_CERTIFICATE =
-  'SSO requires at least one active certificate. Add a new certificate to enable deletion.';
+  'SSO requires at least one active certificate. Add a new certificate to enable the deletion.';
 
 export const SSO_EXPIRED_ENFORCED =
   "The certificate expired. SSO-enforced users can't log in until a new certificate is added.";

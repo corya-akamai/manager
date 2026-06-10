@@ -266,7 +266,7 @@ export const IdpConfigurationDrawer = ({
           className={styles.sectionHeading}
           style={{ font: Typography.Heading.S }}
         >
-          Identity provider details
+          Identity Provider Details
         </h3>
         <p className={styles.sectionDescription}>
           {IDENTITY_PROVIDER_DESCRIPTION}

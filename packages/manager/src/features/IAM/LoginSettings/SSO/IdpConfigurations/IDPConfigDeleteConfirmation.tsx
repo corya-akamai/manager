@@ -137,7 +137,7 @@ export const IDPConfigDeleteConfirmation = (props: Props) => {
           processing={isPending}
           variant="danger"
         >
-          Delete IDP Configuration
+          Delete IDP configuration
         </Button>
       </div>
     </Modal>

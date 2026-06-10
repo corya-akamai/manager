@@ -53,7 +53,7 @@ export const AttributeMappingSection = ({ control, watch }: Props) => {
                   field.onChange(selected.value);
                 }
               }}
-              placeholder="Select identity element"
+              placeholder="Select an identity element"
               selected={
                 identityElementOptions.find(
                   (opt) => opt.value === field.value
