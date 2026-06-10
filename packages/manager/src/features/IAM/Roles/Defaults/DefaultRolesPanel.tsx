@@ -1,8 +1,10 @@
 import { Button } from '@akamai/cds-components/react';
-import { Box, Typography } from '@linode/ui';
+import { Spacing } from '@akamai/cds-tokens';
+import { Typography } from '@linode/ui';
 import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 
+import { Box } from '../../Shared/Box/Box';
 import { IAM_ROLES_PENDO_IDS } from '../../Shared/constants';
 import { Paper } from '../../Shared/Paper/Paper';
 
@@ -10,21 +12,20 @@ export const DefaultRolesPanel = () => {
   const navigate = useNavigate();
 
   return (
-    <Paper>
+    <Paper marginBottom={Spacing.S16}>
       <Box
-        display="flex"
-        flexWrap="wrap"
-        gap={2}
-        justifyContent="space-between"
+        direction="row"
+        spacing={Spacing.S16}
+        style={{ justifyContent: 'space-between' }}
       >
-        <Box>
+        <div>
           <Typography variant="h2">Default Roles for Delegate Users</Typography>
           <Typography marginTop={2}>
             View and manage roles to be assigned to new delegate users by
             default.
           </Typography>
-        </Box>
-        <Box>
+        </div>
+        <div>
           <Button
             data-pendo-id={IAM_ROLES_PENDO_IDS.viewDefaultRoles}
             onClick={() => navigate({ to: '/iam/roles/defaults/roles' })}
@@ -32,7 +33,7 @@ export const DefaultRolesPanel = () => {
           >
             View Default Roles
           </Button>
-        </Box>
+        </div>
       </Box>
     </Paper>
   );

@@ -7,7 +7,7 @@ import {
 import { Spacing } from '@akamai/cds-tokens';
 import { capitalize, truncateEnd } from '@akamai/compute-ui-core/formatting';
 import { useProfile } from '@linode/queries';
-import { Box, Chip, Stack, Typography } from '@linode/ui';
+import { Chip, Stack, Typography } from '@linode/ui';
 import { useTheme } from '@mui/material/styles';
 import React from 'react';
 
@@ -30,7 +30,6 @@ import {
 } from './usersTableColumnsUtils';
 
 import type { User } from '@linode/api-v4';
-
 interface Props {
   onDelete: (username: string) => void;
   user: User;
@@ -97,7 +96,6 @@ export const UserRow = ({ onDelete, user }: Props) => {
               </Typography>
             </Tooltip>
           </MaskableText>
-          <Box display="flex" flexGrow={1} />
           {user.tfa_enabled && <Chip color="success" label="2FA" />}
         </Stack>
       </TableCell>

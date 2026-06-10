@@ -8,7 +8,7 @@ import {
 import { Alias, Spacing } from '@akamai/cds-tokens';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCreateUserMutation } from '@linode/queries';
-import { ActionsPanel, Box, Drawer } from '@linode/ui';
+import { ActionsPanel, Drawer } from '@linode/ui';
 import { CreateUserSchema } from '@linode/validation';
 import * as React from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -150,12 +150,11 @@ export const CreateUserDrawer = (props: Props) => {
           )}
         />
 
-        <Box sx={{ marginTop: 2 }}>
-          <NotificationBanner
-            text="The user will be sent an email to set their password."
-            type="warning"
-          />
-        </Box>
+        <NotificationBanner
+          style={{ marginTop: Spacing.S16 }}
+          text="The user will be sent an email to set their password."
+          type="warning"
+        />
         <ActionsPanel
           primaryButtonProps={{
             'data-testid': 'submit',

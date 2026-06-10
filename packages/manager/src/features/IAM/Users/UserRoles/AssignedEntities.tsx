@@ -1,9 +1,10 @@
 import { Button, Tooltip } from '@akamai/cds-components/react';
+import { Spacing, Typography as TypographyToken } from '@akamai/cds-tokens';
 import { sortByString } from '@akamai/compute-ui-core/formatting';
-import { Box, Chip, CloseIcon } from '@linode/ui';
-import { useTheme } from '@mui/material';
+import { Chip, CloseIcon } from '@linode/ui';
 import * as React from 'react';
 
+import { Box } from '../../Shared/Box/Box';
 import { SingleRowTruncatedList } from '../../Shared/SingleRowTruncatedList/SingleRowTruncatedList';
 
 import type { CombinedEntity, ExtendedRoleView } from '../../Shared/types';
@@ -24,8 +25,6 @@ export const AssignedEntities = ({
   role,
   disabled,
 }: Props) => {
-  const theme = useTheme();
-
   const combinedEntities: CombinedEntity[] = React.useMemo(
     () =>
       role.entity_names!.map((name, index) => ({
@@ -46,18 +45,16 @@ export const AssignedEntities = ({
     [sortedEntities]
   );
 
-  const chipGapPx = Number.parseInt(theme.tokens.spacing.S8, 10) || 8;
+  const chipGapPx = Number.parseInt(Spacing.S8, 10) || 8;
 
   const overflowPillSx = {
     alignItems: 'center',
     backgroundColor:
-      theme.name === 'light'
-        ? theme.tokens.color.Ultramarine[20]
-        : theme.tokens.color.Neutrals.Black,
-    borderRadius: 1,
+      'var(--token-alias-background-informativesubtle, light-dark(#e6edfe, #515157))',
+    borderRadius: 4,
     display: 'inline-flex',
     height: '20px',
-    padding: `0 ${theme.tokens.spacing.S8}`,
+    padding: `0 ${Spacing.S8}`,
     position: 'relative' as const,
     top: 2,
   };
@@ -82,12 +79,12 @@ export const AssignedEntities = ({
         onDelete={disabled ? undefined : () => onRemoveAssignment(entity, role)}
         sx={{
           backgroundColor:
-            theme.name === 'light'
-              ? theme.tokens.color.Ultramarine[20]
-              : theme.tokens.color.Neutrals.Black,
-          color: theme.tokens.alias.Content.Text.Primary.Default,
+            'var(--token-alias-background-informativesubtle, light-dark(#e6edfe, #515157))',
+          color:
+            'var(--token-alias-content-text-primary-default, light-dark(#343438, #ffffff))',
           '& .MuiChip-deleteIcon': {
-            color: theme.tokens.alias.Content.Text.Primary.Default,
+            color:
+              'var(--token-alias-content-text-primary-default, light-dark(#343438, #ffffff))',
           },
         }}
       />
@@ -102,12 +99,13 @@ export const AssignedEntities = ({
       gapPx={chipGapPx}
       items={items}
       overflowButtonPhantom={
-        <Box sx={overflowPillSx}>
+        <Box style={overflowPillSx}>
           <Button
             size="small"
             style={{
-              color: theme.tokens.alias.Content.Text.Primary.Default,
-              font: theme.tokens.alias.Typography.Label.Regular.Xs,
+              color:
+                'var(--token-alias-content-text-primary-default, light-dark(#343438, #ffffff))',
+              font: TypographyToken.Label.Regular.Xs,
               padding: 0,
             }}
             variant="link"
@@ -117,7 +115,7 @@ export const AssignedEntities = ({
         </Box>
       }
       renderOverflowButton={(hiddenCount) => (
-        <Box sx={overflowPillSx}>
+        <Box style={overflowPillSx}>
           <Tooltip
             tooltipPlacement="top"
             tooltipText="Click to View All Entities"
@@ -126,8 +124,9 @@ export const AssignedEntities = ({
               onClick={() => onButtonClick(role.name)}
               size="small"
               style={{
-                color: theme.tokens.alias.Content.Text.Primary.Default,
-                font: theme.tokens.alias.Typography.Label.Regular.Xs,
+                color:
+                  'var(--token-alias-content-text-primary-default, light-dark(#343438, #ffffff))',
+                font: TypographyToken.Label.Regular.Xs,
                 padding: 0,
               }}
               variant="link"

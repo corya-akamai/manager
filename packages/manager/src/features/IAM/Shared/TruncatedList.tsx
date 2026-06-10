@@ -1,6 +1,5 @@
 import { Button } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
-import { Box } from '@linode/ui';
 import React, { useCallback, useLayoutEffect, useRef } from 'react';
 import { debounce } from 'throttle-debounce';
 
@@ -248,7 +247,7 @@ export const TruncatedList = (props: TruncatedListProps) => {
   ));
 
   return (
-    <Box>
+    <div>
       <StyledTruncatedList
         data-testid={dataTestId}
         ref={containerRef}
@@ -267,6 +266,6 @@ export const TruncatedList = (props: TruncatedListProps) => {
           </>
         )}
       </StyledTruncatedList>
-    </Box>
+    </div>
   );
 };

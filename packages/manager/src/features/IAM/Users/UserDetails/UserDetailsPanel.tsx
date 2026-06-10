@@ -4,7 +4,7 @@ import {
   Spacing,
   Typography as TypographyTokens,
 } from '@akamai/cds-tokens';
-import { Box, Stack, Typography } from '@linode/ui';
+import { Stack, Typography } from '@linode/ui';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
@@ -13,6 +13,7 @@ import { PARENT_USER } from 'src/features/Account/constants';
 
 import { useActiveBreakpointIndex } from '../../hooks/useBreakpoint';
 import { useDelegationRole } from '../../hooks/useDelegationRole';
+import { Box } from '../../Shared/Box/Box';
 import { EMAIL_MAX_LENGTH } from '../../Shared/constants';
 import { Divider } from '../../Shared/Divider/Divider';
 import { MaskableText } from '../../Shared/MaskableText/MaskableText';
@@ -226,13 +227,12 @@ export const UserDetailsPanel = ({
 
   return (
     <Paper>
-      <Box sx={(theme) => ({ py: theme.spacingFunction(8) })}>
+      <div style={{ padding: `${Spacing.S8} ${Spacing.S0}` }}>
         <Box
-          sx={{
-            display: 'flex',
+          direction="row"
+          style={{
             alignItems: 'center',
-            gap: 3,
-            flexWrap: 'wrap',
+            gap: 24,
           }}
         >
           <Typography sx={{ flex: 1 }} variant="h2">
@@ -267,7 +267,7 @@ export const UserDetailsPanel = ({
           </Tooltip>
         </Box>
         <Divider spacingBottom={Spacing.S16} spacingTop={Spacing.S24} />
-      </Box>
+      </div>
       <div className={styles.itemsGrid} style={itemsGridStyle}>
         {items.map((item) => (
           <div key={item.label}>

@@ -1,12 +1,13 @@
 import { Button, Tooltip } from '@akamai/cds-components/react';
-import { Spacing } from '@akamai/cds-tokens';
-import { Box, Typography, useTheme } from '@linode/ui';
+import { Spacing, Typography as TypographyToken } from '@akamai/cds-tokens';
+import { Typography } from '@linode/ui';
 import React from 'react';
 
 import { TableCell } from 'src/components/TableCell';
 import { TableRow } from 'src/components/TableRow/TableRow';
 
 import { usePermissions } from '../hooks/usePermissions';
+import { Box } from '../Shared/Box/Box';
 import { IAM_PARENT_USERS_PENDO_IDS } from '../Shared/constants';
 import { InlineMenuAction } from '../Shared/InlineMenuAction/InlineMenuAction';
 import { TruncatedList } from '../Shared/TruncatedList';
@@ -20,7 +21,6 @@ interface Props {
 }
 
 export const AccountDelegationsTableRow = ({ delegation, index }: Props) => {
-  const theme = useTheme();
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
 
   const { data: permissions } = usePermissions('account', [
@@ -53,29 +53,28 @@ export const AccountDelegationsTableRow = ({ delegation, index }: Props) => {
         </Typography>
       </TableCell>
       <TableCell
-        sx={(theme) => ({
+        sx={{
           display: { sm: 'table-cell', xs: 'none' },
-          padding: theme.tokens.spacing.S8,
-        })}
+          padding: Spacing.S8,
+        }}
       >
         {'users' in delegation && delegation.users.length > 0 ? (
           <TruncatedList
             addEllipsis
             customOverflowButton={(numHiddenItems) => (
               <Box
-                sx={{
+                style={{
                   alignItems: 'center',
                   backgroundColor:
-                    theme.name === 'light'
-                      ? theme.tokens.color.Ultramarine[20]
-                      : theme.tokens.color.Neutrals.Black,
-                  borderRadius: 1,
+                    'var(--token-alias-background-informativesubtle, light-dark(#e6edfe, #515157))',
+                  borderRadius: 4,
                   display: 'flex',
                   height: '20px',
                   maxWidth: 'max-content',
-                  padding: `${theme.tokens.spacing.S4} ${theme.tokens.spacing.S8}`,
+                  padding: `${Spacing.S4} ${Spacing.S8}`,
                   position: 'relative',
-                  marginLeft: theme.tokens.spacing.S12,
+                  marginLeft: Spacing.S12,
+                  flexFlow: 'unset',
                 }}
               >
                 <Tooltip
@@ -85,8 +84,9 @@ export const AccountDelegationsTableRow = ({ delegation, index }: Props) => {
                   <Button
                     onClick={handleUpdateDelegations}
                     style={{
-                      color: theme.tokens.alias.Content.Text.Primary.Default,
-                      font: theme.tokens.alias.Typography.Label.Regular.Xs,
+                      color:
+                        'var(--token-alias-content-text-primary-default, light-dark(#343438, #ffffff))',
+                      font: TypographyToken.Label.Regular.Xs,
                       padding: 0,
                     }}
                     variant="link"

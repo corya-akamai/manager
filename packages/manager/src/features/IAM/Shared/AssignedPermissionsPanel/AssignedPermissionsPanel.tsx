@@ -1,4 +1,5 @@
 import { Spacing } from '@akamai/cds-tokens';
+import { Typography } from '@linode/ui';
 import * as React from 'react';
 
 import { ROLES_LEARN_MORE_LINK } from '../constants';
@@ -7,11 +8,6 @@ import { Link } from '../Link/Link';
 import { Paper } from '../Paper/Paper';
 import { Permissions } from '../Permissions/Permissions';
 import { type ExtendedRole, getFacadeRoleDescription } from '../utilities';
-import {
-  StyledDescription,
-  StyledEntityBox,
-  StyledTitle,
-} from './AssignedPermissionsPanel.style';
 
 import type { DrawerModes, EntitiesOption, ExtendedRoleView } from '../types';
 
@@ -46,14 +42,32 @@ export const AssignedPermissionsPanel = ({
       }}
     >
       {hideDetails && showName && (
-        <StyledTitle showName={showName}>{role.name}</StyledTitle>
+        <Typography
+          sx={(theme) => ({
+            font: theme.tokens.alias.Typography.Label.Bold.S,
+            marginBottom: showName ? theme.tokens.spacing.S12 : undefined,
+          })}
+        >
+          {role.name}
+        </Typography>
       )}
       {!hideDetails && (
         <>
-          <StyledTitle>
+          <Typography
+            sx={(theme) => ({
+              font: theme.tokens.alias.Typography.Label.Bold.S,
+            })}
+          >
             {showName && role.name ? role.name : 'Description'}
-          </StyledTitle>
-          <StyledDescription>
+          </Typography>
+          <Typography
+            sx={{
+              marginBottom: Spacing.S12,
+              marginTop: Spacing.S8,
+              overflowWrap: 'anywhere',
+              wordBreak: 'normal',
+            }}
+          >
             {role.permissions.length ? (
               role.description
             ) : (
@@ -62,12 +76,12 @@ export const AssignedPermissionsPanel = ({
                 <Link to={ROLES_LEARN_MORE_LINK}>Learn more</Link>.
               </>
             )}
-          </StyledDescription>
+          </Typography>
           <Permissions permissions={role.permissions} />
         </>
       )}
       {mode !== 'change-role-for-entity' && (
-        <StyledEntityBox hideDetails={hideDetails}>
+        <div style={{ marginTop: !hideDetails ? Spacing.S16 : undefined }}>
           <EntitiesSelect
             access={role.access}
             errorText={errorText}
@@ -76,7 +90,7 @@ export const AssignedPermissionsPanel = ({
             type={role.entity_type}
             value={value || []}
           />
-        </StyledEntityBox>
+        </div>
       )}
     </Paper>
   );
