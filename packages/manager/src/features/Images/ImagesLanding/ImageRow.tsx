@@ -7,6 +7,7 @@ import { Hidden } from '@linode/ui';
 import React from 'react';
 
 import CloudInitIcon from 'src/assets/icons/cloud-init.svg';
+import CoreSharedIcon from 'src/assets/icons/core-shared.svg';
 import UnlockIcon from 'src/assets/icons/unlock.svg';
 import { TableCell } from 'src/components/TableCell';
 import { TableRow } from 'src/components/TableRow';
@@ -96,6 +97,19 @@ export const ImageRow = (props: Props) => {
                   padding: 0,
                 }}
                 text="This image supports our Metadata service via cloud-init."
+              />
+            )}
+            {image.is_shared && (
+              <TooltipIcon
+                icon={<CoreSharedIcon />}
+                sxTooltipIcon={{
+                  padding: 0,
+                }}
+                text={`This image is shared in ${pluralize(
+                  'share group',
+                  'share groups',
+                  image.image_sharing?.shared_with?.sharegroup_count ?? 0
+                )}.`}
               />
             )}
           </Stack>
