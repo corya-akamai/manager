@@ -46,6 +46,11 @@ import type { LinodeCreateSearchParams } from 'src/routes/linodes';
 const DEFAULT_OS = 'linode/ubuntu24.04';
 
 /**
+ * Fallback interface generation to be used for Linode Creation when there are no defaults on Account Settings API or users can't access account settings.
+ */
+const FALLBACK_INTERFACE_GENERATION: InterfaceGenerationType = 'linode';
+
+/**
  * Empty default value for the ACLP alerts form field.
  * Used when entering ACLP mode to ensure a clean slate.
  */
@@ -372,9 +377,10 @@ export const defaultValues = async (
 
     // Don't set the interface generation when cloning. The API can figure that out
     if (createType !== 'Clone Linode') {
-      interfaceGeneration = getDefaultInterfaceGenerationFromAccountSetting(
-        accountSettings.interfaces_for_new_linodes
-      );
+      interfaceGeneration =
+        getDefaultInterfaceGenerationFromAccountSetting(
+          accountSettings.interfaces_for_new_linodes
+        ) ?? FALLBACK_INTERFACE_GENERATION;
     }
 
     // If the Maintenance Policy feature is enabled, use the user's account setting
@@ -383,6 +389,9 @@ export const defaultValues = async (
     }
   } catch (error) {
     // silently fail because the user may be a restricted user that can't access this endpoint
+    if (createType !== 'Clone Linode') {
+      interfaceGeneration = FALLBACK_INTERFACE_GENERATION;
+    }
   }
 
   let firewallSettings: FirewallSettings | null = null;
