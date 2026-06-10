@@ -10,6 +10,7 @@ import {
 } from '@linode/ui';
 import { scrollErrorIntoViewV2 } from '@linode/utilities';
 import { useNavigate } from '@tanstack/react-router';
+import { enqueueSnackbar } from 'notistack';
 import * as React from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
@@ -63,11 +64,15 @@ export const ShareGroupsCreate = () => {
         ),
       };
 
-      await createShareGroup(payload);
+      const result = await createShareGroup(payload);
 
       navigate({
         search: () => ({}),
-        to: '/images/share-groups',
+        to: `/images/share-groups/owned-groups/${result.id}`,
+      });
+
+      enqueueSnackbar('Share group created successfully', {
+        variant: 'success',
       });
     } catch (errors) {
       for (const error of errors) {

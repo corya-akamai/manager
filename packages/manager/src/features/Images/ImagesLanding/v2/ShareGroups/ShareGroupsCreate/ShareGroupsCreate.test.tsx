@@ -1,4 +1,5 @@
 import { imageSharegroupFactory } from '@linode/utilities';
+import { waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import React from 'react';
 
@@ -108,6 +109,9 @@ describe('ShareGroupsCreate', () => {
   });
 
   it('should submit the form with valid data', async () => {
+    const createdShareGroup = imageSharegroupFactory.build({ id: 11111 });
+    mockMutateAsync.mockResolvedValue(createdShareGroup);
+
     const { getByRole } = renderWithTheme(<ShareGroupsCreate />);
 
     const labelField = getByRole('textbox', { name: /Label/i });
@@ -126,9 +130,31 @@ describe('ShareGroupsCreate', () => {
       })
     );
 
-    expect(mockNavigate).toHaveBeenCalledWith({
-      search: expect.any(Function),
-      to: '/images/share-groups',
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith({
+        search: expect.any(Function),
+        to: '/images/share-groups/owned-groups/11111',
+      });
+    });
+  });
+
+  it('should navigate to details page after share group is created', async () => {
+    const createdShareGroup = imageSharegroupFactory.build({ id: 12345 });
+    mockMutateAsync.mockResolvedValue(createdShareGroup);
+
+    const { getByRole } = renderWithTheme(<ShareGroupsCreate />);
+
+    const labelField = getByRole('textbox', { name: /Label/i });
+    const submitButton = getByRole('button', { name: /Create Share Group/i });
+
+    await userEvent.type(labelField, shareGroupLabel);
+    await userEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith({
+        search: expect.any(Function),
+        to: '/images/share-groups/owned-groups/12345',
+      });
     });
   });
 
@@ -166,6 +192,9 @@ describe('ShareGroupsCreate', () => {
   });
 
   it('should allow editing selected image label/description and submit overridden image payload', async () => {
+    const createdShareGroup = imageSharegroupFactory.build({ id: 22222 });
+    mockMutateAsync.mockResolvedValue(createdShareGroup);
+
     const { getByRole, getAllByRole, getByText } = renderWithTheme(
       <ShareGroupsCreate />
     );
@@ -204,9 +233,11 @@ describe('ShareGroupsCreate', () => {
       })
     );
 
-    expect(mockNavigate).toHaveBeenCalledWith({
-      search: expect.any(Function),
-      to: '/images/share-groups',
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith({
+        search: expect.any(Function),
+        to: '/images/share-groups/owned-groups/22222',
+      });
     });
 
     await userEvent.click(
