@@ -1,4 +1,4 @@
-import { getLinodeRegionPrice } from './linodes';
+import { getLinodeRegionPrice } from '@akamai/compute-ui-core/api';
 
 import type {
   CreateNodePoolData,

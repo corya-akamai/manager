@@ -1,3 +1,4 @@
+import { getGDPRDetails } from '@akamai/compute-ui-core/api';
 import {
   useAccountAgreements,
   useProfile,
@@ -19,7 +20,6 @@ import { Link } from 'src/components/Link';
 import { RenderGuard } from 'src/components/RenderGuard';
 import { EUAgreementCheckbox } from 'src/features/Account/Agreements/EUAgreementCheckbox';
 import { extendTypesQueryResult } from 'src/utilities/extendType';
-import { getGDPRDetails } from 'src/utilities/formatRegion';
 import {
   LKE_ADDITIONAL_PRICING,
   LKE_CREATE_CLUSTER_CHECKOUT_MESSAGE,

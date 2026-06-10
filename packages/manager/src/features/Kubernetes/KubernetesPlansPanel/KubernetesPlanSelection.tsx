@@ -1,5 +1,6 @@
 import {
   convertMegabytesTo,
+  getLinodeRegionPrice,
   renderMonthlyPriceToCorrectDecimalPlace,
   UNKNOWN_PRICE,
 } from '@akamai/compute-ui-core/api';
@@ -20,7 +21,6 @@ import {
   MAX_NODES_PER_POOL_STANDARD_TIER,
 } from 'src/features/Kubernetes/constants';
 import { PRICE_ERROR_TOOLTIP_TEXT } from 'src/utilities/pricing/constants';
-import { getLinodeRegionPrice } from 'src/utilities/pricing/linodes';
 
 import { useIsLkeEnterpriseEnabled } from '../kubeUtils';
 

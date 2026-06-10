@@ -133,8 +133,8 @@ importers:
         specifier: 0.0.0-20260518081728
         version: 0.0.0-20260518081728
       '@akamai/compute-ui-core':
-        specifier: 0.0.0-20260602164524
-        version: 0.0.0-20260602164524(luxon@3.4.4)
+        specifier: 0.0.0-20260608223847
+        version: 0.0.0-20260608223847(luxon@3.4.4)
       '@braintree/sanitize-url':
         specifier: ^7.1.0
         version: 7.1.0
@@ -838,6 +838,17 @@ packages:
 
   '@akamai/compute-ui-core@0.0.0-20260602164524':
     resolution: {integrity: sha512-DVbTcfazPF22w85czL1MBY150Sui08dhItDGffujw39yH3LHapF1oizMwLZGvj7KIC9qLfp97wq353ZFN+o3uw==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-core/-/@akamai/compute-ui-core-0.0.0-20260602164524.tgz}
+    peerDependencies:
+      '@launchdarkly/js-client-sdk': ^4
+      luxon: ^3
+    peerDependenciesMeta:
+      '@launchdarkly/js-client-sdk':
+        optional: true
+      luxon:
+        optional: true
+
+  '@akamai/compute-ui-core@0.0.0-20260608223847':
+    resolution: {integrity: sha512-rtPw/uxRtM9cw7C5bizDo2qKP1iRdtb32bswjgfLqiz7i2AmUtrmQ/kZjrvovVMgWZ79rUOBwiWWs0TQFb611g==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-core/-/@akamai/compute-ui-core-0.0.0-20260608223847.tgz}
     peerDependencies:
       '@launchdarkly/js-client-sdk': ^4
       luxon: ^3
@@ -5224,11 +5235,6 @@ packages:
   mz@2.7.0:
     resolution: {integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==}
 
-  nanoid@3.3.11:
-    resolution: {integrity: sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==}
-    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
-    hasBin: true
-
   nanoid@3.3.12:
     resolution: {integrity: sha512-ZB9RH/39qpq5Vu6Y+NmUaFhQR6pp+M2Xt76XBnEwDaGcVAqhlvxrl3B2bKS5D3NH3QR76v3aSrKaF/Kiy7lEtQ==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
@@ -5433,10 +5439,6 @@ packages:
         optional: true
       yaml:
         optional: true
-
-  postcss@8.5.14:
-    resolution: {integrity: sha512-SoSL4+OSEtR99LHFZQiJLkT59C5B1amGO1NzTwj7TT1qCUgUO6hxOvzkOYxD+vMrXBM3XJIKzokoERdqQq/Zmg==}
-    engines: {node: ^10 || ^12 || >=14}
 
   postcss@8.5.15:
     resolution: {integrity: sha512-FfR8sjd4em2T6fb3I2MwAJU7HWVMr9zba+enmQeeWFfCbm+UOC/0X4DS8XtpUTMwWMGbjKYP7xjfNekzyGmB3A==}
@@ -6098,10 +6100,6 @@ packages:
     resolution: {integrity: sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==}
     engines: {node: '>=12.0.0'}
 
-  tinyglobby@0.2.16:
-    resolution: {integrity: sha512-pn99VhoACYR8nFHhxqix+uvsbXineAasWm5ojXoN8xEwK5Kd3/TrhNn1wByuD52UxWRLy8pu+kRMniEi6Eq9Zg==}
-    engines: {node: '>=12.0.0'}
-
   tinyglobby@0.2.17:
     resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==}
     engines: {node: '>=12.0.0'}
@@ -6692,6 +6690,14 @@ snapshots:
   '@akamai/cds-tokens@0.0.0-20260518081728': {}
 
   '@akamai/compute-ui-core@0.0.0-20260602164524(luxon@3.4.4)':
+    dependencies:
+      ipaddr.js: 2.4.0
+      ky: 1.14.3
+      zod: 4.4.3
+    optionalDependencies:
+      luxon: 3.4.4
+
+  '@akamai/compute-ui-core@0.0.0-20260608223847(luxon@3.4.4)':
     dependencies:
       ipaddr.js: 2.4.0
       ky: 1.14.3
@@ -11117,8 +11123,6 @@ snapshots:
       object-assign: 4.1.1
       thenify-all: 1.6.0
 
-  nanoid@3.3.11: {}
-
   nanoid@3.3.12: {}
 
   natural-compare@1.4.0: {}
@@ -11308,12 +11312,6 @@ snapshots:
       postcss: 8.5.15
       tsx: 4.19.3
       yaml: 2.6.1
-
-  postcss@8.5.14:
-    dependencies:
-      nanoid: 3.3.11
-      picocolors: 1.1.1
-      source-map-js: 1.2.1
 
   postcss@8.5.15:
     dependencies:
@@ -12123,11 +12121,6 @@ snapshots:
       fdir: 6.5.0(picomatch@4.0.3)
       picomatch: 4.0.3
 
-  tinyglobby@0.2.16:
-    dependencies:
-      fdir: 6.5.0(picomatch@4.0.4)
-      picomatch: 4.0.4
-
   tinyglobby@0.2.17:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.4)
@@ -12442,9 +12435,9 @@ snapshots:
       esbuild: 0.27.7
       fdir: 6.5.0(picomatch@4.0.4)
       picomatch: 4.0.4
-      postcss: 8.5.14
+      postcss: 8.5.15
       rollup: 4.60.1
-      tinyglobby: 0.2.16
+      tinyglobby: 0.2.17
     optionalDependencies:
       '@types/node': 22.18.1
       fsevents: 2.3.3
@@ -12489,7 +12482,7 @@ snapshots:
       std-env: 3.9.0
       tinybench: 2.9.0
       tinyexec: 0.3.2
-      tinyglobby: 0.2.16
+      tinyglobby: 0.2.17
       tinypool: 1.1.1
       tinyrainbow: 2.0.0
       vite: 7.3.5(@types/node@22.18.1)(jiti@2.4.2)(lightningcss@1.32.0)(terser@5.36.0)(tsx@4.19.3)(yaml@2.6.1)

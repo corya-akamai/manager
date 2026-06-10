@@ -1,4 +1,7 @@
-import { formatStorageUnits } from '@akamai/compute-ui-core/api';
+import {
+  formatStorageUnits,
+  getLinodeBackupPrice,
+} from '@akamai/compute-ui-core/api';
 import {
   useAllTypes,
   useImageQuery,
@@ -15,7 +18,6 @@ import { Currency } from 'src/components/Currency';
 import { TextTooltip } from 'src/components/TextTooltip';
 import { useIsAclpSupportedRegion } from 'src/features/CloudPulse/Utils/utils';
 import { useFlags } from 'src/hooks/useFlags';
-import { getLinodeBackupPrice } from 'src/utilities/pricing/backups';
 import { useComputePricing } from 'src/utilities/pricing/useComputePricing';
 
 import { getLinodePrice } from './utilities';

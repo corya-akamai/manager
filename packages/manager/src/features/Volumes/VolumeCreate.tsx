@@ -1,4 +1,7 @@
-import { getErrorStringOrDefault } from '@akamai/compute-ui-core/api';
+import {
+  getErrorStringOrDefault,
+  getGDPRDetails,
+} from '@akamai/compute-ui-core/api';
 import {
   isNilOrEmpty,
   maybeCastToNumber,
@@ -52,7 +55,6 @@ import { EUAgreementCheckbox } from 'src/features/Account/Agreements/EUAgreement
 import { getRestrictedResourceText } from 'src/features/Account/utils';
 import { useFlags } from 'src/hooks/useFlags';
 import { sendCreateVolumeEvent } from 'src/utilities/analytics/customEventAnalytics';
-import { getGDPRDetails } from 'src/utilities/formatRegion';
 import {
   handleFieldErrors,
   handleGeneralErrors,

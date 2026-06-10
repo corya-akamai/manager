@@ -1,4 +1,7 @@
-import { formatStorageUnits } from '@akamai/compute-ui-core/api';
+import {
+  formatStorageUnits,
+  getGDPRDetails,
+} from '@akamai/compute-ui-core/api';
 import { formatDate } from '@akamai/compute-ui-core/datetime';
 import {
   useAccountAgreements,
@@ -36,7 +39,6 @@ import {
   useInProgressEvents,
 } from 'src/queries/events/events';
 import { sendMigrationInitiatedEvent } from 'src/utilities/analytics/customEventAnalytics';
-import { getGDPRDetails } from 'src/utilities/formatRegion';
 import { getLinodeDescription } from 'src/utilities/getLinodeDescription';
 import { reportAgreementSigningError } from 'src/utilities/reportAgreementSigningError';
 

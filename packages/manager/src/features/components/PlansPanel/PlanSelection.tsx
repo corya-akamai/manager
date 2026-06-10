@@ -1,4 +1,8 @@
-import { convertMegabytesTo, UNKNOWN_PRICE } from '@akamai/compute-ui-core/api';
+import {
+  convertMegabytesTo,
+  getLinodeRegionPrice,
+  UNKNOWN_PRICE,
+} from '@akamai/compute-ui-core/api';
 import { useLinodeQuery } from '@linode/queries';
 import { Chip, FormControlLabel, Radio } from '@linode/ui';
 import { Hidden } from '@linode/ui';
@@ -10,7 +14,6 @@ import { TableCell } from 'src/components/TableCell';
 import { TableRow } from 'src/components/TableRow';
 import { LINODE_NETWORK_IN } from 'src/constants';
 import { PRICE_ERROR_TOOLTIP_TEXT } from 'src/utilities/pricing/constants';
-import { getLinodeRegionPrice } from 'src/utilities/pricing/linodes';
 import {
   formatPrice,
   getLabelForInterval,

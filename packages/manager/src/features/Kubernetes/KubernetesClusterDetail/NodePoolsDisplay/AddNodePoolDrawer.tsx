@@ -1,4 +1,7 @@
-import { renderMonthlyPriceToCorrectDecimalPlace } from '@akamai/compute-ui-core/api';
+import {
+  getLinodeRegionPrice,
+  renderMonthlyPriceToCorrectDecimalPlace,
+} from '@akamai/compute-ui-core/api';
 import { isNumber, pluralize } from '@akamai/compute-ui-core/formatting';
 import {
   type CreateNodePoolData,
@@ -21,7 +24,6 @@ import { useCreateNodePoolMutation } from 'src/queries/kubernetes';
 import { extendType } from 'src/utilities/extendType';
 import { filterCurrentTypes } from 'src/utilities/filterCurrentLinodeTypes';
 import { PRICES_RELOAD_ERROR_NOTICE_TEXT } from 'src/utilities/pricing/constants';
-import { getLinodeRegionPrice } from 'src/utilities/pricing/linodes';
 
 import { PremiumCPUPlanNotice } from '../../CreateCluster/PremiumCPUPlanNotice';
 import { KubernetesPlansPanel } from '../../KubernetesPlansPanel/KubernetesPlansPanel';

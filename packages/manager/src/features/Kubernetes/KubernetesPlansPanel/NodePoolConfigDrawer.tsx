@@ -1,4 +1,7 @@
-import { renderMonthlyPriceToCorrectDecimalPlace } from '@akamai/compute-ui-core/api';
+import {
+  getLinodeRegionPrice,
+  renderMonthlyPriceToCorrectDecimalPlace,
+} from '@akamai/compute-ui-core/api';
 import { isNumber, pluralize } from '@akamai/compute-ui-core/formatting';
 import { useSpecificTypes } from '@linode/queries';
 import { ActionsPanel, Drawer, Notice, Typography } from '@linode/ui';
@@ -15,7 +18,6 @@ import {
 
 import { EnhancedNumberInput } from 'src/components/EnhancedNumberInput/EnhancedNumberInput';
 import { extendType } from 'src/utilities/extendType';
-import { getLinodeRegionPrice } from 'src/utilities/pricing/linodes';
 
 import {
   DEFAULT_PLAN_COUNT,

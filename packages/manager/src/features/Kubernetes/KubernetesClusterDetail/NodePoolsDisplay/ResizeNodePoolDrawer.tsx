@@ -1,4 +1,7 @@
-import { renderMonthlyPriceToCorrectDecimalPlace } from '@akamai/compute-ui-core/api';
+import {
+  getLinodeRegionPrice,
+  renderMonthlyPriceToCorrectDecimalPlace,
+} from '@akamai/compute-ui-core/api';
 import { isNumber, pluralize } from '@akamai/compute-ui-core/formatting';
 import { useTypeQuery } from '@linode/queries';
 import {
@@ -20,7 +23,6 @@ import {
 import { useUpdateNodePoolMutation } from 'src/queries/kubernetes';
 import { PRICES_RELOAD_ERROR_NOTICE_TEXT } from 'src/utilities/pricing/constants';
 import { getKubernetesMonthlyPrice } from 'src/utilities/pricing/kubernetes';
-import { getLinodeRegionPrice } from 'src/utilities/pricing/linodes';
 
 import { nodeWarning } from '../../constants';
 import { hasInvalidNodePoolPrice, useNodePoolDisplayLabel } from './utils';

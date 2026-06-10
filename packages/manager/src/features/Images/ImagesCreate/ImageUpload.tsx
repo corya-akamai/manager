@@ -1,4 +1,4 @@
-import { readableBytes } from '@akamai/compute-ui-core/api';
+import { getGDPRDetails, readableBytes } from '@akamai/compute-ui-core/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useAccountAgreements,
@@ -35,7 +35,6 @@ import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 import { useFlags } from 'src/hooks/useFlags';
 import { usePendingUpload } from 'src/hooks/usePendingUpload';
 import { setPendingUpload } from 'src/store/pendingUpload';
-import { getGDPRDetails } from 'src/utilities/formatRegion';
 import { reportAgreementSigningError } from 'src/utilities/reportAgreementSigningError';
 
 import { EUAgreementCheckbox } from '../../Account/Agreements/EUAgreementCheckbox';

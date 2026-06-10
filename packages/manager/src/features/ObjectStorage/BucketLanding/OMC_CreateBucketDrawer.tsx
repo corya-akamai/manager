@@ -1,3 +1,4 @@
+import { getGDPRDetails } from '@akamai/compute-ui-core/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useAccountAgreements,
@@ -27,7 +28,6 @@ import {
   useObjectStorageTypesQuery,
 } from 'src/queries/object-storage/queries';
 import { sendCreateBucketEvent } from 'src/utilities/analytics/customEventAnalytics';
-import { getGDPRDetails } from 'src/utilities/formatRegion';
 import { PRICES_RELOAD_ERROR_NOTICE_TEXT } from 'src/utilities/pricing/constants';
 import { reportAgreementSigningError } from 'src/utilities/reportAgreementSigningError';
 
