@@ -4,7 +4,7 @@ import {
   SearchField,
 } from '@akamai/cds-components/react';
 import { useGetDelegatedChildAccountsForUserQuery } from '@linode/queries';
-import { Stack, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import { useNavigate, useParams, useSearch } from '@tanstack/react-router';
 import * as React from 'react';
 import { debounce } from 'throttle-debounce';
@@ -108,75 +108,73 @@ export const UserDelegationsTable = () => {
 
   return (
     <Paper>
-      <Stack>
-        <Typography variant="h2">Account Delegations</Typography>
-        <FormField labelPosition="top" style={{ padding: 0 }}>
-          <FormLabel
-            className={globalStyles.visuallyHidden}
-            htmlFor="filter-delegations"
-            slot="label"
-          >
-            Search Accounts
-          </FormLabel>
-          <SearchField
-            id="filter-delegations"
-            isLoading={isFetchingChildAccounts}
-            onChange={(e: CustomEvent<{ value: string }>) =>
-              debouncedHandleSearch(e.detail.value)
-            }
-            placeholder="Search"
-            style={{ padding: 0 }}
-            value={company ?? ''}
-          />
-        </FormField>
-        <Table sx={{ mt: 2 }}>
-          <TableHead>
-            <TableRow>
-              <TableSortCell
-                active={orderBy === 'company'}
-                direction={order}
-                handleClick={handleOrderChange}
-                label={'company'}
-              >
-                Account
-              </TableSortCell>
+      <Typography variant="h2">Account Delegations</Typography>
+      <FormField labelPosition="top" style={{ padding: 0 }}>
+        <FormLabel
+          className={globalStyles.visuallyHidden}
+          htmlFor="filter-delegations"
+          slot="label"
+        >
+          Search Accounts
+        </FormLabel>
+        <SearchField
+          id="filter-delegations"
+          isLoading={isFetchingChildAccounts}
+          onChange={(e: CustomEvent<{ value: string }>) =>
+            debouncedHandleSearch(e.detail.value)
+          }
+          placeholder="Search"
+          style={{ padding: 0 }}
+          value={company ?? ''}
+        />
+      </FormField>
+      <Table sx={{ mt: 2 }}>
+        <TableHead>
+          <TableRow>
+            <TableSortCell
+              active={orderBy === 'company'}
+              direction={order}
+              handleClick={handleOrderChange}
+              label={'company'}
+            >
+              Account
+            </TableSortCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {childAccounts?.data.length === 0 && (
+            <TableRowEmpty colSpan={1} message={NO_ITEMS_TO_DISPLAY_TEXT} />
+          )}
+          {childAccounts?.data?.map((childAccount) => (
+            <TableRow key={childAccount.euuid}>
+              <TableCell>{childAccount.company}</TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {childAccounts?.data.length === 0 && (
-              <TableRowEmpty colSpan={1} message={NO_ITEMS_TO_DISPLAY_TEXT} />
-            )}
-            {childAccounts?.data?.map((childAccount) => (
-              <TableRow key={childAccount.euuid}>
-                <TableCell>{childAccount.company}</TableCell>
-              </TableRow>
-            ))}
-            {(childAccounts?.results ?? 0) > MIN_PAGE_SIZE && (
-              <TableRow>
-                <TableCell
-                  colSpan={1}
-                  sx={(theme: Theme) => ({
-                    padding: 0,
-                    '& > div': {
-                      border: 'none',
-                      borderTop: `1px solid ${theme.borderColors.divider}`,
-                    },
-                  })}
-                >
-                  <PaginationFooter
-                    count={childAccounts?.results ?? 0}
-                    eventCategory="DelegatedChildAccounts"
-                    handlePageChange={pagination.handlePageChange}
-                    handleSizeChange={pagination.handlePageSizeChange}
-                    page={pagination.page}
-                    pageSize={pagination.pageSize}
-                  />
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </Stack>
+          ))}
+          {(childAccounts?.results ?? 0) > MIN_PAGE_SIZE && (
+            <TableRow>
+              <TableCell
+                colSpan={1}
+                sx={(theme: Theme) => ({
+                  padding: 0,
+                  '& > div': {
+                    border: 'none',
+                    borderTop: `1px solid ${theme.borderColors.divider}`,
+                  },
+                })}
+              >
+                <PaginationFooter
+                  count={childAccounts?.results ?? 0}
+                  eventCategory="DelegatedChildAccounts"
+                  handlePageChange={pagination.handlePageChange}
+                  handleSizeChange={pagination.handlePageSizeChange}
+                  page={pagination.page}
+                  pageSize={pagination.pageSize}
+                />
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
     </Paper>
   );
 };

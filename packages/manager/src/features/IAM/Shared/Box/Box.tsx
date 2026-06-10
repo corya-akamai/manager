@@ -11,6 +11,8 @@ type ResponsiveValue<T> = Partial<Record<BreakpointKey, T>> | T | T[];
 export interface BoxProps {
   /** The content of the component. */
   children?: React.ReactNode;
+  /** Additional class name(s) applied to the root element. */
+  className?: string;
   /** The component used for the root node. Either a string to use an HTML element or a component. */
   component?: React.ElementType;
   /**
@@ -41,6 +43,7 @@ export interface BoxProps {
 
 export const Box = ({
   children,
+  className,
   component = 'div',
   direction = 'column',
   spacing = 0,
@@ -73,7 +76,7 @@ export const Box = ({
   const hasSpacing = resolvedSpacing !== 0;
 
   // Compose CSS class names
-  const className = styles.box;
+  const resolvedClassName = [styles.box, className].filter(Boolean).join(' ');
 
   let gapStyle: React.CSSProperties = {};
   if (hasSpacing) {
@@ -105,7 +108,7 @@ export const Box = ({
   }>;
 
   return (
-    <Root className={className} style={containerStyle}>
+    <Root className={resolvedClassName} style={containerStyle}>
       {children}
     </Root>
   );

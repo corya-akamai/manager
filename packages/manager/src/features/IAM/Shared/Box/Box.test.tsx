@@ -159,4 +159,27 @@ describe('Box', () => {
 
     expect(container.firstChild).not.toHaveStyle({ gap: expect.anything() });
   });
+
+  it('applies a custom className to the root element', () => {
+    const { container } = renderWithTheme(
+      <Box className="my-custom-class">
+        <span>child</span>
+      </Box>
+    );
+
+    expect(container.firstChild).toHaveClass('my-custom-class');
+  });
+
+  it('merges a custom className with the internal box class', () => {
+    const { container } = renderWithTheme(
+      <Box className="extra-class" style={{ paddingBottom: '20px' }}>
+        <span>child</span>
+      </Box>
+    );
+
+    expect(container.firstChild).toHaveClass('extra-class');
+    expect(container.firstChild).toHaveStyle({
+      paddingBottom: '20px',
+    });
+  });
 });

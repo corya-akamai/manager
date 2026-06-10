@@ -1,6 +1,5 @@
 import { NotificationBanner } from '@akamai/cds-components/react';
 import { useAccountUser, useUserRoles } from '@linode/queries';
-import { Stack } from '@linode/ui';
 import { useParams } from '@tanstack/react-router';
 import React from 'react';
 
@@ -56,13 +55,11 @@ export const UserProfile = () => {
   return (
     <>
       <DocumentTitleSegment segment={`${username} - Profile`} />
-      <Stack spacing={2}>
-        <UserDetailsPanel
-          activeUser={user}
-          assignedRoles={assignedRoles}
-          permissions={permissions}
-        />
-      </Stack>
+      <UserDetailsPanel
+        activeUser={user}
+        assignedRoles={assignedRoles}
+        permissions={permissions}
+      />
     </>
   );
 };

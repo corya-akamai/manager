@@ -4,17 +4,17 @@ import {
   TableRow,
   Tooltip,
 } from '@akamai/cds-components/react';
-import { Spacing } from '@akamai/cds-tokens';
+import { Color, Spacing } from '@akamai/cds-tokens';
 import { capitalize, truncateEnd } from '@akamai/compute-ui-core/formatting';
 import { useProfile } from '@linode/queries';
-import { Chip, Stack, Typography } from '@linode/ui';
-import { useTheme } from '@mui/material/styles';
+import { Chip, Typography } from '@linode/ui';
 import React from 'react';
 
 import { Avatar } from 'src/components/Avatar/Avatar';
 import { DateTimeDisplay } from 'src/components/DateTimeDisplay';
 
 import { usePermissions } from '../../hooks/usePermissions';
+import { Box } from '../../Shared/Box/Box';
 import {
   IAM_CHILD_USERS_PENDO_IDS,
   IAM_DELEGATE_USERS_PENDO_IDS,
@@ -36,7 +36,6 @@ interface Props {
 }
 
 export const UserRow = ({ onDelete, user }: Props) => {
-  const theme = useTheme();
   const {
     columnWidths,
     isChildOrDelegate,
@@ -57,12 +56,10 @@ export const UserRow = ({ onDelete, user }: Props) => {
   return (
     <TableRow data-qa-table-row={user.username} key={user.username} zebra>
       <TableCell style={getUsersTableCellStyle(columnWidths.username)}>
-        <Stack alignItems="center" direction="row" spacing={1.5}>
+        <Box direction="row" style={{ alignItems: 'center', gap: Spacing.S12 }}>
           <Avatar
             color={
-              user.username !== profile?.username
-                ? theme.palette.primary.dark
-                : undefined
+              user.username !== profile?.username ? Color.Brand[90] : undefined
             }
             username={user.username}
           />
@@ -97,7 +94,7 @@ export const UserRow = ({ onDelete, user }: Props) => {
             </Tooltip>
           </MaskableText>
           {user.tfa_enabled && <Chip color="success" label="2FA" />}
-        </Stack>
+        </Box>
       </TableCell>
       {showUserType && (
         <TableCell style={getUsersTableCellStyle(columnWidths.userType)}>
@@ -158,12 +155,16 @@ const LastLogin = (props: Pick<User, 'last_login' | 'user_type'>) => {
   }
 
   return (
-    <Stack alignItems="center" direction="row" spacing={1}>
+    <Box
+      direction="row"
+      style={{ alignItems: 'center', gap: Spacing.S8 }}
+      wrap="nowrap"
+    >
       <DateTimeDisplay value={last_login.login_datetime} />
       <Typography>&#8212;</Typography>
       <StatusIcon status="error" />
       <Typography>{capitalize(last_login.status)}</Typography>
-    </Stack>
+    </Box>
   );
 };
 

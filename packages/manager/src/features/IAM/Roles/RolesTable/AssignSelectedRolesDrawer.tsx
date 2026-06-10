@@ -8,7 +8,6 @@ import {
 } from '@linode/queries';
 import { ActionsPanel, Autocomplete, Drawer, Typography } from '@linode/ui';
 import { useDebouncedValue } from '@linode/utilities';
-import { Stack, useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import React, { useCallback, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
@@ -42,8 +41,6 @@ export const AssignSelectedRolesDrawer = ({
   open,
   selectedRoles,
 }: Props) => {
-  const theme = useTheme();
-
   const values = {
     roles: selectedRoles.map((r) => ({
       role: {
@@ -185,7 +182,7 @@ export const AssignSelectedRolesDrawer = ({
               marginBottom: Spacing.S20,
             }}
           >
-            <Typography mb={theme.spacingFunction(8)} variant="h3">
+            <Typography mb={Spacing.S8} variant="h3">
               User
             </Typography>
 
@@ -226,10 +223,14 @@ export const AssignSelectedRolesDrawer = ({
                       }
                       key={option.value}
                     >
-                      <Stack alignItems="center" direction="row" spacing={1}>
+                      <Box
+                        direction="row"
+                        style={{ alignItems: 'center' }}
+                        wrap="nowrap"
+                      >
                         <Typography>{option.label}</Typography>
                         {option.userType === 'delegate' && <DelegateUserChip />}
-                      </Stack>
+                      </Box>
                     </li>
                   )}
                   slotProps={{

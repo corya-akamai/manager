@@ -4,7 +4,7 @@ import {
   Spacing,
   Typography as TypographyTokens,
 } from '@akamai/cds-tokens';
-import { Stack, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
@@ -131,7 +131,7 @@ export const UserDetailsPanel = ({
     {
       label: 'Last login status',
       value: (
-        <Stack direction="row">
+        <Box direction="row">
           {activeUser.last_login && (
             <StatusIcon
               status={
@@ -147,7 +147,7 @@ export const UserDetailsPanel = ({
           >
             {activeUser.last_login?.status ?? 'N/A'}
           </Typography>
-        </Stack>
+        </Box>
       ),
     },
     {
@@ -175,7 +175,7 @@ export const UserDetailsPanel = ({
     {
       label: 'Two-factor authentication',
       value: (
-        <Stack direction="row">
+        <Box direction="row">
           <StatusIcon
             status={activeUser.tfa_enabled ? 'active' : 'inactive'}
             style={{ alignSelf: 'center' }}
@@ -183,7 +183,7 @@ export const UserDetailsPanel = ({
           <Typography sx={(theme) => ({ font: theme.font.bold })}>
             {activeUser.tfa_enabled ? 'Enabled' : 'Disabled'}
           </Typography>
-        </Stack>
+        </Box>
       ),
     },
     {
@@ -270,22 +270,10 @@ export const UserDetailsPanel = ({
       </div>
       <div className={styles.itemsGrid} style={itemsGridStyle}>
         {items.map((item) => (
-          <div key={item.label}>
-            <Stack
-              direction="column"
-              spacing={0.25}
-              sx={{
-                '& > p:nth-of-type(2)': {
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  alignItems: 'center',
-                },
-              }}
-            >
-              <Typography>{item.label}</Typography>
-              {item.value}
-            </Stack>
-          </div>
+          <Box className={styles.itemBox} key={item.label}>
+            <Typography>{item.label}</Typography>
+            {item.value}
+          </Box>
         ))}
       </div>
       <EditUserDetailsDrawer
