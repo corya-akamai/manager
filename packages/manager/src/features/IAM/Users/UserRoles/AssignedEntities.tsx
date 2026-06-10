@@ -1,11 +1,11 @@
 import { Button, Tooltip } from '@akamai/cds-components/react';
-import { Spacing, Typography as TypographyToken } from '@akamai/cds-tokens';
+import { Spacing } from '@akamai/cds-tokens';
 import { sortByString } from '@akamai/compute-ui-core/formatting';
 import { Chip, CloseIcon } from '@linode/ui';
 import * as React from 'react';
 
-import { Box } from '../../Shared/Box/Box';
 import { SingleRowTruncatedList } from '../../Shared/SingleRowTruncatedList/SingleRowTruncatedList';
+import styles from '../../Shared/SingleRowTruncatedList/SingleRowTruncatedList.module.css';
 
 import type { CombinedEntity, ExtendedRoleView } from '../../Shared/types';
 import type { AccountRoleType, EntityRoleType } from '@linode/api-v4';
@@ -47,18 +47,6 @@ export const AssignedEntities = ({
 
   const chipGapPx = Number.parseInt(Spacing.S8, 10) || 8;
 
-  const overflowPillSx = {
-    alignItems: 'center',
-    backgroundColor:
-      'var(--token-alias-background-informativesubtle, light-dark(#e6edfe, #515157))',
-    borderRadius: 4,
-    display: 'inline-flex',
-    height: '20px',
-    padding: `0 ${Spacing.S8}`,
-    position: 'relative' as const,
-    top: 2,
-  };
-
   const items = entitiesToRender.map((entity) => (
     <Tooltip
       disabled={entity.name.length <= 30}
@@ -99,42 +87,32 @@ export const AssignedEntities = ({
       gapPx={chipGapPx}
       items={items}
       overflowButtonPhantom={
-        <Box style={overflowPillSx}>
+        <span className={styles.overflowPillBadge}>
           <Button
+            className={styles.overflowPillButton}
             size="small"
-            style={{
-              color:
-                'var(--token-alias-content-text-primary-default, light-dark(#343438, #ffffff))',
-              font: TypographyToken.Label.Regular.Xs,
-              padding: 0,
-            }}
             variant="link"
           >
             {phantomLabel}
           </Button>
-        </Box>
+        </span>
       }
       renderOverflowButton={(hiddenCount) => (
-        <Box style={overflowPillSx}>
+        <span className={styles.overflowPillBadge}>
           <Tooltip
             tooltipPlacement="top"
             tooltipText="Click to View All Entities"
           >
             <Button
+              className={styles.overflowPillButton}
               onClick={() => onButtonClick(role.name)}
               size="small"
-              style={{
-                color:
-                  'var(--token-alias-content-text-primary-default, light-dark(#343438, #ffffff))',
-                font: TypographyToken.Label.Regular.Xs,
-                padding: 0,
-              }}
               variant="link"
             >
               +{hiddenCount}
             </Button>
           </Tooltip>
-        </Box>
+        </span>
       )}
       totalCount={sortedEntities.length}
     />

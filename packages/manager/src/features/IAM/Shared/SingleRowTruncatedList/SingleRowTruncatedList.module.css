@@ -15,6 +15,13 @@
   visibility: hidden;
 }
 
+.ellipsisMeasure {
+  line-height: 20px;
+  position: relative;
+  top: 2px;
+  white-space: nowrap;
+}
+
 .itemStrip {
   align-items: center;
   display: flex;
@@ -43,4 +50,30 @@
   flex-shrink: 0;
   justify-content: flex-end;
   min-width: max-content;
+}
+
+.overflowPillBadge {
+  align-items: center;
+  background-color: var(
+    --token-global-color-ultramarine-20,
+    light-dark(#c8e4f7, #000000)
+  );
+  border-radius: var(--token-global-border-radius-s4, 4px);
+  display: inline-flex;
+  height: 20px;
+  padding: 0 var(--token-global-spacing-s8, 8px);
+  position: relative;
+  top: 2px;
+}
+
+.overflowPillButton {
+  color: var(
+    --token-alias-content-text-primary-default,
+    light-dark(#343438, #ffffff)
+  );
+  font-family: var(--token-global-font-font-family-brand, 'Nunito Sans');
+  font-size: var(--token-global-font-font-size-xxs, 0.75rem);
+  font-weight: var(--token-global-font-font-weight-regular, 400);
+  line-height: var(--token-global-font-line-height-xxxs, 1rem);
+  padding: 0;
 }

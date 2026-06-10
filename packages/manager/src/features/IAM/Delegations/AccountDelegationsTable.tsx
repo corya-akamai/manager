@@ -1,16 +1,20 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeaderCell,
+  TableRow,
+} from '@akamai/cds-components/react';
 import React from 'react';
 
-import { Table } from 'src/components/Table';
-import { TableBody } from 'src/components/TableBody';
-import { TableCell } from 'src/components/TableCell';
-import { TableHead } from 'src/components/TableHead';
-import { TableRow } from 'src/components/TableRow/TableRow';
-import { TableRowEmpty } from 'src/components/TableRowEmpty/TableRowEmpty';
-import { TableRowError } from 'src/components/TableRowError/TableRowError';
-import { TableRowLoading } from 'src/components/TableRowLoading/TableRowLoading';
-import { TableSortCell } from 'src/components/TableSortCell';
-
+import { CircleProgress } from '../Shared/CircleProgress/CircleProgress';
 import { NO_ITEMS_TO_DISPLAY_TEXT } from '../Shared/constants';
+import { ErrorState } from '../Shared/ErrorState/ErrorState';
+import {
+  getAccountDelegationsTableCellStyle,
+  useAccountDelegationsTableColumns,
+} from './accountDelegationsTableColumnsUtils';
 import { AccountDelegationsTableRow } from './AccountDelegationsTableRow';
 
 import type {
@@ -24,7 +28,6 @@ interface Props {
   error: APIError[] | null;
   handleOrderChange: (key: string, order?: 'asc' | 'desc') => void;
   isLoading: boolean;
-  numCols: number;
   order: 'asc' | 'desc';
   orderBy: string;
 }
@@ -34,43 +37,69 @@ export const AccountDelegationsTable = ({
   error,
   handleOrderChange,
   isLoading,
-  numCols,
   order,
   orderBy,
 }: Props) => {
+  const { columnWidths, showUsers } = useAccountDelegationsTableColumns();
+
   return (
     <Table aria-label="List of Account Delegations">
       <TableHead
-        sx={{
+        style={{
           whiteSpace: 'nowrap',
         }}
       >
-        <TableRow>
-          <TableSortCell
-            active={orderBy === 'company'}
-            direction={order}
-            handleClick={handleOrderChange}
-            label="company"
-            style={{ width: '27%' }}
+        <TableRow
+          headerbackground="var(--token-component-table-header-nested-background)"
+          headerborder
+        >
+          <TableHeaderCell
+            onSort={() =>
+              handleOrderChange('company', order === 'asc' ? 'desc' : 'asc')
+            }
+            sortable
+            sorted={orderBy === 'company' ? order : undefined}
+            style={getAccountDelegationsTableCellStyle(columnWidths.account)}
           >
             Account
-          </TableSortCell>
-          <TableCell
-            style={{ width: '59%' }}
-            sx={{ display: { sm: 'table-cell', xs: 'none' } }}
-          >
-            Users
-          </TableCell>
-          <TableCell style={{ width: '14%' }} />
+          </TableHeaderCell>
+          {showUsers ? (
+            <TableHeaderCell
+              style={getAccountDelegationsTableCellStyle(columnWidths.users, {
+                shrinkable: true,
+              })}
+            >
+              Users
+            </TableHeaderCell>
+          ) : null}
+          <TableHeaderCell
+            style={getAccountDelegationsTableCellStyle(columnWidths.actions)}
+          />
         </TableRow>
       </TableHead>
       <TableBody>
-        {isLoading && <TableRowLoading columns={numCols} rows={1} />}
+        {isLoading && (
+          <TableRow>
+            <TableCell style={{ height: 100 }}>
+              <CircleProgress size="large" />
+            </TableCell>
+          </TableRow>
+        )}
         {error && (
-          <TableRowError colSpan={numCols} message={error[0]?.reason} />
+          <TableRow>
+            <TableCell style={{ justifyContent: 'center' }}>
+              <ErrorState errorText={error[0]?.reason} />
+            </TableCell>
+          </TableRow>
         )}
         {!isLoading && !error && (!delegations || delegations.length === 0) && (
-          <TableRowEmpty colSpan={numCols} message={NO_ITEMS_TO_DISPLAY_TEXT} />
+          <TableRow>
+            <TableCell>
+              <p style={{ textAlign: 'center', width: '100%' }}>
+                {NO_ITEMS_TO_DISPLAY_TEXT}
+              </p>
+            </TableCell>
+          </TableRow>
         )}
         {!isLoading &&
           !error &&

@@ -16,7 +16,9 @@ import styles from './SingleRowTruncatedList.module.css';
  * - items: pre-rendered ReactNode array to display as chips/tags
  * - totalCount: true total (may exceed items.length when the caller caps rendering)
  * - gapPx: pixel gap between items (default 8)
- * - ellipsisReservePx: pixels reserved for the "..." separator (default 20)
+ * - ellipsisReservePx: fallback pixels reserved for the ellipsis when measurement is
+ *   unavailable (default 20)
+ * - ellipsisText: separator shown before the overflow pill (default "...")
  * - renderOverflowButton: render prop for the +N pill; receives hidden item count
  * - overflowButtonPhantom: render prop for the phantom (off-screen) overflow pill used
  *   to pre-measure the pill width before layout. Must render the pill at its maximum
@@ -25,6 +27,7 @@ import styles from './SingleRowTruncatedList.module.css';
 
 export interface SingleRowTruncatedListProps {
   ellipsisReservePx?: number;
+  ellipsisText?: string;
   gapPx?: number;
   items: React.ReactNode[];
   overflowButtonPhantom: React.ReactNode;
@@ -34,6 +37,7 @@ export interface SingleRowTruncatedListProps {
 
 export const SingleRowTruncatedList = ({
   ellipsisReservePx = 20,
+  ellipsisText = '...',
   gapPx = 8,
   items,
   overflowButtonPhantom,
@@ -42,6 +46,7 @@ export const SingleRowTruncatedList = ({
 }: SingleRowTruncatedListProps) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const overflowMeasureRef = React.useRef<HTMLDivElement>(null);
+  const ellipsisMeasureRef = React.useRef<HTMLSpanElement>(null);
 
   const effectiveTotalCount = totalCount ?? items.length;
   const [visibleCount, setVisibleCount] = React.useState(items.length);
@@ -68,10 +73,13 @@ export const SingleRowTruncatedList = ({
       el.style.display = 'inline-flex';
       const width = el.offsetWidth;
       el.style.display = prev;
+
       return width;
     });
 
     const overflowWidth = overflowMeasureRef.current?.offsetWidth ?? 48;
+    const ellipsisWidth =
+      ellipsisMeasureRef.current?.offsetWidth ?? ellipsisReservePx;
     const availableWidth = container.clientWidth;
 
     const allItemsWidth = itemWidths.reduce(
@@ -96,7 +104,7 @@ export const SingleRowTruncatedList = ({
       const gap = count > 0 ? gapPx : 0;
       const nextUsedWidth = usedWidth + gap + itemWidth;
       const widthWithOverflow =
-        nextUsedWidth + gapPx + ellipsisReservePx + gapPx + overflowWidth;
+        nextUsedWidth + gapPx + ellipsisWidth + gapPx + overflowWidth;
 
       if (widthWithOverflow > availableWidth) {
         break;
@@ -123,7 +131,7 @@ export const SingleRowTruncatedList = ({
     return () => {
       observer.disconnect();
     };
-  }, [recalculate, items]);
+  }, [recalculate, items, ellipsisText]);
 
   const hiddenFromTruncate = Math.max(0, items.length - visibleCount);
   const hiddenFromCap = Math.max(0, effectiveTotalCount - items.length);
@@ -135,6 +143,9 @@ export const SingleRowTruncatedList = ({
       {/* Phantom pill — absolutely positioned, invisible, used only to measure overflow pill width */}
       <div aria-hidden className={styles.phantom} ref={overflowMeasureRef}>
         {overflowButtonPhantom}
+        <span className={styles.ellipsisMeasure} ref={ellipsisMeasureRef}>
+          {ellipsisText}
+        </span>
       </div>
 
       {/* Item strip */}
@@ -153,8 +164,12 @@ export const SingleRowTruncatedList = ({
 
       {/* Ellipsis separator */}
       {showOverflow && (
-        <span className={styles.ellipsis} style={{ marginLeft: `${gapPx}px` }}>
-          ...
+        <span
+          className={styles.ellipsis}
+          data-slrtl-visible-ellipsis
+          style={{ marginLeft: `${gapPx}px` }}
+        >
+          {ellipsisText}
         </span>
       )}
 

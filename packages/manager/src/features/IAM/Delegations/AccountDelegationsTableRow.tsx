@@ -1,16 +1,16 @@
-import { Button, Tooltip } from '@akamai/cds-components/react';
-import { Spacing, Typography as TypographyToken } from '@akamai/cds-tokens';
+import { TableCell, TableRow } from '@akamai/cds-components/react';
+import { Spacing } from '@akamai/cds-tokens';
 import { Typography } from '@linode/ui';
 import React from 'react';
 
-import { TableCell } from 'src/components/TableCell';
-import { TableRow } from 'src/components/TableRow/TableRow';
-
 import { usePermissions } from '../hooks/usePermissions';
-import { Box } from '../Shared/Box/Box';
 import { IAM_PARENT_USERS_PENDO_IDS } from '../Shared/constants';
 import { InlineMenuAction } from '../Shared/InlineMenuAction/InlineMenuAction';
-import { TruncatedList } from '../Shared/TruncatedList';
+import {
+  getAccountDelegationsTableCellStyle,
+  useAccountDelegationsTableColumns,
+} from './accountDelegationsTableColumnsUtils';
+import { DelegatedUsersList } from './DelegatedUsersList';
 import { UpdateDelegationsDrawer } from './UpdateDelegationsDrawer';
 
 import type { ChildAccount, ChildAccountWithDelegates } from '@linode/api-v4';
@@ -21,6 +21,7 @@ interface Props {
 }
 
 export const AccountDelegationsTableRow = ({ delegation, index }: Props) => {
+  const { columnWidths, showUsers } = useAccountDelegationsTableColumns();
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
 
   const { data: permissions } = usePermissions('account', [
@@ -38,8 +39,11 @@ export const AccountDelegationsTableRow = ({ delegation, index }: Props) => {
     <TableRow
       data-qa-table-row={delegation.euuid}
       key={`delegation-${delegation.euuid}-${index}`}
+      zebra
     >
-      <TableCell>
+      <TableCell
+        style={getAccountDelegationsTableCellStyle(columnWidths.account)}
+      >
         <Typography
           sx={{
             maxWidth: 272,
@@ -52,85 +56,32 @@ export const AccountDelegationsTableRow = ({ delegation, index }: Props) => {
           {delegation.company}
         </Typography>
       </TableCell>
+      {showUsers ? (
+        <TableCell
+          style={getAccountDelegationsTableCellStyle(columnWidths.users, {
+            shrinkable: true,
+          })}
+        >
+          {'users' in delegation && delegation.users.length > 0 ? (
+            <DelegatedUsersList
+              onViewAll={handleUpdateDelegations}
+              users={delegation.users}
+            />
+          ) : (
+            <Typography
+              sx={{ fontStyle: 'italic', textTransform: 'capitalize' }}
+              variant="body1"
+            >
+              No Users Added
+            </Typography>
+          )}
+        </TableCell>
+      ) : null}
       <TableCell
-        sx={{
-          display: { sm: 'table-cell', xs: 'none' },
-          padding: Spacing.S8,
-        }}
-      >
-        {'users' in delegation && delegation.users.length > 0 ? (
-          <TruncatedList
-            addEllipsis
-            customOverflowButton={(numHiddenItems) => (
-              <Box
-                style={{
-                  alignItems: 'center',
-                  backgroundColor:
-                    'var(--token-alias-background-informativesubtle, light-dark(#e6edfe, #515157))',
-                  borderRadius: 4,
-                  display: 'flex',
-                  height: '20px',
-                  maxWidth: 'max-content',
-                  padding: `${Spacing.S4} ${Spacing.S8}`,
-                  position: 'relative',
-                  marginLeft: Spacing.S12,
-                  flexFlow: 'unset',
-                }}
-              >
-                <Tooltip
-                  tooltipPlacement="top"
-                  tooltipText="Click to View All Delegate Users"
-                >
-                  <Button
-                    onClick={handleUpdateDelegations}
-                    style={{
-                      color:
-                        'var(--token-alias-content-text-primary-default, light-dark(#343438, #ffffff))',
-                      font: TypographyToken.Label.Regular.Xs,
-                      padding: 0,
-                    }}
-                    variant="link"
-                  >
-                    +{numHiddenItems}
-                  </Button>
-                </Tooltip>
-              </Box>
-            )}
-            justifyOverflowButtonRight
-            listContainerSx={{
-              width: '100%',
-              overflow: 'hidden',
-              maxHeight: 24,
-              gap: 1,
-              '& .last-visible-before-overflow': {
-                '&::after': {
-                  top: 1,
-                  right: -13,
-                },
-              },
-            }}
-          >
-            {delegation.users.map((user: string, index: number) => (
-              <Typography key={user} variant="body1">
-                {user}
-                {index < delegation.users.length - 1 && ', '}
-              </Typography>
-            ))}
-          </TruncatedList>
-        ) : (
-          <Typography
-            sx={{ fontStyle: 'italic', textTransform: 'capitalize' }}
-            variant="body1"
-          >
-            No Users Added
-          </Typography>
-        )}
-      </TableCell>
-      <TableCell
-        actionCell
-        sx={{
-          textAlign: 'center',
+        style={{
+          ...getAccountDelegationsTableCellStyle(columnWidths.actions),
           paddingRight: Spacing.S0,
+          textAlign: 'center',
         }}
       >
         <InlineMenuAction

@@ -5,6 +5,9 @@ import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { SingleRowTruncatedList } from './SingleRowTruncatedList';
 
+const getVisibleEllipsis = (container: HTMLElement) =>
+  container.querySelector('[data-slrtl-visible-ellipsis]');
+
 const makeItems = (count: number) =>
   Array.from({ length: count }, (_, i) => (
     <span key={i}>{`Item ${i + 1}`}</span>
@@ -32,7 +35,7 @@ describe('SingleRowTruncatedList', () => {
   });
 
   it('does not show the overflow pill when all items fit and totalCount is not set', () => {
-    renderWithTheme(
+    const { container } = renderWithTheme(
       <SingleRowTruncatedList
         items={makeItems(3)}
         overflowButtonPhantom={overflowButtonPhantom}
@@ -40,13 +43,13 @@ describe('SingleRowTruncatedList', () => {
       />
     );
 
-    // No +N pill and no ellipsis
+    // No +N pill and no visible ellipsis (phantom may still hold a hidden measure node)
     expect(screen.queryByRole('button', { name: /^\+\d+$/ })).toBeNull();
-    expect(screen.queryByText('...')).toBeNull();
+    expect(getVisibleEllipsis(container)).toBeNull();
   });
 
   it('shows the overflow pill and ellipsis when totalCount exceeds items.length', () => {
-    renderWithTheme(
+    const { container } = renderWithTheme(
       <SingleRowTruncatedList
         items={makeItems(5)}
         overflowButtonPhantom={overflowButtonPhantom}
@@ -57,7 +60,7 @@ describe('SingleRowTruncatedList', () => {
 
     // hiddenFromCap = 20 - 5 = 15
     expect(screen.getByRole('button', { name: '+15' })).toBeVisible();
-    expect(screen.getByText('...')).toBeVisible();
+    expect(getVisibleEllipsis(container)).toHaveTextContent('...');
   });
 
   it('passes the correct hidden count to renderOverflowButton', () => {
@@ -115,7 +118,7 @@ describe('SingleRowTruncatedList', () => {
       get: () => 40,
     });
 
-    renderWithTheme(
+    const { container } = renderWithTheme(
       <SingleRowTruncatedList
         gapPx={8}
         items={makeItems(10)}
@@ -140,7 +143,7 @@ describe('SingleRowTruncatedList', () => {
       );
     }
 
-    expect(screen.getByText('...')).toBeVisible();
+    expect(getVisibleEllipsis(container)).toHaveTextContent('...');
     expect(screen.getByRole('button', { name: '+10' })).toBeVisible();
   });
 });

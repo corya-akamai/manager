@@ -75,3 +75,26 @@ export const openActionMenu = async () => {
 // Helper to get the switch control inside a `cds-switch` host element.
 export const getSwitchControl = (hostEl: HTMLElement) =>
   getShadowRootElement<HTMLButtonElement>(hostEl, 'button[role="switch"]');
+
+/** `cds-table-row` host elements in the light DOM (Lit slotted children). */
+export const getCdsTableRowHosts = (root: ParentNode): HTMLElement[] =>
+  Array.from(root.querySelectorAll<HTMLElement>('cds-table-row'));
+
+/**
+ * Resolves the rendered `.row` element inside each `cds-table-row` shadow DOM.
+ * Prefer this over `getAllByRole('row')`, which does not pierce CDS shadow roots.
+ */
+export const getCdsTableRows = async (
+  root: ParentNode
+): Promise<HTMLElement[]> => {
+  await waitFor(() => {
+    expect(getCdsTableRowHosts(root).length).toBeGreaterThan(0);
+  });
+
+  const hosts = getCdsTableRowHosts(root);
+  const rows = await Promise.all(
+    hosts.map((host) => getShadowRootElement<HTMLElement>(host, '.row'))
+  );
+
+  return rows.filter((row): row is HTMLElement => row !== null);
+};

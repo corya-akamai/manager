@@ -3,6 +3,7 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 
 import { accountRolesFactory } from 'src/factories/accountRoles';
+import { getCdsTableRows } from 'src/features/IAM/utilities/testHelpers';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { UserDelegationsTable } from './UserDelegationsTable';
@@ -82,24 +83,22 @@ describe('UserDelegationsTable', () => {
     screen.getByText('Test Account 2');
   });
 
-  it('shows pagination when there are more than 25 child accounts', () => {
+  it('shows pagination when there are more than 25 child accounts', async () => {
     queryMocks.useGetDelegatedChildAccountsForUserQuery.mockReturnValue({
       data: { data: childAccountFactory.buildList(30), results: 30 },
       isLoading: false,
     });
 
-    renderWithTheme(<UserDelegationsTable />, {
+    const { container } = renderWithTheme(<UserDelegationsTable />, {
       flags: {
         iam: { enabled: true },
       },
     });
 
-    const tabelRows = screen.getAllByRole('row');
-    const paginationRow = screen.getByRole('navigation', {
-      name: 'pagination navigation',
-    });
-    expect(tabelRows).toHaveLength(32); // 30 rows + header row + pagination row
-    expect(paginationRow).toBeInTheDocument();
+    const tableRows = await getCdsTableRows(container);
+    const pagination = screen.getByTestId('user-delegations-table-pagination');
+    expect(tableRows).toHaveLength(31); // 30 data rows + header row
+    expect(pagination).toBeInTheDocument();
   });
 
   it('filters child accounts by search', async () => {

@@ -3,16 +3,15 @@ import {
   FormField,
   FormLabel,
   NotificationBanner,
+  Pagination,
   SearchField,
 } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { useGetChildAccountsQuery } from '@linode/queries';
-import { useMediaQuery, useTheme } from '@mui/material';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import React, { useCallback } from 'react';
 import { debounce } from 'throttle-debounce';
 
-import { PaginationFooter } from 'src/components/PaginationFooter/PaginationFooter';
 import globalStyles from 'src/features/IAM/Shared/global.module.css';
 import { useOrderV2 } from 'src/hooks/useOrderV2';
 import { usePaginationV2 } from 'src/hooks/usePaginationV2';
@@ -22,6 +21,7 @@ import { Paper } from '../Shared/Paper/Paper';
 import { AccountDelegationsTable } from './AccountDelegationsTable';
 
 const DELEGATIONS_ROUTE = '/iam/delegations';
+const MIN_PAGE_SIZE = 25;
 
 export const AccountDelegations = () => {
   const navigate = useNavigate();
@@ -33,13 +33,6 @@ export const AccountDelegations = () => {
   const { company } = useSearch({
     from: '/iam',
   });
-  const theme = useTheme();
-
-  const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
-  const isLgDown = useMediaQuery(theme.breakpoints.up('lg'));
-
-  const numColsLg = isLgDown ? 3 : 2;
-  const numCols = isSmDown ? 2 : numColsLg;
 
   const { handleOrderChange, order, orderBy } = useOrderV2({
     initialRoute: {
@@ -139,16 +132,21 @@ export const AccountDelegations = () => {
         error={error}
         handleOrderChange={handleOrderChange}
         isLoading={isLoading || isPermissionsLoading}
-        numCols={numCols}
         order={order}
         orderBy={orderBy}
       />
-      <PaginationFooter
+      <Pagination
         count={childAccountsWithDelegates?.results ?? 0}
-        handlePageChange={pagination.handlePageChange}
-        handleSizeChange={pagination.handlePageSizeChange}
+        onPageChange={(e: CustomEvent<number>) =>
+          pagination.handlePageChange(Number(e.detail))
+        }
+        onPageSizeChange={(
+          e: CustomEvent<{ page: number; pageSize: number }>
+        ) => pagination.handlePageSizeChange(Number(e.detail.pageSize))}
         page={pagination.page}
         pageSize={pagination.pageSize}
+        pageSizes={[MIN_PAGE_SIZE, 50, 75, 100]}
+        style={{ borderBottom: 0 }}
       />
     </Paper>
   );
