@@ -285,8 +285,8 @@ describe('database resize', () => {
       await waitForElementToBeRemoved(getByTestId(loadingTestId));
       const nodeRadioBtns = getByTestId('database-nodes');
       expect(nodeRadioBtns.children.length).toBe(2);
-      expect(nodeRadioBtns).toHaveTextContent('$60/month $0.09/hr');
-      expect(nodeRadioBtns).toHaveTextContent('$140/month $0.21/hr');
+      expect(nodeRadioBtns).toHaveTextContent('$60/mo ($0.09/hr)');
+      expect(nodeRadioBtns).toHaveTextContent('$140/mo ($0.21/hr)');
 
       const currentSummary = getByTestId('currentSummary');
       const selectedPlanText =

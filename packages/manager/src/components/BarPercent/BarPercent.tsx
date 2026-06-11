@@ -74,9 +74,11 @@ export const BarPercent = React.memo((props: BarPercentProps) => {
         narrow={narrow}
         rounded={rounded}
         segmented={segmented}
-        style={{
-          ['--linode-bar-percent' as any]: percentage,
-        } as React.CSSProperties}
+        style={
+          {
+            ['--linode-bar-percent' as any]: percentage,
+          } as React.CSSProperties
+        }
         sx={sx}
         value={percentage}
         valueBuffer={effectiveValueBuffer}
@@ -100,7 +102,12 @@ const StyledDiv = styled('div')({
 
 const StyledLinearProgress = styled(LinearProgress, {
   label: 'StyledLinearProgress',
-  shouldForwardProp: omittedProps(['rounded', 'narrow', 'customColors', 'segmented']),
+  shouldForwardProp: omittedProps([
+    'rounded',
+    'narrow',
+    'customColors',
+    'segmented',
+  ]),
 })<Partial<BarPercentProps>>(({ theme, ...props }) => {
   const segmentedBackgroundImage = `linear-gradient(
     90deg,
@@ -121,7 +128,8 @@ const StyledLinearProgress = styled(LinearProgress, {
         ? {
             backgroundImage: segmentedBackgroundImage,
             backgroundRepeat: 'no-repeat',
-            backgroundSize: 'calc(100 / var(--linode-bar-percent, 1) * 100%) 100%',
+            backgroundSize:
+              'calc(100 / var(--linode-bar-percent, 1) * 100%) 100%',
             backgroundPosition: 'left',
           }
         : {

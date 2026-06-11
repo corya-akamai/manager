@@ -60,7 +60,7 @@ export const useComputePricing = (planTypeId?: null | string) => {
      * in the Monthly column). Pass the full tab plan list (not paginated/filtered) -
      * so the result stays consistent across page and filter changes.
      *
-     * It always checks against the base billing mode and it's not affected by `planTypeId` even ifprovided.
+     * It always checks against the base billing mode and it's not affected by `planTypeId` even if provided.
      */
     hasHourlyEligiblePlans: (planList: PlanWithAvailability[]): boolean => {
       if (baseBilling !== 'hourly') {
@@ -103,6 +103,73 @@ export const useComputePricing = (planTypeId?: null | string) => {
     formatPrice: (priceObject: null | PriceObject | undefined): string => {
       const value = getPriceForInterval(priceObject, billing);
       return formatPrice(value);
+    },
+    /**
+     * Returns the formatted price subheading shown on a plan or node row for the active billing mode.
+     *
+     * - On monthly billing it shows the monthly price with the hourly price in parentheses.
+     * - On hourly billing it shows just the hourly price. Those plans have no monthly commitment,
+     * so we hide the monthly value even when the API happens to return a monthly value.
+     *
+     * @param options.format - Pass `format: 'short'` for tight spaces like table rows to get
+     * abbreviated price labels (`mo`/`hr`) instead of the default long-form labels (`month`/`hour`).
+     *
+     * @param options.missingPriceFallback - Pass `missingPriceFallback: 'zero'` to show `$0` for missing prices
+     * (e.g. before a plan is picked) instead of the default unknown-price placeholder `$--.--`.
+     *
+     * @example
+     * 1. Monthly billing (default)
+     *    a. getPriceSubheading({ hourly: 0.09, monthly: 60 })
+     *    // '$60/month ($0.09/hour)'
+     *    b. getPriceSubheading({ hourly: 0.09, monthly: 60 }, { format: 'short' })
+     *    // '$60/mo ($0.09/hr)'
+     *    c. getPriceSubheading(undefined)
+     *    // '$--.--/month ($--.--/hour)'
+     *    d. getPriceSubheading(undefined, { format: 'short', missingPriceFallback: 'zero' })
+     *    // '$0/mo ($0/hr)'
+     *
+     * 2. Hourly billing
+     *    a. getPriceSubheading({ hourly: 0.09, monthly: 60 })
+     *    // '$0.09/hour'
+     *    b. getPriceSubheading({ hourly: 0.09, monthly: 60 }, { format: 'short' })
+     *    // '$0.09/hr'
+     *    c. getPriceSubheading(undefined)
+     *    // '$--.--/hour'
+     *    d. getPriceSubheading(undefined, { format: 'short', missingPriceFallback: 'zero' })
+     *    // '$0/hr'
+     */
+    getPriceSubheading: (
+      priceObject: null | PriceObject | undefined,
+      options: {
+        format?: 'long' | 'short';
+        missingPriceFallback?: 'unknown' | 'zero';
+      } = {}
+    ): string => {
+      const { format = 'long', missingPriceFallback = 'unknown' } = options;
+
+      const formatValue = (value: null | number | undefined): string => {
+        if (value === null || value === undefined) {
+          return missingPriceFallback === 'zero' ? '0' : UNKNOWN_PRICE;
+        }
+        return formatPrice(value);
+      };
+
+      const monthlyLabel = getLabelForInterval('monthly', format);
+      const hourlyLabel = getLabelForInterval('hourly', format);
+      const formattedHourly = `$${formatValue(priceObject?.hourly)}/${hourlyLabel}`;
+      const formattedMonthly = `$${formatValue(priceObject?.monthly)}/${monthlyLabel}`;
+
+      if (billing === 'hourly') {
+        // Hourly-scoped plans are billed purely by the hour and have no monthly commitment,
+        // so the subheading always shows only the hourly price - even when the API happens to return a monthly value.
+        return formattedHourly;
+      }
+
+      if (billing === 'monthly') {
+        return `${formattedMonthly} (${formattedHourly})`;
+      }
+
+      return '';
     },
     /**
      * Label for the active billing mode (e.g. `'hour'`, `'month'`).

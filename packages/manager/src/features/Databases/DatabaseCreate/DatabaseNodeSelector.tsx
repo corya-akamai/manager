@@ -9,6 +9,7 @@ import React from 'react';
 
 import { determineInitialPlanCategoryTab } from 'src/features/components/PlansPanel/utils';
 import { useRestrictedGlobalGrantCheck } from 'src/hooks/useRestrictedGlobalGrantCheck';
+import { useComputePricing } from 'src/utilities/pricing/useComputePricing';
 
 import type {
   ClusterSize,
@@ -57,6 +58,23 @@ export const DatabaseNodeSelector = (props: Props) => {
     globalGrantType: 'add_databases',
   });
 
+  // Pricing scoped to the selected plan via the `computePricing` LD flag.
+  // `getPriceSubheading` returns either `$X/mo ($Y/hr)` or just `$Y/hr` based
+  // on the active billing mode.
+  const { getPriceSubheading } = useComputePricing(selectedPlan?.id);
+
+  const formatNodePrice = React.useCallback(
+    (price: DatabasePriceObject | undefined): string => {
+      // Use short labels and fall back to `$0` for Databases feature when
+      // no plan is selected (instead of the default `--.--` unknown-price placeholder).
+      return getPriceSubheading(price, {
+        format: 'short',
+        missingPriceFallback: 'zero',
+      });
+    },
+    [getPriceSubheading]
+  );
+
   const nodePricing = {
     double: selectedPlan?.engines[selectedEngine]?.find(
       (cluster: DatabaseClusterSizeObject) => cluster.quantity === 2
@@ -100,9 +118,7 @@ export const DatabaseNodeSelector = (props: Props) => {
             {currentClusterSize === 1 && currentChip}
             <br />
             <span style={{ fontSize: '12px' }}>
-              {`$${nodePricing?.single?.monthly || 0}/month $${
-                nodePricing?.single?.hourly || 0
-              }/hr`}
+              {formatNodePrice(nodePricing?.single)}
             </span>
           </div>
         ),
@@ -123,9 +139,7 @@ export const DatabaseNodeSelector = (props: Props) => {
             {currentClusterSize === 2 && currentChip}
             <br />
             <span style={{ fontSize: '12px' }}>
-              {`$${nodePricing?.double?.monthly || 0}/month $${
-                nodePricing?.double?.hourly || 0
-              }/hr`}
+              {formatNodePrice(nodePricing?.double)}
             </span>
           </div>
         ),
@@ -140,9 +154,7 @@ export const DatabaseNodeSelector = (props: Props) => {
           {currentClusterSize === 3 && currentChip}
           <br />
           <span style={{ fontSize: '12px' }}>
-            {`$${nodePricing?.multi?.monthly || 0}/month $${
-              nodePricing?.multi?.hourly || 0
-            }/hr`}
+            {formatNodePrice(nodePricing?.multi)}
           </span>
         </div>
       ),
@@ -156,6 +168,7 @@ export const DatabaseNodeSelector = (props: Props) => {
     displayTypes,
     currentClusterSize,
     selectedClusterSize,
+    formatNodePrice,
   ]);
 
   return (

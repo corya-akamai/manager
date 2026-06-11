@@ -3,6 +3,7 @@ import { Typography } from '@linode/ui';
 import React from 'react';
 
 import { useFlags } from 'src/hooks/useFlags';
+import { useComputePricing } from 'src/utilities/pricing/useComputePricing';
 
 import { StyledPlanSummarySpan } from '../DatabaseDetail/DatabaseResize/DatabaseResize.style';
 import { useIsDatabasesEnabled } from '../utilities';
@@ -61,8 +62,13 @@ export const DatabaseSummarySection = (props: Props) => {
   const currentBasePrice = currentPlan?.engines[currentEngine]?.[0]
     .price as DatabasePriceObject;
 
-  const currentNodePrice = `$${currentPrice?.monthly}/month`;
-  const currentPlanPrice = `$${currentBasePrice?.monthly}/month`;
+  // Pricing scoped to the active billing interval from the `computePricing` LD flag.
+  // Pass the plan id so `activeBillingPlanMatchers` can scope hourly billing to specific
+  // plan classes (e.g. G8, GPU) without affecting others.
+  const { formatPrice, priceLabel } = useComputePricing(currentPlan?.id);
+
+  const currentNodePrice = `$${formatPrice(currentPrice)}/${priceLabel}`;
+  const currentPlanPrice = `$${formatPrice(currentBasePrice)}/${priceLabel}`;
 
   const isNewDatabase = isDatabasesV2GA && platform !== 'rdbms-legacy';
 

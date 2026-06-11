@@ -28,6 +28,7 @@ import {
 import { typeLabelDetails } from 'src/features/Linodes/presentation';
 import { useFlags } from 'src/hooks/useFlags';
 import { useIsGenerationalPlansEnabled } from 'src/utilities/linodes';
+import { useComputePricing } from 'src/utilities/pricing/useComputePricing';
 
 import {
   PREMIUM_CPU_PLANS_RENAME,
@@ -86,6 +87,11 @@ export const DatabaseResize = () => {
     error: typesError,
     isLoading: typesLoading,
   } = useDatabaseTypesQuery({ platform: database.platform });
+
+  const {
+    formatPrice: formatSelectedPlanPrice,
+    priceLabel: selectedPlanPriceLabel,
+  } = useComputePricing(selectedPlanId);
 
   const shouldProvideRegions =
     flags.databasePremium && isDefaultDatabase(database);
@@ -243,15 +249,14 @@ export const DatabaseResize = () => {
     )?.price as DatabasePriceObject;
     const resizeBasePrice = selectedPlanType.engines[selectedEngine]?.[0]
       .price as DatabasePriceObject;
-    const currentPlanPrice = `$${resizeBasePrice?.monthly}/month`;
+    const baseNodePrice = `$${formatSelectedPlanPrice(resizeBasePrice)}/${selectedPlanPriceLabel}`;
+    const selectedNodePrice = `$${formatSelectedPlanPrice(price)}/${selectedPlanPriceLabel}`;
 
     return {
-      basePrice: currentPlanPrice,
+      basePrice: baseNodePrice,
       numberOfNodes: clusterSize,
       plan: formatStorageUnits(selectedPlanType.label),
-      price: isNewDatabaseGA
-        ? `$${price?.monthly}/month`
-        : `$${price?.monthly}/month or $${price?.hourly}/hour`,
+      price: selectedNodePrice,
     };
   }, [selectedPlanId, clusterSize, selectedTab]);
 

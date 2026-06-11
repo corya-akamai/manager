@@ -14,10 +14,6 @@ import { TableCell } from 'src/components/TableCell';
 import { TableRow } from 'src/components/TableRow';
 import { LINODE_NETWORK_IN } from 'src/constants';
 import { PRICE_ERROR_TOOLTIP_TEXT } from 'src/utilities/pricing/constants';
-import {
-  formatPrice,
-  getLabelForInterval,
-} from 'src/utilities/pricing/priceInterval';
 import { useComputePricing } from 'src/utilities/pricing/useComputePricing';
 
 import { DisabledPlanSelectionTooltip } from './DisabledPlanSelectionTooltip';
@@ -77,7 +73,7 @@ export const PlanSelection = (props: PlanSelectionProps) => {
   // to specific plan classes (e.g. G8, GPU) without affecting others.
   // This means different rows in the same table can have different billing modes at the same time —
   // scoped plans resolve to 'hourly' while all other plans fall back to 'monthly'.
-  const { billing } = useComputePricing(plan.id);
+  const { billing, getPriceSubheading } = useComputePricing(plan.id);
 
   const { data: linode } = useLinodeQuery(
     linodeID ?? -1,
@@ -91,26 +87,9 @@ export const PlanSelection = (props: PlanSelectionProps) => {
     ? getLinodeRegionPrice(plan, selectedRegionId)
     : plan.price;
 
-  const getSubHeading = (price: PriceObject | undefined): string => {
-    const monthlyLabel = getLabelForInterval('monthly', 'short');
-    const hourlyLabel = getLabelForInterval('hourly', 'short');
-    const formattedHourly = `$${formatPrice(price?.hourly)}/${hourlyLabel}`;
-    const formattedMonthly = `$${formatPrice(price?.monthly)}/${monthlyLabel}`;
-
-    if (billing === 'hourly') {
-      // Hourly-scoped plans are billed purely by the hour and have no monthly commitment,
-      // so the subheading always shows only the hourly price - even when the API happens to return a monthly value.
-      return formattedHourly;
-    }
-
-    if (billing === 'monthly') {
-      return `${formattedMonthly} (${formattedHourly})`;
-    }
-
-    return '';
-  };
-
-  plan.subHeadings[0] = getSubHeading(price);
+  // Hourly-scoped plans show only the hourly price (no monthly commitment).
+  // Monthly-scoped plans show the monthly price with the hourly price in parentheses.
+  plan.subHeadings[0] = getPriceSubheading(price, { format: 'short' });
 
   const rowIsDisabled =
     (!isDatabaseFlow && isSamePlan) ||

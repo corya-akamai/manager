@@ -236,4 +236,107 @@ describe('useComputePricing', () => {
       expect(result.current.hasHourlyEligiblePlans([])).toBe(false);
     });
   });
+
+  describe('getPriceSubheading', () => {
+    const price: PriceObject = { hourly: 0.09, monthly: 60 };
+
+    describe("when billing is 'monthly'", () => {
+      const options = mockFlagOptions('monthly');
+
+      it('returns monthly with hourly in parentheses (long format by default)', () => {
+        const { result } = renderHook(() => useComputePricing(), {
+          wrapper: (ui) => wrapWithTheme(ui, options),
+        });
+        expect(result.current.getPriceSubheading(price)).toBe(
+          '$60/month ($0.09/hour)'
+        );
+      });
+
+      it("uses abbreviated labels when format option 'short' is provided", () => {
+        const { result } = renderHook(() => useComputePricing(), {
+          wrapper: (ui) => wrapWithTheme(ui, options),
+        });
+        expect(
+          result.current.getPriceSubheading(price, { format: 'short' })
+        ).toBe('$60/mo ($0.09/hr)');
+      });
+
+      it('renders $--.-- for missing prices by default', () => {
+        const { result } = renderHook(() => useComputePricing(), {
+          wrapper: (ui) => wrapWithTheme(ui, options),
+        });
+        expect(result.current.getPriceSubheading(undefined)).toBe(
+          '$--.--/month ($--.--/hour)'
+        );
+        expect(result.current.getPriceSubheading(null)).toBe(
+          '$--.--/month ($--.--/hour)'
+        );
+        expect(
+          result.current.getPriceSubheading({ hourly: null, monthly: null })
+        ).toBe('$--.--/month ($--.--/hour)');
+      });
+
+      it("renders $0 for missing prices when missingPriceFallback option 'zero' is provided", () => {
+        const { result } = renderHook(() => useComputePricing(), {
+          wrapper: (ui) => wrapWithTheme(ui, options),
+        });
+        expect(
+          result.current.getPriceSubheading(undefined, {
+            format: 'short',
+            missingPriceFallback: 'zero',
+          })
+        ).toBe('$0/mo ($0/hr)');
+      });
+    });
+
+    describe("when billing is 'hourly'", () => {
+      const options = mockFlagOptions('hourly');
+
+      it('returns only the hourly price (long format by default)', () => {
+        const { result } = renderHook(() => useComputePricing(), {
+          wrapper: (ui) => wrapWithTheme(ui, options),
+        });
+        expect(result.current.getPriceSubheading(price)).toBe('$0.09/hour');
+      });
+
+      it('hides the monthly price even if the API returns one', () => {
+        // Hourly-scoped plans have no monthly commitment, so it doesn't show the monthly price.
+        const { result } = renderHook(() => useComputePricing(), {
+          wrapper: (ui) => wrapWithTheme(ui, options),
+        });
+        const subheading = result.current.getPriceSubheading(price);
+        expect(subheading).not.toContain('/month');
+        expect(subheading).not.toContain('60');
+      });
+
+      it("uses abbreviated label when format option 'short' is provided", () => {
+        const { result } = renderHook(() => useComputePricing(), {
+          wrapper: (ui) => wrapWithTheme(ui, options),
+        });
+        expect(
+          result.current.getPriceSubheading(price, { format: 'short' })
+        ).toBe('$0.09/hr');
+      });
+
+      it('renders $--.-- when hourly is missing by default', () => {
+        const { result } = renderHook(() => useComputePricing(), {
+          wrapper: (ui) => wrapWithTheme(ui, options),
+        });
+        expect(
+          result.current.getPriceSubheading({ hourly: null, monthly: 60 })
+        ).toBe('$--.--/hour');
+      });
+
+      it("renders $0 when hourly is missing and missingPriceFallback option 'zero' is provided", () => {
+        const { result } = renderHook(() => useComputePricing(), {
+          wrapper: (ui) => wrapWithTheme(ui, options),
+        });
+        expect(
+          result.current.getPriceSubheading(undefined, {
+            missingPriceFallback: 'zero',
+          })
+        ).toBe('$0/hour');
+      });
+    });
+  });
 });

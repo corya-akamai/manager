@@ -8,6 +8,7 @@ import {
   planSelectionTypeFactory,
 } from 'src/factories/types';
 import { LIMITED_AVAILABILITY_COPY } from 'src/features/components/PlansPanel/constants';
+import { formatPrice as realFormatPrice } from 'src/utilities/pricing/priceInterval';
 import { useComputePricing } from 'src/utilities/pricing/useComputePricing';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 import { resizeScreenSize } from 'src/utilities/testHelpers';
@@ -32,9 +33,10 @@ vi.mock('@akamai/compute-ui-core/api', async () => {
 vi.mock('src/utilities/pricing/useComputePricing', () => ({
   useComputePricing: vi.fn(() => ({
     billing: 'monthly' as const,
-    formatPrice: (p: null | PriceObject | undefined) =>
-      String(p?.monthly ?? '--.--'),
-    getPrice: (p: null | PriceObject | undefined) => p?.monthly ?? '--.--',
+    formatPrice: vi.fn(),
+    getPrice: vi.fn(),
+    getPriceSubheading: (p: null | PriceObject | undefined) =>
+      `$${realFormatPrice(p?.monthly)}/mo ($${realFormatPrice(p?.hourly)}/hr)`,
     priceLabel: 'month',
   })),
 }));
@@ -42,9 +44,10 @@ vi.mock('src/utilities/pricing/useComputePricing', () => ({
 const mockMonthlyBilling = () =>
   vi.mocked(useComputePricing).mockReturnValue({
     billing: 'monthly',
-    formatPrice: (p: null | PriceObject | undefined) =>
-      String(p?.monthly ?? '--.--'),
-    getPrice: (p: null | PriceObject | undefined) => p?.monthly ?? '--.--',
+    formatPrice: vi.fn(),
+    getPrice: vi.fn(),
+    getPriceSubheading: (p: null | PriceObject | undefined) =>
+      `$${realFormatPrice(p?.monthly)}/mo ($${realFormatPrice(p?.hourly)}/hr)`,
     hasHourlyEligiblePlans: () => false,
     priceLabel: 'month',
   });
@@ -52,9 +55,10 @@ const mockMonthlyBilling = () =>
 const mockHourlyBilling = () =>
   vi.mocked(useComputePricing).mockReturnValue({
     billing: 'hourly',
-    formatPrice: (p: null | PriceObject | undefined) =>
-      String(p?.hourly ?? '--.--'),
-    getPrice: (p: null | PriceObject | undefined) => p?.hourly ?? '--.--',
+    formatPrice: vi.fn(),
+    getPrice: vi.fn(),
+    getPriceSubheading: (p: null | PriceObject | undefined) =>
+      `$${realFormatPrice(p?.hourly)}/hr`,
     hasHourlyEligiblePlans: () => true,
     priceLabel: 'hour',
   });
