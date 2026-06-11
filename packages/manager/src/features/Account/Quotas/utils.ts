@@ -7,6 +7,7 @@ import type { Profile, Quota } from '@linode/api-v4';
 import type {
   QuotaScope,
   QuotaService,
+  QuotaUsageLink,
   ScopeValueType,
 } from 'src/features/Account/Quotas/quotaServices';
 
@@ -17,6 +18,7 @@ export interface QuotaWithUsage {
   quota: Quota;
   usage: null | number;
   usageFetchErrorMessage: null | string;
+  usageLink: null | QuotaUsageLink;
 }
 
 interface GetQuotaIncreaseFormDefaultValuesProps {
