@@ -44,7 +44,14 @@ export const SummaryLanding = () => {
             )}
           </Box>
 
-          <Typography>
+          <Typography
+            sx={(theme) => ({
+              color:
+                theme.palette.mode === 'light'
+                  ? theme.tokens.color.Neutrals[70]
+                  : theme.tokens.color.Neutrals[5],
+            })}
+          >
             Select one or more endpoints in the dropdown list to view usage
             summaries for those endpoints. You can view quotas and request
             increases on the {''}
