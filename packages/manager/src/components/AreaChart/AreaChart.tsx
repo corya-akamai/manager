@@ -106,6 +106,11 @@ export interface AreaChartProps {
   ariaLabel: string;
 
   /**
+   * Optional ref to the chart container element. Used for viewport boundary calculations during tooltip positioning.
+   */
+  chartContainerRef?: React.RefObject<HTMLDivElement | null>;
+
+  /**
    * connect nulls value between two data points
    */
   connectNulls?: boolean;
@@ -172,6 +177,16 @@ export interface AreaChartProps {
   tooltipCustomValueFormatter?: (value: number, unit: string) => string;
 
   /**
+   * Optional tooltip position. When provided, overrides default recharts positioning.
+   */
+  tooltipPosition?: undefined | { x: number; y: number };
+
+  /**
+   * Optional ref to the tooltip wrapper element. Used for measuring tooltip dimensions during positioning.
+   */
+  tooltipRef?: React.RefObject<HTMLDivElement | null>;
+
+  /**
    * unit to be displayed with data
    */
   unit: string;
@@ -221,6 +236,11 @@ interface CustomTooltipProps extends TooltipContentProps {
   tooltipCustomValueFormatter?: (value: number, unit: string) => string;
 
   /**
+   * Optional ref to the tooltip wrapper element. Used for measuring tooltip dimensions during positioning.
+   */
+  tooltipRef?: React.RefObject<HTMLDivElement | null>;
+
+  /**
    * unit to be displayed with data in tooltip
    */
   unit: string;
@@ -250,6 +270,9 @@ export const AreaChart = (props: AreaChartProps) => {
     tooltipCustomValueFormatter,
     zoomCallbacks,
     referenceArea,
+    tooltipRef,
+    chartContainerRef,
+    tooltipPosition,
   } = props;
 
   const theme = useTheme();
@@ -277,10 +300,11 @@ export const AreaChart = (props: AreaChartProps) => {
         {...tooltipProps}
         timezone={timezone}
         tooltipCustomValueFormatter={tooltipCustomValueFormatter}
+        tooltipRef={tooltipRef}
         unit={unit}
       />
     ),
-    [timezone, tooltipCustomValueFormatter, unit]
+    [timezone, tooltipCustomValueFormatter, tooltipRef, unit]
   );
 
   const CustomLegend = ({ legendHeight }: { legendHeight?: string }) => {
@@ -317,6 +341,7 @@ export const AreaChart = (props: AreaChartProps) => {
         data-testid="area-chart-container"
         height={height}
         initialDimension={{ width: 1, height: 1 }}
+        ref={chartContainerRef}
         width={width}
       >
         <_AreaChart
@@ -371,6 +396,7 @@ export const AreaChart = (props: AreaChartProps) => {
               font: theme.font.bold,
             }}
             offset={20}
+            position={tooltipPosition}
             wrapperStyle={{ zIndex: 1000 }} // we need higher z-index for tooltip to be above the reference area in 3.8.1
           />
           {showLegend && !legendRows && (
@@ -445,10 +471,11 @@ const CustomTooltip = React.memo(
     timezone,
     tooltipCustomValueFormatter,
     unit,
+    tooltipRef,
   }: CustomTooltipProps) => {
     if (active && payload && payload.length && typeof label === 'number') {
       return (
-        <StyledTooltipPaper>
+        <StyledTooltipPaper ref={tooltipRef}>
           <Typography>{tooltipLabelFormatter(label, timezone)}</Typography>
           {payload.map((item) => {
             if (

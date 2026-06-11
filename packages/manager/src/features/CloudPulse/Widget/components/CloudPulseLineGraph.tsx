@@ -11,6 +11,7 @@ import {
   computeZoomedInData,
 } from '../../Utils/CloudPulseZoomInUtils';
 import { humanizeLargeData } from '../../Utils/utils';
+import { useTooltipPositioning } from './useTooltipPositioning';
 import { useZoomController } from './useZoomController';
 
 import type {
@@ -58,12 +59,20 @@ export const CloudPulseLineGraph = React.memo((props: CloudPulseLineGraph) => {
 
   const isZoomEnabled = flags.aclp?.enableZoomInCharts ?? false; // default to false
 
+  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md')); // no need to enable dynamic tooltip positioning on mobile and tablets
+
   const {
     zoom,
     isZoomed,
     zoomOut: resetZoom,
     zoomCallbacks,
   } = useZoomController(zoomResetKey);
+
+  const { tooltipPos, handleMouseMove, chartContainerRef, tooltipRef } =
+    useTooltipPositioning(
+      isZoomEnabled ? zoomCallbacks?.onMouseMove : undefined,
+      isMobileOrTablet
+    );
 
   const zoomedData = React.useMemo(() => {
     if (!isZoomEnabled) {
@@ -139,6 +148,7 @@ export const CloudPulseLineGraph = React.memo((props: CloudPulseLineGraph) => {
           )}
           <AreaChart
             {...rest}
+            chartContainerRef={chartContainerRef}
             data={zoomedData}
             fillOpacity={0.5}
             legendHeight="165px"
@@ -163,6 +173,8 @@ export const CloudPulseLineGraph = React.memo((props: CloudPulseLineGraph) => {
                 ? (value, unit) => `${humanizeLargeData(value)} ${unit}`
                 : undefined
             }
+            tooltipPosition={tooltipPos}
+            tooltipRef={tooltipRef}
             unit={unit}
             xAxisTickCount={
               isSmallScreen ? undefined : Math.min(zoomedData.length, 7)
@@ -177,7 +189,16 @@ export const CloudPulseLineGraph = React.memo((props: CloudPulseLineGraph) => {
                     tickFormat: (value: number) => `${roundTo(value, 3)}`,
                   }
             }
-            zoomCallbacks={isZoomEnabled ? zoomCallbacks : undefined}
+            zoomCallbacks={
+              isZoomEnabled
+                ? {
+                    ...zoomCallbacks,
+                    onMouseMove: handleMouseMove,
+                  }
+                : {
+                    onMouseMove: handleMouseMove,
+                  }
+            }
           />
         </Box>
       )}

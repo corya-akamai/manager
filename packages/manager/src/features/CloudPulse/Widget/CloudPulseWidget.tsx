@@ -1,7 +1,7 @@
 import { Font } from '@akamai/cds-tokens';
 import { useProfile, useRegionsQuery } from '@linode/queries';
 import { Box, Paper, TooltipIcon, Typography } from '@linode/ui';
-import { GridLegacy, Stack, useTheme } from '@mui/material';
+import { GridLegacy, Stack } from '@mui/material';
 import { DateTime } from 'luxon';
 import React from 'react';
 
@@ -183,7 +183,6 @@ export const CloudPulseWidget = (props: CloudPulseWidgetProperties) => {
     left: 'dataMin' | number;
     right: 'dataMax' | number;
   }>();
-  const theme = useTheme();
 
   const {
     globalFilterGroupBy,
@@ -600,7 +599,6 @@ export const CloudPulseWidget = (props: CloudPulseWidgetProperties) => {
                 justifyContent: 'end',
                 alignItems: 'center',
                 gap: 1,
-                maxHeight: `calc(${theme.spacing(10)} + 5px)`,
                 overflow: 'auto',
                 width: { sm: 'inherit', xs: '100%' },
               }}
