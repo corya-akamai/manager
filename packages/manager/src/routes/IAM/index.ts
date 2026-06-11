@@ -413,6 +413,13 @@ const iamSettingsCatchAllRoute = createRoute({
 const iamSsoRoute = createRoute({
   getParentRoute: () => iamRoute,
   path: '/settings/sso',
+  beforeLoad: ({ context }) => {
+    const isFederationEnabled = Boolean(context?.flags?.iamFederation);
+
+    if (!isFederationEnabled) {
+      throw redirect({ to: '/iam/users', replace: true });
+    }
+  },
 }).lazy(() =>
   import('src/features/IAM/LoginSettings/SSO/ssoLandingLazyRoute').then(
     (m) => m.ssoLandingLazyRoute

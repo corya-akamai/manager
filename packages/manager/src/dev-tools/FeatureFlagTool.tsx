@@ -90,6 +90,10 @@ const options: { flag: keyof Flags; label: string }[] = [
     label: 'IAM New Badge',
   },
   {
+    flag: 'iamFederation',
+    label: 'IAM Federation',
+  },
+  {
     flag: 'linodeCloneFirewall',
     label: 'Linode Clone Firewall',
   },
