@@ -4,7 +4,6 @@ import { Button } from '@akamai/cds-components/react/Button';
 import { Spacing } from '@akamai/cds-tokens';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDatabaseMutation } from '@linode/queries';
-import { Box } from '@linode/ui';
 import { updatePrivateNetworkSchema } from '@linode/validation';
 import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
@@ -15,7 +14,6 @@ import { DatabaseDetailVPC } from 'src/features/Databases/DatabaseDetail/Databas
 import { Drawer } from '../../shared/Drawer';
 
 import type { Database, UpdateDatabasePayload, VPC } from '@linode/api-v4';
-import type { Theme } from '@linode/ui';
 
 interface Props {
   database: Database;
@@ -134,14 +132,14 @@ const DatabaseManageNetworkingDrawer = (props: Props) => {
       <FormProvider {...form}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DatabaseDetailVPC region={database?.region ?? ''} />
-          <Box
-            sx={(theme: Theme) => ({
-              marginTop: theme.spacingFunction(50),
-              paddingTop: theme.spacingFunction(8),
-              paddingBottom: theme.spacingFunction(8),
+          <div
+            style={{
+              marginTop: Spacing.S48,
+              paddingTop: Spacing.S8,
+              paddingBottom: Spacing.S8,
               display: 'flex',
               justifyContent: hasVPCConfigured ? 'space-between' : 'flex-end',
-            })}
+            }}
           >
             {hasVPCConfigured && (
               <Button
@@ -152,7 +150,7 @@ const DatabaseManageNetworkingDrawer = (props: Props) => {
                 Unassign VPC
               </Button>
             )}
-            <Box>
+            <div>
               <Button onClick={handleOnClose} variant="link">
                 Cancel
               </Button>
@@ -166,8 +164,8 @@ const DatabaseManageNetworkingDrawer = (props: Props) => {
               >
                 Save
               </Button>
-            </Box>
-          </Box>
+            </div>
+          </div>
         </form>
       </FormProvider>
     </Drawer>

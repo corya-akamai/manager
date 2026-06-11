@@ -8,7 +8,7 @@ import {
 import { Spacing } from '@akamai/cds-tokens';
 import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 import { useAllVPCsQuery, useRegionQuery } from '@linode/queries';
-import { Autocomplete, Box, FormHelperText, Typography } from '@linode/ui';
+import { Autocomplete, FormHelperText, Typography } from '@linode/ui';
 import * as React from 'react';
 import type { Control, UseFormSetValue, UseFormTrigger } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
@@ -18,7 +18,6 @@ import { MANAGE_NETWORKING_LEARN_MORE_LINK } from 'src/features/Databases/consta
 import { useFlags } from 'src/hooks/useFlags';
 
 import type { PrivateNetwork, VPC } from '@linode/api-v4';
-import type { Theme } from '@mui/material/styles';
 
 interface NetworkValues {
   private_network?: null | PrivateNetwork;
@@ -80,12 +79,12 @@ export const DatabaseVPC = (props: DatabaseVPCProps) => {
 
   return (
     <>
-      <Box
-        sx={(theme: Theme) => ({
+      <div
+        style={{
           display: 'flex',
-          marginTop: theme.spacingFunction(20),
-          marginBottom: theme.spacingFunction(4),
-        })}
+          marginTop: Spacing.S20,
+          marginBottom: Spacing.S4,
+        }}
       >
         <Typography variant="h3">Assign a VPC</Typography>
         {flags.databaseVpcBeta && (
@@ -97,7 +96,7 @@ export const DatabaseVPC = (props: DatabaseVPCProps) => {
             BETA
           </Badge>
         )}
-      </Box>
+      </div>
       <Typography>
         Assign this cluster to an existing VPC.{' '}
         <Link
@@ -106,7 +105,7 @@ export const DatabaseVPC = (props: DatabaseVPCProps) => {
           Learn more.
         </Link>
       </Typography>
-      <Box display="flex">
+      <div style={{ display: 'flex' }}>
         <Controller
           control={control}
           name="private_network.vpc_id"
@@ -141,7 +140,7 @@ export const DatabaseVPC = (props: DatabaseVPCProps) => {
             />
           )}
         />
-      </Box>
+      </div>
       {selectedVPC ? (
         <>
           <Controller
@@ -166,11 +165,7 @@ export const DatabaseVPC = (props: DatabaseVPCProps) => {
               />
             )}
           />
-          <Box
-            sx={(theme: Theme) => ({
-              marginTop: theme.spacingFunction(20),
-            })}
-          >
+          <div style={{ marginTop: Spacing.S20 }}>
             <Controller
               control={control}
               name="private_network.public_access"
@@ -205,7 +200,7 @@ export const DatabaseVPC = (props: DatabaseVPCProps) => {
                 </>
               )}
             />
-          </Box>
+          </div>
         </>
       ) : (
         mode === 'create' && (

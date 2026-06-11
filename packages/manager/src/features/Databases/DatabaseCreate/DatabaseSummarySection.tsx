@@ -1,4 +1,5 @@
-import { Box, Typography } from '@linode/ui';
+import { Spacing } from '@akamai/cds-tokens';
+import { Typography } from '@linode/ui';
 import React from 'react';
 
 import { useFlags } from 'src/hooks/useFlags';
@@ -15,7 +16,6 @@ import type {
   Engine,
   VPC,
 } from '@linode/api-v4';
-import type { Theme } from '@mui/material';
 import type { PlanSelectionWithDatabaseType } from 'src/features/components/PlansPanel/types';
 
 interface Props {
@@ -67,7 +67,7 @@ export const DatabaseSummarySection = (props: Props) => {
   const isNewDatabase = isDatabasesV2GA && platform !== 'rdbms-legacy';
 
   const currentSummary = currentPlan ? (
-    <Box data-testid="currentSummary">
+    <div data-testid="currentSummary">
       <StyledPlanSummarySpan>
         {isResize && 'Current Cluster: '}
         {currentPlan?.heading}
@@ -103,17 +103,17 @@ export const DatabaseSummarySection = (props: Props) => {
           {currentNodePrice}
         </>
       )}
-    </Box>
+    </div>
   ) : (
     `Once you configure the cluster, you'll see the summary here.`
   );
 
   const resizeSummary = (
-    <Box
+    <div
       data-testid="resizeSummary"
-      sx={(theme: Theme) => ({
-        marginTop: theme.spacing(2),
-      })}
+      style={{
+        marginTop: Spacing.S16,
+      }}
     >
       {resizeData ? (
         <>
@@ -137,7 +137,7 @@ export const DatabaseSummarySection = (props: Props) => {
       ) : (
         'Please select a plan.'
       )}
-    </Box>
+    </div>
   );
 
   return (

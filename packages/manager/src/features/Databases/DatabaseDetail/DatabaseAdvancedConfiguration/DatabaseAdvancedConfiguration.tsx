@@ -1,6 +1,6 @@
 import { Button } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
-import { Box, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
@@ -89,11 +89,11 @@ export const DatabaseAdvancedConfiguration = () => {
           )}
         </div>
       ) : (
-        <Box display="flex" flexGrow={1} justifyContent="center">
+        <div style={{ display: 'flex', flexGrow: 1, justifyContent: 'center' }}>
           <Typography sx={{ marginTop: 5 }}>
             No advanced configurations have been added.
           </Typography>
-        </Box>
+        </div>
       )}
 
       <DatabaseAdvancedConfigurationDrawer

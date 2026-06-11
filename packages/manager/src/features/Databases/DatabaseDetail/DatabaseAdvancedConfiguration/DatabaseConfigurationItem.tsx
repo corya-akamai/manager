@@ -6,10 +6,11 @@ import {
   Switch,
   TextField,
 } from '@akamai/cds-components/react';
+import { Alias, Spacing } from '@akamai/cds-tokens';
+import { Alias as DarkThemeAlias } from '@akamai/cds-tokens/themes/dark';
 import { Autocomplete, CloseIcon, Typography } from '@linode/ui';
 import React from 'react';
 
-import { StyledBox, StyledWrapper } from './DatabaseConfigurationItem.style';
 import {
   formatConfigValue,
   isConfigBoolean,
@@ -134,12 +135,21 @@ export const DatabaseConfigurationItem = (props: Props) => {
   };
 
   return (
-    <StyledWrapper
-      alignItems="flex-start"
-      display="flex"
-      justifyContent="space-between"
+    <div
+      style={{
+        alignItems: 'flex-start',
+        display: 'flex',
+        justifyContent: 'space-between',
+        marginBottom: Spacing.S12,
+      }}
     >
-      <StyledBox>
+      <div
+        style={{
+          background: `light-dark(${Alias.Background.Neutral}, ${DarkThemeAlias.Background.Neutral})`,
+          padding: Spacing.S8,
+          width: '100%',
+        }}
+      >
         <Typography
           sx={(theme) => ({
             font: theme.tokens.alias.Typography.Body.Bold,
@@ -157,7 +167,7 @@ export const DatabaseConfigurationItem = (props: Props) => {
           <Typography mt={0.5}>{configItem?.description}</Typography>
         )}
         {renderInputField()}
-      </StyledBox>
+      </div>
 
       {configItem?.isNew && configItem && onRemove && (
         <Button
@@ -169,6 +179,6 @@ export const DatabaseConfigurationItem = (props: Props) => {
           <CloseIcon />
         </Button>
       )}
-    </StyledWrapper>
+    </div>
   );
 };

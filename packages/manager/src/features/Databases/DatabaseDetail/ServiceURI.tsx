@@ -1,9 +1,10 @@
 import { toast } from '@akamai/cds-components/notification-toast';
 import { Button, Icon, Tooltip } from '@akamai/cds-components/react';
-import { Spacing } from '@akamai/cds-tokens';
+import { Alias, Spacing } from '@akamai/cds-tokens';
+import { Alias as DarkThemeAlias } from '@akamai/cds-tokens/themes/dark';
 import { useDatabaseCredentialsQuery } from '@linode/queries';
 import { Typography } from '@linode/ui';
-import { Box, styled } from '@mui/material';
+import { styled } from '@mui/material';
 import copy from 'copy-to-clipboard';
 import React, { useState } from 'react';
 
@@ -130,7 +131,7 @@ export const ServiceURI = (props: ServiceURIProps) => {
           style={{ whiteSpace: 'normal' }}
           tooltipText={disabledPasswordTooltipText}
         >
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <Button
               disabled={disablePasswordBtn}
               onClick={() => {
@@ -150,7 +151,7 @@ export const ServiceURI = (props: ServiceURIProps) => {
                 <Icon icon="info-outline" size="m" />
               ) : null}
             </Button>
-          </Box>
+          </div>
         </Tooltip>
       );
     }
@@ -183,13 +184,9 @@ export const ServiceURI = (props: ServiceURIProps) => {
 
   return (
     <div style={{ display: 'contents' }}>
-      <Box
+      <div
         data-testid="service-uri"
-        sx={{
-          display: 'inline',
-          overflowX: 'scroll',
-          whiteSpace: 'nowrap',
-        }}
+        style={{ display: 'inline', overflowX: 'scroll', whiteSpace: 'nowrap' }}
       >
         {engine}://
         {renderPassword()}
@@ -205,18 +202,19 @@ export const ServiceURI = (props: ServiceURIProps) => {
             ?sslmode=require
           </>
         )}
-      </Box>
+      </div>
       {isCopying ? (
-        <Box
-          sx={(theme) => ({
-            paddingX: theme.spacingFunction(8),
+        <div
+          style={{
+            paddingLeft: Spacing.S8,
+            paddingRight: Spacing.S8,
             position: 'relative',
-            top: theme.spacingFunction(),
-            backgroundColor: theme.palette.background.paper,
-          })}
+            top: Spacing.S0,
+            backgroundColor: `light-dark(${Alias.Background.Normal}, ${DarkThemeAlias.Background.Normal})`,
+          }}
         >
           <Icon icon="spinner-gradient" size="s" />
-        </Box>
+        </div>
       ) : (
         <div style={{ display: 'contents' }}>
           <CopyTooltip

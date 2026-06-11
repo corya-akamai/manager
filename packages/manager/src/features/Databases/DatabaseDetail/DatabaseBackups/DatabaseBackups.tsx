@@ -15,7 +15,7 @@ import { Spacing } from '@akamai/cds-tokens';
 import { formatDate } from '@akamai/compute-ui-core/datetime';
 import { useDatabaseQuery, useProfile, useRegionsQuery } from '@linode/queries';
 import { useIsGeckoEnabled } from '@linode/shared';
-import { Box, InputLabel } from '@linode/ui';
+import { InputLabel } from '@linode/ui';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import { useParams } from '@tanstack/react-router';
@@ -411,7 +411,7 @@ export const DatabaseBackups = () => {
               )}
             />
           </StyledRegionStack>
-          <Box display="flex" justifyContent="flex-end">
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Tooltip
               disabled={!isRestoreDisabled}
               tooltipText={unableToRestoreCopy}
@@ -428,7 +428,7 @@ export const DatabaseBackups = () => {
                 ) : null}
               </Button>
             </Tooltip>
-          </Box>
+          </div>
           {database && (
             <DatabaseBackupsDialog
               database={database}

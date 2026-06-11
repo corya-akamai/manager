@@ -2,7 +2,7 @@ import { toast } from '@akamai/cds-components/notification-toast';
 import { Button, Icon, Tooltip } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { useDatabaseCredentialsQuery } from '@linode/queries';
-import { Box, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import * as React from 'react';
 
 import { Link } from 'src/components/Link';
@@ -25,7 +25,6 @@ import { ServiceURI } from '../ServiceURI';
 import { useStyles } from './DatabaseSummaryConnectionDetails.style';
 
 import type { Database } from '@linode/api-v4/lib/databases/types';
-import type { Theme } from '@mui/material/styles';
 
 interface Props {
   database: Database;
@@ -165,13 +164,9 @@ export const DatabaseSummaryConnectionDetails = (props: Props) => {
       </ConnectionDetailsRow>
       {displayConnectionType && (
         <ConnectionDetailsRow isSummaryTab label="Connection Type">
-          <Box
-            sx={(theme: Theme) => ({
-              marginRight: theme.spacingFunction(20),
-            })}
-          >
+          <div style={{ marginRight: Spacing.S20 }}>
             {hasVPC ? 'VPC' : 'Public'}
-          </Box>
+          </div>
           <Link
             to={`/databases/${database?.engine}/${database?.id}/networking`}
           >

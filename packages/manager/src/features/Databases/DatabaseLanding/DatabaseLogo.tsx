@@ -1,4 +1,5 @@
-import { Box, Typography } from '@linode/ui';
+import { Spacing } from '@akamai/cds-tokens';
+import { Typography } from '@linode/ui';
 import { useTheme } from '@mui/material/styles';
 import * as React from 'react';
 
@@ -15,10 +16,8 @@ export const DatabaseLogo = ({ sx }: Props) => {
   const theme = useTheme();
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      sx={sx ? sx : { margin: '20px' }}
+    <div
+      style={{ display: 'flex', justifyContent: 'center', margin: Spacing.S20 }}
     >
       <Typography sx={{ display: 'inline-block', textAlign: 'center' }}>
         <Typography
@@ -32,7 +31,7 @@ export const DatabaseLogo = ({ sx }: Props) => {
           {theme.palette.mode === 'light' ? <Logo /> : <LogoWhite />}
         </Typography>
       </Typography>
-    </Box>
+    </div>
   );
 };
 

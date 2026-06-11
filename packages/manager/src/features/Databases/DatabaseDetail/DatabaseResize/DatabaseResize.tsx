@@ -8,7 +8,7 @@ import {
   useRegionAvailabilityQuery,
   useRegionsQuery,
 } from '@linode/queries';
-import { Box, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 
@@ -446,9 +446,9 @@ export const DatabaseResize = () => {
     <>
       <Paper>
         {resizeDescription}
-        <Box sx={{ marginTop: 2 }}>
+        <div style={{ marginTop: Spacing.S16 }}>
           <DatabaseResizeCurrentConfiguration database={database} />
-        </Box>
+        </div>
       </Paper>
       <Paper marginTop={Spacing.S16}>
         <StyledPlansPanel

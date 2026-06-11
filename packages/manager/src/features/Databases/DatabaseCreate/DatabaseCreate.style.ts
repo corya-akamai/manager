@@ -1,20 +1,8 @@
 import { Button } from '@akamai/cds-components/react';
-import { Box, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import { styled } from '@mui/material';
 
 import { PlansPanel } from 'src/features/components/PlansPanel/PlansPanel';
-
-export const StyledLabelTooltip = styled(Box, {
-  label: 'StyledLabelTooltip',
-})(() => ({
-  '& strong': {
-    padding: 8,
-  },
-  '& ul': {
-    margin: '4px',
-  },
-}));
-
 export const StyledPlansPanel = styled(PlansPanel, {
   label: 'StyledPlansPanel',
 })(() => ({

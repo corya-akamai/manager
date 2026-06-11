@@ -6,8 +6,8 @@ import {
 import { Spacing } from '@akamai/cds-tokens';
 import { ipV6FieldPlaceholder, validateIPs } from '@akamai/compute-ui-core/api';
 import { styled } from '@linode/ui';
-import * as React from 'react';
 import { useState } from 'react';
+import * as React from 'react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 
 import { MultipleIPInput } from 'src/components/MultipleIPInput/MultipleIPInput';
