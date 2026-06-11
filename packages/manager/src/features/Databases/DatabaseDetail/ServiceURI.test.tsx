@@ -255,7 +255,7 @@ describe('ServiceURI', () => {
     );
   });
 
-  it('should render general service URI with no sslmode if isGeneralServiceURI is true and the engine is valkey', async () => {
+  it('should render general service URI with rediss and no sslmode if isGeneralServiceURI is true and the engine is valkey', async () => {
     const mockDb = {
       ...databaseWithNoVPC,
       engine: 'valkey' as Engine,
@@ -269,7 +269,7 @@ describe('ServiceURI', () => {
 
     expect(revealPasswordBtn).toBeInTheDocument();
     expect(serviceURIText).toBe(
-      `valkey://{Click To Reveal Password}@${DEFAULT_PRIMARY}:3306`
+      `rediss://{Click To Reveal Password}@${DEFAULT_PRIMARY}:3306`
     );
   });
 

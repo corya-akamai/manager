@@ -228,11 +228,18 @@ export const DatabaseBackups = () => {
             Valkey databases automatically backup data every 12 hours and
             support configurable data persistence using Redis Database Backup
             (RDB). You can change the default 12 hours to 24 hours using
-            Advanced Configuration settings. Learn more.
+            Advanced Configuration settings.{' '}
+            <a
+              aria-label="Learn more - link opens in a new tab"
+              data-testid="external-link"
+              href="https://techdocs.akamai.com/cloud-computing/docs/aiven-manage-database#manage-backups-for-valkey-clusters"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Learn more.
+            </a>
           </p>
           <p style={{ marginTop: Spacing.S4 }}>
-            paddingBottom={unableToRestoreCopy ? Spacing.S8 : Spacing.S20}
-            paddingTop={Spacing.S16}
             Select the restore time and region you want to create a fork for.
           </p>
         </>

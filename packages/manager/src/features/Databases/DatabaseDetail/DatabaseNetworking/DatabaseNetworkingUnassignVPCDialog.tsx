@@ -57,12 +57,7 @@ export const DatabaseNetworkingUnassignVPCDialog = (props: Props) => {
   };
 
   return (
-    <Modal
-      closeModal={handleOnClose}
-      open={open}
-      size="medium"
-      title={`Unassign ${databaseLabel} from VPC?`}
-    >
+    <Modal closeModal={handleOnClose} open={open} size="medium">
       <span slot="title">Unassign {databaseLabel} from VPC?</span>
       <div slot="body">
         {error && (

@@ -32,6 +32,12 @@ const ENGINE_SSLMODE_MAP = {
   valkey: '',
 };
 
+const ENGINE_TEXT_MAP = {
+  mysql: 'mysql',
+  postgres: 'postgres',
+  valkey: 'rediss', // rediss is needed for backwards compatibility
+};
+
 export const ServiceURI = (props: ServiceURIProps) => {
   const {
     database,
@@ -98,7 +104,7 @@ export const ServiceURI = (props: ServiceURIProps) => {
     isGeneralServiceURI?: boolean
   ) => {
     if (isGeneralServiceURI) {
-      return `${engine}://${credentials?.username}:${credentials?.password}@${primaryHost?.address}:${primaryHost?.port}${generalSslmode}`;
+      return `${ENGINE_TEXT_MAP[engine]}://${credentials?.username}:${credentials?.password}@${primaryHost?.address}:${primaryHost?.port}${generalSslmode}`;
     }
     return `postgres://${credentials?.username}:${credentials?.password}@${primaryConnectionPoolHost?.address}:${primaryConnectionPoolHost?.port}/{connection pool label}?sslmode=require`;
   };
@@ -188,7 +194,7 @@ export const ServiceURI = (props: ServiceURIProps) => {
         data-testid="service-uri"
         style={{ display: 'inline', overflowX: 'scroll', whiteSpace: 'nowrap' }}
       >
-        {engine}://
+        {ENGINE_TEXT_MAP[engine]}://
         {renderPassword()}
         {isGeneralServiceURI ? (
           <>

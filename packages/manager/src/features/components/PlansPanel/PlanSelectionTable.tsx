@@ -6,6 +6,10 @@ import { TableBody } from 'src/components/TableBody';
 import { TableHead } from 'src/components/TableHead';
 import { TableRow } from 'src/components/TableRow';
 import { TableRowEmpty } from 'src/components/TableRowEmpty/TableRowEmpty';
+import {
+  STORAGE_PLAN_COPY,
+  VALKEY_STORAGE_TOOLTIP_COPY,
+} from 'src/features/Databases/constants';
 import { useFlags } from 'src/hooks/useFlags';
 import { useIsGenerationalPlansEnabled } from 'src/utilities/linodes';
 import {
@@ -25,7 +29,10 @@ interface PlanSelectionTableProps {
   filterOptions?: PlanSelectionFilterOptionsTable;
   plans?: PlanWithAvailability[];
   planType?: LinodeTypeClass;
-  renderPlanSelection?: (plans: PlanWithAvailability[]) => React.JSX.Element[];
+  renderPlanSelection?: (
+    plans: PlanWithAvailability[],
+    isValkeyEngineSelected?: boolean
+  ) => React.JSX.Element[];
   shouldDisplayNoRegionSelectedMessage: boolean;
   showMonthlyColumnHourlyOnlyTooltip?: boolean;
   showNetwork?: boolean;
@@ -68,6 +75,9 @@ export const PlanSelectionTable = (props: PlanSelectionTableProps) => {
     plans,
     planType
   );
+
+  const isValkeyEngineSelected =
+    showUsableStorage && plans?.every((plan) => plan.engines?.['valkey']);
 
   // Determine spacing based on feature flag:
   // - If generationalPlans is enabled (pagination mode) -> spacingBottom={0}
@@ -113,6 +123,7 @@ export const PlanSelectionTable = (props: PlanSelectionTableProps) => {
       />
     );
   };
+
   return (
     <StyledTable
       aria-label={`List of ${filterOptions?.header ?? 'Linode'} Plans`}
@@ -160,7 +171,9 @@ export const PlanSelectionTable = (props: PlanSelectionTableProps) => {
                 {showUsableStorageTooltip(cellName) &&
                   showTooltip(
                     'info',
-                    'Usable storage is smaller than the actual plan storage due to the overhead from the database platform.',
+                    isValkeyEngineSelected
+                      ? VALKEY_STORAGE_TOOLTIP_COPY
+                      : STORAGE_PLAN_COPY,
                     240
                   )}
                 {/* Only show when a region is selected and the tab has hourly-only plans. */}
@@ -185,7 +198,8 @@ export const PlanSelectionTable = (props: PlanSelectionTableProps) => {
             message={filterEmptyStateMessage}
           />
         ) : (
-          ((plans && renderPlanSelection?.(plans)) ?? null)
+          ((plans && renderPlanSelection?.(plans, isValkeyEngineSelected)) ??
+          null)
         )}
       </TableBody>
     </StyledTable>

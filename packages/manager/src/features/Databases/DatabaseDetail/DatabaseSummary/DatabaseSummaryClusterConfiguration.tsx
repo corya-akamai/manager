@@ -5,7 +5,10 @@ import { useDatabaseTypesQuery, useRegionsQuery } from '@linode/queries';
 import { Typography } from '@linode/ui';
 import * as React from 'react';
 
-import { STORAGE_COPY } from 'src/features/Databases/constants';
+import {
+  STORAGE_COPY,
+  VALKEY_STORAGE_TOOLTIP_COPY,
+} from 'src/features/Databases/constants';
 import { DatabaseStatusDisplay } from 'src/features/Databases/DatabaseDetail/DatabaseStatusDisplay';
 import { DatabaseEngineVersion } from 'src/features/Databases/DatabaseEngineVersion';
 import { useInProgressEvents } from 'src/queries/events/events';
@@ -69,6 +72,8 @@ export const DatabaseSummaryClusterConfiguration = (props: Props) => {
       ? 'Primary (1 Node)'
       : `Primary (+${nodeCount} ${nodeLabel})`;
 
+  const isValkeyDatabase = database.engine === 'valkey';
+
   return (
     <div style={{ marginBottom: Spacing.S16 }}>
       <Typography marginBottom={2} variant="h3">
@@ -121,11 +126,13 @@ export const DatabaseSummaryClusterConfiguration = (props: Props) => {
           <p>Usable Disk Size</p>
         </div>
         <div className={styles.summaryValueColumn}>
-          {database.total_disk_size_gb} GB
+          {isValkeyDatabase ? 'N/A' : `${database.total_disk_size_gb} GB`}
           <Tooltip
             style={{ marginLeft: Spacing.S4 }}
             tooltipPlacement="bottom"
-            tooltipText={STORAGE_COPY}
+            tooltipText={
+              isValkeyDatabase ? VALKEY_STORAGE_TOOLTIP_COPY : STORAGE_COPY
+            }
           >
             <Icon
               icon="info-outline"

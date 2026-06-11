@@ -5,7 +5,10 @@ import { useDatabaseTypesQuery, useRegionsQuery } from '@linode/queries';
 import { useTheme } from '@mui/material/styles';
 import * as React from 'react';
 
-import { STORAGE_COPY } from 'src/features/Databases/constants';
+import {
+  STORAGE_COPY,
+  VALKEY_STORAGE_TOOLTIP_COPY,
+} from 'src/features/Databases/constants';
 import { DatabaseEngineVersion } from 'src/features/Databases/DatabaseEngineVersion';
 import { useInProgressEvents } from 'src/queries/events/events';
 
@@ -63,6 +66,8 @@ export const DatabaseResizeCurrentConfiguration = ({ database }: Props) => {
         ? `Primary (+${database.cluster_size - 1} Nodes)`
         : `Primary (+${database.cluster_size - 1} Node)`;
 
+  const isValkeyDatabase = database.engine === 'valkey';
+
   return (
     <>
       <StyledTitleTypography variant="h3">
@@ -113,10 +118,12 @@ export const DatabaseResizeCurrentConfiguration = ({ database }: Props) => {
         <div key={'disk'} style={{ paddingRight: Spacing.S48 }}>
           <StyledSummaryTextTypography>
             <span style={{ font: theme.font.bold }}>Usable Disk Size</span>{' '}
-            {database.total_disk_size_gb} GB
+            {isValkeyDatabase ? 'N/A' : `${database.total_disk_size_gb} GB`}
             <Tooltip
               style={{ marginLeft: Spacing.S4, whiteSpace: 'normal' }}
-              tooltipText={STORAGE_COPY}
+              tooltipText={
+                isValkeyDatabase ? VALKEY_STORAGE_TOOLTIP_COPY : STORAGE_COPY
+              }
             >
               <Icon
                 icon="info-outline"
@@ -128,12 +135,14 @@ export const DatabaseResizeCurrentConfiguration = ({ database }: Props) => {
               />
             </Tooltip>
           </StyledSummaryTextTypography>
-          <StyledSummaryTextTypography>
-            <span style={{ font: theme.font.bold }}>Used</span>{' '}
-            {database.used_disk_size_gb !== null
-              ? `${database.used_disk_size_gb} GB`
-              : 'N/A'}
-          </StyledSummaryTextTypography>
+          {!isValkeyDatabase && (
+            <StyledSummaryTextTypography>
+              <span style={{ font: theme.font.bold }}>Used</span>{' '}
+              {database.used_disk_size_gb !== null
+                ? `${database.used_disk_size_gb} GB`
+                : 'N/A'}
+            </StyledSummaryTextTypography>
+          )}
         </div>
       </StyledSummaryDiv>
     </>

@@ -44,12 +44,7 @@ export const DatabaseConnectionPoolDeleteDialog = (props: Props) => {
   };
 
   return (
-    <Modal
-      closeModal={() => clearErrorAndClose()}
-      open={open}
-      size="medium"
-      title={`Delete Connection Pool ${poolLabel}?`}
-    >
+    <Modal closeModal={() => clearErrorAndClose()} open={open} size="medium">
       <span slot="title">Delete Connection Pool {poolLabel}?</span>
       <div slot="body">
         {error ? (

@@ -84,12 +84,7 @@ export const DatabaseBackupsDialog = (props: Props) => {
     database.private_network !== null && database.region !== region;
 
   return (
-    <Modal
-      closeModal={_onClose}
-      open={open}
-      size="medium"
-      title={`Restore ${database.label}`}
-    >
+    <Modal closeModal={_onClose} open={open} size="medium">
       <span slot="title">{`Restore ${database.label}`}</span>
 
       <div slot="body">

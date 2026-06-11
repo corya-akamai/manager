@@ -6,6 +6,10 @@ import * as React from 'react';
 
 import Paginate from 'src/components/Paginate';
 import { PaginationFooter } from 'src/components/PaginationFooter/PaginationFooter';
+import {
+  STORAGE_PLAN_COPY,
+  VALKEY_STORAGE_TOOLTIP_COPY,
+} from 'src/features/Databases/constants';
 import { useFlags } from 'src/hooks/useFlags';
 import { useIsGenerationalPlansEnabled } from 'src/utilities/linodes';
 import { PLAN_SELECTION_NO_REGION_SELECTED_MESSAGE } from 'src/utilities/pricing/constants';
@@ -150,6 +154,9 @@ export const PlanContainer = (props: PlanContainerProps) => {
     flags.dbaasV2?.enabled &&
     (isDatabaseCreateFlow || isDatabaseResizeFlow);
 
+  const isValkeyEngineSelected =
+    isDatabaseGA && plans.every((plan) => plan.engines?.['valkey']);
+
   /**
    * This features allows us to divide the GPU plans into two separate tables.
    * This can be re-used for other plan types in the future.
@@ -178,7 +185,7 @@ export const PlanContainer = (props: PlanContainerProps) => {
   ];
 
   const renderPlanSelection = React.useCallback(
-    (planList: PlanWithAvailability[]) =>
+    (planList: PlanWithAvailability[], isValkeyEngineSelected?: boolean) =>
       planList.map((plan, id) => {
         return (
           <PlanSelection
@@ -186,6 +193,7 @@ export const PlanContainer = (props: PlanContainerProps) => {
             hasMajorityOfPlansDisabled={hasMajorityOfPlansDisabled}
             idx={id}
             isCreate={isCreate}
+            isValkeyEngineSelected={isValkeyEngineSelected}
             key={plan.id}
             linodeID={linodeID}
             onSelect={onSelect}
@@ -292,17 +300,20 @@ export const PlanContainer = (props: PlanContainerProps) => {
     return (
       <Grid container spacing={2}>
         <Hidden lgUp={isCreate} mdUp={!isCreate}>
-          {isCreate && isDatabaseGA && (
-            <Typography
-              sx={(theme: Theme) => ({
-                marginBottom: theme.spacingFunction(16),
-                marginLeft: theme.spacingFunction(8),
-                marginTop: theme.spacingFunction(8),
-              })}
-            >
-              Usable storage is smaller than the actual plan storage due to the
-              overhead from the database platform.
-            </Typography>
+          {isDatabaseGA && (
+            <Grid size={12}>
+              <Typography
+                sx={(theme: Theme) => ({
+                  marginBottom: theme.spacingFunction(16),
+                  marginLeft: theme.spacingFunction(8),
+                  marginTop: theme.spacingFunction(8),
+                })}
+              >
+                {isValkeyEngineSelected
+                  ? VALKEY_STORAGE_TOOLTIP_COPY
+                  : STORAGE_PLAN_COPY}
+              </Typography>
+            </Grid>
           )}
           {shouldDisplayNoRegionSelectedMessage ? (
             <Notice
@@ -426,17 +437,20 @@ export const PlanContainer = (props: PlanContainerProps) => {
               )}
 
               <Hidden lgUp={isCreate} mdUp={!isCreate}>
-                {isCreate && isDatabaseGA && (
-                  <Typography
-                    sx={(theme: Theme) => ({
-                      marginBottom: theme.spacingFunction(16),
-                      marginLeft: theme.spacingFunction(8),
-                      marginTop: theme.spacingFunction(8),
-                    })}
-                  >
-                    Usable storage is smaller than the actual plan storage due
-                    to the overhead from the database platform.
-                  </Typography>
+                {isDatabaseGA && (
+                  <Grid size={12}>
+                    <Typography
+                      sx={(theme: Theme) => ({
+                        marginBottom: theme.spacingFunction(16),
+                        marginLeft: theme.spacingFunction(8),
+                        marginTop: theme.spacingFunction(8),
+                      })}
+                    >
+                      {isValkeyEngineSelected
+                        ? VALKEY_STORAGE_TOOLTIP_COPY
+                        : STORAGE_PLAN_COPY}
+                    </Typography>
+                  </Grid>
                 )}
                 {shouldDisplayNoRegionSelectedMessage ? (
                   <Notice

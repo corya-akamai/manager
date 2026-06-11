@@ -94,12 +94,7 @@ export const DatabaseSettingsUpgradeVersionDialog = (props: Props) => {
   };
 
   return (
-    <Modal
-      closeModal={handleClose}
-      open={open}
-      size="medium"
-      title={`Upgrade ${dialogTitle}`}
-    >
+    <Modal closeModal={handleClose} open={open} size="medium">
       <span slot="title">Upgrade {dialogTitle}</span>
       <div slot="body">
         {error ? (

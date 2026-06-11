@@ -322,7 +322,12 @@ export const DatabaseResize = () => {
       };
       const subHeadings = [
         `$${price.monthly}/mo ($${price.hourly}/hr)`,
-        typeLabelDetails(type.memory, type.disk, type.vcpus),
+        typeLabelDetails(
+          type.memory,
+          type.disk,
+          type.vcpus,
+          selectedEngine === 'valkey'
+        ),
       ];
       return {
         ...type,

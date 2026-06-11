@@ -55,13 +55,8 @@ export const DatabaseSettingsDeleteClusterDialog = (props: Props) => {
   };
 
   return (
-    <Modal
-      closeModal={_onClose}
-      open={open}
-      size="medium"
-      title={`Delete database cluster ${databaseLabel}?`}
-    >
-      <span slot="title">Delete Database Cluster {databaseLabel}</span>
+    <Modal closeModal={_onClose} open={open} size="medium">
+      <span slot="title">Delete database cluster {databaseLabel}?</span>
       <div slot="body">
         {error ? (
           <NotificationBanner

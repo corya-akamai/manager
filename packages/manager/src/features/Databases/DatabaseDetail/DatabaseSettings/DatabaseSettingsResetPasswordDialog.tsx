@@ -37,8 +37,8 @@ export const DatabaseSettingsResetPasswordDialog = (props: Props) => {
   };
 
   return (
-    <Modal closeModal={handleOnClose} open={open} title="Reset Root Password?">
-      <span slot="title">Reset Root Password</span>
+    <Modal closeModal={handleOnClose} open={open}>
+      <span slot="title">Reset root password?</span>
       <div slot="body">
         {error ? (
           <NotificationBanner

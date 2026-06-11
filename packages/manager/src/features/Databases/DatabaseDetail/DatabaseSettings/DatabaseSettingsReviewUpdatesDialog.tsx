@@ -51,7 +51,7 @@ export const DatabaseSettingsReviewUpdatesDialog = (props: Props) => {
   };
 
   return (
-    <Modal closeModal={onClose} open={open} title="Maintenance Updates">
+    <Modal closeModal={onClose} open={open}>
       <span slot="title">Maintenance Updates</span>
       <div slot="body">
         {error ? (

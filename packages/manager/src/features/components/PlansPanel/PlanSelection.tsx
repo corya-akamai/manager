@@ -30,6 +30,7 @@ export interface PlanSelectionProps {
   header?: string;
   idx: number;
   isCreate?: boolean;
+  isValkeyEngineSelected?: boolean;
   linodeID?: number | undefined;
   onSelect: (key: string) => void;
   plan: PlanWithAvailability;
@@ -53,6 +54,7 @@ export const PlanSelection = (props: PlanSelectionProps) => {
     selectedRegionId,
     showNetwork,
     showTransfer,
+    isValkeyEngineSelected,
     wholePanelIsDisabled,
   } = props;
   const {
@@ -241,7 +243,9 @@ export const PlanSelection = (props: PlanSelectionProps) => {
             {plan.vcpus}
           </TableCell>
           <TableCell center data-qa-storage noWrap>
-            {convertMegabytesTo(plan.disk, true)}
+            {isValkeyEngineSelected
+              ? 'N/A'
+              : convertMegabytesTo(plan.disk, true)}
           </TableCell>
           {showTransfer ? (
             <TableCell center data-qa-transfer>
