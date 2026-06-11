@@ -92,6 +92,11 @@ export const ImageSelectTableRow = (props: Props) => {
 
   const imageRegions = _imageRegions ?? []; // Failsafe for manual images whose `regions` property is null
 
+  const selected = selectedImageIds.includes(id);
+
+  const shareGroupCount =
+    image.image_sharing?.shared_with?.sharegroup_count ?? 0;
+
   const FormattedRegionList = () => (
     <StyledFormattedRegionList>
       {imageRegions.map((region: ImageRegion, idx) => {
@@ -104,7 +109,6 @@ export const ImageSelectTableRow = (props: Props) => {
     </StyledFormattedRegionList>
   );
 
-  const selected = selectedImageIds.includes(id);
   return (
     <TableRow
       key={id}
@@ -113,7 +117,7 @@ export const ImageSelectTableRow = (props: Props) => {
       selectable={selectionMode === 'multi'}
       selected={selected}
     >
-      <TableCell style={{ ...TABLE_CELL_BASE_STYLE }}>
+      <TableCell style={{ ...TABLE_CELL_BASE_STYLE, wordBreak: 'break-all' }}>
         {selectionMode === 'single' ? (
           <FormControlLabel
             checked={selected}
@@ -135,7 +139,7 @@ export const ImageSelectTableRow = (props: Props) => {
             text="This image supports our Metadata service via cloud-init."
           />
         )}
-        {image.is_shared && (
+        {shareGroupCount > 0 && (
           <TooltipIcon
             icon={<CoreSharedIcon />}
             sxTooltipIcon={{
@@ -144,7 +148,7 @@ export const ImageSelectTableRow = (props: Props) => {
             text={`This image is shared in ${pluralize(
               'share group',
               'share groups',
-              image.image_sharing?.shared_with?.sharegroup_count ?? 0
+              shareGroupCount
             )}.`}
           />
         )}

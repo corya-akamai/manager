@@ -86,6 +86,7 @@ export const JoinedOrRequestedGroupRow = (props: Props) => {
               style={{
                 ...TABLE_CELL_BASE_STYLES,
                 maxWidth: '35%',
+                wordBreak: 'break-all',
               }}
             >
               {valid_for_sharegroup_uuid ?? '–'}
@@ -104,6 +105,7 @@ export const JoinedOrRequestedGroupRow = (props: Props) => {
             style={{
               ...TABLE_CELL_BASE_STYLES,
               maxWidth: '35%',
+              wordBreak: 'break-all',
             }}
           >
             {token_uuid}

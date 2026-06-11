@@ -321,7 +321,7 @@ export const GroupMembersTable = (props: Props) => {
                 <TableCell>{member.label}</TableCell>
                 <TableCell>
                   <Stack alignContent="baseline" direction="row">
-                    <Typography sx={{ wordBreak: 'break-word' }}>
+                    <Typography sx={{ wordBreak: 'break-all' }}>
                       {member.token_uuid ?? '-'}
                     </Typography>
                     <StyledCopyIcon
