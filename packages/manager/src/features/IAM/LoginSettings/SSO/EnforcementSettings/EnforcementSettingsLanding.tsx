@@ -1,9 +1,9 @@
 import { useGetIdpConfigsQuery } from '@linode/queries';
 import * as React from 'react';
 
-import { DocumentTitleSegment } from 'src/components/DocumentTitle';
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 import { CircleProgress } from 'src/features/IAM/Shared/CircleProgress/CircleProgress';
+import { DocumentTitleSegment } from 'src/features/IAM/Shared/DocumentTitleSegment/DocumentTitleSegment';
 import { ErrorState } from 'src/features/IAM/Shared/ErrorState/ErrorState';
 import { NoIDPConfiguration } from 'src/features/IAM/Shared/NoIDPConfiguration/NoIDPConfiguration';
 
