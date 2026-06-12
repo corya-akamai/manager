@@ -517,6 +517,24 @@ export const postgresConfigResponse = {
 };
 
 export const valkeyConfigResponse = {
+  backup_hour: {
+    description:
+      'The hour of day (in UTC) when backup for the service is started. New backup is only started if previous backup has already completed.',
+    example: 3,
+    maximum: 23,
+    minimum: 0,
+    requires_restart: false,
+    type: ['integer', 'null'],
+  },
+  backup_minute: {
+    description:
+      'The minute of an hour when backup for the service is started. New backup is only started if previous backup has already completed.',
+    example: 30,
+    maximum: 59,
+    minimum: 0,
+    requires_restart: false,
+    type: ['integer', 'null'],
+  },
   frequent_snapshots: {
     default: true,
     description:

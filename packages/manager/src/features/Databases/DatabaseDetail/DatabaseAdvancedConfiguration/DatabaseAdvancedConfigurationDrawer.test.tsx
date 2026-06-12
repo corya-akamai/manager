@@ -2,7 +2,11 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { databaseInstanceFactory, postgresConfigResponse } from 'src/factories';
+import {
+  databaseInstanceFactory,
+  postgresConfigResponse,
+  valkeyConfigResponse,
+} from 'src/factories';
 import {
   getShadowRootElement,
   renderWithThemeAndHookFormContext,
@@ -30,20 +34,19 @@ vi.mock('@linode/queries', async () => {
   };
 });
 
-queryMocks.useDatabaseEngineConfig.mockReturnValue({
-  data: postgresConfigResponse,
-});
-
 describe('DatabaseAdvancedConfigurationDrawer', () => {
-  it('should display an input section and description for each existing config', () => {
+  beforeEach(() => {
+    queryMocks.useDatabaseEngineConfig.mockReturnValue({
+      data: postgresConfigResponse,
+    });
+  });
+
+  it('should display label and description for a config', () => {
     const database = databaseInstanceFactory.build({
       engine: 'postgresql',
     });
     database.engine_config = {
-      pglookout: {
-        max_failover_replication_time_lag: 60,
-      },
-      synchronous_replication: 'off',
+      timezone: 'Europe/Helsinki',
     };
 
     renderWithThemeAndHookFormContext({
@@ -60,22 +63,143 @@ describe('DatabaseAdvancedConfigurationDrawer', () => {
       },
     });
 
-    const pglookoutLabel = screen.getByText(
-      'pglookout.max_failover_replication_time_lag'
-    );
+    const pglookoutLabel = screen.getByText('pg.timezone');
     const pglookoutDescription = screen.getByText(
-      'Number of seconds of master unavailability before triggering database failover to standby'
-    );
-    const synchronousReplicationLabel = screen.getByText(
-      'synchronous_replication'
-    );
-    const synchronousReplicationDescription = screen.getByText(
-      'Synchronous replication type. Note that the service plan also needs to support synchronous replication.'
+      'PostgreSQL service timezone'
     );
     expect(pglookoutLabel).toBeVisible();
     expect(pglookoutDescription).toBeVisible();
-    expect(synchronousReplicationLabel).toBeVisible();
-    expect(synchronousReplicationDescription).toBeVisible();
+  });
+
+  it('should display a text input section for string, number, and integer configs', () => {
+    const database = databaseInstanceFactory.build({
+      engine: 'postgresql',
+    });
+    database.engine_config = {
+      pglookout: {
+        max_failover_replication_time_lag: 60, // integer config
+        autovacuum_analyze_scale_factor: 0.2, // number config
+      },
+      timezone: 'Europe/Helsinki',
+    };
+
+    renderWithThemeAndHookFormContext({
+      component: (
+        <DatabaseAdvancedConfigurationDrawer database={database} {...props} />
+      ),
+      useFormOptions: {
+        defaultValues: {
+          configs: convertExistingConfigsToArray(
+            database.engine_config,
+            postgresConfigResponse
+          ),
+        },
+      },
+    });
+
+    const textInputs = document.querySelectorAll<HTMLElement>('cds-text-field');
+    expect(textInputs).toHaveLength(3);
+  });
+
+  it('should display a dropdown input for string enum configs', async () => {
+    const database = databaseInstanceFactory.build({
+      engine: 'postgresql',
+    });
+    database.engine_config = {
+      pg: {
+        default_toast_compression: 'lz4', // string enum config
+      },
+    };
+
+    renderWithThemeAndHookFormContext({
+      component: (
+        <DatabaseAdvancedConfigurationDrawer database={database} {...props} />
+      ),
+      useFormOptions: {
+        defaultValues: {
+          configs: convertExistingConfigsToArray(
+            database.engine_config,
+            postgresConfigResponse
+          ),
+        },
+      },
+    });
+
+    const toastCompressionDropdown = screen.getAllByRole('combobox')[1];
+    await userEvent.click(toastCompressionDropdown);
+    expect(screen.getByText('lz4')).toBeVisible();
+    expect(screen.getByText('pglz')).toBeVisible();
+  });
+
+  it('should display a dropdown input for string/null enums and a text input for integer/null type configs', async () => {
+    queryMocks.useDatabaseEngineConfig.mockReturnValue({
+      data: valkeyConfigResponse,
+    });
+    const database = databaseInstanceFactory.build({
+      engine: 'valkey',
+    });
+    database.engine_config = {
+      valkey_maxmemory_policy: 'noeviction', // string/null enum config
+      backup_hour: 3, // integer/null config
+    };
+
+    renderWithThemeAndHookFormContext({
+      component: (
+        <DatabaseAdvancedConfigurationDrawer database={database} {...props} />
+      ),
+      useFormOptions: {
+        defaultValues: {
+          configs: convertExistingConfigsToArray(
+            database.engine_config,
+            valkeyConfigResponse
+          ),
+        },
+      },
+    });
+
+    const backupHost = document.querySelector('cds-text-field');
+    const backupTextInput = await getShadowRootElement<HTMLInputElement>(
+      backupHost!,
+      'input'
+    );
+    expect(backupTextInput).toBeTruthy();
+
+    const maxMemoryDropdown = screen.getAllByRole('combobox')[1];
+    await userEvent.click(maxMemoryDropdown);
+    expect(screen.getByText('noeviction')).toBeVisible();
+    expect(screen.getByText('allkeys-lru')).toBeVisible();
+    expect(screen.getByText('volatile-lru')).toBeVisible();
+  });
+
+  it('should display a switch button for boolean configs', async () => {
+    const database = databaseInstanceFactory.build({
+      engine: 'postgresql',
+    });
+    database.engine_config = {
+      pg_stat_monitor_enable: false,
+    };
+
+    renderWithThemeAndHookFormContext({
+      component: (
+        <DatabaseAdvancedConfigurationDrawer database={database} {...props} />
+      ),
+      useFormOptions: {
+        defaultValues: {
+          configs: convertExistingConfigsToArray(
+            database.engine_config,
+            postgresConfigResponse
+          ),
+        },
+      },
+    });
+
+    const switchHost = document.querySelector('cds-switch');
+    expect(switchHost).not.toBeNull();
+    const switchControl = await getShadowRootElement<HTMLButtonElement>(
+      switchHost as HTMLElement,
+      'button[role="switch"]'
+    );
+    expect(switchControl).not.toBeNull();
   });
 
   it('should disable the save button until an option is updated', async () => {

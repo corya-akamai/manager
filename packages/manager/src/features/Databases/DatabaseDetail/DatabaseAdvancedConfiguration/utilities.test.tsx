@@ -166,6 +166,9 @@ describe('convertEngineConfigToOptions', () => {
       valkey_acl_channels_default: {
         type: 'string',
       },
+      backup_hour: {
+        type: ['integer', 'null'],
+      },
     };
     const expectedConfigOptions = [
       {
@@ -185,6 +188,12 @@ describe('convertEngineConfigToOptions', () => {
         enum: [],
         label: 'valkey_acl_channels_default',
         type: 'string',
+      },
+      {
+        category: 'other',
+        enum: [],
+        label: 'backup_hour',
+        type: ['integer', 'null'],
       },
     ];
     expect(convertEngineConfigToOptions(configs)).toEqual(

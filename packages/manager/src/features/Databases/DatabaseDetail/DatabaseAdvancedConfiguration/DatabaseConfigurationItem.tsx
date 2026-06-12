@@ -14,7 +14,8 @@ import React from 'react';
 import {
   formatConfigValue,
   isConfigBoolean,
-  isConfigStringWithEnum,
+  isConfigNumber,
+  isConfigString,
   isTopLevelCategory,
 } from './utilities';
 
@@ -34,7 +35,11 @@ export const DatabaseConfigurationItem = (props: Props) => {
   const configLabel = configItem?.label || '';
 
   const renderInputField = () => {
-    if (configItem && isConfigBoolean(configItem)) {
+    if (!configItem) {
+      return null;
+    }
+
+    if (isConfigBoolean(configItem)) {
       return (
         <FormField>
           <Switch
@@ -46,7 +51,8 @@ export const DatabaseConfigurationItem = (props: Props) => {
         </FormField>
       );
     }
-    if (configItem && isConfigStringWithEnum(configItem)) {
+
+    if (configItem.enum && isConfigString(configItem)) {
       const options =
         configItem.enum?.map((option) => ({ label: option })) || [];
       const selectedValue = options.find(
@@ -69,10 +75,31 @@ export const DatabaseConfigurationItem = (props: Props) => {
         />
       );
     }
-    if (
-      (configItem?.type === 'number' || configItem?.type === 'integer') &&
-      typeof configItem.value !== 'boolean'
-    ) {
+
+    if (isConfigString(configItem)) {
+      return (
+        <FormField
+          error={Boolean(errorText)}
+          labelPosition="top"
+          onBlur={onBlur}
+        >
+          <TextField
+            error={Boolean(errorText)}
+            onChange={(e) =>
+              onChange(
+                (e.currentTarget as EventTarget & { value?: string })?.value ??
+                  ''
+              )
+            }
+            placeholder={String(configItem?.example ?? '')}
+            value={configItem.value ? String(configItem.value) : ''}
+          />
+          <FormError slot="error">{errorText}</FormError>
+        </FormField>
+      );
+    }
+
+    if (isConfigNumber(configItem)) {
       return (
         <FormField
           error={Boolean(errorText)}
@@ -104,33 +131,6 @@ export const DatabaseConfigurationItem = (props: Props) => {
       );
     }
 
-    if (
-      configItem?.type === 'string' ||
-      (Array.isArray(configItem?.type) &&
-        configItem?.type.includes('string') &&
-        !configItem.enum)
-    ) {
-      return (
-        <FormField
-          error={Boolean(errorText)}
-          labelPosition="top"
-          onBlur={onBlur}
-        >
-          <TextField
-            error={Boolean(errorText)}
-            onChange={(e) =>
-              onChange(
-                (e.currentTarget as EventTarget & { value?: string })?.value ??
-                  ''
-              )
-            }
-            placeholder={String(configItem?.example ?? '')}
-            value={configItem.value ? String(configItem.value) : ''}
-          />
-          <FormError slot="error">{errorText}</FormError>
-        </FormField>
-      );
-    }
     return null;
   };
 

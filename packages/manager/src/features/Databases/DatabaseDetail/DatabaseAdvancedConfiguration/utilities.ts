@@ -157,16 +157,26 @@ export const formatConfigPayload = (
 export const isConfigBoolean = (config: ConfigurationOption) => {
   return (
     config?.type === 'boolean' ||
-    (Array.isArray(config?.type) && config?.type.includes('boolean'))
+    (Array.isArray(config?.type) &&
+      config?.type.some((type) => type === 'boolean'))
   );
 };
 
-export const isConfigStringWithEnum = (config: ConfigurationOption) => {
+export const isConfigString = (config: ConfigurationOption) => {
   return (
-    (config?.type === 'string' && config.enum) ||
+    config?.type === 'string' ||
     (Array.isArray(config?.type) &&
-      config?.type.includes('string') &&
-      config.enum)
+      config?.type.some((type) => type === 'string'))
+  );
+};
+
+export const isConfigNumber = (config: ConfigurationOption) => {
+  return (
+    config?.type === 'number' ||
+    config?.type === 'integer' ||
+    (typeof config?.value !== 'boolean' &&
+      Array.isArray(config?.type) &&
+      config.type.some((type) => type === 'integer' || type === 'number'))
   );
 };
 
@@ -179,7 +189,7 @@ export const isConfigStringWithEnum = (config: ConfigurationOption) => {
 export const getDefaultConfigValue = (config: ConfigurationOption) => {
   return isConfigBoolean(config)
     ? false
-    : isConfigStringWithEnum(config)
+    : config.enum && isConfigString(config)
       ? (config.enum?.[0] ?? '')
       : config?.type === 'number' || config?.type === 'integer'
         ? (config.minimum ?? 0)
