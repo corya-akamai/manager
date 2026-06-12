@@ -20,8 +20,6 @@ import {
   VIEW_DETAILS_PERMISSION_ERROR,
 } from '../../constants';
 import styles from './CertificatesTable.module.css';
-import { DeleteCertificateDialog } from './DeleteCertificateDialog';
-import { ViewCertificateDrawer } from './ViewCertificateDrawer';
 
 import type { IdpCertificate } from '@linode/api-v4';
 import type { Status } from 'src/features/IAM/Shared/StatusIcon/StatusIcon';
@@ -29,9 +27,10 @@ import type { Status } from 'src/features/IAM/Shared/StatusIcon/StatusIcon';
 interface CertificateTableLandingProps {
   activeCertificateCount?: null | number;
   cert: IdpCertificate;
-  idpConfigId: string;
   isMobileScreen: boolean;
   isSmallScreen: boolean;
+  onDelete: (cert: IdpCertificate) => void;
+  onViewDetails: (cert: IdpCertificate) => void;
   ssoEnabled?: boolean;
   status: Status;
   totalCertificateCount?: number;
@@ -42,18 +41,14 @@ export const CertificateTableLandingRow = ({
   isSmallScreen,
   isMobileScreen,
   status,
-  idpConfigId,
+  onDelete,
+  onViewDetails,
   ssoEnabled,
   activeCertificateCount,
   totalCertificateCount,
 }: CertificateTableLandingProps) => {
   // TODO - UIE-11305 replace with actual permissions check for creating IDP configurations
   const { data: permissions } = usePermissions('account', ['is_account_admin']);
-
-  const [deleteCert, setDeleteCert] = React.useState<IdpCertificate | null>(
-    null
-  );
-  const [isViewCertDrawerOpen, setIsViewCertDrawerOpen] = React.useState(false);
 
   const isSsoEnabled = !!ssoEnabled;
   const activeCount = activeCertificateCount ?? 0;
@@ -77,83 +72,70 @@ export const CertificateTableLandingRow = ({
   const deleteDisabled = !canDelete || ssoBlocksDelete;
 
   return (
-    <>
-      <TableRow hoverable key={cert.id} rowborder>
-        <TableCell className={styles.certCellLanding}>
-          {truncateMiddle(cert.certificate, isSmallScreen ? 24 : 46)}
-          <CopyTooltip text={cert.certificate} />
+    <TableRow hoverable key={cert.id} rowborder>
+      <TableCell className={styles.certCellLanding}>
+        {truncateMiddle(cert.certificate, isSmallScreen ? 24 : 46)}
+        <CopyTooltip text={cert.certificate} />
+      </TableCell>
+      {!isMobileScreen && (
+        <TableCell className={styles.expirationCell} hidden={isSmallScreen}>
+          <StatusIcon pulse={false} status={status} />
+          <DateTimeDisplay displayTime={false} value={cert.not_after} />
         </TableCell>
-        {!isMobileScreen && (
-          <TableCell className={styles.expirationCell} hidden={isSmallScreen}>
-            <StatusIcon pulse={false} status={status} />
-            <DateTimeDisplay displayTime={false} value={cert.not_after} />
-          </TableCell>
-        )}
+      )}
 
-        <TableCell className={styles.actionCell}>
-          <Tooltip
-            className={styles.actionButton}
-            disabled={permissions?.is_account_admin}
-            tooltipPlacement="bottom"
-            tooltipText={VIEW_DETAILS_PERMISSION_ERROR}
+      <TableCell className={styles.actionCell}>
+        <Tooltip
+          className={styles.actionButton}
+          disabled={permissions?.is_account_admin}
+          tooltipPlacement="bottom"
+          tooltipText={VIEW_DETAILS_PERMISSION_ERROR}
+        >
+          <Button
+            disabled={!permissions?.is_account_admin}
+            onClick={() => onViewDetails(cert)}
+            style={{
+              paddingRight: 'var(--token-global-spacing-s8, 8px)',
+            }}
+            type="button"
+            variant="link"
           >
-            <Button
-              disabled={!permissions?.is_account_admin}
-              onClick={() => setIsViewCertDrawerOpen(true)}
-              style={{
-                paddingRight: 'var(--token-global-spacing-s8, 8px)',
-              }}
-              type="button"
-              variant="link"
-            >
-              View Details
-              {!permissions?.is_account_admin && (
-                <Icon icon="info-outline" size="s" />
-              )}
-            </Button>
-          </Tooltip>
-          <Tooltip
-            className={styles.actionButton}
-            disabled={!deleteDisabled}
-            tooltipPlacement="bottom"
-            tooltipText={
-              !canDelete
-                ? DELETE_PERMISSION_ERROR
-                : blocksDueToOnlyTotal
-                  ? SSO_CANNOT_DELETE_LAST_CERTIFICATE
-                  : SSO_REQUIRES_ACTIVE_CERTIFICATE
-            }
+            View Details
+            {!permissions?.is_account_admin && (
+              <Icon icon="info-outline" size="s" />
+            )}
+          </Button>
+        </Tooltip>
+        <Tooltip
+          className={styles.actionButton}
+          disabled={!deleteDisabled}
+          tooltipPlacement="bottom"
+          tooltipText={
+            !canDelete
+              ? DELETE_PERMISSION_ERROR
+              : blocksDueToOnlyTotal
+                ? SSO_CANNOT_DELETE_LAST_CERTIFICATE
+                : SSO_REQUIRES_ACTIVE_CERTIFICATE
+          }
+        >
+          <Button
+            disabled={deleteDisabled}
+            onClick={() => {
+              if (!deleteDisabled) {
+                onDelete(cert);
+              }
+            }}
+            style={{
+              paddingLeft: 'var(--token-global-spacing-s8, 8px)',
+            }}
+            type="button"
+            variant="link"
           >
-            <Button
-              disabled={deleteDisabled}
-              onClick={() => {
-                if (!deleteDisabled) {
-                  setDeleteCert(cert);
-                }
-              }}
-              style={{
-                paddingLeft: 'var(--token-global-spacing-s8, 8px)',
-              }}
-              type="button"
-              variant="link"
-            >
-              Delete
-              {deleteDisabled && <Icon icon="info-outline" size="s" />}
-            </Button>
-          </Tooltip>
-        </TableCell>
-      </TableRow>
-      <DeleteCertificateDialog
-        certificate={deleteCert}
-        idpConfigId={idpConfigId}
-        onClose={() => setDeleteCert(null)}
-        open={!!deleteCert}
-      />
-      <ViewCertificateDrawer
-        cert={cert}
-        onClose={() => setIsViewCertDrawerOpen(false)}
-        open={isViewCertDrawerOpen}
-      />
-    </>
+            Delete
+            {deleteDisabled && <Icon icon="info-outline" size="s" />}
+          </Button>
+        </Tooltip>
+      </TableCell>
+    </TableRow>
   );
 };

@@ -19,9 +19,11 @@ import { StatusIcon } from '../../../Shared/StatusIcon/StatusIcon';
 import { ALL_CERTIFICATES_DELETED_ERROR } from '../../constants';
 import styles from './CertificatesTable.module.css';
 import { CertificateTableLandingRow } from './CertificateTableLandingRow';
+import { DeleteCertificateDialog } from './DeleteCertificateDialog';
 import idpConfigurationDrawerStyles from './IdpConfigurationDrawer.module.css';
 import { getCertificateStatus } from './idpConfigurationDrawer.utils';
 import { NoCertificates } from './NoCertificates';
+import { ViewCertificateDrawer } from './ViewCertificateDrawer';
 
 import type { IdpCertificate } from '@linode/api-v4';
 
@@ -85,6 +87,17 @@ export const CertificatesTable = (props: CombinedProps) => {
 
   const isSmallScreen = useBreakpoint('down', 'lg');
   const isMobileScreen = useBreakpoint('down', 'sm');
+
+  const [viewCertId, setViewCertId] = React.useState<null | string>(null);
+  const [isViewCertDrawerOpen, setIsViewCertDrawerOpen] = React.useState(false);
+  const [deleteCert, setDeleteCert] = React.useState<IdpCertificate | null>(
+    null
+  );
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
+
+  const viewCert = viewCertId
+    ? certificates.find((cert) => cert.id === viewCertId)
+    : undefined;
 
   return (
     <>
@@ -152,10 +165,17 @@ export const CertificatesTable = (props: CombinedProps) => {
                   <CertificateTableLandingRow
                     activeCertificateCount={props.activeCertificateCount}
                     cert={cert}
-                    idpConfigId={props.idpConfigId}
                     isMobileScreen={isMobileScreen}
                     isSmallScreen={isSmallScreen}
                     key={cert.id}
+                    onDelete={(selectedCert) => {
+                      setDeleteCert(selectedCert);
+                      setIsDeleteDialogOpen(true);
+                    }}
+                    onViewDetails={(selectedCert) => {
+                      setViewCertId(selectedCert.id);
+                      setIsViewCertDrawerOpen(true);
+                    }}
                     ssoEnabled={props.ssoEnabled}
                     status={status}
                     totalCertificateCount={certificates.length}
@@ -222,6 +242,22 @@ export const CertificatesTable = (props: CombinedProps) => {
         <FormError className={styles.tableErrorMessage}>
           {ALL_CERTIFICATES_DELETED_ERROR}
         </FormError>
+      )}
+
+      {isLandingMode && (
+        <ViewCertificateDrawer
+          cert={viewCert ?? null}
+          onClose={() => setIsViewCertDrawerOpen(false)}
+          open={isViewCertDrawerOpen}
+        />
+      )}
+      {isLandingMode && (
+        <DeleteCertificateDialog
+          certificate={deleteCert}
+          idpConfigId={props.idpConfigId}
+          onClose={() => setIsDeleteDialogOpen(false)}
+          open={isDeleteDialogOpen}
+        />
       )}
     </>
   );

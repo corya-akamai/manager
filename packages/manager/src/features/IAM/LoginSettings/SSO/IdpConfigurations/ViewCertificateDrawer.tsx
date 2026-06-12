@@ -14,7 +14,7 @@ import styles from './ViewCertificateDrawer.module.css';
 import type { IdpCertificate } from '@linode/api-v4';
 
 interface Props {
-  cert: IdpCertificate;
+  cert: IdpCertificate | null;
   onClose: () => void;
   open: boolean;
 }
@@ -28,46 +28,48 @@ export const ViewCertificateDrawer = ({ cert, onClose, open }: Props) => {
   return (
     <Drawer aria-label="View Details" onClose={handleClose} open={open}>
       <div slot="header">View Details</div>
-      <div className={styles.viewCertContainer}>
-        <p>
-          <strong>Created by:</strong> {cert.created_by}
-        </p>
-        <p>
-          <strong>Created:</strong>{' '}
-          <DateTimeDisplay displayTime={false} value={cert.created} />
-        </p>
-        <p>
-          <strong>Valid From:</strong>{' '}
-          <DateTimeDisplay displayTime={false} value={cert.not_before} />
-        </p>
-        <p>
-          <strong>Expiration Date:</strong>{' '}
-          <DateTimeDisplay displayTime={false} value={cert.not_after} />
-        </p>
-        <p className={styles.viewCertFlex}>
-          <strong>Status:</strong>{' '}
-          <span>
-            {getCertificateStatus(cert.not_after, cert.not_before).text}
-          </span>
-          <StatusIcon
-            pulse={false}
-            status={
-              getCertificateStatus(cert.not_after, cert.not_before).status
-            }
-          />
-        </p>
-        <p className={styles.viewCertFlex}>
-          <strong>ID:</strong> {cert.id}
-          <CopyTooltip text={cert.id} />
-        </p>
-        <p className={styles.viewCertFlex}>
-          <strong>Certificate:</strong>{' '}
-          {isSMUp
-            ? truncateMiddle(cert.certificate, 38)
-            : truncateMiddle(cert.certificate, 30)}
-          <CopyTooltip text={cert.certificate} />
-        </p>
-      </div>
+      {cert && (
+        <div className={styles.viewCertContainer}>
+          <p>
+            <strong>Created by:</strong> {cert.created_by}
+          </p>
+          <p>
+            <strong>Created:</strong>{' '}
+            <DateTimeDisplay displayTime={false} value={cert.created} />
+          </p>
+          <p>
+            <strong>Valid From:</strong>{' '}
+            <DateTimeDisplay displayTime={false} value={cert.not_before} />
+          </p>
+          <p>
+            <strong>Expiration Date:</strong>{' '}
+            <DateTimeDisplay displayTime={false} value={cert.not_after} />
+          </p>
+          <p className={styles.viewCertFlex}>
+            <strong>Status:</strong>{' '}
+            <span>
+              {getCertificateStatus(cert.not_after, cert.not_before).text}
+            </span>
+            <StatusIcon
+              pulse={false}
+              status={
+                getCertificateStatus(cert.not_after, cert.not_before).status
+              }
+            />
+          </p>
+          <p className={styles.viewCertFlex}>
+            <strong>ID:</strong> {cert.id}
+            <CopyTooltip text={cert.id} />
+          </p>
+          <p className={styles.viewCertFlex}>
+            <strong>Certificate:</strong>{' '}
+            {isSMUp
+              ? truncateMiddle(cert.certificate, 38)
+              : truncateMiddle(cert.certificate, 30)}
+            <CopyTooltip text={cert.certificate} />
+          </p>
+        </div>
+      )}
       <DrawerInlineActions>
         <Button onClick={handleClose} variant="secondary">
           Close

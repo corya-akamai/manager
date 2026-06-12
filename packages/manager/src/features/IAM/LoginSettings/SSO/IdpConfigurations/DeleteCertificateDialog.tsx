@@ -48,10 +48,6 @@ export const DeleteCertificateDialog = ({
     }
   };
 
-  if (!certificate) {
-    return null;
-  }
-
   return (
     <Modal
       onModalClosed={handleClose}
@@ -61,25 +57,30 @@ export const DeleteCertificateDialog = ({
     >
       <span slot="title">Delete the certificate?</span>
       <div slot="body">
-        <p style={{ margin: Spacing.S0 }}>
-          You’re about to delete the certificate with the expiration date:{' '}
-          <strong>{certificate.not_after}</strong>. This action can’t be undone.
-        </p>
+        {certificate && (
+          <>
+            <p style={{ margin: Spacing.S0 }}>
+              You’re about to delete the certificate with the expiration date:{' '}
+              <strong>{certificate.not_after}</strong>. This action can’t be
+              undone.
+            </p>
 
-        {error ? (
-          <NotificationBanner
-            style={{ marginTop: Spacing.S16 }}
-            text={error[0].reason}
-            type="error"
-          />
-        ) : undefined}
+            {error ? (
+              <NotificationBanner
+                style={{ marginTop: Spacing.S16 }}
+                text={error[0].reason}
+                type="error"
+              />
+            ) : undefined}
+          </>
+        )}
       </div>
       <div slot="actions">
         <Button onClick={handleClose} variant="secondary">
           Cancel
         </Button>
         <Button
-          disabled={isPending}
+          disabled={isPending || !certificate}
           onClick={handleDelete}
           processing={isPending}
           variant="primary"

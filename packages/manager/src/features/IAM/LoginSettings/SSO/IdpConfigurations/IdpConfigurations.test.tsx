@@ -117,16 +117,18 @@ const makeIdpConfig = (overrides: Partial<IdpConfig> = {}): IdpConfig => ({
   ...overrides,
 });
 
-/** Returns all shadow-DOM <button> elements whose cds-button host text starts with 'Delete'. */
+/** Returns shadow-DOM delete buttons from the certificates table rows only. */
 const getDeleteButtons = async (
   root: ParentNode
 ): Promise<HTMLButtonElement[]> => {
+  const table = root.querySelector('[aria-label="SAML Certificates"]') ?? root;
   const hosts = Array.from(
-    root.querySelectorAll<HTMLElement>('cds-button')
+    table.querySelectorAll<HTMLElement>('cds-button')
   ).filter(
     (btn) =>
       btn.textContent?.trim().startsWith('Delete') &&
-      !btn.textContent?.includes('IDP')
+      !btn.textContent?.includes('IDP') &&
+      !btn.textContent?.includes('Certificate')
   );
   const shadowButtons = await Promise.all(
     hosts.map((host) => getShadowRootElement<HTMLButtonElement>(host, 'button'))

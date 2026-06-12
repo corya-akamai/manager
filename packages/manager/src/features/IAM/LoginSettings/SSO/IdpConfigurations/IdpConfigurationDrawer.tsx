@@ -218,9 +218,9 @@ export const IdpConfigurationDrawer = ({
 
   return (
     <Drawer
+      aria-label={title}
       onClose={handleClose}
       open={open}
-      title={title}
       width={isSMUp ? '616px' : 'auto'}
     >
       <div slot="header">{title}</div>
