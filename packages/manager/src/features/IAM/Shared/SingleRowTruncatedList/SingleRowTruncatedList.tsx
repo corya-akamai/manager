@@ -125,11 +125,37 @@ export const SingleRowTruncatedList = ({
       return;
     }
 
-    const observer = new ResizeObserver(recalculate);
-    observer.observe(container);
+    // CDS web components, fonts, and percentage-based table columns may not be
+    // settled on the first layout pass. Re-measure after paint and when fonts load.
+    const rafId = requestAnimationFrame(() => {
+      requestAnimationFrame(recalculate);
+    });
+
+    let cancelled = false;
+    const fontsReady = document.fonts?.ready;
+    if (fontsReady) {
+      fontsReady.then(() => {
+        if (!cancelled) {
+          recalculate();
+        }
+      });
+    }
+
+    const containerObserver = new ResizeObserver(recalculate);
+    containerObserver.observe(container);
+
+    const itemObserver = new ResizeObserver(recalculate);
+    container
+      .querySelectorAll<HTMLElement>('[data-slrtl-item]')
+      .forEach((el) => {
+        itemObserver.observe(el);
+      });
 
     return () => {
-      observer.disconnect();
+      cancelled = true;
+      cancelAnimationFrame(rafId);
+      containerObserver.disconnect();
+      itemObserver.disconnect();
     };
   }, [recalculate, items, ellipsisText]);
 

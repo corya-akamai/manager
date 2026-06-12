@@ -44,13 +44,13 @@ describe('AssignedEntities', () => {
       />
     );
 
-    const deleteIcons = screen.getAllByTestId('CloseIcon');
-    expect(deleteIcons).toHaveLength(mockRole.entity_names!.length);
+    const removeButton = screen
+      .getByTestId('entities')
+      .querySelector('cds-button');
+    expect(removeButton).toBeTruthy();
 
-    // Simulate clicking the delete icon for the first chip
-    fireEvent.click(deleteIcons[0]);
+    fireEvent.click(removeButton!);
 
-    // Ensure the onRemoveAssignment handler is called with the correct arguments
     expect(handleRemove).toHaveBeenCalledTimes(1);
     expect(handleRemove).toHaveBeenCalledWith(
       { name: mockRole.entity_names![0], id: mockRole.entity_ids![0] },

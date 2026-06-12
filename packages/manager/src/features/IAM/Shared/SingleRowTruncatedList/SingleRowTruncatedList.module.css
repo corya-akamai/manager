@@ -52,7 +52,8 @@
   min-width: max-content;
 }
 
-.overflowPillBadge {
+.overflowPillBadge,
+.entityChipBadge {
   align-items: center;
   background-color: var(
     --token-global-color-ultramarine-20,
@@ -60,10 +61,9 @@
   );
   border-radius: var(--token-global-border-radius-s4, 4px);
   display: inline-flex;
-  height: 20px;
+  height: 22px;
   padding: 0 var(--token-global-spacing-s8, 8px);
-  position: relative;
-  top: 2px;
+  font-size: var(--token-global-font-font-size-xxxs, 0.75rem);
 }
 
 .overflowPillButton {
@@ -76,4 +76,17 @@
   font-weight: var(--token-global-font-font-weight-regular, 400);
   line-height: var(--token-global-font-line-height-xxxs, 1rem);
   padding: 0;
+}
+
+.entityChip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.entityChipRemoveButton {
+  margin-left: 4px;
+  position: relative;
+  top: 2px;
+  left: 2px;
 }

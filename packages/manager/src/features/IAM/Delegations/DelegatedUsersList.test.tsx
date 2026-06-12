@@ -92,6 +92,10 @@ describe('DelegatedUsersList', () => {
     }
 
     expect(getVisibleEllipsis(container)).toHaveTextContent(', ...');
-    expect(screen.getByText('+10')).toBeVisible();
+
+    const overflowPill = container.querySelector(
+      '[data-slrtl-visible-ellipsis] + div'
+    );
+    expect(overflowPill).toHaveTextContent('+10');
   });
 });

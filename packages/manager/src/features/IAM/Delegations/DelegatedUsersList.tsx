@@ -37,7 +37,7 @@ export const DelegatedUsersList = ({ onViewAll, users }: Props) => {
     </Box>
   ));
 
-  const phantomLabel = `+${MAX_USERS_TO_RENDER}`;
+  const phantomLabel = `+${users.length}`;
 
   return (
     <SingleRowTruncatedList

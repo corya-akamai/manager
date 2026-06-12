@@ -1,7 +1,6 @@
-import { Button, Tooltip } from '@akamai/cds-components/react';
+import { Button, Icon, Tooltip } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { sortByString } from '@akamai/compute-ui-core/formatting';
-import { Chip, CloseIcon } from '@linode/ui';
 import * as React from 'react';
 
 import { SingleRowTruncatedList } from '../../Shared/SingleRowTruncatedList/SingleRowTruncatedList';
@@ -54,33 +53,27 @@ export const AssignedEntities = ({
       tooltipPlacement="top"
       tooltipText={entity.name}
     >
-      <Chip
-        data-testid="entities"
-        deleteIcon={
-          disabled ? undefined : <CloseIcon data-testid="CloseIcon" />
-        }
-        label={
-          entity.name.length > 30
+      <div className={styles.entityChip}>
+        <div className={styles.entityChipBadge} data-testid="entities">
+          {entity.name.length > 30
             ? `${entity.name.slice(0, 20)}...`
-            : entity.name
-        }
-        onDelete={disabled ? undefined : () => onRemoveAssignment(entity, role)}
-        sx={{
-          backgroundColor:
-            'var(--token-alias-background-informativesubtle, light-dark(#e6edfe, #515157))',
-          color:
-            'var(--token-alias-content-text-primary-default, light-dark(#343438, #ffffff))',
-          '& .MuiChip-deleteIcon': {
-            color:
-              'var(--token-alias-content-text-primary-default, light-dark(#343438, #ffffff))',
-          },
-        }}
-      />
+            : entity.name}
+          <Button
+            className={styles.entityChipRemoveButton}
+            disabled={disabled}
+            onClick={() => onRemoveAssignment(entity, role)}
+            size="small"
+            variant="link"
+          >
+            <Icon icon="close" size="xs" />
+          </Button>
+        </div>
+      </div>
     </Tooltip>
   ));
 
-  // Phantom uses MAX_ITEMS_TO_RENDER digits to ensure the worst-case pill width is measured
-  const phantomLabel = `+${MAX_ITEMS_TO_RENDER}`;
+  // Phantom uses the true total so the reserved overflow-pill width matches large +N labels.
+  const phantomLabel = `+${sortedEntities.length}`;
 
   return (
     <SingleRowTruncatedList
