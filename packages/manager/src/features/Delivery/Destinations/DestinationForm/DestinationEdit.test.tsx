@@ -27,7 +27,7 @@ const mockBuckets = [
     hostname: 'bucket-with-hostname.us-east-1.linodeobjects.com',
     label: 'bucket-with-hostname',
     region: 'us-east',
-    s3_endpoint: 'us-east-1.linodeobjects.com',
+    s3_endpoint: undefined,
   }),
   objectStorageBucketFactory.build({
     hostname: 'bucket-with-s3-endpoint.eu-central-1.linodeobjects.com',
@@ -45,8 +45,8 @@ const queryMocks = vi.hoisted(() => ({
   }),
 }));
 
-vi.mock('src/queries/object-storage/queries', async () => {
-  const actual = await vi.importActual('src/queries/object-storage/queries');
+vi.mock('src/features/ObjectStorage/hooks/useObjectStorageBuckets', async () => {
+  const actual = await vi.importActual('src/features/ObjectStorage/hooks/useObjectStorageBuckets');
   return {
     ...actual,
     useObjectStorageBuckets: queryMocks.useObjectStorageBuckets,
@@ -64,7 +64,7 @@ vi.mock('@tanstack/react-router', async () => {
 describe('DestinationEdit', () => {
   beforeEach(() => {
     queryMocks.useObjectStorageBuckets.mockReturnValue({
-      data: { buckets: mockBuckets },
+      data: mockBuckets,
       error: null,
       isPending: false,
     });
@@ -185,7 +185,7 @@ describe('DestinationEdit', () => {
 
       // Endpoint should be auto-filled with the bucket's endpoint
       expect(screen.getByLabelText('Endpoint')).toHaveValue(
-        'us-east-1.linodeobjects.com'
+        'bucket-with-hostname.us-east-1.linodeobjects.com'
       );
     });
 

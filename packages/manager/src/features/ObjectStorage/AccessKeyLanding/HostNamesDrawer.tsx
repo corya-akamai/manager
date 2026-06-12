@@ -17,11 +17,11 @@ interface Props {
 export const HostNamesDrawer = (props: Props) => {
   const { onClose, isOpen, objectStorageKey } = props;
 
-  const { availableStorageRegions, regionsByIdMap } = useObjectStorageRegions();
+  const { regionsByIdMap } = useObjectStorageRegions();
 
-  const regions = objectStorageKey?.regions || [];
+  const keyRegions = objectStorageKey?.regions || [];
 
-  if (!availableStorageRegions || !regionsByIdMap) {
+  if (!regionsByIdMap) {
     return null;
   }
 
@@ -30,13 +30,13 @@ export const HostNamesDrawer = (props: Props) => {
       <Box sx={(theme) => ({ marginTop: theme.spacing(3) })}>
         <CopyAllHostnames
           text={
-            regions
-              .map((region) => {
-                const label = regionsByIdMap[region.id]?.label;
-                const endpointType = region.endpoint_type
-                  ? ` (${region.endpoint_type})`
+            keyRegions
+              .map((keyRegion) => {
+                const label = regionsByIdMap[keyRegion.id]?.label;
+                const endpointType = keyRegion.endpoint_type
+                  ? ` (${keyRegion.endpoint_type})`
                   : '';
-                return `${label}${endpointType}: ${region.s3_endpoint}`;
+                return `${label}${endpointType}: ${keyRegion.s3_endpoint}`;
               })
               .join('\n') ?? ''
           }
@@ -49,7 +49,7 @@ export const HostNamesDrawer = (props: Props) => {
           padding: theme.spacing(1),
         })}
       >
-        {regions.map((region, index) => {
+        {keyRegions.map((region, index) => {
           const endpointTypeLabel = region?.endpoint_type
             ? ` (${region.endpoint_type})`
             : '';

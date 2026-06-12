@@ -17,8 +17,8 @@ import { HideShowText } from 'src/components/PasswordInput/HideShowText';
 import { RegionSelect } from 'src/components/RegionSelect/RegionSelect';
 import { getDestinationFormPendoId } from 'src/features/Delivery/deliveryUtils';
 import { PathSample } from 'src/features/Delivery/Shared/PathSample';
+import { useObjectStorageBuckets } from 'src/features/ObjectStorage/hooks/useObjectStorageBuckets';
 import { useFlags } from 'src/hooks/useFlags';
-import { useObjectStorageBuckets } from 'src/queries/object-storage/queries';
 
 import type { FormMode, FormType } from 'src/features/Delivery/Shared/types';
 
@@ -51,9 +51,8 @@ export const DestinationAkamaiObjectStorageDetailsForm = ({
   const { isGeckoLAEnabled } = useIsGeckoEnabled(gecko2?.enabled, gecko2?.la);
 
   const { data: regions, isPending: areRegionsLoading } = useRegionsQuery();
-  const { data: objectStorageBucketsResponse, isPending: areBucketsLoading } =
+  const { data: objectStorageBuckets = [], isLoading: areBucketsLoading } =
     useObjectStorageBuckets();
-  const objectStorageBuckets = objectStorageBucketsResponse?.buckets || [];
 
   const { control, setValue } = useFormContext();
 

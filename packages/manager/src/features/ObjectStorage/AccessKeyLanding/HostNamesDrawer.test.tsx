@@ -28,8 +28,16 @@ vi.mock('@linode/queries', async (importOriginal) => ({
   ...(await importOriginal()),
   useRegionsQuery: vi.fn(() => ({
     data: [
-      ...regionFactory.buildList(1, { id: 'region1', label: 'Newark, NJ' }),
-      ...regionFactory.buildList(1, { id: 'region2', label: 'Atlanta, GA' }),
+      ...regionFactory.buildList(1, {
+        id: 'region1',
+        label: 'Newark, NJ',
+        capabilities: ['Object Storage'],
+      }),
+      ...regionFactory.buildList(1, {
+        id: 'region2',
+        label: 'Atlanta, GA',
+        capabilities: ['Object Storage'],
+      }),
     ],
   })),
 }));

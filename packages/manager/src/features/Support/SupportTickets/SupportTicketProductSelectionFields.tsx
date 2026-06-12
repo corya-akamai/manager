@@ -11,8 +11,8 @@ import { Autocomplete, Box, FormHelperText, TextField } from '@linode/ui';
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import { useObjectStorageBuckets } from 'src/features/ObjectStorage/hooks/useObjectStorageBuckets';
 import { useAllKubernetesClustersQuery } from 'src/queries/kubernetes';
-import { useObjectStorageBuckets } from 'src/queries/object-storage/queries';
 
 import {
   ACCOUNT_LIMIT_FIELD_NAME_TO_LABEL_MAP,
@@ -102,7 +102,9 @@ export const SupportTicketProductSelectionFields = (props: Props) => {
     data: buckets,
     error: bucketsError,
     isLoading: bucketsLoading,
-  } = useObjectStorageBuckets(entityType === 'bucket');
+  } = useObjectStorageBuckets({
+    enabled: entityType === 'bucket',
+  });
 
   const {
     data: volumes,
@@ -151,14 +153,12 @@ export const SupportTicketProductSelectionFields = (props: Props) => {
 
     if (entityType === 'bucket') {
       return (
-        reactQueryEntityDataMap['bucket']?.buckets?.map(
-          ({ cluster, label, region }) => {
-            return {
-              label,
-              value: region ?? cluster,
-            };
-          }
-        ) || []
+        reactQueryEntityDataMap['bucket']?.map(({ cluster, label, region }) => {
+          return {
+            label,
+            value: region ?? cluster,
+          };
+        }) || []
       );
     }
 
@@ -187,7 +187,7 @@ export const SupportTicketProductSelectionFields = (props: Props) => {
   };
 
   const errorMap: Record<EntityType, APIError[] | null> = {
-    bucket: bucketsError ? [{ reason: bucketsError.message }] : null,
+    bucket: bucketsError ? [{ reason: bucketsError }] : null,
     database_id: databasesError,
     domain_id: domainsError,
     firewall_id: firewallsError,
