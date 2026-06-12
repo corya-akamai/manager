@@ -2,7 +2,10 @@ import { screen } from '@testing-library/react';
 import * as React from 'react';
 
 import { SSO_INCLUDED_USERS_DOCS_LINK } from 'src/features/IAM/Shared/constants';
-import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';
+import {
+  mockMatchMedia,
+  renderWithThemeAndHookFormContext,
+} from 'src/utilities/testHelpers';
 
 import { IncludedUsersPanel } from './IncludedUsersPanel';
 
@@ -45,6 +48,8 @@ const renderComponent = (
     component: <IncludedUsersPanel includedUsers={includedUsers} />,
     useFormOptions: { defaultValues: { ...defaultValues, ...values } },
   });
+
+beforeAll(() => mockMatchMedia());
 
 describe('IncludedUsersPanel', () => {
   beforeEach(() => {

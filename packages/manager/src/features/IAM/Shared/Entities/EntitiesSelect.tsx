@@ -1,6 +1,6 @@
 import { NotificationBanner } from '@akamai/cds-components/react';
-import { Spacing } from '@akamai/cds-tokens';
-import { Notice, Typography, useTheme } from '@linode/ui';
+import { Font, Spacing } from '@akamai/cds-tokens';
+import { Typography } from '@linode/ui';
 import { useDebouncedValue } from '@linode/utilities';
 import React from 'react';
 
@@ -35,7 +35,6 @@ export const EntitiesSelect = ({
   type,
   value,
 }: Props) => {
-  const theme = useTheme();
   const [filterText, setFilterText] = React.useState('');
   const [showSelectedOnlyState, setShowSelectedOnlyState] =
     React.useState(false);
@@ -148,8 +147,10 @@ export const EntitiesSelect = ({
         <FormLabel>
           <Typography
             sx={{
-              marginBottom: theme.tokens.spacing.S8,
-              font: theme.tokens.alias.Typography.Label.Bold.S,
+              marginBottom: Spacing.S8,
+              fontSize: Font.FontSize.S,
+              // eslint-disable-next-line @linode/cloud-manager/no-custom-fontWeight
+              fontWeight: Font.FontWeight.Bold,
             }}
           >
             Entities
@@ -167,9 +168,11 @@ export const EntitiesSelect = ({
   return (
     <>
       {errorText && (
-        <Notice spacingBottom={8} variant="error">
-          <Typography fontSize="inherit">{errorText}</Typography>
-        </Notice>
+        <NotificationBanner
+          style={{ marginBottom: Spacing.S20 }}
+          text={errorText}
+          type="error"
+        />
       )}
       <div
         style={{
@@ -180,7 +183,9 @@ export const EntitiesSelect = ({
       >
         <p
           style={{
-            font: theme.tokens.alias.Typography.Label.Bold.S,
+            fontSize: Font.FontSize.S,
+            // eslint-disable-next-line @linode/cloud-manager/no-custom-fontWeight
+            fontWeight: Font.FontWeight.Bold,
             margin: 0,
           }}
         >

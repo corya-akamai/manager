@@ -12,7 +12,6 @@ import {
   useUserRolesMutation,
 } from '@linode/queries';
 import { Typography } from '@linode/ui';
-import { useTheme } from '@mui/material/styles';
 import { useParams } from '@tanstack/react-router';
 import { enqueueSnackbar } from 'notistack';
 import React from 'react';
@@ -44,7 +43,6 @@ interface Props {
 }
 
 export const ChangeRoleDrawer = ({ mode, onClose, open, role }: Props) => {
-  const theme = useTheme();
   const { username } = useParams({ strict: false });
   const { data: accountRoles, isLoading: accountPermissionsLoading } =
     useAccountRoles();
@@ -194,7 +192,7 @@ export const ChangeRoleDrawer = ({ mode, onClose, open, role }: Props) => {
           .
         </Typography>
 
-        <Typography sx={{ marginBottom: theme.tokens.spacing.S8 }}>
+        <Typography sx={{ marginBottom: Spacing.S8 }}>
           Change the role from <strong>{role?.name}</strong> to:
         </Typography>
 
@@ -216,7 +214,7 @@ export const ChangeRoleDrawer = ({ mode, onClose, open, role }: Props) => {
               }}
               placeholder="Select a Role"
               selected={field.value || null}
-              style={{ marginBottom: theme.tokens.spacing.S16 }}
+              style={{ marginBottom: Spacing.S16 }}
               valueFn={(item) => (item as RolesType).label}
             />
           )}

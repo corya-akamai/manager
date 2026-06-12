@@ -2,7 +2,7 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 
 import { accountEntityFactory } from 'src/factories/accountEntities';
-import { renderWithTheme } from 'src/utilities/testHelpers';
+import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import { EntitiesSelect } from './EntitiesSelect';
 
@@ -51,6 +51,8 @@ const bothSelected: EntitiesOption[] = [
 
 const mockOnChange = vi.fn();
 const mockValue: EntitiesOption[] = [];
+
+beforeAll(() => mockMatchMedia());
 
 describe('Entities', () => {
   it('renders correct data when it is an account access and type is an account', () => {
@@ -196,7 +198,7 @@ describe('Entities', () => {
     expect(searchField?.disabled).toBe(true);
   });
 
-  it('displays errorText when provided', () => {
+  it('displays errorText when provided', async () => {
     const errorMessage = 'Entities are required.';
 
     renderWithTheme(
@@ -210,8 +212,17 @@ describe('Entities', () => {
       />
     );
 
-    // Verify that the error message is displayed
-    expect(screen.getByText(errorMessage)).toBeVisible();
+    // CDS NotificationBanner renders copy inside shadow DOM (not visible to getByText)
+    await waitFor(() => {
+      const banners = Array.from(
+        document.querySelectorAll('cds-notification-banner')
+      );
+      const hasErrorBanner = banners.some((banner) =>
+        (banner.shadowRoot?.textContent ?? '').includes(errorMessage)
+      );
+
+      expect(hasErrorBanner).toBe(true);
+    });
   });
 
   it('filters visible rows by search text when the toggle is active', async () => {

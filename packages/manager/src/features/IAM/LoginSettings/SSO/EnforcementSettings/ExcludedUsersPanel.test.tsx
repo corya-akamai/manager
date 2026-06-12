@@ -2,7 +2,10 @@ import { screen } from '@testing-library/react';
 import * as React from 'react';
 
 import { SSO_EXCLUDED_USERS_DOCS_LINK } from 'src/features/IAM/Shared/constants';
-import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';
+import {
+  mockMatchMedia,
+  renderWithThemeAndHookFormContext,
+} from 'src/utilities/testHelpers';
 
 import { ExcludedUsersPanel } from './ExcludedUsersPanel';
 
@@ -45,6 +48,8 @@ const renderComponent = (
     component: <ExcludedUsersPanel excludedUsers={excludedUsers} />,
     useFormOptions: { defaultValues: { ...defaultValues, ...values } },
   });
+
+beforeAll(() => mockMatchMedia());
 
 describe('ExcludedUsersPanel', () => {
   beforeEach(() => {

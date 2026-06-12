@@ -1,5 +1,5 @@
 import { Button, NotificationBanner } from '@akamai/cds-components/react';
-import { Spacing } from '@akamai/cds-tokens';
+import { Font, Spacing } from '@akamai/cds-tokens';
 import {
   useGetDefaultDelegationAccessQuery,
   useUpdateDefaultDelegationAccessQuery,
@@ -7,7 +7,6 @@ import {
   useUserRolesMutation,
 } from '@linode/queries';
 import { Typography } from '@linode/ui';
-import { useTheme } from '@mui/material';
 import { useParams } from '@tanstack/react-router';
 import { enqueueSnackbar } from 'notistack';
 import React from 'react';
@@ -31,7 +30,6 @@ interface Props {
 }
 
 export const UpdateEntitiesDrawer = ({ onClose, open, role }: Props) => {
-  const theme = useTheme();
   const { username } = useParams({ strict: false });
   const { isDefaultDelegationRolesForChildAccount } =
     useIsDefaultDelegationRolesForChildAccount();
@@ -149,15 +147,17 @@ export const UpdateEntitiesDrawer = ({ onClose, open, role }: Props) => {
           {errors.root?.message && (
             <NotificationBanner text={errors.root?.message} type="error" />
           )}
-          <Typography sx={{ marginBottom: theme.tokens.spacing.S16 }}>
+          <Typography style={{ marginBottom: Spacing.S16 }}>
             Add or remove entities attached to the role.
           </Typography>
 
           {role && (
             <Typography
               sx={{
-                font: theme.tokens.alias.Typography.Heading.S,
-                marginBottom: theme.tokens.spacing.S8,
+                fontSize: Font.FontSize.S,
+                // eslint-disable-next-line @linode/cloud-manager/no-custom-fontWeight
+                fontWeight: Font.FontWeight.Bold,
+                marginBottom: Spacing.S8,
               }}
             >
               {role.name}

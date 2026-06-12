@@ -10,8 +10,9 @@ import {
   TableRow,
 } from '@akamai/cds-components/react';
 import { Font, Spacing } from '@akamai/cds-tokens';
-import { useMediaQuery, useTheme } from '@mui/material';
 import React from 'react';
+
+import { useBreakpoint } from 'src/features/IAM/hooks/useBreakpoint';
 
 export interface SelectableOption {
   label: string;
@@ -106,8 +107,7 @@ export const SelectionPanel = ({
   showToolbar = true,
   totalCount,
 }: SelectionPanelProps) => {
-  const theme = useTheme();
-  const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
+  const isSmUp = useBreakpoint('up', 'sm');
 
   const handlePaginationPageChange = (e: CustomEvent<unknown>) => {
     if (typeof e.detail === 'number') {

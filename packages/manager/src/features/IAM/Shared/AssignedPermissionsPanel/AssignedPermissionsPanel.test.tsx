@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 import React from 'react';
 
 import { accountEntityFactory } from 'src/factories/accountEntities';
-import { renderWithTheme } from 'src/utilities/testHelpers';
+import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import { AssignedPermissionsPanel } from './AssignedPermissionsPanel';
 
@@ -51,6 +51,8 @@ const mockEntities = [
     type: 'linode',
   }),
 ];
+
+beforeAll(() => mockMatchMedia());
 
 describe('AssignedPermissionsPanel', () => {
   it('renders with the correct context when the access is an account', () => {

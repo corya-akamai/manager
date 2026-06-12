@@ -19,7 +19,6 @@ import {
 import { Spacing } from '@akamai/cds-tokens';
 import { capitalizeAllWords } from '@akamai/compute-ui-core/formatting';
 import { Hidden, Typography } from '@linode/ui';
-import { useTheme } from '@mui/material';
 import { useLocation, useNavigate, useSearch } from '@tanstack/react-router';
 import React, { useState } from 'react';
 import { debounce } from 'throttle-debounce';
@@ -70,7 +69,6 @@ interface Props {
 const DEFAULT_PAGE_SIZE = 10;
 
 export const RolesTable = ({ roles = [] }: Props) => {
-  const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const { query } = useSearch({
@@ -273,9 +271,7 @@ export const RolesTable = ({ roles = [] }: Props) => {
         <Table data-testid="roles-table">
           <TableHead>
             <TableRow
-              headerbackground={
-                theme.tokens.component.Table.HeaderNested.Background
-              }
+              headerbackground="var(--token-component-table-header-nested-background)"
               headerborder
               select={(event) => handleSelect(event, 'all')}
               selected={areAllSelected}
@@ -401,9 +397,9 @@ export const RolesTable = ({ roles = [] }: Props) => {
                   <TableRowExpanded
                     slot="expanded"
                     style={{
-                      marginBottom: theme.spacingFunction(12),
-                      marginLeft: theme.spacingFunction(44),
-                      padding: `0 ${theme.spacingFunction(4)}`,
+                      marginBottom: Spacing.S12,
+                      marginLeft: Spacing.S40,
+                      padding: `0 ${Spacing.S4}`,
                       width: '100%',
                     }}
                   >

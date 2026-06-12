@@ -8,12 +8,11 @@ import {
 import { Spacing, Typography } from '@akamai/cds-tokens';
 import { useAllAccountUsersQuery } from '@linode/queries';
 import { getAPIFilterFromQuery } from '@linode/search';
-import { useTheme } from '@linode/ui';
 import { useDebouncedValue } from '@linode/utilities';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import { useBreakpoint } from 'src/features/IAM/hooks/useBreakpoint';
 import { useDelegationRole } from 'src/features/IAM/hooks/useDelegationRole';
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 import { useTagInputCloseHandler } from 'src/features/IAM/hooks/useTagInputCloseHandler';
@@ -31,8 +30,7 @@ interface Props {
 }
 
 export const IncludedUsersPanel = ({ includedUsers }: Props) => {
-  const theme = useTheme();
-  const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
+  const isSmUp = useBreakpoint('up', 'sm');
   const { control, getValues, trigger, watch } =
     useFormContext<EnforcementSettingsFormValues>();
 
@@ -176,7 +174,7 @@ export const IncludedUsersPanel = ({ includedUsers }: Props) => {
               ref={tagInputRef}
               restricted
               style={{
-                width: isSmUp ? 598 : '100%',
+                width: isSmUp ? 560 : '100%',
                 boxSizing: 'border-box',
               }}
               validFn={tagInputValidFn}

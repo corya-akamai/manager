@@ -3,6 +3,7 @@ import {
   NotificationBanner,
   Select,
 } from '@akamai/cds-components/react';
+import { Spacing } from '@akamai/cds-tokens';
 import {
   useAccountRoles,
   useGetDefaultDelegationAccessQuery,
@@ -11,7 +12,6 @@ import {
   useUserRolesMutation,
 } from '@linode/queries';
 import { Typography } from '@linode/ui';
-import { useTheme } from '@mui/material/styles';
 import { useSnackbar } from 'notistack';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -50,7 +50,6 @@ export const ChangeRoleForEntityDrawer = ({
   role,
   username,
 }: Props) => {
-  const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
 
   const { isDefaultDelegationRolesForChildAccount } =
@@ -188,7 +187,7 @@ export const ChangeRoleForEntityDrawer = ({
           .
         </Typography>
 
-        <Typography sx={{ marginBottom: theme.tokens.spacing.S8 }}>
+        <Typography sx={{ marginBottom: Spacing.S8 }}>
           Change the role for <strong>{role?.entity_name}</strong> from{' '}
           <strong>{role?.role_name}</strong> to:
         </Typography>
@@ -212,7 +211,7 @@ export const ChangeRoleForEntityDrawer = ({
               }}
               placeholder="Select a Role"
               selected={field.value || null}
-              style={{ marginBottom: theme.tokens.spacing.S16 }}
+              style={{ marginBottom: Spacing.S16 }}
               valueFn={(item) => (item as ExtendedEntityRole).label}
             />
           )}

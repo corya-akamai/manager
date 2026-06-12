@@ -10,7 +10,7 @@ import {
   getCdsButtonByText,
   getSwitchControl,
 } from 'src/features/IAM/utilities/testHelpers';
-import { renderWithTheme } from 'src/utilities/testHelpers';
+import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import { EnforcementSettings } from './EnforcementSettings';
 
@@ -68,6 +68,8 @@ const mockIdpConfig = {
     ],
   },
 };
+
+beforeAll(() => mockMatchMedia());
 
 describe('EnforcementSettings', () => {
   beforeEach(() => {
