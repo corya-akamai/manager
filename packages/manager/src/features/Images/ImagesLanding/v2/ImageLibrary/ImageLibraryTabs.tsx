@@ -1,3 +1,4 @@
+import { Font } from '@akamai/cds-tokens';
 import { imageQueries, useImageQuery, useQueryClient } from '@linode/queries';
 import { BetaChip, Drawer, Stack } from '@linode/ui';
 import { useNavigate, useParams } from '@tanstack/react-router';
@@ -133,7 +134,7 @@ export const ImageLibraryTabs = () => {
       <Tabs index={subTabIndex} onChange={onTabChange}>
         <TabList>
           {subTabs.map((tab) => (
-            <Tab key={`images-${tab.type}`}>
+            <Tab fontSize={Font.FontSize.Xs} key={`images-${tab.type}`}>
               {tab.title} {tab.isBeta ? <BetaChip /> : null}
             </Tab>
           ))}

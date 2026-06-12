@@ -1,3 +1,4 @@
+import { Font } from '@akamai/cds-tokens';
 import { useShareGroupQuery } from '@linode/queries';
 import { BetaChip, Stack } from '@linode/ui';
 import { useNavigate, useParams } from '@tanstack/react-router';
@@ -116,7 +117,11 @@ export const ShareGroupsTabs = () => {
       <Tabs index={subTabIndex} onChange={onTabChange}>
         <TabList>
           {subTabs.map((tab) => (
-            <Tab data-pendo-id={tab.pendoId} key={`images-${tab.type}`}>
+            <Tab
+              data-pendo-id={tab.pendoId}
+              fontSize={Font.FontSize.Xs}
+              key={`images-${tab.type}`}
+            >
               {tab.title} {tab.isBeta ? <BetaChip /> : null}
             </Tab>
           ))}
