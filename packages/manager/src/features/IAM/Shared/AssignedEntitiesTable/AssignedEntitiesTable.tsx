@@ -16,7 +16,6 @@ import { useNavigate, useSearch } from '@tanstack/react-router';
 import React from 'react';
 import { debounce } from 'throttle-debounce';
 
-import { PAGE_SIZES } from 'src/components/PaginationFooter/PaginationFooter.constants';
 import globalStyles from 'src/features/IAM/Shared/global.module.css';
 import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 import { useAllAccountEntities } from 'src/queries/entities/entities';
@@ -352,7 +351,7 @@ export const AssignedEntitiesTable = ({ username }: Props) => {
         role={selectedRole}
         username={username}
       />
-      {filteredAndSortedRolesCount > PAGE_SIZES[0] && (
+      {filteredAndSortedRolesCount > MIN_PAGE_SIZE && (
         <Pagination
           count={filteredAndSortedRolesCount}
           onPageChange={(e: CustomEvent<number>) =>

@@ -2,22 +2,23 @@ import {
   Badge,
   Breadcrumb,
   BreadcrumbItem,
+  Tab,
+  Tabs,
 } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { Outlet, useLocation, useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 
-import { TabPanels } from 'src/components/Tabs/TabPanels';
-import { Tabs } from 'src/components/Tabs/Tabs';
-import { TanStackTabLinkList } from 'src/components/Tabs/TanStackTabLinkList';
 import { useIsIAMEnabled } from 'src/features/IAM/hooks/useIsIAMEnabled';
-import { useTabs } from 'src/hooks/useTabs';
 
 import { useFlags } from '../../hooks/useFlags';
+import { useTabs } from '../../hooks/useTabs';
 import { IAM_LABEL, SSO_DOCS_LINK } from '../../Shared/constants';
 import { DocsLink } from '../../Shared/DocsLink/DocsLink';
 import { LandingHeader } from '../../Shared/LandingHeader/LandingHeader';
 import { SuspenseLoader } from '../../Shared/SuspenseLoader/SuspenseLoader';
+
+import type { TabsElement } from '@akamai/cds-components/react';
 
 export const SSOLanding = () => {
   const flags = useFlags();
@@ -26,17 +27,21 @@ export const SSOLanding = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const showNewBadge = flags.iamNewBadge && isIAMEnabled;
+  const tabsRef = React.useRef<TabsElement>(null);
 
-  const { tabs, tabIndex, handleTabChange } = useTabs([
-    {
-      to: '/iam/settings/sso/idp-configurations',
-      title: 'IDP Configuration',
-    },
-    {
-      to: '/iam/settings/sso/enforcement-settings',
-      title: 'SSO Enforcement',
-    },
-  ]);
+  const { tabs, tabIndex, handleTabChange } = useTabs(
+    [
+      {
+        to: '/iam/settings/sso/idp-configurations',
+        title: 'IDP Configuration',
+      },
+      {
+        to: '/iam/settings/sso/enforcement-settings',
+        title: 'SSO Enforcement',
+      },
+    ],
+    tabsRef
+  );
 
   if (location.pathname === '/iam/settings/sso') {
     navigate({
@@ -68,14 +73,27 @@ export const SSOLanding = () => {
         </Breadcrumb>
         <DocsLink href={SSO_DOCS_LINK} />
       </LandingHeader>
-      <Tabs index={tabIndex} onChange={handleTabChange}>
-        <TanStackTabLinkList tabs={tabs} />
-        <React.Suspense fallback={<SuspenseLoader />}>
-          <TabPanels>
-            <Outlet />
-          </TabPanels>
-        </React.Suspense>
-      </Tabs>
+      <div style={{ overflowX: 'auto' }}>
+        <Tabs
+          border={false}
+          onTabsChange={(e) => handleTabChange(e.detail.index)}
+          ref={tabsRef}
+          tabMaxWidth={250}
+        >
+          {tabs.map((tab, i) => (
+            <Tab
+              active={i === tabIndex || undefined}
+              key={String(tab.to)}
+              label={tab.title}
+            >
+              <span slot="tab-header">{tab.title}</span>
+            </Tab>
+          ))}
+        </Tabs>
+      </div>
+      <React.Suspense fallback={<SuspenseLoader />}>
+        <Outlet />
+      </React.Suspense>
     </>
   );
 };

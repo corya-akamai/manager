@@ -10,7 +10,7 @@ import React from 'react';
 
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 import { CopyTooltip } from 'src/features/IAM/Shared/CopyTooltip/CopyTooltip';
-import { DateTimeDisplay } from 'src/features/IAM/Shared/DateTimeDisplay';
+import { DateTimeDisplay } from 'src/features/IAM/Shared/DateTimeDisplay/DateTimeDisplay';
 import { StatusIcon } from 'src/features/IAM/Shared/StatusIcon/StatusIcon';
 
 import {

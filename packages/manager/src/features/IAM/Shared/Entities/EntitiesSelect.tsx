@@ -4,7 +4,6 @@ import { Typography } from '@linode/ui';
 import { useDebouncedValue } from '@linode/utilities';
 import React from 'react';
 
-import { FormLabel } from 'src/components/FormLabel';
 import { useAllAccountEntities } from 'src/queries/entities/entities';
 
 import { Link } from '../Link/Link';
@@ -144,18 +143,15 @@ export const EntitiesSelect = ({
   if (access === 'account_access') {
     return (
       <>
-        <FormLabel>
-          <Typography
-            sx={{
-              marginBottom: Spacing.S8,
-              fontSize: Font.FontSize.S,
-              // eslint-disable-next-line @linode/cloud-manager/no-custom-fontWeight
-              fontWeight: Font.FontWeight.Bold,
-            }}
-          >
-            Entities
-          </Typography>
-        </FormLabel>
+        <p
+          style={{
+            // eslint-disable-next-line @linode/cloud-manager/no-custom-fontWeight
+            fontWeight: Font.FontWeight.Bold,
+            marginBottom: Spacing.S8,
+          }}
+        >
+          Entities
+        </p>
         <Typography>
           {type === 'account'
             ? 'All entities'

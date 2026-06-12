@@ -12,7 +12,7 @@ import { truncateMiddle } from '@akamai/compute-ui-core/formatting';
 import * as React from 'react';
 
 import { useBreakpoint } from 'src/features/Databases/hooks/useBreakpoint';
-import { DateTimeDisplay } from 'src/features/IAM/Shared/DateTimeDisplay';
+import { DateTimeDisplay } from 'src/features/IAM/Shared/DateTimeDisplay/DateTimeDisplay';
 import { useOrderV2 } from 'src/hooks/useOrderV2';
 
 import { StatusIcon } from '../../../Shared/StatusIcon/StatusIcon';

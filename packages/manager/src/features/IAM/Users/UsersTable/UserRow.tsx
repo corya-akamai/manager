@@ -4,22 +4,20 @@ import {
   TableRow,
   Tooltip,
 } from '@akamai/cds-components/react';
-import { Color, Spacing } from '@akamai/cds-tokens';
+import { Spacing } from '@akamai/cds-tokens';
 import { capitalize, truncateEnd } from '@akamai/compute-ui-core/formatting';
-import { useProfile } from '@linode/queries';
 import { Chip, Typography } from '@linode/ui';
 import React from 'react';
 
-import { Avatar } from 'src/components/Avatar/Avatar';
-import { DateTimeDisplay } from 'src/components/DateTimeDisplay';
-
 import { usePermissions } from '../../hooks/usePermissions';
+import { Avatar } from '../../Shared/Avatar/Avatar';
 import { Box } from '../../Shared/Box/Box';
 import {
   IAM_CHILD_USERS_PENDO_IDS,
   IAM_DELEGATE_USERS_PENDO_IDS,
   IAM_PARENT_USERS_PENDO_IDS,
 } from '../../Shared/constants';
+import { DateTimeDisplay } from '../../Shared/DateTimeDisplay/DateTimeDisplay';
 import { Link } from '../../Shared/Link/Link';
 import { MaskableText } from '../../Shared/MaskableText/MaskableText';
 import { StatusIcon } from '../../Shared/StatusIcon/StatusIcon';
@@ -44,7 +42,6 @@ export const UserRow = ({ onDelete, user }: Props) => {
     showUserType,
   } = useUsersTableColumns();
 
-  const { data: profile } = useProfile();
   const { data: permissions } = usePermissions('account', [
     'delete_user',
     'is_account_admin',
@@ -57,12 +54,7 @@ export const UserRow = ({ onDelete, user }: Props) => {
     <TableRow data-qa-table-row={user.username} key={user.username} zebra>
       <TableCell style={getUsersTableCellStyle(columnWidths.username)}>
         <Box direction="row" style={{ alignItems: 'center', gap: Spacing.S12 }}>
-          <Avatar
-            color={
-              user.username !== profile?.username ? Color.Brand[90] : undefined
-            }
-            username={user.username}
-          />
+          <Avatar username={user.username} />
           <MaskableText isToggleable text={user.username}>
             <Tooltip
               disabled={user.username.length <= 32}

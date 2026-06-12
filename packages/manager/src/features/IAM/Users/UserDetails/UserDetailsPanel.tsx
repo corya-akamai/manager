@@ -1,6 +1,7 @@
 import { Button, Icon, Tooltip } from '@akamai/cds-components/react';
 import {
   Color,
+  Font,
   Spacing,
   Typography as TypographyTokens,
 } from '@akamai/cds-tokens';
@@ -8,13 +9,13 @@ import { Typography } from '@linode/ui';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
-import { DateTimeDisplay } from 'src/components/DateTimeDisplay';
 import { PARENT_USER } from 'src/features/Account/constants';
 
 import { useActiveBreakpointIndex } from '../../hooks/useBreakpoint';
 import { useDelegationRole } from '../../hooks/useDelegationRole';
 import { Box } from '../../Shared/Box/Box';
 import { EMAIL_MAX_LENGTH } from '../../Shared/constants';
+import { DateTimeDisplay } from '../../Shared/DateTimeDisplay/DateTimeDisplay';
 import { Divider } from '../../Shared/Divider/Divider';
 import { MaskableText } from '../../Shared/MaskableText/MaskableText';
 import { Paper } from '../../Shared/Paper/Paper';
@@ -154,7 +155,7 @@ export const UserDetailsPanel = ({
       label: 'Last login',
       value: activeUser.last_login ? (
         <DateTimeDisplay
-          sx={(theme) => ({ font: theme.font.bold })}
+          style={{ font: TypographyTokens.Body.Bold }}
           value={activeUser.last_login.login_datetime}
         />
       ) : (
@@ -165,7 +166,10 @@ export const UserDetailsPanel = ({
       label: 'Password created',
       value: activeUser.password_created ? (
         <DateTimeDisplay
-          sx={(theme) => ({ font: theme.font.bold })}
+          style={{
+            // eslint-disable-next-line @linode/cloud-manager/no-custom-fontWeight
+            fontWeight: Font.FontWeight.Bold,
+          }}
           value={activeUser.password_created}
         />
       ) : (

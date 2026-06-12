@@ -36,7 +36,7 @@ export interface DateTimeDisplayProps {
  */
 type TimeInterval = 'day' | 'month' | 'never' | 'week' | 'year';
 
-const DateTimeDisplay = (props: DateTimeDisplayProps) => {
+export const DateTimeDisplay = (props: DateTimeDisplayProps) => {
   const { className, displayTime, format, humanizeCutoff, value, style } =
     props;
   const { data: profile } = useProfile();
@@ -51,5 +51,3 @@ const DateTimeDisplay = (props: DateTimeDisplayProps) => {
     </span>
   );
 };
-
-export { DateTimeDisplay };
