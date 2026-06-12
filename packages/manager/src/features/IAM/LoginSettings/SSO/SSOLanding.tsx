@@ -11,9 +11,9 @@ import { TabPanels } from 'src/components/Tabs/TabPanels';
 import { Tabs } from 'src/components/Tabs/Tabs';
 import { TanStackTabLinkList } from 'src/components/Tabs/TanStackTabLinkList';
 import { useIsIAMEnabled } from 'src/features/IAM/hooks/useIsIAMEnabled';
-import { useFlags } from 'src/hooks/useFlags';
 import { useTabs } from 'src/hooks/useTabs';
 
+import { useFlags } from '../../hooks/useFlags';
 import { IAM_LABEL, SSO_DOCS_LINK } from '../../Shared/constants';
 import { DocsLink } from '../../Shared/DocsLink/DocsLink';
 import { LandingHeader } from '../../Shared/LandingHeader/LandingHeader';

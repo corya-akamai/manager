@@ -14,12 +14,10 @@ import {
 } from '@tanstack/react-router';
 import React from 'react';
 
-import {
-  useIsIAMEnabled,
-} from 'src/features/IAM/hooks/useIsIAMEnabled';
-import { useFlags } from 'src/hooks/useFlags';
+import { useIsIAMEnabled } from 'src/features/IAM/hooks/useIsIAMEnabled';
 
 import { useDelegationRole } from '../hooks/useDelegationRole';
+import { useFlags } from '../hooks/useFlags';
 import { useTabs } from '../hooks/useTabs';
 import {
   IAM_LABEL,

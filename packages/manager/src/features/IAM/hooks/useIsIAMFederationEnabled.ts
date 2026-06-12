@@ -1,4 +1,4 @@
-import { useFlags } from 'src/hooks/useFlags';
+import { useFlags } from './useFlags';
 
 /**
  * Returns whether or not features related to the IAM Federation (SSO / External IdP) project

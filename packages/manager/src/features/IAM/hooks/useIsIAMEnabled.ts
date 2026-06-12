@@ -6,7 +6,7 @@ import {
 } from '@linode/queries';
 import { queryOptions } from '@tanstack/react-query';
 
-import { useFlags } from 'src/hooks/useFlags';
+import { useFlags } from './useFlags';
 
 import type { Profile } from '@linode/api-v4';
 import type { QueryClient } from '@tanstack/react-query';

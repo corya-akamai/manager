@@ -9,8 +9,7 @@ import { Spacing } from '@akamai/cds-tokens';
 import { Outlet, useLocation, useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 
-import { useFlags } from 'src/hooks/useFlags';
-
+import { useFlags } from '../../hooks/useFlags';
 import { useIsIAMEnabled } from '../../hooks/useIsIAMEnabled';
 import { useTabs } from '../../hooks/useTabs';
 import { IAM_LABEL } from '../../Shared/constants';

@@ -5,6 +5,11 @@ import { wrapWithTheme } from 'src/utilities/testHelpers';
 
 import { useIsIAMEnabled } from './useIsIAMEnabled';
 
+import type { IAMFlagSet } from './useFlags';
+
+const ACCOUNT_PERMISSIONS_URL =
+  '*/v4beta/iam/users/mock-user/permissions/account';
+
 const queryMocks = vi.hoisted(() => ({
   useUserAccountPermissions: vi
     .fn()
@@ -13,6 +18,8 @@ const queryMocks = vi.hoisted(() => ({
     .fn()
     .mockReturnValue({ data: { username: 'mock-user', restricted: true } }),
 }));
+
+const useFlagsMock = vi.hoisted(() => vi.fn(() => ({})));
 
 vi.mock(import('@linode/queries'), async (importOriginal) => {
   const actual = await importOriginal();
@@ -23,11 +30,23 @@ vi.mock(import('@linode/queries'), async (importOriginal) => {
   };
 });
 
+vi.mock(import('./useFlags'), () => ({
+  useFlags: () => useFlagsMock(),
+}));
+
+const renderUseIsIAMEnabled = (flags: IAMFlagSet) => {
+  useFlagsMock.mockReturnValue(flags);
+
+  return renderHook(() => useIsIAMEnabled(), {
+    wrapper: (ui) => wrapWithTheme(ui),
+  });
+};
+
 describe('useIsIAMEnabled', () => {
   it('should be enabled for a BETA user', async () => {
     const accountPermissions = ['cancel_account', 'create_user'];
     server.use(
-      http.get('*/v4beta/iam/users/mock-user/permissions/account', () => {
+      http.get(ACCOUNT_PERMISSIONS_URL, () => {
         return HttpResponse.json(accountPermissions);
       })
     );
@@ -36,10 +55,8 @@ describe('useIsIAMEnabled', () => {
       data: accountPermissions,
     });
 
-    const flags = { iam: { beta: true, enabled: true } };
-
-    const { result } = renderHook(() => useIsIAMEnabled(), {
-      wrapper: (ui) => wrapWithTheme(ui, { flags }),
+    const { result } = renderUseIsIAMEnabled({
+      iam: { beta: true, enabled: true },
     });
 
     await waitFor(() => {
@@ -50,7 +67,7 @@ describe('useIsIAMEnabled', () => {
   it('should enabled for a GA user', async () => {
     const accountPermissions = ['cancel_account', 'create_user'];
     server.use(
-      http.get('*/v4beta/iam/users/mock-user/permissions/account', () => {
+      http.get(ACCOUNT_PERMISSIONS_URL, () => {
         return HttpResponse.json(accountPermissions);
       })
     );
@@ -59,10 +76,8 @@ describe('useIsIAMEnabled', () => {
       data: accountPermissions,
     });
 
-    const flags = { iam: { beta: false, enabled: true } };
-
-    const { result } = renderHook(() => useIsIAMEnabled(), {
-      wrapper: (ui) => wrapWithTheme(ui, { flags }),
+    const { result } = renderUseIsIAMEnabled({
+      iam: { beta: false, enabled: true },
     });
 
     await waitFor(() => {
@@ -75,7 +90,7 @@ describe('useIsIAMEnabled', () => {
   it('should be diabled for all users via a feature flag', async () => {
     const accountPermissions = ['cancel_account', 'create_user'];
     server.use(
-      http.get('*/v4beta/iam/users/mock-user/permissions/account', () => {
+      http.get(ACCOUNT_PERMISSIONS_URL, () => {
         return HttpResponse.json(accountPermissions);
       })
     );
@@ -84,10 +99,8 @@ describe('useIsIAMEnabled', () => {
       data: accountPermissions,
     });
 
-    const flags = { iam: { beta: false, enabled: false } };
-
-    const { result } = renderHook(() => useIsIAMEnabled(), {
-      wrapper: (ui) => wrapWithTheme(ui, { flags }),
+    const { result } = renderUseIsIAMEnabled({
+      iam: { beta: false, enabled: false },
     });
 
     await waitFor(() => {
@@ -99,7 +112,7 @@ describe('useIsIAMEnabled', () => {
 
   it('should be diabled for a user via API', async () => {
     server.use(
-      http.get('*/v4beta/iam/users/mock-user/permissions/account', () => {
+      http.get(ACCOUNT_PERMISSIONS_URL, () => {
         return HttpResponse.json({}, { status: 403 });
       })
     );
@@ -108,10 +121,8 @@ describe('useIsIAMEnabled', () => {
       data: null,
     });
 
-    const flags = { iam: { beta: true, enabled: true } };
-
-    const { result } = renderHook(() => useIsIAMEnabled(), {
-      wrapper: (ui) => wrapWithTheme(ui, { flags }),
+    const { result } = renderUseIsIAMEnabled({
+      iam: { beta: true, enabled: true },
     });
 
     await waitFor(() => {
