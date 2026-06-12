@@ -3,19 +3,19 @@ import React from 'react';
 
 import { DocumentTitleSegment } from 'src/components/DocumentTitle';
 import { Link } from 'src/components/Link';
+import { useObjectStorageSelection } from 'src/features/ObjectStorage/ObjectStorageContext';
 import { useFlags } from 'src/hooks/useFlags';
 
 import { EndpointMultiselect } from '../Partials/EndpointMultiselect';
 import { EndpointSummaryTable } from './EndpointSummaryTable/EndpointSummaryTable';
 
-import type { EndpointMultiselectValue } from '../Partials/EndpointMultiselect';
-
 export const SummaryLanding = () => {
   const { objectStorageSummaryPageLinks } = useFlags();
 
-  const [selectedEndpoints, setSelectedEndpoints] = React.useState<
-    EndpointMultiselectValue[]
-  >([]);
+  const {
+    selectedSummaryEndpoints: selectedEndpoints,
+    setSelectedSummaryEndpoints: setSelectedEndpoints,
+  } = useObjectStorageSelection();
 
   return (
     <>
