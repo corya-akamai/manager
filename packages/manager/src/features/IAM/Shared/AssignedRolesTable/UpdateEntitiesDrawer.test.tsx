@@ -3,7 +3,8 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import { accountEntityFactory } from 'src/factories/accountEntities';
-import { renderWithTheme } from 'src/utilities/testHelpers';
+import { submitCdsDrawerForm } from 'src/features/IAM/utilities/testHelpers';
+import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import { UpdateEntitiesDrawer } from './UpdateEntitiesDrawer';
 
@@ -82,6 +83,8 @@ vi.mock('@linode/api-v4', async () => {
   };
 });
 
+beforeAll(() => mockMatchMedia());
+
 describe('UpdateEntitiesDrawer', () => {
   beforeEach(() => {
     queryMocks.useParams.mockReturnValue({
@@ -93,7 +96,7 @@ describe('UpdateEntitiesDrawer', () => {
     renderWithTheme(<UpdateEntitiesDrawer {...props} />);
 
     // Verify the title renders
-    expect(screen.getByText('Update List of Entities')).toBeVisible();
+    expect(screen.getByText('Update Entities')).toBeVisible();
 
     // Verify the description renders
     expect(
@@ -145,8 +148,7 @@ describe('UpdateEntitiesDrawer', () => {
     });
 
     // Submit the form
-    const submitButton = screen.getByTestId('submit');
-    await userEvent.click(submitButton);
+    submitCdsDrawerForm();
 
     // Verify the mutation was called with the updated entities
     await waitFor(() => {

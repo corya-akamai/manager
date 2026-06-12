@@ -5,6 +5,10 @@ import React from 'react';
 import { accountRolesFactory } from 'src/factories/accountRoles';
 import { userRolesFactory } from 'src/factories/userRoles';
 import {
+  mockScrollIntoView,
+  submitCdsDrawerForm,
+} from 'src/features/IAM/utilities/testHelpers';
+import {
   getShadowRootElement,
   renderWithTheme,
 } from 'src/utilities/testHelpers';
@@ -66,7 +70,7 @@ vi.mock('@linode/api-v4', async () => {
 
 describe('ChangeRoleForEntityDrawer', () => {
   beforeEach(() => {
-    Element.prototype.scrollIntoView ??= vi.fn();
+    mockScrollIntoView();
 
     queryMocks.useParams.mockReturnValue({
       username: 'test_user',
@@ -142,7 +146,7 @@ describe('ChangeRoleForEntityDrawer', () => {
       expect(inputSelect).toHaveValue('linode_viewer');
     });
 
-    await userEvent.click(screen.getByText('Save Changes'));
+    submitCdsDrawerForm();
 
     await waitFor(() => {
       expect(mockUpdateUserRole).toHaveBeenCalledWith({

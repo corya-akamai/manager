@@ -1,4 +1,4 @@
-import { NotificationBanner } from '@akamai/cds-components/react';
+import { Button, NotificationBanner } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import {
   useGetDefaultDelegationAccessQuery,
@@ -6,14 +6,16 @@ import {
   useUserRoles,
   useUserRolesMutation,
 } from '@linode/queries';
-import { ActionsPanel, Drawer, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import { useTheme } from '@mui/material';
 import { useParams } from '@tanstack/react-router';
 import { enqueueSnackbar } from 'notistack';
 import React from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
+import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
+import { Drawer, DrawerInlineActions } from '../../Shared/Drawer';
 import { AssignedPermissionsPanel } from '../AssignedPermissionsPanel/AssignedPermissionsPanel';
 import { INTERNAL_ERROR_NO_CHANGES_SAVED } from '../constants';
 import { toEntityAccess } from '../utilities';
@@ -36,6 +38,7 @@ export const UpdateEntitiesDrawer = ({ onClose, open, role }: Props) => {
   const { data: defaultRolesData } = useGetDefaultDelegationAccessQuery({
     enabled: isDefaultDelegationRolesForChildAccount,
   });
+  const isSMUp = useBreakpoint('up', 'sm');
 
   const { data: userRolesData } = useUserRoles(
     username,
@@ -137,21 +140,15 @@ export const UpdateEntitiesDrawer = ({ onClose, open, role }: Props) => {
     <Drawer
       onClose={handleClose}
       open={open}
-      slotProps={{
-        paper: {
-          sx: {
-            maxWidth: { xs: '100% !important', sm: '600px !important' },
-          },
-        },
-      }}
-      title="Update List of Entities"
-      wide
+      title="Update Entities"
+      width={isSMUp ? '600px' : '100%'}
     >
-      {errors.root?.message && (
-        <NotificationBanner text={errors.root?.message} type="error" />
-      )}
+      <div slot="header">Update Entities</div>
       <FormProvider {...form}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} slot="body">
+          {errors.root?.message && (
+            <NotificationBanner text={errors.root?.message} type="error" />
+          )}
           <Typography sx={{ marginBottom: theme.tokens.spacing.S16 }}>
             Add or remove entities attached to the role.
           </Typography>
@@ -182,20 +179,23 @@ export const UpdateEntitiesDrawer = ({ onClose, open, role }: Props) => {
             )}
             rules={{ required: 'Select entities.' }}
           />
-
-          <ActionsPanel
-            primaryButtonProps={{
-              'data-testid': 'submit',
-              label: 'Update',
-              loading: isSubmitting,
-              type: 'submit',
-            }}
-            secondaryButtonProps={{
-              'data-testid': 'cancel',
-              label: 'Cancel',
-              onClick: handleClose,
-            }}
-          />
+          <DrawerInlineActions>
+            <Button
+              data-testid="cancel"
+              onClick={handleClose}
+              variant="secondary"
+            >
+              Cancel
+            </Button>
+            <Button
+              data-testid="submit"
+              processing={isSubmitting}
+              type="submit"
+              variant="primary"
+            >
+              Update
+            </Button>
+          </DrawerInlineActions>
         </form>
       </FormProvider>
     </Drawer>

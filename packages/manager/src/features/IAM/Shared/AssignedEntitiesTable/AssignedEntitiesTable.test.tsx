@@ -117,8 +117,8 @@ describe('AssignedEntitiesTable', () => {
     expect(actionMenuButton).toBeVisible();
 
     await userEvent.click(actionMenuButton);
-    expect(screen.getByText('Change Role')).toBeVisible();
-    expect(screen.getByText('Remove Assignment')).toBeVisible();
+    expect(screen.getByTestId('Change Role')).toBeVisible();
+    expect(screen.getByTestId('Remove Assignment')).toBeVisible();
   });
 
   it('should display empty state when no roles match filters', async () => {

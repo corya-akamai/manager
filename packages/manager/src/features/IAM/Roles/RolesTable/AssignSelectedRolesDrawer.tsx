@@ -6,7 +6,7 @@ import {
   useUserRoles,
   useUserRolesMutation,
 } from '@linode/queries';
-import { ActionsPanel, Autocomplete, Drawer, Typography } from '@linode/ui';
+import { Autocomplete, Typography } from '@linode/ui';
 import { useDebouncedValue } from '@linode/utilities';
 import { enqueueSnackbar } from 'notistack';
 import React, { useCallback, useState } from 'react';
@@ -21,6 +21,7 @@ import {
   INTERNAL_ERROR_NO_CHANGES_SAVED,
 } from '../../Shared/constants';
 import { DelegateUserChip } from '../../Shared/DelegateUserChip';
+import { Drawer, DrawerInlineActions } from '../../Shared/Drawer';
 import { Link } from '../../Shared/Link/Link';
 import { mergeAssignedRolesIntoExistingRoles } from '../../Shared/utilities';
 
@@ -157,14 +158,13 @@ export const AssignSelectedRolesDrawer = ({
     }
   };
 
+  const drawerTitle = `Assign Selected Role${selectedRoles.length > 1 ? `s` : ``} to a User`;
+
   return (
-    <Drawer
-      onClose={handleClose}
-      open={open}
-      title={`Assign Selected Role${selectedRoles.length > 1 ? `s` : ``} to a User`}
-    >
+    <Drawer aria-label={drawerTitle} onClose={handleClose} open={open}>
+      <div slot="header">{drawerTitle}</div>
       <FormProvider {...form}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} slot="body">
           {formState.errors.root?.message && (
             <NotificationBanner
               text={formState.errors.root?.message}
@@ -194,6 +194,7 @@ export const AssignSelectedRolesDrawer = ({
                   data-pendo-id={
                     IAM_ROLES_PENDO_IDS.assignSelectedRolesToUserOpen
                   }
+                  disablePortal={false}
                   errorText={fieldState.error?.message}
                   getOptionLabel={(option) => option.label}
                   label="Select a User"
@@ -283,22 +284,24 @@ export const AssignSelectedRolesDrawer = ({
                 role={role}
               />
             ))}
-
-          <ActionsPanel
-            primaryButtonProps={{
-              'data-testid': 'submit',
-              label: 'Assign',
-              'data-pendo-id':
-                IAM_ROLES_PENDO_IDS.assignSelectedRoleToUserAssign,
-              type: 'submit',
-              loading: isPending || formState.isSubmitting,
-            }}
-            secondaryButtonProps={{
-              'data-testid': 'cancel',
-              label: 'Cancel',
-              onClick: handleClose,
-            }}
-          />
+          <DrawerInlineActions>
+            <Button
+              data-testid="cancel"
+              onClick={handleClose}
+              variant="secondary"
+            >
+              Cancel
+            </Button>
+            <Button
+              data-pendo-id={IAM_ROLES_PENDO_IDS.assignSelectedRoleToUserAssign}
+              data-testid="submit"
+              processing={isPending || formState.isSubmitting}
+              type="submit"
+              variant="primary"
+            >
+              Assign
+            </Button>
+          </DrawerInlineActions>
         </form>
       </FormProvider>
     </Drawer>

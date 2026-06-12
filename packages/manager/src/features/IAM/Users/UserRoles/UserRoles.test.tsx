@@ -5,6 +5,7 @@ import React from 'react';
 import { accountEntityFactory } from 'src/factories/accountEntities';
 import { accountRolesFactory } from 'src/factories/accountRoles';
 import { userRolesFactory } from 'src/factories/userRoles';
+import { getCdsButtonHostByText } from 'src/features/IAM/utilities/testHelpers';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import {
@@ -104,13 +105,11 @@ describe('UserRoles', () => {
       }),
     });
 
-    renderWithTheme(<UserRoles />);
+    const { container } = renderWithTheme(<UserRoles />);
 
     expect(screen.getByText('This list is empty')).toBeVisible();
     expect(screen.getByText(NO_ASSIGNED_ROLES_TEXT)).toBeVisible();
-    expect(
-      screen.getByText('Assign New Roles').closest('cds-button')
-    ).toBeVisible();
+    expect(getCdsButtonHostByText(container, 'Assign New Roles')).toBeVisible();
   });
 
   it('should display table if no entity access roles are assigned to user', async () => {

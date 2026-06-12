@@ -1,4 +1,8 @@
-import { NotificationBanner, Select } from '@akamai/cds-components/react';
+import {
+  Button,
+  NotificationBanner,
+  Select,
+} from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import {
   useAccountRoles,
@@ -7,14 +11,16 @@ import {
   useUserRoles,
   useUserRolesMutation,
 } from '@linode/queries';
-import { ActionsPanel, Drawer, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import { useTheme } from '@mui/material/styles';
 import { useParams } from '@tanstack/react-router';
 import { enqueueSnackbar } from 'notistack';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
+import { Drawer, DrawerInlineActions } from '../../Shared/Drawer';
 import { AssignedPermissionsPanel } from '../AssignedPermissionsPanel/AssignedPermissionsPanel';
 import { ROLES_LEARN_MORE_LINK } from '../constants';
 import { Link } from '../Link/Link';
@@ -48,6 +54,7 @@ export const ChangeRoleDrawer = ({ mode, onClose, open, role }: Props) => {
   const { data: defaultRolesData } = useGetDefaultDelegationAccessQuery({
     enabled: isDefaultDelegationRolesForChildAccount,
   });
+  const isSMUp = useBreakpoint('up', 'sm');
 
   const { data: userRolesData } = useUserRoles(
     username ?? '',
@@ -162,20 +169,18 @@ export const ChangeRoleDrawer = ({ mode, onClose, open, role }: Props) => {
     <Drawer
       onClose={handleClose}
       open={open}
-      slotProps={{
-        paper: {
-          sx: {
-            maxWidth: { xs: '100% !important', sm: '600px !important' },
-          },
-        },
-      }}
       title="Change Role"
-      wide
+      width={isSMUp ? '600px' : '100%'}
     >
-      {errors.root?.message && (
-        <NotificationBanner text={errors.root?.message} type="error" />
-      )}
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <div slot="header">Change Role</div>
+      <form
+        id="change-role-drawer-form"
+        onSubmit={handleSubmit(onSubmit)}
+        slot="body"
+      >
+        {errors.root?.message && (
+          <NotificationBanner text={errors.root?.message} type="error" />
+        )}
         <Typography sx={{ marginBottom: 2.5 }}>
           Select a role you want{' '}
           {role?.access === 'account_access'
@@ -227,20 +232,23 @@ export const ChangeRoleDrawer = ({ mode, onClose, open, role }: Props) => {
             value={formattedAssignedEntities ?? []}
           />
         )}
-
-        <ActionsPanel
-          primaryButtonProps={{
-            'data-testid': 'submit',
-            label: 'Save Change',
-            loading: isSubmitting,
-            type: 'submit',
-          }}
-          secondaryButtonProps={{
-            'data-testid': 'cancel',
-            label: 'Cancel',
-            onClick: handleClose,
-          }}
-        />
+        <DrawerInlineActions>
+          <Button
+            data-testid="cancel"
+            onClick={handleClose}
+            variant="secondary"
+          >
+            Cancel
+          </Button>
+          <Button
+            data-testid="submit"
+            processing={isSubmitting}
+            type="submit"
+            variant="primary"
+          >
+            Save
+          </Button>
+        </DrawerInlineActions>
       </form>
     </Drawer>
   );

@@ -12,7 +12,6 @@ import {
   useCreateIdpConfigMutation,
   useUpdateIdpConfigMutation,
 } from '@linode/queries';
-import { Drawer } from '@linode/ui';
 import {
   CreateIdpConfigSchema,
   UpdateIdpConfigSchema,
@@ -22,6 +21,8 @@ import * as React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import type { Resolver } from 'react-hook-form';
 
+import { useBreakpoint } from '../../../hooks/useBreakpoint';
+import { Drawer, DrawerInlineActions } from '../../../Shared/Drawer';
 import {
   ALL_CERTIFICATES_DELETED_ERROR,
   CREATE_SUCCESS,
@@ -50,10 +51,11 @@ export const IdpConfigurationDrawer = ({
   open,
 }: Props) => {
   const { enqueueSnackbar } = useSnackbar();
-  const { mutateAsync: createIdpConfig } = useCreateIdpConfigMutation();
-  const { mutateAsync: updateIdpConfig } = useUpdateIdpConfigMutation(
-    idpConfig?.id ?? ''
-  );
+  const { mutateAsync: createIdpConfig, isPending: isCreatingIdpConfig } =
+    useCreateIdpConfigMutation();
+  const { mutateAsync: updateIdpConfig, isPending: isUpdatingIdpConfig } =
+    useUpdateIdpConfigMutation(idpConfig?.id ?? '');
+  const isSMUp = useBreakpoint('up', 'sm');
 
   const isEdit = mode === 'edit';
   const title = isEdit ? 'Edit IDP Configuration' : 'Create IDP Configuration';
@@ -212,25 +214,17 @@ export const IdpConfigurationDrawer = ({
   const newCertificates = watch('saml.public_certificates') ?? [];
 
   const isSaveDisabled =
-    !hasChanges ||
-    isSubmitting ||
-    (allExistingCertsDeleted && newCertificates.length === 0);
+    !hasChanges || (allExistingCertsDeleted && newCertificates.length === 0);
 
   return (
-    // TODO: UIE-10784 - replace with CDS Drawer when available
     <Drawer
       onClose={handleClose}
       open={open}
-      slotProps={{
-        paper: {
-          sx: {
-            width: isEdit ? '616px !important' : 'auto',
-          },
-        },
-      }}
       title={title}
+      width={isSMUp ? '616px' : 'auto'}
     >
-      <form noValidate onSubmit={handleSubmit(onSubmit)}>
+      <div slot="header">{title}</div>
+      <form noValidate onSubmit={handleSubmit(onSubmit)} slot="body">
         {errors.root?.message && (
           <div ref={notificationBannerRef}>
             <NotificationBanner
@@ -330,19 +324,21 @@ export const IdpConfigurationDrawer = ({
 
         <AttributeMappingSection control={control} watch={watch} />
 
-        <div className={styles.actions}>
+        <DrawerInlineActions>
           <Button onClick={handleClose} variant="secondary">
             Cancel
           </Button>
           <Button
             disabled={isSaveDisabled}
-            processing={isSubmitting}
+            processing={
+              isSubmitting || isCreatingIdpConfig || isUpdatingIdpConfig
+            }
             type="submit"
             variant="primary"
           >
             {isEdit ? 'Save Changes' : 'Create IDP Configuration'}
           </Button>
-        </div>
+        </DrawerInlineActions>
       </form>
     </Drawer>
   );

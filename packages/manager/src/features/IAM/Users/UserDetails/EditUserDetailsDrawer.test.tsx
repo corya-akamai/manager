@@ -5,8 +5,11 @@ import React from 'react';
 
 import { accountUserFactory } from 'src/factories';
 import {
+  changeCdsTextField,
+  expectCdsFormError,
   getCdsTextFieldInput,
   getCdsTooltipHostByText,
+  submitCdsDrawerForm,
 } from 'src/features/IAM/utilities/testHelpers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';
@@ -46,10 +49,10 @@ const getDrawerInputs = async () => {
   expect(emailInput).toBeTruthy();
 
   return {
+    emailHost: emailHost!,
     emailInput,
-    emailHost,
+    usernameHost: usernameHost!,
     usernameInput,
-    usernameHost,
   };
 };
 
@@ -124,7 +127,7 @@ describe('EditUserDetailsDrawer', () => {
       );
 
       const { usernameInput } = await getDrawerInputs();
-      const saveButton = screen.getByRole('button', { name: 'Save' });
+      const saveButton = screen.getByTestId('submit');
 
       await waitFor(() => {
         expect(usernameInput).toHaveValue(user.username);
@@ -155,7 +158,7 @@ describe('EditUserDetailsDrawer', () => {
         expect(usernameInput).toHaveValue(user.username);
       });
 
-      expect(screen.getByRole('button', { name: 'Save' })).toBeDisabled();
+      expect(screen.getByTestId('submit')).toBeDisabled();
     });
   });
 
@@ -216,14 +219,12 @@ describe('EditUserDetailsDrawer', () => {
         <EditUserDetailsDrawer {...defaultProps} activeUser={user} />
       );
 
-      const { emailInput } = await getDrawerInputs();
+      const { emailHost } = await getDrawerInputs();
 
-      await userEvent.click(emailInput as HTMLInputElement);
-      await userEvent.keyboard('{Meta>}a{/Meta}{Backspace}');
-      await userEvent.type(emailInput as HTMLInputElement, 'user#@example.com');
-      await userEvent.click(screen.getByRole('button', { name: 'Save' }));
+      await changeCdsTextField(emailHost, 'user#@example.com');
+      submitCdsDrawerForm();
 
-      expect(screen.getByText(/valid email address/i)).toBeInTheDocument();
+      await expectCdsFormError(/valid email address/i);
     });
 
     it('disables the email field when the active user is not the logged-in user', async () => {

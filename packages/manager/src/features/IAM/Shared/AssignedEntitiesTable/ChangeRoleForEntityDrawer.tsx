@@ -1,4 +1,8 @@
-import { NotificationBanner, Select } from '@akamai/cds-components/react';
+import {
+  Button,
+  NotificationBanner,
+  Select,
+} from '@akamai/cds-components/react';
 import {
   useAccountRoles,
   useGetDefaultDelegationAccessQuery,
@@ -6,13 +10,14 @@ import {
   useUserRoles,
   useUserRolesMutation,
 } from '@linode/queries';
-import { ActionsPanel, Drawer, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import { useTheme } from '@mui/material/styles';
 import { useSnackbar } from 'notistack';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
+import { Drawer, DrawerInlineActions } from '../../Shared/Drawer';
 import { AssignedPermissionsPanel } from '../AssignedPermissionsPanel/AssignedPermissionsPanel';
 import {
   INTERNAL_ERROR_NO_CHANGES_SAVED,
@@ -169,11 +174,12 @@ export const ChangeRoleForEntityDrawer = ({
   };
 
   return (
-    <Drawer onClose={handleClose} open={open} title="Change Role">
-      {errors.root?.message && (
-        <NotificationBanner text={errors.root?.message} type="error" />
-      )}
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <Drawer aria-label="Change Role" onClose={handleClose} open={open}>
+      <div slot="header">Change Role</div>
+      <form onSubmit={handleSubmit(onSubmit)} slot="body">
+        {errors.root?.message && (
+          <NotificationBanner text={errors.root?.message} type="error" />
+        )}
         <Typography sx={{ marginBottom: 2.5 }}>
           Select a role you want the entity to be attached to.{' '}
           <Link to={ROLES_LEARN_MORE_LINK}>
@@ -221,20 +227,23 @@ export const ChangeRoleForEntityDrawer = ({
             value={[]}
           />
         )}
-
-        <ActionsPanel
-          primaryButtonProps={{
-            'data-testid': 'submit',
-            label: 'Save Changes',
-            loading: isSubmitting,
-            type: 'submit',
-          }}
-          secondaryButtonProps={{
-            'data-testid': 'cancel',
-            label: 'Cancel',
-            onClick: handleClose,
-          }}
-        />
+        <DrawerInlineActions>
+          <Button
+            data-testid="cancel"
+            onClick={handleClose}
+            variant="secondary"
+          >
+            Cancel
+          </Button>
+          <Button
+            data-testid="submit"
+            processing={isSubmitting}
+            type="submit"
+            variant="primary"
+          >
+            Save
+          </Button>
+        </DrawerInlineActions>
       </form>
     </Drawer>
   );

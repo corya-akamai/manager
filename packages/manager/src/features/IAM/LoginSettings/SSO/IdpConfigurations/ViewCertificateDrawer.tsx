@@ -1,6 +1,5 @@
 import { Button } from '@akamai/cds-components/react';
 import { truncateMiddle } from '@akamai/compute-ui-core/formatting';
-import { Drawer } from '@linode/ui';
 import * as React from 'react';
 
 import { useBreakpoint } from 'src/features/IAM/hooks/useBreakpoint';
@@ -8,6 +7,7 @@ import { CopyTooltip } from 'src/features/IAM/Shared/CopyTooltip/CopyTooltip';
 import { DateTimeDisplay } from 'src/features/IAM/Shared/DateTimeDisplay/DateTimeDisplay';
 import { StatusIcon } from 'src/features/IAM/Shared/StatusIcon/StatusIcon';
 
+import { Drawer, DrawerInlineActions } from '../../../Shared/Drawer';
 import { getCertificateStatus } from './idpConfigurationDrawer.utils';
 import styles from './ViewCertificateDrawer.module.css';
 
@@ -23,11 +23,11 @@ export const ViewCertificateDrawer = ({ cert, onClose, open }: Props) => {
   const handleClose = () => {
     onClose();
   };
-
   const isSMUp = useBreakpoint('up', 'sm');
+
   return (
-    // TODO: UIE-10784 - replace with CDS Drawer when available
-    <Drawer onClose={handleClose} open={open} title="View Details">
+    <Drawer aria-label="View Details" onClose={handleClose} open={open}>
+      <div slot="header">View Details</div>
       <div className={styles.viewCertContainer}>
         <p>
           <strong>Created by:</strong> {cert.created_by}
@@ -68,11 +68,11 @@ export const ViewCertificateDrawer = ({ cert, onClose, open }: Props) => {
           <CopyTooltip text={cert.certificate} />
         </p>
       </div>
-      <div className={styles.actions}>
+      <DrawerInlineActions>
         <Button onClick={handleClose} variant="secondary">
           Close
         </Button>
-      </div>
+      </DrawerInlineActions>
     </Drawer>
   );
 };

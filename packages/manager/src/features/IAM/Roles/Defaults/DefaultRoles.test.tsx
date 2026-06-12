@@ -2,7 +2,10 @@ import { screen } from '@testing-library/react';
 import React from 'react';
 
 import { accountRolesFactory } from 'src/factories/accountRoles';
-import { expectNotificationBannerText } from 'src/features/IAM/utilities/testHelpers';
+import {
+  expectNotificationBannerText,
+  getCdsButtonByText,
+} from 'src/features/IAM/utilities/testHelpers';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import {
@@ -110,10 +113,12 @@ describe('DefaultRoles', () => {
       isLoading: false,
     });
 
-    renderWithTheme(<DefaultRoles />);
+    const { container } = renderWithTheme(<DefaultRoles />);
 
     expect(screen.getByText(NO_ASSIGNED_DEFAULT_ROLES_TEXT)).toBeVisible();
-    expect(screen.getByText('Add New Default Roles')).toBeVisible();
+    expect(
+      await getCdsButtonByText(container, 'Add New Default Roles')
+    ).toBeVisible();
   });
 
   it('should show error state when api fails', () => {

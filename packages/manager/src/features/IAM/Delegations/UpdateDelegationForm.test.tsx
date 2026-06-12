@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { vi } from 'vitest';
 
+import { submitCdsDrawerForm } from 'src/features/IAM/utilities/testHelpers';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import { UpdateDelegationForm } from './UpdateDelegationForm';
@@ -122,8 +123,7 @@ describe('UpdateDelegationsDrawer', () => {
     // user2 is in the table (from API), click its row to select it
     await user.click(screen.getByText('user2'));
 
-    const submitButton = screen.getByRole('button', { name: /save changes/i });
-    await user.click(submitButton);
+    submitCdsDrawerForm();
 
     await waitFor(() => {
       expect(mocks.mockMutateAsync).toHaveBeenCalledWith({
@@ -141,8 +141,7 @@ describe('UpdateDelegationsDrawer', () => {
     // user1 is pre-selected; click its row to deselect it
     await user.click(screen.getByText('user1'));
 
-    const submitButton = screen.getByRole('button', { name: /save changes/i });
-    await user.click(submitButton);
+    submitCdsDrawerForm();
 
     await waitFor(() => {
       expect(mocks.mockMutateAsync).toHaveBeenCalledWith({

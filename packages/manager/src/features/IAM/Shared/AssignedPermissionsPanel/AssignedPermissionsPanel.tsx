@@ -16,7 +16,7 @@ interface Props {
   hideDetails?: boolean;
   mode?: DrawerModes;
   onChange?: (value: EntitiesOption[]) => void;
-  role: ExtendedRole | ExtendedRoleView;
+  role: ExtendedRole | ExtendedRoleView | undefined;
   showName?: boolean;
   style?: React.CSSProperties;
   value?: EntitiesOption[];
@@ -32,6 +32,10 @@ export const AssignedPermissionsPanel = ({
   style,
   value,
 }: Props) => {
+  if (!role) {
+    return null;
+  }
+
   return (
     <Paper
       marginTop={Spacing.S8}

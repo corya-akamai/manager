@@ -30,13 +30,6 @@
   margin-bottom: var(--token-global-spacing-s12, 12px);
 }
 
-.actions {
-  display: flex;
-  gap: var(--token-global-spacing-s12, 12px);
-  justify-content: flex-end;
-  margin-top: var(--token-global-spacing-s32, 32px);
-}
-
 .sectionHeading {
   margin-top: var(---token-global-spacing-s32, 32px);
   margin-bottom: var(---token-global-spacing-s12, 12px);

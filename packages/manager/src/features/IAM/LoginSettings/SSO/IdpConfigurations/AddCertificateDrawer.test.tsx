@@ -3,13 +3,11 @@ import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
 import {
+  changeCdsTextArea,
   expectNotificationBannerText,
   getCdsButtonByText,
 } from 'src/features/IAM/utilities/testHelpers';
-import {
-  getShadowRootElement,
-  renderWithTheme,
-} from 'src/utilities/testHelpers';
+import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { AddCertificateDrawer } from './AddCertificateDrawer';
 
@@ -48,14 +46,21 @@ const changeTextAreaValue = async (value: string) => {
   const host = getTextArea();
   if (!host) throw new Error('cds-text-area host not found');
 
-  const inner = await getShadowRootElement<HTMLTextAreaElement>(
-    host,
-    'textarea'
-  );
+  await changeCdsTextArea(host, value);
+};
 
-  if (!inner) throw new Error('inner textarea not found inside cds-text-area');
+const clickAddCertificateButton = async () => {
+  await waitFor(async () => {
+    const addButton = await getCdsButtonByText(
+      document.body,
+      'Add Certificate'
+    );
 
-  await userEvent.type(inner, value);
+    expect(addButton).toBeEnabled();
+  });
+
+  const addButton = await getCdsButtonByText(document.body, 'Add Certificate');
+  await userEvent.click(addButton as HTMLElement);
 };
 
 describe('AddCertificateDrawer', () => {
@@ -75,9 +80,7 @@ describe('AddCertificateDrawer', () => {
   it('renders drawer content', () => {
     renderWithTheme(<AddCertificateDrawer {...props} />);
 
-    expect(screen.getByTestId('drawer-title')).toHaveTextContent(
-      'Add Certificate'
-    );
+    expect(screen.getByTestId('drawer')).toBeVisible();
     expect(
       screen.getByText('Enter a SAML certificate for the IDP configuration.')
     ).toBeVisible();
@@ -94,17 +97,7 @@ describe('AddCertificateDrawer', () => {
     });
 
     await changeTextAreaValue('test-certificate');
-
-    const addButton = await getCdsButtonByText(
-      document.body,
-      'Add Certificate'
-    );
-
-    await waitFor(() => {
-      expect(addButton).toBeEnabled();
-    });
-
-    await userEvent.click(addButton as HTMLElement);
+    await clickAddCertificateButton();
 
     await waitFor(() => {
       expect(mocks.mutateAsync).toHaveBeenCalledWith({
@@ -135,17 +128,7 @@ describe('AddCertificateDrawer', () => {
     });
 
     await changeTextAreaValue('invalid-cert');
-
-    const addButton = await getCdsButtonByText(
-      document.body,
-      'Add Certificate'
-    );
-
-    await waitFor(() => {
-      expect(addButton).toBeEnabled();
-    });
-
-    await userEvent.click(addButton as HTMLElement);
+    await clickAddCertificateButton();
 
     // Error from API is surfaced in a notification banner
     await expectNotificationBannerText('Certificate is not valid.');

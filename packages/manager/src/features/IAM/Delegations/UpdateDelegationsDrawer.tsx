@@ -1,6 +1,7 @@
-import { Drawer } from '@linode/ui';
 import React from 'react';
 
+import { useBreakpoint } from '../hooks/useBreakpoint';
+import { Drawer } from '../Shared/Drawer';
 import { UpdateDelegationForm } from './UpdateDelegationForm';
 
 import type { ChildAccount, ChildAccountWithDelegates } from '@linode/api-v4';
@@ -16,6 +17,7 @@ export const UpdateDelegationsDrawer = ({
   onClose,
   open,
 }: Props) => {
+  const isSMUp = useBreakpoint('up', 'sm');
   const formattedCurrentUsers = React.useMemo(() => {
     if (delegation && 'users' in delegation && delegation.users) {
       return delegation.users.map((username) => ({
@@ -30,16 +32,10 @@ export const UpdateDelegationsDrawer = ({
     <Drawer
       onClose={onClose}
       open={open}
-      slotProps={{
-        paper: {
-          sx: {
-            maxWidth: { xs: '100% !important', sm: '600px !important' },
-          },
-        },
-      }}
       title="Update Delegation"
-      wide
+      width={isSMUp ? '600px' : '100%'}
     >
+      <div slot="header">Update Delegation</div>
       {delegation && (
         <UpdateDelegationForm
           delegation={delegation}

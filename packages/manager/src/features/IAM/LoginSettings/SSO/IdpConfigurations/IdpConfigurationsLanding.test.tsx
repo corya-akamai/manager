@@ -10,9 +10,43 @@ import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import { IdpConfigurationsLanding } from './IdpConfigurationsLanding';
 
+const mockIdpConfig = {
+  id: 'config-id',
+  label: 'Test Config',
+  created: '2024-01-01T00:00:00.000Z',
+  created_by: 'user',
+  updated: '2024-01-01T00:00:00.000Z',
+  updated_by: 'user',
+  enabled: true,
+  enforce: false,
+  default: false,
+  excluded_users_count: 0,
+  included_users_count: 0,
+  saml: {
+    entity_id: 'test-entity-id',
+    identity_element: 'name_id',
+    idp_url: 'https://idp.example.com',
+    public_certificates: [
+      {
+        id: 'cert-id',
+        certificate: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456',
+        created: '2024-01-01T00:00:00.000Z',
+        created_by: 'user',
+        not_after: new Date(
+          Date.now() + 200 * 24 * 60 * 60 * 1000
+        ).toISOString(),
+        not_before: new Date(
+          Date.now() - 365 * 24 * 60 * 60 * 1000
+        ).toISOString(),
+      },
+    ],
+  },
+};
+
 const queryMocks = vi.hoisted(() => ({
   useGetIdpConfigsQuery: vi.fn().mockReturnValue({}),
   usePermissions: vi.fn().mockReturnValue({}),
+  useProfile: vi.fn().mockReturnValue({ data: { timezone: 'UTC' } }),
 }));
 
 vi.mock('@linode/queries', async () => {
@@ -20,6 +54,7 @@ vi.mock('@linode/queries', async () => {
   return {
     ...actual,
     useGetIdpConfigsQuery: queryMocks.useGetIdpConfigsQuery,
+    useProfile: queryMocks.useProfile,
   };
 });
 
@@ -33,10 +68,8 @@ vi.mock('src/features/IAM/hooks/usePermissions', async () => {
 
 describe('IdpConfigurationsLanding', () => {
   beforeEach(() => {
-    vi.resetAllMocks();
+    vi.clearAllMocks();
     mockMatchMedia();
-  });
-  beforeEach(() => {
     queryMocks.usePermissions.mockReturnValue({
       data: { is_account_admin: true },
       error: null,
@@ -46,6 +79,7 @@ describe('IdpConfigurationsLanding', () => {
       error: null,
       isLoading: false,
     });
+    queryMocks.useProfile.mockReturnValue({ data: { timezone: 'UTC' } });
   });
 
   it('renders an error state when the IDP configurations request fails', () => {
@@ -76,36 +110,21 @@ describe('IdpConfigurationsLanding', () => {
     expect(screen.getByText(ERROR_STATE_TEXT)).toBeVisible();
   });
 
-  it('renders IDP configurations when a configuration exists', () => {
+  it('renders IDP configurations when a configuration exists', async () => {
     queryMocks.useGetIdpConfigsQuery.mockReturnValue({
       data: {
         results: 1,
-        data: [
-          {
-            id: 1,
-            label: 'Test Config',
-            entity_id: 'test-entity-id',
-            saml: {
-              entity_id: 'test-entity-id',
-              identity_element: 'user_id_attribute',
-              idp_url: 'https://idp.example.com',
-              public_certificates: [{ certificate: 'cert' }],
-            },
-            enabled: true,
-            enforce: false,
-            default: false,
-            created: '2023-01-01T00:00:00',
-            updated: '2023-01-01T00:00:00',
-          },
-        ],
+        data: [mockIdpConfig],
       },
       error: null,
       isLoading: false,
     });
 
-    renderWithTheme(<IdpConfigurationsLanding />);
+    const { container } = renderWithTheme(<IdpConfigurationsLanding />);
 
-    expect(screen.getByText('Edit IDP Configuration')).toBeVisible();
+    expect(
+      await getCdsButtonByText(container, 'Edit IDP Configuration')
+    ).toBeVisible();
     expect(screen.queryByText('No data to display')).not.toBeInTheDocument();
   });
 

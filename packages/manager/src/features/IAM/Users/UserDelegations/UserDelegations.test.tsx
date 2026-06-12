@@ -4,7 +4,7 @@ import React from 'react';
 
 import { accountRolesFactory } from 'src/factories/accountRoles';
 import { expectNotificationBannerText } from 'src/features/IAM/utilities/testHelpers';
-import { renderWithTheme } from 'src/utilities/testHelpers';
+import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import { NO_ACCOUNT_DELEGATIONS_TEXT } from '../../Shared/constants';
 import { UserDelegations } from './UserDelegations';
@@ -47,6 +47,8 @@ vi.mock('@tanstack/react-router', async () => {
 });
 
 describe('UserDelegations', () => {
+  beforeAll(() => mockMatchMedia());
+
   beforeEach(() => {
     queryMocks.useParams.mockReturnValue({
       username: 'test-user',

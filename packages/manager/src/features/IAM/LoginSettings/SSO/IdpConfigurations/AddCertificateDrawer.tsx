@@ -9,13 +9,13 @@ import {
 import { Spacing } from '@akamai/cds-tokens';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCreateIdpCertificateMutation } from '@linode/queries';
-import { Drawer } from '@linode/ui';
 import { AddCertificateSchema } from '@linode/validation';
 import { useSnackbar } from 'notistack';
 import * as React from 'react';
 import type { Resolver } from 'react-hook-form';
 import { Controller, useForm } from 'react-hook-form';
 
+import { Drawer, DrawerInlineActions } from '../../../Shared/Drawer';
 import styles from './IdpConfigurationDrawer.module.css';
 
 interface FormValues {
@@ -78,9 +78,9 @@ export const AddCertificateDrawer = ({ idpConfigId, onClose, open }: Props) => {
   };
 
   return (
-    // TODO: UIE-10784 - replace with CDS Drawer when available
-    <Drawer onClose={handleClose} open={open} title="Add Certificate">
-      <form noValidate onSubmit={handleSubmit(onSubmit)}>
+    <Drawer aria-label="Add Certificate" onClose={handleClose} open={open}>
+      <div slot="header">Add Certificate</div>
+      <form noValidate onSubmit={handleSubmit(onSubmit)} slot="body">
         {errors.root?.message && (
           <NotificationBanner
             style={{ marginBottom: Spacing.S12 }}
@@ -89,7 +89,7 @@ export const AddCertificateDrawer = ({ idpConfigId, onClose, open }: Props) => {
           />
         )}
 
-        <p style={{ marginTop: Spacing.S24, marginBottom: Spacing.S24 }}>
+        <p style={{ marginBottom: Spacing.S16, marginTop: 0 }}>
           Enter a SAML certificate for the IDP configuration.
         </p>
 
@@ -118,11 +118,10 @@ export const AddCertificateDrawer = ({ idpConfigId, onClose, open }: Props) => {
           )}
         />
 
-        <div className={styles.actions}>
+        <DrawerInlineActions>
           <Button onClick={handleClose} variant="secondary">
             Cancel
           </Button>
-
           <Button
             disabled={!isValid}
             processing={isSubmitting || isPending}
@@ -131,7 +130,7 @@ export const AddCertificateDrawer = ({ idpConfigId, onClose, open }: Props) => {
           >
             Add Certificate
           </Button>
-        </div>
+        </DrawerInlineActions>
       </form>
     </Drawer>
   );

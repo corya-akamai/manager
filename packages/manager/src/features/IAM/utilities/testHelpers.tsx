@@ -1,7 +1,95 @@
-import { screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { getShadowRootElement } from 'src/utilities/testHelpers';
+
+/** jsdom does not implement scrollIntoView; CDS select calls it when opening. */
+export const mockScrollIntoView = () => {
+  Element.prototype.scrollIntoView ??= vi.fn();
+};
+
+export const changeCdsTextField = async (host: HTMLElement, value: string) => {
+  const input = await getCdsTextFieldInput(host);
+
+  if (!input) {
+    throw new Error('cds-text-field input not found');
+  }
+
+  await act(async () => {
+    fireEvent.input(input, { target: { value } });
+    fireEvent.change(input, { target: { value } });
+
+    host.dispatchEvent(
+      new CustomEvent('change', {
+        bubbles: true,
+        composed: true,
+        detail: value,
+      })
+    );
+  });
+};
+
+export const changeCdsTextArea = async (host: HTMLElement, value: string) => {
+  const textarea = await getShadowRootElement<HTMLTextAreaElement>(
+    host,
+    'textarea'
+  );
+
+  if (!textarea) {
+    throw new Error('cds-text-area textarea not found');
+  }
+
+  await act(async () => {
+    fireEvent.input(textarea, { target: { value } });
+    fireEvent.change(textarea, { target: { value } });
+
+    host.dispatchEvent(
+      new CustomEvent('change', {
+        bubbles: true,
+        composed: true,
+        detail: value,
+      })
+    );
+  });
+};
+
+export const submitCdsDrawerForm = () => {
+  const form =
+    document.querySelector('cds-drawer form') ??
+    document.querySelector('form[slot="body"]');
+
+  if (!form) {
+    throw new Error('drawer form not found');
+  }
+
+  fireEvent.submit(form);
+};
+
+export const expectCdsFormError = async (text: RegExp | string) => {
+  await waitFor(() => {
+    const errors = Array.from(
+      document.querySelectorAll<HTMLElement>('cds-form-error')
+    );
+
+    expect(errors.length).toBeGreaterThan(0);
+
+    expect(
+      errors.some((error) => {
+        const content =
+          error.innerText ||
+          Array.from(error.childNodes)
+            .map((node) => node.textContent ?? '')
+            .join('') ||
+          error.textContent ||
+          '';
+
+        return typeof text === 'string'
+          ? content.includes(text)
+          : text.test(content);
+      })
+    ).toBe(true);
+  });
+};
 
 export const expectNotificationBannerText = async (text: string) => {
   await waitFor(() => {

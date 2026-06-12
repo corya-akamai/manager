@@ -28,12 +28,19 @@ const mockPermissions = {
   view_user: true,
 };
 
+const getDetailsGrid = (container: HTMLElement) => {
+  const grid = container.querySelector('[class*="itemsGrid"]');
+  expect(grid).not.toBeNull();
+
+  return within(grid as HTMLElement);
+};
+
 describe('UserDetailsPanel', () => {
   it("renders the user's username and email", async () => {
     const user = accountUserFactory.build();
     const assignedRoles = { account_access: [], entity_access: [] };
 
-    renderWithTheme(
+    const { container } = renderWithTheme(
       <UserDetailsPanel
         activeUser={user}
         assignedRoles={assignedRoles}
@@ -41,17 +48,10 @@ describe('UserDetailsPanel', () => {
       />
     );
 
-    const usernameField = screen.getByText(/Username/).parentElement;
-    expect(usernameField).not.toBeNull();
-    expect(
-      within(usernameField as HTMLElement).getByText(user.username)
-    ).toBeVisible();
+    const details = getDetailsGrid(container);
 
-    const emailField = screen.getByText(/E-mail/).parentElement;
-    expect(emailField).not.toBeNull();
-    expect(
-      within(emailField as HTMLElement).getByText(user.email)
-    ).toBeVisible();
+    expect(details.getByText(user.username)).toBeVisible();
+    expect(details.getByText(user.email)).toBeVisible();
   });
 
   it("renders '0' if the user doesn't have the assigned roles", async () => {

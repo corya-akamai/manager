@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import React from 'react';
 import { vi } from 'vitest';
 
@@ -87,7 +87,7 @@ describe('UpdateDelegationsDrawer', () => {
     renderWithTheme(<UpdateDelegationsDrawer {...defaultProps} />);
 
     expect(
-      screen.getByRole('heading', { name: /update delegation/i })
+      within(screen.getByTestId('drawer')).getByText('Update Delegation')
     ).toBeInTheDocument();
     expect(screen.getByText(/test company/i)).toBeInTheDocument();
     // user1 is returned by the mocked API and appears as a table row

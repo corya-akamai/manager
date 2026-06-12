@@ -8,7 +8,7 @@ import {
   useUpdateDefaultDelegationAccessQuery,
   useUserRolesMutation,
 } from '@linode/queries';
-import { ActionsPanel, Drawer, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import { useParams } from '@tanstack/react-router';
 import { enqueueSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
@@ -16,6 +16,7 @@ import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 
 import { AssignSingleRole } from 'src/features/IAM/Users/UserRoles/AssignSingleRole';
 
+import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
 import { Box } from '../../Shared/Box/Box';
 import {
@@ -23,6 +24,7 @@ import {
   INTERNAL_ERROR_NO_CHANGES_SAVED,
   ROLES_LEARN_MORE_LINK,
 } from '../../Shared/constants';
+import { Drawer, DrawerInlineActions } from '../../Shared/Drawer';
 import { Link } from '../../Shared/Link/Link';
 import {
   getAllRoles,
@@ -60,6 +62,7 @@ export const AssignNewRoleDrawer = ({
       ],
     },
   });
+  const isSMUp = useBreakpoint('up', 'sm');
 
   const { control, handleSubmit, reset, watch, formState, setError } = form;
   const { append, fields, remove } = useFieldArray({
@@ -144,26 +147,21 @@ export const AssignNewRoleDrawer = ({
     }
   }, [open, reset]);
 
+  const drawerTitle = isDefaultDelegationRolesForChildAccount
+    ? 'Add New Default Roles'
+    : 'Assign New Roles';
+
   return (
     <Drawer
       onClose={handleClose}
+      onSubmit={handleSubmit(onSubmit)}
       open={open}
-      slotProps={{
-        paper: {
-          sx: {
-            maxWidth: { xs: '100% !important', sm: '600px !important' },
-          },
-        },
-      }}
-      title={
-        isDefaultDelegationRolesForChildAccount
-          ? 'Add New Default Roles'
-          : 'Assign New Roles'
-      }
-      wide
+      title={drawerTitle}
+      width={isSMUp ? '600px' : '100%'}
     >
+      <div slot="header">{drawerTitle}</div>
       <FormProvider {...form}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} slot="body">
           {formState.errors.root?.message && (
             <NotificationBanner
               text={formState.errors.root?.message}
@@ -224,25 +222,32 @@ export const AssignNewRoleDrawer = ({
               </Button>
             </div>
           )}
-          <ActionsPanel
-            primaryButtonProps={{
-              'data-testid': 'submit',
-              label: isDefaultDelegationRolesForChildAccount ? 'Add' : 'Assign',
-              type: 'submit',
-              loading:
+          <DrawerInlineActions>
+            <Button
+              data-testid="cancel"
+              onClick={handleClose}
+              variant="secondary"
+            >
+              Cancel
+            </Button>
+            <Button
+              data-pendo-id={
+                isDefaultDelegationRolesForChildAccount
+                  ? IAM_ROLES_PENDO_IDS.addNewDefaultRolesDrawer
+                  : undefined
+              }
+              data-testid="submit"
+              processing={
                 isUserRolesPending ||
                 isDefaultRolesPending ||
-                formState.isSubmitting,
-              'data-pendo-id': isDefaultDelegationRolesForChildAccount
-                ? IAM_ROLES_PENDO_IDS.addNewDefaultRolesDrawer
-                : undefined,
-            }}
-            secondaryButtonProps={{
-              'data-testid': 'cancel',
-              label: 'Cancel',
-              onClick: handleClose,
-            }}
-          />
+                formState.isSubmitting
+              }
+              type="submit"
+              variant="primary"
+            >
+              Save
+            </Button>
+          </DrawerInlineActions>
         </form>
       </FormProvider>
     </Drawer>

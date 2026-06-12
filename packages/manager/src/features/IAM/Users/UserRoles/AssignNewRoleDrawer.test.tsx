@@ -4,7 +4,12 @@ import React from 'react';
 
 import { accountRolesFactory } from 'src/factories/accountRoles';
 import {
+  mockScrollIntoView,
+  submitCdsDrawerForm,
+} from 'src/features/IAM/utilities/testHelpers';
+import {
   getShadowRootElement,
+  mockMatchMedia,
   renderWithTheme,
 } from 'src/utilities/testHelpers';
 
@@ -70,9 +75,12 @@ vi.mock('@linode/api-v4', async () => {
   };
 });
 
+beforeAll(() => mockMatchMedia());
+
 describe('AssignNewRoleDrawer', () => {
   beforeEach(() => {
-    Element.prototype.scrollIntoView ??= vi.fn();
+    mockScrollIntoView();
+
     queryMocks.useParams.mockReturnValue({
       username: 'test_user',
     });
@@ -146,7 +154,7 @@ describe('AssignNewRoleDrawer', () => {
       expect(inputSelect).toHaveValue('account_billing_admin');
     });
 
-    await userEvent.click(screen.getByText('Assign'));
+    submitCdsDrawerForm();
 
     await waitFor(() => {
       expect(mockUpdateUserRole).toHaveBeenCalledWith({

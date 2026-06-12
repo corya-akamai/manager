@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
 import { getCdsButtonByText } from 'src/features/IAM/utilities/testHelpers';
-import { renderWithTheme } from 'src/utilities/testHelpers';
+import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import { NoIDPConfiguration } from './NoIDPConfiguration';
 
@@ -24,6 +24,8 @@ vi.mock('@tanstack/react-router', async () => {
 });
 
 const IDP_CONFIGURATIONS_PATH = '/iam/settings/sso/idp-configurations';
+
+beforeAll(() => mockMatchMedia());
 
 describe('NoIDPConfiguration', () => {
   beforeEach(() => {

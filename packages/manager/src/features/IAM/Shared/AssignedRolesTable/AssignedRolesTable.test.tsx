@@ -5,6 +5,7 @@ import React from 'react';
 import { accountEntityFactory } from 'src/factories/accountEntities';
 import { accountRolesFactory } from 'src/factories/accountRoles';
 import { userRolesFactory } from 'src/factories/userRoles';
+import { getCdsButtonByText } from 'src/features/IAM/utilities/testHelpers';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import { AssignedRolesTable } from './AssignedRolesTable';
@@ -210,9 +211,13 @@ describe('AssignedRolesTable', () => {
       data: mockEntities,
     });
 
-    renderWithTheme(<AssignedRolesTable />);
+    const { container } = renderWithTheme(<AssignedRolesTable />);
 
-    expect(screen.getByText('Add New Default Roles')).toBeVisible();
-    expect(screen.queryByText('Assign New Roles')).not.toBeInTheDocument();
+    expect(
+      await getCdsButtonByText(container, 'Add New Default Roles')
+    ).toBeVisible();
+    expect(
+      screen.queryByRole('button', { name: 'Assign New Roles' })
+    ).not.toBeInTheDocument();
   });
 });

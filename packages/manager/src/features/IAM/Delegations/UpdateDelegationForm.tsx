@@ -1,11 +1,16 @@
-import { NotificationBanner } from '@akamai/cds-components/react';
+import {
+  Button,
+  Icon,
+  NotificationBanner,
+  Tooltip,
+} from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import {
   useAccountUsers,
   useAllAccountUsersQuery,
   useUpdateChildAccountDelegatesQuery,
 } from '@linode/queries';
-import { ActionsPanel, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import { useDebouncedValue } from '@linode/utilities';
 import { enqueueSnackbar } from 'notistack';
 import React, { useState } from 'react';
@@ -16,6 +21,7 @@ import {
   IAM_PARENT_USERS_PENDO_IDS,
   INTERNAL_ERROR_NO_CHANGES_SAVED,
 } from '../Shared/constants';
+import { DrawerInlineActions } from '../Shared/Drawer';
 import { getPlaceholder } from '../Shared/Entities/utils';
 import { SelectionPanel } from '../Shared/SelectionPanel/SelectionPanel';
 
@@ -250,7 +256,7 @@ export const UpdateDelegationForm = ({
         <NotificationBanner text={errors.root?.message} type="error" />
       )}
       <FormProvider {...form}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} slot="body">
           <Typography sx={{ marginBottom: Spacing.S16 }}>
             Add or remove users who should have access to the child account.
             Users removed from this list will lose the role assignment on the
@@ -321,25 +327,36 @@ export const UpdateDelegationForm = ({
             showSelectedOnly={showSelectedOnly}
             totalCount={totalCount}
           />
-
-          <ActionsPanel
-            primaryButtonProps={{
-              'data-testid': 'submit',
-              label: 'Save Changes',
-              'data-pendo-id': IAM_PARENT_USERS_PENDO_IDS.updateDelegationSave,
-              loading: isSubmitting,
-              type: 'submit',
-              disabled: !permissions?.update_delegate_users,
-              tooltipText: !permissions?.update_delegate_users
-                ? 'You do not have permission to update delegations.'
-                : undefined,
-            }}
-            secondaryButtonProps={{
-              'data-testid': 'cancel',
-              label: 'Cancel',
-              onClick: handleClose,
-            }}
-          />
+          <DrawerInlineActions>
+            <Button
+              data-testid="cancel"
+              onClick={handleClose}
+              variant="secondary"
+            >
+              Cancel
+            </Button>
+            <Tooltip
+              disabled={permissions?.update_delegate_users}
+              tooltipText={
+                !permissions?.update_delegate_users
+                  ? 'You do not have permission to update delegations.'
+                  : undefined
+              }
+            >
+              <Button
+                data-pendo-id={IAM_PARENT_USERS_PENDO_IDS.updateDelegationSave}
+                data-testid="submit"
+                processing={isSubmitting}
+                type="submit"
+                variant="primary"
+              >
+                Save Changes
+                {!permissions?.update_delegate_users ? (
+                  <Icon icon="info-outline" size="m" />
+                ) : null}
+              </Button>
+            </Tooltip>
+          </DrawerInlineActions>
         </form>
       </FormProvider>
     </>

@@ -103,7 +103,9 @@ describe('UserEntities', () => {
     renderWithTheme(<UserEntities />);
     expect(screen.getByText('This list is empty')).toBeVisible();
 
-    expect(screen.queryByText('Assign New Roles')).toBeNull();
+    expect(
+      screen.queryByRole('button', { name: 'Assign New Roles' })
+    ).not.toBeInTheDocument();
     expect(screen.getByText(NO_ASSIGNED_ENTITIES_TEXT)).toBeVisible();
   });
 
@@ -119,7 +121,9 @@ describe('UserEntities', () => {
 
     expect(screen.getByText('This list is empty')).toBeVisible();
 
-    expect(screen.queryByText('Assign New Roles')).toBeNull();
+    expect(
+      screen.queryByRole('button', { name: 'Assign New Roles' })
+    ).not.toBeInTheDocument();
 
     expect(screen.getByText(NO_ASSIGNED_ENTITIES_TEXT)).toBeVisible();
   });
@@ -139,7 +143,9 @@ describe('UserEntities', () => {
 
     renderWithTheme(<UserEntities />);
 
-    expect(screen.queryByText('Assign New Roles')).toBeNull();
+    expect(
+      screen.queryByRole('button', { name: 'Assign New Roles' })
+    ).not.toBeInTheDocument();
     expect(screen.getByText('firewall_admin')).toBeVisible();
     expect(screen.getByText('firewall-1')).toBeVisible();
 
@@ -149,8 +155,8 @@ describe('UserEntities', () => {
     expect(actionMenuButton).toBeVisible();
 
     await userEvent.click(actionMenuButton);
-    expect(screen.getByText('Change Role')).toBeVisible();
-    expect(screen.getByText('Remove Assignment')).toBeVisible();
+    expect(screen.getByTestId('Change Role')).toBeVisible();
+    expect(screen.getByTestId('Remove Assignment')).toBeVisible();
   });
 
   it('should show error state when api fails', () => {
@@ -177,7 +183,9 @@ describe('UserEntities', () => {
 
     renderWithTheme(<UserEntities />);
     expect(screen.queryByText('This list is empty')).toBeNull();
-    expect(screen.queryByText('Assign New Roles')).toBeNull();
+    expect(
+      screen.queryByRole('button', { name: 'Assign New Roles' })
+    ).not.toBeInTheDocument();
     expect(screen.queryByText(NO_ASSIGNED_ENTITIES_TEXT)).toBeNull();
   });
 });

@@ -40,6 +40,13 @@ vi.mock('../../hooks/usePermissions', async () => {
   };
 });
 
+const getDetailsGrid = (container: HTMLElement) => {
+  const grid = container.querySelector('[class*="itemsGrid"]');
+  expect(grid).not.toBeNull();
+
+  return within(grid as HTMLElement);
+};
+
 describe('UserProfile', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -126,7 +133,7 @@ describe('UserProfile', () => {
   });
 
   it('renders the profile panels with the resolved user data and permissions', () => {
-    renderWithTheme(<UserProfile />);
+    const { container } = renderWithTheme(<UserProfile />);
 
     expect(queryMocks.usePermissions).toHaveBeenCalledWith('account', [
       'view_user',
@@ -137,11 +144,9 @@ describe('UserProfile', () => {
     expect(queryMocks.useAccountUser).toHaveBeenCalledWith('test-user', true);
     expect(queryMocks.useUserRoles).toHaveBeenCalledWith('test-user', true);
 
-    const usernameField = screen.getByText('Username').parentElement;
+    const details = getDetailsGrid(container);
 
-    expect(usernameField).not.toBeNull();
-    expect(
-      within(usernameField as HTMLElement).getByText('test-user')
-    ).toBeVisible();
+    expect(details.getByText('test-user')).toBeVisible();
+    expect(details.getByText('test-user@example.com')).toBeVisible();
   });
 });
