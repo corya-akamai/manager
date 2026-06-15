@@ -38,7 +38,7 @@ describe('NoIDPConfiguration', () => {
 
   it('renders the zero state title and description', () => {
     renderWithTheme(
-      <NoIDPConfiguration permissions={{ is_account_admin: true }} />
+      <NoIDPConfiguration permissions={{ create_idp_config: true }} />
     );
 
     expect(screen.getByText('No data to display')).toBeVisible();
@@ -49,7 +49,7 @@ describe('NoIDPConfiguration', () => {
 
   it('renders the enforcement description when not on the IDP configurations page', () => {
     renderWithTheme(
-      <NoIDPConfiguration permissions={{ is_account_admin: true }} />
+      <NoIDPConfiguration permissions={{ create_idp_config: true }} />
     );
 
     expect(screen.getByText(/manage its enforcement here\.$/i)).toBeVisible();
@@ -61,7 +61,7 @@ describe('NoIDPConfiguration', () => {
     });
 
     renderWithTheme(
-      <NoIDPConfiguration permissions={{ is_account_admin: true }} />
+      <NoIDPConfiguration permissions={{ create_idp_config: true }} />
     );
 
     expect(screen.getByText(/it will show up here\./i)).toBeVisible();
@@ -69,7 +69,7 @@ describe('NoIDPConfiguration', () => {
 
   it('renders an enabled create button for account admins', async () => {
     const { container } = renderWithTheme(
-      <NoIDPConfiguration permissions={{ is_account_admin: true }} />
+      <NoIDPConfiguration permissions={{ create_idp_config: true }} />
     );
 
     const createButton = await getCdsButtonByText(
@@ -83,7 +83,7 @@ describe('NoIDPConfiguration', () => {
 
   it('renders a disabled create button for non-admin users', async () => {
     const { container } = renderWithTheme(
-      <NoIDPConfiguration permissions={{ is_account_admin: false }} />
+      <NoIDPConfiguration permissions={{ create_idp_config: false }} />
     );
 
     const createButton = await getCdsButtonByText(
@@ -101,7 +101,7 @@ describe('NoIDPConfiguration', () => {
     });
 
     const { container } = renderWithTheme(
-      <NoIDPConfiguration permissions={{ is_account_admin: true }} />
+      <NoIDPConfiguration permissions={{ create_idp_config: true }} />
     );
 
     const createButton = await getCdsButtonByText(
@@ -116,7 +116,7 @@ describe('NoIDPConfiguration', () => {
 
   it('renders the info icon when user is not an account admin', () => {
     const { container } = renderWithTheme(
-      <NoIDPConfiguration permissions={{ is_account_admin: false }} />
+      <NoIDPConfiguration permissions={{ create_idp_config: false }} />
     );
 
     // cds-icon is rendered inside the button for non-admins

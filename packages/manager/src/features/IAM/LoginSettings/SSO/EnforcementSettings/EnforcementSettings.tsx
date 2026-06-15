@@ -2,7 +2,9 @@ import {
   Button,
   Checkbox,
   FormError,
+  Icon,
   NotificationBanner,
+  Tooltip,
 } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import {
@@ -18,6 +20,7 @@ import { enqueueSnackbar } from 'notistack';
 import * as React from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
+import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 import { CircleProgress } from 'src/features/IAM/Shared/CircleProgress/CircleProgress';
 import { Divider } from 'src/features/IAM/Shared/Divider/Divider';
 import { ErrorState } from 'src/features/IAM/Shared/ErrorState/ErrorState';
@@ -40,6 +43,10 @@ export interface EnforcementSettingsFormValues {
 }
 
 export const EnforcementSettings = () => {
+  const { data: permissions, error: permissionsError } = usePermissions(
+    'account',
+    ['update_idp_config']
+  );
   // TODO: check whether we need to fetch all IDP configs to find the relevant one
   // or if we can get the euuid from IDP configuration tab and pass it down
   const {
@@ -185,7 +192,13 @@ export const EnforcementSettings = () => {
     return <CircleProgress />;
   }
 
-  if (error || idpConfigsError || includedUsersError || excludedUsersError) {
+  if (
+    error ||
+    idpConfigsError ||
+    includedUsersError ||
+    excludedUsersError ||
+    permissionsError
+  ) {
     return <ErrorState />;
   }
 
@@ -196,6 +209,13 @@ export const EnforcementSettings = () => {
           style={{ marginBottom: Spacing.S16 }}
           text={errors.root?.message}
           type="error"
+        />
+      )}
+      {!permissions?.update_idp_config && (
+        <NotificationBanner
+          style={{ marginBottom: Spacing.S16 }}
+          text="You do not have permissions to update SSO enforcement settings."
+          type="warning"
         />
       )}
       <form
@@ -247,19 +267,28 @@ export const EnforcementSettings = () => {
         )}
 
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button
-            disabled={!isDirty}
-            processing={
-              isSubmitting ||
-              isActivationStatusPending ||
-              isIncludedUsersPending ||
-              isExcludedUsersPending
-            }
-            type="submit"
-            variant="primary"
+          <Tooltip
+            disabled={permissions?.update_idp_config}
+            tooltipPlacement="bottom"
+            tooltipText="You do not have permissions to update SSO enforcement settings."
           >
-            Update SSO Enforcement
-          </Button>
+            <Button
+              disabled={!isDirty || !permissions?.update_idp_config}
+              processing={
+                isSubmitting ||
+                isActivationStatusPending ||
+                isIncludedUsersPending ||
+                isExcludedUsersPending
+              }
+              type="submit"
+              variant="primary"
+            >
+              Update SSO Enforcement
+              {!permissions?.update_idp_config && (
+                <Icon icon="info-outline" size="s" />
+              )}
+            </Button>
+          </Tooltip>
         </div>
       </form>
     </FormProvider>

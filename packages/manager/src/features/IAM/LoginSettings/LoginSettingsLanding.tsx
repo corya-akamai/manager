@@ -4,6 +4,7 @@ import { useGetIdpConfigsQuery } from '@linode/queries';
 import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 
+import { usePermissions } from '../hooks/usePermissions';
 import { CircleProgress } from '../Shared/CircleProgress/CircleProgress';
 import { SSO_ENFORCEMENT_LINK } from '../Shared/constants';
 import { ErrorState } from '../Shared/ErrorState/ErrorState';
@@ -18,7 +19,12 @@ import type { IdpConfig } from '@linode/api-v4';
 export const LoginSettingsLanding = () => {
   const navigate = useNavigate();
 
-  const { data: idpConfigs, error, isLoading } = useGetIdpConfigsQuery();
+  const { data: idpConfigs, isLoading } = useGetIdpConfigsQuery();
+
+  const { data: permissions, error: permissionsError } = usePermissions(
+    'account',
+    ['view_idp_config']
+  );
 
   const idpConfig =
     idpConfigs && idpConfigs?.results > 0 ? idpConfigs.data[0] : null;
@@ -44,7 +50,16 @@ export const LoginSettingsLanding = () => {
     return <CircleProgress />;
   }
 
-  if (error) {
+  if (!permissions?.view_idp_config) {
+    return (
+      <NotificationBanner
+        text="You do not have permission to view IDP configurations."
+        type="error"
+      />
+    );
+  }
+
+  if (permissionsError) {
     return <ErrorState />;
   }
 

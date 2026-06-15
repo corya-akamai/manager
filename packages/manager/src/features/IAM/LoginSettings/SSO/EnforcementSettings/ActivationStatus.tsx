@@ -3,6 +3,8 @@ import { Spacing, Typography } from '@akamai/cds-tokens';
 import * as React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
+
 import type { EnforcementSettingsFormValues } from './EnforcementSettings';
 
 interface Props {
@@ -15,6 +17,10 @@ export const ActivationStatus = ({ isConfigInvalid }: Props) => {
 
   // Watch SSO enabled state to conditionally disable enforcement toggle and show tooltip
   const isSSOEnabled = watch('ssoEnabled');
+
+  const { data: permissions } = usePermissions('account', [
+    'update_idp_config',
+  ]);
 
   return (
     <div>
@@ -33,7 +39,10 @@ export const ActivationStatus = ({ isConfigInvalid }: Props) => {
         render={({ field }) => (
           <Switch
             checked={field.value}
-            disabled={!isSSOEnabled && isConfigInvalid}
+            disabled={
+              !permissions?.update_idp_config ||
+              (!isSSOEnabled && isConfigInvalid)
+            }
             onChange={(e) => {
               field.onChange(e.detail);
               if (!e.detail) {
@@ -64,6 +73,11 @@ export const ActivationStatus = ({ isConfigInvalid }: Props) => {
           marginTop: Spacing.S0,
           marginBottom: Spacing.S12,
           paddingLeft: 56,
+          color:
+            !permissions?.update_idp_config ||
+            (!isSSOEnabled && isConfigInvalid)
+              ? 'var(--token-alias-content-text-primary-disabled, light-dark(#a3a3ab, #83838c))'
+              : undefined,
         }}
       >
         Activates the IDP configuration. With the enforcement disabled, only
@@ -75,7 +89,7 @@ export const ActivationStatus = ({ isConfigInvalid }: Props) => {
         render={({ field }) => (
           <Switch
             checked={field.value}
-            disabled={!isSSOEnabled}
+            disabled={!permissions?.update_idp_config || !isSSOEnabled}
             onChange={(e) => field.onChange(e.detail)}
           >
             <span

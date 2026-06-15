@@ -3,7 +3,9 @@ import {
   FormError,
   FormField,
   FormLabel,
+  Icon,
   TagInput,
+  Tooltip,
 } from '@akamai/cds-components/react';
 import { Spacing, Typography } from '@akamai/cds-tokens';
 import { useAllAccountUsersQuery } from '@linode/queries';
@@ -79,7 +81,10 @@ export const ExcludedUsersPanel = ({ excludedUsers }: Props) => {
     }
   }, [includedUsers, getValues]);
 
-  const { data: permissions } = usePermissions('account', ['view_user']);
+  const { data: permissions } = usePermissions('account', [
+    'view_user',
+    'update_idp_config_user_excludes',
+  ]);
   const [usernameInput, setUsernameInput] = React.useState<string>('');
 
   const debouncedUsernameInput = useDebouncedValue(usernameInput);
@@ -160,26 +165,37 @@ export const ExcludedUsersPanel = ({ excludedUsers }: Props) => {
             >
               Excluded Users
             </FormLabel>
-            <TagInput
-              filterFn={() => true}
-              isError={Boolean(searchError || error)}
-              isLoading={isLoading}
-              items={userOptions ?? []}
-              loadingErrorLabel={searchError?.message || ERROR_STATE_TITLE}
-              onChange={(e) => {
-                field.onChange(e.detail);
-                trigger(['excludedUsers', 'includedUsers']);
-              }}
-              onSearchChange={(e) => setUsernameInput(e.detail)}
-              placeholder="Search by name or email or select from the list"
-              ref={tagInputRef}
-              restricted
-              style={{
-                width: isSmUp ? 560 : '100%',
-                boxSizing: 'border-box',
-              }}
-              validFn={tagInputValidFn}
-            />
+            <Tooltip
+              disabled={permissions?.update_idp_config_user_excludes}
+              style={{ display: 'flex', gap: Spacing.S8 }}
+              tooltipPlacement="bottom"
+              tooltipText="You do not have permissions to update excluded users."
+            >
+              <TagInput
+                disabled={!permissions?.update_idp_config_user_excludes}
+                filterFn={() => true}
+                isError={Boolean(searchError || error)}
+                isLoading={isLoading}
+                items={userOptions ?? []}
+                loadingErrorLabel={searchError?.message || ERROR_STATE_TITLE}
+                onChange={(e) => {
+                  field.onChange(e.detail);
+                  trigger(['excludedUsers', 'includedUsers']);
+                }}
+                onSearchChange={(e) => setUsernameInput(e.detail)}
+                placeholder="Search by name or email or select from the list"
+                ref={tagInputRef}
+                restricted
+                style={{
+                  width: isSmUp ? 560 : '100%',
+                  boxSizing: 'border-box',
+                }}
+                validFn={tagInputValidFn}
+              />
+              {!permissions?.update_idp_config_user_excludes && (
+                <Icon icon="info-outline" size="m" />
+              )}
+            </Tooltip>
             <FormError slot="error">{fieldState.error?.message}</FormError>
           </FormField>
         )}

@@ -29,8 +29,11 @@ import styles from './IdpConfigurations.module.css';
 import type { IdpConfig } from '@linode/api-v4';
 
 export const IdpConfigurations = ({ idpConfig }: { idpConfig: IdpConfig }) => {
-  // TODO - UIE-11305 replace with actual permissions check for creating IDP configurations
-  const { data: permissions } = usePermissions('account', ['is_account_admin']);
+  const { data: permissions } = usePermissions('account', [
+    'delete_idp_config',
+    'update_idp_config',
+    'create_idp_config_cert',
+  ]);
 
   const [isEditDrawerOpen, setIsEditDrawerOpen] = React.useState(false);
   const [isAddCertDrawerOpen, setIsAddCertDrawerOpen] = React.useState(false);
@@ -59,34 +62,34 @@ export const IdpConfigurations = ({ idpConfig }: { idpConfig: IdpConfig }) => {
           <h3>Provider details</h3>
           <div className={styles.headerActions}>
             <Tooltip
-              disabled={permissions?.is_account_admin}
+              disabled={permissions?.delete_idp_config}
               tooltipPlacement="bottom"
               tooltipText="You do not have permission to delete this IDP configuration."
             >
               <Button
-                disabled={!permissions?.is_account_admin}
+                disabled={!permissions?.delete_idp_config}
                 onClick={() => setIsDeleteDialogOpen(true)}
                 type="button"
                 variant="link"
               >
                 Delete IDP Configuration
-                {!permissions?.is_account_admin ? (
+                {!permissions?.delete_idp_config ? (
                   <Icon icon="info-outline" size="m" />
                 ) : null}
               </Button>
             </Tooltip>
             <Tooltip
-              disabled={permissions?.is_account_admin}
+              disabled={permissions?.update_idp_config}
               tooltipText="You do not have permission to edit this IDP configuration."
             >
               <Button
-                disabled={!permissions?.is_account_admin}
+                disabled={!permissions?.update_idp_config}
                 onClick={() => setIsEditDrawerOpen(true)}
                 type="button"
                 variant="primary"
               >
                 Edit IDP Configuration
-                {!permissions?.is_account_admin ? (
+                {!permissions?.update_idp_config ? (
                   <Icon icon="info-outline" size="m" />
                 ) : null}
               </Button>
@@ -144,27 +147,30 @@ export const IdpConfigurations = ({ idpConfig }: { idpConfig: IdpConfig }) => {
           <h3>SAML Certificates</h3>
           <Tooltip
             disabled={
-              !(isMaxCertificatesReached || !permissions?.is_account_admin)
+              !(
+                isMaxCertificatesReached || !permissions?.create_idp_config_cert
+              )
             }
             tooltipPlacement="bottom"
             tooltipText={
               isMaxCertificatesReached
                 ? MAX_CERTIFICATES_REACHED_ERROR
-                : !permissions?.is_account_admin
+                : !permissions?.create_idp_config_cert
                   ? ADD_CERTIFICATE_PERMISSION_ERROR
                   : undefined
             }
           >
             <Button
               disabled={
-                isMaxCertificatesReached || !permissions?.is_account_admin
+                isMaxCertificatesReached || !permissions?.create_idp_config_cert
               }
               onClick={() => setIsAddCertDrawerOpen(true)}
               type="button"
               variant="secondary"
             >
               Add Certificate
-              {(isMaxCertificatesReached || !permissions?.is_account_admin) && (
+              {(isMaxCertificatesReached ||
+                !permissions?.create_idp_config_cert) && (
                 <Icon icon="info-outline" size="s" />
               )}
             </Button>

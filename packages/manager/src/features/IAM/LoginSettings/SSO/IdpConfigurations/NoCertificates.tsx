@@ -20,8 +20,9 @@ interface Props {
 }
 
 export const NoCertificates = ({ idpConfigId }: Props) => {
-  // TODO - UIE-11305 replace with actual permissions check
-  const { data: permissions } = usePermissions('account', ['is_account_admin']);
+  const { data: permissions } = usePermissions('account', [
+    'create_idp_config_cert',
+  ]);
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
 
   const onClick = () => setIsDrawerOpen(true);
@@ -36,17 +37,17 @@ export const NoCertificates = ({ idpConfigId }: Props) => {
         </ZeroErrorDescription>
         <ZeroErrorActions>
           <Tooltip
-            disabled={permissions?.is_account_admin}
+            disabled={permissions?.create_idp_config_cert}
             tooltipPlacement="bottom"
             tooltipText={ADD_CERTIFICATE_PERMISSION_ERROR}
           >
             <Button
-              disabled={!permissions?.is_account_admin}
+              disabled={!permissions?.create_idp_config_cert}
               onClick={onClick}
               variant="primary"
             >
               Add Certificate
-              {!permissions?.is_account_admin && (
+              {!permissions?.create_idp_config_cert && (
                 <Icon icon="info-outline" size="m" />
               )}
             </Button>

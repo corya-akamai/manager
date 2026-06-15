@@ -71,7 +71,7 @@ describe('IdpConfigurationsLanding', () => {
     vi.clearAllMocks();
     mockMatchMedia();
     queryMocks.usePermissions.mockReturnValue({
-      data: { is_account_admin: true },
+      data: { create_idp_config: true },
       error: null,
     });
     queryMocks.useGetIdpConfigsQuery.mockReturnValue({
@@ -146,7 +146,7 @@ describe('IdpConfigurationsLanding', () => {
 
   it('disables the create button when the user is not an account admin', async () => {
     queryMocks.usePermissions.mockReturnValue({
-      data: { is_account_admin: false },
+      data: { create_idp_config: false },
       error: null,
     });
 

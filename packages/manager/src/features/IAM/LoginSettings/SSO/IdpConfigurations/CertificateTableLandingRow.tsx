@@ -47,8 +47,10 @@ export const CertificateTableLandingRow = ({
   activeCertificateCount,
   totalCertificateCount,
 }: CertificateTableLandingProps) => {
-  // TODO - UIE-11305 replace with actual permissions check for creating IDP configurations
-  const { data: permissions } = usePermissions('account', ['is_account_admin']);
+  const { data: permissions } = usePermissions('account', [
+    'view_idp_config_certs',
+    'delete_idp_config_cert',
+  ]);
 
   const isSsoEnabled = !!ssoEnabled;
   const activeCount = activeCertificateCount ?? 0;
@@ -60,7 +62,7 @@ export const CertificateTableLandingRow = ({
   // - SSO is enabled and deleting this certificate would leave zero valid certificates (i.e.,
   //   this is the only non-expired certificate), OR
   // - the current user lacks permission to delete certificates.
-  const canDelete = !!permissions?.is_account_admin;
+  const canDelete = !!permissions?.delete_idp_config_cert;
 
   // Block deletion when SSO is enabled and deleting would leave zero valid certificates,
   // or when SSO is enabled and this is the only certificate at all.
@@ -87,12 +89,12 @@ export const CertificateTableLandingRow = ({
       <TableCell className={styles.actionCell}>
         <Tooltip
           className={styles.actionButton}
-          disabled={permissions?.is_account_admin}
+          disabled={permissions?.view_idp_config_certs}
           tooltipPlacement="bottom"
           tooltipText={VIEW_DETAILS_PERMISSION_ERROR}
         >
           <Button
-            disabled={!permissions?.is_account_admin}
+            disabled={!permissions?.view_idp_config_certs}
             onClick={() => onViewDetails(cert)}
             style={{
               paddingRight: 'var(--token-global-spacing-s8, 8px)',
@@ -101,7 +103,7 @@ export const CertificateTableLandingRow = ({
             variant="link"
           >
             View Details
-            {!permissions?.is_account_admin && (
+            {!permissions?.view_idp_config_certs && (
               <Icon icon="info-outline" size="s" />
             )}
           </Button>

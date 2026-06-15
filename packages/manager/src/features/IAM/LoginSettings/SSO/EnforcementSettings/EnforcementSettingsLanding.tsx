@@ -10,10 +10,9 @@ import { NoIDPConfiguration } from 'src/features/IAM/Shared/NoIDPConfiguration/N
 import { EnforcementSettings } from './EnforcementSettings';
 
 export const EnforcementSettingsLanding = () => {
-  // TODO - UIE-11305 replace with actual permissions check for creating IDP configurations
   const { data: permissions, error: permissionsError } = usePermissions(
     'account',
-    ['is_account_admin']
+    ['create_idp_config']
   );
   const { data, error, isLoading } = useGetIdpConfigsQuery();
 

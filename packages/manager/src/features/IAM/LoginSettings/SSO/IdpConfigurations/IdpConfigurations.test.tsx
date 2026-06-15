@@ -141,7 +141,12 @@ describe('IdpConfigurations', () => {
     vi.resetAllMocks();
     mockMatchMedia();
     queryMocks.usePermissions.mockReturnValue({
-      data: { is_account_admin: true },
+      data: {
+        delete_idp_config: true,
+        delete_idp_config_cert: true,
+        update_idp_config: true,
+        create_idp_config_cert: true,
+      },
     });
     queryMocks.usePreferences.mockReturnValue({ data: true });
     queryMocks.useProfile.mockReturnValue({ data: { timezone: 'UTC' } });
@@ -331,7 +336,11 @@ describe('IdpConfigurations', () => {
 
     it('is disabled for all rows when user lacks admin permission', async () => {
       queryMocks.usePermissions.mockReturnValue({
-        data: { is_account_admin: false },
+        data: {
+          delete_idp_config: false,
+          update_idp_config: false,
+          create_idp_config_cert: false,
+        },
       });
 
       const cert1 = makeCert(ACTIVE_DATE, {

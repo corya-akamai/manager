@@ -14,7 +14,7 @@ import * as React from 'react';
 import { IdpConfigurationDrawer } from '../../LoginSettings/SSO/IdpConfigurations/IdpConfigurationDrawer';
 
 interface Props {
-  permissions: Record<'is_account_admin', boolean> | undefined;
+  permissions: Record<'create_idp_config', boolean> | undefined;
 }
 
 export const NoIDPConfiguration = ({ permissions }: Props) => {
@@ -41,17 +41,17 @@ export const NoIDPConfiguration = ({ permissions }: Props) => {
         </ZeroErrorDescription>
         <ZeroErrorActions>
           <Tooltip
-            disabled={permissions?.is_account_admin}
+            disabled={permissions?.create_idp_config}
             tooltipPlacement="bottom"
             tooltipText="You do not have permission to create IDP configuration."
           >
             <Button
-              disabled={!permissions?.is_account_admin}
+              disabled={!permissions?.create_idp_config}
               onClick={onClick}
               variant="primary"
             >
               Create IDP Configuration
-              {!permissions?.is_account_admin && (
+              {!permissions?.create_idp_config && (
                 <Icon icon="info-outline" size="m" />
               )}
             </Button>
