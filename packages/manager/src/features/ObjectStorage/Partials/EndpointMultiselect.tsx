@@ -50,6 +50,11 @@ export const EndpointMultiselect = ({
 
   optionsLoading = optionsLoading || isFetching;
 
+  const sortedValues = React.useMemo(
+    () => values.sort((a, b) => a.label.localeCompare(b.label)),
+    [values]
+  );
+
   return (
     <Autocomplete
       disabled={isFetching || disabled}
@@ -57,7 +62,9 @@ export const EndpointMultiselect = ({
       loading={optionsLoading}
       multiple
       noMarginTop={true}
-      onChange={(_, newValues) => onChange(newValues)}
+      onChange={(_, newValues) =>
+        onChange(newValues.sort((a, b) => a.label.localeCompare(b.label)))
+      }
       options={optionsLoading ? [] : multiselectOptions}
       placeholder={
         isFetching
@@ -71,7 +78,7 @@ export const EndpointMultiselect = ({
         },
         ...sx,
       }}
-      value={values}
+      value={sortedValues}
     />
   );
 };
