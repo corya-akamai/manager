@@ -365,7 +365,7 @@ export const PlanContainer = (props: PlanContainerProps) => {
                         shouldDisplayNoRegionSelectedMessage={
                           shouldDisplayNoRegionSelectedMessage
                         }
-                        showMonthlyColumnHourlyOnlyTooltip={hasHourlyEligiblePlans(
+                        showHourlyBillingTooltip={hasHourlyEligiblePlans(
                           filteredPlans
                         )}
                         showNetwork={showNetwork}
@@ -383,9 +383,7 @@ export const PlanContainer = (props: PlanContainerProps) => {
                   shouldDisplayNoRegionSelectedMessage={
                     shouldDisplayNoRegionSelectedMessage
                   }
-                  showMonthlyColumnHourlyOnlyTooltip={hasHourlyEligiblePlans(
-                    plans
-                  )}
+                  showHourlyBillingTooltip={hasHourlyEligiblePlans(plans)}
                   showNetwork={showNetwork}
                   showTransfer={showTransfer}
                   showUsableStorage={
@@ -489,9 +487,7 @@ export const PlanContainer = (props: PlanContainerProps) => {
                     }
                     // Use the full `plans` prop (pre-pagination, pre-filter) so the tooltip
                     // is stable across all pages and is not affected by active filters.
-                    showMonthlyColumnHourlyOnlyTooltip={hasHourlyEligiblePlans(
-                      plans
-                    )}
+                    showHourlyBillingTooltip={hasHourlyEligiblePlans(plans)}
                     showNetwork={showNetwork}
                     showTransfer={showTransfer}
                     showUsableStorage={

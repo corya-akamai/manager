@@ -34,7 +34,7 @@ interface PlanSelectionTableProps {
     isValkeyEngineSelected?: boolean
   ) => React.JSX.Element[];
   shouldDisplayNoRegionSelectedMessage: boolean;
-  showMonthlyColumnHourlyOnlyTooltip?: boolean;
+  showHourlyBillingTooltip?: boolean;
   showNetwork?: boolean;
   showTransfer?: boolean;
   showUsableStorage?: boolean;
@@ -65,7 +65,7 @@ export const PlanSelectionTable = (props: PlanSelectionTableProps) => {
     plans,
     renderPlanSelection,
     shouldDisplayNoRegionSelectedMessage,
-    showMonthlyColumnHourlyOnlyTooltip,
+    showHourlyBillingTooltip,
     showNetwork: shouldShowNetwork,
     showTransfer: shouldShowTransfer,
     showUsableStorage,
@@ -85,19 +85,16 @@ export const PlanSelectionTable = (props: PlanSelectionTableProps) => {
   const spacingBottom = isGenerationalPlansEnabled ? 0 : 16;
 
   const showTransferTooltip = React.useCallback(
-    (cellName: string) =>
-      plans?.some((plan) => {
-        const showTooltipForGPUPlans =
-          (flags.gpuv2?.transferBanner &&
-            plan.class === 'gpu' &&
-            filterOptions?.header?.includes('Ada')) ||
-          filterOptions?.header?.includes('Blackwell');
-        return (
-          (showTooltipForGPUPlans || plan.class === 'accelerated') &&
-          cellName === 'Transfer'
-        );
-      }),
-    [plans, filterOptions, flags.gpuv2]
+    (cellName: string) => {
+      const isRegionSelected = !shouldDisplayNoRegionSelectedMessage;
+      return (
+        (showHourlyBillingTooltip ||
+          plans?.some((plan) => plan.class === 'accelerated')) &&
+        isRegionSelected &&
+        cellName === 'Transfer'
+      );
+    },
+    [plans, showHourlyBillingTooltip, shouldDisplayNoRegionSelectedMessage]
   );
 
   const showUsableStorageTooltip = (cellName: string) =>
@@ -178,7 +175,7 @@ export const PlanSelectionTable = (props: PlanSelectionTableProps) => {
                   )}
                 {/* Only show when a region is selected and the tab has hourly-only plans. */}
                 {cellName === 'Monthly' &&
-                  showMonthlyColumnHourlyOnlyTooltip &&
+                  showHourlyBillingTooltip &&
                   !shouldDisplayNoRegionSelectedMessage &&
                   showTooltip('info', MONTHLY_COLUMN_HOURLY_ONLY_TOOLTIP_TEXT)}
               </StyledTableCell>
