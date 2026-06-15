@@ -1,4 +1,4 @@
-import { NotificationBanner } from '@akamai/cds-components/react';
+import { Button, NotificationBanner } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import {
   ipFieldPlaceholder,
@@ -7,7 +7,7 @@ import {
   validateIPs,
 } from '@akamai/compute-ui-core/api';
 import { useDatabaseMutation } from '@linode/queries';
-import { ActionsPanel, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import * as React from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
@@ -25,6 +25,7 @@ import { isDefaultDatabase } from 'src/features/Databases/utilities';
 import { enforceIPMasks } from 'src/features/Firewalls/FirewallDetail/Rules/FirewallRuleDrawer.utils';
 
 import { Drawer } from '../shared/Drawer';
+import { DrawerActions } from '../shared/DrawerActions';
 
 import type { ExtendedIP } from '@akamai/compute-ui-core/api';
 import type { APIError, Database, DatabaseInstance } from '@linode/api-v4';
@@ -129,67 +130,70 @@ export const ManageAccessControlDrawer = (props: Props) => {
   return (
     <Drawer onClose={onClose} open={open}>
       <span slot="header">Manage Access</span>
-      {errors.root && (
-        <NotificationBanner
-          style={{ marginBottom: Spacing.S16 }}
-          text={errors.root.message}
-          type="error"
-        />
-      )}
-      {allowListErrors &&
-        allowListErrors.map((allowListError) => (
+      <div slot="body">
+        {errors.root && (
           <NotificationBanner
-            key={allowListError.reason}
             style={{ marginBottom: Spacing.S16 }}
-            text={allowListError.reason}
+            text={errors.root.message}
             type="error"
           />
-        ))}
-      <Typography marginBottom={4} variant="body1">
-        {isDefaultDB
-          ? ACCESS_CONTROLS_DRAWER_TEXT
-          : ACCESS_CONTROLS_DRAWER_TEXT_LEGACY}{' '}
-        <Link to={learnMoreLink}>Learn more</Link>.
-      </Typography>
-      <FormProvider {...form}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Controller
-            control={control}
-            name="allow_list"
-            render={({ field }) => (
-              <MultipleIPInput
-                aria-label="Allowed IP Addresses or Ranges"
-                buttonText={
-                  field.value && field.value.length > 0
-                    ? 'Add Another IP'
-                    : 'Add an IP'
-                }
-                forDatabaseAccessControls
-                inputProps={{ autoFocus: true }}
-                ips={field.value}
-                onBlur={handleValidateIPs}
-                onChange={field.onChange}
-                placeholder={
-                  isDefaultDB ? ipV6FieldPlaceholder : ipFieldPlaceholder
-                }
-                title="Allowed IP Addresses or Ranges"
-              />
-            )}
-          />
-          <ActionsPanel
-            primaryButtonProps={{
-              disabled: !isDirty,
-              label: 'Update Access Controls',
-              loading: isSubmitting,
-              type: 'submit',
-            }}
-            secondaryButtonProps={{
-              label: 'Cancel',
-              onClick: onClose,
-            }}
-          />
-        </form>
-      </FormProvider>
+        )}
+        {allowListErrors &&
+          allowListErrors.map((allowListError) => (
+            <NotificationBanner
+              key={allowListError.reason}
+              style={{ marginBottom: Spacing.S16 }}
+              text={allowListError.reason}
+              type="error"
+            />
+          ))}
+        <Typography marginBottom={4} variant="body1">
+          {isDefaultDB
+            ? ACCESS_CONTROLS_DRAWER_TEXT
+            : ACCESS_CONTROLS_DRAWER_TEXT_LEGACY}{' '}
+          <Link to={learnMoreLink}>Learn more</Link>.
+        </Typography>
+        <FormProvider {...form}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+              control={control}
+              name="allow_list"
+              render={({ field }) => (
+                <MultipleIPInput
+                  aria-label="Allowed IP Addresses or Ranges"
+                  buttonText={
+                    field.value && field.value.length > 0
+                      ? 'Add Another IP'
+                      : 'Add an IP'
+                  }
+                  forDatabaseAccessControls
+                  inputProps={{ autoFocus: true }}
+                  ips={field.value}
+                  onBlur={handleValidateIPs}
+                  onChange={field.onChange}
+                  placeholder={
+                    isDefaultDB ? ipV6FieldPlaceholder : ipFieldPlaceholder
+                  }
+                  title="Allowed IP Addresses or Ranges"
+                />
+              )}
+            />
+            <DrawerActions>
+              <Button onClick={onClose} variant="secondary">
+                Cancel
+              </Button>
+              <Button
+                disabled={!isDirty}
+                processing={isSubmitting}
+                type="submit"
+                variant="primary"
+              >
+                Update Access Controls
+              </Button>
+            </DrawerActions>
+          </form>
+        </FormProvider>
+      </div>
     </Drawer>
   );
 };

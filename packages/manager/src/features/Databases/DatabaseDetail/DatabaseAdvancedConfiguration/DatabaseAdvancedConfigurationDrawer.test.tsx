@@ -222,9 +222,10 @@ describe('DatabaseAdvancedConfigurationDrawer', () => {
       },
     });
 
-    const saveBtn = screen.getByRole('button', { name: 'Save' });
-    expect(saveBtn).toBeDisabled();
-    expect(saveBtn).toBeVisible();
+    const saveBtn = screen.getByText('Save');
+    const actualSaveButton = await getShadowRootElement(saveBtn, 'button');
+    expect(actualSaveButton).toBeDisabled();
+    expect(actualSaveButton).toBeVisible();
 
     const input = screen.getAllByRole('combobox')[1];
     expect(input).toHaveAttribute('value', 'off');
@@ -233,7 +234,7 @@ describe('DatabaseAdvancedConfigurationDrawer', () => {
     const option = await screen.findByText('quorum');
     await userEvent.click(option);
     expect(input).toHaveAttribute('value', 'quorum');
-    expect(saveBtn).toBeEnabled();
+    expect(actualSaveButton).toBeEnabled();
   });
 
   it('should display a badge if the option requires a restart and update the save button if the option is updated', async () => {
@@ -273,11 +274,15 @@ describe('DatabaseAdvancedConfigurationDrawer', () => {
     await userEvent.click(switchControl!);
     expect(switchControl).toHaveAttribute('aria-checked', 'false');
 
-    const saveAndRestartBtn = screen.getByRole('button', {
-      name: 'Save and Restart Service',
-    });
-    expect(saveAndRestartBtn).toBeEnabled();
-    expect(saveAndRestartBtn).toBeVisible();
+    const saveAndRestartBtn = screen.getByText('Save and Restart Service');
+    const actualSaveAndRestartButton = await getShadowRootElement(
+      saveAndRestartBtn,
+      'button'
+    );
+    expect(actualSaveAndRestartButton).toBeDefined();
+    expect(actualSaveAndRestartButton).not.toBeNull();
+    expect(actualSaveAndRestartButton).toBeEnabled();
+    expect(actualSaveAndRestartButton).toBeVisible();
   });
 
   it('should display inline form errors', async () => {
@@ -313,9 +318,14 @@ describe('DatabaseAdvancedConfigurationDrawer', () => {
       ]),
     });
 
-    const saveBtn = screen.getByRole('button', { name: 'Save' });
-    expect(saveBtn).toBeDisabled();
-    expect(saveBtn).toBeVisible();
+    const saveBtn = screen.getByText('Save');
+    const actualSaveButton = await getShadowRootElement(saveBtn, 'button');
+
+    expect(actualSaveButton).toBeDefined();
+    expect(actualSaveButton).not.toBeNull();
+
+    expect(actualSaveButton).toBeDisabled();
+    expect(actualSaveButton).toBeVisible();
 
     const input = screen.getAllByRole('combobox')[1];
     await userEvent.click(input);
@@ -324,7 +334,7 @@ describe('DatabaseAdvancedConfigurationDrawer', () => {
     const option = await screen.findByText('quorum');
     await userEvent.click(option);
     expect(input).toHaveAttribute('value', 'quorum');
-    await userEvent.click(saveBtn);
+    await userEvent.click(actualSaveButton!);
 
     const error = screen.getByText(
       'synchronous_replication is only supported for clusters with 3 nodes'

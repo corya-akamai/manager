@@ -3,7 +3,7 @@ import { Button, NotificationBanner } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDatabaseEngineConfig, useDatabaseMutation } from '@linode/queries';
-import { ActionsPanel, Stack, Typography } from '@linode/ui';
+import { Stack, Typography } from '@linode/ui';
 import { scrollErrorIntoViewV2 } from '@linode/utilities';
 import { createDynamicAdvancedConfigSchema } from '@linode/validation';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -19,6 +19,7 @@ import {
 import { CircleProgress } from '../../shared/CircleProgress/CircleProgress';
 import { Divider } from '../../shared/Divider/Divider';
 import { Drawer } from '../../shared/Drawer';
+import { DrawerActions } from '../../shared/DrawerActions';
 import { DatabaseConfigurationItem } from './DatabaseConfigurationItem';
 import { DatabaseConfigurationSelect } from './DatabaseConfigurationSelect';
 import {
@@ -157,99 +158,105 @@ export const DatabaseAdvancedConfigurationDrawer = (props: Props) => {
   return (
     <Drawer onClose={handleClose} open={open}>
       <span slot="header">Advanced Configuration</span>
-      <form onSubmit={handleSubmit(onSubmit)} ref={formContainerRef}>
-        {errors.root?.message && (
-          <NotificationBanner
-            style={{ marginBottom: Spacing.S16, marginTop: Spacing.S16 }}
-            type="error"
-          >
-            {errors.root.message}
-          </NotificationBanner>
-        )}
-        <Typography>
-          Advanced parameters to configure your database cluster.
-        </Typography>
-        <Link to={ADVANCED_CONFIG_LEARN_MORE_LINK}>Learn more.</Link>
-
-        <NotificationBanner
-          style={{ marginBottom: Spacing.S8, marginTop: Spacing.S24 }}
-          type="info"
-        >
-          <Typography>{ADVANCED_CONFIG_INFO}</Typography>
-        </NotificationBanner>
-
-        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-          <DatabaseConfigurationSelect
-            configurations={availableConfigurations}
-            errorText={undefined}
-            label={selectedConfig?.label ?? ''}
-            onChange={(config) => setSelectedConfig(config)}
-          />
-          <Button
-            data-testid="add-config"
-            disabled={!selectedConfig}
-            onClick={() => handleAddConfiguration(selectedConfig)}
-            style={{ minWidth: 'auto', width: '100px', marginLeft: Spacing.S8 }}
-            title="Add"
-            variant="primary"
-          >
-            Add
-          </Button>
-        </div>
-        <Divider marginBottom={Spacing.S20} marginTop={Spacing.S24} />
-        {isLoading && (
-          <Stack alignItems="center" height="100%" justifyContent="center">
-            <CircleProgress
-              size="small"
-              style={{ flex: 'none', height: 'auto', margin: 0 }}
-            />
-          </Stack>
-        )}
-        {!isLoading && configs.length === 0 && (
-          <Typography align="center">
-            No advanced configurations have been added.
+      <div slot="body">
+        <form onSubmit={handleSubmit(onSubmit)} ref={formContainerRef}>
+          {errors.root?.message && (
+            <NotificationBanner
+              style={{ marginBottom: Spacing.S16, marginTop: Spacing.S16 }}
+              type="error"
+            >
+              {errors.root.message}
+            </NotificationBanner>
+          )}
+          <Typography>
+            Advanced parameters to configure your database cluster.
           </Typography>
-        )}
-        {configs.map((config, index) => (
-          <Controller
-            control={control}
-            key={config.label}
-            name={`configs.${index}.value`}
-            render={({ field, fieldState }) => {
-              const configName = isTopLevelCategory(config.category)
-                ? `engine_config.${config.label}`
-                : `engine_config.${config.category}.${config.label}`;
-              return (
-                <DatabaseConfigurationItem
-                  configItem={config}
-                  errorText={
-                    fieldState.error?.message ||
-                    get(errors, configName)?.message
-                  }
-                  onBlur={field.onBlur}
-                  onChange={field.onChange}
-                  onRemove={() => handleRemoveConfig(index)}
-                />
-              );
-            }}
-          />
-        ))}
-        <Divider marginBottom={Spacing.S20} marginTop={Spacing.S24} />
-        <ActionsPanel
-          primaryButtonProps={{
-            disabled: !isDirty,
-            label: getSaveBtnLabel(configs, existingConfigurations),
-            loading: isUpdating,
-            type: 'submit',
-            title: 'Save',
-          }}
-          secondaryButtonProps={{
-            label: 'Cancel',
-            onClick: handleClose,
-            title: 'Cancel',
-          }}
-        />
-      </form>
+          <Link to={ADVANCED_CONFIG_LEARN_MORE_LINK}>Learn more.</Link>
+
+          <NotificationBanner
+            style={{ marginBottom: Spacing.S8, marginTop: Spacing.S24 }}
+            type="info"
+          >
+            <Typography>{ADVANCED_CONFIG_INFO}</Typography>
+          </NotificationBanner>
+
+          <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+            <DatabaseConfigurationSelect
+              configurations={availableConfigurations}
+              errorText={undefined}
+              label={selectedConfig?.label ?? ''}
+              onChange={(config) => setSelectedConfig(config)}
+            />
+            <Button
+              data-testid="add-config"
+              disabled={!selectedConfig}
+              onClick={() => handleAddConfiguration(selectedConfig)}
+              style={{
+                minWidth: 'auto',
+                width: '100px',
+                marginLeft: Spacing.S8,
+              }}
+              title="Add"
+              variant="primary"
+            >
+              Add
+            </Button>
+          </div>
+          <Divider marginBottom={Spacing.S20} marginTop={Spacing.S24} />
+          {isLoading && (
+            <Stack alignItems="center" height="100%" justifyContent="center">
+              <CircleProgress
+                size="small"
+                style={{ flex: 'none', height: 'auto', margin: 0 }}
+              />
+            </Stack>
+          )}
+          {!isLoading && configs.length === 0 && (
+            <Typography align="center">
+              No advanced configurations have been added.
+            </Typography>
+          )}
+          {configs.map((config, index) => (
+            <Controller
+              control={control}
+              key={config.label}
+              name={`configs.${index}.value`}
+              render={({ field, fieldState }) => {
+                const configName = isTopLevelCategory(config.category)
+                  ? `engine_config.${config.label}`
+                  : `engine_config.${config.category}.${config.label}`;
+                return (
+                  <DatabaseConfigurationItem
+                    configItem={config}
+                    errorText={
+                      fieldState.error?.message ||
+                      get(errors, configName)?.message
+                    }
+                    onBlur={field.onBlur}
+                    onChange={field.onChange}
+                    onRemove={() => handleRemoveConfig(index)}
+                  />
+                );
+              }}
+            />
+          ))}
+          <Divider marginBottom={Spacing.S20} marginTop={Spacing.S24} />
+          <DrawerActions>
+            <Button onClick={handleClose} title="Cancel" variant="secondary">
+              Cancel
+            </Button>
+            <Button
+              disabled={!isDirty}
+              processing={isUpdating}
+              title="Save"
+              type="submit"
+              variant="primary"
+            >
+              {getSaveBtnLabel(configs, existingConfigurations)}
+            </Button>
+          </DrawerActions>
+        </form>
+      </div>
     </Drawer>
   );
 };

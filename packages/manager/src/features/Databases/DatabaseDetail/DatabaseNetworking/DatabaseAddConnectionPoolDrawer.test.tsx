@@ -78,9 +78,13 @@ describe('DatabaseAddConnectionPoolDrawer Component', () => {
     // Fill out and submit the form
     const poolLabelInput = await getTextFieldInputById('poolLabel');
     const addPoolBtn = screen.getByText(addPoolBtnText);
+    const actualAddPoolButton = await getShadowRootElement(
+      addPoolBtn,
+      'button'
+    );
     expect(poolLabelInput).toBeTruthy();
     await userEvent.type(poolLabelInput!, expectedPayloadValues.label);
-    await userEvent.click(addPoolBtn);
+    await userEvent.click(actualAddPoolButton!);
     // Test that the mutation was called with expected payload
     expect(
       queryMocks.useCreateDatabaseConnectionPoolMutation().mutateAsync
@@ -104,9 +108,13 @@ describe('DatabaseAddConnectionPoolDrawer Component', () => {
     // Fill out and submit the form
     const poolLabelInput = await getTextFieldInputById('poolLabel');
     const addPoolBtn = screen.getByText(addPoolBtnText);
+    const actualAddPoolButton = await getShadowRootElement(
+      addPoolBtn,
+      'button'
+    );
     expect(poolLabelInput).toBeTruthy();
     await userEvent.type(poolLabelInput!, 'test-pool');
-    await userEvent.click(addPoolBtn);
+    await userEvent.click(actualAddPoolButton!);
 
     // CDS NotificationBanner renders copy inside shadow DOM (not visible to findByText)
     await waitFor(() => {
@@ -140,9 +148,13 @@ describe('DatabaseAddConnectionPoolDrawer Component', () => {
     // Fill out and submit the form
     const poolLabelInput = await getTextFieldInputById('poolLabel');
     const addPoolBtn = screen.getByText(addPoolBtnText);
+    const actualAddPoolButton = await getShadowRootElement(
+      addPoolBtn,
+      'button'
+    );
     expect(poolLabelInput).toBeTruthy();
     await userEvent.type(poolLabelInput!, 'test-pool');
-    await userEvent.click(addPoolBtn);
+    await userEvent.click(actualAddPoolButton!);
 
     // Check that inline errors are displayed
     const labelError = await screen.findByText(

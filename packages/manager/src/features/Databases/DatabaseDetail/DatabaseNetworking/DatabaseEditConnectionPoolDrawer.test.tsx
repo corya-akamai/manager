@@ -131,7 +131,10 @@ describe('DatabaseEditConnectionPoolDrawer Component', () => {
     await userEvent.click(poolModeSelect);
     await userEvent.click(screen.getByText('Statement'));
     const saveBtn = screen.getByText('Save');
-    await userEvent.click(saveBtn);
+    const actualSaveButton = await getShadowRootElement(saveBtn, 'button');
+    expect(actualSaveButton).toBeDefined();
+    expect(actualSaveButton).not.toBeNull();
+    await userEvent.click(actualSaveButton!);
 
     // CDS NotificationBanner renders copy inside shadow DOM (not visible to getByText)
     await waitFor(() => {
@@ -160,7 +163,8 @@ describe('DatabaseEditConnectionPoolDrawer Component', () => {
     await userEvent.click(poolModeSelect);
     await userEvent.click(screen.getByText('Statement'));
     const saveBtn = screen.getByText('Save');
-    await userEvent.click(saveBtn);
+    const actualSaveButton = await getShadowRootElement(saveBtn, 'button');
+    await userEvent.click(actualSaveButton!);
 
     // Check that inline errors are displayed
     const sizeError = screen.getByText('Size error message');
