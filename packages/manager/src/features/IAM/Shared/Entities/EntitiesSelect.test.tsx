@@ -218,7 +218,7 @@ describe('Entities', () => {
         document.querySelectorAll('cds-notification-banner')
       );
       const hasErrorBanner = banners.some((banner) =>
-        (banner.shadowRoot?.textContent ?? '').includes(errorMessage)
+        (banner.textContent ?? '').includes(errorMessage)
       );
 
       expect(hasErrorBanner).toBe(true);

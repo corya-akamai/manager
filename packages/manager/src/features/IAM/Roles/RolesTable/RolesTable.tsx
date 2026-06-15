@@ -18,7 +18,7 @@ import {
 } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { capitalizeAllWords } from '@akamai/compute-ui-core/formatting';
-import { Hidden, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import { useLocation, useNavigate, useSearch } from '@tanstack/react-router';
 import React, { useState } from 'react';
 import { debounce } from 'throttle-debounce';
@@ -33,6 +33,7 @@ import {
 } from 'src/features/IAM/Shared/utilities';
 import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 
+import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { useDelegationRole } from '../../hooks/useDelegationRole';
 import { usePermissions } from '../../hooks/usePermissions';
 import { Box } from '../../Shared/Box/Box';
@@ -44,9 +45,8 @@ import {
 import { Link } from '../../Shared/Link/Link';
 import { Paper } from '../../Shared/Paper/Paper';
 
-import type { RoleView } from '../../Shared/types';
+import type { RoleView, SelectOption } from '../../Shared/types';
 import type { Order } from '@akamai/cds-components/react/Table';
-import type { SelectOption } from '@linode/ui';
 
 const ALL_ROLES_OPTION: SelectOption = {
   label: 'All Roles',
@@ -69,6 +69,7 @@ interface Props {
 const DEFAULT_PAGE_SIZE = 10;
 
 export const RolesTable = ({ roles = [] }: Props) => {
+  const isSmUp = useBreakpoint('up', 'sm');
   const navigate = useNavigate();
   const location = useLocation();
   const { query } = useSearch({
@@ -206,7 +207,6 @@ export const RolesTable = ({ roles = [] }: Props) => {
             spacing={2}
             style={{
               alignItems: 'center',
-              flexShrink: 0,
               justifyContent: 'flex-start',
             }}
           >
@@ -287,7 +287,7 @@ export const RolesTable = ({ roles = [] }: Props) => {
               >
                 Role
               </TableHeaderCell>
-              <Hidden smDown>
+              {isSmUp && (
                 <TableHeaderCell
                   onSort={(event) => handleSort(event, 'access')}
                   sortable
@@ -299,8 +299,8 @@ export const RolesTable = ({ roles = [] }: Props) => {
                 >
                   Role Type
                 </TableHeaderCell>
-              </Hidden>
-              <Hidden smDown>
+              )}
+              {isSmUp && (
                 <TableHeaderCell
                   style={{
                     minWidth: COLUMN_WIDTHS.description,
@@ -309,7 +309,7 @@ export const RolesTable = ({ roles = [] }: Props) => {
                 >
                   Description
                 </TableHeaderCell>
-              </Hidden>
+              )}
               <TableHeaderCell
                 style={{
                   minWidth: COLUMN_WIDTHS.actions,
@@ -353,7 +353,7 @@ export const RolesTable = ({ roles = [] }: Props) => {
                   >
                     {roleRow.name}
                   </TableCell>
-                  <Hidden smDown>
+                  {isSmUp && (
                     <TableCell
                       style={{
                         minWidth: COLUMN_WIDTHS.access,
@@ -362,8 +362,8 @@ export const RolesTable = ({ roles = [] }: Props) => {
                     >
                       {capitalizeAllWords(roleRow.access, '_')}
                     </TableCell>
-                  </Hidden>
-                  <Hidden smDown>
+                  )}
+                  {isSmUp && (
                     <TableCell
                       style={{
                         minWidth: COLUMN_WIDTHS.description,
@@ -379,7 +379,7 @@ export const RolesTable = ({ roles = [] }: Props) => {
                         </Typography>
                       )}
                     </TableCell>
-                  </Hidden>
+                  )}
                   <TableCell
                     style={{
                       justifyContent: 'flex-end',

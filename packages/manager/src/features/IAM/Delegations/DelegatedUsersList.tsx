@@ -1,6 +1,5 @@
 import { Button, Tooltip } from '@akamai/cds-components/react';
 import { Font } from '@akamai/cds-tokens';
-import { Box } from '@linode/ui';
 import * as React from 'react';
 
 import { SingleRowTruncatedList } from '../Shared/SingleRowTruncatedList/SingleRowTruncatedList';
@@ -24,17 +23,16 @@ export const DelegatedUsersList = ({ onViewAll, users }: Props) => {
   );
 
   const items = usersToRender.map((user, index) => (
-    <Box
-      component="span"
+    <span
       key={user}
-      sx={{
+      style={{
         font: Font.FontSize.M,
         whiteSpace: 'nowrap',
       }}
     >
       {index > 0 ? ', ' : ''}
       {user}
-    </Box>
+    </span>
   ));
 
   const phantomLabel = `+${users.length}`;

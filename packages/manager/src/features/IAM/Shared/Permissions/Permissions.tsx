@@ -1,9 +1,10 @@
+import { Spacing } from '@akamai/cds-tokens';
 import { sortByString } from '@akamai/compute-ui-core/formatting';
 import { Typography } from '@linode/ui';
 import * as React from 'react';
 
 import { Box } from '../Box/Box';
-import { TruncatedList } from '../TruncatedList';
+import { TruncatedList } from '../TruncatedList/TruncatedList';
 import { StyledPermissionItem, StyledTitle } from './Permissions.style';
 
 import type { PermissionType } from '@linode/api-v4/lib/iam/types';
@@ -29,9 +30,7 @@ export const Permissions = React.memo(({ permissions }: Props) => {
       ) : (
         <TruncatedList
           dataTestId="container"
-          listContainerSx={(theme) => ({
-            marginLeft: `-${theme.spacingFunction(6)}`,
-          })}
+          listContainerStyle={{ marginLeft: `-${Spacing.S6}` }}
         >
           {sortedPermissions.map((permission: PermissionType) => (
             <StyledPermissionItem data-testid="permission" key={permission}>

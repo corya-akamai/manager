@@ -36,8 +36,8 @@ import { CreateUserDrawer } from './CreateUserDrawer';
 import { UsersLandingTableBody } from './UsersLandingTableBody';
 import { UsersLandingTableHead } from './UsersLandingTableHead';
 
+import type { SelectOption } from '../../Shared/types';
 import type { Filter } from '@linode/api-v4';
-import type { SelectOption } from '@linode/ui';
 
 const ALL_USERS_OPTION: SelectOption = {
   label: 'All User Types',

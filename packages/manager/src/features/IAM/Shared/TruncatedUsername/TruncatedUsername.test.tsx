@@ -1,14 +1,14 @@
-import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
+import { getCdsTooltipHostByText } from '../../utilities/testHelpers';
 import { TruncatedUsername } from './TruncatedUsername';
 
 describe('TruncatedUsername', () => {
   it('should render the truncated username and tooltip if it exceeds the max length', async () => {
-    const { getByText, getByRole } = renderWithTheme(
+    const { getByText } = renderWithTheme(
       <TruncatedUsername username="a-very-long-username-that-exceeds-thirty-two-characters" />
     );
 
@@ -18,13 +18,12 @@ describe('TruncatedUsername', () => {
 
     await userEvent.hover(text);
 
-    await waitFor(() => {
-      expect(getByRole('tooltip')).toBeInTheDocument();
-    });
-
-    expect(getByRole('tooltip')).toHaveTextContent(
-      'a-very-long-username-that-exceeds-thirty-two-characters'
-    );
+    expect(
+      getCdsTooltipHostByText(
+        document,
+        'a-very-long-username-that-exceeds-thirty-two-characters'
+      )
+    ).toBeDefined();
   });
 
   it('should render the full username if it does not exceed the max length', () => {

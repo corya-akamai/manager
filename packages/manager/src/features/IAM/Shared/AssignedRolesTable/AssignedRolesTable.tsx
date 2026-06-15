@@ -57,13 +57,13 @@ import type {
   EntitiesRole,
   ExtendedRoleView,
   RoleView,
+  SelectOption,
 } from '../types';
 import type {
   AccessType,
   AccountRoleType,
   EntityRoleType,
 } from '@linode/api-v4';
-import type { SelectOption } from '@linode/ui';
 
 type OrderByKeys = 'name';
 

@@ -16,6 +16,7 @@ import type {
   ExtendedRoleView,
   FilteredRolesOptions,
   RoleView,
+  SelectOption,
 } from './types';
 import type {
   AccessType,
@@ -31,7 +32,6 @@ import type {
   IamUserRoles,
   Roles,
 } from '@linode/api-v4';
-import type { SelectOption } from '@linode/ui';
 
 export const getFilteredRoles = (options: FilteredRolesOptions) => {
   const { entityType, getSearchableFields, query, roles } = options;

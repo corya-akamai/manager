@@ -3,11 +3,13 @@ import React from 'react';
 
 import { accountRolesFactory } from 'src/factories/accountRoles';
 import { expectNotificationBannerText } from 'src/features/IAM/utilities/testHelpers';
-import { renderWithTheme } from 'src/utilities/testHelpers';
+import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
 import { RolesLanding } from './Roles';
 
 const DEFAULT_ROLES_PANEL_TEXT = 'Default Roles for Delegate Users';
+
+beforeAll(() => mockMatchMedia());
 
 const queryMocks = vi.hoisted(() => ({
   useAccountRoles: vi.fn().mockReturnValue({}),

@@ -1,4 +1,5 @@
 import {
+  Badge,
   Icon,
   TableCell,
   TableRow,
@@ -6,7 +7,7 @@ import {
 } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { capitalize, truncateEnd } from '@akamai/compute-ui-core/formatting';
-import { Chip, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import React from 'react';
 
 import { usePermissions } from '../../hooks/usePermissions';
@@ -85,7 +86,11 @@ export const UserRow = ({ onDelete, user }: Props) => {
               </Typography>
             </Tooltip>
           </MaskableText>
-          {user.tfa_enabled && <Chip color="success" label="2FA" />}
+          {user.tfa_enabled && (
+            <Badge color="green" variant="solid">
+              2FA
+            </Badge>
+          )}
         </Box>
       </TableCell>
       {showUserType && (

@@ -1,11 +1,11 @@
 import {
+  Badge,
   Breadcrumb,
   BreadcrumbItem,
   Tab,
   Tabs,
 } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
-import { NewFeatureChip } from '@linode/ui';
 import { Outlet, useLocation, useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 
@@ -65,7 +65,7 @@ export const IdentityAccessLanding = React.memo(() => {
         <Breadcrumb>
           <BreadcrumbItem>
             Identity and Access
-            {showNewBadge ? <NewFeatureChip /> : null}
+            {showNewBadge ? <Badge type="new">New</Badge> : null}
           </BreadcrumbItem>
         </Breadcrumb>
         <DocsLink

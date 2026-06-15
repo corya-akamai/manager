@@ -38,9 +38,8 @@ import { AssignedEntitiesTableBody } from './AssignedEntitiesTableBody';
 import { AssignedEntitiesTableHead } from './AssignedEntitiesTableHead';
 import { ChangeRoleForEntityDrawer } from './ChangeRoleForEntityDrawer';
 
-import type { DrawerModes, EntitiesRole } from '../types';
+import type { DrawerModes, EntitiesRole, SelectOption } from '../types';
 import type { EntityType } from '@linode/api-v4';
-import type { SelectOption } from '@linode/ui';
 
 const ALL_ENTITIES_OPTION: SelectOption = {
   label: 'All Entities',

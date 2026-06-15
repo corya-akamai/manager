@@ -1,6 +1,5 @@
-import { TableCell, TableRow } from '@akamai/cds-components/react';
+import { Icon, TableCell, TableRow } from '@akamai/cds-components/react';
 import { useProfile } from '@linode/queries';
-import { WarningIcon } from '@linode/ui';
 import React from 'react';
 
 import { CircleProgress } from '../../Shared/CircleProgress/CircleProgress';
@@ -49,9 +48,10 @@ export const UsersLandingTableBody = (props: Props) => {
           <p style={{ width: '100%' }}>
             {profile?.restricted ? (
               <>
-                <WarningIcon
-                  style={{ position: 'relative', top: 2, marginRight: 4 }}
-                  width={16}
+                <Icon
+                  icon="status-alert-filled"
+                  size="s"
+                  style={{ verticalAlign: 'sub' }}
                 />{' '}
                 You do not have permission to list users.
               </>

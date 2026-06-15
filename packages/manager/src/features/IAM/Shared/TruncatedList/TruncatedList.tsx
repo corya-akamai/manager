@@ -3,9 +3,7 @@ import { Spacing } from '@akamai/cds-tokens';
 import React, { useCallback, useLayoutEffect, useRef } from 'react';
 import { debounce } from 'throttle-debounce';
 
-import { StyledTruncatedList } from './TruncatedList.styles';
-
-import type { SxProps, Theme } from '@mui/material';
+import styles from './TruncatedList.module.css';
 
 export interface TruncatedListProps {
   addEllipsis?: boolean;
@@ -15,7 +13,7 @@ export interface TruncatedListProps {
   dataTestId?: string;
   expandText?: string;
   justifyOverflowButtonRight?: boolean;
-  listContainerSx?: SxProps<Theme>;
+  listContainerStyle?: React.CSSProperties;
 }
 
 type OverflowButtonProps = {
@@ -45,7 +43,7 @@ export const TruncatedList = (props: TruncatedListProps) => {
     dataTestId,
     expandText = 'Expand',
     justifyOverflowButtonRight = false,
-    listContainerSx,
+    listContainerStyle,
   } = props;
   const [showAll, setShowAll] = React.useState(false);
 
@@ -206,11 +204,11 @@ export const TruncatedList = (props: TruncatedListProps) => {
 
   if (showAll) {
     return (
-      <StyledTruncatedList
-        className="expanded"
+      <ul
+        className={`${styles.truncatedList} ${styles.expanded}`}
         data-testid={dataTestId}
         ref={expandedRef}
-        sx={listContainerSx}
+        style={listContainerStyle}
       >
         {childArray.map((item, i) => (
           <li
@@ -227,7 +225,7 @@ export const TruncatedList = (props: TruncatedListProps) => {
             onClick={handleToggle}
           />
         </li>
-      </StyledTruncatedList>
+      </ul>
     );
   }
 
@@ -248,10 +246,11 @@ export const TruncatedList = (props: TruncatedListProps) => {
 
   return (
     <div>
-      <StyledTruncatedList
+      <ul
+        className={styles.truncatedList}
         data-testid={dataTestId}
         ref={containerRef}
-        sx={listContainerSx}
+        style={listContainerStyle}
       >
         {showAll ? null : (
           <>
@@ -265,7 +264,7 @@ export const TruncatedList = (props: TruncatedListProps) => {
             </li>
           </>
         )}
-      </StyledTruncatedList>
+      </ul>
     </div>
   );
 };

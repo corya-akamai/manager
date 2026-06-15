@@ -164,11 +164,9 @@ export const EntitiesSelect = ({
   return (
     <>
       {errorText && (
-        <NotificationBanner
-          style={{ marginBottom: Spacing.S20 }}
-          text={errorText}
-          type="error"
-        />
+        <NotificationBanner style={{ marginBottom: Spacing.S8 }} type="error">
+          {errorText}
+        </NotificationBanner>
       )}
       <div
         style={{
