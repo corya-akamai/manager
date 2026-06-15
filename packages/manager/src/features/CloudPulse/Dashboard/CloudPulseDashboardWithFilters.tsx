@@ -4,7 +4,9 @@ import { GridLegacy, IconButton } from '@mui/material';
 import { DateTime } from 'luxon';
 import React from 'react';
 
+import DownloadIcon from 'src/assets/icons/lke-download.svg';
 import Reload from 'src/assets/icons/refresh.svg';
+import { useFlags } from 'src/hooks/useFlags';
 import {
   useCloudPulseDashboardByIdQuery,
   useCloudPulseDashboardsQuery,
@@ -72,6 +74,8 @@ export const CloudPulseDashboardWithFilters = React.memo(
 const CloudPulseDashboardWithFiltersRenderer = React.memo(
   (props: CloudPulseDashboardWithFiltersProp) => {
     const { dashboardId, resource, region, serviceType } = props;
+
+    const flags = useFlags();
 
     const { setGlobalSelectedDashboard, setGlobalFilterData } =
       useCloudPulseContext();
@@ -261,6 +265,26 @@ const CloudPulseDashboardWithFiltersRenderer = React.memo(
                       <Reload height="24px" width="24px" />
                     </IconButton>
                   </CloudPulseTooltip>
+                  {flags.aclp?.enablePDFDownload && (
+                    <CloudPulseTooltip
+                      placement="bottom-end"
+                      title="Download PDF"
+                    >
+                      <IconButton
+                        aria-label="Download Dashboard PDF"
+                        color="inherit"
+                        data-testid="global-download-pdf"
+                        loading={false}
+                        size="small"
+                        sx={(theme) => ({
+                          marginBlockEnd: 'auto',
+                          marginTop: { md: theme.spacingFunction(28) },
+                        })}
+                      >
+                        <DownloadIcon height="24px" width="24px" />
+                      </IconButton>
+                    </CloudPulseTooltip>
+                  )}
                   <GlobalFilterGroupByRenderer
                     handleChange={handleGroupByChange}
                     selectedDashboard={currentDashboard}

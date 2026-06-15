@@ -113,6 +113,11 @@ interface AclpFlag {
   enabled: boolean;
 
   /**
+   * This property indicates whether to enable pdf download for charts
+   */
+  enablePDFDownload?: boolean;
+
+  /**
    * This property indicates whether to enable zoom in charts or not
    */
   enableZoomInCharts?: boolean;

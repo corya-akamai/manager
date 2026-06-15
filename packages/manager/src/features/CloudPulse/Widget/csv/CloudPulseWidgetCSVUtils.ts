@@ -76,7 +76,7 @@ type CSVData = CSVRow[];
  * @param timeZone The time zone to be applied when formatting the ISO string, used to ensure that the date and time values in the CSV are presented in the user's local time zone for better readability and relevance
  * @returns The formatted date and time string in the specified time zone
  */
-const formatDateTime = (iso: string, timeZone: string | undefined) => {
+export const formatDateTime = (iso: string, timeZone: string | undefined) => {
   const dateTime = DateTime.fromISO(iso).setZone(timeZone);
   return `${dateTime.toLocaleString(DateTime.DATETIME_MED)} ${dateTime.offsetNameShort}`;
 };
@@ -85,7 +85,7 @@ const formatDateTime = (iso: string, timeZone: string | undefined) => {
  * @param timeZone The time zone to be applied while formatting the timestamp
  * @returns The formatted data and time string in specified time zone
  */
-const formatTimestamp = (millis: number, timeZone: string | undefined) => {
+export const formatTimestamp = (millis: number, timeZone: string | undefined) => {
   const dateTime = DateTime.fromMillis(millis).setZone(timeZone);
   return dateTime.toLocaleString(DateTime.DATETIME_MED);
 };

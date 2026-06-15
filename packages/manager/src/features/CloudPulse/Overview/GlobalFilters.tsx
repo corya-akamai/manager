@@ -3,7 +3,9 @@ import { IconButton } from '@mui/material';
 import { GridLegacy } from '@mui/material';
 import * as React from 'react';
 
+import DownloadIcon from 'src/assets/icons/lke-download.svg';
 import Reload from 'src/assets/icons/refresh.svg';
+import { useFlags } from 'src/hooks/useFlags';
 import { useResourcesQuery } from 'src/queries/cloudpulse/resources';
 
 import { GlobalFilterGroupByRenderer } from '../GroupBy/GlobalFilterGroupByRenderer';
@@ -47,6 +49,8 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
     handleToggleAppliedFilter,
     handleGroupByChange,
   } = props;
+
+  const flags = useFlags();
 
   const { preferences, updateGlobalFilterPreference: updatePreferences } =
     useAclpPreference();
@@ -174,6 +178,22 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
                 <Reload height="24px" width="24px" />
               </IconButton>
             </CloudPulseTooltip>
+            {flags.aclp?.enablePDFDownload && (
+              <CloudPulseTooltip placement="bottom-end" title="Download PDF">
+                <IconButton
+                  aria-label="Download Dashboard PDF"
+                  color="inherit"
+                  data-testid="global-download-pdf"
+                  size="small"
+                  sx={(theme) => ({
+                    marginBlockEnd: 'auto',
+                    marginTop: { md: theme.spacingFunction(28) },
+                  })}
+                >
+                  <DownloadIcon height="24px" width="24px" />
+                </IconButton>
+              </CloudPulseTooltip>
+            )}
             <GlobalFilterGroupByRenderer
               handleChange={onGroupByChange}
               preferenceGroupBy={preferences?.[GROUP_BY]}
