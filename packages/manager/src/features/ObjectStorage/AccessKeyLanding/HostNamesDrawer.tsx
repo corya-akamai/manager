@@ -1,32 +1,55 @@
-import { Box, Drawer } from '@linode/ui';
+import { Box, CircleProgress, Drawer } from '@linode/ui';
 import * as React from 'react';
 
 import { CopyableTextField } from 'src/components/CopyableTextField/CopyableTextField';
 import { useObjectStorageRegions } from 'src/features/ObjectStorage/hooks/useObjectStorageRegions';
+import { useObjectStorageAccessKey } from 'src/queries/object-storage/queries';
 
 import { CopyAllHostnames } from './CopyAllHostnames';
 
-import type { ObjectStorageKey } from '@linode/api-v4';
-
 interface Props {
+  accessKeyId?: number;
   isOpen: boolean;
-  objectStorageKey?: ObjectStorageKey;
   onClose: () => void;
 }
 
 export const HostNamesDrawer = (props: Props) => {
-  const { onClose, isOpen, objectStorageKey } = props;
+  const { onClose, isOpen, accessKeyId } = props;
 
-  const { regionsByIdMap } = useObjectStorageRegions();
+  return (
+    <Drawer onClose={onClose} open={isOpen} title="Regions / S3 Hostnames">
+      <HostNamesDrawerContent accessKeyId={accessKeyId} />
+    </Drawer>
+  );
+};
 
-  const keyRegions = objectStorageKey?.regions || [];
+interface HostNamesDrawerContentProps {
+  accessKeyId?: number;
+}
+
+export const HostNamesDrawerContent = ({
+  accessKeyId,
+}: HostNamesDrawerContentProps) => {
+  const { data: objectStorageKey, isLoading: isAccessKeyLoading } =
+    useObjectStorageAccessKey(
+      accessKeyId ?? -1,
+      accessKeyId !== null && accessKeyId !== undefined
+    );
+  const { regionsByIdMap, isLoading: isStorageEndpointsLoading } =
+    useObjectStorageRegions();
+
+  if (isAccessKeyLoading || isStorageEndpointsLoading) {
+    return <CircleProgress />;
+  }
 
   if (!regionsByIdMap) {
     return null;
   }
 
+  const keyRegions = objectStorageKey?.regions ?? [];
+
   return (
-    <Drawer onClose={onClose} open={isOpen} title="Regions / S3 Hostnames">
+    <>
       <Box sx={(theme) => ({ marginTop: theme.spacing(3) })}>
         <CopyAllHostnames
           text={
@@ -42,6 +65,7 @@ export const HostNamesDrawer = (props: Props) => {
           }
         />
       </Box>
+
       <Box
         sx={(theme) => ({
           backgroundColor: theme.bg.main,
@@ -71,6 +95,6 @@ export const HostNamesDrawer = (props: Props) => {
           );
         })}
       </Box>
-    </Drawer>
+    </>
   );
 };

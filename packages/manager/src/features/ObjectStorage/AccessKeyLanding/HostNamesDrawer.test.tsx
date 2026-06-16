@@ -42,12 +42,17 @@ vi.mock('@linode/queries', async (importOriginal) => ({
   })),
 }));
 
+vi.mock('src/queries/object-storage/queries', async (importOriginal) => ({
+  ...(await importOriginal()),
+  useObjectStorageAccessKey: vi.fn(() => ({ data: mockAccessKey })),
+}));
+
 describe('HostNamesDrawer', () => {
   it('renders the drawer with regions and copyable text', () => {
     renderWithTheme(
       <HostNamesDrawer
+        accessKeyId={mockAccessKey.id}
         isOpen={true}
-        objectStorageKey={mockAccessKey}
         onClose={mockOnClose}
       />
     );
@@ -77,8 +82,8 @@ describe('HostNamesDrawer', () => {
   it('calls onClose when the drawer is closed', async () => {
     renderWithTheme(
       <HostNamesDrawer
+        accessKeyId={mockAccessKey.id}
         isOpen={true}
-        objectStorageKey={mockAccessKey}
         onClose={mockOnClose}
       />
     );
