@@ -4,14 +4,13 @@ import {
   FormLabel,
   NotificationBanner,
   Pagination,
-  SearchField,
 } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { useGetChildAccountsQuery } from '@linode/queries';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import React, { useCallback } from 'react';
-import { debounce } from 'throttle-debounce';
 
+import { DebouncedSearchField } from 'src/features/IAM/Shared/DebouncedSearchField/DebouncedSearchField';
 import globalStyles from 'src/features/IAM/Shared/global.module.css';
 import { useOrderV2 } from 'src/hooks/useOrderV2';
 import { usePaginationV2 } from 'src/hooks/usePaginationV2';
@@ -86,11 +85,6 @@ export const AccountDelegations = () => {
     [navigate, pagination]
   );
 
-  const debouncedHandleSearch = React.useMemo(
-    () => debounce(250, handleSearch),
-    [handleSearch]
-  );
-
   if (!permissions?.list_all_child_accounts) {
     return (
       <NotificationBanner
@@ -115,12 +109,10 @@ export const AccountDelegations = () => {
           Search Accounts
         </FormLabel>
 
-        <SearchField
+        <DebouncedSearchField
           id="filter-delegations"
           isLoading={isFetching}
-          onChange={(e: CustomEvent<{ value: string }>) =>
-            debouncedHandleSearch(e.detail.value)
-          }
+          onSearch={handleSearch}
           placeholder="Filter"
           style={{ padding: 0 }}
           value={company ?? ''}

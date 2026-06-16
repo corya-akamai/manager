@@ -5,7 +5,6 @@ import {
   FormLabel,
   Icon,
   Pagination,
-  SearchField,
   Select,
   Table,
   TableBody,
@@ -16,8 +15,8 @@ import { useAccountUsers } from '@linode/queries';
 import { getAPIFilterFromQuery } from '@linode/search';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import React from 'react';
-import { debounce } from 'throttle-debounce';
 
+import { DebouncedSearchField } from 'src/features/IAM/Shared/DebouncedSearchField/DebouncedSearchField';
 import globalStyles from 'src/features/IAM/Shared/global.module.css';
 import { useOrderV2 } from 'src/hooks/useOrderV2';
 import { usePaginationV2 } from 'src/hooks/usePaginationV2';
@@ -141,17 +140,20 @@ export const UsersLanding = () => {
     },
   });
 
-  const handleSearch = (value: string) => {
-    const nextQuery = value === '' ? undefined : String(value);
-    navigate({
-      to: '/iam/users',
-      search: (prev) => ({
-        ...prev,
-        query: nextQuery,
-        page: 1,
-      }),
-    });
-  };
+  const handleSearch = React.useCallback(
+    (value: string) => {
+      const nextQuery = value === '' ? undefined : String(value);
+      navigate({
+        to: '/iam/users',
+        search: (prev) => ({
+          ...prev,
+          query: nextQuery,
+          page: 1,
+        }),
+      });
+    },
+    [navigate]
+  );
 
   const handleDelete = (username: string) => {
     setIsDeleteDialogOpen(true);
@@ -167,11 +169,6 @@ export const UsersLanding = () => {
       pagination.handlePageChange(pagination.page - 1);
     }
   };
-
-  const debouncedHandleSearch = React.useMemo(
-    () => debounce(250, handleSearch),
-    [handleSearch]
-  );
 
   const canCreateUser = permissions.create_user;
 
@@ -200,12 +197,10 @@ export const UsersLanding = () => {
               >
                 Filter Users
               </FormLabel>
-              <SearchField
+              <DebouncedSearchField
                 disabled={!permissions?.view_user}
                 id="filter-users"
-                onChange={(e: CustomEvent<{ value: string }>) =>
-                  debouncedHandleSearch(e.detail.value)
-                }
+                onSearch={handleSearch}
                 placeholder="Filter"
                 value={query ?? ''}
               />

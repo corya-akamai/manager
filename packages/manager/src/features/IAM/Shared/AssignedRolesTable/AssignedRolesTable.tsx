@@ -4,7 +4,6 @@ import {
   FormLabel,
   Icon,
   Pagination,
-  SearchField,
   Select,
   Table,
   TableBody,
@@ -18,8 +17,8 @@ import {
 } from '@linode/queries';
 import { useNavigate, useParams, useSearch } from '@tanstack/react-router';
 import React from 'react';
-import { debounce } from 'throttle-debounce';
 
+import { DebouncedSearchField } from 'src/features/IAM/Shared/DebouncedSearchField/DebouncedSearchField';
 import globalStyles from 'src/features/IAM/Shared/global.module.css';
 import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 import { useAllAccountEntities } from 'src/queries/entities/entities';
@@ -289,11 +288,6 @@ export const AssignedRolesTable = () => {
     [navigate, isDefaultDelegationRolesForChildAccount, username]
   );
 
-  const debouncedOnSearch = React.useMemo(
-    () => debounce(250, onSearch),
-    [onSearch]
-  );
-
   if (accountPermissionsLoading || entitiesLoading || assignedRolesLoading) {
     return <CircleProgress />;
   }
@@ -339,11 +333,9 @@ export const AssignedRolesTable = () => {
             >
               Search Roles
             </FormLabel>
-            <SearchField
+            <DebouncedSearchField
               id="filter-roles"
-              onChange={(e: CustomEvent<{ value: string }>) =>
-                debouncedOnSearch(e.detail.value)
-              }
+              onSearch={onSearch}
               placeholder="Search"
               value={queryParam ?? ''}
             />

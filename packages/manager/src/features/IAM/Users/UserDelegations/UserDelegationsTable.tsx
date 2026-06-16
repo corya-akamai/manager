@@ -2,7 +2,6 @@ import {
   FormField,
   FormLabel,
   Pagination,
-  SearchField,
   Table,
   TableBody,
   TableCell,
@@ -15,9 +14,9 @@ import { useGetDelegatedChildAccountsForUserQuery } from '@linode/queries';
 import { Typography } from '@linode/ui';
 import { useNavigate, useParams, useSearch } from '@tanstack/react-router';
 import * as React from 'react';
-import { debounce } from 'throttle-debounce';
 
 import { NO_ITEMS_TO_DISPLAY_TEXT } from 'src/features/IAM/Shared/constants';
+import { DebouncedSearchField } from 'src/features/IAM/Shared/DebouncedSearchField/DebouncedSearchField';
 import { ErrorState } from 'src/features/IAM/Shared/ErrorState/ErrorState';
 import globalStyles from 'src/features/IAM/Shared/global.module.css';
 import { useOrderV2 } from 'src/hooks/useOrderV2';
@@ -91,11 +90,6 @@ export const UserDelegationsTable = () => {
     [navigate, pagination, username]
   );
 
-  const debouncedHandleSearch = React.useMemo(
-    () => debounce(250, handleSearch),
-    [handleSearch]
-  );
-
   if (isLoadingChildAccounts) {
     return <CircleProgress />;
   }
@@ -115,12 +109,10 @@ export const UserDelegationsTable = () => {
         >
           Search Accounts
         </FormLabel>
-        <SearchField
+        <DebouncedSearchField
           id="filter-delegations"
           isLoading={isFetchingChildAccounts}
-          onChange={(e: CustomEvent<{ value: string }>) =>
-            debouncedHandleSearch(e.detail.value)
-          }
+          onSearch={handleSearch}
           placeholder="Search"
           style={{ padding: 0 }}
           value={company ?? ''}

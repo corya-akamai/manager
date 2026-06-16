@@ -4,7 +4,6 @@ import {
   FormLabel,
   Icon,
   Pagination,
-  SearchField,
   Select,
   sortRows,
   Table,
@@ -21,11 +20,11 @@ import { capitalizeAllWords } from '@akamai/compute-ui-core/formatting';
 import { Typography } from '@linode/ui';
 import { useLocation, useNavigate, useSearch } from '@tanstack/react-router';
 import React, { useState } from 'react';
-import { debounce } from 'throttle-debounce';
 
 import { AssignSelectedRolesDrawer } from 'src/features/IAM/Roles/RolesTable/AssignSelectedRolesDrawer';
 import { RolesTableActionMenu } from 'src/features/IAM/Roles/RolesTable/RolesTableActionMenu';
 import { RolesTableExpandedRow } from 'src/features/IAM/Roles/RolesTable/RolesTableExpandedRow';
+import { DebouncedSearchField } from 'src/features/IAM/Shared/DebouncedSearchField/DebouncedSearchField';
 import globalStyles from 'src/features/IAM/Shared/global.module.css';
 import {
   getFacadeRoleDescription,
@@ -181,11 +180,6 @@ export const RolesTable = ({ roles = [] }: Props) => {
     pagination.handlePageSizeChange(newSize);
   };
 
-  const debouncedHandleSearch = React.useMemo(
-    () => debounce(250, handleTextFilter),
-    [handleTextFilter]
-  );
-
   return (
     <>
       <Paper
@@ -218,11 +212,9 @@ export const RolesTable = ({ roles = [] }: Props) => {
               >
                 Search Roles
               </FormLabel>
-              <SearchField
+              <DebouncedSearchField
                 id="filter-roles"
-                onChange={(e: CustomEvent<{ value: string }>) =>
-                  debouncedHandleSearch(e.detail.value)
-                }
+                onSearch={handleTextFilter}
                 placeholder="Search"
                 style={{ padding: 0 }}
                 value={query ?? ''}
