@@ -72,9 +72,9 @@ export const EditImageDetailsDrawer = (props: Props) => {
 
   return (
     <Drawer
+      closeButtonPendoId={EDIT_IMAGE_DETAILS_PENDO_IDS.xButton}
       onClose={handleClose}
       open={open}
-      pendoId={EDIT_IMAGE_DETAILS_PENDO_IDS.xButton}
       title="Edit Shared Image Details"
     >
       <form onSubmit={onSubmit}>

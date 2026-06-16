@@ -79,6 +79,22 @@ export const LinodeIPAddressSelection = ({ index }: Props) => {
             );
             setSelectedIP(ip);
           }}
+          pendoIds={{
+            // Pendo IDS for the Reserve IP selection
+            auto: 'Linodes Create OS Networking-Auto-assigned',
+            reserved: 'Linodes Create OS Networking-Reserved',
+            reserveIPLink:
+              'Linodes Create OS Networking Reserved-Reserve IP Start Flow',
+            reserveIPAutocomplete:
+              'Linodes Create OS Networking-Reserved IPs open',
+            reserveIPAutocompleteOptions:
+              'Linodes Create OS Networking-Reserved-IP Options',
+            // Pendo IDs for the Reserve IP Drawer
+            cancelReserveIPDrawer: 'Linodes Create OS Reserve IP-Cancel',
+            closeReserveIPDrawer: 'Linodes Create OS Reserve IP-Close',
+            submitReserveIPDrawer:
+              'Linodes Create OS Reserve IP-Reserve IP Address End Flow',
+          }}
           regionId={regionId ?? ''}
           selectedIP={selectedIP}
         />

@@ -69,11 +69,11 @@ export const AddMembersDrawer = (props: Props) => {
 
   return (
     <Drawer
+      closeButtonPendoId={ADD_MEMBERS_DRAWER_PENDO_IDS.xButton}
       error={shareGroupError}
       isFetching={isLoading}
       onClose={onClose}
       open={open}
-      pendoId={ADD_MEMBERS_DRAWER_PENDO_IDS.xButton}
       title="Add Members"
     >
       {formErrors?.root?.message && (

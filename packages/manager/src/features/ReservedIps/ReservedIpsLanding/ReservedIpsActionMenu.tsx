@@ -19,10 +19,12 @@ export const ReservedIpsActionMenu = ({ handlers, ip }: Props) => {
   const actions: Action[] = [
     {
       onClick: () => handlers.onEdit(ip),
+      pendoId: 'Reserved IPs Landing-Edit',
       title: 'Edit',
     },
     {
       onClick: () => handlers.onUnreserve(ip),
+      pendoId: 'Reserved IPs Landing-Unreserve Start Flow',
       title: 'Unreserve',
     },
   ];
@@ -31,6 +33,7 @@ export const ReservedIpsActionMenu = ({ handlers, ip }: Props) => {
     <ActionMenu
       actionsList={actions}
       ariaLabel={`Action menu for Reserved IP ${ip.address}`}
+      pendoId="Reserved IPs Landing-Action Menu"
     />
   );
 };

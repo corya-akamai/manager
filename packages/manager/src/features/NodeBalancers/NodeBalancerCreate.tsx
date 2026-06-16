@@ -770,6 +770,22 @@ const NodeBalancerCreate = () => {
                 setSelectedIP(ip);
                 setReservedIPError(undefined);
               }}
+              pendoIds={{
+                // Pendo IDS for the Reserve IP selection
+                auto: 'NodeBalancers Create Network-Auto-assigned',
+                reserved: 'NodeBalancers Create Network-Reserved',
+                reserveIPLink:
+                  'NodeBalancers Create Network Reserved-Reserve IP Start Flow',
+                reserveIPAutocomplete:
+                  'NodeBalancers Create Network-Reserved IPs open',
+                reserveIPAutocompleteOptions:
+                  'NodeBalancers Create Network-Reserved-IP Options',
+                // Pendo IDs for the Reserve IP Drawer
+                cancelReserveIPDrawer: 'NodeBalancers Create Reserve IP-Cancel',
+                closeReserveIPDrawer: 'NodeBalancers Create Reserve IP-Close',
+                submitReserveIPDrawer:
+                  'NodeBalancers Create Reserve IP-Reserve IP Address End Flow',
+              }}
               regionId={nodeBalancerFields.region ?? ''}
               selectedIP={selectedIP}
               tooltipText={{

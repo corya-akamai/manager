@@ -44,11 +44,11 @@ export const ViewImageDrawer = (props: Props) => {
 
   return (
     <Drawer
+      closeButtonPendoId={pendoIDs.xButton}
       error={imageError}
       isFetching={isFetching}
       onClose={onClose}
       open={open}
-      pendoId={pendoIDs.xButton}
       title={`View ${isSharedImage ? 'shared ' : ''}image details`}
     >
       <Stack spacing={2}>

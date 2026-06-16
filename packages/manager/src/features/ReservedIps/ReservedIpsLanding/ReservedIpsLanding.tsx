@@ -108,6 +108,11 @@ export const ReservedIpsLanding = () => {
           mode={drawerMode}
           onClose={closeDrawer}
           open={isDrawerOpen}
+          pendoIds={{
+            cancel: 'Reserved IPs Reserve IP-Cancel',
+            close: 'Reserved IPs Reserve IP-Close',
+            submit: 'Reserved IPs Reserve IP-Reserve IP Address End Flow',
+          }}
         />
       </>
     );
@@ -116,8 +121,12 @@ export const ReservedIpsLanding = () => {
   return (
     <>
       <LandingHeader
+        buttonDataAttrs={{
+          'data-pendo-id': 'Reserved IPs Landing-Reserve IP Address Start Flow',
+        }}
         createButtonText="Reserve an IP Address"
         docsLink={RESERVED_IPS_DOCS_LINK}
+        docsPendoId="Reserved IPs Landing-Docs"
         onButtonClick={() => openDrawer('create')}
         spacingBottom={16}
         title="Reserved IP Addresses"
@@ -136,6 +145,15 @@ export const ReservedIpsLanding = () => {
         mode={drawerMode}
         onClose={closeDrawer}
         open={isDrawerOpen}
+        pendoIds={
+          drawerMode !== 'edit'
+            ? {
+                cancel: 'Reserved IPs Reserve IP-Cancel',
+                close: 'Reserved IPs Reserve IP-Close',
+                submit: 'Reserved IPs Reserve IP-Reserve IP Address End Flow',
+              }
+            : undefined
+        }
       />
       {selectedIP && (
         <UnreserveIPDialog
