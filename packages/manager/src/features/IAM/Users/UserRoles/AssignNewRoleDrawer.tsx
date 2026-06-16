@@ -154,7 +154,6 @@ export const AssignNewRoleDrawer = ({
   return (
     <Drawer
       onClose={handleClose}
-      onSubmit={handleSubmit(onSubmit)}
       open={open}
       title={drawerTitle}
       width={isSMUp ? '600px' : '100%'}
