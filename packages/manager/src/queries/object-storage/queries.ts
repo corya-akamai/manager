@@ -266,6 +266,39 @@ export const useBucketsByRegionQueries = (
   });
 };
 
+export const useObjectStorageBucket = ({
+  bucketName,
+  enabled = true,
+  regionId,
+}: {
+  bucketName: string;
+  enabled: boolean;
+  regionId: string;
+}) => {
+  const queryClient = useQueryClient();
+
+  return useQuery<ObjectStorageBucket, APIError[]>({
+    ...objectStorageQueries.bucket(regionId, bucketName),
+    enabled,
+    initialData() {
+      const queries = queryClient.getQueriesData({
+        queryKey: objectStorageQueries.allBucketsInRegion(regionId).queryKey,
+      });
+
+      for (const [, data] of queries) {
+        const bucket = (data as ObjectStorageBucket[])?.find(
+          (bucket) => bucket.region === regionId && bucket.label === bucketName
+        );
+        if (bucket) {
+          return bucket;
+        }
+      }
+
+      return undefined;
+    },
+  });
+};
+
 export const useBucketAccess = (
   regionId: string,
   bucketName: string,

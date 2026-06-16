@@ -1,19 +1,11 @@
 import React from 'react';
 
-import { useObjectStorageBucket } from 'src/features/ObjectStorage/hooks/useObjectStorageBucket';
-
 import { BucketDetailsDrawer } from './BucketDetailsDrawer';
 import { useBucketDrawers } from './hooks/useBucketDrawers';
 import { CreateBucketDrawer } from './OMC_CreateBucketDrawer';
 
 export const BucketDrawerOutlet = () => {
   const { drawer, closeDrawer } = useBucketDrawers();
-
-  const { bucket } = useObjectStorageBucket({
-    regionId: drawer?.regionId ?? '',
-    bucketName: drawer?.bucketName ?? '',
-    enabled: Boolean(drawer?.regionId) && Boolean(drawer?.bucketName),
-  });
 
   return (
     <>
@@ -23,9 +15,10 @@ export const BucketDrawerOutlet = () => {
       />
 
       <BucketDetailsDrawer
-        bucket={bucket}
+        bucketName={drawer?.bucketName}
         isOpen={drawer?.type === 'bucket-details'}
         onClose={closeDrawer}
+        regionId={drawer?.regionId}
       />
     </>
   );
