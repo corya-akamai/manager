@@ -369,14 +369,16 @@ export const ImageSelectTable = (props: Props) => {
               ))}
           </TableBody>
         </Table>
-        <Pagination
-          count={imagesData?.length ?? 0}
-          onPageChange={handlePageChange}
-          onPageSizeChange={handlePageSizeChange}
-          page={pagination.page}
-          pageSize={pagination.pageSize}
-          style={{ border: 0 }}
-        />
+        {(imagesData?.length ?? 0) > DEFAULT_CLIENT_SIDE_PAGE_SIZE && (
+          <Pagination
+            count={imagesData?.length ?? 0}
+            onPageChange={handlePageChange}
+            onPageSizeChange={handlePageSizeChange}
+            page={pagination.page}
+            pageSize={pagination.pageSize}
+            style={{ border: 0 }}
+          />
+        )}
       </Box>
     </Stack>
   );

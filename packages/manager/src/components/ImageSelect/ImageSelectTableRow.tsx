@@ -2,6 +2,7 @@ import { TableCell, TableRow } from '@akamai/cds-components/react/Table';
 import { convertStorageUnit } from '@akamai/compute-ui-core/api';
 import { formatDate } from '@akamai/compute-ui-core/datetime';
 import { pluralize } from '@akamai/compute-ui-core/formatting';
+import { usePreferences } from '@linode/queries';
 import {
   FormControlLabel,
   Hidden,
@@ -18,6 +19,7 @@ import {
   PlanTextTooltip,
   StyledFormattedRegionList,
 } from 'src/features/components/PlansPanel/PlansAvailabilityNotice.styles';
+import { getIsTableStripingEnabled } from 'src/features/Profile/Settings/TableStriping.utils';
 
 import { TABLE_CELL_BASE_STYLE } from './constants';
 import { getRegionListItem } from './utilities';
@@ -97,6 +99,13 @@ export const ImageSelectTableRow = (props: Props) => {
   const shareGroupCount =
     image.image_sharing?.shared_with?.sharegroup_count ?? 0;
 
+  const { data: tableStripingPreference } = usePreferences(
+    (preferences) => preferences?.isTableStripingEnabled
+  );
+  const isTableStripingEnabled = getIsTableStripingEnabled(
+    tableStripingPreference
+  );
+
   const FormattedRegionList = () => (
     <StyledFormattedRegionList>
       {imageRegions.map((region: ImageRegion, idx) => {
@@ -112,10 +121,11 @@ export const ImageSelectTableRow = (props: Props) => {
   return (
     <TableRow
       key={id}
-      rowborder
+      rowborder={!isTableStripingEnabled}
       select={onSelect}
       selectable={selectionMode === 'multi'}
       selected={selected}
+      zebra={isTableStripingEnabled}
     >
       <TableCell style={{ ...TABLE_CELL_BASE_STYLE, wordBreak: 'break-all' }}>
         {selectionMode === 'single' ? (
