@@ -393,7 +393,7 @@ export const DatabaseBackups = () => {
                     selected={availableRestoreTimeOptions?.find(
                       (option) => option.value === field.value
                     )}
-                    style={{ width: '416px' }}
+                    style={{ maxWidth: '416px' }}
                     valueFn={(restoreTime: Option) => `${restoreTime.label}`}
                   />
                 )}
