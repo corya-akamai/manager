@@ -248,8 +248,8 @@ export const EnforcementSettings = () => {
                   onChange={(e) => field.onChange(e.detail as boolean)}
                   required
                 >
-                  I understand that my changes will be applied immediately and
-                  will restrict standard login for all SSO-enforced users.
+                  I understand updates apply immediately and will affect how
+                  users log in.
                 </Checkbox>
                 {Boolean(fieldState.error?.message) && (
                   <FormError slot="error" style={{ paddingLeft: Spacing.S32 }}>

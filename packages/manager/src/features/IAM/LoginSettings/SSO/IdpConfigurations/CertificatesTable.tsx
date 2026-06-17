@@ -147,9 +147,11 @@ export const CertificatesTable = (props: CombinedProps) => {
           {isLandingMode && sortedCertificates.length === 0 ? (
             <TableRow rowborder>
               <TableCell className={styles.emptyStateCell}>
-                <NoCertificates
-                  idpConfigId={(props as LandingModeProps).idpConfigId}
-                />
+                <div className={styles.emptyStateCellContent}>
+                  <NoCertificates
+                    idpConfigId={(props as LandingModeProps).idpConfigId}
+                  />
+                </div>
               </TableCell>
             </TableRow>
           ) : (

@@ -2,6 +2,10 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
+import {
+  ERROR_STATE_TEXT,
+  ERROR_STATE_TITLE,
+} from 'src/features/IAM/Shared/constants';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { LoginSettingsLanding } from './LoginSettingsLanding';
@@ -13,6 +17,7 @@ const mockNavigate = vi.fn();
 const queryMocks = vi.hoisted(() => ({
   useGetIdpConfigsQuery: vi.fn(),
   useNavigate: vi.fn(() => mockNavigate),
+  usePermissions: vi.fn(),
 }));
 
 vi.mock('@tanstack/react-router', async () => {
@@ -28,6 +33,14 @@ vi.mock('@linode/queries', async () => {
   return {
     ...actual,
     useGetIdpConfigsQuery: queryMocks.useGetIdpConfigsQuery,
+  };
+});
+
+vi.mock('../hooks/usePermissions', async () => {
+  const actual = await vi.importActual('../hooks/usePermissions');
+  return {
+    ...actual,
+    usePermissions: queryMocks.usePermissions,
   };
 });
 
@@ -60,6 +73,49 @@ describe('LoginSettingsLanding', () => {
       error: null,
       isLoading: false,
     });
+    queryMocks.usePermissions.mockReturnValue({
+      data: { view_idp_config: true },
+      error: null,
+    });
+  });
+
+  it('shows a no-permission banner when the user cannot view IDP configurations', () => {
+    queryMocks.usePermissions.mockReturnValue({
+      data: { view_idp_config: false },
+      error: null,
+    });
+
+    const { container } = renderWithTheme(<LoginSettingsLanding />);
+
+    expect(container.querySelector('cds-notification-banner')).toBeVisible();
+    expect(
+      screen.queryByRole('heading', { name: 'Single Sign-On Enforcement' })
+    ).not.toBeInTheDocument();
+  });
+
+  it('shows an error state when the permissions request fails', () => {
+    queryMocks.usePermissions.mockReturnValue({
+      data: { view_idp_config: true },
+      error: [{ reason: 'An unexpected error occurred' }],
+    });
+
+    renderWithTheme(<LoginSettingsLanding />);
+
+    expect(screen.getByText(ERROR_STATE_TITLE)).toBeVisible();
+    expect(screen.getByText(ERROR_STATE_TEXT)).toBeVisible();
+  });
+
+  it('shows an error state when IDP configs fail and permission is granted', () => {
+    queryMocks.useGetIdpConfigsQuery.mockReturnValue({
+      data: null,
+      error: [{ reason: 'An unexpected error occurred' }],
+      isLoading: false,
+    });
+
+    renderWithTheme(<LoginSettingsLanding />);
+
+    expect(screen.getByText(ERROR_STATE_TITLE)).toBeVisible();
+    expect(screen.getByText(ERROR_STATE_TEXT)).toBeVisible();
   });
 
   it('renders the SSO enforcement landing content', () => {

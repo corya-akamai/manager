@@ -19,7 +19,7 @@ import type { IdpConfig } from '@linode/api-v4';
 export const LoginSettingsLanding = () => {
   const navigate = useNavigate();
 
-  const { data: idpConfigs, isLoading } = useGetIdpConfigsQuery();
+  const { data: idpConfigs, isLoading, error } = useGetIdpConfigsQuery();
 
   const { data: permissions, error: permissionsError } = usePermissions(
     'account',
@@ -59,7 +59,7 @@ export const LoginSettingsLanding = () => {
     );
   }
 
-  if (permissionsError) {
+  if (permissionsError || (error && permissions?.view_idp_config)) {
     return <ErrorState />;
   }
 

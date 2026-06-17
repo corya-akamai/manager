@@ -178,7 +178,9 @@ describe('EnforcementSettings', () => {
     renderWithTheme(<EnforcementSettings />);
 
     expect(
-      screen.queryByText(/I understand that my changes will be applied/i)
+      screen.queryByText(
+        /I understand updates apply immediately and will affect how/i
+      )
     ).not.toBeInTheDocument();
   });
 
@@ -193,7 +195,7 @@ describe('EnforcementSettings', () => {
 
     expect(
       screen.getByText(
-        /I understand that my changes will be applied immediately/i
+        /I understand updates apply immediately and will affect how/i
       )
     ).toBeVisible();
   });
@@ -210,14 +212,16 @@ describe('EnforcementSettings', () => {
     await userEvent.click(enableControl as HTMLButtonElement);
     expect(
       screen.getByText(
-        /I understand that my changes will be applied immediately/i
+        /I understand updates apply immediately and will affect how/i
       )
     ).toBeVisible();
 
     // Disable SSO (back to initial value) — checkbox should disappear
     await userEvent.click(enableControl as HTMLButtonElement);
     expect(
-      screen.queryByText(/I understand that my changes will be applied/i)
+      screen.queryByText(
+        /I understand updates apply immediately and will affect how/i
+      )
     ).not.toBeInTheDocument();
   });
 
