@@ -13,6 +13,27 @@ import type { PriceObject } from '@linode/api-v4';
 import type { PlanWithAvailability } from 'src/features/components/PlansPanel/types';
 
 /**
+ * Pure helper - resolves the active billing mode for a given plan type ID.
+ * Monthly is the universal fallback for all plans, so scoping matchers only
+ * matters when `baseBilling` is non-monthly.
+ */
+const resolveBillingForPlanType = (
+  typeId: null | string | undefined,
+  baseBilling: keyof PriceObject,
+  matchers: string[]
+): keyof PriceObject => {
+  if (!typeId || baseBilling === 'monthly') {
+    return baseBilling;
+  }
+  if (matchers.length === 0) {
+    return baseBilling;
+  }
+  return matchers.some((m) => typeId.toLowerCase().includes(m.toLowerCase()))
+    ? baseBilling
+    : 'monthly';
+};
+
+/**
  * Returns pricing helpers bound to the active billing interval from the `computePricing` LD flag.
  *
  * Pass `planTypeId` when rendering a specific plan - if `activeBillingPlanMatchers` is set
@@ -31,25 +52,8 @@ export const useComputePricing = (planTypeId?: null | string) => {
   const baseBilling: keyof PriceObject = computePricing?.billing ?? 'monthly';
 
   const billing: keyof PriceObject = useMemo(() => {
-    // Only relevant when billing is non-monthly - monthly is the universal fallback
-    // for all plans regardless, so scoping it makes no difference.
-    // `computePricing` may be undefined when the flag is off entirely; fall back to [].
-    const activeBillingPlanMatchers: string[] =
-      computePricing?.activeBillingPlanMatchers ?? [];
-
-    if (!planTypeId || baseBilling === 'monthly') {
-      return baseBilling;
-    }
-
-    if (activeBillingPlanMatchers.length === 0) {
-      return baseBilling;
-    }
-
-    const isEligibleForActiveBilling = activeBillingPlanMatchers.some(
-      (matcher) => planTypeId.toLowerCase().includes(matcher.toLowerCase())
-    );
-
-    return isEligibleForActiveBilling ? baseBilling : 'monthly';
+    const matchers: string[] = computePricing?.activeBillingPlanMatchers ?? [];
+    return resolveBillingForPlanType(planTypeId, baseBilling, matchers);
   }, [computePricing, baseBilling, planTypeId]);
 
   return {
@@ -176,5 +180,22 @@ export const useComputePricing = (planTypeId?: null | string) => {
      * Pass `'short'` to `getLabelForInterval` directly if an abbreviated form is needed.
      */
     priceLabel: getLabelForInterval(billing),
+    /**
+     * Returns the active billing mode for a given plan type ID.
+     * Use this to determine per-pool billing in utility functions that can't call hooks.
+     *
+     * NOTE: This is independent of the `planTypeId` passed to `useComputePricing`.
+     * The hook-level `planTypeId` only affects UI-scoped billing state (`billing`),
+     * while this function always resolves billing based on the provided `typeId`.
+     *
+     * @example
+     * const { getBillingForPlanType } = useComputePricing();
+     * getTotalClusterPrice({ getBillingForPlanType, ... });
+     */
+    getBillingForPlanType: (typeId: string): keyof PriceObject => {
+      const matchers: string[] =
+        computePricing?.activeBillingPlanMatchers ?? [];
+      return resolveBillingForPlanType(typeId, baseBilling, matchers);
+    },
   };
 };

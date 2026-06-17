@@ -22,3 +22,9 @@ export const LKE_ADDITIONAL_PRICING =
   'Additional services added to the cluster may incur charges.';
 export const MONTHLY_COLUMN_HOURLY_ONLY_TOOLTIP_TEXT =
   'The monthly rate you pay after reaching the monthly cap. N/A means that a plan has an hourly rate only.';
+
+/**
+ * Number of hours in a billing month used to estimate MAX monthly cost
+ * from an hourly rate for plans that have no monthly price (hourly-only plans).
+ */
+export const HOURS_IN_MONTH = 744; // 24 hours * 31 days

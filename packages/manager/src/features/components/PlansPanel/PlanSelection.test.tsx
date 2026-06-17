@@ -34,9 +34,11 @@ vi.mock('src/utilities/pricing/useComputePricing', () => ({
   useComputePricing: vi.fn(() => ({
     billing: 'monthly' as const,
     formatPrice: vi.fn(),
+    getBillingForPlanType: vi.fn(),
     getPrice: vi.fn(),
     getPriceSubheading: (p: null | PriceObject | undefined) =>
       `$${realFormatPrice(p?.monthly)}/mo ($${realFormatPrice(p?.hourly)}/hr)`,
+    hasHourlyEligiblePlans: () => false,
     priceLabel: 'month',
   })),
 }));
@@ -45,6 +47,7 @@ const mockMonthlyBilling = () =>
   vi.mocked(useComputePricing).mockReturnValue({
     billing: 'monthly',
     formatPrice: vi.fn(),
+    getBillingForPlanType: vi.fn(),
     getPrice: vi.fn(),
     getPriceSubheading: (p: null | PriceObject | undefined) =>
       `$${realFormatPrice(p?.monthly)}/mo ($${realFormatPrice(p?.hourly)}/hr)`,
@@ -56,6 +59,7 @@ const mockHourlyBilling = () =>
   vi.mocked(useComputePricing).mockReturnValue({
     billing: 'hourly',
     formatPrice: vi.fn(),
+    getBillingForPlanType: vi.fn(),
     getPrice: vi.fn(),
     getPriceSubheading: (p: null | PriceObject | undefined) =>
       `$${realFormatPrice(p?.hourly)}/hr`,

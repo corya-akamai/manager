@@ -18,6 +18,7 @@ import {
 import { extendTypesQueryResult } from 'src/utilities/extendType';
 import { HA_PRICE_ERROR_MESSAGE } from 'src/utilities/pricing/constants';
 import { getTotalClusterPrice } from 'src/utilities/pricing/kubernetes';
+import { useComputePricing } from 'src/utilities/pricing/useComputePricing';
 
 import { getTotalClusterMemoryCPUAndStorage } from '../kubeUtils';
 
@@ -62,6 +63,8 @@ export const KubeClusterSpecs = React.memo((props: Props) => {
     pools ?? [],
     types ?? []
   );
+
+  const { getBillingForPlanType } = useComputePricing();
 
   const {
     data: kubernetesHighAvailabilityTypesData,
@@ -115,6 +118,7 @@ export const KubeClusterSpecs = React.memo((props: Props) => {
     ) : (
       `$${getTotalClusterPrice({
         enterprisePrice,
+        getBillingForPlanType,
         highAvailabilityPrice: highAvailabilityPrice
           ? Number(highAvailabilityPrice)
           : undefined,

@@ -26,6 +26,7 @@ const mockMonthlyBilling = () =>
     billing: 'monthly',
     formatPrice: (p: null | PriceObject | undefined) =>
       String(p?.monthly ?? '--.--'),
+    getBillingForPlanType: vi.fn(() => 'monthly' as const),
     getPrice: (p: null | PriceObject | undefined) => p?.monthly ?? '--.--',
     getPriceSubheading: vi.fn(),
     hasHourlyEligiblePlans: () => false,
@@ -37,6 +38,7 @@ const mockHourlyBilling = () =>
     billing: 'hourly',
     formatPrice: (p: null | PriceObject | undefined) =>
       String(p?.hourly ?? '--.--'),
+    getBillingForPlanType: vi.fn(() => 'hourly' as const),
     getPrice: (p: null | PriceObject | undefined) => p?.hourly ?? '--.--',
     getPriceSubheading: vi.fn(),
     hasHourlyEligiblePlans: () => true,
@@ -48,6 +50,7 @@ vi.mock('src/utilities/pricing/useComputePricing', () => ({
     billing: 'monthly' as const,
     formatPrice: (p: null | PriceObject | undefined) =>
       String(p?.monthly ?? '--.--'),
+    getBillingForPlanType: vi.fn(() => 'monthly' as const),
     getPrice: (p: null | PriceObject | undefined) => p?.monthly ?? '--.--',
     getPriceSubheading: vi.fn(),
     hasHourlyEligiblePlans: () => false,

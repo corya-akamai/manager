@@ -18,6 +18,7 @@ import { useComputePricing } from 'src/utilities/pricing/useComputePricing';
 
 import { DisabledPlanSelectionTooltip } from './DisabledPlanSelectionTooltip';
 import { StyledChip, StyledRadioCell } from './PlanSelection.styles';
+import { getMonthlyPriceCellContent } from './shared';
 import { getDisabledPlanReasonCopy } from './utils';
 
 import type { PlanWithAvailability } from './types';
@@ -141,20 +142,6 @@ export const PlanSelection = (props: PlanSelectionProps) => {
 
   const networkOutGbps = plan.network_out && plan.network_out / 1000;
 
-  const renderMonthlyPriceCell = () => {
-    // Hourly-scoped plans are billed purely by the hour and have no monthly commitment,
-    // so the monthly cell is always "N/A" - even when the API happens to return a monthly value.
-    if (billing === 'hourly') {
-      return 'N/A'; // Not applicable in Hourly billing mode.
-    }
-    // Non-scoped plans use monthly billing, so display the monthly price when it is available.
-    if (typeof price?.monthly === 'number') {
-      return <Currency quantity={price.monthly} useAdaptivePrecision />;
-    }
-    // Monthly price is unexpectedly absent for a monthly-billed plan - show the error/unknown price.
-    return <Currency quantity={UNKNOWN_PRICE} />;
-  };
-
   return (
     <React.Fragment key={`tabbed-panel-${idx}`}>
       {/* Displays Table Row for larger screens */}
@@ -224,7 +211,7 @@ export const PlanSelection = (props: PlanSelectionProps) => {
                 : undefined
             }
           >
-            {renderMonthlyPriceCell()}
+            {getMonthlyPriceCellContent(billing, price)}
           </TableCell>
           <TableCell
             data-qa-hourly

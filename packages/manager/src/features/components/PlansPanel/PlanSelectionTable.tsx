@@ -1,6 +1,4 @@
-import { TooltipIcon } from '@linode/ui';
 import * as React from 'react';
-import type { JSX } from 'react';
 
 import { TableBody } from 'src/components/TableBody';
 import { TableHead } from 'src/components/TableHead';
@@ -18,11 +16,11 @@ import {
 } from 'src/utilities/pricing/constants';
 
 import { StyledTable, StyledTableCell } from './PlanContainer.styles';
+import { renderPlanTableTooltip } from './shared';
 
 import type { PlanSelectionFilterOptionsTable } from './PlanContainer';
 import type { PlanWithAvailability } from './types';
 import type { LinodeTypeClass } from '@linode/api-v4/';
-import type { TooltipIconStatus } from '@linode/ui';
 
 interface PlanSelectionTableProps {
   filterEmptyStateMessage?: string;
@@ -100,27 +98,6 @@ export const PlanSelectionTable = (props: PlanSelectionTableProps) => {
   const showUsableStorageTooltip = (cellName: string) =>
     cellName === 'Usable Storage';
 
-  const showTooltip = (
-    status: TooltipIconStatus,
-    text: JSX.Element | string,
-    width?: number
-  ) => {
-    return (
-      <TooltipIcon
-        status={status}
-        sxTooltipIcon={{
-          height: 12,
-          marginTop: '-2px',
-          ml: 0.5,
-          px: 0,
-          py: 0,
-        }}
-        text={text}
-        width={width}
-      />
-    );
-  };
-
   return (
     <StyledTable
       aria-label={`List of ${filterOptions?.header ?? 'Linode'} Plans`}
@@ -161,12 +138,12 @@ export const PlanSelectionTable = (props: PlanSelectionTableProps) => {
                   ? filterOptions?.header
                   : cellName}
                 {showTransferTooltip(cellName) &&
-                  showTooltip(
+                  renderPlanTableTooltip(
                     'info',
                     'Some plans do not include bundled network transfer. If the transfer allotment is 0, all outbound network transfer is subject to charges.'
                   )}
                 {showUsableStorageTooltip(cellName) &&
-                  showTooltip(
+                  renderPlanTableTooltip(
                     'info',
                     isValkeyEngineSelected
                       ? VALKEY_STORAGE_TOOLTIP_COPY
@@ -177,7 +154,10 @@ export const PlanSelectionTable = (props: PlanSelectionTableProps) => {
                 {cellName === 'Monthly' &&
                   showHourlyBillingTooltip &&
                   !shouldDisplayNoRegionSelectedMessage &&
-                  showTooltip('info', MONTHLY_COLUMN_HOURLY_ONLY_TOOLTIP_TEXT)}
+                  renderPlanTableTooltip(
+                    'info',
+                    MONTHLY_COLUMN_HOURLY_ONLY_TOOLTIP_TEXT
+                  )}
               </StyledTableCell>
             );
           })}

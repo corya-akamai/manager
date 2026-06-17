@@ -339,4 +339,82 @@ describe('useComputePricing', () => {
       });
     });
   });
+
+  describe('getBillingForPlanType', () => {
+    it('applies matcher logic correctly', () => {
+      const { result } = renderHook(() => useComputePricing(), {
+        wrapper: (ui) =>
+          wrapWithTheme(ui, mockFlagOptions('hourly', ['g8', 'gpu'])),
+      });
+
+      // matches G8 or gpu matcher -> hourly
+      expect(result.current.getBillingForPlanType(G8_DEDICATED_PLAN_ID)).toBe(
+        'hourly'
+      );
+      expect(result.current.getBillingForPlanType(GPU_PLAN_ID)).toBe('hourly');
+
+      // does not match -> fallback to monthly
+      expect(result.current.getBillingForPlanType(G6_DEDICATED_PLAN_ID)).toBe(
+        'monthly'
+      );
+    });
+
+    it('returns baseBilling when matcher list is empty', () => {
+      const { result } = renderHook(() => useComputePricing(), {
+        wrapper: (ui) => wrapWithTheme(ui, mockFlagOptions('hourly', [])),
+      });
+
+      expect(result.current.getBillingForPlanType(GPU_PLAN_ID)).toBe('hourly');
+      expect(result.current.getBillingForPlanType(G6_DEDICATED_PLAN_ID)).toBe(
+        'hourly'
+      );
+    });
+
+    it('returns baseBilling when planTypeId is undefined', () => {
+      const { result } = renderHook(() => useComputePricing(), {
+        wrapper: (ui) => wrapWithTheme(ui, mockFlagOptions('hourly', ['gpu'])),
+      });
+
+      expect(
+        result.current.getBillingForPlanType(undefined as unknown as string)
+      ).toBe('hourly');
+    });
+
+    it('returns monthly when baseBilling is monthly regardless of matcher match', () => {
+      const { result } = renderHook(() => useComputePricing(), {
+        wrapper: (ui) => wrapWithTheme(ui, mockFlagOptions('monthly', ['gpu'])),
+      });
+
+      expect(result.current.getBillingForPlanType(GPU_PLAN_ID)).toBe('monthly');
+      expect(result.current.getBillingForPlanType(G6_DEDICATED_PLAN_ID)).toBe(
+        'monthly'
+      );
+    });
+
+    it('matches plan ids case-insensitively', () => {
+      const { result } = renderHook(() => useComputePricing(), {
+        // Provide GPU (uppercase) in LD flag matchers to verify case-insensitive matching
+        wrapper: (ui) => wrapWithTheme(ui, mockFlagOptions('hourly', ['GPU'])),
+      });
+
+      expect(result.current.getBillingForPlanType(GPU_PLAN_ID)).toBe('hourly');
+    });
+
+    it('getBillingForPlanType is independent of hook planTypeId', () => {
+      const { result } = renderHook(() => useComputePricing(GPU_PLAN_ID), {
+        wrapper: (ui) =>
+          wrapWithTheme(ui, mockFlagOptions('hourly', ['g8', 'gpu'])),
+      });
+
+      // Even though hook is initialized with GPU_PLAN_ID,
+      // resolution must depend ONLY on function argument.
+      expect(result.current.getBillingForPlanType(G6_DEDICATED_PLAN_ID)).toBe(
+        'monthly'
+      );
+      expect(result.current.getBillingForPlanType(G8_DEDICATED_PLAN_ID)).toBe(
+        'hourly'
+      );
+      expect(result.current.getBillingForPlanType(GPU_PLAN_ID)).toBe('hourly');
+    });
+  });
 });
