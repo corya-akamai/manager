@@ -45,13 +45,18 @@ const queryMocks = vi.hoisted(() => ({
   }),
 }));
 
-vi.mock('src/features/ObjectStorage/hooks/useObjectStorageBuckets', async () => {
-  const actual = await vi.importActual('src/features/ObjectStorage/hooks/useObjectStorageBuckets');
-  return {
-    ...actual,
-    useObjectStorageBuckets: queryMocks.useObjectStorageBuckets,
-  };
-});
+vi.mock(
+  'src/features/ObjectStorage/hooks/useObjectStorageBuckets',
+  async () => {
+    const actual = await vi.importActual(
+      'src/features/ObjectStorage/hooks/useObjectStorageBuckets'
+    );
+    return {
+      ...actual,
+      useObjectStorageBuckets: queryMocks.useObjectStorageBuckets,
+    };
+  }
+);
 
 vi.mock('@tanstack/react-router', async () => {
   const actual = await vi.importActual('@tanstack/react-router');

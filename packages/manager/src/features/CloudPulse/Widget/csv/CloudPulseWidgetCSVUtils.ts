@@ -85,7 +85,10 @@ export const formatDateTime = (iso: string, timeZone: string | undefined) => {
  * @param timeZone The time zone to be applied while formatting the timestamp
  * @returns The formatted data and time string in specified time zone
  */
-export const formatTimestamp = (millis: number, timeZone: string | undefined) => {
+export const formatTimestamp = (
+  millis: number,
+  timeZone: string | undefined
+) => {
   const dateTime = DateTime.fromMillis(millis).setZone(timeZone);
   return dateTime.toLocaleString(DateTime.DATETIME_MED);
 };

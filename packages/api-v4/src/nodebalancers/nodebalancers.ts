@@ -40,6 +40,19 @@ export const getNodeBalancers = (params?: Params, filters?: Filter) =>
   );
 
 /**
+ * getNodeBalancersBeta
+ *
+ * Returns a paginated list of NodeBalancers including the information about backend connectivity.
+ */
+export const getNodeBalancersBeta = (params?: Params, filters?: Filter) =>
+  Request<Page<NodeBalancer>>(
+    setURL(`${BETA_API_ROOT}/nodebalancers`),
+    setMethod('GET'),
+    setParams(params),
+    setXFilter(filters),
+  );
+
+/**
  * getNodeBalancer
  *
  * Returns detailed information about a single NodeBalancer.
@@ -55,7 +68,7 @@ export const getNodeBalancer = (nodeBalancerId: number) =>
 /**
  * getNodeBalancerBeta
  *
- * Returns detailed information about a single NodeBalancer including type (only available for LKE-E).
+ * Returns detailed information about a single NodeBalancer including backend connectivity.
  *
  * @param nodeBalancerId { number } The ID of the NodeBalancer to retrieve.
  */
@@ -105,7 +118,7 @@ export const createNodeBalancer = (data: CreateNodeBalancerPayload) =>
 /**
  * createNodeBalancerBeta
  *
- * Add a NodeBalancer to your account using the beta API
+ * Add a NodeBalancer to your account using the beta API, which includes support for backend connectivity.
  */
 export const createNodeBalancerBeta = (data: CreateNodeBalancerPayload) =>
   Request<NodeBalancer>(

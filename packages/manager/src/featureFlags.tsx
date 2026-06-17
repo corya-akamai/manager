@@ -325,6 +325,7 @@ export interface Flags {
   objSummaryPage: boolean;
   passwordlessLinodes: boolean;
   placementGroupPolicyUpdate: boolean;
+  premiumNodebalancer: boolean;
   privateImageSharing: boolean;
   productInformationBanners: ProductInformationBannerFlag[];
   promos: boolean;
