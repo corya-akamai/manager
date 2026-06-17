@@ -1,7 +1,6 @@
 import {
   Button,
   Checkbox,
-  LoadingSpinner,
   Pagination,
   SearchField,
   Table,
@@ -13,6 +12,8 @@ import { Font, Spacing } from '@akamai/cds-tokens';
 import React from 'react';
 
 import { useBreakpoint } from 'src/features/IAM/hooks/useBreakpoint';
+
+import { CircleProgress } from '../CircleProgress/CircleProgress';
 
 export interface SelectableOption {
   label: string;
@@ -256,7 +257,7 @@ export const SelectionPanel = ({
             {isLoading ? (
               <TableRow>
                 <TableCell style={{ justifyContent: 'center' }}>
-                  <LoadingSpinner label={loadingLabel} />
+                  <CircleProgress label={loadingLabel} />
                 </TableCell>
               </TableRow>
             ) : (

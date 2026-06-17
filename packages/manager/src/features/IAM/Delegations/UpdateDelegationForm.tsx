@@ -92,7 +92,7 @@ export const UpdateDelegationForm = ({
     useUpdateChildAccountDelegatesQuery();
 
   const form = useForm<UpdateDelegationsFormValues>({
-    defaultValues: {
+    values: {
       users: formattedCurrentUsers,
     },
   });
@@ -174,8 +174,7 @@ export const UpdateDelegationForm = ({
   const isSearching =
     filterText.length > 0 && debouncedFilterText !== filterText;
 
-  const isLoading =
-    isFetching || isFetchingAllUsers || isSearching || isSubmitting;
+  const isLoading = isFetching || isFetchingAllUsers || isSearching;
 
   const showNoUsersText =
     !isFetching &&

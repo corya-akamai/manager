@@ -11,29 +11,27 @@ import {
   useAccountDelegationsTableColumns,
 } from './accountDelegationsTableColumnsUtils';
 import { DelegatedUsersList } from './DelegatedUsersList';
-import { UpdateDelegationsDrawer } from './UpdateDelegationsDrawer';
 
 import type { ChildAccount, ChildAccountWithDelegates } from '@linode/api-v4';
 
 interface Props {
   delegation: ChildAccount | ChildAccountWithDelegates;
   index: number;
+  onUpdateDelegations: (
+    delegation: ChildAccount | ChildAccountWithDelegates
+  ) => void;
 }
 
-export const AccountDelegationsTableRow = ({ delegation, index }: Props) => {
+export const AccountDelegationsTableRow = ({
+  delegation,
+  index,
+  onUpdateDelegations,
+}: Props) => {
   const { columnWidths, showUsers } = useAccountDelegationsTableColumns();
-  const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
 
   const { data: permissions } = usePermissions('account', [
     'update_delegate_users',
   ]);
-  const handleUpdateDelegations = () => {
-    setIsDrawerOpen(true);
-  };
-
-  const handleCloseDrawer = () => {
-    setIsDrawerOpen(false);
-  };
 
   return (
     <TableRow
@@ -64,7 +62,7 @@ export const AccountDelegationsTableRow = ({ delegation, index }: Props) => {
         >
           {'users' in delegation && delegation.users.length > 0 ? (
             <DelegatedUsersList
-              onViewAll={handleUpdateDelegations}
+              onViewAll={() => onUpdateDelegations(delegation)}
               users={delegation.users}
             />
           ) : (
@@ -87,16 +85,13 @@ export const AccountDelegationsTableRow = ({ delegation, index }: Props) => {
         <InlineMenuAction
           isActionDisabled={!permissions.update_delegate_users}
           label="Update Delegation"
-          onClick={handleUpdateDelegations}
+          onClick={() => {
+            onUpdateDelegations(delegation);
+          }}
           pendoID={IAM_PARENT_USERS_PENDO_IDS.updateDelegation}
           tooltipText="You do not have permission to update delegations."
         />
       </TableCell>
-      <UpdateDelegationsDrawer
-        delegation={delegation}
-        onClose={handleCloseDrawer}
-        open={isDrawerOpen}
-      />
     </TableRow>
   );
 };

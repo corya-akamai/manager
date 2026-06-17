@@ -7,7 +7,7 @@ import { UpdateDelegationForm } from './UpdateDelegationForm';
 import type { ChildAccount, ChildAccountWithDelegates } from '@linode/api-v4';
 
 interface Props {
-  delegation: ChildAccount | ChildAccountWithDelegates | undefined;
+  delegation: ChildAccount | ChildAccountWithDelegates | null;
   onClose: () => void;
   open: boolean;
 }
