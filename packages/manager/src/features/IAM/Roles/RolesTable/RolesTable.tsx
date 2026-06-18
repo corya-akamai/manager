@@ -17,7 +17,6 @@ import {
 } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { capitalizeAllWords } from '@akamai/compute-ui-core/formatting';
-import { Typography } from '@linode/ui';
 import { useLocation, useNavigate, useSearch } from '@tanstack/react-router';
 import React, { useState } from 'react';
 
@@ -365,16 +364,15 @@ export const RolesTable = ({ roles = [] }: Props) => {
                       {roleRow.permissions.length ? (
                         roleRow.description
                       ) : (
-                        <Typography>
+                        <p>
                           {getFacadeRoleDescription(roleRow)}{' '}
                           <Link to={ROLES_LEARN_MORE_LINK}>Learn more</Link>.
-                        </Typography>
+                        </p>
                       )}
                     </TableCell>
                   )}
                   <TableCell
                     style={{
-                      justifyContent: 'flex-end',
                       minWidth: COLUMN_WIDTHS.actions,
                       ...TABLE_CELL_BASE_STYLE,
                     }}

@@ -1,5 +1,5 @@
 import { Button, NotificationBanner } from '@akamai/cds-components/react';
-import { Spacing } from '@akamai/cds-tokens';
+import { Spacing, Typography } from '@akamai/cds-tokens';
 import {
   delegationQueries,
   iamQueries,
@@ -8,13 +8,10 @@ import {
   useUpdateDefaultDelegationAccessQuery,
   useUserRolesMutation,
 } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import { useParams } from '@tanstack/react-router';
 import { enqueueSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
-
-import { AssignSingleRole } from 'src/features/IAM/Users/UserRoles/AssignSingleRole';
 
 import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
@@ -25,6 +22,7 @@ import {
   ROLES_LEARN_MORE_LINK,
 } from '../../Shared/constants';
 import { Drawer, DrawerInlineActions } from '../../Shared/Drawer';
+import styles from '../../Shared/global.module.css';
 import { Link } from '../../Shared/Link/Link';
 import {
   getAllRoles,
@@ -32,6 +30,7 @@ import {
   isEntityRole,
   mergeAssignedRolesIntoExistingRoles,
 } from '../../Shared/utilities';
+import { AssignSingleRole } from '../UserRoles/AssignSingleRole';
 
 import type { AssignNewRoleFormValues } from '../../Shared/utilities';
 import type { IamUserRoles } from '@linode/api-v4';
@@ -153,6 +152,7 @@ export const AssignNewRoleDrawer = ({
 
   return (
     <Drawer
+      className={styles.noMargin}
       onClose={handleClose}
       open={open}
       title={drawerTitle}
@@ -168,7 +168,7 @@ export const AssignNewRoleDrawer = ({
             />
           )}
 
-          <Typography sx={{ marginBottom: 2.5 }}>
+          <p style={{ marginBottom: Spacing.S20, marginTop: Spacing.S0 }}>
             {isDefaultDelegationRolesForChildAccount
               ? 'Add a role you want to assign by default to new delegate users. Some roles require selecting entities they should apply to. Configure the first role and continue adding roles or save the assignment.'
               : 'Select a role you want to assign to a user. Some roles require selecting entities they should apply to. Configure the first role and continue adding roles or save the assignment.'}{' '}
@@ -176,7 +176,7 @@ export const AssignNewRoleDrawer = ({
               Learn more about roles and permissions
             </Link>
             .
-          </Typography>
+          </p>
           <Box
             direction="row"
             style={{
@@ -184,7 +184,7 @@ export const AssignNewRoleDrawer = ({
               marginBottom: Spacing.S16,
             }}
           >
-            <Typography variant={'h3'}>Roles</Typography>
+            <h3 style={{ font: Typography.Heading.S }}>Roles</h3>
             {roles.length > 0 && roles.some((field) => field.role) && (
               <Button
                 onClick={() => setAreDetailsHidden(!areDetailsHidden)}

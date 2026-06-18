@@ -1,6 +1,5 @@
 import { NotificationBanner } from '@akamai/cds-components/react';
 import { Font, Spacing } from '@akamai/cds-tokens';
-import { Typography } from '@linode/ui';
 import React from 'react';
 
 import { useAllAccountEntities } from 'src/queries/entities/entities';
@@ -152,11 +151,11 @@ export const EntitiesSelect = ({
         >
           Entities
         </p>
-        <Typography>
+        <p>
           {type === 'account'
             ? 'All entities'
             : `All ${getFormattedEntityType(type)}s`}
-        </Typography>
+        </p>
       </>
     );
   }
@@ -180,7 +179,6 @@ export const EntitiesSelect = ({
             fontSize: Font.FontSize.S,
             // eslint-disable-next-line @linode/cloud-manager/no-custom-fontWeight
             fontWeight: Font.FontWeight.Bold,
-            margin: 0,
           }}
         >
           Entities
@@ -245,13 +243,13 @@ export const EntitiesSelect = ({
           style={{ marginBottom: 0, marginTop: Spacing.S8 }}
           type="warning"
         >
-          <Typography fontSize="inherit">
+          <p>
             <Link to={getCreateLinkForEntityType(type)}>
               Create {type === 'image' ? `an` : `a`}{' '}
               {getFormattedEntityType(type)} Entity{' '}
             </Link>{' '}
             first or choose a different role to continue assignment.
-          </Typography>
+          </p>
         </NotificationBanner>
       )}
     </>

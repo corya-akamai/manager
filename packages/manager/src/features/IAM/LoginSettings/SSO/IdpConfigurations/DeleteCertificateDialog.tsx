@@ -59,7 +59,7 @@ export const DeleteCertificateDialog = ({
       <div slot="body">
         {certificate && (
           <>
-            <p style={{ margin: Spacing.S0 }}>
+            <p>
               You’re about to delete the certificate with the expiration date:{' '}
               <strong>{certificate.not_after}</strong>. This action can’t be
               undone.

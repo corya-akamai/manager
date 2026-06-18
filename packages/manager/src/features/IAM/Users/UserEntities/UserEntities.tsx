@@ -1,7 +1,6 @@
 import { NotificationBanner } from '@akamai/cds-components/react/NotificationBanner';
-import { Spacing } from '@akamai/cds-tokens';
+import { Spacing, Typography } from '@akamai/cds-tokens';
 import { useAccountUser, useUserRoles } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import { useParams } from '@tanstack/react-router';
 import React from 'react';
 
@@ -57,16 +56,15 @@ export const UserEntities = () => {
 
       {hasAssignedRoles ? (
         <Paper>
-          <Typography variant="h2">Entity Access</Typography>
-          <Typography
-            sx={{
+          <h2 style={{ font: Typography.Heading.M }}>Entity Access</h2>
+          <p
+            style={{
               margin: `${Spacing.S12} 0 ${Spacing.S20}`,
             }}
-            variant="body1"
           >
             View and manage entities attached to user&apos;s entity access
             roles.
-          </Typography>
+          </p>
           <AssignedEntitiesTable username={username} />
         </Paper>
       ) : (

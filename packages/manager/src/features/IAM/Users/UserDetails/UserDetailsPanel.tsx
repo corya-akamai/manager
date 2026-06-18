@@ -1,11 +1,5 @@
 import { Button, Icon, Tooltip } from '@akamai/cds-components/react';
-import {
-  Color,
-  Font,
-  Spacing,
-  Typography as TypographyTokens,
-} from '@akamai/cds-tokens';
-import { Typography } from '@linode/ui';
+import { Color, Font, Spacing, Typography } from '@akamai/cds-tokens';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
@@ -97,7 +91,7 @@ export const UserDetailsPanel = ({
       value: (
         <MaskableText
           isToggleable
-          styleTypography={{ font: TypographyTokens.Body.Bold }}
+          styleTypography={{ font: Typography.Body.Bold }}
           text={activeUser.username}
         />
       ),
@@ -113,7 +107,7 @@ export const UserDetailsPanel = ({
           <MaskableText
             isToggleable
             styleTypography={{
-              font: TypographyTokens.Body.Bold,
+              font: Typography.Body.Bold,
               margin: Spacing.S0,
             }}
             text={truncateEnd(activeUser.email, EMAIL_MAX_LENGTH)}
@@ -124,9 +118,14 @@ export const UserDetailsPanel = ({
     {
       label: 'Assigned roles',
       value: (
-        <Typography sx={(theme) => ({ font: theme.font.bold })}>
+        <p
+          style={{
+            // eslint-disable-next-line @linode/cloud-manager/no-custom-fontWeight
+            fontWeight: Font.FontWeight.Bold,
+          }}
+        >
           {assignRolesCount}
-        </Typography>
+        </p>
       ),
     },
     {
@@ -142,12 +141,15 @@ export const UserDetailsPanel = ({
               }
             />
           )}
-          <Typography
-            sx={(theme) => ({ font: theme.font.bold })}
-            textTransform="capitalize"
+          <p
+            style={{
+              // eslint-disable-next-line @linode/cloud-manager/no-custom-fontWeight
+              fontWeight: Font.FontWeight.Bold,
+              textTransform: 'capitalize',
+            }}
           >
             {activeUser.last_login?.status ?? 'N/A'}
-          </Typography>
+          </p>
         </Box>
       ),
     },
@@ -155,11 +157,18 @@ export const UserDetailsPanel = ({
       label: 'Last login',
       value: activeUser.last_login ? (
         <DateTimeDisplay
-          style={{ font: TypographyTokens.Body.Bold }}
+          style={{ font: Typography.Body.Bold }}
           value={activeUser.last_login.login_datetime}
         />
       ) : (
-        <Typography sx={(theme) => ({ font: theme.font.bold })}>N/A</Typography>
+        <p
+          style={{
+            // eslint-disable-next-line @linode/cloud-manager/no-custom-fontWeight
+            fontWeight: Font.FontWeight.Bold,
+          }}
+        >
+          N/A
+        </p>
       ),
     },
     {
@@ -173,7 +182,14 @@ export const UserDetailsPanel = ({
           value={activeUser.password_created}
         />
       ) : (
-        <Typography sx={(theme) => ({ font: theme.font.bold })}>N/A</Typography>
+        <p
+          style={{
+            // eslint-disable-next-line @linode/cloud-manager/no-custom-fontWeight
+            fontWeight: Font.FontWeight.Bold,
+          }}
+        >
+          N/A
+        </p>
       ),
     },
     {
@@ -184,9 +200,14 @@ export const UserDetailsPanel = ({
             status={activeUser.tfa_enabled ? 'active' : 'inactive'}
             style={{ alignSelf: 'center' }}
           />
-          <Typography sx={(theme) => ({ font: theme.font.bold })}>
+          <p
+            style={{
+              // eslint-disable-next-line @linode/cloud-manager/no-custom-fontWeight
+              fontWeight: Font.FontWeight.Bold,
+            }}
+          >
             {activeUser.tfa_enabled ? 'Enabled' : 'Disabled'}
-          </Typography>
+          </p>
         </Box>
       ),
     },
@@ -195,7 +216,7 @@ export const UserDetailsPanel = ({
       value: (
         <MaskableText
           isToggleable
-          styleTypography={{ font: TypographyTokens.Body.Bold }}
+          styleTypography={{ font: Typography.Body.Bold }}
           text={activeUser.verified_phone_number ?? 'None'}
         />
       ),
@@ -224,7 +245,14 @@ export const UserDetailsPanel = ({
             </Tooltip>
           </div>
         ) : (
-          <Typography sx={(theme) => ({ font: theme.font.bold })}>0</Typography>
+          <p
+            style={{
+              // eslint-disable-next-line @linode/cloud-manager/no-custom-fontWeight
+              fontWeight: Font.FontWeight.Bold,
+            }}
+          >
+            0
+          </p>
         ),
     },
   ];
@@ -239,9 +267,7 @@ export const UserDetailsPanel = ({
             gap: 24,
           }}
         >
-          <Typography sx={{ flex: 1 }} variant="h2">
-            User Details
-          </Typography>
+          <p style={{ flex: 1, font: Typography.Heading.M }}>User Details</p>
           <Tooltip disabled={!isEditUserDisabled} tooltipText={editTooltipText}>
             <Button
               disabled={isEditUserDisabled}
@@ -275,7 +301,7 @@ export const UserDetailsPanel = ({
       <div className={styles.itemsGrid} style={itemsGridStyle}>
         {items.map((item) => (
           <Box className={styles.itemBox} key={item.label}>
-            <Typography>{item.label}</Typography>
+            <p>{item.label}</p>
             {item.value}
           </Box>
         ))}

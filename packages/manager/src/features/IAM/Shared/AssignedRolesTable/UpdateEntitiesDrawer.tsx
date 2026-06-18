@@ -6,7 +6,6 @@ import {
   useUserRoles,
   useUserRolesMutation,
 } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import { useParams } from '@tanstack/react-router';
 import { enqueueSnackbar } from 'notistack';
 import React from 'react';
@@ -15,6 +14,7 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
 import { Drawer, DrawerInlineActions } from '../../Shared/Drawer';
+import styles from '../../Shared/global.module.css';
 import { AssignedPermissionsPanel } from '../AssignedPermissionsPanel/AssignedPermissionsPanel';
 import { INTERNAL_ERROR_NO_CHANGES_SAVED } from '../constants';
 import { toEntityAccess } from '../utilities';
@@ -136,6 +136,7 @@ export const UpdateEntitiesDrawer = ({ onClose, open, role }: Props) => {
 
   return (
     <Drawer
+      className={styles.noMargin}
       onClose={handleClose}
       open={open}
       title="Update Entities"
@@ -147,13 +148,13 @@ export const UpdateEntitiesDrawer = ({ onClose, open, role }: Props) => {
           {errors.root?.message && (
             <NotificationBanner text={errors.root?.message} type="error" />
           )}
-          <Typography style={{ marginBottom: Spacing.S16 }}>
+          <p style={{ marginBottom: Spacing.S16 }}>
             Add or remove entities attached to the role.
-          </Typography>
+          </p>
 
           {role && (
-            <Typography
-              sx={{
+            <p
+              style={{
                 fontSize: Font.FontSize.S,
                 // eslint-disable-next-line @linode/cloud-manager/no-custom-fontWeight
                 fontWeight: Font.FontWeight.Bold,
@@ -161,7 +162,7 @@ export const UpdateEntitiesDrawer = ({ onClose, open, role }: Props) => {
               }}
             >
               {role.name}
-            </Typography>
+            </p>
           )}
 
           <Controller

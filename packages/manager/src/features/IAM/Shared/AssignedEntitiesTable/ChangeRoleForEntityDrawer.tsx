@@ -11,13 +11,13 @@ import {
   useUserRoles,
   useUserRolesMutation,
 } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import { useSnackbar } from 'notistack';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
 import { Drawer, DrawerInlineActions } from '../../Shared/Drawer';
+import styles from '../../Shared/global.module.css';
 import { AssignedPermissionsPanel } from '../AssignedPermissionsPanel/AssignedPermissionsPanel';
 import {
   INTERNAL_ERROR_NO_CHANGES_SAVED,
@@ -172,25 +172,33 @@ export const ChangeRoleForEntityDrawer = ({
     onClose();
   };
 
+  const drawerTitle = 'Change Role';
+
   return (
-    <Drawer aria-label="Change Role" onClose={handleClose} open={open}>
-      <div slot="header">Change Role</div>
+    <Drawer
+      aria-label="Change Role"
+      className={styles.noMargin}
+      onClose={handleClose}
+      open={open}
+      title={drawerTitle}
+    >
+      <div slot="header">{drawerTitle}</div>
       <form onSubmit={handleSubmit(onSubmit)} slot="body">
         {errors.root?.message && (
           <NotificationBanner text={errors.root?.message} type="error" />
         )}
-        <Typography sx={{ marginBottom: 2.5 }}>
+        <p style={{ marginBottom: Spacing.S20 }}>
           Select a role you want the entity to be attached to.{' '}
           <Link to={ROLES_LEARN_MORE_LINK}>
             Learn more about roles and permissions
           </Link>
           .
-        </Typography>
+        </p>
 
-        <Typography sx={{ marginBottom: Spacing.S8 }}>
+        <p style={{ marginBottom: Spacing.S8 }}>
           Change the role for <strong>{role?.entity_name}</strong> from{' '}
           <strong>{role?.role_name}</strong> to:
-        </Typography>
+        </p>
 
         <Controller
           control={control}

@@ -10,7 +10,6 @@ import {
   useAllAccountUsersQuery,
   useUpdateChildAccountDelegatesQuery,
 } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import { enqueueSnackbar } from 'notistack';
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -256,22 +255,22 @@ export const UpdateDelegationForm = ({
       )}
       <FormProvider {...form}>
         <form onSubmit={handleSubmit(onSubmit)} slot="body">
-          <Typography sx={{ marginBottom: Spacing.S16 }}>
+          <p style={{ marginBottom: Spacing.S16 }}>
             Add or remove users who should have access to the child account.
             Users removed from this list will lose the role assignment on the
             child account and they won&apos;t be visible in the user list on the
             child account.
-          </Typography>
+          </p>
 
-          <Typography
-            sx={{
+          <p
+            style={{
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
             }}
           >
             Update delegation for <strong>{delegation.company}:</strong>
-          </Typography>
+          </p>
 
           <SelectionPanel
             effectivePage={effectivePage}

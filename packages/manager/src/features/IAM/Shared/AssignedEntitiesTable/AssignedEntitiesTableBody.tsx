@@ -1,5 +1,4 @@
 import { TableCell, TableRow } from '@akamai/cds-components/react';
-import { Typography } from '@linode/ui';
 import React from 'react';
 
 import { CircleProgress } from '../CircleProgress/CircleProgress';
@@ -87,20 +86,20 @@ export const AssignedEntitiesTableBody = ({
           <TableCell
             style={getAssignedEntitiesTableCellStyle(columnWidths.entity)}
           >
-            <Typography>{el.entity_name}</Typography>
+            <p>{el.entity_name}</p>
           </TableCell>
           {showEntityType && (
             <TableCell
               style={getAssignedEntitiesTableCellStyle(columnWidths.entityType)}
             >
-              <Typography>{getFormattedEntityType(el.entity_type)}</Typography>
+              <p>{getFormattedEntityType(el.entity_type)}</p>
             </TableCell>
           )}
           {showRole && (
             <TableCell
               style={getAssignedEntitiesTableCellStyle(columnWidths.role)}
             >
-              <Typography>{el.role_name}</Typography>
+              <p>{el.role_name}</p>
             </TableCell>
           )}
           <TableCell

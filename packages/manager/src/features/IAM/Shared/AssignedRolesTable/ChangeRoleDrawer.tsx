@@ -11,11 +11,12 @@ import {
   useUserRoles,
   useUserRolesMutation,
 } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import { useParams } from '@tanstack/react-router';
 import { enqueueSnackbar } from 'notistack';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
+
+import styles from 'src/features/IAM/Shared/global.module.css';
 
 import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
@@ -165,6 +166,7 @@ export const ChangeRoleDrawer = ({ mode, onClose, open, role }: Props) => {
 
   return (
     <Drawer
+      className={styles.noMargin}
       onClose={handleClose}
       open={open}
       title="Change Role"
@@ -179,7 +181,7 @@ export const ChangeRoleDrawer = ({ mode, onClose, open, role }: Props) => {
         {errors.root?.message && (
           <NotificationBanner text={errors.root?.message} type="error" />
         )}
-        <Typography sx={{ marginBottom: 2.5 }}>
+        <p style={{ marginBottom: Spacing.S20 }}>
           Select a role you want{' '}
           {role?.access === 'account_access'
             ? isDefaultDelegationRolesForChildAccount
@@ -190,11 +192,11 @@ export const ChangeRoleDrawer = ({ mode, onClose, open, role }: Props) => {
             Learn more about roles and permissions
           </Link>
           .
-        </Typography>
+        </p>
 
-        <Typography sx={{ marginBottom: Spacing.S8 }}>
+        <p style={{ marginBottom: Spacing.S8 }}>
           Change the role from <strong>{role?.name}</strong> to:
-        </Typography>
+        </p>
 
         <Controller
           control={control}

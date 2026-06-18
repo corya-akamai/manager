@@ -9,9 +9,8 @@ import {
   TableHeaderCell,
   TableRow,
 } from '@akamai/cds-components/react';
-import { Spacing } from '@akamai/cds-tokens';
+import { Spacing, Typography } from '@akamai/cds-tokens';
 import { useGetDelegatedChildAccountsForUserQuery } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import { useNavigate, useParams, useSearch } from '@tanstack/react-router';
 import * as React from 'react';
 
@@ -100,7 +99,14 @@ export const UserDelegationsTable = () => {
 
   return (
     <Paper>
-      <Typography variant="h2">Account Delegations</Typography>
+      <h2
+        style={{
+          font: Typography.Heading.M,
+          marginBottom: Spacing.S24,
+        }}
+      >
+        Account Delegations
+      </h2>
       <FormField labelPosition="top" style={{ padding: 0 }}>
         <FormLabel
           className={globalStyles.visuallyHidden}

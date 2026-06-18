@@ -1,4 +1,5 @@
 import { Icon, TableCell, TableRow } from '@akamai/cds-components/react';
+import { Spacing } from '@akamai/cds-tokens';
 import { useProfile } from '@linode/queries';
 import React from 'react';
 
@@ -24,7 +25,7 @@ export const UsersLandingTableBody = (props: Props) => {
         aria-label="Table content is loading"
         data-testid="table-row-loading"
       >
-        <TableCell style={{ height: 50 }}>
+        <TableCell style={{ height: 50, paddingTop: Spacing.S16 }}>
           <CircleProgress size="medium" />
         </TableCell>
       </TableRow>

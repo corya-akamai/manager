@@ -1,7 +1,7 @@
-import { Spacing } from '@akamai/cds-tokens';
-import { Typography } from '@linode/ui';
+import { Spacing, Typography } from '@akamai/cds-tokens';
 import * as React from 'react';
 
+import styles from '../../Shared/global.module.css';
 import { ROLES_LEARN_MORE_LINK } from '../constants';
 import { EntitiesSelect } from '../Entities/EntitiesSelect';
 import { Link } from '../Link/Link';
@@ -38,6 +38,7 @@ export const AssignedPermissionsPanel = ({
 
   return (
     <Paper
+      className={styles.noMargin}
       marginTop={Spacing.S8}
       padding={Spacing.S12}
       style={{
@@ -46,26 +47,26 @@ export const AssignedPermissionsPanel = ({
       }}
     >
       {hideDetails && showName && (
-        <Typography
-          sx={(theme) => ({
-            font: theme.tokens.alias.Typography.Label.Bold.S,
-            marginBottom: showName ? theme.tokens.spacing.S12 : undefined,
-          })}
+        <p
+          style={{
+            font: Typography.Label.Bold.S,
+            marginBottom: showName ? Spacing.S12 : undefined,
+          }}
         >
           {role.name}
-        </Typography>
+        </p>
       )}
       {!hideDetails && (
         <>
-          <Typography
-            sx={(theme) => ({
-              font: theme.tokens.alias.Typography.Label.Bold.S,
-            })}
+          <p
+            style={{
+              font: Typography.Label.Bold.S,
+            }}
           >
             {showName && role.name ? role.name : 'Description'}
-          </Typography>
-          <Typography
-            sx={{
+          </p>
+          <p
+            style={{
               marginBottom: Spacing.S12,
               marginTop: Spacing.S8,
               overflowWrap: 'anywhere',
@@ -80,7 +81,7 @@ export const AssignedPermissionsPanel = ({
                 <Link to={ROLES_LEARN_MORE_LINK}>Learn more</Link>.
               </>
             )}
-          </Typography>
+          </p>
           <Permissions permissions={role.permissions} />
         </>
       )}

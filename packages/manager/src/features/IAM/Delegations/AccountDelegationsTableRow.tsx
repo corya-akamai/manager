@@ -1,6 +1,5 @@
 import { TableCell, TableRow } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
-import { Typography } from '@linode/ui';
 import React from 'react';
 
 import { usePermissions } from '../hooks/usePermissions';
@@ -42,17 +41,16 @@ export const AccountDelegationsTableRow = ({
       <TableCell
         style={getAccountDelegationsTableCellStyle(columnWidths.account)}
       >
-        <Typography
-          sx={{
+        <p
+          style={{
             maxWidth: 272,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
           }}
-          variant="body1"
         >
           {delegation.company}
-        </Typography>
+        </p>
       </TableCell>
       {showUsers ? (
         <TableCell
@@ -66,12 +64,14 @@ export const AccountDelegationsTableRow = ({
               users={delegation.users}
             />
           ) : (
-            <Typography
-              sx={{ fontStyle: 'italic', textTransform: 'capitalize' }}
-              variant="body1"
+            <p
+              style={{
+                fontStyle: 'italic',
+                textTransform: 'capitalize',
+              }}
             >
               No Users Added
-            </Typography>
+            </p>
           )}
         </TableCell>
       ) : null}

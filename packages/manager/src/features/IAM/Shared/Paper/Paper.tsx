@@ -9,6 +9,7 @@ export type PaperSpacing = (typeof Spacing)[keyof typeof Spacing];
 
 export interface PaperProps {
   children: React.ReactNode;
+  className?: string;
   dataTestId?: string;
   marginBottom?: PaperSpacing;
   marginTop?: PaperSpacing;
@@ -27,6 +28,7 @@ export const Paper = ({
   paddingTop,
   paddingBottom,
   children,
+  className,
   dataTestId,
   style: styleProp,
   outlined,
@@ -40,10 +42,17 @@ export const Paper = ({
   });
   const style =
     spacingStyle || styleProp ? { ...spacingStyle, ...styleProp } : undefined;
+  const resolvedClassName = [
+    styles.paper,
+    outlined ? styles.outlined : undefined,
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div
-      className={`${styles.paper} ${outlined ? styles.outlined : ''}`}
+      className={resolvedClassName}
       data-testid={dataTestId ?? 'data-qa-paper'}
       style={style}
     >

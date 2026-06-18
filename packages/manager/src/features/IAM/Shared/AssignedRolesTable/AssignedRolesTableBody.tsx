@@ -3,8 +3,7 @@ import {
   TableRow,
   TableRowExpanded,
 } from '@akamai/cds-components/react';
-import { Spacing, Typography as TypographyToken } from '@akamai/cds-tokens';
-import { Typography } from '@linode/ui';
+import { Spacing, Typography } from '@akamai/cds-tokens';
 import React from 'react';
 
 import { AssignedEntities } from '../../Users/UserRoles/AssignedEntities';
@@ -79,11 +78,11 @@ export const AssignedRolesTableBody = ({
               <TableCell
                 style={getAssignedRolesTableCellStyle(columnWidths.entities)}
               >
-                <Typography>
+                <p>
                   {role.entity_type === 'account'
                     ? 'All Entities'
                     : `All ${getFormattedEntityType(role.entity_type)}s`}
-                </Typography>
+                </p>
               </TableCell>
             ) : (
               <TableCell
@@ -118,7 +117,7 @@ export const AssignedRolesTableBody = ({
             slot="expanded"
             style={{
               marginBottom: Spacing.S12,
-              marginLeft: Spacing.S20,
+              marginLeft: Spacing.S4,
               padding: `0 ${Spacing.S4}`,
               width: '100%',
             }}
@@ -129,15 +128,15 @@ export const AssignedRolesTableBody = ({
                 boxSizing: 'border-box',
               }}
             >
-              <Typography
-                sx={{
-                  font: TypographyToken.Label.Bold.S,
+              <p
+                style={{
+                  font: Typography.Label.Bold.S,
                   marginBottom: Spacing.S4,
                 }}
               >
                 Description
-              </Typography>
-              <Typography sx={{ marginBottom: Spacing.S8 }}>
+              </p>
+              <p style={{ marginBottom: Spacing.S8 }}>
                 {role.permissions.length ? (
                   role.description
                 ) : (
@@ -146,7 +145,7 @@ export const AssignedRolesTableBody = ({
                     <Link to={ROLES_LEARN_MORE_LINK}>Learn more</Link>.
                   </>
                 )}
-              </Typography>
+              </p>
               <Permissions permissions={role.permissions} />
             </div>
           </TableRowExpanded>

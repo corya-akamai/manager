@@ -10,7 +10,6 @@ import {
   useUserRoles,
   useUserRolesMutation,
 } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import { useParams } from '@tanstack/react-router';
 import { useSnackbar } from 'notistack';
 import React from 'react';
@@ -114,16 +113,16 @@ export const UnassignRoleConfirmationDialog = (props: Props) => {
       <div slot="body">
         <NotificationBanner type="warning">
           {isDefaultDelegationRolesForChildAccount ? (
-            <Typography>
+            <p style={{ marginBottom: Spacing.S0 }}>
               The <strong>{role?.name}</strong> role won’t be added to delegate
               users by default.
-            </Typography>
+            </p>
           ) : (
-            <Typography>
+            <p style={{ marginBottom: Spacing.S0 }}>
               You’re about to remove the <strong>{role?.name}</strong> role from{' '}
               <strong>{username}</strong>. The change will be applied
               immediately.
-            </Typography>
+            </p>
           )}
         </NotificationBanner>
         {error && <ErrorState errorText={getErrorMessage(error)} />}

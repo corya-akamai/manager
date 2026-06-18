@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useBreakpoint } from '../hooks/useBreakpoint';
 import { Drawer } from '../Shared/Drawer';
+import styles from '../Shared/global.module.css';
 import { UpdateDelegationForm } from './UpdateDelegationForm';
 
 import type { ChildAccount, ChildAccountWithDelegates } from '@linode/api-v4';
@@ -30,6 +31,7 @@ export const UpdateDelegationsDrawer = ({
 
   return (
     <Drawer
+      className={styles.noMargin}
       onClose={onClose}
       open={open}
       title="Update Delegation"

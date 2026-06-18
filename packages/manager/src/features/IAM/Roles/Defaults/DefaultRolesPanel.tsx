@@ -1,6 +1,5 @@
 import { Button } from '@akamai/cds-components/react';
-import { Spacing } from '@akamai/cds-tokens';
-import { Typography } from '@linode/ui';
+import { Spacing, Typography } from '@akamai/cds-tokens';
 import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 
@@ -19,11 +18,13 @@ export const DefaultRolesPanel = () => {
         style={{ justifyContent: 'space-between' }}
       >
         <div>
-          <Typography variant="h2">Default Roles for Delegate Users</Typography>
-          <Typography marginTop={2}>
+          <h2 style={{ font: Typography.Heading.M }}>
+            Default Roles for Delegate Users
+          </h2>
+          <p style={{ marginTop: Spacing.S16 }}>
             View and manage roles to be assigned to new delegate users by
             default.
-          </Typography>
+          </p>
         </div>
         <div>
           <Button

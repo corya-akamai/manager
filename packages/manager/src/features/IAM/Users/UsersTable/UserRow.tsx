@@ -7,7 +7,6 @@ import {
 } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { capitalize, truncateEnd } from '@akamai/compute-ui-core/formatting';
-import { Typography } from '@linode/ui';
 import React from 'react';
 
 import { usePermissions } from '../../hooks/usePermissions';
@@ -62,7 +61,7 @@ export const UserRow = ({ onDelete, user }: Props) => {
               tooltipPlacement="bottom"
               tooltipText={user.username}
             >
-              <Typography sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <p style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {canViewUser ? (
                   <Link
                     data-pendo-id={
@@ -83,7 +82,7 @@ export const UserRow = ({ onDelete, user }: Props) => {
                 ) : (
                   truncateEnd(user.username, 32)
                 )}
-              </Typography>
+              </p>
             </Tooltip>
           </MaskableText>
           {user.tfa_enabled && (
@@ -95,9 +94,7 @@ export const UserRow = ({ onDelete, user }: Props) => {
       </TableCell>
       {showUserType && (
         <TableCell style={getUsersTableCellStyle(columnWidths.userType)}>
-          <Typography>
-            {user.user_type === 'child' ? 'User' : 'Delegate User'}
-          </Typography>
+          <p>{user.user_type === 'child' ? 'User' : 'Delegate User'}</p>
         </TableCell>
       )}
       {showEmail ? (
@@ -144,7 +141,7 @@ const LastLogin = (props: Pick<User, 'last_login' | 'user_type'>) => {
   }
 
   if (last_login === null) {
-    return <Typography>Never</Typography>;
+    return <p>Never</p>;
   }
 
   if (last_login.status === 'successful') {
@@ -158,9 +155,9 @@ const LastLogin = (props: Pick<User, 'last_login' | 'user_type'>) => {
       wrap="nowrap"
     >
       <DateTimeDisplay value={last_login.login_datetime} />
-      <Typography>&#8212;</Typography>
+      <p>&#8212;</p>
       <StatusIcon status="error" />
-      <Typography>{capitalize(last_login.status)}</Typography>
+      <p>{capitalize(last_login.status)}</p>
     </Box>
   );
 };
@@ -203,10 +200,10 @@ const UserEmailContent = ({
  * Displays "Not applicable" with a tooltip for delegate users
  */
 const NotApplicableWithTooltip = ({ tooltipText }: { tooltipText: string }) => (
-  <Typography>
+  <p>
     Not applicable{' '}
     <Tooltip tooltipPlacement="left" tooltipText={tooltipText}>
       <Icon icon="info-outline" size="m" style={{ marginBottom: Spacing.S4 }} />
     </Tooltip>
-  </Typography>
+  </p>
 );

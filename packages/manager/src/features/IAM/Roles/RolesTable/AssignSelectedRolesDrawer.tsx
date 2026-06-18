@@ -1,12 +1,12 @@
 import { Button, NotificationBanner } from '@akamai/cds-components/react';
-import { Spacing } from '@akamai/cds-tokens';
+import { Spacing, Typography } from '@akamai/cds-tokens';
 import {
   useAccountRoles,
   useAccountUsersInfiniteQuery,
   useUserRoles,
   useUserRolesMutation,
 } from '@linode/queries';
-import { Autocomplete, Typography } from '@linode/ui';
+import { Autocomplete } from '@linode/ui';
 import { enqueueSnackbar } from 'notistack';
 import React, { useCallback, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
@@ -20,6 +20,7 @@ import {
 } from '../../Shared/constants';
 import { DelegateUserChip } from '../../Shared/DelegateUserChip';
 import { Drawer, DrawerInlineActions } from '../../Shared/Drawer';
+import styles from '../../Shared/global.module.css';
 import { Link } from '../../Shared/Link/Link';
 import { mergeAssignedRolesIntoExistingRoles } from '../../Shared/utilities';
 import { AssignSingleSelectedRole } from './AssignSingleSelectedRole';
@@ -118,11 +119,11 @@ export const AssignSelectedRolesDrawer = ({
 
       await updateUserRoles(mergedRoles);
       const successMessage = (
-        <Typography>
+        <p>
           Roles assigned. See user&apos;s{' '}
           {<Link to={`/iam/users/${username}/roles`}>Assigned Roles</Link>} to
           review them.
-        </Typography>
+        </p>
       );
       enqueueSnackbar(successMessage, {
         variant: 'success',
@@ -159,7 +160,12 @@ export const AssignSelectedRolesDrawer = ({
   const drawerTitle = `Assign Selected Role${selectedRoles.length > 1 ? `s` : ``} to a User`;
 
   return (
-    <Drawer aria-label={drawerTitle} onClose={handleClose} open={open}>
+    <Drawer
+      aria-label={drawerTitle}
+      className={styles.noMargin}
+      onClose={handleClose}
+      open={open}
+    >
       <div slot="header">{drawerTitle}</div>
       <FormProvider {...form}>
         <form onSubmit={handleSubmit(onSubmit)} slot="body">
@@ -169,10 +175,10 @@ export const AssignSelectedRolesDrawer = ({
               type="error"
             />
           )}
-          <Typography sx={{ marginBottom: 2.5 }}>
+          <p style={{ marginBottom: Spacing.S20 }}>
             Select the user you want to assign selected roles to. Some roles
             require selecting entities they should apply to.
-          </Typography>
+          </p>
           <Box
             direction="column"
             style={{
@@ -180,9 +186,15 @@ export const AssignSelectedRolesDrawer = ({
               marginBottom: Spacing.S20,
             }}
           >
-            <Typography mb={Spacing.S8} variant="h3">
+            <h3
+              style={{
+                marginBottom: Spacing.S8,
+                marginTop: Spacing.S0,
+                font: Typography.Heading.S,
+              }}
+            >
               User
-            </Typography>
+            </h3>
 
             <Controller
               control={control}
@@ -224,10 +236,10 @@ export const AssignSelectedRolesDrawer = ({
                     >
                       <Box
                         direction="row"
-                        style={{ alignItems: 'center' }}
+                        style={{ alignItems: 'center', gap: Spacing.S8 }}
                         wrap="nowrap"
                       >
-                        <Typography>{option.label}</Typography>
+                        <p>{option.label}</p>
                         {option.userType === 'delegate' && <DelegateUserChip />}
                       </Box>
                     </li>
@@ -262,10 +274,10 @@ export const AssignSelectedRolesDrawer = ({
               justifyContent: 'space-between',
             }}
           >
-            <Typography variant={'h3'}>
+            <h3 style={{ font: Typography.Heading.S }}>
               Role
               {selectedRoles.length > 1 ? `s` : ``}
-            </Typography>
+            </h3>
             {selectedRoles.length > 0 && (
               <Button
                 onClick={() => setAreDetailsHidden(!areDetailsHidden)}
