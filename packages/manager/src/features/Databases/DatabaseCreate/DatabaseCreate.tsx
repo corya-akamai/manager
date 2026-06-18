@@ -109,7 +109,7 @@ export const DatabaseCreate = () => {
       },
     ],
     cluster_size: 3,
-    engine: 'mysql/8' as Engine,
+    engine: 'mysql/8.4' as Engine,
     label: '',
     region: '',
     type: '',
