@@ -55,7 +55,7 @@ export const CloudPulseDashboardSelect = React.memo(
       data: serviceTypesList,
       error: serviceTypesError,
       isLoading: serviceTypesLoading,
-    } = useCloudPulseServiceTypes(!!savePreferences);
+    } = useCloudPulseServiceTypes(true);
 
     const { aclpServices } = useFlags();
     // Check if the integration service type is enabled
