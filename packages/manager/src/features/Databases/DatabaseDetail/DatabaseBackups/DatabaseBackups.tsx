@@ -313,7 +313,10 @@ export const DatabaseBackups = () => {
                   control={control}
                   name="time"
                   render={({ field, fieldState }) => (
-                    <FormField style={{ marginTop: 0 }}>
+                    <FormField
+                      error={!!fieldState.error}
+                      style={{ marginTop: 0 }}
+                    >
                       <h3 style={{ margin: 0 }}>Time (UTC)</h3>
                       <TimePicker
                         dateTime={toPickerDate(field.value) ?? null}
