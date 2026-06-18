@@ -235,7 +235,7 @@ export const DestinationAkamaiObjectStorageDetailsForm = ({
             inputProps={{
               'data-pendo-id': `${pendoIdPrefix}Access Key ID`,
             }}
-            label="Access Key ID"
+            label="Access Key"
             labelTooltipText="The access key identifier used for authentication"
             onBlur={field.onBlur}
             onChange={(value) => field.onChange(value)}
@@ -253,8 +253,8 @@ export const DestinationAkamaiObjectStorageDetailsForm = ({
             inputProps={{
               'data-pendo-id': `${pendoIdPrefix}Secret Access Key`,
             }}
-            label="Secret Access Key"
-            labelTooltipText="The confidential security credential used with Access Key ID to access Object Storage"
+            label="Secret Key"
+            labelTooltipText="The confidential security credential used with Access Key to access Object Storage"
             onBlur={field.onBlur}
             onChange={(value) => field.onChange(value)}
             value={field.value}

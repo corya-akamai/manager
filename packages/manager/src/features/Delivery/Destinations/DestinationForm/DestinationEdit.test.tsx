@@ -99,8 +99,8 @@ describe('DestinationEdit', () => {
     });
     assertInputHasValue('Endpoint', 'destinations-bucket-name.host.com');
     assertInputHasValue('Bucket', 'destinations-bucket-name');
-    assertInputHasValue('Access Key ID', 'Access Id');
-    assertInputHasValue('Secret Access Key', '');
+    assertInputHasValue('Access Key', 'Access Id');
+    assertInputHasValue('Secret Key', '');
     assertInputHasValue('Log Path Prefix (optional)', 'file');
   });
 
@@ -281,8 +281,8 @@ describe('DestinationEdit', () => {
           name: saveDestinationButtonText,
         });
 
-        // Enter Secret Access Key
-        const secretAccessKeyInput = screen.getByLabelText('Secret Access Key');
+        // Enter Secret Key
+        const secretAccessKeyInput = screen.getByLabelText('Secret Key');
         await userEvent.type(secretAccessKeyInput, 'Test');
 
         expect(saveDestinationButton).toBeDisabled();
@@ -331,8 +331,8 @@ describe('DestinationEdit', () => {
           name: saveDestinationButtonText,
         });
 
-        // Enter Secret Access Key
-        const secretAccessKeyInput = screen.getByLabelText('Secret Access Key');
+        // Enter Secret Key
+        const secretAccessKeyInput = screen.getByLabelText('Secret Key');
         await userEvent.type(secretAccessKeyInput, 'Test');
 
         expect(saveDestinationButton).toBeDisabled();
