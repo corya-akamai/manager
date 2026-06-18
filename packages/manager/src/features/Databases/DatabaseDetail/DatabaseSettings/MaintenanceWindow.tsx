@@ -17,6 +17,8 @@ import { DateTime } from 'luxon';
 import * as React from 'react';
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
+import { Stack } from '../../shared/Stack/Stack';
+
 import type { Database, UpdatesSchedule } from '@linode/api-v4/lib/databases';
 import type { SelectOption } from '@linode/ui';
 
@@ -124,13 +126,7 @@ export const MaintenanceWindow = (props: Props) => {
     <FormProvider {...form}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <StyledDiv>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: Spacing.S12,
-            }}
-          >
+          <Stack>
             <h3 style={{ marginBottom: Spacing.S4, marginTop: 0 }}>
               Set a Weekly Maintenance Window
             </h3>
@@ -148,29 +144,21 @@ export const MaintenanceWindow = (props: Props) => {
               {database.cluster_size !== 3 &&
                 'For non-HA plans, expect downtime during this window.'}
             </StyledParagraph>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                marginTop: Spacing.S16,
-                gap: Spacing.S6,
-              }}
+            <Stack
+              direction="row"
+              spacing={Spacing.S6}
+              style={{ marginTop: Spacing.S16 }}
             >
               <Controller
                 control={control}
                 name="day_of_week"
                 render={({ field }) => (
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: Spacing.S4,
-                    }}
-                  >
+                  <Stack spacing={Spacing.S4}>
                     <FormLabel
                       data-qa-dropdown-label="day-of-week-select"
                       data-qa-textfield-label="Day of Week"
                       slot="label"
+                      style={{ marginBottom: Spacing.S8 }}
                     >
                       Day of Week
                     </FormLabel>
@@ -197,24 +185,22 @@ export const MaintenanceWindow = (props: Props) => {
                         }
                       />
                     </div>
-                  </div>
+                  </Stack>
                 )}
               />
               <Controller
                 control={control}
                 name="hour_of_day"
                 render={({ field }) => (
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: Spacing.S4,
-                    }}
+                  <Stack
+                    spacing={Spacing.S4}
+                    style={{ marginLeft: Spacing.S48 }}
                   >
                     <FormLabel
                       data-qa-dropdown-label="time-select"
                       data-qa-textfield-label="Time"
                       slot="label"
+                      style={{ marginBottom: Spacing.S8 }}
                     >
                       Time
                     </FormLabel>
@@ -261,10 +247,10 @@ export const MaintenanceWindow = (props: Props) => {
                         </Tooltip>
                       </div>
                     </div>
-                  </div>
+                  </Stack>
                 )}
               />
-            </div>
+            </Stack>
             <div>
               {frequency === 'monthly' && (
                 <Controller
@@ -301,7 +287,7 @@ export const MaintenanceWindow = (props: Props) => {
                 />
               )}
             </div>
-          </div>
+          </Stack>
           <StyledButtonDiv>
             <Button
               data-testid="save-changes-button"
@@ -379,6 +365,7 @@ const StyledParagraph = styled('p', {
   [theme.breakpoints.down('sm')]: {
     width: '100%',
   },
+  margin: 0,
   width: '65%',
 }));
 

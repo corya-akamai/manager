@@ -11,7 +11,7 @@ import {
 import { Spacing } from '@akamai/cds-tokens';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUpdateDatabaseConnectionPoolMutation } from '@linode/queries';
-import { Autocomplete, FormControlLabel, Stack } from '@linode/ui';
+import { Autocomplete, FormControlLabel } from '@linode/ui';
 import { updateDatabaseConnectionPoolSchema } from '@linode/validation';
 import * as React from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
@@ -20,6 +20,7 @@ import { poolModeOptions } from 'src/features/Databases/constants';
 
 import { Drawer } from '../../shared/Drawer';
 import { DrawerActions } from '../../shared/DrawerActions';
+import { Stack } from '../../shared/Stack/Stack';
 
 import type { ConnectionPool } from '@linode/api-v4';
 

@@ -1,4 +1,4 @@
-import { Stack, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import { styled } from '@mui/material/styles';
 
 export const StyledTypography = styled(Typography)(() => ({
@@ -6,9 +6,10 @@ export const StyledTypography = styled(Typography)(() => ({
   marginTop: '4px',
 }));
 
-export const StyledDateTimeStack = styled(Stack, {
+export const StyledDateTimeStack = styled('div', {
   label: 'StyledDateTimeStack',
 })(({ theme }) => ({
+  display: 'flex',
   flexDirection: 'row',
   [theme.breakpoints.down('md')]: {
     flexDirection: 'column',
@@ -17,7 +18,7 @@ export const StyledDateTimeStack = styled(Stack, {
   },
 }));
 
-export const StyledRegionStack = styled(Stack, { label: 'StyledRegionStack' })(
+export const StyledRegionStack = styled('div', { label: 'StyledRegionStack' })(
   ({ theme }) => ({
     [theme.breakpoints.down('md')]: {
       marginTop: theme.spacingFunction(24),

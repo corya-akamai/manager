@@ -1,7 +1,7 @@
 import { Badge, Button, Icon, Tooltip } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { useAllVPCsQuery } from '@linode/queries';
-import { Stack, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import React from 'react';
 
 import { Link } from 'src/components/Link';
@@ -11,6 +11,7 @@ import { MANAGE_NETWORKING_LEARN_MORE_LINK } from '../../constants';
 import { makeSettingsItemStyles } from '../../shared.styles';
 import { CircleProgress } from '../../shared/CircleProgress/CircleProgress';
 import { ErrorState } from '../../shared/ErrorState/ErrorState';
+import { Stack } from '../../shared/Stack/Stack';
 import { ConnectionDetailsHostRows } from '../ConnectionDetailsHostRows';
 import { ConnectionDetailsHostRows2 } from '../ConnectionDetailsHostRows2';
 import { ConnectionDetailsRow } from '../ConnectionDetailsRow';
@@ -73,7 +74,7 @@ export const DatabaseManageNetworking = ({ database }: Props) => {
   return (
     <>
       <div className={classes.topSection}>
-        <Stack spacing={0.5}>
+        <Stack spacing={Spacing.S4}>
           <div style={{ display: 'flex' }}>
             <Typography variant="h3">Manage Networking</Typography>
             {flags.databaseVpcBeta && (
@@ -114,7 +115,7 @@ export const DatabaseManageNetworking = ({ database }: Props) => {
         </Tooltip>
       </div>
 
-      <div style={{ marginTop: Spacing.S16, maxWidth: 700 }}>
+      <div style={{ maxWidth: 700 }}>
         <ConnectionDetailsRow label="Connection Type">
           {hasVPCConfigured ? 'VPC' : 'Public'}
         </ConnectionDetailsRow>

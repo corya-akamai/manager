@@ -3,7 +3,7 @@ import { Button, NotificationBanner } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDatabaseEngineConfig, useDatabaseMutation } from '@linode/queries';
-import { Stack, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import { scrollErrorIntoViewV2 } from '@linode/utilities';
 import { createDynamicAdvancedConfigSchema } from '@linode/validation';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -20,6 +20,7 @@ import { CircleProgress } from '../../shared/CircleProgress/CircleProgress';
 import { Divider } from '../../shared/Divider/Divider';
 import { Drawer } from '../../shared/Drawer';
 import { DrawerActions } from '../../shared/DrawerActions';
+import { Stack } from '../../shared/Stack/Stack';
 import { DatabaseConfigurationItem } from './DatabaseConfigurationItem';
 import { DatabaseConfigurationSelect } from './DatabaseConfigurationSelect';
 import {

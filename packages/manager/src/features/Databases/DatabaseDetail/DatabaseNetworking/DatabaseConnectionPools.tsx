@@ -10,8 +10,9 @@ import {
   TableRow,
   Tooltip,
 } from '@akamai/cds-components/react';
+import { Spacing } from '@akamai/cds-tokens';
 import { useDatabaseConnectionPoolsQuery } from '@linode/queries';
-import { Stack, Typography } from '@linode/ui';
+import { Typography } from '@linode/ui';
 import { useTheme } from '@mui/material/styles';
 import React from 'react';
 
@@ -30,6 +31,7 @@ import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 import { makeSettingsItemStyles } from '../../shared.styles';
 import { CircleProgress } from '../../shared/CircleProgress/CircleProgress';
 import { ErrorState } from '../../shared/ErrorState/ErrorState';
+import { Stack } from '../../shared/Stack/Stack';
 import styles from '../DatabaseDetail.module.css';
 import { ServiceURI } from '../ServiceURI';
 import { DatabaseAddConnectionPoolDrawer } from './DatabaseAddConnectionPoolDrawer';
@@ -78,7 +80,7 @@ export const DatabaseConnectionPools = ({ database }: Props) => {
   return (
     <>
       <div className={classes.topSection}>
-        <Stack spacing={0.5}>
+        <Stack spacing={Spacing.S4}>
           <Typography variant="h3">
             Manage PgBouncer Connection Pools
           </Typography>
