@@ -12,9 +12,9 @@ import React, { useCallback } from 'react';
 
 import { DebouncedSearchField } from 'src/features/IAM/Shared/DebouncedSearchField/DebouncedSearchField';
 import globalStyles from 'src/features/IAM/Shared/global.module.css';
-import { useOrderV2 } from 'src/hooks/useOrderV2';
-import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 
+import { useOrder } from '../hooks/useOrder';
+import { usePagination } from '../hooks/usePagination';
 import { usePermissions } from '../hooks/usePermissions';
 import { Paper } from '../Shared/Paper/Paper';
 import { AccountDelegationsTable } from './AccountDelegationsTable';
@@ -33,7 +33,7 @@ export const AccountDelegations = () => {
     from: '/iam',
   });
 
-  const { handleOrderChange, order, orderBy } = useOrderV2({
+  const { handleOrderChange, order, orderBy } = useOrder({
     initialRoute: {
       defaultOrder: {
         order: 'asc',
@@ -44,7 +44,7 @@ export const AccountDelegations = () => {
     preferenceKey: 'iam-delegations-pagination',
   });
 
-  const pagination = usePaginationV2({
+  const pagination = usePagination({
     currentRoute: DELEGATIONS_ROUTE,
     preferenceKey: 'iam-delegations-pagination',
     initialPage: 1,

@@ -13,8 +13,8 @@ import * as React from 'react';
 
 import { useBreakpoint } from 'src/features/Databases/hooks/useBreakpoint';
 import { DateTimeDisplay } from 'src/features/IAM/Shared/DateTimeDisplay/DateTimeDisplay';
-import { useOrderV2 } from 'src/hooks/useOrderV2';
 
+import { useOrder } from '../../../hooks/useOrder';
 import { StatusIcon } from '../../../Shared/StatusIcon/StatusIcon';
 import { ALL_CERTIFICATES_DELETED_ERROR } from '../../constants';
 import styles from './CertificatesTable.module.css';
@@ -58,7 +58,7 @@ export const CertificatesTable = (props: CombinedProps) => {
     ? 'iam-idp-certificates-landing-order'
     : 'iam-idp-certificates-edit-order';
 
-  const order = useOrderV2<IdpCertificate>({
+  const order = useOrder<IdpCertificate>({
     data: certificates,
     initialRoute: {
       defaultOrder: {

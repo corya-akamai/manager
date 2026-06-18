@@ -19,9 +19,9 @@ import { NO_ITEMS_TO_DISPLAY_TEXT } from 'src/features/IAM/Shared/constants';
 import { DebouncedSearchField } from 'src/features/IAM/Shared/DebouncedSearchField/DebouncedSearchField';
 import { ErrorState } from 'src/features/IAM/Shared/ErrorState/ErrorState';
 import globalStyles from 'src/features/IAM/Shared/global.module.css';
-import { useOrderV2 } from 'src/hooks/useOrderV2';
-import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 
+import { useOrder } from '../../hooks/useOrder';
+import { usePagination } from '../../hooks/usePagination';
 import { CircleProgress } from '../../Shared/CircleProgress/CircleProgress';
 import { Paper } from '../../Shared/Paper/Paper';
 
@@ -35,7 +35,7 @@ export const UserDelegationsTable = () => {
   });
   const navigate = useNavigate();
 
-  const { handleOrderChange, order, orderBy } = useOrderV2({
+  const { handleOrderChange, order, orderBy } = useOrder({
     initialRoute: {
       defaultOrder: {
         order: 'asc',
@@ -46,7 +46,7 @@ export const UserDelegationsTable = () => {
     preferenceKey: 'user-delegations',
   });
 
-  const pagination = usePaginationV2({
+  const pagination = usePagination({
     currentRoute: USER_DELEGATION_ROUTE,
     preferenceKey: 'user-delegations',
     initialPage: 1,

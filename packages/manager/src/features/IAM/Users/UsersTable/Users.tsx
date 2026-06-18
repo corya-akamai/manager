@@ -18,10 +18,10 @@ import React from 'react';
 
 import { DebouncedSearchField } from 'src/features/IAM/Shared/DebouncedSearchField/DebouncedSearchField';
 import globalStyles from 'src/features/IAM/Shared/global.module.css';
-import { useOrderV2 } from 'src/hooks/useOrderV2';
 import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 
 import { useDelegationRole } from '../../hooks/useDelegationRole';
+import { useOrder } from '../../hooks/useOrder';
 import { usePermissions } from '../../hooks/usePermissions';
 import { Box } from '../../Shared/Box/Box';
 import {
@@ -66,7 +66,7 @@ export const UsersLanding = () => {
     initialPage: 1,
     preferenceKey: 'iam-account-users-pagination',
   });
-  const order = useOrderV2({
+  const order = useOrder({
     initialRoute: {
       defaultOrder: {
         order: 'desc',

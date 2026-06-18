@@ -20,10 +20,10 @@ import React from 'react';
 
 import { DebouncedSearchField } from 'src/features/IAM/Shared/DebouncedSearchField/DebouncedSearchField';
 import globalStyles from 'src/features/IAM/Shared/global.module.css';
-import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 import { useAllAccountEntities } from 'src/queries/entities/entities';
 
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
+import { usePagination } from '../../hooks/usePagination';
 import { usePermissions } from '../../hooks/usePermissions';
 import { AssignNewRoleDrawer } from '../../Users/UserRoles/AssignNewRoleDrawer';
 import { Box } from '../Box/Box';
@@ -257,7 +257,7 @@ export const AssignedRolesTable = () => {
     });
   }, [roles, queryParam, roleTypeParam, order, orderBy, isInitialLoad]);
 
-  const pagination = usePaginationV2({
+  const pagination = usePagination({
     currentRoute: isDefaultDelegationRolesForChildAccount
       ? DEFAULTS_ROLES_URL
       : USER_ROLES_URL,

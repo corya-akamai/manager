@@ -30,10 +30,10 @@ import {
   getFacadeRoleDescription,
   mapEntityTypesForSelect,
 } from 'src/features/IAM/Shared/utilities';
-import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 
 import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { useDelegationRole } from '../../hooks/useDelegationRole';
+import { usePagination } from '../../hooks/usePagination';
 import { usePermissions } from '../../hooks/usePermissions';
 import { Box } from '../../Shared/Box/Box';
 import {
@@ -115,7 +115,7 @@ export const RolesTable = ({ roles = [] }: Props) => {
     return sortRows(filteredRows, sort.order, sort.column);
   }, [filteredRows, sort]);
 
-  const pagination = usePaginationV2({
+  const pagination = usePagination({
     currentRoute: '/iam/roles',
     defaultPageSize: DEFAULT_PAGE_SIZE,
     initialPage: 1,

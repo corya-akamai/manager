@@ -16,10 +16,10 @@ import React from 'react';
 
 import { DebouncedSearchField } from 'src/features/IAM/Shared/DebouncedSearchField/DebouncedSearchField';
 import globalStyles from 'src/features/IAM/Shared/global.module.css';
-import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 import { useAllAccountEntities } from 'src/queries/entities/entities';
 
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
+import { usePagination } from '../../hooks/usePagination';
 import { usePermissions } from '../../hooks/usePermissions';
 import {
   addEntityNamesToRoles,
@@ -218,7 +218,7 @@ export const AssignedEntitiesTable = ({ username }: Props) => {
     return 0;
   });
 
-  const pagination = usePaginationV2({
+  const pagination = usePagination({
     currentRoute: isDefaultDelegationRolesForChildAccount
       ? DEFAULTS_ENTITIES_URL
       : USER_ENTITIES_URL,
