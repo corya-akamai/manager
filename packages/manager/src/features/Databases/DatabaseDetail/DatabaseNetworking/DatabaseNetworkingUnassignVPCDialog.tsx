@@ -85,7 +85,7 @@ export const DatabaseNetworkingUnassignVPCDialog = (props: Props) => {
         </p>
       </div>
       <div slot="actions" style={{ display: 'flex', alignItems: 'center' }}>
-        <Button onClick={onClose} variant="link">
+        <Button onClick={handleOnClose} variant="link">
           Cancel
         </Button>
         <Button

@@ -1,10 +1,17 @@
 import { toast } from '@akamai/cds-components/notification-toast';
-import { NotificationBanner } from '@akamai/cds-components/react';
+import {
+  Button,
+  FormField,
+  Modal,
+  NotificationBanner,
+  TextField,
+} from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { formatStorageUnits } from '@akamai/compute-ui-core/api';
 import {
   useDatabaseMutation,
   useDatabaseTypesQuery,
+  usePreferences,
   useRegionAvailabilityQuery,
   useRegionsQuery,
 } from '@linode/queries';
@@ -12,7 +19,6 @@ import { Typography } from '@linode/ui';
 import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 
-import { TypeToConfirmDialog } from 'src/components/TypeToConfirmDialog/TypeToConfirmDialog';
 import { PlanNoticeTypography } from 'src/features/components/PlansPanel/PlansAvailabilityNotice.styles';
 import {
   determineInitialPlanCategoryTab,
@@ -74,6 +80,17 @@ export const DatabaseResize = () => {
   const [clusterSize, setClusterSize] = React.useState<ClusterSize | undefined>(
     database.cluster_size
   );
+
+  const [clusterName, setClusterName] = React.useState('');
+
+  const { data: typeToConfirmPreference } = usePreferences(
+    (preferences) => preferences?.type_to_confirm ?? true
+  );
+
+  const isTypeToConfirmEnabled =
+    typeToConfirmPreference === true || typeToConfirmPreference == null
+      ? true
+      : false;
 
   const {
     error: resizeError,
@@ -535,30 +552,63 @@ export const DatabaseResize = () => {
           Resize Database Cluster
         </StyledResizeButton>
       </div>
-      <TypeToConfirmDialog
-        entity={{
-          action: 'resizing',
-          name: database.label,
-          primaryBtnText: 'Resize Cluster',
-          subType: 'Cluster',
-          type: 'Database',
-        }}
-        label={'Cluster Name'}
-        loading={submitInProgress}
-        onClick={onResize}
-        onClose={handleOnClose}
+      <Modal
+        closeModal={handleOnClose}
         open={isResizeConfirmationDialogOpen}
-        title={`Resize Database Cluster ${database.label}?`}
+        size="medium"
       >
-        {resizeError ? (
-          <NotificationBanner
-            style={{ marginBottom: Spacing.S16 }}
-            text={resizeError[0].reason}
-            type="error"
-          />
-        ) : null}
-        {confirmationPopUpMessage}
-      </TypeToConfirmDialog>
+        <span slot="title">Resize Database Cluster {database.label}?</span>
+        <div slot="body">
+          {resizeError ? (
+            <NotificationBanner
+              style={{ marginBottom: Spacing.S16 }}
+              text={resizeError[0].reason}
+              type="error"
+            />
+          ) : null}
+          <p>{confirmationPopUpMessage}</p>
+          <p>
+            To confirm deletion, type the name of the Database Cluster{' '}
+            <strong>({database.label})</strong> in the field below:
+          </p>
+          {isTypeToConfirmEnabled ? (
+            <FormField>
+              <label
+                htmlFor="clusterName" // eslint-disable-next-line @linode/cloud-manager/no-custom-fontWeight
+                style={{ fontWeight: 700, marginBottom: Spacing.S8 }}
+              >
+                Cluster Name
+              </label>
+              <TextField
+                id="clusterName"
+                onChange={(e) => setClusterName(e.detail as unknown as string)}
+                placeholder=""
+                value={clusterName}
+              />
+            </FormField>
+          ) : (
+            <p style={{ margin: 0 }}>
+              To disable type-to-confirm, go to the Type-to-Confirm section of{' '}
+              <a href="/profile/preferences">Preferences</a>.
+            </p>
+          )}
+        </div>
+        <div slot="actions" style={{ display: 'flex', alignItems: 'center' }}>
+          <Button onClick={handleOnClose} variant="link">
+            Cancel
+          </Button>
+          <Button
+            disabled={
+              isTypeToConfirmEnabled ? clusterName !== database.label : false
+            }
+            onClick={onResize}
+            processing={submitInProgress}
+            variant="primary"
+          >
+            Resize Cluster
+          </Button>
+        </div>
+      </Modal>
     </>
   );
 };
