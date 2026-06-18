@@ -140,7 +140,6 @@ export const AssignSelectedRolesDrawer = ({
 
   const handleClose = () => {
     reset();
-
     onClose();
   };
 
@@ -189,7 +188,7 @@ export const AssignSelectedRolesDrawer = ({
             <Controller
               control={control}
               name={`username`}
-              render={({ field: { onChange }, fieldState }) => (
+              render={({ field: { onChange, value }, fieldState }) => (
                 <Autocomplete
                   data-pendo-id={
                     IAM_ROLES_PENDO_IDS.assignSelectedRolesToUserOpen
@@ -249,6 +248,9 @@ export const AssignSelectedRolesDrawer = ({
                       },
                     },
                   }}
+                  value={
+                    getUserOptions()?.find((o) => o.value === value) ?? null
+                  }
                 />
               )}
               rules={{ required: 'Select a user.' }}
