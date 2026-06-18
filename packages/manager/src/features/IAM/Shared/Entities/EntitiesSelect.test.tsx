@@ -1,19 +1,12 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 
-import { accountEntityFactory } from 'src/factories/accountEntities';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
+import { createAccountEntity } from '../../factories';
 import { EntitiesSelect } from './EntitiesSelect';
 
 import type { EntitiesOption } from '../types';
-
-// Remove the debounce delay so filter changes take effect synchronously.
-vi.mock('@linode/utilities', async () => {
-  const actual = await vi.importActual('@linode/utilities');
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return { ...actual, useDebouncedValue: (value: any) => value };
-});
 
 const queryMocks = vi.hoisted(() => ({
   useAllAccountEntities: vi.fn().mockReturnValue({}),
@@ -28,12 +21,12 @@ vi.mock('src/queries/entities/entities', async () => {
 });
 
 const mockEntities = [
-  accountEntityFactory.build({
+  createAccountEntity({
     id: 7,
     type: 'linode',
     label: 'linode',
   }),
-  accountEntityFactory.build({
+  createAccountEntity({
     id: 1,
     label: 'firewall-1',
     type: 'firewall',
@@ -41,8 +34,8 @@ const mockEntities = [
 ];
 
 const linodeEntities = [
-  accountEntityFactory.build({ id: 1, label: 'linode-1', type: 'linode' }),
-  accountEntityFactory.build({ id: 2, label: 'linode-2', type: 'linode' }),
+  createAccountEntity({ id: 1, label: 'linode-1', type: 'linode' }),
+  createAccountEntity({ id: 2, label: 'linode-2', type: 'linode' }),
 ];
 const bothSelected: EntitiesOption[] = [
   { label: 'linode-1', value: 1 },

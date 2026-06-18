@@ -2,17 +2,17 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { accountRolesFactory } from 'src/factories/accountRoles';
-import {
-  mockScrollIntoView,
-  submitCdsDrawerForm,
-} from 'src/features/IAM/utilities/testHelpers';
 import {
   getShadowRootElement,
   mockMatchMedia,
   renderWithTheme,
 } from 'src/utilities/testHelpers';
 
+import { createAccountRoles } from '../../factories';
+import {
+  mockScrollIntoView,
+  submitCdsDrawerForm,
+} from '../../utilities/testHelpers';
 import { AssignNewRoleDrawer } from './AssignNewRoleDrawer';
 
 import type { ExtendedRoleView } from '../../Shared/types';
@@ -85,7 +85,7 @@ describe('AssignNewRoleDrawer', () => {
       username: 'test_user',
     });
     queryMocks.useAccountRoles.mockReturnValue({
-      data: accountRolesFactory.build(),
+      data: createAccountRoles(),
     });
   });
 

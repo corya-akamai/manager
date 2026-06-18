@@ -1,9 +1,9 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { accountEntityFactory } from 'src/factories/accountEntities';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
+import { createAccountEntity } from '../../factories';
 import { AssignedPermissionsPanel } from './AssignedPermissionsPanel';
 
 import type { ExtendedRole } from '../utilities';
@@ -45,7 +45,7 @@ const mockEntitiesAcceessRole: ExtendedRole = {
 };
 
 const mockEntities = [
-  accountEntityFactory.build({
+  createAccountEntity({
     id: 1,
     label: 'linode-1',
     type: 'linode',

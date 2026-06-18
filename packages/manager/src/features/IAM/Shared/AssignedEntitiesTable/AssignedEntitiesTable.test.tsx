@@ -2,10 +2,9 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { accountEntityFactory } from 'src/factories/accountEntities';
-import { userRolesFactory } from 'src/factories/userRoles';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
+import { createAccountEntity, createUserRoles } from '../../factories';
 import { AssignedEntitiesTable } from '../../Shared/AssignedEntitiesTable/AssignedEntitiesTable';
 
 vi.mock('src/OAuth/oauthClient', () => ({
@@ -69,7 +68,7 @@ vi.mock('@tanstack/react-router', async () => {
 });
 
 const mockEntities = [
-  accountEntityFactory.build({
+  createAccountEntity({
     id: 1,
     label: 'no_devices',
     type: 'firewall',
@@ -98,7 +97,7 @@ describe('AssignedEntitiesTable', () => {
 
   it('should display roles and menu when data is available', async () => {
     queryMocks.useUserRoles.mockReturnValue({
-      data: userRolesFactory.build(),
+      data: createUserRoles(),
     });
 
     queryMocks.useAllAccountEntities.mockReturnValue({
@@ -123,7 +122,7 @@ describe('AssignedEntitiesTable', () => {
 
   it('should display empty state when no roles match filters', async () => {
     queryMocks.useUserRoles.mockReturnValue({
-      data: userRolesFactory.build(),
+      data: createUserRoles(),
     });
 
     queryMocks.useAllAccountEntities.mockReturnValue({
@@ -139,7 +138,7 @@ describe('AssignedEntitiesTable', () => {
 
   it('should filter roles based on search query', async () => {
     queryMocks.useUserRoles.mockReturnValue({
-      data: userRolesFactory.build(),
+      data: createUserRoles(),
     });
 
     queryMocks.useAllAccountEntities.mockReturnValue({
@@ -163,7 +162,7 @@ describe('AssignedEntitiesTable', () => {
 
   it('should filter roles based on selected resource type', async () => {
     queryMocks.useUserRoles.mockReturnValue({
-      data: userRolesFactory.build(),
+      data: createUserRoles(),
     });
 
     queryMocks.useAllAccountEntities.mockReturnValue({

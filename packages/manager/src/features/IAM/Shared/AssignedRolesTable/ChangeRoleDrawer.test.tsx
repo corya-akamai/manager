@@ -2,18 +2,17 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { accountEntityFactory } from 'src/factories/accountEntities';
-import { accountRolesFactory } from 'src/factories/accountRoles';
-import {
-  mockScrollIntoView,
-  submitCdsDrawerForm,
-} from 'src/features/IAM/utilities/testHelpers';
 import {
   getShadowRootElement,
   mockMatchMedia,
   renderWithTheme,
 } from 'src/utilities/testHelpers';
 
+import { createAccountEntity, createAccountRoles } from '../../factories';
+import {
+  mockScrollIntoView,
+  submitCdsDrawerForm,
+} from '../../utilities/testHelpers';
 import { ChangeRoleDrawer } from './ChangeRoleDrawer';
 
 import type { ExtendedRoleView } from '../types';
@@ -150,11 +149,11 @@ describe('ChangeRoleDrawer', () => {
     });
 
     queryMocks.useAccountRoles.mockReturnValue({
-      data: accountRolesFactory.build(),
+      data: createAccountRoles(),
     });
 
     queryMocks.useAccountEntities.mockReturnValue({
-      data: accountEntityFactory.build(),
+      data: createAccountEntity(),
     });
 
     renderWithTheme(<ChangeRoleDrawer {...props} mode="change-role" />);
@@ -216,7 +215,7 @@ describe('ChangeRoleDrawer', () => {
 
   it('should not list the current role in the autocomplete options', async () => {
     queryMocks.useAccountRoles.mockReturnValue({
-      data: accountRolesFactory.build(),
+      data: createAccountRoles(),
     });
 
     renderWithTheme(<ChangeRoleDrawer {...props} mode="change-role" />);

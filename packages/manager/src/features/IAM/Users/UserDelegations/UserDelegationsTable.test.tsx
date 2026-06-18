@@ -1,11 +1,10 @@
-import { childAccountFactory } from '@linode/utilities';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 
-import { accountRolesFactory } from 'src/factories/accountRoles';
-import { getCdsTableRows } from 'src/features/IAM/utilities/testHelpers';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
+import { createAccountRoles, createChildAccountList } from '../../factories';
+import { getCdsTableRows } from '../../utilities/testHelpers';
 import { UserDelegationsTable } from './UserDelegationsTable';
 
 const mockChildAccounts = {
@@ -67,7 +66,7 @@ describe('UserDelegationsTable', () => {
     });
     // Ensure IAM is considered enabled
     queryMocks.useAccountRoles.mockReturnValue({
-      data: accountRolesFactory.build(),
+      data: createAccountRoles(),
       isLoading: false,
     });
   });
@@ -85,7 +84,7 @@ describe('UserDelegationsTable', () => {
 
   it('shows pagination when there are more than 25 child accounts', async () => {
     queryMocks.useGetDelegatedChildAccountsForUserQuery.mockReturnValue({
-      data: { data: childAccountFactory.buildList(30), results: 30 },
+      data: { data: createChildAccountList(30), results: 30 },
       isLoading: false,
     });
 
@@ -103,7 +102,7 @@ describe('UserDelegationsTable', () => {
 
   it('filters child accounts by search', async () => {
     queryMocks.useGetDelegatedChildAccountsForUserQuery.mockReturnValue({
-      data: { data: childAccountFactory.buildList(30), results: 30 },
+      data: { data: createChildAccountList(30), results: 30 },
       isLoading: false,
     });
 

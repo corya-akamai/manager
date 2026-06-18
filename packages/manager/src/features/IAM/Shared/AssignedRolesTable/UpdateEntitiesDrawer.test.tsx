@@ -2,10 +2,10 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { accountEntityFactory } from 'src/factories/accountEntities';
-import { submitCdsDrawerForm } from 'src/features/IAM/utilities/testHelpers';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
+import { createAccountEntity } from '../../factories';
+import { submitCdsDrawerForm } from '../../utilities/testHelpers';
 import { UpdateEntitiesDrawer } from './UpdateEntitiesDrawer';
 
 import type { ExtendedRoleView } from '../types';
@@ -35,12 +35,12 @@ vi.mock('@tanstack/react-router', async () => {
 });
 
 const mockEntities = [
-  accountEntityFactory.build({
+  createAccountEntity({
     id: 1,
     label: 'Linode 1',
     type: 'linode',
   }),
-  accountEntityFactory.build({
+  createAccountEntity({
     id: 2,
     label: 'Linode 2',
     type: 'linode',

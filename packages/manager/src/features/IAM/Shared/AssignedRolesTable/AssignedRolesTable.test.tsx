@@ -2,12 +2,14 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { accountEntityFactory } from 'src/factories/accountEntities';
-import { accountRolesFactory } from 'src/factories/accountRoles';
-import { userRolesFactory } from 'src/factories/userRoles';
-import { getCdsButtonByText } from 'src/features/IAM/utilities/testHelpers';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
+import {
+  createAccountEntity,
+  createAccountRoles,
+  createUserRoles,
+} from '../../factories';
+import { getCdsButtonByText } from '../../utilities/testHelpers';
 import { AssignedRolesTable } from './AssignedRolesTable';
 
 const queryMocks = vi.hoisted(() => ({
@@ -71,19 +73,19 @@ vi.mock('../../hooks/usePermissions', async () => {
 });
 
 const mockEntities = [
-  accountEntityFactory.build({
+  createAccountEntity({
     id: 7,
     type: 'linode',
   }),
-  accountEntityFactory.build({
+  createAccountEntity({
     id: 1,
     label: 'firewall-1',
     type: 'firewall',
   }),
 ];
 
-const mockUserRoles = userRolesFactory.build();
-const mockAccountRoles = accountRolesFactory.build();
+const mockUserRoles = createUserRoles();
+const mockAccountRoles = createAccountRoles();
 
 describe('AssignedRolesTable', () => {
   beforeEach(() => {

@@ -7,13 +7,11 @@ import {
   useUserRolesMutation,
 } from '@linode/queries';
 import { Autocomplete, Typography } from '@linode/ui';
-import { useDebouncedValue } from '@linode/utilities';
 import { enqueueSnackbar } from 'notistack';
 import React, { useCallback, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
-import { AssignSingleSelectedRole } from 'src/features/IAM/Roles/RolesTable/AssignSingleSelectedRole';
-
+import { useDebouncedValue } from '../../hooks/useDebouncedValue';
 import { usePermissions } from '../../hooks/usePermissions';
 import { Box } from '../../Shared/Box/Box';
 import {
@@ -24,10 +22,11 @@ import { DelegateUserChip } from '../../Shared/DelegateUserChip';
 import { Drawer, DrawerInlineActions } from '../../Shared/Drawer';
 import { Link } from '../../Shared/Link/Link';
 import { mergeAssignedRolesIntoExistingRoles } from '../../Shared/utilities';
+import { AssignSingleSelectedRole } from './AssignSingleSelectedRole';
 
+import type { RoleView } from '../../Shared/types';
 import type { AssignNewRoleFormValues } from '../../Shared/utilities';
 import type { User } from '@linode/api-v4';
-import type { RoleView } from 'src/features/IAM/Shared/types';
 
 interface Props {
   onClose: () => void;

@@ -1,18 +1,18 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { accountRolesFactory } from 'src/factories/accountRoles';
-import {
-  expectNotificationBannerText,
-  getCdsButtonByText,
-} from 'src/features/IAM/utilities/testHelpers';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
+import { createAccountRoles } from '../../factories';
 import {
   ERROR_STATE_TEXT,
   ERROR_STATE_TITLE,
   NO_ASSIGNED_DEFAULT_ROLES_TEXT,
 } from '../../Shared/constants';
+import {
+  expectNotificationBannerText,
+  getCdsButtonByText,
+} from '../../utilities/testHelpers';
 import { DefaultRoles } from './DefaultRoles';
 
 const queryMocks = vi.hoisted(() => ({
@@ -96,7 +96,7 @@ describe('DefaultRoles', () => {
       isLoading: false,
     });
     queryMocks.useAccountRoles.mockReturnValue({
-      data: accountRolesFactory.build(),
+      data: createAccountRoles(),
       isLoading: false,
     });
     renderWithTheme(<DefaultRoles />);

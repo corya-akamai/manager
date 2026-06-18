@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { accountUserFactory } from 'src/factories/accountUsers';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
+import { createUserList } from '../../factories';
 import { UsersLandingTableBody } from './UsersLandingTableBody';
 
 import type { APIError } from '@linode/api-v4';
@@ -120,7 +120,7 @@ describe('UsersLandingTableBody', () => {
   });
 
   it('renders user rows', async () => {
-    const users = accountUserFactory.buildList(3);
+    const users = createUserList(3);
 
     const { getByTestId } = renderWithTheme(
       <table>

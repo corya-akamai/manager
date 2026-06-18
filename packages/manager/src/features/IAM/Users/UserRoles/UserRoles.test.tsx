@@ -2,17 +2,19 @@ import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { accountEntityFactory } from 'src/factories/accountEntities';
-import { accountRolesFactory } from 'src/factories/accountRoles';
-import { userRolesFactory } from 'src/factories/userRoles';
-import { getCdsButtonHostByText } from 'src/features/IAM/utilities/testHelpers';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
+import {
+  createAccountEntity,
+  createAccountRoles,
+  createUserRoles,
+} from '../../factories';
 import {
   ERROR_STATE_TEXT,
   ERROR_STATE_TITLE,
   NO_ASSIGNED_ROLES_TEXT,
 } from '../../Shared/constants';
+import { getCdsButtonHostByText } from '../../utilities/testHelpers';
 import { UserRoles } from './UserRoles';
 
 const mockMatchMedia = () => {
@@ -33,7 +35,7 @@ beforeAll(() => {
 });
 
 const mockEntities = [
-  accountEntityFactory.build({
+  createAccountEntity({
     id: 1,
     type: 'firewall',
   }),
@@ -99,7 +101,7 @@ describe('UserRoles', () => {
 
   it('should display no roles text if no roles are assigned to user', async () => {
     queryMocks.useUserRoles.mockReturnValue({
-      data: userRolesFactory.build({
+      data: createUserRoles({
         account_access: [],
         entity_access: [],
       }),
@@ -114,14 +116,14 @@ describe('UserRoles', () => {
 
   it('should display table if no entity access roles are assigned to user', async () => {
     queryMocks.useUserRoles.mockReturnValue({
-      data: userRolesFactory.build({
+      data: createUserRoles({
         account_access: ['account_admin'],
         entity_access: [],
       }),
     });
 
     queryMocks.useAccountRoles.mockReturnValue({
-      data: accountRolesFactory.build(),
+      data: createAccountRoles(),
     });
 
     queryMocks.useAllAccountEntities.mockReturnValue({
@@ -141,7 +143,7 @@ describe('UserRoles', () => {
 
   it('should display table if no account access roles are assigned to user', async () => {
     queryMocks.useUserRoles.mockReturnValue({
-      data: userRolesFactory.build({
+      data: createUserRoles({
         account_access: [],
         entity_access: [
           {
@@ -154,7 +156,7 @@ describe('UserRoles', () => {
     });
 
     queryMocks.useAccountRoles.mockReturnValue({
-      data: accountRolesFactory.build(),
+      data: createAccountRoles(),
     });
 
     queryMocks.useAllAccountEntities.mockReturnValue({
@@ -168,7 +170,7 @@ describe('UserRoles', () => {
 
   it('should exclude the role from the table if the assigned entity (firewall with id 2) was removed', async () => {
     queryMocks.useUserRoles.mockReturnValue({
-      data: userRolesFactory.build({
+      data: createUserRoles({
         account_access: ['account_admin'],
         entity_access: [
           {
@@ -181,7 +183,7 @@ describe('UserRoles', () => {
     });
 
     queryMocks.useAccountRoles.mockReturnValue({
-      data: accountRolesFactory.build(),
+      data: createAccountRoles(),
     });
 
     queryMocks.useAllAccountEntities.mockReturnValue({
@@ -195,11 +197,11 @@ describe('UserRoles', () => {
   });
   it('should display roles and menu when data is available', async () => {
     queryMocks.useUserRoles.mockReturnValue({
-      data: userRolesFactory.build(),
+      data: createUserRoles(),
     });
 
     queryMocks.useAccountRoles.mockReturnValue({
-      data: accountRolesFactory.build(),
+      data: createAccountRoles(),
     });
 
     queryMocks.useAllAccountEntities.mockReturnValue({

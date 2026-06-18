@@ -3,19 +3,12 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { vi } from 'vitest';
 
-import { submitCdsDrawerForm } from 'src/features/IAM/utilities/testHelpers';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
+import { submitCdsDrawerForm } from '../utilities/testHelpers';
 import { UpdateDelegationForm } from './UpdateDelegationForm';
 
 import type { ChildAccountWithDelegates, User } from '@linode/api-v4';
-
-// Remove the debounce delay so filter changes take effect synchronously.
-vi.mock('@linode/utilities', async () => {
-  const actual = await vi.importActual('@linode/utilities');
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return { ...actual, useDebouncedValue: (value: any) => value };
-});
 
 beforeAll(() => mockMatchMedia());
 

@@ -1,10 +1,10 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { accountRolesFactory } from 'src/factories/accountRoles';
-import { expectNotificationBannerText } from 'src/features/IAM/utilities/testHelpers';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
+import { createAccountRoles } from '../factories';
+import { expectNotificationBannerText } from '../utilities/testHelpers';
 import { RolesLanding } from './Roles';
 
 const DEFAULT_ROLES_PANEL_TEXT = 'Default Roles for Delegate Users';
@@ -59,7 +59,7 @@ describe('RolesLanding', () => {
   });
 
   it('renders roles table when permissions are loaded', async () => {
-    const mockPermissions = accountRolesFactory.build();
+    const mockPermissions = createAccountRoles();
     queryMocks.usePermissions.mockReturnValue({
       data: {
         list_role_permissions: true,

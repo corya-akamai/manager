@@ -1,14 +1,13 @@
-import { profileFactory } from '@linode/utilities';
 import { waitFor } from '@testing-library/react';
 import React from 'react';
 
-import { accountUserFactory } from 'src/factories/accountUsers';
 import {
   mockMatchMedia,
   renderWithTheme,
   wrapWithTableBody,
 } from 'src/utilities/testHelpers';
 
+import { createProfile, createUser } from '../../factories';
 import { UserRow } from './UserRow';
 
 // Because the table row hides certain columns on small viewport sizes,
@@ -29,7 +28,7 @@ vi.mock('@linode/queries', async () => {
 
 describe('UserRow', () => {
   it('renders a username and email', async () => {
-    const user = accountUserFactory.build();
+    const user = createUser();
 
     const { getByText } = renderWithTheme(
       wrapWithTableBody(<UserRow onDelete={vi.fn()} user={user} />)
@@ -40,12 +39,12 @@ describe('UserRow', () => {
   });
 
   it('renders username, email, and user type for a Child user', async () => {
-    const user = accountUserFactory.build({
+    const user = createUser({
       user_type: 'child',
     });
 
     queryMocks.useProfile.mockReturnValue({
-      data: profileFactory.build({ user_type: 'child' }),
+      data: createProfile({ user_type: 'child' }),
     });
 
     const { getByText } = renderWithTheme(
@@ -61,13 +60,13 @@ describe('UserRow', () => {
   });
 
   it('renders username and user type, and does not render email and last login for a Delegate user', async () => {
-    const delegateUser = accountUserFactory.build({
+    const delegateUser = createUser({
       user_type: 'delegate',
       last_login: null,
     });
 
     queryMocks.useProfile.mockReturnValue({
-      data: profileFactory.build({ user_type: 'child' }),
+      data: createProfile({ user_type: 'child' }),
     });
 
     const { getAllByText, getByText, queryByText } = renderWithTheme(
@@ -82,7 +81,7 @@ describe('UserRow', () => {
   });
 
   it('renders "Never" if last_login is null', async () => {
-    const user = accountUserFactory.build({ last_login: null });
+    const user = createUser({ last_login: null });
 
     const { getByText } = renderWithTheme(
       wrapWithTableBody(<UserRow onDelete={vi.fn()} user={user} />)
@@ -94,10 +93,10 @@ describe('UserRow', () => {
   it('renders a timestamp of the last_login if it was successful', async () => {
     // Because we are unit testing a timestamp, set our timezone to UTC
     queryMocks.useProfile.mockReturnValue({
-      data: profileFactory.build({ timezone: 'utc' }),
+      data: createProfile({ timezone: 'utc' }),
     });
 
-    const user = accountUserFactory.build({
+    const user = createUser({
       last_login: {
         login_datetime: '2023-10-17T21:17:40',
         status: 'successful',
@@ -116,10 +115,10 @@ describe('UserRow', () => {
   it('renders a timestamp and "Failed" of the last_login if it was failed', async () => {
     // Because we are unit testing a timestamp, set our timezone to UTC
     queryMocks.useProfile.mockReturnValue({
-      data: profileFactory.build({ timezone: 'utc' }),
+      data: createProfile({ timezone: 'utc' }),
     });
 
-    const user = accountUserFactory.build({
+    const user = createUser({
       last_login: {
         login_datetime: '2023-10-17T21:17:40',
         status: 'failed',

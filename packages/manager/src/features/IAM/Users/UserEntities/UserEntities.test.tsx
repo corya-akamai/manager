@@ -2,11 +2,13 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { accountEntityFactory } from 'src/factories/accountEntities';
-import { accountRolesFactory } from 'src/factories/accountRoles';
-import { userRolesFactory } from 'src/factories/userRoles';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
+import {
+  createAccountEntity,
+  createAccountRoles,
+  createUserRoles,
+} from '../../factories';
 import {
   ERROR_STATE_TEXT,
   ERROR_STATE_TITLE,
@@ -15,7 +17,7 @@ import {
 import { UserEntities } from './UserEntities';
 
 const mockEntities = [
-  accountEntityFactory.build({
+  createAccountEntity({
     id: 1,
     label: 'firewall-1',
     type: 'firewall',
@@ -94,7 +96,7 @@ describe('UserEntities', () => {
 
   it('should display no entities text if no entity roles are assigned to user', async () => {
     queryMocks.useUserRoles.mockReturnValue({
-      data: userRolesFactory.build({
+      data: createUserRoles({
         account_access: ['account_admin'],
         entity_access: [],
       }),
@@ -111,7 +113,7 @@ describe('UserEntities', () => {
 
   it('should display no entities text if no roles are assigned to user', async () => {
     queryMocks.useUserRoles.mockReturnValue({
-      data: userRolesFactory.build({
+      data: createUserRoles({
         account_access: [],
         entity_access: [],
       }),
@@ -130,11 +132,11 @@ describe('UserEntities', () => {
 
   it('should display entities and menu when data is available', async () => {
     queryMocks.useUserRoles.mockReturnValue({
-      data: userRolesFactory.build(),
+      data: createUserRoles(),
     });
 
     queryMocks.useAccountRoles.mockReturnValue({
-      data: accountRolesFactory.build(),
+      data: createAccountRoles(),
     });
 
     queryMocks.useAllAccountEntities.mockReturnValue({

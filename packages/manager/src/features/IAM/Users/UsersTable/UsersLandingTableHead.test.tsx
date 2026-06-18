@@ -1,4 +1,3 @@
-import { profileFactory } from '@linode/utilities';
 import { waitFor } from '@testing-library/react';
 import React from 'react';
 
@@ -8,9 +7,10 @@ import {
   wrapWithTableBody,
 } from 'src/utilities/testHelpers';
 
+import { createProfile } from '../../factories';
 import { UsersLandingTableHead } from './UsersLandingTableHead';
 
-import type { Order } from '@linode/utilities';
+import type { SortOrder } from './UsersLandingTableHead';
 
 // Because the table row hides certain columns on small viewport sizes,
 // we must use this.
@@ -31,7 +31,7 @@ vi.mock('@linode/queries', async () => {
 const defaultProps = {
   order: {
     handleOrderChange: vi.fn(),
-    order: 'asc' as Order,
+    order: 'asc' as SortOrder,
     orderBy: 'username',
   },
 };
@@ -39,7 +39,7 @@ const defaultProps = {
 describe('UsersLandingTableHead', () => {
   it('renders User type, Username, Email Address, and Last Login columns for a Child user', async () => {
     queryMocks.useProfile.mockReturnValue({
-      data: profileFactory.build({ user_type: 'child' }),
+      data: createProfile({ user_type: 'child' }),
     });
 
     const { getByText } = renderWithTheme(
@@ -56,7 +56,7 @@ describe('UsersLandingTableHead', () => {
 
   it('does not render User type column when user is not a child', async () => {
     queryMocks.useProfile.mockReturnValue({
-      data: profileFactory.build({ user_type: 'default' }),
+      data: createProfile({ user_type: 'default' }),
     });
 
     const { getByText, queryByText } = renderWithTheme(

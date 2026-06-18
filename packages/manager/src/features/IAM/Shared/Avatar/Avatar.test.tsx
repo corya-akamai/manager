@@ -1,8 +1,8 @@
-import { profileFactory } from '@linode/utilities';
 import * as React from 'react';
 
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
+import { createProfile } from '../../factories';
 import { Avatar } from './Avatar';
 
 import type { AvatarProps } from './Avatar';
@@ -26,7 +26,7 @@ vi.mock('@linode/queries', async () => {
 describe('Avatar', () => {
   it('should render the first letter of a username from /profile with default background color', () => {
     queryMocks.useProfile.mockReturnValue({
-      data: profileFactory.build({ username: 'my-user' }),
+      data: createProfile({ username: 'my-user' }),
     });
     const { getByTestId } = renderWithTheme(<Avatar {...mockProps} />);
     const avatar = getByTestId('avatar');
@@ -38,7 +38,7 @@ describe('Avatar', () => {
 
   it('should render brand color for a different user', () => {
     queryMocks.useProfile.mockReturnValue({
-      data: profileFactory.build({ username: 'my-user' }),
+      data: createProfile({ username: 'my-user' }),
     });
 
     const { getByTestId } = renderWithTheme(

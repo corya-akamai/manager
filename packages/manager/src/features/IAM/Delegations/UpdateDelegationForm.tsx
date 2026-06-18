@@ -11,11 +11,11 @@ import {
   useUpdateChildAccountDelegatesQuery,
 } from '@linode/queries';
 import { Typography } from '@linode/ui';
-import { useDebouncedValue } from '@linode/utilities';
 import { enqueueSnackbar } from 'notistack';
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { useDebouncedValue } from '../hooks/useDebouncedValue';
 import { usePermissions } from '../hooks/usePermissions';
 import {
   IAM_PARENT_USERS_PENDO_IDS,

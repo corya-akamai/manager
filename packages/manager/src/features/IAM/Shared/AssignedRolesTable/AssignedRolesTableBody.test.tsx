@@ -1,10 +1,9 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { accountRolesFactory } from 'src/factories/accountRoles';
-import { userRolesFactory } from 'src/factories/userRoles';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
+import { createAccountRoles, createUserRoles } from '../../factories';
 import { AssignedRolesTableBody } from './AssignedRolesTableBody';
 import { combineRoles, mapRolesToPermissions } from './utils';
 
@@ -24,8 +23,21 @@ const defaultPermissions = {
 };
 
 const buildRole = () => {
-  const accountRoles = accountRolesFactory.build();
-  const userRoles = combineRoles(userRolesFactory.build());
+  const accountRoles = createAccountRoles({
+    account_access: [
+      {
+        type: 'linode',
+        roles: [
+          {
+            name: 'account_linode_admin',
+            description: 'Allows the user to administer all Linodes.',
+            permissions: [],
+          },
+        ],
+      },
+    ],
+  });
+  const userRoles = combineRoles(createUserRoles());
   return mapRolesToPermissions(accountRoles, userRoles)[0];
 };
 

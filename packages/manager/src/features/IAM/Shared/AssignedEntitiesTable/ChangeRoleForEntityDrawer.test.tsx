@@ -2,18 +2,17 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { accountRolesFactory } from 'src/factories/accountRoles';
-import { userRolesFactory } from 'src/factories/userRoles';
-import {
-  mockScrollIntoView,
-  submitCdsDrawerForm,
-} from 'src/features/IAM/utilities/testHelpers';
 import {
   getShadowRootElement,
   renderWithTheme,
 } from 'src/utilities/testHelpers';
 
+import { createAccountRoles, createUserRoles } from '../../factories';
 import { ChangeRoleForEntityDrawer } from '../../Shared/AssignedEntitiesTable/ChangeRoleForEntityDrawer';
+import {
+  mockScrollIntoView,
+  submitCdsDrawerForm,
+} from '../../utilities/testHelpers';
 
 import type { EntitiesRole } from '../../Shared/types';
 
@@ -89,7 +88,7 @@ describe('ChangeRoleForEntityDrawer', () => {
 
   it('should allow changing role for entity from "linode_contributor" to "linode_viewer"', async () => {
     queryMocks.useUserRoles.mockReturnValue({
-      data: userRolesFactory.build({
+      data: createUserRoles({
         account_access: ['account_linode_admin', 'account_admin'],
         entity_access: [
           {
@@ -102,7 +101,7 @@ describe('ChangeRoleForEntityDrawer', () => {
     });
 
     queryMocks.useAccountRoles.mockReturnValue({
-      data: accountRolesFactory.build(),
+      data: createAccountRoles(),
     });
 
     renderWithTheme(<ChangeRoleForEntityDrawer {...props} />);

@@ -1,11 +1,10 @@
 import { screen, within } from '@testing-library/react';
 import React from 'react';
 
-import { accountUserFactory } from 'src/factories/accountUsers';
-import { userRolesFactory } from 'src/factories/userRoles';
-import { expectNotificationBannerText } from 'src/features/IAM/utilities/testHelpers';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
+import { createUser, createUserRoles } from '../../factories';
+import { expectNotificationBannerText } from '../../utilities/testHelpers';
 import { UserProfile } from './UserProfile';
 
 const queryMocks = vi.hoisted(() => ({
@@ -62,7 +61,7 @@ describe('UserProfile', () => {
       isLoading: false,
     });
     queryMocks.useAccountUser.mockReturnValue({
-      data: accountUserFactory.build({
+      data: createUser({
         email: 'test-user@example.com',
         username: 'test-user',
       }),
@@ -70,7 +69,7 @@ describe('UserProfile', () => {
       isLoading: false,
     });
     queryMocks.useUserRoles.mockReturnValue({
-      data: userRolesFactory.build({
+      data: createUserRoles({
         account_access: ['account_admin'],
         entity_access: [],
       }),

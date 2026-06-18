@@ -2,9 +2,9 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { accountRolesFactory } from 'src/factories/accountRoles';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
+import { createAccountRoles } from '../../factories';
 import { getCdsButtonByText } from '../../utilities/testHelpers';
 import { INTERNAL_ERROR_NO_CHANGES_SAVED } from '../constants';
 import { UnassignRoleConfirmationDialog } from './UnassignRoleConfirmationDialog';
@@ -145,7 +145,7 @@ describe('UnassignRoleConfirmationDialog', () => {
     });
 
     queryMocks.useAccountRoles.mockReturnValue({
-      data: accountRolesFactory.build(),
+      data: createAccountRoles(),
     });
 
     queryMocks.useUserRolesMutation.mockReturnValue({

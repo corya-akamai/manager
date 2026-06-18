@@ -1,11 +1,11 @@
 import { NotificationBanner } from '@akamai/cds-components/react';
 import { Font, Spacing } from '@akamai/cds-tokens';
 import { Typography } from '@linode/ui';
-import { useDebouncedValue } from '@linode/utilities';
 import React from 'react';
 
 import { useAllAccountEntities } from 'src/queries/entities/entities';
 
+import { useDebouncedValue } from '../../hooks/useDebouncedValue';
 import { Link } from '../Link/Link';
 import { SelectionPanel } from '../SelectionPanel/SelectionPanel';
 import { getFormattedEntityType } from '../utilities';

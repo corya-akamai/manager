@@ -10,19 +10,19 @@ import {
 import { Spacing, Typography } from '@akamai/cds-tokens';
 import { useAllAccountUsersQuery } from '@linode/queries';
 import { getAPIFilterFromQuery } from '@linode/search';
-import { useDebouncedValue } from '@linode/utilities';
 import * as React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { useBreakpoint } from 'src/features/IAM/hooks/useBreakpoint';
-import { useDelegationRole } from 'src/features/IAM/hooks/useDelegationRole';
-import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
-import { useTagInputCloseHandler } from 'src/features/IAM/hooks/useTagInputCloseHandler';
+import { useBreakpoint } from '../../../hooks/useBreakpoint';
+import { useDebouncedValue } from '../../../hooks/useDebouncedValue';
+import { useDelegationRole } from '../../../hooks/useDelegationRole';
+import { usePermissions } from '../../../hooks/usePermissions';
+import { useTagInputCloseHandler } from '../../../hooks/useTagInputCloseHandler';
 import {
   ERROR_STATE_TITLE,
   SSO_EXCLUDED_USERS_DOCS_LINK,
-} from 'src/features/IAM/Shared/constants';
-import { Link } from 'src/features/IAM/Shared/Link/Link';
+} from '../../../Shared/constants';
+import { Link } from '../../../Shared/Link/Link';
 
 import type { EnforcementSettingsFormValues } from './EnforcementSettings';
 import type { TagInputElement } from '@akamai/cds-components';

@@ -1,10 +1,10 @@
-import { profileFactory } from '@linode/utilities';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
+import { createProfile } from '../../factories';
 import { openActionMenu } from '../../utilities/testHelpers';
 import { UsersActionMenu } from './UsersActionMenu';
 
@@ -36,7 +36,7 @@ const mockOnDelete = vi.fn();
 describe('UsersActionMenu', () => {
   it('should render actions correctly', async () => {
     queryMocks.useProfile.mockReturnValue({
-      data: profileFactory.build({ username: 'current_user' }),
+      data: createProfile({ username: 'current_user' }),
     });
 
     renderWithTheme(
@@ -94,7 +94,7 @@ describe('UsersActionMenu', () => {
 
   it("should disable 'Delete User' action for the currently active user", async () => {
     queryMocks.useProfile.mockReturnValue({
-      data: profileFactory.build({ username: 'current_user' }),
+      data: createProfile({ username: 'current_user' }),
     });
 
     renderWithTheme(

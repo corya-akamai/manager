@@ -2,8 +2,8 @@ import {
   capitalize,
   capitalizeAllWords,
 } from '@akamai/compute-ui-core/formatting';
-import { partition } from '@linode/utilities';
 
+import { partition } from '../utilities/partition/partition';
 import {
   INTERNAL_ERROR_NO_CHANGES_SAVED,
   LAST_ACCOUNT_ADMIN_ERROR,

@@ -6,9 +6,9 @@ vi.mock('src/OAuth/oauthClient', () => ({
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { userRolesFactory } from 'src/factories/userRoles';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
+import { createUserRoles } from '../../factories';
 import { AssignedEntitiesTableBody } from './AssignedEntitiesTableBody';
 
 import type { EntitiesRole } from '../types';
@@ -82,7 +82,7 @@ describe('AssignedEntitiesTableBody', () => {
       <table>
         <tbody>
           <AssignedEntitiesTableBody
-            assignedRoles={userRolesFactory.build()}
+            assignedRoles={createUserRoles()}
             entities={[]}
             entitiesError={null}
             entitiesLoading={false}
@@ -115,7 +115,7 @@ describe('AssignedEntitiesTableBody', () => {
       <table>
         <tbody>
           <AssignedEntitiesTableBody
-            assignedRoles={userRolesFactory.build()}
+            assignedRoles={createUserRoles()}
             entities={[{ id: 1, label: 'no_devices', type: 'firewall' }]}
             entitiesError={null}
             entitiesLoading={false}

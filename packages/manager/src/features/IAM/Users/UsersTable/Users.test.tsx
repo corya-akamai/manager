@@ -1,10 +1,9 @@
-import { profileFactory } from '@linode/utilities';
 import { waitFor } from '@testing-library/react';
 import React from 'react';
 
-import { accountUserFactory } from 'src/factories/accountUsers';
 import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
+import { createProfile, createUser } from '../../factories';
 import { UsersLanding } from './Users';
 
 // Because the table row hides certain columns on small viewport sizes,
@@ -39,7 +38,7 @@ vi.mock('@linode/queries', async () => {
 
 describe('Users', () => {
   it('renders only table and search filter if profile is not a child', async () => {
-    const user = accountUserFactory.build();
+    const user = createUser();
     queryMocks.useAccountUsers.mockReturnValue({
       data: {
         data: [user],
@@ -49,7 +48,7 @@ describe('Users', () => {
       },
     });
     queryMocks.useProfile.mockReturnValue({
-      data: profileFactory.build({ user_type: 'default' }),
+      data: createProfile({ user_type: 'default' }),
     });
 
     const { container, getByText, queryByPlaceholderText } = renderWithTheme(
@@ -69,7 +68,7 @@ describe('Users', () => {
   });
 
   it('renders table, select, and search filter if profile is a child', async () => {
-    const user = accountUserFactory.build();
+    const user = createUser();
     queryMocks.useAccountUsers.mockReturnValue({
       data: {
         data: [user],
@@ -79,7 +78,7 @@ describe('Users', () => {
       },
     });
     queryMocks.useProfile.mockReturnValue({
-      data: profileFactory.build({ user_type: 'child' }),
+      data: createProfile({ user_type: 'child' }),
     });
 
     const { container } = renderWithTheme(<UsersLanding />);
