@@ -20,6 +20,7 @@ import '@akamai/cds-tokens/themes/dark/tokens.css';
 import './index.css';
 import { App } from './App';
 import { API_ROOT, ENABLE_DEV_TOOLS } from './constants';
+import { IAMFlagOverridesBridge } from './dev-tools/IAMFlagOverridesBridge';
 import { FeatureFlagProvider } from './featureFlags';
 import { LinodeThemeWrapper } from './LinodeThemeWrapper';
 
@@ -47,12 +48,14 @@ const Main = () => {
     <ReduxStoreProvider store={store}>
       <QueryClientProvider client={queryClient}>
         <FeatureFlagProvider>
-          <LinodeThemeWrapper>
-            <CssBaseline enableColorScheme />
-            <React.Suspense fallback={<SplashScreen />}>
-              <App />
-            </React.Suspense>
-          </LinodeThemeWrapper>
+          <IAMFlagOverridesBridge>
+            <LinodeThemeWrapper>
+              <CssBaseline enableColorScheme />
+              <React.Suspense fallback={<SplashScreen />}>
+                <App />
+              </React.Suspense>
+            </LinodeThemeWrapper>
+          </IAMFlagOverridesBridge>
         </FeatureFlagProvider>
       </QueryClientProvider>
     </ReduxStoreProvider>
