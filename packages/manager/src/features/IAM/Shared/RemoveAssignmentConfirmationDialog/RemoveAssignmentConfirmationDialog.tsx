@@ -122,12 +122,18 @@ export const RemoveAssignmentConfirmationDialog = (props: Props) => {
           {isDefaultDelegationRolesForChildAccount ? (
             <p style={{ marginBottom: Spacing.S0 }}>
               Delegate users won’t get the <strong>{role?.role_name}</strong>{' '}
-              access on the <strong style={{ wordBreak: 'break-word' }}>{role?.entity_name}</strong> entity by
-              default.
+              access on the{' '}
+              <strong style={{ wordBreak: 'break-word' }}>
+                {role?.entity_name}
+              </strong>{' '}
+              entity by default.
             </p>
           ) : (
             <p style={{ marginBottom: Spacing.S0 }}>
-              You’re about to remove the <strong style={{ wordBreak: 'break-word' }}>{role?.entity_name}</strong>{' '}
+              You’re about to remove the{' '}
+              <strong style={{ wordBreak: 'break-word' }}>
+                {role?.entity_name}
+              </strong>{' '}
               entity from the <strong>{role?.role_name}</strong> role for{' '}
               <strong>{username}</strong>. This change will be applied
               immediately.

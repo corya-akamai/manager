@@ -17,6 +17,9 @@ export const StyledPlansPanel = styled(PlansPanel, {
 })(() => ({
   margin: 0,
   padding: 0,
+  h2: {
+    fontSize: '1.17em',
+  },
 }));
 
 export const StyledPlanSummarySpan = styled('span', {

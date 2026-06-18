@@ -2,7 +2,6 @@ import { toast } from '@akamai/cds-components/notification-toast';
 import { Button, Icon, Tooltip } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { useDatabaseCredentialsQuery } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import * as React from 'react';
 
 import { Link } from 'src/components/Link';
@@ -122,9 +121,7 @@ export const DatabaseSummaryConnectionDetails = (props: Props) => {
 
   return (
     <div style={{ marginBottom: Spacing.S16 }}>
-      <Typography className={classes.header} variant="h3">
-        Connection Details
-      </Typography>
+      <h3 className={classes.header}>Connection Details</h3>
       {showServiceURIs && (
         <ConnectionDetailsRow
           isSummaryTab

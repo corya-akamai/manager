@@ -20,7 +20,6 @@ import {
   StyledSummaryDiv,
   StyledSummaryTextDiv,
   StyledSummaryTextTypography,
-  StyledTitleTypography,
 } from './DatabaseResizeCurrentConfiguration.style';
 
 import type { Region } from '@linode/api-v4';
@@ -70,9 +69,7 @@ export const DatabaseResizeCurrentConfiguration = ({ database }: Props) => {
 
   return (
     <>
-      <StyledTitleTypography variant="h3">
-        Current Configuration
-      </StyledTitleTypography>
+      <h4>Current Configuration</h4>
       <StyledSummaryDiv data-qa-db-configuration-summary>
         <div key={'status-version'} style={{ paddingRight: Spacing.S48 }}>
           <StyledSummaryTextDiv>

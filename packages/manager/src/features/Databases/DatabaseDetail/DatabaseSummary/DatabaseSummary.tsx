@@ -1,5 +1,4 @@
 import { useDatabaseConnectionPoolsQuery } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import { styled } from '@mui/material/styles';
 import * as React from 'react';
 
@@ -38,9 +37,7 @@ export const DatabaseSummary = () => {
       <ConnectionDetails database={database} />
       {flags.hostnameEndpoints && showPgBouncerConnectionDetails && (
         <>
-          <Typography mb={2} variant="h3">
-            PgBouncer Connection Details
-          </Typography>
+          <h3>PgBouncer Connection Details</h3>
           <div className={styles.summaryLabelValueContainer}>
             <div className={styles.summaryLabelColumn}>
               <p>{hasPublicVPC ? 'Public Service URI' : 'Service URI'}</p>

@@ -8,7 +8,7 @@ import {
 } from '@akamai/cds-components/react';
 import { Alias, Spacing } from '@akamai/cds-tokens';
 import { Alias as DarkThemeAlias } from '@akamai/cds-tokens/themes/dark';
-import { Autocomplete, CloseIcon, Typography } from '@linode/ui';
+import { Autocomplete, CloseIcon } from '@linode/ui';
 import React from 'react';
 
 import {
@@ -150,21 +150,18 @@ export const DatabaseConfigurationItem = (props: Props) => {
           width: '100%',
         }}
       >
-        <Typography
-          sx={(theme) => ({
-            font: theme.tokens.alias.Typography.Body.Bold,
-            mr: 0.5,
-          })}
-        >
+        <p style={{ margin: 0, fontWeight: 'bold' }}>
           {isTopLevelCategory(configItem?.category ?? '')
             ? configLabel
             : `${configItem?.category}.${configLabel}`}
-        </Typography>
+        </p>
         {configItem?.requires_restart && (
           <Badge color="amber">RESTARTS SERVICE</Badge>
         )}
         {configItem?.description && (
-          <Typography mt={0.5}>{configItem?.description}</Typography>
+          <p style={{ marginTop: Spacing.S4, marginBottom: Spacing.S0 }}>
+            {configItem?.description}
+          </p>
         )}
         {renderInputField()}
       </div>

@@ -11,7 +11,7 @@ import {
 import { Spacing } from '@akamai/cds-tokens';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCreateDatabaseConnectionPoolMutation } from '@linode/queries';
-import { Autocomplete, FormControlLabel, Typography } from '@linode/ui';
+import { Autocomplete, FormControlLabel } from '@linode/ui';
 import { createDatabaseConnectionPoolSchema } from '@linode/validation';
 import * as React from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
@@ -102,11 +102,11 @@ export const DatabaseAddConnectionPoolDrawer = (props: Props) => {
             type="error"
           />
         )}
-        <Typography>
+        <p style={{ margin: 0 }}>
           Add a PgBouncer connection pool to minimize the use of your server
           resources.{' '}
           <Link to={MANAGE_CONNECTION_POOLS_LEARN_MORE_LINK}>Learn more.</Link>
-        </Typography>
+        </p>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack>
             <Controller

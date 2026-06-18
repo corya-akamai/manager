@@ -1,5 +1,4 @@
 import { Button } from '@akamai/cds-components/react';
-import { Typography } from '@linode/ui';
 import { styled } from '@mui/material';
 
 import { PlansPanel } from 'src/features/components/PlansPanel/PlansPanel';
@@ -8,6 +7,9 @@ export const StyledPlansPanel = styled(PlansPanel, {
 })(() => ({
   margin: 0,
   padding: 0,
+  h2: {
+    fontSize: '1.17em',
+  },
 }));
 
 export const StyledCreateBtn = styled(Button, {
@@ -19,9 +21,11 @@ export const StyledCreateBtn = styled(Button, {
   whiteSpace: 'nowrap',
 }));
 
-export const StyledTypography = styled(Typography, {
+export const StyledTypography = styled('p', {
   label: 'StyledTypography',
 })(({ theme }) => ({
+  marginBottom: 0,
+  marginTop: 0,
   marginLeft: theme.spacing(),
   marginRight: theme.spacing(3),
   [theme.breakpoints.down('sm')]: {

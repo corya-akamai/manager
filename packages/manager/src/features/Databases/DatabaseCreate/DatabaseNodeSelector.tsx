@@ -173,8 +173,8 @@ export const DatabaseNodeSelector = (props: Props) => {
 
   return (
     <>
-      <h2 style={{ marginBottom: 4 }}>Set Number of Nodes</h2>
-      <p style={{ marginBottom: 8 }}>
+      <h3 style={{ marginBottom: 0 }}>Set Number of Nodes</h3>
+      <p style={{ marginTop: 0, marginBottom: Spacing.S16 }}>
         We recommend 3 nodes in a database cluster to avoid downtime during
         upgrades and maintenance.
       </p>

@@ -1,5 +1,4 @@
 import { Spacing } from '@akamai/cds-tokens';
-import { Typography } from '@linode/ui';
 import React from 'react';
 
 import { useFlags } from 'src/hooks/useFlags';
@@ -102,10 +101,10 @@ export const DatabaseSummarySection = (props: Props) => {
         </>
       ) : (
         <>
-          <Typography component="span">
+          <span>
             {currentClusterSize} Node
             {getSuffix(isNewDatabase, currentClusterSize)}
-          </Typography>
+          </span>
           {currentNodePrice}
         </>
       )}
@@ -129,10 +128,10 @@ export const DatabaseSummarySection = (props: Props) => {
               : resizeData.plan}
           </StyledPlanSummarySpan>{' '}
           {isNewDatabase && <StyledSpan>{resizeData.basePrice}</StyledSpan>}
-          <Typography component="span">
+          <span>
             {resizeData.numberOfNodes} Node
             {getSuffix(isNewDatabase, resizeData.numberOfNodes)}
-          </Typography>
+          </span>
           {resizeData.price}
         </>
       ) : isNewDatabase ? (
@@ -148,14 +147,14 @@ export const DatabaseSummarySection = (props: Props) => {
 
   return (
     <>
-      <Typography
-        sx={(theme) => ({
-          marginBottom: isDatabasesV2GA ? theme.spacing(2) : 0,
-        })}
-        variant="h2"
+      <h3
+        style={{
+          marginBottom: isDatabasesV2GA ? Spacing.S16 : 0,
+          marginTop: 0,
+        }}
       >
         Summary {isNewDatabase && label}
-      </Typography>
+      </h3>
       {isNewDatabase && currentSummary}
       {isResize && resizeSummary}
     </>

@@ -58,10 +58,10 @@ export const DatabaseCreateAccessControls = (props: AccessProps) => {
 
   return (
     <div>
-      {variant === 'networking' ? (
+      {variant === 'standard' ? (
         <h3 style={{ margin: 0 }}>Manage Access</h3>
       ) : (
-        <h2 style={{ margin: 0 }}>Manage Access</h2>
+        <h4 style={{ margin: 0 }}>Manage Access</h4>
       )}
       <p style={{ margin: 0 }}>
         Add IPv6 (recommended) or IPv4 addresses or ranges that should be

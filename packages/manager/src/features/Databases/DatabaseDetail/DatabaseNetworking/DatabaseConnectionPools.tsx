@@ -12,7 +12,6 @@ import {
 } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { useDatabaseConnectionPoolsQuery } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import { useTheme } from '@mui/material/styles';
 import React from 'react';
 
@@ -81,16 +80,14 @@ export const DatabaseConnectionPools = ({ database }: Props) => {
     <>
       <div className={classes.topSection}>
         <Stack spacing={Spacing.S4}>
-          <Typography variant="h3">
-            Manage PgBouncer Connection Pools
-          </Typography>
-          <Typography sx={{ maxWidth: '500px' }}>
+          <h3 style={{ margin: 0 }}>Manage PgBouncer Connection Pools</h3>
+          <p style={{ maxWidth: '500px', margin: 0 }}>
             Manage PgBouncer connection pools to minimize the use of your server
             resources.{' '}
             <Link to={MANAGE_CONNECTION_POOLS_LEARN_MORE_LINK}>
               Learn more.
             </Link>
-          </Typography>
+          </p>
         </Stack>
         <Tooltip
           disabled={!isDatabaseInactive}

@@ -1,6 +1,5 @@
 import { Button } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
-import { Typography } from '@linode/ui';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
@@ -43,11 +42,13 @@ export const DatabaseAdvancedConfiguration = () => {
     <Paper paddingBottom={Spacing.S40}>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div style={{ flex: 1 }}>
-          <Typography variant="h2">Advanced Configuration</Typography>
-          <Typography sx={{ mb: 1, mt: 1 }}>
+          <h3 style={{ marginTop: Spacing.S4, marginBottom: 0 }}>
+            Advanced Configuration
+          </h3>
+          <p style={{ marginBottom: Spacing.S8, marginTop: Spacing.S8 }}>
             Advanced parameters to configure your database cluster.{' '}
             <Link to={ADVANCED_CONFIG_LEARN_MORE_LINK}>Learn more.</Link>
-          </Typography>
+          </p>
         </div>
         <Button
           data-testid="configure-database"
@@ -90,9 +91,9 @@ export const DatabaseAdvancedConfiguration = () => {
         </div>
       ) : (
         <div style={{ display: 'flex', flexGrow: 1, justifyContent: 'center' }}>
-          <Typography sx={{ marginTop: 5 }}>
+          <p style={{ marginTop: Spacing.S40 }}>
             No advanced configurations have been added.
-          </Typography>
+          </p>
         </div>
       )}
 

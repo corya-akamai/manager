@@ -1,5 +1,4 @@
 import { Spacing } from '@akamai/cds-tokens/themes/dark';
-import { Typography } from '@linode/ui';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
@@ -21,7 +20,7 @@ export const DatabaseNetworking = () => {
     useDatabaseDetailContext();
 
   const accessControlCopy = (
-    <Typography>{ACCESS_CONTROLS_IN_SETTINGS_TEXT}</Typography>
+    <p style={{ margin: 0 }}>{ACCESS_CONTROLS_IN_SETTINGS_TEXT}</p>
   );
 
   const pgBouncerEnabled =

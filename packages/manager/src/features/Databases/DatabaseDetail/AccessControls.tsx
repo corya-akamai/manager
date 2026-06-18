@@ -11,7 +11,6 @@ import {
 } from '@akamai/cds-components/react/Table';
 import { Spacing } from '@akamai/cds-tokens';
 import { useDatabaseMutation } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import * as React from 'react';
 import type { JSX } from 'react';
 import { makeStyles } from 'tss-react/mui';
@@ -170,7 +169,7 @@ export const AccessControls = (props: Props) => {
       <div className={classes.topSection}>
         <div className={classes.sectionTitleAndText}>
           <div className={classes.sectionTitle}>
-            <Typography variant="h3">Manage Access</Typography>
+            <h3 style={{ margin: 0 }}>Manage Access</h3>
           </div>
           <div className={classes.sectionText}>{description ?? null}</div>
         </div>
@@ -195,12 +194,15 @@ export const AccessControls = (props: Props) => {
               type="error"
             />
           ) : null}
-          <Typography data-testid="ip-removal-confirmation-warning">
+          <p
+            data-testid="ip-removal-confirmation-warning"
+            style={{ margin: 0 }}
+          >
             IP {accessControlToBeRemoved} will lose all access to the data on
             this database cluster. This action cannot be undone, but you can
             re-enable access by clicking Manage Access Controls and adding the
             same IP address.
-          </Typography>
+          </p>
         </div>
         <div slot="actions">
           <Button onClick={handleDialogClose} variant="secondary">

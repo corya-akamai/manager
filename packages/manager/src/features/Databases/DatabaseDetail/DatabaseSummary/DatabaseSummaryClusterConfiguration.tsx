@@ -2,7 +2,6 @@ import { Icon, Tooltip } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { formatStorageUnits } from '@akamai/compute-ui-core/api';
 import { useDatabaseTypesQuery, useRegionsQuery } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import * as React from 'react';
 
 import {
@@ -58,9 +57,7 @@ export const DatabaseSummaryClusterConfiguration = (props: Props) => {
   if (!database || !type) {
     return (
       <div style={{ marginBottom: Spacing.S16 }}>
-        <Typography marginBottom={2} variant="h3">
-          Cluster Configuration
-        </Typography>
+        <h3 style={{ marginTop: 0 }}>Cluster Configuration</h3>
       </div>
     );
   }
@@ -76,9 +73,7 @@ export const DatabaseSummaryClusterConfiguration = (props: Props) => {
 
   return (
     <div style={{ marginBottom: Spacing.S16 }}>
-      <Typography marginBottom={2} variant="h3">
-        Cluster Configuration
-      </Typography>
+      <h3 style={{ marginTop: 0 }}>Cluster Configuration</h3>
       <div className={styles.summaryLabelValueContainer} style={style}>
         <div className={styles.summaryLabelColumn}>
           <p>Status</p>

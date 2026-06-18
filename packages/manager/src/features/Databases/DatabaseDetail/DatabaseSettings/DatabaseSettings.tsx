@@ -1,6 +1,5 @@
 import { Spacing } from '@akamai/cds-tokens/themes/dark';
 import { useProfile } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import * as React from 'react';
 
 import {
@@ -42,11 +41,11 @@ export const DatabaseSettings = () => {
   const isVPCEnabled = flags.databaseVpc;
 
   const accessControlCopy = (
-    <Typography>
+    <p>
       {!isDefaultDB
         ? ACCESS_CONTROLS_IN_SETTINGS_TEXT_LEGACY
         : ACCESS_CONTROLS_IN_SETTINGS_TEXT}
-    </Typography>
+    </p>
   );
 
   const suspendClusterCopy = SUSPEND_CLUSTER_TEXT;

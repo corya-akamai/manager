@@ -1,7 +1,6 @@
 import { Badge, Button, Icon, Tooltip } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { useAllVPCsQuery } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import React from 'react';
 
 import { Link } from 'src/components/Link';
@@ -76,7 +75,7 @@ export const DatabaseManageNetworking = ({ database }: Props) => {
       <div className={classes.topSection}>
         <Stack spacing={Spacing.S4}>
           <div style={{ display: 'flex' }}>
-            <Typography variant="h3">Manage Networking</Typography>
+            <h3 style={{ margin: 0 }}>Manage Networking</h3>
             {flags.databaseVpcBeta && (
               <Badge
                 color="neutral"
@@ -87,7 +86,7 @@ export const DatabaseManageNetworking = ({ database }: Props) => {
               </Badge>
             )}
           </div>
-          <Typography sx={{ maxWidth: '500px' }}>
+          <p style={{ maxWidth: '500px', margin: 0 }}>
             Update access settings or the VPC assignment.{' '}
             <Link
               to={`${MANAGE_NETWORKING_LEARN_MORE_LINK + (flags.databaseVpcBeta ? '-beta' : '')}`}
@@ -98,7 +97,7 @@ export const DatabaseManageNetworking = ({ database }: Props) => {
             Note that a change of VPC assignment settings can disrupt service
             availability. Avoid writing data to the database while a change is
             in progress.
-          </Typography>
+          </p>
         </Stack>
         <Tooltip
           disabled={hasVPCs}

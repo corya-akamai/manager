@@ -1,10 +1,4 @@
-import { Typography } from '@linode/ui';
 import { styled } from '@mui/material/styles';
-
-export const StyledTypography = styled(Typography)(() => ({
-  lineHeight: '20px',
-  marginTop: '4px',
-}));
 
 export const StyledDateTimeStack = styled('div', {
   label: 'StyledDateTimeStack',

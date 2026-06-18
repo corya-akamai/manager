@@ -3,7 +3,6 @@ import { Button, NotificationBanner } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDatabaseEngineConfig, useDatabaseMutation } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import { scrollErrorIntoViewV2 } from '@linode/utilities';
 import { createDynamicAdvancedConfigSchema } from '@linode/validation';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -169,16 +168,18 @@ export const DatabaseAdvancedConfigurationDrawer = (props: Props) => {
               {errors.root.message}
             </NotificationBanner>
           )}
-          <Typography>
+          <p style={{ margin: 0 }}>
             Advanced parameters to configure your database cluster.
-          </Typography>
+          </p>
           <Link to={ADVANCED_CONFIG_LEARN_MORE_LINK}>Learn more.</Link>
 
           <NotificationBanner
             style={{ marginBottom: Spacing.S8, marginTop: Spacing.S24 }}
             type="info"
           >
-            <Typography>{ADVANCED_CONFIG_INFO}</Typography>
+            <p style={{ margin: 0, lineHeight: '1.25rem' }}>
+              {ADVANCED_CONFIG_INFO}
+            </p>
           </NotificationBanner>
 
           <div style={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -213,9 +214,9 @@ export const DatabaseAdvancedConfigurationDrawer = (props: Props) => {
             </Stack>
           )}
           {!isLoading && configs.length === 0 && (
-            <Typography align="center">
+            <p style={{ textAlign: 'center' }}>
               No advanced configurations have been added.
-            </Typography>
+            </p>
           )}
           {configs.map((config, index) => (
             <Controller

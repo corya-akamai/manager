@@ -3,7 +3,6 @@ import { Button, Icon, Tooltip } from '@akamai/cds-components/react';
 import { Alias, Spacing } from '@akamai/cds-tokens';
 import { Alias as DarkThemeAlias } from '@akamai/cds-tokens/themes/dark';
 import { useDatabaseCredentialsQuery } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import { styled } from '@mui/material';
 import copy from 'copy-to-clipboard';
 import React, { useState } from 'react';
@@ -180,9 +179,9 @@ export const ServiceURI = (props: ServiceURIProps) => {
             whiteSpace: 'pre',
           }}
         >
-          <Typography fontStyle="italic">
+          <span style={{ fontStyle: 'italic' }}>
             Your Service URI will appear here once it is available.
-          </Typography>
+          </span>
         </div>
       </div>
     );

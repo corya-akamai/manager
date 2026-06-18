@@ -1,7 +1,6 @@
-import { Typography } from '@linode/ui';
 import { styled } from '@mui/material/styles';
 
-export const StyledLabelTypography = styled(Typography, {
+export const StyledLabelTypography = styled('p', {
   label: 'StyledLabelTypography',
 })(({ theme }) => ({
   background: theme.tokens.alias.Background.Neutral,

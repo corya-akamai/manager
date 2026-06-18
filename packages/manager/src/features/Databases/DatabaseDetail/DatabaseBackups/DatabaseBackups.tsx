@@ -203,7 +203,7 @@ export const DatabaseBackups = () => {
     <Paper>
       {!isValkeyDatabase && (
         <>
-          <h2 style={{ margin: 0 }}>Summary</h2>
+          <h3 style={{ margin: 0 }}>Summary</h3>
           <p style={{ marginTop: Spacing.S4 }}>
             Databases are automatically backed-up with full daily backups for
             the past 14 days, and binary logs recorded continuously. Full
@@ -212,7 +212,7 @@ export const DatabaseBackups = () => {
             in time (PITR).
           </p>
           <Divider marginBottom={Spacing.S24} marginTop={Spacing.S24} />
-          <h2 style={{ margin: 0 }}>Restore a Backup</h2>
+          <h3 style={{ margin: 0 }}>Restore a Backup</h3>
           <p style={{ marginTop: Spacing.S4 }}>
             <span>
               Select where you want to create a fork from. For a specific point
@@ -223,7 +223,7 @@ export const DatabaseBackups = () => {
       )}
       {isValkeyDatabase && (
         <>
-          <h2 style={{ margin: 0 }}>Restore a Backup</h2>
+          <h3 style={{ margin: 0 }}>Restore a Backup</h3>
           <p style={{ marginTop: Spacing.S4 }}>
             Valkey databases automatically backup data every 12 hours and
             support configurable data persistence using Redis Database Backup

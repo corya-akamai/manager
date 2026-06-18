@@ -8,7 +8,7 @@ import {
 import { Spacing } from '@akamai/cds-tokens';
 import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 import { useAllVPCsQuery, useRegionQuery } from '@linode/queries';
-import { Autocomplete, FormHelperText, Typography } from '@linode/ui';
+import { Autocomplete, FormHelperText } from '@linode/ui';
 import * as React from 'react';
 import type { Control, UseFormSetValue, UseFormTrigger } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
@@ -86,7 +86,7 @@ export const DatabaseVPC = (props: DatabaseVPCProps) => {
           marginBottom: Spacing.S4,
         }}
       >
-        <Typography variant="h3">Assign a VPC</Typography>
+        <h4 style={{ margin: 0 }}>Assign a VPC</h4>
         {flags.databaseVpcBeta && (
           <Badge
             color="neutral"
@@ -97,14 +97,14 @@ export const DatabaseVPC = (props: DatabaseVPCProps) => {
           </Badge>
         )}
       </div>
-      <Typography>
+      <p style={{ margin: 0 }}>
         Assign this cluster to an existing VPC.{' '}
         <Link
           to={`${MANAGE_NETWORKING_LEARN_MORE_LINK + (flags.databaseVpcBeta ? '-beta' : '')}`}
         >
           Learn more.
         </Link>
-      </Typography>
+      </p>
       <div style={{ display: 'flex' }}>
         <Controller
           control={control}

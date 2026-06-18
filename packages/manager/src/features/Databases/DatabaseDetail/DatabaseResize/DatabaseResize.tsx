@@ -15,11 +15,9 @@ import {
   useRegionAvailabilityQuery,
   useRegionsQuery,
 } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 
-import { PlanNoticeTypography } from 'src/features/components/PlansPanel/PlansAvailabilityNotice.styles';
 import {
   determineInitialPlanCategoryTab,
   getIsLimitedAvailability,
@@ -231,12 +229,14 @@ export const DatabaseResize = () => {
 
   const resizeDescription = (
     <>
-      <Typography variant="h2">Resize a Database Cluster</Typography>
-      <Typography sx={{ marginTop: '4px' }}>
+      <h3 style={{ marginTop: Spacing.S4, marginBottom: 0 }}>
+        Resize a Database Cluster
+      </h3>
+      <p style={{ marginTop: Spacing.S4 }}>
         {isNewDatabaseGA
           ? 'Adapt the cluster to your needs by resizing it to a smaller or larger plan.'
           : 'Adapt the cluster to your needs by resizing to a larger plan. Clusters cannot be resized to smaller plans.'}
-      </Typography>
+      </p>
     </>
   );
 
@@ -278,9 +278,9 @@ export const DatabaseResize = () => {
   }, [selectedPlanId, clusterSize, selectedTab]);
 
   const costSummary = (
-    <Typography sx={{ marginBottom: '10px' }} variant="h3">
+    <h3 style={{ marginTop: 0, marginBottom: '10px' }}>
       {`The cost of the resized database is ${summaryText?.price}.`}
-    </Typography>
+    </h3>
   );
 
   const confirmationPopUpMessage =
@@ -291,25 +291,28 @@ export const DatabaseResize = () => {
           style={{ marginBottom: Spacing.S16 }}
           type="warning"
         >
-          <Typography variant="h3">{`Warning: This operation will cause downtime for your resized node cluster.`}</Typography>
+          <h3 style={{ margin: 0 }}>
+            Warning: This operation will cause downtime for your resized node
+            cluster.
+          </h3>
         </NotificationBanner>
       </>
     ) : (
       <>
         {costSummary}
         <NotificationBanner style={{ marginBottom: Spacing.S16 }} type="info">
-          <Typography variant="h3">{`Operation can take up to 2 hours and will incur a failover.`}</Typography>
+          <h3 style={{ margin: 0 }}>
+            Operation can take up to 2 hours and will incur a failover.
+          </h3>
         </NotificationBanner>
       </>
     );
 
   const currentPlanUnavailableNotice = (
     <NotificationBanner style={{ marginBottom: Spacing.S16 }} type="warning">
-      <PlanNoticeTypography variant="h3">
-        {
-          'Warning: Your current plan is currently unavailable and it can\u{2019}t be used to resize the cluster. You can only resize the cluster using other available plans.'
-        }
-      </PlanNoticeTypography>
+      Warning: Your current plan is currently unavailable and it can’t be used
+      to resize the cluster. You can only resize the cluster using other
+      available plans.
     </NotificationBanner>
   );
 

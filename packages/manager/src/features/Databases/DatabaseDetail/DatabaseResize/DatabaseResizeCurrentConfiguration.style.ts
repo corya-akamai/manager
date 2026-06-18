@@ -1,4 +1,3 @@
-import { Typography } from '@linode/ui';
 import { styled } from '@mui/material/styles';
 
 export const StyledSummaryDiv = styled('div', {
@@ -16,9 +15,10 @@ export const StyledSummaryDiv = styled('div', {
   },
 }));
 
-export const StyledSummaryTextTypography = styled(Typography, {
+export const StyledSummaryTextTypography = styled('p', {
   label: 'StyledSummaryTextTypography',
 })(({ theme }) => ({
+  margin: 0,
   '& strong': {
     paddingRight: theme.spacing(1),
   },
@@ -39,12 +39,6 @@ export const StyledSummaryTextDiv = styled('div', {
     paddingBottom: theme.spacing(2),
   },
   whiteSpace: 'nowrap',
-}));
-
-export const StyledTitleTypography = styled(Typography, {
-  label: 'StyledCurrentConfigurationTypography',
-})(({ theme }) => ({
-  marginBottom: theme.spacing(2),
 }));
 
 export const StyledStatusDiv = styled('div', {

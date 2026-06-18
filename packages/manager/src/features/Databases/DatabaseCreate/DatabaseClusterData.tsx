@@ -9,7 +9,6 @@ import {
 import { Spacing } from '@akamai/cds-tokens';
 import { useRegionsQuery } from '@linode/queries';
 import { useIsGeckoEnabled } from '@linode/shared';
-import { Typography } from '@linode/ui';
 import { getCapabilityFromPlanType } from '@linode/utilities';
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -81,7 +80,9 @@ export const DatabaseClusterData = (props: Props) => {
   return (
     <>
       <div>
-        <Typography variant="h2">Name Your Cluster</Typography>
+        <h3 style={{ marginTop: 0, marginBottom: Spacing.S8 }}>
+          Name Your Cluster
+        </h3>
         <Controller
           control={control}
           name="label"
@@ -89,7 +90,7 @@ export const DatabaseClusterData = (props: Props) => {
             <FormField
               error={Boolean(fieldState.error)}
               labelPosition="top"
-              style={{ maxWidth: 444, marginTop: Spacing.S16 }}
+              style={{ maxWidth: 444 }}
             >
               <FormLabel htmlFor="label-field" slot="label">
                 Cluster Label
@@ -129,9 +130,9 @@ export const DatabaseClusterData = (props: Props) => {
           )}
         />
       </div>
-      <Divider marginBottom={Spacing.S12} marginTop={Spacing.S32} />
+      <Divider marginBottom={Spacing.S12} marginTop={Spacing.S24} />
       <div>
-        <Typography variant="h2">Select Engine and Region</Typography>
+        <h3>Select Engine and Region</h3>
         <DatabaseEngineSelect />
       </div>
       <div>

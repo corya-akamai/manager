@@ -7,7 +7,6 @@ import {
   validateIPs,
 } from '@akamai/compute-ui-core/api';
 import { useDatabaseMutation } from '@linode/queries';
-import { Typography } from '@linode/ui';
 import * as React from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
@@ -138,21 +137,20 @@ export const ManageAccessControlDrawer = (props: Props) => {
             type="error"
           />
         )}
-        {allowListErrors &&
-          allowListErrors.map((allowListError) => (
-            <NotificationBanner
-              key={allowListError.reason}
-              style={{ marginBottom: Spacing.S16 }}
-              text={allowListError.reason}
-              type="error"
-            />
-          ))}
-        <Typography marginBottom={4} variant="body1">
+        {allowListErrors?.map((allowListError) => (
+          <NotificationBanner
+            key={allowListError.reason}
+            style={{ marginBottom: Spacing.S16 }}
+            text={allowListError.reason}
+            type="error"
+          />
+        ))}
+        <p style={{ marginBottom: Spacing.S32, marginTop: 0 }}>
           {isDefaultDB
             ? ACCESS_CONTROLS_DRAWER_TEXT
             : ACCESS_CONTROLS_DRAWER_TEXT_LEGACY}{' '}
           <Link to={learnMoreLink}>Learn more</Link>.
-        </Typography>
+        </p>
         <FormProvider {...form}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Controller
