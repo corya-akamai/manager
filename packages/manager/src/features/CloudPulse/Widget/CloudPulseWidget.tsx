@@ -248,8 +248,12 @@ export const CloudPulseWidget = (props: CloudPulseWidgetProperties) => {
     scope: 'entity',
     serviceType,
   });
-  const { getGlobalSelectedDashboard, getGlobalFilterData, getGlobalGroupBy } =
-    useCloudPulseContext();
+  const {
+    getGlobalSelectedDashboard,
+    getGlobalFilterData,
+    getGlobalGroupBy,
+    setWidgetLoading,
+  } = useCloudPulseContext();
   // Determine which fetch object is relevant for linodes
   const activeLinodeFetch =
     serviceType === 'blockstorage' ? linodeFromVolumes : linodesFetch;
@@ -497,6 +501,11 @@ export const CloudPulseWidget = (props: CloudPulseWidgetProperties) => {
     return `custom:${start},${end},${timeZone}`;
   }, [props.duration]);
 
+  const widgetLoading =
+    isLoading ||
+    metricsApiCallError === jweTokenExpiryError ||
+    isJweTokenFetching;
+
   React.useEffect(() => {
     if (
       filteredSelections.length !== (dimensionFilters?.length ?? 0) &&
@@ -514,6 +523,9 @@ export const CloudPulseWidget = (props: CloudPulseWidgetProperties) => {
     vpcFetch.isLoading,
     linodeFromVolumes.isLoading,
   ]);
+  React.useEffect(() => {
+    setWidgetLoading(widget.label, widgetLoading);
+  }, [widgetLoading, setWidgetLoading, widget.label]);
   const filterData = getGlobalFilterData();
   const description = widget.description?.trim()
     ? widget.description
@@ -704,11 +716,7 @@ export const CloudPulseWidget = (props: CloudPulseWidgetProperties) => {
             }
             height={424}
             legendRows={legendRows}
-            loading={
-              isLoading ||
-              metricsApiCallError === jweTokenExpiryError ||
-              isJweTokenFetching
-            } // keep loading until we are trying to fetch the refresh token
+            loading={widgetLoading} // keep loading until we are trying to fetch the refresh token
             onZoomChange={handleZoomStateChange}
             showDot
             showLegend={data.length !== 0}

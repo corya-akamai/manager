@@ -151,6 +151,11 @@ export interface AreaChartProps {
   margin?: { bottom: number; left: number; right: number; top: number };
 
   /**
+   * On Click of legend row, returns the list of hidden series. This is used for accessibility purposes to announce which series are hidden when a legend row is clicked.
+   */
+  onHiddenAreasChange?: (hiddenKeys: string[]) => void;
+
+  /**
    * reference area to be highlighted on the chart
    */
   referenceArea?: null | ReferenceAreaProps;
@@ -273,6 +278,7 @@ export const AreaChart = (props: AreaChartProps) => {
     tooltipRef,
     chartContainerRef,
     tooltipPosition,
+    onHiddenAreasChange,
   } = props;
 
   const theme = useTheme();
@@ -334,6 +340,10 @@ export const AreaChart = (props: AreaChartProps) => {
     left: 0,
     width: '100%',
   };
+
+  React.useEffect(() => {
+    onHiddenAreasChange?.(activeSeries);
+  }, [activeSeries, onHiddenAreasChange]);
 
   return (
     <>

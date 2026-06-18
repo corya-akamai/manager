@@ -77,8 +77,11 @@ const CloudPulseDashboardWithFiltersRenderer = React.memo(
 
     const flags = useFlags();
 
-    const { setGlobalSelectedDashboard, setGlobalFilterData } =
-      useCloudPulseContext();
+    const {
+      setGlobalSelectedDashboard,
+      setGlobalFilterData,
+      getIsWidgetLoading,
+    } = useCloudPulseContext();
 
     const { data: dashboardById, isError: isDashboardByIdError } =
       useCloudPulseDashboardByIdQuery(dashboardId, !serviceType);
@@ -274,6 +277,11 @@ const CloudPulseDashboardWithFiltersRenderer = React.memo(
                         aria-label="Download Dashboard PDF"
                         color="inherit"
                         data-testid="global-download-pdf"
+                        disabled={
+                          !currentDashboard ||
+                          getIsWidgetLoading() ||
+                          !isMandatoryFiltersSelected
+                        }
                         loading={false}
                         size="small"
                         sx={(theme) => ({

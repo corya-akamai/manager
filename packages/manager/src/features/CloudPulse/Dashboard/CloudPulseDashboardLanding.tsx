@@ -13,6 +13,7 @@ import { useCloudPulseContext } from '../Context/useCloudPulseContext';
 import { GlobalFilters } from '../Overview/GlobalFilters';
 import { CloudPulseAppliedFilterRenderer } from '../shared/CloudPulseAppliedFilterRenderer';
 import { defaultTimeDuration } from '../Utils/CloudPulseDateTimePickerUtils';
+import { checkIfAllMandatoryFiltersAreSelected } from '../Utils/FilterBuilder';
 import { CloudPulseDashboardRenderer } from './CloudPulseDashboardRenderer';
 
 import type { Dashboard, DateTimeWithPreset } from '@linode/api-v4';
@@ -106,6 +107,15 @@ export const CloudPulseDashboardLanding = () => {
     []
   );
 
+  const isMandatoryFiltersSelected =
+    (dashboard &&
+      checkIfAllMandatoryFiltersAreSelected({
+        dashboard,
+        filterValue: filterData.id,
+        timeDuration,
+      })) ||
+    !timeDuration;
+
   React.useEffect(() => {
     setGlobalFilterData(filterData);
   }, [filterData, setGlobalFilterData]);
@@ -132,6 +142,7 @@ export const CloudPulseDashboardLanding = () => {
                 handleGroupByChange={onGroupByChange}
                 handleTimeDurationChange={onTimeDurationChange}
                 handleToggleAppliedFilter={toggleAppliedFilter}
+                isMandatoryFiltersSelected={isMandatoryFiltersSelected}
               />
               {dashboard?.service_type && showAppliedFilters && (
                 <CloudPulseAppliedFilterRenderer

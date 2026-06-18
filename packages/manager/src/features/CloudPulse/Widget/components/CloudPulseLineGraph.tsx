@@ -23,6 +23,7 @@ export interface CloudPulseLineGraph extends AreaChartProps {
   data: DataSet[];
   error?: string;
   loading?: boolean;
+  onHiddenAreasChange?: (hiddenKeys: string[]) => void;
   onZoomChange?: (
     isZoomed: boolean,
     left: 'dataMin' | number,
@@ -43,6 +44,7 @@ export const CloudPulseLineGraph = React.memo((props: CloudPulseLineGraph) => {
     onZoomChange,
     showLegend,
     widgetLabel,
+    onHiddenAreasChange,
     ...rest
   } = props;
   const flags = useFlags();
@@ -159,6 +161,7 @@ export const CloudPulseLineGraph = React.memo((props: CloudPulseLineGraph) => {
               right: 30,
               top: 2,
             }}
+            onHiddenAreasChange={onHiddenAreasChange}
             referenceArea={
               zoom.refAreaLeft !== undefined && zoom.refAreaRight !== undefined
                 ? {

@@ -8,6 +8,7 @@ import Reload from 'src/assets/icons/refresh.svg';
 import { useFlags } from 'src/hooks/useFlags';
 import { useResourcesQuery } from 'src/queries/cloudpulse/resources';
 
+import { useCloudPulseContext } from '../Context/useCloudPulseContext';
 import { GlobalFilterGroupByRenderer } from '../GroupBy/GlobalFilterGroupByRenderer';
 import { CloudPulseDashboardFilterBuilder } from '../shared/CloudPulseDashboardFilterBuilder';
 import { CloudPulseDashboardSelect } from '../shared/CloudPulseDashboardSelect';
@@ -39,6 +40,7 @@ export interface GlobalFilterProperties {
   handleGroupByChange: (selectedValues: string[]) => void;
   handleTimeDurationChange(timeDuration: DateTimeWithPreset): void;
   handleToggleAppliedFilter(isVisible: boolean): void;
+  isMandatoryFiltersSelected?: boolean;
 }
 
 export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
@@ -48,6 +50,7 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
     handleTimeDurationChange,
     handleToggleAppliedFilter,
     handleGroupByChange,
+    isMandatoryFiltersSelected = false,
   } = props;
 
   const flags = useFlags();
@@ -127,6 +130,8 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
     []
   );
 
+  const { getIsWidgetLoading } = useCloudPulseContext();
+
   const isUnAuthorizedError =
     isError &&
     ((error instanceof Error && error.message === 'Unauthorized') ||
@@ -184,6 +189,11 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
                   aria-label="Download Dashboard PDF"
                   color="inherit"
                   data-testid="global-download-pdf"
+                  disabled={
+                    !selectedDashboard ||
+                    getIsWidgetLoading() ||
+                    !isMandatoryFiltersSelected
+                  }
                   size="small"
                   sx={(theme) => ({
                     marginBlockEnd: 'auto',

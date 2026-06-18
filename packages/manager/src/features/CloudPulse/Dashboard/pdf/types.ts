@@ -18,6 +18,10 @@ export interface PdfData {
    */
   graphSVG: null | { dataUrl: string; height: number; width: number };
   /**
+   * Hidden keys in legend
+   */
+  hiddenLegendRows?: string[];
+  /**
    * The legend data for the graph, used to render the legend in the PDF
    */
   legendRowData: MetricsDisplayRow[];
