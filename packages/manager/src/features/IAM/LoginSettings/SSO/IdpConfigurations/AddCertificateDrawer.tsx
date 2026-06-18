@@ -23,6 +23,7 @@ interface FormValues {
 }
 
 interface Props {
+  existingCerts?: Array<{ certificate: string }>;
   idpConfigId: string;
   onClose: () => void;
   open: boolean;
@@ -32,7 +33,12 @@ const defaultValues: FormValues = {
   certificate: '',
 };
 
-export const AddCertificateDrawer = ({ idpConfigId, onClose, open }: Props) => {
+export const AddCertificateDrawer = ({
+  existingCerts = [],
+  idpConfigId,
+  onClose,
+  open,
+}: Props) => {
   const { enqueueSnackbar } = useSnackbar();
 
   const { mutateAsync: createIdpCertificate, isPending } =
@@ -45,6 +51,7 @@ export const AddCertificateDrawer = ({ idpConfigId, onClose, open }: Props) => {
     reset,
     setError,
   } = useForm<FormValues>({
+    context: { existingCerts },
     defaultValues,
     mode: 'onChange',
     resolver: yupResolver(AddCertificateSchema) as Resolver<FormValues>,

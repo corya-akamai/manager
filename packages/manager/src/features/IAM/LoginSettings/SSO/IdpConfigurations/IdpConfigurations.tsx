@@ -211,6 +211,7 @@ export const IdpConfigurations = ({ idpConfig }: { idpConfig: IdpConfig }) => {
         open={isEditDrawerOpen}
       />
       <AddCertificateDrawer
+        existingCerts={idpConfig.saml.public_certificates}
         idpConfigId={idpConfig.id}
         onClose={() => setIsAddCertDrawerOpen(false)}
         open={isAddCertDrawerOpen}

@@ -193,5 +193,19 @@ export const AddCertificateSchema = object({
       'no-leading-trailing-whitespace',
       'Certificate cannot start or end with whitespace.',
       (value) => !value || value === value.trim(),
+    )
+    .test(
+      'no-duplicate',
+      'This certificate is already added.',
+      function (value) {
+        if (!value) return true;
+        const ctx = this.options.context as
+          | undefined
+          | { existingCerts?: Array<{ certificate: string }> };
+        const trimmed = value.trim();
+        return !(ctx?.existingCerts ?? []).some(
+          (cert) => cert.certificate?.trim() === trimmed,
+        );
+      },
     ),
 });
