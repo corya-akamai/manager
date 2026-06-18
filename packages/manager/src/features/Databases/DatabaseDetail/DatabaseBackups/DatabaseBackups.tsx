@@ -290,7 +290,9 @@ export const DatabaseBackups = () => {
                   render={({ field }) => (
                     <LocalizationProvider dateAdapter={AdapterLuxon}>
                       <Calendar
-                        active={field.value?.toISO() || ''}
+                        active={
+                          field.value?.toISO() || DateTime.now().toUTC().toISO()
+                        }
                         disabledFn={() =>
                           disabled || versionOption === 'newest'
                         }
@@ -303,6 +305,7 @@ export const DatabaseBackups = () => {
                           validateDateTime(newDate, time);
                           field.onChange(newDate);
                         }}
+                        selected={field.value?.toISO() || ''}
                         style={{ marginRight: Spacing.S40, width: '260px' }}
                         tz="utc"
                       />
