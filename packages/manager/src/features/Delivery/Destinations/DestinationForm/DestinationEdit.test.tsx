@@ -228,20 +228,44 @@ describe('DestinationEdit', () => {
     const editDestinationSpy = vi.fn();
     const verifyDestinationSpy = vi.fn();
 
+    const expectedEditPayload = {
+      label: 'Destination 123',
+      details: {
+        access_key_id: 'Access Id',
+        access_key_secret: 'Test',
+        bucket_name: 'destinations-bucket-name',
+        host: 'destinations-bucket-name.host.com',
+        path: 'file',
+      },
+    };
+
+    const expectedVerifyPayload = {
+      ...expectedEditPayload,
+      type: 'akamai_object_storage',
+    };
+
     describe('when Test Connection button clicked and connection verified positively', () => {
       it("should enable Save Changes button and perform proper call when it's clicked", async () => {
         server.use(
           http.get(`*/monitor/streams/destinations/${destinationId}`, () => {
             return HttpResponse.json(mockDestination);
           }),
-          http.post('*/monitor/streams/destinations/verify', () => {
-            verifyDestinationSpy();
-            return HttpResponse.json({});
-          }),
-          http.put(`*/monitor/streams/destinations/${destinationId}`, () => {
-            editDestinationSpy();
-            return HttpResponse.json({});
-          })
+          http.post(
+            '*/monitor/streams/destinations/verify',
+            async ({ request }) => {
+              const body = await request.json();
+              verifyDestinationSpy(body);
+              return HttpResponse.json({});
+            }
+          ),
+          http.put(
+            `*/monitor/streams/destinations/${destinationId}`,
+            async ({ request }) => {
+              const body = await request.json();
+              editDestinationSpy(body);
+              return HttpResponse.json({});
+            }
+          )
         );
 
         renderWithThemeAndHookFormContext({
@@ -264,6 +288,8 @@ describe('DestinationEdit', () => {
         expect(saveDestinationButton).toBeDisabled();
         await userEvent.click(testConnectionButton);
         expect(verifyDestinationSpy).toHaveBeenCalled();
+        const verifyPayload = verifyDestinationSpy.mock.calls[0][0];
+        expect(verifyPayload).toEqual(expectedVerifyPayload);
 
         await waitFor(() => {
           expect(saveDestinationButton).toBeEnabled();
@@ -271,6 +297,8 @@ describe('DestinationEdit', () => {
 
         await userEvent.click(saveDestinationButton);
         expect(editDestinationSpy).toHaveBeenCalled();
+        const editPayload = editDestinationSpy.mock.calls[0][0];
+        expect(editPayload).toEqual(expectedEditPayload);
       });
     });
 
@@ -280,10 +308,14 @@ describe('DestinationEdit', () => {
           http.get(`*/monitor/streams/destinations/${destinationId}`, () => {
             return HttpResponse.json(mockDestination);
           }),
-          http.post('*/monitor/streams/destinations/verify', () => {
-            verifyDestinationSpy();
-            return HttpResponse.error();
-          })
+          http.post(
+            '*/monitor/streams/destinations/verify',
+            async ({ request }) => {
+              const body = await request.json();
+              verifyDestinationSpy(body);
+              return HttpResponse.error();
+            }
+          )
         );
 
         renderWithThemeAndHookFormContext({
@@ -306,6 +338,8 @@ describe('DestinationEdit', () => {
         expect(saveDestinationButton).toBeDisabled();
         await userEvent.click(testConnectionButton);
         expect(verifyDestinationSpy).toHaveBeenCalled();
+        const verifyPayload = verifyDestinationSpy.mock.calls[0][0];
+        expect(verifyPayload).toEqual(expectedVerifyPayload);
 
         await waitFor(() => {
           expect(saveDestinationButton).toBeDisabled();

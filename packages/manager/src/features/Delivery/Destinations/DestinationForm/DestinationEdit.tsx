@@ -5,7 +5,7 @@ import {
   useDestinationQuery,
   useUpdateDestinationMutation,
 } from '@linode/queries';
-import { Box, CircleProgress, ErrorState, omitProps } from '@linode/ui';
+import { Box, CircleProgress, ErrorState } from '@linode/ui';
 import { destinationFormSchema } from '@linode/validation';
 import { useNavigate, useParams } from '@tanstack/react-router';
 import { enqueueSnackbar } from 'notistack';
@@ -65,15 +65,15 @@ export const DestinationEdit = () => {
   useEffect(() => {
     if (destination) {
       form.reset({
-        ...destination,
-        ...('path' in destination.details
-          ? {
-              details: {
+        label: destination.label,
+        type: destination.type,
+        details:
+          'path' in destination.details
+            ? {
                 ...destination.details,
                 path: destination.details.path || '',
-              },
-            }
-          : {}),
+              }
+            : destination.details,
       });
     }
   }, [destination, form]);
@@ -82,7 +82,7 @@ export const DestinationEdit = () => {
     const formValues = form.getValues();
     const destination: UpdateDestinationPayloadWithId = {
       id: destinationId,
-      ...omitProps(formValues, ['type']),
+      label: formValues.label,
       details: getDestinationPayloadDetails(
         formValues.details,
         formValues.type
