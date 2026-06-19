@@ -23,7 +23,6 @@ import {
   SSO_EXCLUDED_USERS_DOCS_LINK,
 } from '../../../Shared/constants';
 import { Link } from '../../../Shared/Link/Link';
-
 import { IAM_SSO_ENFORCE_PENDO_IDS } from '../../constants';
 
 import type { EnforcementSettingsFormValues } from './EnforcementSettings';
