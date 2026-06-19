@@ -1,3 +1,96 @@
+// Pendo IDs for IAM landing and tabs
+export const IAM_LANDING_PENDO_IDS = {
+  docsLink: 'IAM Landing-Docs',
+  usersTab: 'IAM-Users',
+  rolesTab: 'IAM-Roles',
+  accountDelegationsTab: 'IAM-Account Delegations',
+  settingsTab: 'IAM-Settings',
+};
+
+// Pendo IDs for IAM Settings
+export const IAM_SETTINGS_PENDO_IDS = {
+  learnMore: 'IAM Settings-Learn more',
+  manageSSOEnforcement: 'IAM Settings-Manage SSO Enforcement',
+};
+
+// Pendo IDs for IAM SSO - IDP Configuration tab
+export const IAM_SSO_IDP_PENDO_IDS = {
+  idpTab: 'IAM Settings SSO-IDP',
+  createIDPConfigurationStartFlow:
+    'IAM Settings SSO IDP-Create IDP Configuration Start flow',
+  deleteIDPConfigurationStartFlow:
+    'IAM Settings SSO IDP-Delete IDP Configuration Start flow',
+  editIDPConfiguration: 'IAM Settings SSO IDP-Edit IDP Configuration',
+  copyEntityID: 'IAM Settings SSO IDP-Copy Entity ID',
+  copyIDPURL: 'IAM Settings SSO IDP-Copy IDP URL',
+  showSPMetadata: 'IAM Settings SSO IDP-Show SP Metadata',
+  addCertificate: 'IAM Settings SSO IDP-Add Certificate',
+  addCertificateWhenSSODisabled:
+    'IAM Settings SSO IDP-Add Certificate when SSO disabled',
+  copyCertificate: 'IAM Settings SSO IDP-Copy certificate',
+  viewDetails: 'IAM Settings SSO IDP-View Details',
+  deleteStartFlow: 'IAM Settings SSO IDP-Delete Start flow',
+  deleteIDPConfigurationEndFlow:
+    'IAM Settings SSO IDP-Delete IDP Configuration End flow',
+  deleteCertificateCancel: 'IAM Settings SSO IDP-Delete Certificate Cancel',
+  deleteCertificateEndFlow: 'IAM Settings SSO IDP-Delete Certificate End flow',
+  deleteIDPConfigurationIdpLabel:
+    'IAM Settings SSO IDP Delete IDP Configuration-IDP Label',
+  deleteIDPConfigurationCancel:
+    'IAM Settings SSO IDP Delete IDP Configuration-Cancel',
+  viewDetailsCloseButton: 'IAM Settings SSO IDP View Details-Close',
+  addCertSamlCert: 'IAM Add Cert-SAML Cert',
+  addCertCancel: 'IAM Add Cert-Cancel',
+  addCertAddCertificate: 'IAM Add Cert-Add Certificate',
+};
+
+// Pendo IDs for IAM SSO - SSO Enforcement tab
+export const IAM_SSO_ENFORCE_PENDO_IDS = {
+  enforceTab: 'IAM Settings SSO-Enforce',
+  createIDPConfigurationStartFlow:
+    'IAM Settings SSO Enforce-Create IDP Configuration Start flow',
+  enableSSO: 'IAM Settings SSO Enforce-Enable SSO',
+  enforceSSO: 'IAM Settings SSO Enforce-Enforce SSO for all users',
+  includedUsersLearnMore: 'IAM Settings SSO Enforce Included Users-Learn more',
+  includedUsers: 'IAM Settings SSO Enforce-Included Users',
+  excludedUsersLearnMore: 'IAM Settings SSO Enforce Excluded Users-Learn more',
+  excludedUsers: 'IAM Settings SSO Enforce-Excluded Users',
+  updateSSOEnforcement: 'IAM Settings SSO Enforce-Update SSO Enforcement',
+  consentChecked: 'IAM Settings SSO Enforce-Consent checked',
+};
+
+// Pendo IDs for IAM Create IDP drawer
+export const IAM_CREATE_IDP_PENDO_IDS = {
+  label: 'IAM Create IDP-Label',
+  entityID: 'IAM Create IDP-Entity ID',
+  idpURL: 'IAM Create IDP-IDP URL',
+  samlCert: 'IAM Create IDP-SAML Cert',
+  samlCertDelete: 'IAM Create IDP SAML Cert-Delete',
+  addAnotherCertificate: 'IAM Create IDP-Add Another Certificate',
+  identityElement: 'IAM Create IDP-Identity Element',
+  identityElementUserIDAttributeName:
+    'IAM Create IDP Identity Element User ID Attribute-Name',
+  cancel: 'IAM Create IDP-Cancel',
+  createIDPConfigurationEndFlow:
+    'IAM Create IDP-Create IDP Configuration End flow',
+};
+
+// Pendo IDs for IAM Edit IDP drawer
+export const IAM_EDIT_IDP_PENDO_IDS = {
+  samlCertDelete: 'IAM Edit IDP SAML Cert-Delete',
+  samlCertUndo: 'IAM Edit IDP SAML Cert-Undo',
+  label: 'IAM Edit IDP-Label',
+  entityID: 'IAM Edit IDP-Entity ID',
+  idpURL: 'IAM Edit IDP-IDP URL',
+  samlCert: 'IAM Edit IDP-SAML Cert',
+  addAnotherCertificate: 'IAM Edit IDP-Add Another Certificate',
+  identityElement: 'IAM Edit IDP-Identity Element',
+  identityElementUserIDAttributeName:
+    'IAM Edit IDP Identity Element User ID Attribute-Name',
+  cancel: 'IAM Edit IDP-Cancel',
+  editIDPConfigurationEndFlow: 'IAM Edit IDP-Edit IDP Configuration End flow',
+};
+
 export const ADD_BUTTON_MAX_TOOLTIP = 'You can add up to 10 certificates.';
 
 export const MAX_CERTIFICATES_REACHED_ERROR =

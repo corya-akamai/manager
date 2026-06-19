@@ -12,6 +12,8 @@ import type { Control, UseFormWatch } from 'react-hook-form';
 import {
   ATTRIBUTE_MAPPING_DESCRIPTION,
   ATTRIBUTE_NAME_HELPER_TEXT,
+  IAM_CREATE_IDP_PENDO_IDS,
+  IAM_EDIT_IDP_PENDO_IDS,
 } from '../../constants';
 import styles from './IdpConfigurationDrawer.module.css';
 import {
@@ -23,10 +25,11 @@ import type { CreateIdpConfigPayload } from '@linode/api-v4';
 
 interface Props {
   control: Control<CreateIdpConfigPayload>;
+  isEdit?: boolean;
   watch: UseFormWatch<CreateIdpConfigPayload>;
 }
 
-export const AttributeMappingSection = ({ control, watch }: Props) => {
+export const AttributeMappingSection = ({ control, isEdit, watch }: Props) => {
   return (
     <>
       <h3 className={styles.sectionHeading}>Attribute Mapping</h3>
@@ -45,6 +48,11 @@ export const AttributeMappingSection = ({ control, watch }: Props) => {
           >
             <FormLabel slot="label">Identity Element</FormLabel>
             <Select
+              data-pendo-id={
+                isEdit
+                  ? IAM_EDIT_IDP_PENDO_IDS.identityElement
+                  : IAM_CREATE_IDP_PENDO_IDS.identityElement
+              }
               items={identityElementOptions}
               onChange={(event) => {
                 const selected = (event as CustomEvent)
@@ -80,6 +88,11 @@ export const AttributeMappingSection = ({ control, watch }: Props) => {
             >
               <FormLabel slot="label">Attribute Name</FormLabel>
               <TextField
+                data-pendo-id={
+                  isEdit
+                    ? IAM_EDIT_IDP_PENDO_IDS.identityElementUserIDAttributeName
+                    : IAM_CREATE_IDP_PENDO_IDS.identityElementUserIDAttributeName
+                }
                 onChange={field.onChange}
                 placeholder="Enter an attribute name"
                 value={field.value ?? ''}

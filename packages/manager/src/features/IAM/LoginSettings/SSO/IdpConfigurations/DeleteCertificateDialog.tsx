@@ -8,6 +8,8 @@ import { useDeleteIdpCertificateMutation } from '@linode/queries';
 import { useSnackbar } from 'notistack';
 import * as React from 'react';
 
+import { IAM_SSO_IDP_PENDO_IDS } from '../../constants';
+
 import type { IdpCertificate } from '@linode/api-v4';
 
 interface Props {
@@ -76,10 +78,15 @@ export const DeleteCertificateDialog = ({
         )}
       </div>
       <div slot="actions">
-        <Button onClick={handleClose} variant="secondary">
+        <Button
+          data-pendo-id={IAM_SSO_IDP_PENDO_IDS.deleteCertificateCancel}
+          onClick={handleClose}
+          variant="secondary"
+        >
           Cancel
         </Button>
         <Button
+          data-pendo-id={IAM_SSO_IDP_PENDO_IDS.deleteCertificateEndFlow}
           disabled={isPending || !certificate}
           onClick={handleDelete}
           processing={isPending}

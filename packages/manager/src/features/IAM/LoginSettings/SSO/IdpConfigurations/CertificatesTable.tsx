@@ -16,7 +16,10 @@ import { DateTimeDisplay } from 'src/features/IAM/Shared/DateTimeDisplay/DateTim
 
 import { useOrder } from '../../../hooks/useOrder';
 import { StatusIcon } from '../../../Shared/StatusIcon/StatusIcon';
-import { ALL_CERTIFICATES_DELETED_ERROR } from '../../constants';
+import {
+  ALL_CERTIFICATES_DELETED_ERROR,
+  IAM_EDIT_IDP_PENDO_IDS,
+} from '../../constants';
 import styles from './CertificatesTable.module.css';
 import { CertificateTableLandingRow } from './CertificateTableLandingRow';
 import { DeleteCertificateDialog } from './DeleteCertificateDialog';
@@ -218,6 +221,11 @@ export const CertificatesTable = (props: CombinedProps) => {
 
                   <TableCell className={styles.actionCell}>
                     <Button
+                      data-pendo-id={
+                        isDeleted
+                          ? IAM_EDIT_IDP_PENDO_IDS.samlCertUndo
+                          : IAM_EDIT_IDP_PENDO_IDS.samlCertDelete
+                      }
                       disabled={isDeleted && props.isAtMax}
                       onClick={() => props.onToggleDelete(cert.id)}
                       style={{ lineHeight: 1 }}

@@ -5,6 +5,8 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 
+import { IAM_SSO_ENFORCE_PENDO_IDS } from '../../constants';
+
 import type { EnforcementSettingsFormValues } from './EnforcementSettings';
 
 interface Props {
@@ -39,6 +41,7 @@ export const ActivationStatus = ({ isConfigInvalid }: Props) => {
         render={({ field }) => (
           <Switch
             checked={field.value}
+            data-pendo-id={IAM_SSO_ENFORCE_PENDO_IDS.enableSSO}
             disabled={
               !permissions?.update_idp_config ||
               (!isSSOEnabled && isConfigInvalid)
@@ -89,6 +92,7 @@ export const ActivationStatus = ({ isConfigInvalid }: Props) => {
         render={({ field }) => (
           <Switch
             checked={field.value}
+            data-pendo-id={IAM_SSO_ENFORCE_PENDO_IDS.enforceSSO}
             disabled={!permissions?.update_idp_config || !isSSOEnabled}
             onChange={(e) => field.onChange(e.detail)}
           >

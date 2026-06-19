@@ -24,6 +24,8 @@ import {
 } from '../../../Shared/constants';
 import { Link } from '../../../Shared/Link/Link';
 
+import { IAM_SSO_ENFORCE_PENDO_IDS } from '../../constants';
+
 import type { EnforcementSettingsFormValues } from './EnforcementSettings';
 import type { TagInputElement } from '@akamai/cds-components';
 
@@ -143,7 +145,13 @@ export const IncludedUsersPanel = ({ includedUsers }: Props) => {
       >
         Before enforcing SSO for all users, enable it for included users only to
         test the SSO login flow. With SSO enforced globally, this list doesn’t
-        apply. <Link to={SSO_INCLUDED_USERS_DOCS_LINK}>Learn more.</Link>
+        apply.{' '}
+        <Link
+          pendoId={IAM_SSO_ENFORCE_PENDO_IDS.includedUsersLearnMore}
+          to={SSO_INCLUDED_USERS_DOCS_LINK}
+        >
+          Learn more.
+        </Link>
       </p>
       <Controller
         control={control}
@@ -171,6 +179,7 @@ export const IncludedUsersPanel = ({ includedUsers }: Props) => {
               tooltipText="You do not have permissions to update included users."
             >
               <TagInput
+                data-pendo-id={IAM_SSO_ENFORCE_PENDO_IDS.includedUsers}
                 disabled={!permissions?.update_idp_config_user_includes}
                 filterFn={() => true}
                 isError={Boolean(searchError || error)}

@@ -12,6 +12,7 @@ import { Paper } from 'src/features/IAM/Shared/Paper/Paper';
 
 import {
   ADD_CERTIFICATE_PERMISSION_ERROR,
+  IAM_SSO_IDP_PENDO_IDS,
   MAX_CERTIFICATES_REACHED_ERROR,
   METADATA_HREF,
   SSO_EXPIRED_ENFORCED,
@@ -67,6 +68,9 @@ export const IdpConfigurations = ({ idpConfig }: { idpConfig: IdpConfig }) => {
               tooltipText="You do not have permission to delete this IDP configuration."
             >
               <Button
+                data-pendo-id={
+                  IAM_SSO_IDP_PENDO_IDS.deleteIDPConfigurationStartFlow
+                }
                 disabled={!permissions?.delete_idp_config}
                 onClick={() => setIsDeleteDialogOpen(true)}
                 type="button"
@@ -83,6 +87,7 @@ export const IdpConfigurations = ({ idpConfig }: { idpConfig: IdpConfig }) => {
               tooltipText="You do not have permission to edit this IDP configuration."
             >
               <Button
+                data-pendo-id={IAM_SSO_IDP_PENDO_IDS.editIDPConfiguration}
                 disabled={!permissions?.update_idp_config}
                 onClick={() => setIsEditDrawerOpen(true)}
                 type="button"
@@ -104,17 +109,24 @@ export const IdpConfigurations = ({ idpConfig }: { idpConfig: IdpConfig }) => {
         <div className={styles.detailRow}>
           <p className={styles.detailLabel}>Entity ID:</p>
           <p className={styles.detailValue}>{idpConfig.saml.entity_id}</p>
-          <CopyTooltip text={idpConfig.saml.entity_id} />
+          <CopyTooltip
+            pendoId={IAM_SSO_IDP_PENDO_IDS.copyEntityID}
+            text={idpConfig.saml.entity_id}
+          />
         </div>
 
         <div className={styles.detailRow}>
           <p className={styles.detailLabel}>IDP URL:</p>
           <p className={styles.detailValue}>{idpConfig.saml.idp_url}</p>
-          <CopyTooltip text={idpConfig.saml.idp_url} />
+          <CopyTooltip
+            pendoId={IAM_SSO_IDP_PENDO_IDS.copyIDPURL}
+            text={idpConfig.saml.idp_url}
+          />
         </div>
 
         <div className={styles.metadataLink}>
           <Button
+            data-pendo-id={IAM_SSO_IDP_PENDO_IDS.showSPMetadata}
             onClick={() => {
               window.open(METADATA_HREF, '_blank', 'noopener,noreferrer');
             }}
@@ -161,6 +173,7 @@ export const IdpConfigurations = ({ idpConfig }: { idpConfig: IdpConfig }) => {
             }
           >
             <Button
+              data-pendo-id={IAM_SSO_IDP_PENDO_IDS.addCertificate}
               disabled={
                 isMaxCertificatesReached || !permissions?.create_idp_config_cert
               }

@@ -11,6 +11,10 @@ import {
 import { useLocation } from '@tanstack/react-router';
 import * as React from 'react';
 
+import {
+  IAM_SSO_ENFORCE_PENDO_IDS,
+  IAM_SSO_IDP_PENDO_IDS,
+} from '../../LoginSettings/constants';
 import { IdpConfigurationDrawer } from '../../LoginSettings/SSO/IdpConfigurations/IdpConfigurationDrawer';
 
 interface Props {
@@ -46,6 +50,11 @@ export const NoIDPConfiguration = ({ permissions }: Props) => {
             tooltipText="You do not have permission to create IDP configuration."
           >
             <Button
+              data-pendo-id={
+                isOnIDPConfigurationsPage
+                  ? IAM_SSO_IDP_PENDO_IDS.createIDPConfigurationStartFlow
+                  : IAM_SSO_ENFORCE_PENDO_IDS.createIDPConfigurationStartFlow
+              }
               disabled={!permissions?.create_idp_config}
               onClick={onClick}
               variant="primary"

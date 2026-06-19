@@ -16,6 +16,7 @@ import type { Resolver } from 'react-hook-form';
 import { Controller, useForm } from 'react-hook-form';
 
 import { Drawer, DrawerInlineActions } from '../../../Shared/Drawer';
+import { IAM_SSO_IDP_PENDO_IDS } from '../../constants';
 import styles from './IdpConfigurationDrawer.module.css';
 
 interface FormValues {
@@ -114,6 +115,7 @@ export const AddCertificateDrawer = ({
               </FormLabel>
               <TextArea
                 aria-invalid={!!fieldState.error}
+                data-pendo-id={IAM_SSO_IDP_PENDO_IDS.addCertSamlCert}
                 error={!!fieldState.error}
                 onChange={field.onChange}
                 placeholder="Enter a SAML public certificate"
@@ -126,10 +128,15 @@ export const AddCertificateDrawer = ({
         />
 
         <DrawerInlineActions>
-          <Button onClick={handleClose} variant="secondary">
+          <Button
+            data-pendo-id={IAM_SSO_IDP_PENDO_IDS.addCertCancel}
+            onClick={handleClose}
+            variant="secondary"
+          >
             Cancel
           </Button>
           <Button
+            data-pendo-id={IAM_SSO_IDP_PENDO_IDS.addCertAddCertificate}
             disabled={!isValid}
             processing={isSubmitting || isPending}
             type="submit"

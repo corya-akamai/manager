@@ -17,6 +17,7 @@ import { IAM_LABEL, SSO_DOCS_LINK } from '../../Shared/constants';
 import { DocsLink } from '../../Shared/DocsLink/DocsLink';
 import { LandingHeader } from '../../Shared/LandingHeader/LandingHeader';
 import { SuspenseLoader } from '../../Shared/SuspenseLoader/SuspenseLoader';
+import { IAM_SSO_ENFORCE_PENDO_IDS, IAM_SSO_IDP_PENDO_IDS } from '../constants';
 
 import type { TabsElement } from '@akamai/cds-components/react';
 
@@ -34,10 +35,12 @@ export const SSOLanding = () => {
       {
         to: '/iam/settings/sso/idp-configurations',
         title: 'IDP Configuration',
+        pendoId: IAM_SSO_IDP_PENDO_IDS.idpTab,
       },
       {
         to: '/iam/settings/sso/enforcement-settings',
         title: 'SSO Enforcement',
+        pendoId: IAM_SSO_ENFORCE_PENDO_IDS.enforceTab,
       },
     ],
     tabsRef
@@ -83,6 +86,7 @@ export const SSOLanding = () => {
           {tabs.map((tab, i) => (
             <Tab
               active={i === tabIndex || undefined}
+              data-pendo-id={tab.pendoId}
               key={String(tab.to)}
               label={tab.title}
             >

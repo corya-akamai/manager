@@ -8,6 +8,7 @@ import { DateTimeDisplay } from 'src/features/IAM/Shared/DateTimeDisplay/DateTim
 import { StatusIcon } from 'src/features/IAM/Shared/StatusIcon/StatusIcon';
 
 import { Drawer, DrawerInlineActions } from '../../../Shared/Drawer';
+import { IAM_SSO_IDP_PENDO_IDS } from '../../constants';
 import { getCertificateStatus } from './idpConfigurationDrawer.utils';
 import styles from './ViewCertificateDrawer.module.css';
 
@@ -71,7 +72,11 @@ export const ViewCertificateDrawer = ({ cert, onClose, open }: Props) => {
         </div>
       )}
       <DrawerInlineActions>
-        <Button onClick={handleClose} variant="secondary">
+        <Button
+          data-pendo-id={IAM_SSO_IDP_PENDO_IDS.viewDetailsCloseButton}
+          onClick={handleClose}
+          variant="secondary"
+        >
           Close
         </Button>
       </DrawerInlineActions>

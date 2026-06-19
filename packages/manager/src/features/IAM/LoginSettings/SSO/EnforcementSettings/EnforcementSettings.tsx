@@ -26,6 +26,7 @@ import { Divider } from 'src/features/IAM/Shared/Divider/Divider';
 import { ErrorState } from 'src/features/IAM/Shared/ErrorState/ErrorState';
 import { Paper } from 'src/features/IAM/Shared/Paper/Paper';
 
+import { IAM_SSO_ENFORCE_PENDO_IDS } from '../../constants';
 import { getSummaryStatus, hasNoValidCertificates } from '../utilities';
 import { ActivationStatus } from './ActivationStatus';
 import { ExcludedUsersPanel } from './ExcludedUsersPanel';
@@ -245,6 +246,7 @@ export const EnforcementSettings = () => {
               <div>
                 <Checkbox
                   checked={field.value}
+                  data-pendo-id={IAM_SSO_ENFORCE_PENDO_IDS.consentChecked}
                   onChange={(e) => field.onChange(e.detail as boolean)}
                   required
                 >
@@ -273,6 +275,7 @@ export const EnforcementSettings = () => {
             tooltipText="You do not have permissions to update SSO enforcement settings."
           >
             <Button
+              data-pendo-id={IAM_SSO_ENFORCE_PENDO_IDS.updateSSOEnforcement}
               disabled={!isDirty || !permissions?.update_idp_config}
               processing={
                 isSubmitting ||

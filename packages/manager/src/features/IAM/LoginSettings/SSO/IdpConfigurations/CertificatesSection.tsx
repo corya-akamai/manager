@@ -11,7 +11,11 @@ import * as React from 'react';
 import { Controller, useFieldArray } from 'react-hook-form';
 import type { Control } from 'react-hook-form';
 
-import { ADD_BUTTON_MAX_TOOLTIP } from '../../constants';
+import {
+  ADD_BUTTON_MAX_TOOLTIP,
+  IAM_CREATE_IDP_PENDO_IDS,
+  IAM_EDIT_IDP_PENDO_IDS,
+} from '../../constants';
 import { CertificatesTable } from './CertificatesTable';
 import styles from './IdpConfigurationDrawer.module.css';
 
@@ -91,6 +95,11 @@ export const CertificatesSection = (props: Props) => {
                   </FormLabel>
                   <TextArea
                     aria-invalid={!!fieldState.error}
+                    data-pendo-id={
+                      isEdit
+                        ? IAM_EDIT_IDP_PENDO_IDS.samlCert
+                        : IAM_CREATE_IDP_PENDO_IDS.samlCert
+                    }
                     error={!!fieldState.error}
                     onChange={field.onChange}
                     placeholder="Enter a SAML public certificate"
@@ -108,6 +117,11 @@ export const CertificatesSection = (props: Props) => {
                 <Button
                   aria-label={`Remove SAML public certificate ${index + 1}`}
                   className={styles.removeCertificateButton}
+                  data-pendo-id={
+                    isEdit
+                      ? IAM_EDIT_IDP_PENDO_IDS.samlCertDelete
+                      : IAM_CREATE_IDP_PENDO_IDS.samlCertDelete
+                  }
                   onClick={() => removeCertificate(index)}
                   type="button"
                   variant="icon"
@@ -128,6 +142,11 @@ export const CertificatesSection = (props: Props) => {
         <Button
           aria-disabled={isMaxCertificatesReached}
           className={styles.addCertificateButton}
+          data-pendo-id={
+            isEdit
+              ? IAM_EDIT_IDP_PENDO_IDS.addAnotherCertificate
+              : IAM_CREATE_IDP_PENDO_IDS.addAnotherCertificate
+          }
           disabled={isMaxCertificatesReached}
           onClick={() => addCertificate({ certificate: '' })}
           type="button"

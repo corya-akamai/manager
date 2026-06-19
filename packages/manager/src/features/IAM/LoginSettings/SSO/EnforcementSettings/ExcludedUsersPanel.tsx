@@ -24,6 +24,8 @@ import {
 } from '../../../Shared/constants';
 import { Link } from '../../../Shared/Link/Link';
 
+import { IAM_SSO_ENFORCE_PENDO_IDS } from '../../constants';
+
 import type { EnforcementSettingsFormValues } from './EnforcementSettings';
 import type { TagInputElement } from '@akamai/cds-components';
 interface Props {
@@ -144,7 +146,12 @@ export const ExcludedUsersPanel = ({ excludedUsers }: Props) => {
         password. Add them to ensure emergency access to your account in case
         your Identity Provider is unavailable. To improve security, we strongly
         recommend configuring the two-factor authentication for these users.{' '}
-        <Link to={SSO_EXCLUDED_USERS_DOCS_LINK}>Learn more.</Link>
+        <Link
+          pendoId={IAM_SSO_ENFORCE_PENDO_IDS.excludedUsersLearnMore}
+          to={SSO_EXCLUDED_USERS_DOCS_LINK}
+        >
+          Learn more.
+        </Link>
       </p>
       <Controller
         control={control}
@@ -172,6 +179,7 @@ export const ExcludedUsersPanel = ({ excludedUsers }: Props) => {
               tooltipText="You do not have permissions to update excluded users."
             >
               <TagInput
+                data-pendo-id={IAM_SSO_ENFORCE_PENDO_IDS.excludedUsers}
                 disabled={!permissions?.update_idp_config_user_excludes}
                 filterFn={() => true}
                 isError={Boolean(searchError || error)}

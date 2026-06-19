@@ -11,7 +11,7 @@ import { ErrorState } from '../Shared/ErrorState/ErrorState';
 import { Link } from '../Shared/Link/Link';
 import { Paper } from '../Shared/Paper/Paper';
 import { StatusIcon } from '../Shared/StatusIcon/StatusIcon';
-import { SSO_EXPIRING } from './constants';
+import { IAM_SETTINGS_PENDO_IDS, SSO_EXPIRING } from './constants';
 import { getCertificateCounts, getSummaryStatus } from './SSO/utilities';
 
 import type { IdpConfig } from '@linode/api-v4';
@@ -77,7 +77,12 @@ export const LoginSettingsLanding = () => {
         The single sign-on (SSO) enforcement enables you to configure the SSO
         login for users of your account, including identity provider (IDP)
         configuration and excluded users.{' '}
-        <Link to={SSO_ENFORCEMENT_LINK}>Learn more.</Link>
+        <Link
+          pendoId={IAM_SETTINGS_PENDO_IDS.learnMore}
+          to={SSO_ENFORCEMENT_LINK}
+        >
+          Learn more.
+        </Link>
       </p>
       <div
         style={{
@@ -95,7 +100,12 @@ export const LoginSettingsLanding = () => {
           type="warning"
         >
           There are no excluded users. Not recommended.{' '}
-          <Link to={SSO_ENFORCEMENT_LINK}>Learn more.</Link>
+          <Link
+            pendoId={IAM_SETTINGS_PENDO_IDS.learnMore}
+            to={SSO_ENFORCEMENT_LINK}
+          >
+            Learn more.
+          </Link>
         </NotificationBanner>
       )}
       {hasCertExpiringWarning && (
@@ -106,6 +116,7 @@ export const LoginSettingsLanding = () => {
         />
       )}
       <Button
+        data-pendo-id={IAM_SETTINGS_PENDO_IDS.manageSSOEnforcement}
         onClick={() => navigate({ to: '/iam/settings/sso/idp-configurations' })}
         variant="secondary"
       >

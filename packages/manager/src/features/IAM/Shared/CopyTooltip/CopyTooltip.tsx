@@ -24,6 +24,12 @@ export interface CopyTooltipProps {
    * Callback fired after the text is copied to the clipboard.
    */
   onClickCallback?: () => void;
+
+  /**
+   * Optional Pendo ID for tracking purposes.
+   */
+  pendoId?: string;
+
   /**
    * The text to copy to the clipboard.
    */
@@ -36,6 +42,7 @@ export const CopyTooltip = ({
   disabledReason,
   onClickCallback,
   text,
+  pendoId,
 }: CopyTooltipProps) => {
   const [copied, setCopied] = React.useState(false);
 
@@ -50,6 +57,7 @@ export const CopyTooltip = ({
     <button
       aria-label={`Copy ${text} to clipboard`}
       className={[styles.button, className].filter(Boolean).join(' ')}
+      data-pendo-id={pendoId}
       data-qa-copy-btn
       disabled={disabled && !disabledReason}
       onClick={!disabled ? handleClick : undefined}

@@ -26,6 +26,8 @@ import { Drawer, DrawerInlineActions } from '../../../Shared/Drawer';
 import {
   ALL_CERTIFICATES_DELETED_ERROR,
   CREATE_SUCCESS,
+  IAM_CREATE_IDP_PENDO_IDS,
+  IAM_EDIT_IDP_PENDO_IDS,
   IDENTITY_PROVIDER_DESCRIPTION,
   UPDATE_SUCCESS,
 } from '../../constants';
@@ -221,7 +223,7 @@ export const IdpConfigurationDrawer = ({
       aria-label={title}
       onClose={handleClose}
       open={open}
-      width={isSMUp ? '616px' : 'auto'}
+      width={isSMUp ? (isEdit ? '616px' : '480px') : '100%'}
     >
       <div slot="header">{title}</div>
       <form noValidate onSubmit={handleSubmit(onSubmit)} slot="body">
@@ -245,6 +247,11 @@ export const IdpConfigurationDrawer = ({
             >
               <FormLabel slot="label">Label</FormLabel>
               <TextField
+                data-pendo-id={
+                  isEdit
+                    ? IAM_EDIT_IDP_PENDO_IDS.label
+                    : IAM_CREATE_IDP_PENDO_IDS.label
+                }
                 onChange={field.onChange}
                 placeholder="Enter a label"
                 value={field.value}
@@ -277,6 +284,11 @@ export const IdpConfigurationDrawer = ({
             >
               <FormLabel slot="label">Entity ID</FormLabel>
               <TextField
+                data-pendo-id={
+                  isEdit
+                    ? IAM_EDIT_IDP_PENDO_IDS.entityID
+                    : IAM_CREATE_IDP_PENDO_IDS.entityID
+                }
                 onChange={field.onChange}
                 placeholder="Enter an entity ID"
                 value={field.value}
@@ -299,6 +311,11 @@ export const IdpConfigurationDrawer = ({
             >
               <FormLabel slot="label">IDP URL</FormLabel>
               <TextField
+                data-pendo-id={
+                  isEdit
+                    ? IAM_EDIT_IDP_PENDO_IDS.idpURL
+                    : IAM_CREATE_IDP_PENDO_IDS.idpURL
+                }
                 onChange={field.onChange}
                 placeholder="Enter an IDP URL"
                 value={field.value}
@@ -322,13 +339,30 @@ export const IdpConfigurationDrawer = ({
           />
         )}
 
-        <AttributeMappingSection control={control} watch={watch} />
+        <AttributeMappingSection
+          control={control}
+          isEdit={isEdit}
+          watch={watch}
+        />
 
         <DrawerInlineActions>
-          <Button onClick={handleClose} variant="secondary">
+          <Button
+            data-pendo-id={
+              isEdit
+                ? IAM_EDIT_IDP_PENDO_IDS.cancel
+                : IAM_CREATE_IDP_PENDO_IDS.cancel
+            }
+            onClick={handleClose}
+            variant="secondary"
+          >
             Cancel
           </Button>
           <Button
+            data-pendo-id={
+              isEdit
+                ? IAM_EDIT_IDP_PENDO_IDS.editIDPConfigurationEndFlow
+                : IAM_CREATE_IDP_PENDO_IDS.createIDPConfigurationEndFlow
+            }
             disabled={isSaveDisabled}
             processing={
               isSubmitting || isCreatingIdpConfig || isUpdatingIdpConfig

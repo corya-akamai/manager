@@ -15,6 +15,7 @@ import { ErrorState } from 'src/features/IAM/Shared/ErrorState/ErrorState';
 import { Link } from 'src/features/IAM/Shared/Link/Link';
 
 import styles from '../../../Shared/RemoveAssignmentConfirmationDialog/RemoveAssignmentConfirmationDialog.module.css';
+import { IAM_SSO_IDP_PENDO_IDS } from '../../constants';
 
 interface Props {
   idpConfigId: string;
@@ -98,6 +99,9 @@ export const IDPConfigDeleteConfirmation = (props: Props) => {
               IDP Label
             </FormLabel>
             <TextField
+              data-pendo-id={
+                IAM_SSO_IDP_PENDO_IDS.deleteIDPConfigurationIdpLabel
+              }
               id="v-inp-field"
               onInput={(e: React.FormEvent<HTMLElement>) =>
                 setConfirmText((e.target as HTMLInputElement).value)
@@ -123,6 +127,7 @@ export const IDPConfigDeleteConfirmation = (props: Props) => {
         }}
       >
         <Button
+          data-pendo-id={IAM_SSO_IDP_PENDO_IDS.deleteIDPConfigurationCancel}
           onClick={onClose}
           style={{ marginRight: Spacing.S8 }}
           variant="link"
@@ -130,6 +135,7 @@ export const IDPConfigDeleteConfirmation = (props: Props) => {
           Cancel
         </Button>
         <Button
+          data-pendo-id={IAM_SSO_IDP_PENDO_IDS.deleteIDPConfigurationEndFlow}
           disabled={
             Boolean(typeToConfirmPreference) && confirmText !== idpConfigLabel
           }

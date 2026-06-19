@@ -15,6 +15,7 @@ import { StatusIcon } from 'src/features/IAM/Shared/StatusIcon/StatusIcon';
 
 import {
   DELETE_PERMISSION_ERROR,
+  IAM_SSO_IDP_PENDO_IDS,
   SSO_CANNOT_DELETE_LAST_CERTIFICATE,
   SSO_REQUIRES_ACTIVE_CERTIFICATE,
   VIEW_DETAILS_PERMISSION_ERROR,
@@ -77,7 +78,10 @@ export const CertificateTableLandingRow = ({
     <TableRow hoverable key={cert.id} rowborder>
       <TableCell className={styles.certCellLanding}>
         {truncateMiddle(cert.certificate, isSmallScreen ? 24 : 46)}
-        <CopyTooltip text={cert.certificate} />
+        <CopyTooltip
+          pendoId={IAM_SSO_IDP_PENDO_IDS.copyCertificate}
+          text={cert.certificate}
+        />
       </TableCell>
       {!isMobileScreen && (
         <TableCell className={styles.expirationCell} hidden={isSmallScreen}>
@@ -94,6 +98,7 @@ export const CertificateTableLandingRow = ({
           tooltipText={VIEW_DETAILS_PERMISSION_ERROR}
         >
           <Button
+            data-pendo-id={IAM_SSO_IDP_PENDO_IDS.viewDetails}
             disabled={!permissions?.view_idp_config_certs}
             onClick={() => onViewDetails(cert)}
             style={{
@@ -121,6 +126,7 @@ export const CertificateTableLandingRow = ({
           }
         >
           <Button
+            data-pendo-id={IAM_SSO_IDP_PENDO_IDS.deleteStartFlow}
             disabled={deleteDisabled}
             onClick={() => {
               if (!deleteDisabled) {

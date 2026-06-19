@@ -12,7 +12,10 @@ import * as React from 'react';
 
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 
-import { ADD_CERTIFICATE_PERMISSION_ERROR } from '../../constants';
+import {
+  ADD_CERTIFICATE_PERMISSION_ERROR,
+  IAM_SSO_IDP_PENDO_IDS,
+} from '../../constants';
 import { AddCertificateDrawer } from './AddCertificateDrawer';
 
 interface Props {
@@ -42,6 +45,9 @@ export const NoCertificates = ({ idpConfigId }: Props) => {
             tooltipText={ADD_CERTIFICATE_PERMISSION_ERROR}
           >
             <Button
+              data-pendo-id={
+                IAM_SSO_IDP_PENDO_IDS.addCertificateWhenSSODisabled
+              }
               disabled={!permissions?.create_idp_config_cert}
               onClick={onClick}
               variant="primary"
