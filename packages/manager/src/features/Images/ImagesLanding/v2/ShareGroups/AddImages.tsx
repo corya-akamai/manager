@@ -161,7 +161,6 @@ export const AddImages = () => {
             {errors.root?.message && (
               <NotificationBanner
                 className="error-for-scroll"
-                dismissible
                 style={{ marginTop: Spacing.S16, marginBottom: Spacing.S16 }}
                 text={errors.root?.message}
                 type="error"
