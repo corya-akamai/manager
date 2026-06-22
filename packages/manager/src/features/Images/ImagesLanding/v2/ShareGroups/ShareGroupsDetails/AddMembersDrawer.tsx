@@ -50,6 +50,7 @@ export const AddMembersDrawer = (props: Props) => {
       enqueueSnackbar('Access to the share group has been granted', {
         variant: 'success',
       });
+      reset();
       onSuccess();
     } catch (errors) {
       for (const error of errors) {
@@ -72,7 +73,7 @@ export const AddMembersDrawer = (props: Props) => {
       closeButtonPendoId={ADD_MEMBERS_DRAWER_PENDO_IDS.xButton}
       error={shareGroupError}
       isFetching={isLoading}
-      onClose={onClose}
+      onClose={handleClose}
       open={open}
       title="Add Members"
     >
