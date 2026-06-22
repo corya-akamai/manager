@@ -90,28 +90,34 @@ export const DatabaseSettingsDeleteClusterDialog = (props: Props) => {
             undone.
           </p>
         </NotificationBanner>
-        <p>
-          To confirm deletion, type the name of the Database Cluster{' '}
-          <strong>({databaseLabel})</strong> in the field below:
-        </p>
         {isTypeToConfirmEnabled ? (
-          <FormField>
-            <label
-              htmlFor="clusterName" // eslint-disable-next-line @linode/cloud-manager/no-custom-fontWeight
-              style={{ fontWeight: 700, marginBottom: Spacing.S8 }}
-            >
-              Cluster Name
-            </label>
-            <TextField
-              id="clusterName"
-              onChange={(e) => setClusterName(e.detail as unknown as string)}
-              placeholder=""
-              value={clusterName}
-            />
-          </FormField>
+          <>
+            <p>
+              To confirm deletion, type the name of the Database Cluster{' '}
+              <strong>({databaseLabel})</strong> in the field below:
+            </p>
+            <FormField>
+              <label
+                htmlFor="clusterName" // eslint-disable-next-line @linode/cloud-manager/no-custom-fontWeight
+                style={{ fontWeight: 700, marginBottom: Spacing.S8 }}
+              >
+                Cluster Name
+              </label>
+              <TextField
+                id="clusterName"
+                onChange={(e) => setClusterName(e.detail as unknown as string)}
+                placeholder=""
+                value={clusterName}
+              />
+            </FormField>
+            <p>
+              To disable type-to-confirm, go to the Type-to-Confirm section of{' '}
+              <a href="/profile/preferences">Preferences</a>.
+            </p>
+          </>
         ) : (
           <p>
-            To disable type-to-confirm, go to the Type-to-Confirm section of{' '}
+            To enable type-to-confirm, go to the Type-to-Confirm section of{' '}
             <a href="/profile/preferences">Preferences</a>.
           </p>
         )}
