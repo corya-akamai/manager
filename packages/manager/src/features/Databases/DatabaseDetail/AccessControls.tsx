@@ -15,6 +15,7 @@ import * as React from 'react';
 import type { JSX } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
+import globalStyles from '../shared/global.module.css';
 import { ManageAccessControlDrawer } from './ManageAccessControlDrawer';
 
 import type { APIError, Database } from '@linode/api-v4';
@@ -143,6 +144,11 @@ export const AccessControls = (props: Props) => {
                 key={`${accessControl}-tablecell`}
               >
                 {accessControl}
+              </TableCell>
+              <TableCell
+                className={globalStyles.actionsCell}
+                key={`${accessControl}-tablecell-button`}
+              >
                 {disabled ? (
                   <Button disabled={disabled} size="large" variant="primary">
                     Remove
