@@ -176,6 +176,7 @@ export const SelectionPanel = ({
             onChange={(e) => {
               onShowSelectedOnlyChange(Boolean(e.detail));
             }}
+            size="small"
             style={{
               flexShrink: 0,
               order: isSmUp ? 1 : 0,
@@ -282,8 +283,16 @@ export const SelectionPanel = ({
                         onToggle(p.rank, Boolean(e.detail));
                       }}
                       onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                      size="small"
                     />
-                    <span style={{ flex: 1, lineHeight: '20px', minWidth: 0 }}>
+                    <span
+                      style={{
+                        flex: 1,
+                        lineHeight: '20px',
+                        minWidth: 0,
+                        marginLeft: `-${Spacing.S8}`,
+                      }}
+                    >
                       {p.name}
                     </span>
                   </TableCell>

@@ -108,6 +108,19 @@ export const EntitiesSelect = ({
     value.some((v) => v.value === p.option.value)
   );
 
+  const scopedOptions = React.useMemo(
+    () => filteredRows.map((row) => row.option),
+    [filteredRows]
+  );
+
+  const selectedScopedCount = React.useMemo(
+    () =>
+      scopedOptions.filter((opt) =>
+        value.some((selected) => selected.value === opt.value)
+      ).length,
+    [scopedOptions, value]
+  );
+
   const handleClear = () => {
     const visibleValues = new Set(filteredRows.map((p) => p.option.value));
     const remaining = value.filter((v) => !visibleValues.has(v.value));
@@ -119,11 +132,11 @@ export const EntitiesSelect = ({
 
   const handleSelectAll = () => {
     const allCurrentOptionsSelected =
-      totalEntityCount > 0 && value.length >= totalEntityCount;
+      scopedOptions.length > 0 && selectedScopedCount >= scopedOptions.length;
     if (allCurrentOptionsSelected) {
       onChange([]);
     } else {
-      onChange(entityOptions);
+      onChange(scopedOptions);
     }
   };
 
@@ -204,7 +217,8 @@ export const EntitiesSelect = ({
           isLoading={isLoading}
           isSelectAllDisabled={
             isReadOnly ||
-            (totalEntityCount > 0 && value.length >= totalEntityCount)
+            scopedOptions.length === 0 ||
+            selectedScopedCount >= scopedOptions.length
           }
           isShowSelectedOnlyDisabled={value.length === 0 || isReadOnly}
           minPageSize={MIN_PAGE_SIZE}

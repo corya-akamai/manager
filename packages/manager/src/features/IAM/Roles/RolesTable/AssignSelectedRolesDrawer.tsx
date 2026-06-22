@@ -15,6 +15,7 @@ import { enqueueSnackbar } from 'notistack';
 import React, { useMemo, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
+import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { useDebouncedValue } from '../../hooks/useDebouncedValue';
 import { usePermissions } from '../../hooks/usePermissions';
 import { Box } from '../../Shared/Box/Box';
@@ -63,6 +64,8 @@ export const AssignSelectedRolesDrawer = ({
   open,
   selectedRoles,
 }: Props) => {
+  const isSMUp = useBreakpoint('up', 'sm');
+
   const values = {
     roles: selectedRoles.map((r) => ({
       role: {
@@ -192,6 +195,7 @@ export const AssignSelectedRolesDrawer = ({
       className={styles.noMargin}
       onClose={handleClose}
       open={open}
+      width={isSMUp ? '600px' : '100%'}
     >
       <div slot="header">{drawerTitle}</div>
       <FormProvider {...form}>

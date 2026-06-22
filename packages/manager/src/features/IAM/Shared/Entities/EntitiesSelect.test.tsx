@@ -287,4 +287,33 @@ describe('Entities', () => {
     // The toggle must be automatically deactivated
     await waitFor(() => expect(showSelectedOnlyCheckbox?.checked).toBeFalsy());
   });
+
+  it('selects only filtered entities when "Select all" is clicked', async () => {
+    queryMocks.useAllAccountEntities.mockReturnValue({ data: linodeEntities });
+    mockOnChange.mockClear();
+
+    const { container } = renderWithTheme(
+      <EntitiesSelect
+        access="entity_access"
+        mode="assign-role"
+        onChange={mockOnChange}
+        type="linode"
+        value={mockValue}
+      />
+    );
+
+    const searchField = container.querySelector('cds-search-field');
+    fireEvent.change(searchField!, { target: { value: 'linode-1' } });
+
+    await waitFor(() => {
+      expect(screen.getByText('linode-1')).toBeVisible();
+      expect(screen.queryByText('linode-2')).not.toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText('Select all'));
+
+    expect(mockOnChange).toHaveBeenCalledWith([
+      { label: 'linode-1', value: 1 },
+    ]);
+  });
 });
