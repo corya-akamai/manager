@@ -11,7 +11,11 @@ import { ErrorState } from '../Shared/ErrorState/ErrorState';
 import { Link } from '../Shared/Link/Link';
 import { Paper } from '../Shared/Paper/Paper';
 import { StatusIcon } from '../Shared/StatusIcon/StatusIcon';
-import { IAM_SETTINGS_PENDO_IDS, SSO_EXPIRING } from './constants';
+import {
+  IAM_SETTINGS_PENDO_IDS,
+  SSO_EXPIRED_ENFORCED,
+  SSO_EXPIRING,
+} from './constants';
 import { getCertificateCounts, getSummaryStatus } from './SSO/utilities';
 
 import type { IdpConfig } from '@linode/api-v4';
@@ -42,9 +46,16 @@ export const LoginSettingsLanding = () => {
     idpConfig.excluded_users_count === 0;
 
   const certs = idpConfig?.saml?.public_certificates ?? [];
-  const { activeOnlyCount, expiringCount } = getCertificateCounts(certs);
+  const {
+    activeOnlyCount,
+    activeCertificatesCount,
+    expiredCount,
+    expiringCount,
+  } = getCertificateCounts(certs);
   const hasCertExpiringWarning =
     idpConfig?.enabled && activeOnlyCount === 0 && expiringCount > 0;
+  const hasCertExpiredError =
+    idpConfig?.enabled && expiredCount > 0 && activeCertificatesCount === 0;
 
   if (isLoading) {
     return <CircleProgress />;
@@ -107,6 +118,13 @@ export const LoginSettingsLanding = () => {
             Learn more.
           </Link>
         </NotificationBanner>
+      )}
+      {hasCertExpiredError && (
+        <NotificationBanner
+          style={{ marginBottom: Spacing.S16 }}
+          text={SSO_EXPIRED_ENFORCED}
+          type="error"
+        />
       )}
       {hasCertExpiringWarning && (
         <NotificationBanner
