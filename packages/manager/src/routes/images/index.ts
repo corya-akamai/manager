@@ -62,6 +62,7 @@ const imageActions = {
   'manage-replicas': 'manage-replicas',
   rebuild: 'rebuild',
   view: 'view',
+  'view-share-groups': 'view-share-groups',
 } as const;
 
 const shareGroupActions = {

@@ -15,6 +15,7 @@ import { getSubTabIndex } from '../../../utils';
 import { DeleteImageDialog } from '../../DeleteImageDialog';
 import { EditImageDrawer } from '../../EditImageDrawer';
 import { ManageImageReplicasForm } from '../../ImageRegions/ManageImageRegionsForm';
+import { ImageShareGroupsDialog } from '../../ImageShareGroupsDialog';
 import { RebuildImageDrawer } from '../../RebuildImageDrawer';
 import { VIEW_SHARED_IMAGE_DETAILS_DRAWER_PENDO_IDS } from '../constants';
 import { imageLibrarySubTabs as subTabs } from './imageLibraryTabsConfig';
@@ -106,6 +107,10 @@ export const ImageLibraryTabs = () => {
     });
   };
 
+  const handleViewShareGroups = (image: Image) => {
+    actionHandler(image, 'view-share-groups');
+  };
+
   const handlers: ImageHandlers = {
     onCancelFailed: onCancelFailedClick,
     onDelete: handleDelete,
@@ -114,6 +119,7 @@ export const ImageLibraryTabs = () => {
     onManageRegions: handleManageRegions,
     onRebuild: handleRebuild,
     onView: handleView,
+    onViewShareGroups: handleViewShareGroups,
   };
 
   const subTabIndex = getSubTabIndex(subTabs, imageTypeParams?.imageType);
@@ -196,6 +202,12 @@ export const ImageLibraryTabs = () => {
         imageId={imageActionParams?.imageId}
         onClose={handleCloseDialog}
         open={imageActionParams?.action === 'delete'}
+      />
+      <ImageShareGroupsDialog
+        imageId={imageActionParams?.imageId}
+        onClose={handleCloseDialog}
+        open={imageActionParams?.action === 'view-share-groups'}
+        title="Image Share Groups"
       />
     </Stack>
   );

@@ -246,7 +246,7 @@ export const SharedImagesTable = (props: Props) => {
               </TableHeaderCell>
             ))}
             <TableHeaderCell
-              style={{ maxWidth: '40px', boxSizing: 'border-box' }}
+              style={{ maxWidth: '5%', boxSizing: 'border-box' }}
             />
           </TableRow>
         </TableHead>
@@ -303,9 +303,7 @@ export const SharedImagesTable = (props: Props) => {
                   : '–'}
               </TableCell>
               <TableCell>{image.id}</TableCell>
-              <StyledActionMenuWrapper
-                style={{ maxWidth: '40px', boxSizing: 'border-box' }}
-              >
+              <StyledActionMenuWrapper>
                 <ActionMenu
                   actionsList={[
                     {

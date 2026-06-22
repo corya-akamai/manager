@@ -12,6 +12,7 @@ import UnlockIcon from 'src/assets/icons/unlock.svg';
 import { TableCell } from 'src/components/TableCell';
 import { TableRow } from 'src/components/TableRow';
 
+import { SHARED_IMAGE_ICON_TOOLTIP } from '../constants';
 import { ImagesActionMenu } from './ImagesActionMenu';
 import { ImageStatus } from './ImageStatus';
 
@@ -108,11 +109,7 @@ export const ImageRow = (props: Props) => {
                 sxTooltipIcon={{
                   padding: 0,
                 }}
-                text={`This image is shared in ${pluralize(
-                  'share group',
-                  'share groups',
-                  shareGroupCount
-                )}.`}
+                text={SHARED_IMAGE_ICON_TOOLTIP}
               />
             )}
           </Stack>

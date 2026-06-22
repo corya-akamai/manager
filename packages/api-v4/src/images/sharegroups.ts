@@ -119,13 +119,14 @@ export const getSharegroupsFromImage = (
   imageId: string,
   params: Params = {},
   filters: Filter = {},
-) =>
-  Request<Page<Sharegroup>>(
+) => {
+  return Request<Page<Sharegroup>>(
     setURL(`${BETA_API_ROOT}/images/${imageId}/sharegroups`),
     setMethod('GET'),
     setParams(params),
     setXFilter(filters),
   );
+};
 
 /**
  * Get information about a single Sharegroup

@@ -28,6 +28,8 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 
+import { imageQueries } from './images';
+
 import type {
   AddSharegroupImagesPayload,
   AddSharegroupMemberPayload,
@@ -370,6 +372,12 @@ export const useDeleteShareGroupImageMutation = () => {
             {},
           ).queryKey,
         });
+        queryClient.invalidateQueries({
+          queryKey: imageQueries.paginated._def,
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['image', variables.imageId, 'sharegroups'],
+        });
       },
     },
   );
@@ -433,6 +441,14 @@ export const useShareGroupsAddImagesMutation = () => {
         queryKey: shareGroupsQueries.sharegroups._ctx.images(
           String(variables.sharegroupId),
         ).queryKey,
+      });
+      queryClient.invalidateQueries({
+        queryKey: imageQueries.paginated._def,
+      });
+      variables.data.images.forEach(({ id }) => {
+        queryClient.invalidateQueries({
+          queryKey: ['image', id, 'sharegroups'],
+        });
       });
     },
   });
