@@ -427,7 +427,7 @@ export const DatabaseBackups = () => {
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Tooltip
               disabled={!isRestoreDisabled}
-              tooltipText={unableToRestoreCopy}
+              tooltipText={BACKUPS_UNABLE_TO_RESTORE_TEXT}
             >
               <Button
                 data-qa-settings-button="restore"
@@ -436,7 +436,7 @@ export const DatabaseBackups = () => {
                 variant="primary"
               >
                 Restore
-                {unableToRestoreCopy ? (
+                {isRestoreDisabled ? (
                   <Icon icon="info-outline" size="m" />
                 ) : null}
               </Button>
