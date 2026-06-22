@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   NotificationBanner,
@@ -11,7 +12,6 @@ import {
   useUserRoles,
   useUserRolesMutation,
 } from '@linode/queries';
-import { useSnackbar } from 'notistack';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -50,8 +50,6 @@ export const ChangeRoleForEntityDrawer = ({
   role,
   username,
 }: Props) => {
-  const { enqueueSnackbar } = useSnackbar();
-
   const { isDefaultDelegationRolesForChildAccount } =
     useIsDefaultDelegationRolesForChildAccount();
 
@@ -153,8 +151,9 @@ export const ChangeRoleForEntityDrawer = ({
         entity_access: updatedEntityRoles,
       });
 
-      enqueueSnackbar(`Role changed`, {
-        variant: 'success',
+      toast.open({
+        text: 'Role changed',
+        type: 'success',
       });
 
       handleClose();

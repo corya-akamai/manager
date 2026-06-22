@@ -53,14 +53,6 @@ vi.mock('@linode/queries', async () => {
   };
 });
 
-vi.mock('notistack', async () => {
-  const actual = await vi.importActual('notistack');
-  return {
-    ...actual,
-    useSnackbar: queryMocks.useSnackbar,
-  };
-});
-
 // 200 days → 'active'; 30 days → 'other' (expiring); yesterday → 'error' (expired)
 const ACTIVE_DATE = new Date(
   Date.now() + 200 * 24 * 60 * 60 * 1000

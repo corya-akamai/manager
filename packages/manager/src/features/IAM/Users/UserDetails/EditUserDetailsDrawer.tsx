@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   FormError,
@@ -15,7 +16,6 @@ import {
   UpdateUserNameSchema,
 } from '@linode/validation';
 import { useNavigate } from '@tanstack/react-router';
-import { useSnackbar } from 'notistack';
 import * as React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -37,7 +37,6 @@ interface Props {
 export const EditUserDetailsDrawer = (props: Props) => {
   const { activeUser, canUpdateUser, onClose, open } = props;
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
   const { profileUserName } = useDelegationRole();
 
   const isDelegateUserType = activeUser?.user_type === 'delegate';
@@ -69,8 +68,9 @@ export const EditUserDetailsDrawer = (props: Props) => {
           to: '/iam/users/$username/details',
           params: { username: user.username },
         });
-        enqueueSnackbar('Username updated successfully', {
-          variant: 'success',
+        toast.open({
+          text: 'Username updated successfully',
+          type: 'success',
         });
       } catch (error) {
         setError('username', { message: error[0].reason });
@@ -81,7 +81,10 @@ export const EditUserDetailsDrawer = (props: Props) => {
     if (values.email !== activeUser.email) {
       try {
         await updateProfile({ email: values.email });
-        enqueueSnackbar('Email updated successfully', { variant: 'success' });
+        toast.open({
+          text: 'Email updated successfully',
+          type: 'success',
+        });
       } catch (error) {
         setError('email', { message: error[0].reason });
         hasError = true;

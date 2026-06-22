@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   FormLabel,
@@ -7,7 +8,6 @@ import {
 } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { useDeleteIdpConfigMutation, usePreferences } from '@linode/queries';
-import { useSnackbar } from 'notistack';
 import * as React from 'react';
 
 import { CircleProgress } from 'src/features/IAM/Shared/CircleProgress/CircleProgress';
@@ -34,8 +34,6 @@ export const IDPConfigDeleteConfirmation = (props: Props) => {
     idpConfigLabel,
   } = props;
 
-  const { enqueueSnackbar } = useSnackbar();
-
   const {
     mutateAsync: deleteIdpConfig,
     isPending,
@@ -59,9 +57,11 @@ export const IDPConfigDeleteConfirmation = (props: Props) => {
 
   const onDelete = async () => {
     await deleteIdpConfig({ euuid: idpConfigId });
-    enqueueSnackbar(`IDP Configuration has been deleted successfully.`, {
-      variant: 'success',
+    toast.open({
+      text: 'IDP Configuration has been deleted successfully.',
+      type: 'success',
     });
+
     if (onSuccess) {
       onSuccess();
     }

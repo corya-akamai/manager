@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   Modal,
@@ -5,7 +6,6 @@ import {
 } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import { useDeleteIdpCertificateMutation } from '@linode/queries';
-import { useSnackbar } from 'notistack';
 import * as React from 'react';
 
 import { IAM_SSO_IDP_PENDO_IDS } from '../../constants';
@@ -25,7 +25,6 @@ export const DeleteCertificateDialog = ({
   onClose,
   open,
 }: Props) => {
-  const { enqueueSnackbar } = useSnackbar();
   const {
     error,
     isPending,
@@ -41,8 +40,9 @@ export const DeleteCertificateDialog = ({
   const handleDelete = async () => {
     try {
       await deleteCertificate({ id: certificate?.id ?? '' });
-      enqueueSnackbar('Certificate deleted successfully.', {
-        variant: 'success',
+      toast.open({
+        text: 'Certificate deleted successfully.',
+        type: 'success',
       });
       handleClose();
     } catch {

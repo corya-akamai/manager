@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
@@ -12,8 +13,13 @@ import { renderWithTheme } from 'src/utilities/testHelpers';
 import { AddCertificateDrawer } from './AddCertificateDrawer';
 
 const mocks = vi.hoisted(() => ({
-  enqueueSnackbar: vi.fn(),
   mutateAsync: vi.fn(),
+}));
+
+vi.mock('@akamai/cds-components/notification-toast', () => ({
+  toast: {
+    open: vi.fn(),
+  },
 }));
 
 vi.mock('@linode/queries', async () => {
@@ -23,17 +29,6 @@ vi.mock('@linode/queries', async () => {
     ...actual,
     useCreateIdpCertificateMutation: vi.fn(() => ({
       mutateAsync: mocks.mutateAsync,
-    })),
-  };
-});
-
-vi.mock('notistack', async () => {
-  const actual = await vi.importActual('notistack');
-
-  return {
-    ...actual,
-    useSnackbar: vi.fn(() => ({
-      enqueueSnackbar: mocks.enqueueSnackbar,
     })),
   };
 });
@@ -105,10 +100,12 @@ describe('AddCertificateDrawer', () => {
       });
     });
 
-    expect(mocks.enqueueSnackbar).toHaveBeenCalledWith(
-      'Certificate added successfully.',
-      { variant: 'success' }
-    );
+    await waitFor(() => {
+      expect(vi.mocked(toast.open)).toHaveBeenCalledWith({
+        text: 'Certificate added successfully.',
+        type: 'success',
+      });
+    });
 
     expect(onClose).toHaveBeenCalled();
   });

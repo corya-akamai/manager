@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   Icon,
@@ -10,7 +11,6 @@ import {
   useAllAccountUsersQuery,
   useUpdateChildAccountDelegatesQuery,
 } from '@linode/queries';
-import { enqueueSnackbar } from 'notistack';
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -122,7 +122,10 @@ export const UpdateDelegationForm = ({
         euuid: delegation.euuid,
         users: usersList,
       });
-      enqueueSnackbar(`Delegation updated`, { variant: 'success' });
+      toast.open({
+        text: 'Delegation updated',
+        type: 'success',
+      });
       handleClose();
     } catch (errors) {
       for (const error of errors) {

@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   Modal,
@@ -11,7 +12,6 @@ import {
   useUserRolesMutation,
 } from '@linode/queries';
 import { useParams } from '@tanstack/react-router';
-import { useSnackbar } from 'notistack';
 import React from 'react';
 
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
@@ -30,7 +30,6 @@ interface Props {
 
 export const UnassignRoleConfirmationDialog = (props: Props) => {
   const { onClose: _onClose, onSuccess, open, role } = props;
-  const { enqueueSnackbar } = useSnackbar();
   const { username } = useParams({ strict: false });
   const { isDefaultDelegationRolesForChildAccount } =
     useIsDefaultDelegationRolesForChildAccount();
@@ -80,8 +79,9 @@ export const UnassignRoleConfirmationDialog = (props: Props) => {
     try {
       await mutationFn(updatedUserRoles);
 
-      enqueueSnackbar(`Role ${role?.name} has been deleted successfully.`, {
-        variant: 'success',
+      toast.open({
+        text: `Role ${role?.name} has been deleted successfully.`,
+        type: 'success',
       });
       if (onSuccess) {
         onSuccess();

@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   FormError,
@@ -10,7 +11,6 @@ import { Spacing } from '@akamai/cds-tokens';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCreateIdpCertificateMutation } from '@linode/queries';
 import { AddCertificateSchema } from '@linode/validation';
-import { useSnackbar } from 'notistack';
 import * as React from 'react';
 import type { Resolver } from 'react-hook-form';
 import { Controller, useForm } from 'react-hook-form';
@@ -40,8 +40,6 @@ export const AddCertificateDrawer = ({
   onClose,
   open,
 }: Props) => {
-  const { enqueueSnackbar } = useSnackbar();
-
   const { mutateAsync: createIdpCertificate, isPending } =
     useCreateIdpCertificateMutation(idpConfigId);
 
@@ -69,8 +67,9 @@ export const AddCertificateDrawer = ({
         certificate: certificate.trim(),
       });
 
-      enqueueSnackbar('Certificate added successfully.', {
-        variant: 'success',
+      toast.open({
+        text: 'Certificate added successfully.',
+        type: 'success',
       });
 
       handleClose();

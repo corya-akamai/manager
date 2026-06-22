@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   NotificationBanner,
@@ -11,7 +12,6 @@ import {
   useUserRoles,
   useUserRolesMutation,
 } from '@linode/queries';
-import { enqueueSnackbar } from 'notistack';
 import React, { useMemo, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
@@ -26,7 +26,6 @@ import {
 import { DelegateUserChip } from '../../Shared/DelegateUserChip';
 import { Drawer, DrawerInlineActions } from '../../Shared/Drawer';
 import styles from '../../Shared/global.module.css';
-import { Link } from '../../Shared/Link/Link';
 import { mergeAssignedRolesIntoExistingRoles } from '../../Shared/utilities';
 import { AssignSingleSelectedRole } from './AssignSingleSelectedRole';
 
@@ -160,15 +159,9 @@ export const AssignSelectedRolesDrawer = ({
       );
 
       await updateUserRoles(mergedRoles);
-      const successMessage = (
-        <p>
-          Roles assigned. See user&apos;s{' '}
-          {<Link to={`/iam/users/${username}/roles`}>Assigned Roles</Link>} to
-          review them.
-        </p>
-      );
-      enqueueSnackbar(successMessage, {
-        variant: 'success',
+      toast.open({
+        text: "Roles successfully assigned. See the user's Assigned Roles page to review them.",
+        type: 'success',
       });
       onSuccess();
 

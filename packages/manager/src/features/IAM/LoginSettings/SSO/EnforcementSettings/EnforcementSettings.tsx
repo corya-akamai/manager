@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   Checkbox,
@@ -16,7 +17,6 @@ import {
   useUpdateIdpConfigUsersExcludedMutation,
   useUpdateIdpConfigUsersIncludedMutation,
 } from '@linode/queries';
-import { enqueueSnackbar } from 'notistack';
 import * as React from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
@@ -174,8 +174,9 @@ export const EnforcementSettings = () => {
 
     try {
       await Promise.all(mutations);
-      enqueueSnackbar(`SSO settings updated successfully.`, {
-        variant: 'success',
+      toast.open({
+        text: 'SSO settings updated successfully.',
+        type: 'success',
       });
       reset({ ...getValues(), isAcknowledged: false }, { keepDirty: false });
     } catch (errors) {

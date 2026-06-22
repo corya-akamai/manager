@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import { Button, NotificationBanner } from '@akamai/cds-components/react';
 import { Font, Spacing } from '@akamai/cds-tokens';
 import {
@@ -7,7 +8,6 @@ import {
   useUserRolesMutation,
 } from '@linode/queries';
 import { useParams } from '@tanstack/react-router';
-import { enqueueSnackbar } from 'notistack';
 import React from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
@@ -117,7 +117,10 @@ export const UpdateEntitiesDrawer = ({ onClose, open, role }: Props) => {
         entity_access: entityAccess,
       });
 
-      enqueueSnackbar(`List of entities updated.`, { variant: 'success' });
+      toast.open({
+        text: 'List of entities updated.',
+        type: 'success',
+      });
 
       handleClose();
     } catch (errors) {

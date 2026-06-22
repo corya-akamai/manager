@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   Modal,
@@ -10,7 +11,6 @@ import {
   useUserRoles,
   useUserRolesMutation,
 } from '@linode/queries';
-import { useSnackbar } from 'notistack';
 import React from 'react';
 
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
@@ -33,8 +33,6 @@ export const RemoveAssignmentConfirmationDialog = (props: Props) => {
 
   const { isDefaultDelegationRolesForChildAccount } =
     useIsDefaultDelegationRolesForChildAccount();
-
-  const { enqueueSnackbar } = useSnackbar();
 
   const {
     error: userRolesError,
@@ -90,8 +88,9 @@ export const RemoveAssignmentConfirmationDialog = (props: Props) => {
         entity_access: updatedUserEntityRoles,
       });
 
-      enqueueSnackbar(`Entity access removed`, {
-        variant: 'success',
+      toast.open({
+        text: 'Entity access removed',
+        type: 'success',
       });
 
       onSuccess?.();

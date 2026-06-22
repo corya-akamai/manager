@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import { Button, NotificationBanner } from '@akamai/cds-components/react';
 import { Spacing, Typography } from '@akamai/cds-tokens';
 import {
@@ -9,7 +10,6 @@ import {
   useUserRolesMutation,
 } from '@linode/queries';
 import { useParams } from '@tanstack/react-router';
-import { enqueueSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 
@@ -124,7 +124,10 @@ export const AssignNewRoleDrawer = ({
         );
         await updateUserRoles(mergedRoles);
       }
-      enqueueSnackbar(`Roles added.`, { variant: 'success' });
+      toast.open({
+        text: 'Roles added.',
+        type: 'success',
+      });
       handleClose();
     } catch (error) {
       setError(error.field ?? 'root', {

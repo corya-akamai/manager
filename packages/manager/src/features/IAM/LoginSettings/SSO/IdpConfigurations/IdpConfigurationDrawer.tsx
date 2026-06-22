@@ -1,3 +1,4 @@
+import { toast } from '@akamai/cds-components/notification-toast';
 import {
   Button,
   FormError,
@@ -16,7 +17,6 @@ import {
   CreateIdpConfigSchema,
   UpdateIdpConfigSchema,
 } from '@linode/validation';
-import { useSnackbar } from 'notistack';
 import * as React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import type { Resolver } from 'react-hook-form';
@@ -52,7 +52,6 @@ export const IdpConfigurationDrawer = ({
   onClose,
   open,
 }: Props) => {
-  const { enqueueSnackbar } = useSnackbar();
   const { mutateAsync: createIdpConfig, isPending: isCreatingIdpConfig } =
     useCreateIdpConfigMutation();
   const { mutateAsync: updateIdpConfig, isPending: isUpdatingIdpConfig } =
@@ -163,8 +162,9 @@ export const IdpConfigurationDrawer = ({
       } else {
         await createIdpConfig(payload);
       }
-      enqueueSnackbar(isEdit ? UPDATE_SUCCESS : CREATE_SUCCESS, {
-        variant: 'success',
+      toast.open({
+        text: isEdit ? UPDATE_SUCCESS : CREATE_SUCCESS,
+        type: 'success',
       });
       handleClose();
     } catch (errors) {
