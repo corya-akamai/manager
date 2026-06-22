@@ -11,6 +11,7 @@ import React from 'react';
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 import { CopyTooltip } from 'src/features/IAM/Shared/CopyTooltip/CopyTooltip';
 import { DateTimeDisplay } from 'src/features/IAM/Shared/DateTimeDisplay/DateTimeDisplay';
+import globalStyles from 'src/features/IAM/Shared/global.module.css';
 import { StatusIcon } from 'src/features/IAM/Shared/StatusIcon/StatusIcon';
 
 import {
@@ -93,7 +94,7 @@ export const CertificateTableLandingRow = ({
         </TableCell>
       )}
 
-      <TableCell className={styles.actionCell}>
+      <TableCell className={globalStyles.actionsCell}>
         <Tooltip
           className={styles.actionButton}
           disabled={permissions?.view_idp_config_certs}

@@ -11,10 +11,10 @@ import { Spacing } from '@akamai/cds-tokens';
 import { truncateMiddle } from '@akamai/compute-ui-core/formatting';
 import * as React from 'react';
 
-import { useBreakpoint } from 'src/features/Databases/hooks/useBreakpoint';
-import { DateTimeDisplay } from 'src/features/IAM/Shared/DateTimeDisplay/DateTimeDisplay';
-
+import { useBreakpoint } from '../../../hooks/useBreakpoint';
 import { useOrder } from '../../../hooks/useOrder';
+import { DateTimeDisplay } from '../../../Shared/DateTimeDisplay/DateTimeDisplay';
+import globalStyles from '../../../Shared/global.module.css';
 import { StatusIcon } from '../../../Shared/StatusIcon/StatusIcon';
 import {
   ALL_CERTIFICATES_DELETED_ERROR,
@@ -220,7 +220,7 @@ export const CertificatesTable = (props: CombinedProps) => {
                     />
                   </TableCell>
 
-                  <TableCell className={styles.actionCell}>
+                  <TableCell className={globalStyles.actionsCell}>
                     <Button
                       data-pendo-id={
                         isDeleted

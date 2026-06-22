@@ -19,9 +19,6 @@
   box-sizing: border-box;
   padding: 0;
 }
-.actionCell {
-  justify-content: flex-end;
-}
 .actionButton {
   min-width: 70px;
   display: flex;

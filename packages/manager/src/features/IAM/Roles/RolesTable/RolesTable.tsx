@@ -372,6 +372,7 @@ export const RolesTable = ({ roles = [] }: Props) => {
                     </TableCell>
                   )}
                   <TableCell
+                    className={globalStyles.actionsCell}
                     style={{
                       minWidth: COLUMN_WIDTHS.actions,
                       ...TABLE_CELL_BASE_STYLE,

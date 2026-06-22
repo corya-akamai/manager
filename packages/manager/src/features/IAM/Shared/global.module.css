@@ -14,3 +14,9 @@
 .noMargin :is(p, h2, h3) {
   margin: 0;
 }
+
+.actionsCell {
+  &::part(content) {
+    justify-content: flex-end;
+  }
+}
