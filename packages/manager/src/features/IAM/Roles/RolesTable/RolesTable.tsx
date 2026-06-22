@@ -224,7 +224,7 @@ export const RolesTable = ({ roles = [] }: Props) => {
               onChange={handleChangeEntityTypeFilter}
               placeholder="All Roles"
               selected={filterableEntityType}
-              style={{ minWidth: 250 }}
+              style={{ minWidth: 250, maxWidth: 360 }}
               valueFn={(item) => (item as SelectOption).label}
             />
           </Box>

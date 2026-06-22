@@ -77,7 +77,10 @@ export const CertificateTableLandingRow = ({
   return (
     <TableRow hoverable key={cert.id} rowborder>
       <TableCell className={styles.certCellLanding}>
-        {truncateMiddle(cert.certificate, isSmallScreen ? 24 : 46)}
+        {truncateMiddle(
+          cert.certificate,
+          isSmallScreen ? (isMobileScreen ? 18 : 24) : 46
+        )}
         <CopyTooltip
           pendoId={IAM_SSO_IDP_PENDO_IDS.copyCertificate}
           text={cert.certificate}

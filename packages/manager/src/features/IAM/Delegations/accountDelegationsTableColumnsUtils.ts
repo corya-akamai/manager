@@ -37,7 +37,7 @@ export const getAccountDelegationsColumnWidths = ({
 }): AccountDelegationsTableColumnWidths => {
   if (!isSMUp) {
     return {
-      account: '86%',
+      account: '70%',
       actions: '14%',
       users: '0%',
     };

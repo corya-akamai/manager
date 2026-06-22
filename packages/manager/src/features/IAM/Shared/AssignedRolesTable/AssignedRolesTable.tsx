@@ -363,7 +363,7 @@ export const AssignedRolesTable = () => {
             }}
             placeholder="All Assigned Roles"
             selected={selectedEntityTypeOption}
-            style={{ minWidth: 250 }}
+            style={{ minWidth: 250, maxWidth: 362 }}
             valueFn={(item) => (item as SelectOption).label}
           />
         </Box>

@@ -50,3 +50,14 @@
     min-width: 220px;
   }
 }
+@media (max-width: 600px) {
+  .certCellLanding {
+    min-width: 180px;
+  }
+  .certCell {
+    min-width: 120px;
+  }
+  .expirationCell {
+    min-width: 140px;
+  }
+}

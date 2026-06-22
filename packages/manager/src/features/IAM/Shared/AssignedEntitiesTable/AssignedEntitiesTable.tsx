@@ -303,7 +303,7 @@ export const AssignedEntitiesTable = ({ username }: Props) => {
           }}
           placeholder="All Entities"
           selected={selectedEntityTypeOption}
-          style={{ maxWidth: 250 }}
+          style={{ flex: '0 0 250px' }}
           valueFn={(item) => (item as SelectOption).label}
         />
       </Box>
