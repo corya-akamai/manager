@@ -7,9 +7,8 @@ import {
   changeCdsTextArea,
   expectNotificationBannerText,
   getCdsButtonByText,
-} from 'src/features/IAM/utilities/testHelpers';
-import { renderWithTheme } from 'src/utilities/testHelpers';
-
+} from '../../../utilities/testHelpers';
+import { renderWithProviders } from '../../../utilities/testHelpers';
 import { AddCertificateDrawer } from './AddCertificateDrawer';
 
 const mocks = vi.hoisted(() => ({
@@ -73,7 +72,7 @@ describe('AddCertificateDrawer', () => {
   });
 
   it('renders drawer content', () => {
-    renderWithTheme(<AddCertificateDrawer {...props} />);
+    renderWithProviders(<AddCertificateDrawer {...props} />);
 
     expect(screen.getByTestId('drawer')).toBeVisible();
     expect(
@@ -84,7 +83,7 @@ describe('AddCertificateDrawer', () => {
   });
 
   it('creates certificate and closes drawer on successful submit', async () => {
-    renderWithTheme(<AddCertificateDrawer {...props} />);
+    renderWithProviders(<AddCertificateDrawer {...props} />);
 
     // wait for cds-text-area host to be present before dispatching change
     await waitFor(() => {
@@ -117,7 +116,7 @@ describe('AddCertificateDrawer', () => {
       },
     ]);
 
-    renderWithTheme(<AddCertificateDrawer {...props} />);
+    renderWithProviders(<AddCertificateDrawer {...props} />);
 
     // wait for cds-text-area host to be present
     await waitFor(() => {

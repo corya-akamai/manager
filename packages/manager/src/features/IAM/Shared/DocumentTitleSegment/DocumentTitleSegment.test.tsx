@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import { renderWithTheme } from 'src/utilities/testHelpers';
-
+import { renderWithProviders } from '../../utilities/testHelpers';
 import { DocumentTitleSegment } from './DocumentTitleSegment';
 
 const Parent = () => {
@@ -15,7 +14,7 @@ const Parent = () => {
 
 describe('IAM DocumentTitleSegment', () => {
   it('updates the document title independently for IAM routes', () => {
-    renderWithTheme(<Parent />);
+    renderWithProviders(<Parent />);
 
     expect(document.title).toEqual(
       'SSO Enforcement | Identity and Access | Akamai Cloud Manager'

@@ -1,8 +1,7 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { renderWithTheme } from 'src/utilities/testHelpers';
-
+import { renderWithProviders } from '../../utilities/testHelpers';
 import { SingleRowTruncatedList } from './SingleRowTruncatedList';
 
 const getVisibleEllipsis = (container: HTMLElement) =>
@@ -21,7 +20,7 @@ const renderOverflowButton = (hiddenCount: number) => (
 
 describe('SingleRowTruncatedList', () => {
   it('renders all items in the DOM', () => {
-    renderWithTheme(
+    renderWithProviders(
       <SingleRowTruncatedList
         items={makeItems(3)}
         overflowButtonPhantom={overflowButtonPhantom}
@@ -35,7 +34,7 @@ describe('SingleRowTruncatedList', () => {
   });
 
   it('does not show the overflow pill when all items fit and totalCount is not set', () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <SingleRowTruncatedList
         items={makeItems(3)}
         overflowButtonPhantom={overflowButtonPhantom}
@@ -49,7 +48,7 @@ describe('SingleRowTruncatedList', () => {
   });
 
   it('shows the overflow pill and ellipsis when totalCount exceeds items.length', () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <SingleRowTruncatedList
         items={makeItems(5)}
         overflowButtonPhantom={overflowButtonPhantom}
@@ -68,7 +67,7 @@ describe('SingleRowTruncatedList', () => {
       <button>{`+${count}`}</button>
     ));
 
-    renderWithTheme(
+    renderWithProviders(
       <SingleRowTruncatedList
         items={makeItems(3)}
         overflowButtonPhantom={overflowButtonPhantom}
@@ -82,7 +81,7 @@ describe('SingleRowTruncatedList', () => {
   });
 
   it('renders the phantom element as aria-hidden for overflow pill measurement', () => {
-    renderWithTheme(
+    renderWithProviders(
       <SingleRowTruncatedList
         items={makeItems(3)}
         overflowButtonPhantom={<button>+99</button>}
@@ -118,7 +117,7 @@ describe('SingleRowTruncatedList', () => {
       get: () => 40,
     });
 
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <SingleRowTruncatedList
         gapPx={8}
         items={makeItems(10)}

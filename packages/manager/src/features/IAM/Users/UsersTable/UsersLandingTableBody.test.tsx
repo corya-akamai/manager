@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { renderWithTheme } from 'src/utilities/testHelpers';
-
 import { createUserList } from '../../factories';
+import { renderWithProviders } from '../../utilities/testHelpers';
 import { UsersLandingTableBody } from './UsersLandingTableBody';
 
 import type { APIError } from '@linode/api-v4';
@@ -40,7 +39,7 @@ describe('UsersLandingTableBody', () => {
   });
 
   it('renders loading state', async () => {
-    const { getByTestId } = renderWithTheme(
+    const { getByTestId } = renderWithProviders(
       <table>
         <tbody>
           <UsersLandingTableBody
@@ -64,7 +63,7 @@ describe('UsersLandingTableBody', () => {
   it('renders error state', async () => {
     const error: APIError[] = [{ reason: 'Something went wrong' }];
 
-    const { getByTestId } = renderWithTheme(
+    const { getByTestId } = renderWithProviders(
       <table>
         <tbody>
           <UsersLandingTableBody
@@ -82,7 +81,7 @@ describe('UsersLandingTableBody', () => {
   });
 
   it('renders empty state', async () => {
-    const { getByText } = renderWithTheme(
+    const { getByText } = renderWithProviders(
       <table>
         <tbody>
           <UsersLandingTableBody
@@ -101,7 +100,7 @@ describe('UsersLandingTableBody', () => {
   it('renders restricted empty state', async () => {
     queryMocks.useProfile.mockReturnValue({ data: { restricted: true } });
 
-    const { getByText } = renderWithTheme(
+    const { getByText } = renderWithProviders(
       <table>
         <tbody>
           <UsersLandingTableBody
@@ -122,7 +121,7 @@ describe('UsersLandingTableBody', () => {
   it('renders user rows', async () => {
     const users = createUserList(3);
 
-    const { getByTestId } = renderWithTheme(
+    const { getByTestId } = renderWithProviders(
       <table>
         <tbody>
           <UsersLandingTableBody

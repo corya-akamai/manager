@@ -1,8 +1,7 @@
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { renderWithTheme } from 'src/utilities/testHelpers';
-
+import { renderWithProviders } from '../../utilities/testHelpers';
 import { TruncatedList } from './TruncatedList';
 
 import type { PermissionType } from '@linode/api-v4';
@@ -15,7 +14,7 @@ const mockPermissions: PermissionType[] = [
 
 describe('TruncatedList', () => {
   it('renders all items with correct test ids', () => {
-    const { getAllByTestId } = renderWithTheme(
+    const { getAllByTestId } = renderWithProviders(
       <TruncatedList dataTestId="permission">
         {mockPermissions.map((permission) => (
           <div key={permission}>{permission}</div>
@@ -32,7 +31,7 @@ describe('TruncatedList', () => {
   });
 
   it('uses custom expand and collapse text', async () => {
-    const { container, getByText } = renderWithTheme(
+    const { container, getByText } = renderWithProviders(
       <TruncatedList
         collapseText="Hide permissions"
         dataTestId="permission"

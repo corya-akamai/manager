@@ -1,8 +1,10 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { renderWithTheme, resizeScreenSize } from 'src/utilities/testHelpers';
-
+import {
+  renderWithProviders,
+  resizeScreenSize,
+} from '../../utilities/testHelpers';
 import { RolesTable } from './RolesTable';
 
 import type { RoleView } from '../../Shared/types';
@@ -75,14 +77,14 @@ describe('RolesTable', () => {
   });
 
   it('renders no roles when roles array is empty', async () => {
-    renderWithTheme(<RolesTable roles={[]} />);
+    renderWithProviders(<RolesTable roles={[]} />);
 
     expect(screen.getByTestId('roles-table')).toBeVisible();
     screen.getByText('No items to display.');
   });
 
   it('renders roles correctly when roles array is provided', async () => {
-    const { container } = renderWithTheme(<RolesTable roles={mockRoles} />);
+    const { container } = renderWithProviders(<RolesTable roles={mockRoles} />);
 
     expect(screen.getByTestId('roles-table')).toBeVisible();
     expect(container.querySelector('cds-select')).toBeVisible();
@@ -94,7 +96,7 @@ describe('RolesTable', () => {
       query: 'Account',
     });
 
-    const { container } = renderWithTheme(<RolesTable roles={mockRoles} />);
+    const { container } = renderWithProviders(<RolesTable roles={mockRoles} />);
 
     const searchField = container.querySelector<
       HTMLElement & { value?: string }
@@ -112,7 +114,7 @@ describe('RolesTable', () => {
       query: 'NonsenseThatWontMatchAnything',
     });
 
-    const { container } = renderWithTheme(<RolesTable roles={mockRoles} />);
+    const { container } = renderWithProviders(<RolesTable roles={mockRoles} />);
 
     const searchField = container.querySelector<
       HTMLElement & { value?: string }

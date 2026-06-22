@@ -1,9 +1,11 @@
 import { waitFor } from '@testing-library/react';
 import React from 'react';
 
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
 import { createProfile, createUser } from '../../factories';
+import {
+  mockMatchMedia,
+  renderWithProviders,
+} from '../../utilities/testHelpers';
 import { UsersLanding } from './Users';
 
 // Because the table row hides certain columns on small viewport sizes,
@@ -51,12 +53,10 @@ describe('Users', () => {
       data: createProfile({ user_type: 'default' }),
     });
 
-    const { container, getByText, queryByPlaceholderText } = renderWithTheme(
-      <UsersLanding />,
-      {
+    const { container, getByText, queryByPlaceholderText } =
+      renderWithProviders(<UsersLanding />, {
         initialRoute: '/iam',
-      }
-    );
+      });
 
     expect(getByText(user.username)).toBeVisible();
     expect(getByText(user.email)).toBeVisible();
@@ -81,7 +81,7 @@ describe('Users', () => {
       data: createProfile({ user_type: 'child' }),
     });
 
-    const { container } = renderWithTheme(<UsersLanding />);
+    const { container } = renderWithProviders(<UsersLanding />);
 
     expect(container.querySelector('cds-search-field')).toBeVisible();
     expect(container.querySelector('cds-select')).toBeVisible();

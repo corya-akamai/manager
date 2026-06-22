@@ -2,16 +2,15 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import {
-  getShadowRootElement,
-  mockMatchMedia,
-  renderWithTheme,
-} from 'src/utilities/testHelpers';
-
 import { createAccountRoles } from '../../factories';
 import {
   mockScrollIntoView,
   submitCdsDrawerForm,
+} from '../../utilities/testHelpers';
+import {
+  getShadowRootElement,
+  mockMatchMedia,
+  renderWithProviders,
 } from '../../utilities/testHelpers';
 import { AssignNewRoleDrawer } from './AssignNewRoleDrawer';
 
@@ -90,7 +89,7 @@ describe('AssignNewRoleDrawer', () => {
   });
 
   it('should render', async () => {
-    renderWithTheme(<AssignNewRoleDrawer {...props} />);
+    renderWithProviders(<AssignNewRoleDrawer {...props} />);
 
     expect(
       screen.getByText(
@@ -100,7 +99,7 @@ describe('AssignNewRoleDrawer', () => {
   });
 
   it('should render the role select', async () => {
-    renderWithTheme(<AssignNewRoleDrawer {...props} />);
+    renderWithProviders(<AssignNewRoleDrawer {...props} />);
 
     const cdsSelect = document.querySelector('cds-select');
     expect(cdsSelect).toBeVisible();
@@ -113,7 +112,7 @@ describe('AssignNewRoleDrawer', () => {
   });
 
   it('should allow changing role', async () => {
-    renderWithTheme(<AssignNewRoleDrawer {...props} />);
+    renderWithProviders(<AssignNewRoleDrawer {...props} />);
 
     const cdsSelect = document.querySelector('cds-select');
     expect(cdsSelect).not.toBeNull();
@@ -165,7 +164,7 @@ describe('AssignNewRoleDrawer', () => {
   });
 
   it('should not list a role the user already has', async () => {
-    renderWithTheme(<AssignNewRoleDrawer {...props} />);
+    renderWithProviders(<AssignNewRoleDrawer {...props} />);
 
     const cdsSelect = document.querySelector('cds-select');
     expect(cdsSelect).not.toBeNull();

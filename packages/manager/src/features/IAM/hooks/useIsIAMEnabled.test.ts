@@ -1,8 +1,8 @@
 import { renderHook, waitFor } from '@testing-library/react';
 
 import { http, HttpResponse, server } from 'src/mocks/testServer';
-import { wrapWithTheme } from 'src/utilities/testHelpers';
 
+import { wrapWithProviders } from '../utilities/testHelpers';
 import { useIsIAMEnabled } from './useIsIAMEnabled';
 
 import type { IAMFlagSet } from './useFlags';
@@ -30,15 +30,19 @@ vi.mock(import('@linode/queries'), async (importOriginal) => {
   };
 });
 
-vi.mock(import('./useFlags'), () => ({
-  useFlags: () => useFlagsMock(),
-}));
+vi.mock(import('./useFlags'), async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    useFlags: () => useFlagsMock(),
+  };
+});
 
 const renderUseIsIAMEnabled = (flags: IAMFlagSet) => {
   useFlagsMock.mockReturnValue(flags);
 
   return renderHook(() => useIsIAMEnabled(), {
-    wrapper: (ui) => wrapWithTheme(ui),
+    wrapper: (ui) => wrapWithProviders(ui),
   });
 };
 

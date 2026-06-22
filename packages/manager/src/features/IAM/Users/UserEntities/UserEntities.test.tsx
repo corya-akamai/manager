@@ -2,8 +2,6 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
 import {
   createAccountEntity,
   createAccountRoles,
@@ -14,6 +12,10 @@ import {
   ERROR_STATE_TITLE,
   NO_ASSIGNED_ENTITIES_TEXT,
 } from '../../Shared/constants';
+import {
+  mockMatchMedia,
+  renderWithProviders,
+} from '../../utilities/testHelpers';
 import { UserEntities } from './UserEntities';
 
 const mockEntities = [
@@ -102,7 +104,7 @@ describe('UserEntities', () => {
       }),
     });
 
-    renderWithTheme(<UserEntities />);
+    renderWithProviders(<UserEntities />);
     expect(screen.getByText('This list is empty')).toBeVisible();
 
     expect(
@@ -119,7 +121,7 @@ describe('UserEntities', () => {
       }),
     });
 
-    renderWithTheme(<UserEntities />);
+    renderWithProviders(<UserEntities />);
 
     expect(screen.getByText('This list is empty')).toBeVisible();
 
@@ -143,7 +145,7 @@ describe('UserEntities', () => {
       data: mockEntities,
     });
 
-    renderWithTheme(<UserEntities />);
+    renderWithProviders(<UserEntities />);
 
     expect(
       screen.queryByRole('button', { name: 'Assign New Roles' })
@@ -169,7 +171,7 @@ describe('UserEntities', () => {
       status: 'error',
     });
 
-    renderWithTheme(<UserEntities />);
+    renderWithProviders(<UserEntities />);
     expect(screen.getByText(ERROR_STATE_TITLE)).toBeVisible();
     expect(screen.getByText(ERROR_STATE_TEXT)).toBeVisible();
   });
@@ -183,7 +185,7 @@ describe('UserEntities', () => {
       },
     });
 
-    renderWithTheme(<UserEntities />);
+    renderWithProviders(<UserEntities />);
     expect(screen.queryByText('This list is empty')).toBeNull();
     expect(
       screen.queryByRole('button', { name: 'Assign New Roles' })

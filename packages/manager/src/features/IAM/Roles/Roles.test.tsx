@@ -1,10 +1,12 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
 import { createAccountRoles } from '../factories';
-import { expectNotificationBannerText } from '../utilities/testHelpers';
+import {
+  expectNotificationBannerText,
+  mockMatchMedia,
+  renderWithProviders,
+} from '../utilities/testHelpers';
 import { RolesLanding } from './Roles';
 
 const DEFAULT_ROLES_PANEL_TEXT = 'Default Roles for Delegate Users';
@@ -53,7 +55,7 @@ describe('RolesLanding', () => {
       isLoading: true,
     });
 
-    renderWithTheme(<RolesLanding />);
+    renderWithProviders(<RolesLanding />);
 
     expect(screen.getByTestId('circle-progress')).toBeVisible();
   });
@@ -70,7 +72,7 @@ describe('RolesLanding', () => {
       isLoading: false,
     });
 
-    const { container } = renderWithTheme(<RolesLanding />);
+    const { container } = renderWithProviders(<RolesLanding />);
     expect(container.querySelector('cds-search-field')).toBeVisible();
   });
 
@@ -81,7 +83,7 @@ describe('RolesLanding', () => {
       },
     });
 
-    renderWithTheme(<RolesLanding />);
+    renderWithProviders(<RolesLanding />);
 
     return expectNotificationBannerText(
       'You do not have permission to view roles.'
@@ -96,7 +98,7 @@ describe('RolesLanding', () => {
     });
     queryMocks.useProfile.mockReturnValue({ data: { user_type: 'parent' } });
 
-    renderWithTheme(<RolesLanding />);
+    renderWithProviders(<RolesLanding />);
     expect(
       screen.queryByText(DEFAULT_ROLES_PANEL_TEXT)
     ).not.toBeInTheDocument();
@@ -110,7 +112,7 @@ describe('RolesLanding', () => {
     });
     queryMocks.useProfile.mockReturnValue({ data: { user_type: 'child' } });
 
-    renderWithTheme(<RolesLanding />, {
+    renderWithProviders(<RolesLanding />, {
       flags: {
         iam: { enabled: true },
       },

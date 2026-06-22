@@ -2,10 +2,12 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
 import { createAccountEntity, createUserRoles } from '../../factories';
 import { AssignedEntitiesTable } from '../../Shared/AssignedEntitiesTable/AssignedEntitiesTable';
+import {
+  mockMatchMedia,
+  renderWithProviders,
+} from '../../utilities/testHelpers';
 
 vi.mock('src/OAuth/oauthClient', () => ({
   getIsAdminToken: vi.fn(),
@@ -90,7 +92,7 @@ describe('AssignedEntitiesTable', () => {
       data: {},
     });
 
-    renderWithTheme(<AssignedEntitiesTable />);
+    renderWithProviders(<AssignedEntitiesTable />);
 
     expect(screen.getByText('No items to display.')).toBeVisible();
   });
@@ -104,7 +106,7 @@ describe('AssignedEntitiesTable', () => {
       data: mockEntities,
     });
 
-    renderWithTheme(<AssignedEntitiesTable />);
+    renderWithProviders(<AssignedEntitiesTable />);
 
     expect(screen.getByText('no_devices')).toBeVisible();
     expect(screen.getByText('Firewall')).toBeVisible();
@@ -131,7 +133,7 @@ describe('AssignedEntitiesTable', () => {
 
     queryMocks.useSearch.mockReturnValue({ query: 'NonExistentRole' });
 
-    renderWithTheme(<AssignedEntitiesTable />);
+    renderWithProviders(<AssignedEntitiesTable />);
 
     expect(screen.getByText('No items to display.')).toBeVisible();
   });
@@ -145,7 +147,7 @@ describe('AssignedEntitiesTable', () => {
       data: mockEntities,
     });
 
-    const { container } = renderWithTheme(<AssignedEntitiesTable />);
+    const { container } = renderWithProviders(<AssignedEntitiesTable />);
 
     const searchField = container.querySelector('cds-search-field');
     searchField!.dispatchEvent(
@@ -169,7 +171,9 @@ describe('AssignedEntitiesTable', () => {
       data: mockEntities,
     });
 
-    const { container, rerender } = renderWithTheme(<AssignedEntitiesTable />);
+    const { container, rerender } = renderWithProviders(
+      <AssignedEntitiesTable />
+    );
 
     const cdsSelect = container.querySelector('cds-select');
     expect(cdsSelect).not.toBeNull();

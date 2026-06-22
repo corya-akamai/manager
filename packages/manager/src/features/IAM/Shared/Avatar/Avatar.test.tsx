@@ -1,8 +1,7 @@
 import * as React from 'react';
 
-import { renderWithTheme } from 'src/utilities/testHelpers';
-
 import { createProfile } from '../../factories';
+import { renderWithProviders } from '../../utilities/testHelpers';
 import { Avatar } from './Avatar';
 
 import type { AvatarProps } from './Avatar';
@@ -28,7 +27,7 @@ describe('Avatar', () => {
     queryMocks.useProfile.mockReturnValue({
       data: createProfile({ username: 'my-user' }),
     });
-    const { getByTestId } = renderWithTheme(<Avatar {...mockProps} />);
+    const { getByTestId } = renderWithProviders(<Avatar {...mockProps} />);
     const avatar = getByTestId('avatar');
     const avatarStyles = getComputedStyle(avatar);
 
@@ -41,7 +40,7 @@ describe('Avatar', () => {
       data: createProfile({ username: 'my-user' }),
     });
 
-    const { getByTestId } = renderWithTheme(
+    const { getByTestId } = renderWithProviders(
       <Avatar {...mockProps} username="other-user" />
     );
     const avatar = getByTestId('avatar');
@@ -51,7 +50,7 @@ describe('Avatar', () => {
   });
 
   it('should render the first letter of username from props', async () => {
-    const { getByTestId } = renderWithTheme(
+    const { getByTestId } = renderWithProviders(
       <Avatar {...mockProps} username="test" />
     );
 
@@ -59,14 +58,14 @@ describe('Avatar', () => {
   });
 
   it('should render a letter for Akamai system user', async () => {
-    const { getByTestId } = renderWithTheme(
+    const { getByTestId } = renderWithProviders(
       <Avatar {...mockProps} username="Akamai" />
     );
     expect(getByTestId('avatar-letter')).toBeVisible();
   });
 
   it('should render a letter for lke-service-account system user', async () => {
-    const { getByTestId } = renderWithTheme(
+    const { getByTestId } = renderWithProviders(
       <Avatar {...mockProps} username="lke-service-account-123" />
     );
     expect(getByTestId('avatar-letter')).toBeVisible();

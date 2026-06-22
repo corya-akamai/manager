@@ -2,14 +2,16 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
 import {
   createAccountEntity,
   createAccountRoles,
   createUserRoles,
 } from '../../factories';
 import { getCdsButtonByText } from '../../utilities/testHelpers';
+import {
+  mockMatchMedia,
+  renderWithProviders,
+} from '../../utilities/testHelpers';
 import { AssignedRolesTable } from './AssignedRolesTable';
 
 const queryMocks = vi.hoisted(() => ({
@@ -99,7 +101,7 @@ describe('AssignedRolesTable', () => {
       data: {},
     });
 
-    renderWithTheme(<AssignedRolesTable />);
+    renderWithProviders(<AssignedRolesTable />);
 
     expect(screen.getByText('No items to display.')).toBeVisible();
   });
@@ -117,7 +119,7 @@ describe('AssignedRolesTable', () => {
       data: mockEntities,
     });
 
-    renderWithTheme(<AssignedRolesTable />);
+    renderWithProviders(<AssignedRolesTable />);
 
     expect(screen.getByText('account_linode_admin')).toBeVisible();
     expect(screen.getAllByText('All Linodes')[0]).toBeVisible();
@@ -147,7 +149,7 @@ describe('AssignedRolesTable', () => {
 
     queryMocks.useSearch.mockReturnValue({ query: 'NonExistentRole' });
 
-    renderWithTheme(<AssignedRolesTable />);
+    renderWithProviders(<AssignedRolesTable />);
 
     expect(screen.getByText('No items to display.')).toBeVisible();
   });
@@ -167,7 +169,7 @@ describe('AssignedRolesTable', () => {
 
     queryMocks.useSearch.mockReturnValue({ query: 'account_linode_admin' });
 
-    renderWithTheme(<AssignedRolesTable />);
+    renderWithProviders(<AssignedRolesTable />);
 
     await waitFor(() => {
       expect(screen.getByText('account_linode_admin')).toBeVisible();
@@ -189,7 +191,7 @@ describe('AssignedRolesTable', () => {
 
     queryMocks.useSearch.mockReturnValue({ roleType: 'firewall' });
 
-    renderWithTheme(<AssignedRolesTable />);
+    renderWithProviders(<AssignedRolesTable />);
 
     await waitFor(() => {
       expect(screen.getByText('account_firewall_creator')).toBeVisible();
@@ -213,7 +215,7 @@ describe('AssignedRolesTable', () => {
       data: mockEntities,
     });
 
-    const { container } = renderWithTheme(<AssignedRolesTable />);
+    const { container } = renderWithProviders(<AssignedRolesTable />);
 
     expect(
       await getCdsButtonByText(container, 'Add New Default Roles')

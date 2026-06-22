@@ -2,8 +2,8 @@ import { queryClientFactory } from '@linode/queries';
 import { act, renderHook, waitFor } from '@testing-library/react';
 
 import { MIN_PAGE_SIZE } from 'src/components/PaginationFooter/PaginationFooter.constants';
-import { wrapWithTheme } from 'src/utilities/testHelpers';
 
+import { wrapWithProviders } from '../utilities/testHelpers';
 import { usePagination } from './usePagination';
 
 import type { UsePaginationProps } from './usePagination';
@@ -92,7 +92,7 @@ describe('usePagination', () => {
   describe('Initialization', () => {
     it('should initialize with default values from preferences', async () => {
       const { result } = renderHook(() => usePagination(defaultProps), {
-        wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+        wrapper: ({ children }) => wrapWithProviders(children, { queryClient }),
       });
 
       await waitFor(() => {
@@ -114,7 +114,8 @@ describe('usePagination', () => {
             preferenceKey: 'non-existent-key',
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -132,7 +133,8 @@ describe('usePagination', () => {
             defaultPageSize: 100,
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -149,7 +151,8 @@ describe('usePagination', () => {
             initialPage: 3,
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -167,7 +170,8 @@ describe('usePagination', () => {
             defaultPageSize: 75,
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -185,7 +189,7 @@ describe('usePagination', () => {
       });
 
       const { result } = renderHook(() => usePagination(defaultProps), {
-        wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+        wrapper: ({ children }) => wrapWithProviders(children, { queryClient }),
       });
 
       await waitFor(() => {
@@ -200,7 +204,7 @@ describe('usePagination', () => {
       });
 
       const { result } = renderHook(() => usePagination(defaultProps), {
-        wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+        wrapper: ({ children }) => wrapWithProviders(children, { queryClient }),
       });
 
       await waitFor(() => {
@@ -215,7 +219,7 @@ describe('usePagination', () => {
       });
 
       const { result } = renderHook(() => usePagination(defaultProps), {
-        wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+        wrapper: ({ children }) => wrapWithProviders(children, { queryClient }),
       });
 
       await waitFor(() => {
@@ -240,7 +244,8 @@ describe('usePagination', () => {
             queryParamsPrefix: 'my-prefix',
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -268,7 +273,8 @@ describe('usePagination', () => {
             queryParamsPrefix: 'my-prefix',
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -285,7 +291,7 @@ describe('usePagination', () => {
   describe('Page Changes', () => {
     it('should handle page changes', async () => {
       const { result } = renderHook(() => usePagination(defaultProps), {
-        wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+        wrapper: ({ children }) => wrapWithProviders(children, { queryClient }),
       });
 
       act(() => {
@@ -321,7 +327,8 @@ describe('usePagination', () => {
             queryParamsPrefix: 'test-prefix',
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -347,7 +354,7 @@ describe('usePagination', () => {
   describe('Page Size Changes', () => {
     it('should handle page size changes and update preferences', async () => {
       const { result } = renderHook(() => usePagination(defaultProps), {
-        wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+        wrapper: ({ children }) => wrapWithProviders(children, { queryClient }),
       });
 
       act(() => {
@@ -379,7 +386,8 @@ describe('usePagination', () => {
             preferenceKey: '',
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -403,7 +411,7 @@ describe('usePagination', () => {
 
     it('should reset page to 1 when page size changes', async () => {
       const { result } = renderHook(() => usePagination(defaultProps), {
-        wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+        wrapper: ({ children }) => wrapWithProviders(children, { queryClient }),
       });
 
       act(() => {
@@ -430,7 +438,8 @@ describe('usePagination', () => {
             queryParamsPrefix: 'test-prefix',
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -468,7 +477,8 @@ describe('usePagination', () => {
             searchParams: customSearchParams,
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -506,7 +516,8 @@ describe('usePagination', () => {
             searchParams: customSearchParams,
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -548,7 +559,8 @@ describe('usePagination', () => {
             clientSidePaginationData: mockData,
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -587,7 +599,8 @@ describe('usePagination', () => {
             clientSidePaginationData: mockData,
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -626,7 +639,8 @@ describe('usePagination', () => {
             clientSidePaginationData: mockData,
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -657,7 +671,8 @@ describe('usePagination', () => {
             clientSidePaginationData: [],
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -684,7 +699,8 @@ describe('usePagination', () => {
             clientSidePaginationData: smallData,
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -709,7 +725,8 @@ describe('usePagination', () => {
             clientSidePaginationData: mockData,
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -739,7 +756,7 @@ describe('usePagination', () => {
 
     it('should return empty array when clientSidePaginationData is undefined', async () => {
       const { result } = renderHook(() => usePagination(defaultProps), {
-        wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+        wrapper: ({ children }) => wrapWithProviders(children, { queryClient }),
       });
 
       await waitFor(() => {
@@ -765,7 +782,8 @@ describe('usePagination', () => {
             clientSidePaginationData: mockData,
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -792,7 +810,8 @@ describe('usePagination', () => {
             clientSidePaginationData: mockData,
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -818,7 +837,8 @@ describe('usePagination', () => {
             clientSidePaginationData: [],
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -848,7 +868,8 @@ describe('usePagination', () => {
           }),
         {
           initialProps: { data: initialData },
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -887,7 +908,8 @@ describe('usePagination', () => {
             clientSidePaginationData: mockData,
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 
@@ -953,7 +975,8 @@ describe('usePagination', () => {
             clientSidePaginationData: mockData,
           }),
         {
-          wrapper: ({ children }) => wrapWithTheme(children, { queryClient }),
+          wrapper: ({ children }) =>
+            wrapWithProviders(children, { queryClient }),
         }
       );
 

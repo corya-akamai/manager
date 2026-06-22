@@ -1,9 +1,8 @@
 import { fireEvent, screen, within } from '@testing-library/react';
 import React from 'react';
 
-import { renderWithTheme } from 'src/utilities/testHelpers';
-
 import { createProfile, createUser } from '../../factories';
+import { renderWithProviders } from '../../utilities/testHelpers';
 import { UserDetailsPanel } from './UserDetailsPanel';
 
 import type { IamUserRoles } from '@linode/api-v4';
@@ -39,7 +38,7 @@ describe('UserDetailsPanel', () => {
     const user = createUser();
     const assignedRoles = { account_access: [], entity_access: [] };
 
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <UserDetailsPanel
         activeUser={user}
         assignedRoles={assignedRoles}
@@ -57,7 +56,7 @@ describe('UserDetailsPanel', () => {
     const user = createUser({ restricted: true });
     const assignedRoles = { account_access: [], entity_access: [] };
 
-    const { getAllByText, getByText } = renderWithTheme(
+    const { getAllByText, getByText } = renderWithProviders(
       <UserDetailsPanel
         activeUser={user}
         assignedRoles={assignedRoles}
@@ -91,7 +90,7 @@ describe('UserDetailsPanel', () => {
       ],
     };
 
-    const { getByText } = renderWithTheme(
+    const { getByText } = renderWithProviders(
       <UserDetailsPanel
         activeUser={user}
         assignedRoles={assignedRoles}
@@ -116,7 +115,7 @@ describe('UserDetailsPanel', () => {
       ],
     };
 
-    const { getByText } = renderWithTheme(
+    const { getByText } = renderWithProviders(
       <UserDetailsPanel
         activeUser={user}
         assignedRoles={assignedRoles}
@@ -134,7 +133,7 @@ describe('UserDetailsPanel', () => {
     });
     const assignedRoles = { account_access: [], entity_access: [] };
 
-    const { getByText } = renderWithTheme(
+    const { getByText } = renderWithProviders(
       <UserDetailsPanel
         activeUser={user}
         assignedRoles={assignedRoles}
@@ -150,7 +149,7 @@ describe('UserDetailsPanel', () => {
     const user = createUser({ tfa_enabled: true });
     const assignedRoles = { account_access: [], entity_access: [] };
 
-    const { getByText } = renderWithTheme(
+    const { getByText } = renderWithProviders(
       <UserDetailsPanel
         activeUser={user}
         assignedRoles={assignedRoles}
@@ -182,7 +181,7 @@ describe('UserDetailsPanel – Delete User button', () => {
       username: 'delegate_user',
     });
 
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <UserDetailsPanel
         activeUser={user}
         assignedRoles={assignedRoles}
@@ -206,7 +205,7 @@ describe('UserDetailsPanel – Delete User button', () => {
       username: 'current_user',
     });
 
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <UserDetailsPanel
         activeUser={user}
         assignedRoles={assignedRoles}
@@ -230,7 +229,7 @@ describe('UserDetailsPanel – Delete User button', () => {
       username: 'other_user',
     });
 
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <UserDetailsPanel
         activeUser={user}
         assignedRoles={assignedRoles}
@@ -254,7 +253,7 @@ describe('UserDetailsPanel – Delete User button', () => {
       username: 'other_user',
     });
 
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <UserDetailsPanel
         activeUser={user}
         assignedRoles={assignedRoles}
@@ -278,7 +277,7 @@ describe('UserDetailsPanel – Delete User button', () => {
 
     const user = createUser({ username: 'other_user' });
 
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <UserDetailsPanel
         activeUser={user}
         assignedRoles={assignedRoles}

@@ -3,9 +3,11 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { vi } from 'vitest';
 
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
-import { submitCdsDrawerForm } from '../utilities/testHelpers';
+import {
+  mockMatchMedia,
+  renderWithProviders,
+  submitCdsDrawerForm,
+} from '../utilities/testHelpers';
 import { UpdateDelegationForm } from './UpdateDelegationForm';
 
 import type { ChildAccountWithDelegates, User } from '@linode/api-v4';
@@ -101,7 +103,7 @@ describe('UpdateDelegationsDrawer', () => {
   });
 
   it('renders the drawer with current delegates', () => {
-    renderWithTheme(<UpdateDelegationForm {...defaultProps} />);
+    renderWithProviders(<UpdateDelegationForm {...defaultProps} />);
 
     expect(screen.getByText(/test company/i)).toBeInTheDocument();
     // user1 is returned by the mocked API and appears as a table row
@@ -109,7 +111,7 @@ describe('UpdateDelegationsDrawer', () => {
   });
 
   it('allows adding a new delegate', async () => {
-    renderWithTheme(<UpdateDelegationForm {...defaultProps} />);
+    renderWithProviders(<UpdateDelegationForm {...defaultProps} />);
 
     const user = userEvent.setup();
 
@@ -127,7 +129,7 @@ describe('UpdateDelegationsDrawer', () => {
   });
 
   it('allows sending an empty payload', async () => {
-    renderWithTheme(<UpdateDelegationForm {...defaultProps} />);
+    renderWithProviders(<UpdateDelegationForm {...defaultProps} />);
 
     const user = userEvent.setup();
 
@@ -145,7 +147,7 @@ describe('UpdateDelegationsDrawer', () => {
   });
 
   it('filters selected users by search text when the toggle is active', async () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <UpdateDelegationForm
         {...defaultProps}
         formattedCurrentUsers={[
@@ -182,7 +184,7 @@ describe('UpdateDelegationsDrawer', () => {
   });
 
   it('deactivates the toggle when "Clear all" empties the selection', async () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <UpdateDelegationForm {...defaultProps} />
     );
 

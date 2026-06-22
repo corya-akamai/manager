@@ -32,15 +32,20 @@ export const client = new FeatureFlagClient<IAMFlags>({
 
 export function useFlags(): IAMFlagSet {
   const overrides = React.useContext(IAMFlagOverridesContext);
+  const hasOverrides = Object.keys(overrides).length > 0;
   const [flags, setFlags] = useState(client.getFlags());
 
   useEffect(() => {
+    if (import.meta.env.MODE === 'test' && hasOverrides) {
+      return;
+    }
+
     client.start();
 
     return client.subscribe((flags) => {
       setFlags(flags);
     });
-  }, []);
+  }, [hasOverrides]);
 
   return { ...flags, ...overrides };
 }

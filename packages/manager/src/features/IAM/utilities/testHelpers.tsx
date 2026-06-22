@@ -1,7 +1,64 @@
-import { act, fireEvent, screen, waitFor } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  createMemoryHistory,
+  createRootRoute,
+  createRoute,
+  createRouter,
+  RouterProvider,
+} from '@tanstack/react-router';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import mediaQuery from 'css-mediaquery';
+import * as React from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import type { FieldValues, UseFormProps } from 'react-hook-form';
 
-import { getShadowRootElement } from 'src/utilities/testHelpers';
+import { LinodeThemeWrapper } from 'src/LinodeThemeWrapper';
+
+import { IAMFlagOverridesProvider } from '../hooks/useFlags';
+
+import type { IAMFlagSet } from '../hooks/useFlags';
+import type { QueryClient as QueryClientType } from '@tanstack/react-query';
+import type { AnyRootRoute, AnyRouter } from '@tanstack/react-router';
+
+/**
+ * Resolves a shadow DOM query on a host element.
+ */
+export const getShadowRootElement = <T extends Element>(
+  host: HTMLElement,
+  selector: string
+): Promise<null | T> => {
+  return new Promise((resolve) => {
+    const shadowRoot = host.shadowRoot;
+
+    if (!shadowRoot) {
+      resolve(null);
+      return;
+    }
+
+    const element = shadowRoot.querySelector<T>(selector);
+    if (element) {
+      resolve(element);
+      return;
+    }
+
+    const observer = new MutationObserver(() => {
+      const element = shadowRoot.querySelector<T>(selector);
+      if (element) {
+        observer.disconnect();
+        resolve(element);
+      }
+    });
+
+    observer.observe(shadowRoot, { childList: true, subtree: true });
+  });
+};
 
 /** jsdom does not implement scrollIntoView; CDS select calls it when opening. */
 export const mockScrollIntoView = () => {
@@ -185,4 +242,178 @@ export const getCdsTableRows = async (
   );
 
   return rows.filter((row): row is HTMLElement => row !== null);
+};
+
+// ============================================================================
+// Theme Rendering Helpers
+// ============================================================================
+
+export const mockMatchMedia = (matches: boolean = true) => {
+  window.matchMedia = vi.fn().mockImplementation((query) => {
+    return {
+      addEventListener: () => vi.fn(),
+      addListener: vi.fn(),
+      matches,
+      media: query,
+      onchange: null,
+      removeEventListener: () => vi.fn(),
+      removeListener: vi.fn(),
+    };
+  });
+};
+
+const createMatchMedia = (width: number) => {
+  return (query: string) => {
+    return {
+      addEventListener: () => vi.fn(),
+      addListener: () => vi.fn(),
+      dispatchEvent: () => true,
+      matches: mediaQuery.match(query, { width }),
+      media: '',
+      onchange: () => vi.fn(),
+      removeEventListener: () => vi.fn(),
+      removeListener: () => vi.fn(),
+    };
+  };
+};
+
+export const resizeScreenSize = (width: number) => {
+  window.matchMedia = createMatchMedia(width);
+};
+
+interface Options {
+  flags?: IAMFlagSet;
+  initialEntries?: string[];
+  initialRoute?: string;
+  queryClient?: QueryClientType;
+  router?: AnyRouter;
+  routeTree?: AnyRootRoute;
+  theme?: 'dark' | 'light';
+}
+
+const createTestQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: {
+        gcTime: Infinity,
+        refetchOnMount: false,
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
+        retry: false,
+      },
+    },
+  });
+
+export const wrapWithProviders = (ui: any, options: Options = {}) => {
+  const { queryClient: passedQueryClient } = options;
+  const queryClient = passedQueryClient ?? createTestQueryClient();
+
+  const uiToRender = ui.children ?? ui;
+
+  const rootRoute = createRootRoute({});
+  const indexRoute = createRoute({
+    component: () => uiToRender,
+    getParentRoute: () => rootRoute,
+    path: options.initialRoute ?? '/',
+  });
+
+  const router: AnyRouter =
+    options.router ??
+    createRouter({
+      history: createMemoryHistory({
+        initialEntries: options.initialEntries ?? [options.initialRoute ?? '/'],
+      }),
+      routeTree: rootRoute.addChildren([indexRoute]),
+    });
+
+  return (
+    <QueryClientProvider client={passedQueryClient || queryClient}>
+      <LinodeThemeWrapper theme={options.theme ?? 'light'}>
+        <IAMFlagOverridesProvider value={options.flags ?? {}}>
+          <RouterProvider router={router} />
+        </IAMFlagOverridesProvider>
+      </LinodeThemeWrapper>
+    </QueryClientProvider>
+  );
+};
+
+// When wrapping a TableRow component to test, we'll get an invalid DOM nesting
+// error complaining that a <tr /> cannot appear as a child of a <div />. This
+// is a wrapper around `wrapWithProviders()` that renders the `ui` argument in a
+// <table /> and <tbody />.
+export const wrapWithTableBody = (ui: any, options: Options = {}) =>
+  wrapWithProviders(
+    <table>
+      <tbody>{ui}</tbody>
+    </table>,
+    options
+  );
+
+export const renderWithProviders = (
+  ui: React.ReactNode,
+  options: Options = {}
+) => {
+  const rootRoute = createRootRoute({});
+  const indexRoute = createRoute({
+    component: () => ui,
+    getParentRoute: () => rootRoute,
+    path: options.initialRoute ?? '/',
+  });
+
+  const router: AnyRouter = createRouter({
+    history: createMemoryHistory({
+      initialEntries: (options.initialEntries as string[]) ?? [
+        options.initialRoute ?? '/',
+      ],
+    }),
+    routeTree: rootRoute.addChildren([indexRoute]),
+  });
+
+  const utils = render(wrapWithProviders(ui, { ...options, router }));
+  return {
+    ...utils,
+    rerender: (ui: React.ReactNode) =>
+      utils.rerender(wrapWithProviders(ui, options)),
+    router,
+  };
+};
+
+interface UseFormPropsWithChildren<T extends FieldValues>
+  extends UseFormProps<T> {
+  children: React.ReactNode;
+}
+
+const FormContextWrapper = <T extends FieldValues>(
+  props: UseFormPropsWithChildren<T>
+) => {
+  const formMethods = useForm<T>(props);
+
+  return <FormProvider {...formMethods}>{props.children}</FormProvider>;
+};
+
+interface RenderWithProvidersAndHookFormOptions<T extends FieldValues> {
+  component: React.ReactElement<any>;
+  options?: Options;
+  useFormOptions?: UseFormProps<T>;
+}
+
+export const wrapWithFormContext = <T extends FieldValues>(
+  options: RenderWithProvidersAndHookFormOptions<T>
+) => {
+  return (
+    <FormContextWrapper {...options.useFormOptions}>
+      {options.component}
+    </FormContextWrapper>
+  );
+};
+
+export const renderWithProvidersAndHookFormContext = <T extends FieldValues>(
+  options: RenderWithProvidersAndHookFormOptions<T>
+) => {
+  return renderWithProviders(
+    <FormContextWrapper {...options.useFormOptions}>
+      {options.component}
+    </FormContextWrapper>,
+    options.options
+  );
 };

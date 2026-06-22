@@ -1,13 +1,12 @@
 import { screen } from '@testing-library/react';
 import * as React from 'react';
 
-import { renderWithTheme } from 'src/utilities/testHelpers';
-
+import { renderWithProviders } from '../../utilities/testHelpers';
 import { Box } from './Box';
 
 describe('Box', () => {
   it('renders children', () => {
-    renderWithTheme(
+    renderWithProviders(
       <Box>
         <span>first</span>
         <span>second</span>
@@ -19,7 +18,7 @@ describe('Box', () => {
   });
 
   it('applies flex-direction: column by default', () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <Box>
         <span>child</span>
       </Box>
@@ -29,7 +28,7 @@ describe('Box', () => {
   });
 
   it('applies the given direction', () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <Box direction="row">
         <span>child</span>
       </Box>
@@ -54,7 +53,7 @@ describe('Box', () => {
     });
 
     it('applies the first breakpoint value when direction is an array', () => {
-      const { container } = renderWithTheme(
+      const { container } = renderWithProviders(
         <Box direction={['column', 'row']}>
           <span>child</span>
         </Box>
@@ -64,7 +63,7 @@ describe('Box', () => {
     });
 
     it('applies the xs value when direction is an object', () => {
-      const { container } = renderWithTheme(
+      const { container } = renderWithProviders(
         <Box direction={{ xs: 'column-reverse', sm: 'row' }}>
           <span>child</span>
         </Box>
@@ -77,7 +76,7 @@ describe('Box', () => {
   });
 
   it('applies gap for row direction spacing when wrapping (default)', () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <Box direction="row" spacing={2}>
         <span>a</span>
         <span>b</span>
@@ -89,7 +88,7 @@ describe('Box', () => {
   });
 
   it('applies only column-gap for row direction when wrap is nowrap', () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <Box direction="row" spacing={2} wrap="nowrap">
         <span>a</span>
         <span>b</span>
@@ -100,7 +99,7 @@ describe('Box', () => {
   });
 
   it('applies gap for column direction spacing', () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <Box spacing={1}>
         <span>a</span>
         <span>b</span>
@@ -112,7 +111,7 @@ describe('Box', () => {
   });
 
   it('applies gap for row direction with a string spacing value when wrapping', () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <Box direction="row" spacing="1rem">
         <span>a</span>
         <span>b</span>
@@ -123,7 +122,7 @@ describe('Box', () => {
   });
 
   it('renders as a custom component', () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <Box component="section">
         <span>child</span>
       </Box>
@@ -133,7 +132,7 @@ describe('Box', () => {
   });
 
   it('applies sx styles', () => {
-    renderWithTheme(
+    renderWithProviders(
       <Box
         direction="column"
         style={{ justifyContent: 'space-between', paddingBottom: '20px' }}
@@ -151,7 +150,7 @@ describe('Box', () => {
   });
 
   it('does not apply gap when spacing is 0', () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <Box spacing={0}>
         <span>a</span>
       </Box>
@@ -161,7 +160,7 @@ describe('Box', () => {
   });
 
   it('applies a custom className to the root element', () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <Box className="my-custom-class">
         <span>child</span>
       </Box>
@@ -171,7 +170,7 @@ describe('Box', () => {
   });
 
   it('merges a custom className with the internal box class', () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <Box className="extra-class" style={{ paddingBottom: '20px' }}>
         <span>child</span>
       </Box>

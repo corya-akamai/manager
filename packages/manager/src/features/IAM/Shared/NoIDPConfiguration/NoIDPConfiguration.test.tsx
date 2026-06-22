@@ -2,9 +2,11 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import { getCdsButtonByText } from 'src/features/IAM/utilities/testHelpers';
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
+import { getCdsButtonByText } from '../../utilities/testHelpers';
+import {
+  mockMatchMedia,
+  renderWithProviders,
+} from '../../utilities/testHelpers';
 import { NoIDPConfiguration } from './NoIDPConfiguration';
 
 const mockNavigate = vi.fn();
@@ -37,7 +39,7 @@ describe('NoIDPConfiguration', () => {
   });
 
   it('renders the zero state title and description', () => {
-    renderWithTheme(
+    renderWithProviders(
       <NoIDPConfiguration permissions={{ create_idp_config: true }} />
     );
 
@@ -48,7 +50,7 @@ describe('NoIDPConfiguration', () => {
   });
 
   it('renders the enforcement description when not on the IDP configurations page', () => {
-    renderWithTheme(
+    renderWithProviders(
       <NoIDPConfiguration permissions={{ create_idp_config: true }} />
     );
 
@@ -60,7 +62,7 @@ describe('NoIDPConfiguration', () => {
       pathname: IDP_CONFIGURATIONS_PATH,
     });
 
-    renderWithTheme(
+    renderWithProviders(
       <NoIDPConfiguration permissions={{ create_idp_config: true }} />
     );
 
@@ -68,7 +70,7 @@ describe('NoIDPConfiguration', () => {
   });
 
   it('renders an enabled create button for account admins', async () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <NoIDPConfiguration permissions={{ create_idp_config: true }} />
     );
 
@@ -82,7 +84,7 @@ describe('NoIDPConfiguration', () => {
   });
 
   it('renders a disabled create button for non-admin users', async () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <NoIDPConfiguration permissions={{ create_idp_config: false }} />
     );
 
@@ -100,7 +102,7 @@ describe('NoIDPConfiguration', () => {
       pathname: IDP_CONFIGURATIONS_PATH,
     });
 
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <NoIDPConfiguration permissions={{ create_idp_config: true }} />
     );
 
@@ -115,7 +117,7 @@ describe('NoIDPConfiguration', () => {
   });
 
   it('renders the info icon when user is not an account admin', () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <NoIDPConfiguration permissions={{ create_idp_config: false }} />
     );
 

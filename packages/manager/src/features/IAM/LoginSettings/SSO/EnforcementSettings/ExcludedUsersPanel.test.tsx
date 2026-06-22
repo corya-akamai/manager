@@ -2,11 +2,11 @@ import { screen } from '@testing-library/react';
 import * as React from 'react';
 
 import { SSO_EXCLUDED_USERS_DOCS_LINK } from 'src/features/IAM/Shared/constants';
+
 import {
   mockMatchMedia,
-  renderWithThemeAndHookFormContext,
-} from 'src/utilities/testHelpers';
-
+  renderWithProvidersAndHookFormContext,
+} from '../../../utilities/testHelpers';
 import { ExcludedUsersPanel } from './ExcludedUsersPanel';
 
 import type { EnforcementSettingsFormValues } from './EnforcementSettings';
@@ -44,7 +44,7 @@ const renderComponent = (
   values: Partial<EnforcementSettingsFormValues> = {},
   excludedUsers?: string[]
 ) =>
-  renderWithThemeAndHookFormContext<EnforcementSettingsFormValues>({
+  renderWithProvidersAndHookFormContext<EnforcementSettingsFormValues>({
     component: <ExcludedUsersPanel excludedUsers={excludedUsers} />,
     useFormOptions: { defaultValues: { ...defaultValues, ...values } },
   });

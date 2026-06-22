@@ -5,9 +5,12 @@ import {
   ERROR_STATE_TEXT,
   ERROR_STATE_TITLE,
 } from 'src/features/IAM/Shared/constants';
-import { getCdsButtonByText } from 'src/features/IAM/utilities/testHelpers';
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
 
+import { getCdsButtonByText } from '../../../utilities/testHelpers';
+import {
+  mockMatchMedia,
+  renderWithProviders,
+} from '../../../utilities/testHelpers';
 import { IdpConfigurationsLanding } from './IdpConfigurationsLanding';
 
 const mockIdpConfig = {
@@ -90,7 +93,7 @@ describe('IdpConfigurationsLanding', () => {
       status: 'error',
     });
 
-    renderWithTheme(<IdpConfigurationsLanding />);
+    renderWithProviders(<IdpConfigurationsLanding />);
 
     expect(screen.getByText(ERROR_STATE_TITLE)).toBeVisible();
     expect(screen.getByText(ERROR_STATE_TEXT)).toBeVisible();
@@ -104,7 +107,7 @@ describe('IdpConfigurationsLanding', () => {
       status: 'error',
     });
 
-    renderWithTheme(<IdpConfigurationsLanding />);
+    renderWithProviders(<IdpConfigurationsLanding />);
 
     expect(screen.getByText(ERROR_STATE_TITLE)).toBeVisible();
     expect(screen.getByText(ERROR_STATE_TEXT)).toBeVisible();
@@ -120,7 +123,7 @@ describe('IdpConfigurationsLanding', () => {
       isLoading: false,
     });
 
-    const { container } = renderWithTheme(<IdpConfigurationsLanding />);
+    const { container } = renderWithProviders(<IdpConfigurationsLanding />);
 
     expect(
       await getCdsButtonByText(container, 'Edit IDP Configuration')
@@ -129,7 +132,7 @@ describe('IdpConfigurationsLanding', () => {
   });
 
   it('renders the empty state with an enabled create button for account admins', async () => {
-    const { container } = renderWithTheme(<IdpConfigurationsLanding />);
+    const { container } = renderWithProviders(<IdpConfigurationsLanding />);
 
     const createButton = await getCdsButtonByText(
       container,
@@ -150,7 +153,7 @@ describe('IdpConfigurationsLanding', () => {
       error: null,
     });
 
-    const { container } = renderWithTheme(<IdpConfigurationsLanding />);
+    const { container } = renderWithProviders(<IdpConfigurationsLanding />);
 
     const createButton = await getCdsButtonByText(
       container,

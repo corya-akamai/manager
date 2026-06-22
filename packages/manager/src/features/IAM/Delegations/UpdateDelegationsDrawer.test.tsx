@@ -2,8 +2,7 @@ import { screen, within } from '@testing-library/react';
 import React from 'react';
 import { vi } from 'vitest';
 
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
+import { mockMatchMedia, renderWithProviders } from '../utilities/testHelpers';
 import { UpdateDelegationsDrawer } from './UpdateDelegationsDrawer';
 
 import type { ChildAccountWithDelegates, User } from '@linode/api-v4';
@@ -84,7 +83,7 @@ describe('UpdateDelegationsDrawer', () => {
   });
 
   it('renders the drawer with current delegates', () => {
-    renderWithTheme(<UpdateDelegationsDrawer {...defaultProps} />);
+    renderWithProviders(<UpdateDelegationsDrawer {...defaultProps} />);
 
     expect(
       within(screen.getByTestId('drawer')).getByText('Update Delegation')

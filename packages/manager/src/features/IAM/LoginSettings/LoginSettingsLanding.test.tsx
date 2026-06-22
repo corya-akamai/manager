@@ -6,8 +6,8 @@ import {
   ERROR_STATE_TEXT,
   ERROR_STATE_TITLE,
 } from 'src/features/IAM/Shared/constants';
-import { renderWithTheme } from 'src/utilities/testHelpers';
 
+import { renderWithProviders } from '../utilities/testHelpers';
 import { LoginSettingsLanding } from './LoginSettingsLanding';
 
 import type { IdpConfig } from '@linode/api-v4';
@@ -85,7 +85,7 @@ describe('LoginSettingsLanding', () => {
       error: null,
     });
 
-    const { container } = renderWithTheme(<LoginSettingsLanding />);
+    const { container } = renderWithProviders(<LoginSettingsLanding />);
 
     expect(container.querySelector('cds-notification-banner')).toBeVisible();
     expect(
@@ -99,7 +99,7 @@ describe('LoginSettingsLanding', () => {
       error: [{ reason: 'An unexpected error occurred' }],
     });
 
-    renderWithTheme(<LoginSettingsLanding />);
+    renderWithProviders(<LoginSettingsLanding />);
 
     expect(screen.getByText(ERROR_STATE_TITLE)).toBeVisible();
     expect(screen.getByText(ERROR_STATE_TEXT)).toBeVisible();
@@ -112,14 +112,14 @@ describe('LoginSettingsLanding', () => {
       isLoading: false,
     });
 
-    renderWithTheme(<LoginSettingsLanding />);
+    renderWithProviders(<LoginSettingsLanding />);
 
     expect(screen.getByText(ERROR_STATE_TITLE)).toBeVisible();
     expect(screen.getByText(ERROR_STATE_TEXT)).toBeVisible();
   });
 
   it('renders the SSO enforcement landing content', () => {
-    renderWithTheme(<LoginSettingsLanding />);
+    renderWithProviders(<LoginSettingsLanding />);
 
     expect(
       screen.getByRole('heading', { name: 'Single Sign-On Enforcement' })
@@ -130,7 +130,7 @@ describe('LoginSettingsLanding', () => {
   });
 
   it('navigates to IDP configurations when manage is clicked', async () => {
-    renderWithTheme(<LoginSettingsLanding />);
+    renderWithProviders(<LoginSettingsLanding />);
 
     await userEvent.click(screen.getByText('Manage SSO Enforcement'));
 
@@ -140,7 +140,7 @@ describe('LoginSettingsLanding', () => {
   });
 
   it('shows disabled icon and not-configured text when there is no IDP config', () => {
-    renderWithTheme(<LoginSettingsLanding />);
+    renderWithProviders(<LoginSettingsLanding />);
 
     expect(screen.getByLabelText('Status is inactive')).toBeVisible();
     expect(
@@ -155,7 +155,7 @@ describe('LoginSettingsLanding', () => {
       isLoading: false,
     });
 
-    renderWithTheme(<LoginSettingsLanding />);
+    renderWithProviders(<LoginSettingsLanding />);
 
     expect(screen.getByLabelText('Status is inactive')).toBeVisible();
     expect(
@@ -175,7 +175,7 @@ describe('LoginSettingsLanding', () => {
       isLoading: false,
     });
 
-    renderWithTheme(<LoginSettingsLanding />);
+    renderWithProviders(<LoginSettingsLanding />);
 
     expect(screen.getByLabelText('Status is active')).toBeVisible();
     expect(
@@ -201,7 +201,7 @@ describe('LoginSettingsLanding', () => {
       isLoading: false,
     });
 
-    renderWithTheme(<LoginSettingsLanding />);
+    renderWithProviders(<LoginSettingsLanding />);
 
     expect(screen.getByLabelText('Status is active')).toBeVisible();
     expect(

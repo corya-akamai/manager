@@ -1,9 +1,11 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
 import { createAccountEntity } from '../../factories';
+import {
+  mockMatchMedia,
+  renderWithProviders,
+} from '../../utilities/testHelpers';
 import { AssignedPermissionsPanel } from './AssignedPermissionsPanel';
 
 import type { ExtendedRole } from '../utilities';
@@ -56,7 +58,7 @@ beforeAll(() => mockMatchMedia());
 
 describe('AssignedPermissionsPanel', () => {
   it('renders with the correct context when the access is an account', () => {
-    renderWithTheme(
+    renderWithProviders(
       <AssignedPermissionsPanel
         mode="assign-role"
         role={mockAccountAcceessRole}
@@ -73,7 +75,9 @@ describe('AssignedPermissionsPanel', () => {
   });
 
   it('does not render Autocomplete when the access is an account', () => {
-    renderWithTheme(<AssignedPermissionsPanel role={mockAccountAcceessRole} />);
+    renderWithProviders(
+      <AssignedPermissionsPanel role={mockAccountAcceessRole} />
+    );
     const autocomplete = screen.queryAllByRole('combobox');
 
     expect(screen.getByText('Entities')).toBeVisible();
@@ -88,7 +92,7 @@ describe('AssignedPermissionsPanel', () => {
     queryMocks.useAllAccountEntities.mockReturnValue({
       data: mockEntities,
     });
-    renderWithTheme(
+    renderWithProviders(
       <AssignedPermissionsPanel role={mockEntitiesAcceessRole} />
     );
 
@@ -109,7 +113,7 @@ describe('AssignedPermissionsPanel', () => {
     queryMocks.useAllAccountEntities.mockReturnValue({
       data: mockEntities,
     });
-    renderWithTheme(
+    renderWithProviders(
       <AssignedPermissionsPanel role={mockEntitiesAcceessRole} />
     );
 
@@ -118,7 +122,7 @@ describe('AssignedPermissionsPanel', () => {
   });
 
   it('shows all permissions', () => {
-    renderWithTheme(
+    renderWithProviders(
       <AssignedPermissionsPanel role={mockEntitiesAcceessRole} />
     );
 
@@ -130,7 +134,7 @@ describe('AssignedPermissionsPanel', () => {
   });
 
   it('does not render the Entities component when mode is "change-role-for-entity"', () => {
-    renderWithTheme(
+    renderWithProviders(
       <AssignedPermissionsPanel
         mode="change-role-for-entity"
         role={mockEntitiesAcceessRole}

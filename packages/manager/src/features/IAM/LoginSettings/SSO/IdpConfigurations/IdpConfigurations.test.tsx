@@ -1,12 +1,11 @@
 import * as React from 'react';
 
-import { expectNotificationBannerText } from 'src/features/IAM/utilities/testHelpers';
 import {
+  expectNotificationBannerText,
   getShadowRootElement,
   mockMatchMedia,
-  renderWithTheme,
-} from 'src/utilities/testHelpers';
-
+  renderWithProviders,
+} from '../../../utilities/testHelpers';
 import {
   SSO_EXPIRED_ENFORCED,
   SSO_EXPIRING,
@@ -175,7 +174,7 @@ describe('IdpConfigurations', () => {
     };
 
     it('does not show a banner when SSO is disabled', () => {
-      renderWithTheme(
+      renderWithProviders(
         <IdpConfigurations idpConfig={makeIdpConfig({ enabled: false })} />
       );
 
@@ -186,7 +185,7 @@ describe('IdpConfigurations', () => {
     });
 
     it('does not show a banner when SSO is enabled and there are active certificates', () => {
-      renderWithTheme(
+      renderWithProviders(
         <IdpConfigurations
           idpConfig={makeIdpConfig({
             enabled: true,
@@ -205,7 +204,7 @@ describe('IdpConfigurations', () => {
     });
 
     it('shows the requires-active-certificate banner when SSO is enabled but has no certificates', async () => {
-      renderWithTheme(
+      renderWithProviders(
         <IdpConfigurations idpConfig={makeIdpConfig({ enabled: true })} />
       );
 
@@ -213,7 +212,7 @@ describe('IdpConfigurations', () => {
     });
 
     it('shows the expiring banner when SSO is enabled and all certificates are expiring soon', async () => {
-      renderWithTheme(
+      renderWithProviders(
         <IdpConfigurations
           idpConfig={makeIdpConfig({
             enabled: true,
@@ -229,7 +228,7 @@ describe('IdpConfigurations', () => {
     });
 
     it('shows the expired-enforced banner when SSO is enabled and all certificates are expired', async () => {
-      renderWithTheme(
+      renderWithProviders(
         <IdpConfigurations
           idpConfig={makeIdpConfig({
             enabled: true,
@@ -247,7 +246,7 @@ describe('IdpConfigurations', () => {
 
   describe('CertificatesTable – delete button', () => {
     it('is disabled when SSO is enabled and only one certificate exists', async () => {
-      const { container } = renderWithTheme(
+      const { container } = renderWithProviders(
         <IdpConfigurations
           idpConfig={makeIdpConfig({
             enabled: true,
@@ -279,7 +278,7 @@ describe('IdpConfigurations', () => {
         not_before: NOT_YET_VALID_NOT_BEFORE,
       });
 
-      const { container } = renderWithTheme(
+      const { container } = renderWithProviders(
         <IdpConfigurations
           idpConfig={makeIdpConfig({
             enabled: true,
@@ -310,7 +309,7 @@ describe('IdpConfigurations', () => {
         certificate: 'CERT2CERT2CERT2CERT2CERT2CERT212',
       });
 
-      const { container } = renderWithTheme(
+      const { container } = renderWithProviders(
         <IdpConfigurations
           idpConfig={makeIdpConfig({
             enabled: true,
@@ -344,7 +343,7 @@ describe('IdpConfigurations', () => {
         certificate: 'CERT2CERT2CERT2CERT2CERT2CERT212',
       });
 
-      const { container } = renderWithTheme(
+      const { container } = renderWithProviders(
         <IdpConfigurations
           idpConfig={makeIdpConfig({
             saml: { ...BASE_SAML, public_certificates: [cert1, cert2] },

@@ -6,12 +6,15 @@ import {
   ERROR_STATE_TEXT,
   ERROR_STATE_TITLE,
 } from 'src/features/IAM/Shared/constants';
+
 import {
   getCdsButtonByText,
   getSwitchControl,
-} from 'src/features/IAM/utilities/testHelpers';
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
+} from '../../../utilities/testHelpers';
+import {
+  mockMatchMedia,
+  renderWithProviders,
+} from '../../../utilities/testHelpers';
 import { EnforcementSettings } from './EnforcementSettings';
 
 const mockEnqueueSnackbar = vi.fn();
@@ -115,7 +118,7 @@ describe('EnforcementSettings', () => {
       isLoading: true,
     });
 
-    renderWithTheme(<EnforcementSettings />);
+    renderWithProviders(<EnforcementSettings />);
 
     expect(screen.getByTestId('circle-progress')).toBeVisible();
   });
@@ -127,7 +130,7 @@ describe('EnforcementSettings', () => {
       isLoading: true,
     });
 
-    renderWithTheme(<EnforcementSettings />);
+    renderWithProviders(<EnforcementSettings />);
 
     expect(screen.getByTestId('circle-progress')).toBeVisible();
   });
@@ -139,7 +142,7 @@ describe('EnforcementSettings', () => {
       isLoading: false,
     });
 
-    renderWithTheme(<EnforcementSettings />);
+    renderWithProviders(<EnforcementSettings />);
 
     expect(screen.getByText(ERROR_STATE_TITLE)).toBeVisible();
     expect(screen.getByText(ERROR_STATE_TEXT)).toBeVisible();
@@ -152,20 +155,20 @@ describe('EnforcementSettings', () => {
       isLoading: false,
     });
 
-    renderWithTheme(<EnforcementSettings />);
+    renderWithProviders(<EnforcementSettings />);
 
     expect(screen.getByText(ERROR_STATE_TITLE)).toBeVisible();
     expect(screen.getByText(ERROR_STATE_TEXT)).toBeVisible();
   });
 
   it('renders the Activation Status section', () => {
-    renderWithTheme(<EnforcementSettings />);
+    renderWithProviders(<EnforcementSettings />);
 
     expect(screen.getByText('Activation Status')).toBeVisible();
   });
 
   it('renders the submit button as disabled when the form is not dirty', async () => {
-    const { container } = renderWithTheme(<EnforcementSettings />);
+    const { container } = renderWithProviders(<EnforcementSettings />);
 
     const submitButton = await getCdsButtonByText(
       container,
@@ -175,7 +178,7 @@ describe('EnforcementSettings', () => {
   });
 
   it('does not render the acknowledgment checkbox when activation status is not dirty', () => {
-    renderWithTheme(<EnforcementSettings />);
+    renderWithProviders(<EnforcementSettings />);
 
     expect(
       screen.queryByText(
@@ -185,7 +188,7 @@ describe('EnforcementSettings', () => {
   });
 
   it('shows the acknowledgment checkbox when activation status is changed', async () => {
-    renderWithTheme(<EnforcementSettings />);
+    renderWithProviders(<EnforcementSettings />);
 
     const enableHost = screen
       .getByText('Enable SSO')
@@ -201,7 +204,7 @@ describe('EnforcementSettings', () => {
   });
 
   it('hides the acknowledgment checkbox when ssoEnabled is toggled back to its initial value', async () => {
-    renderWithTheme(<EnforcementSettings />);
+    renderWithProviders(<EnforcementSettings />);
 
     const enableHost = screen
       .getByText('Enable SSO')
@@ -226,7 +229,7 @@ describe('EnforcementSettings', () => {
   });
 
   it('hides the acknowledgment checkbox when ssoEnabled and ssoEnforced are both toggled back to their initial values', async () => {
-    renderWithTheme(<EnforcementSettings />);
+    renderWithProviders(<EnforcementSettings />);
 
     const enableHost = screen
       .getByText('Enable SSO')
@@ -254,7 +257,7 @@ describe('EnforcementSettings', () => {
   });
 
   it('enables the submit button when the form is dirty', async () => {
-    const { container } = renderWithTheme(<EnforcementSettings />);
+    const { container } = renderWithProviders(<EnforcementSettings />);
 
     const enableHost = screen
       .getByText('Enable SSO')
@@ -276,7 +279,7 @@ describe('EnforcementSettings', () => {
       isLoading: true,
     });
 
-    renderWithTheme(<EnforcementSettings />);
+    renderWithProviders(<EnforcementSettings />);
 
     expect(screen.getByTestId('circle-progress')).toBeVisible();
   });
@@ -288,7 +291,7 @@ describe('EnforcementSettings', () => {
       isLoading: true,
     });
 
-    renderWithTheme(<EnforcementSettings />);
+    renderWithProviders(<EnforcementSettings />);
 
     expect(screen.getByTestId('circle-progress')).toBeVisible();
   });
@@ -300,7 +303,7 @@ describe('EnforcementSettings', () => {
       isLoading: false,
     });
 
-    renderWithTheme(<EnforcementSettings />);
+    renderWithProviders(<EnforcementSettings />);
 
     expect(screen.getByText(ERROR_STATE_TITLE)).toBeVisible();
     expect(screen.getByText(ERROR_STATE_TEXT)).toBeVisible();
@@ -313,20 +316,20 @@ describe('EnforcementSettings', () => {
       isLoading: false,
     });
 
-    renderWithTheme(<EnforcementSettings />);
+    renderWithProviders(<EnforcementSettings />);
 
     expect(screen.getByText(ERROR_STATE_TITLE)).toBeVisible();
     expect(screen.getByText(ERROR_STATE_TEXT)).toBeVisible();
   });
 
   it('renders the Included Users Panel section', () => {
-    renderWithTheme(<EnforcementSettings />);
+    renderWithProviders(<EnforcementSettings />);
 
     expect(screen.getByText('Included users')).toBeVisible();
   });
 
   it('shows the acknowledgment validation error when submitting without checking', async () => {
-    const { container } = renderWithTheme(<EnforcementSettings />);
+    const { container } = renderWithProviders(<EnforcementSettings />);
 
     const enableHost = screen
       .getByText('Enable SSO')
@@ -350,7 +353,7 @@ describe('EnforcementSettings', () => {
   });
 
   it('renders the Excluded Users Panel section', () => {
-    renderWithTheme(<EnforcementSettings />);
+    renderWithProviders(<EnforcementSettings />);
 
     expect(
       screen.getByRole('heading', { name: 'Excluded Users' })
@@ -359,7 +362,7 @@ describe('EnforcementSettings', () => {
 
   describe('summary banner', () => {
     it('shows disabled summary when SSO is not enabled', () => {
-      const { container } = renderWithTheme(<EnforcementSettings />);
+      const { container } = renderWithProviders(<EnforcementSettings />);
 
       const banner = container.querySelector('cds-notification-banner');
 
@@ -370,7 +373,7 @@ describe('EnforcementSettings', () => {
     });
 
     it('updates to enabled-not-enforced summary after enabling SSO', async () => {
-      const { container } = renderWithTheme(<EnforcementSettings />);
+      const { container } = renderWithProviders(<EnforcementSettings />);
 
       const enableHost = screen
         .getByText('Enable SSO')
@@ -387,7 +390,7 @@ describe('EnforcementSettings', () => {
     });
 
     it('updates to fully-enforced summary after enabling SSO and enforcement', async () => {
-      const { container } = renderWithTheme(<EnforcementSettings />);
+      const { container } = renderWithProviders(<EnforcementSettings />);
 
       const enableHost = screen
         .getByText('Enable SSO')

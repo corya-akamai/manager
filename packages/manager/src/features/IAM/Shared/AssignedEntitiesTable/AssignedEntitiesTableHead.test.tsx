@@ -6,8 +6,10 @@ vi.mock('src/OAuth/oauthClient', () => ({
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
+import {
+  mockMatchMedia,
+  renderWithProviders,
+} from '../../utilities/testHelpers';
 import { AssignedEntitiesTableHead } from './AssignedEntitiesTableHead';
 
 beforeAll(() => mockMatchMedia());
@@ -20,7 +22,7 @@ const defaultProps = {
 
 describe('AssignedEntitiesTableHead', () => {
   it('renders sortable column headers', () => {
-    renderWithTheme(<AssignedEntitiesTableHead {...defaultProps} />);
+    renderWithProviders(<AssignedEntitiesTableHead {...defaultProps} />);
 
     expect(screen.getByText('Entity')).toBeVisible();
     expect(screen.getByText('Entity Type')).toBeVisible();

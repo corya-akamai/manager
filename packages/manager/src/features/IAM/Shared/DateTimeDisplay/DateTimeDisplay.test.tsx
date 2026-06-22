@@ -2,8 +2,8 @@ import { DateTime } from 'luxon';
 import * as React from 'react';
 
 import { ISO_DATETIME_NO_TZ_FORMAT } from 'src/constants';
-import { renderWithTheme } from 'src/utilities/testHelpers';
 
+import { renderWithProviders } from '../../utilities/testHelpers';
 import { DateTimeDisplay } from './DateTimeDisplay';
 
 import type { DateTimeDisplayProps } from './DateTimeDisplay';
@@ -29,14 +29,14 @@ const APIDate = '2018-07-20T04:23:17';
 describe('DateTimeDisplay component', () => {
   it('should not display the time', () => {
     const props = { displayTime: false, value: APIDate };
-    const { getByText } = renderWithTheme(<DateTimeDisplay {...props} />);
+    const { getByText } = renderWithProviders(<DateTimeDisplay {...props} />);
 
     getByText('2018-07-20');
   });
 
   it('should display the time', () => {
     const props = { displayTime: true, value: APIDate };
-    const { getByText } = renderWithTheme(<DateTimeDisplay {...props} />);
+    const { getByText } = renderWithProviders(<DateTimeDisplay {...props} />);
 
     getByText('2018-07-20 04:23');
   });
@@ -47,14 +47,14 @@ describe('DateTimeDisplay component', () => {
       format: 'MM-dd-yyyy HH:mm',
       value: APIDate,
     };
-    const { getByText } = renderWithTheme(<DateTimeDisplay {...props} />);
+    const { getByText } = renderWithProviders(<DateTimeDisplay {...props} />);
 
     getByText('07-20-2018 04:23');
   });
 
   it('should format the time based on the specified format only pt2', () => {
     const props = { displayTime: true, format: 'MM-dd-yyyy', value: APIDate };
-    const { getByText } = renderWithTheme(<DateTimeDisplay {...props} />);
+    const { getByText } = renderWithProviders(<DateTimeDisplay {...props} />);
 
     getByText('07-20-2018');
   });
@@ -62,7 +62,7 @@ describe('DateTimeDisplay component', () => {
   describe('Non-humanized dates', () => {
     it('should be displayed in 24-hour ISO format', () => {
       const props = { humanizeCutoff: undefined, value: APIDate };
-      const { getByText } = renderWithTheme(<DateTimeDisplay {...props} />);
+      const { getByText } = renderWithProviders(<DateTimeDisplay {...props} />);
 
       getByText('2018-07-20 04:23');
     });
@@ -76,7 +76,7 @@ describe('DateTimeDisplay component', () => {
           .minus({ minutes: 5 })
           .toFormat(ISO_DATETIME_NO_TZ_FORMAT),
       };
-      const { getByText } = renderWithTheme(<DateTimeDisplay {...props} />);
+      const { getByText } = renderWithProviders(<DateTimeDisplay {...props} />);
 
       getByText('5 minutes ago');
     });
@@ -90,7 +90,9 @@ describe('DateTimeDisplay component', () => {
           humanizeCutoff: 'month',
           value: almostOneWeekString,
         };
-        const { getByText } = renderWithTheme(<DateTimeDisplay {...props} />);
+        const { getByText } = renderWithProviders(
+          <DateTimeDisplay {...props} />
+        );
         getByText('6 days ago');
       });
 
@@ -99,7 +101,9 @@ describe('DateTimeDisplay component', () => {
           humanizeCutoff: 'day',
           value: almostOneWeekString,
         };
-        const { getByText } = renderWithTheme(<DateTimeDisplay {...props} />);
+        const { getByText } = renderWithProviders(
+          <DateTimeDisplay {...props} />
+        );
         getByText(`${almostOneWeek.year}`, { exact: false });
       });
     });
@@ -111,7 +115,7 @@ describe('DateTimeDisplay component', () => {
         humanizeCutoff: 'never',
         value: aLongTimeAgo,
       };
-      const { getByText } = renderWithTheme(<DateTimeDisplay {...props} />);
+      const { getByText } = renderWithProviders(<DateTimeDisplay {...props} />);
       getByText('10 years ago');
     });
   });

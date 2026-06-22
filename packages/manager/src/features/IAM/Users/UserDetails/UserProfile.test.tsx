@@ -1,10 +1,9 @@
 import { screen, within } from '@testing-library/react';
 import React from 'react';
 
-import { renderWithTheme } from 'src/utilities/testHelpers';
-
 import { createUser, createUserRoles } from '../../factories';
 import { expectNotificationBannerText } from '../../utilities/testHelpers';
+import { renderWithProviders } from '../../utilities/testHelpers';
 import { UserProfile } from './UserProfile';
 
 const queryMocks = vi.hoisted(() => ({
@@ -83,7 +82,7 @@ describe('UserProfile', () => {
       isLoading: true,
     });
 
-    renderWithTheme(<UserProfile />);
+    renderWithProviders(<UserProfile />);
 
     expect(screen.getByTestId('circle-progress')).toBeVisible();
   });
@@ -99,7 +98,7 @@ describe('UserProfile', () => {
       isLoading: false,
     });
 
-    renderWithTheme(<UserProfile />);
+    renderWithProviders(<UserProfile />);
 
     return expectNotificationBannerText(
       "You do not have permission to view this user's details."
@@ -113,7 +112,7 @@ describe('UserProfile', () => {
       isLoading: false,
     });
 
-    renderWithTheme(<UserProfile />);
+    renderWithProviders(<UserProfile />);
 
     expect(screen.getByText('Unable to load user profile.')).toBeVisible();
   });
@@ -125,14 +124,14 @@ describe('UserProfile', () => {
       isLoading: false,
     });
 
-    renderWithTheme(<UserProfile />);
+    renderWithProviders(<UserProfile />);
 
     expect(screen.getByText('Not Found')).toBeVisible();
     expect(screen.getByText('This page does not exist.')).toBeVisible();
   });
 
   it('renders the profile panels with the resolved user data and permissions', () => {
-    const { container } = renderWithTheme(<UserProfile />);
+    const { container } = renderWithProviders(<UserProfile />);
 
     expect(queryMocks.usePermissions).toHaveBeenCalledWith('account', [
       'view_user',

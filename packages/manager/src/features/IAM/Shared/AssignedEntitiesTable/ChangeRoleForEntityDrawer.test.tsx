@@ -2,16 +2,15 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import {
-  getShadowRootElement,
-  renderWithTheme,
-} from 'src/utilities/testHelpers';
-
 import { createAccountRoles, createUserRoles } from '../../factories';
 import { ChangeRoleForEntityDrawer } from '../../Shared/AssignedEntitiesTable/ChangeRoleForEntityDrawer';
 import {
   mockScrollIntoView,
   submitCdsDrawerForm,
+} from '../../utilities/testHelpers';
+import {
+  getShadowRootElement,
+  renderWithProviders,
 } from '../../utilities/testHelpers';
 
 import type { EntitiesRole } from '../../Shared/types';
@@ -77,7 +76,7 @@ describe('ChangeRoleForEntityDrawer', () => {
   });
 
   it('should render', async () => {
-    renderWithTheme(<ChangeRoleForEntityDrawer {...props} />);
+    renderWithProviders(<ChangeRoleForEntityDrawer {...props} />);
 
     // Verify title renders
     expect(screen.getByText('Change Role')).toBeVisible();
@@ -104,7 +103,7 @@ describe('ChangeRoleForEntityDrawer', () => {
       data: createAccountRoles(),
     });
 
-    renderWithTheme(<ChangeRoleForEntityDrawer {...props} />);
+    renderWithProviders(<ChangeRoleForEntityDrawer {...props} />);
 
     const cdsSelect = document.querySelector('cds-select');
     expect(cdsSelect).not.toBeNull();

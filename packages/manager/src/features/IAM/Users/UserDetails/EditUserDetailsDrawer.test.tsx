@@ -3,7 +3,6 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import { http, HttpResponse, server } from 'src/mocks/testServer';
-import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { createProfile, createUser } from '../../factories';
 import {
@@ -13,6 +12,7 @@ import {
   getCdsTooltipHostByText,
   submitCdsDrawerForm,
 } from '../../utilities/testHelpers';
+import { renderWithProviders } from '../../utilities/testHelpers';
 import { EditUserDetailsDrawer } from './EditUserDetailsDrawer';
 
 const queryMocks = vi.hoisted(() => ({
@@ -60,7 +60,7 @@ describe('EditUserDetailsDrawer', () => {
     it("initializes the form with the user's username and email", async () => {
       const user = createUser();
 
-      renderWithTheme(
+      renderWithProviders(
         <EditUserDetailsDrawer {...defaultProps} activeUser={user} />
       );
 
@@ -75,7 +75,7 @@ describe('EditUserDetailsDrawer', () => {
     it('disables the username field and shows a tooltip when canUpdateUser is false', async () => {
       const user = createUser();
 
-      renderWithTheme(
+      renderWithProviders(
         <EditUserDetailsDrawer
           {...defaultProps}
           activeUser={user}
@@ -100,7 +100,7 @@ describe('EditUserDetailsDrawer', () => {
         username: 'delegate-user-1',
       });
 
-      renderWithTheme(
+      renderWithProviders(
         <EditUserDetailsDrawer {...defaultProps} activeUser={user} />
       );
 
@@ -121,7 +121,7 @@ describe('EditUserDetailsDrawer', () => {
         data: createProfile({ username: 'my-linode-username' }),
       });
 
-      renderWithTheme(
+      renderWithProviders(
         <EditUserDetailsDrawer {...defaultProps} activeUser={user} />
       );
 
@@ -143,7 +143,7 @@ describe('EditUserDetailsDrawer', () => {
         username: 'my-linode-username',
       });
 
-      renderWithTheme(
+      renderWithProviders(
         <EditUserDetailsDrawer
           {...defaultProps}
           activeUser={user}
@@ -172,7 +172,7 @@ describe('EditUserDetailsDrawer', () => {
         })
       );
 
-      renderWithTheme(
+      renderWithProviders(
         <EditUserDetailsDrawer {...defaultProps} activeUser={user} />
       );
 
@@ -196,7 +196,7 @@ describe('EditUserDetailsDrawer', () => {
         username: 'delegate-user-1',
       });
 
-      renderWithTheme(
+      renderWithProviders(
         <EditUserDetailsDrawer {...defaultProps} activeUser={user} />
       );
 
@@ -214,7 +214,7 @@ describe('EditUserDetailsDrawer', () => {
       });
       const user = createUser({ username: 'user-1' });
 
-      renderWithTheme(
+      renderWithProviders(
         <EditUserDetailsDrawer {...defaultProps} activeUser={user} />
       );
 
@@ -232,7 +232,7 @@ describe('EditUserDetailsDrawer', () => {
       });
       const user = createUser({ username: 'another-user' });
 
-      renderWithTheme(
+      renderWithProviders(
         <EditUserDetailsDrawer {...defaultProps} activeUser={user} />
       );
 

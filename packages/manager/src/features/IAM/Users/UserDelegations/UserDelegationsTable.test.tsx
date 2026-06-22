@@ -1,10 +1,9 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 
-import { renderWithTheme } from 'src/utilities/testHelpers';
-
 import { createAccountRoles, createChildAccountList } from '../../factories';
 import { getCdsTableRows } from '../../utilities/testHelpers';
+import { renderWithProviders } from '../../utilities/testHelpers';
 import { UserDelegationsTable } from './UserDelegationsTable';
 
 const mockChildAccounts = {
@@ -72,7 +71,7 @@ describe('UserDelegationsTable', () => {
   });
 
   it('renders the correct number of child accounts', () => {
-    renderWithTheme(<UserDelegationsTable />, {
+    renderWithProviders(<UserDelegationsTable />, {
       flags: {
         iam: { enabled: true },
       },
@@ -88,7 +87,7 @@ describe('UserDelegationsTable', () => {
       isLoading: false,
     });
 
-    const { container } = renderWithTheme(<UserDelegationsTable />, {
+    const { container } = renderWithProviders(<UserDelegationsTable />, {
       flags: {
         iam: { enabled: true },
       },
@@ -106,7 +105,7 @@ describe('UserDelegationsTable', () => {
       isLoading: false,
     });
 
-    const { container } = renderWithTheme(<UserDelegationsTable />, {
+    const { container } = renderWithProviders(<UserDelegationsTable />, {
       flags: {
         iam: { enabled: true },
       },

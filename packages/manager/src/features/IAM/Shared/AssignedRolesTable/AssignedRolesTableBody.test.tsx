@@ -1,9 +1,11 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
 import { createAccountRoles, createUserRoles } from '../../factories';
+import {
+  mockMatchMedia,
+  renderWithProviders,
+} from '../../utilities/testHelpers';
 import { AssignedRolesTableBody } from './AssignedRolesTableBody';
 import { combineRoles, mapRolesToPermissions } from './utils';
 
@@ -43,7 +45,7 @@ const buildRole = () => {
 
 describe('AssignedRolesTableBody', () => {
   it('renders empty state', () => {
-    renderWithTheme(
+    renderWithProviders(
       <table>
         <tbody>
           <AssignedRolesTableBody
@@ -62,7 +64,7 @@ describe('AssignedRolesTableBody', () => {
   it('renders expandable role row', () => {
     const role = buildRole();
 
-    renderWithTheme(
+    renderWithProviders(
       <table>
         <tbody>
           <AssignedRolesTableBody

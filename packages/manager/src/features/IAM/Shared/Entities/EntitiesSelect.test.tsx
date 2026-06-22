@@ -1,9 +1,11 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
 import { createAccountEntity } from '../../factories';
+import {
+  mockMatchMedia,
+  renderWithProviders,
+} from '../../utilities/testHelpers';
 import { EntitiesSelect } from './EntitiesSelect';
 
 import type { EntitiesOption } from '../types';
@@ -49,7 +51,7 @@ beforeAll(() => mockMatchMedia());
 
 describe('Entities', () => {
   it('renders correct data when it is an account access and type is an account', () => {
-    renderWithTheme(
+    renderWithProviders(
       <EntitiesSelect
         access="account_access"
         mode="assign-role"
@@ -70,7 +72,7 @@ describe('Entities', () => {
   });
 
   it('renders correct data when it is an account access and type is not an account', () => {
-    renderWithTheme(
+    renderWithProviders(
       <EntitiesSelect
         access="account_access"
         mode="assign-role"
@@ -95,7 +97,7 @@ describe('Entities', () => {
       data: mockEntities,
     });
 
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <EntitiesSelect
         access="entity_access"
         mode="assign-role"
@@ -118,7 +120,7 @@ describe('Entities', () => {
       data: mockEntities,
     });
 
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <EntitiesSelect
         access="entity_access"
         mode="assign-role"
@@ -139,7 +141,7 @@ describe('Entities', () => {
       data: mockEntities,
     });
 
-    renderWithTheme(
+    renderWithProviders(
       <EntitiesSelect
         access="entity_access"
         mode="assign-role"
@@ -159,7 +161,7 @@ describe('Entities', () => {
       data: mockEntities,
     });
 
-    renderWithTheme(
+    renderWithProviders(
       <EntitiesSelect
         access="entity_access"
         mode="assign-role"
@@ -174,7 +176,7 @@ describe('Entities', () => {
   });
 
   it('disables interactions when mode is "change-role"', () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <EntitiesSelect
         access="entity_access"
         mode="change-role"
@@ -194,7 +196,7 @@ describe('Entities', () => {
   it('displays errorText when provided', async () => {
     const errorMessage = 'Entities are required.';
 
-    renderWithTheme(
+    renderWithProviders(
       <EntitiesSelect
         access="entity_access"
         errorText={errorMessage}
@@ -220,7 +222,7 @@ describe('Entities', () => {
 
   it('filters visible rows by search text when the toggle is active', async () => {
     queryMocks.useAllAccountEntities.mockReturnValue({ data: linodeEntities });
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <EntitiesSelect
         access="entity_access"
         mode="assign-role"
@@ -258,7 +260,7 @@ describe('Entities', () => {
 
   it('deactivates the toggle when "Clear all" empties the selection', async () => {
     queryMocks.useAllAccountEntities.mockReturnValue({ data: linodeEntities });
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <EntitiesSelect
         access="entity_access"
         mode="assign-role"
@@ -292,7 +294,7 @@ describe('Entities', () => {
     queryMocks.useAllAccountEntities.mockReturnValue({ data: linodeEntities });
     mockOnChange.mockClear();
 
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <EntitiesSelect
         access="entity_access"
         mode="assign-role"

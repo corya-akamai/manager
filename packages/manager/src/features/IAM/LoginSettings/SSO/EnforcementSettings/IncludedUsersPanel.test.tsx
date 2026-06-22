@@ -2,11 +2,11 @@ import { screen } from '@testing-library/react';
 import * as React from 'react';
 
 import { SSO_INCLUDED_USERS_DOCS_LINK } from 'src/features/IAM/Shared/constants';
+
 import {
   mockMatchMedia,
-  renderWithThemeAndHookFormContext,
-} from 'src/utilities/testHelpers';
-
+  renderWithProvidersAndHookFormContext,
+} from '../../../utilities/testHelpers';
 import { IncludedUsersPanel } from './IncludedUsersPanel';
 
 import type { EnforcementSettingsFormValues } from './EnforcementSettings';
@@ -44,7 +44,7 @@ const renderComponent = (
   values: Partial<EnforcementSettingsFormValues> = {},
   includedUsers?: string[]
 ) =>
-  renderWithThemeAndHookFormContext<EnforcementSettingsFormValues>({
+  renderWithProvidersAndHookFormContext<EnforcementSettingsFormValues>({
     component: <IncludedUsersPanel includedUsers={includedUsers} />,
     useFormOptions: { defaultValues: { ...defaultValues, ...values } },
   });

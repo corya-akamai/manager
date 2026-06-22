@@ -2,10 +2,9 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { renderWithTheme } from 'src/utilities/testHelpers';
-
 import { createProfile } from '../../factories';
 import { openActionMenu } from '../../utilities/testHelpers';
+import { renderWithProviders } from '../../utilities/testHelpers';
 import { UsersActionMenu } from './UsersActionMenu';
 
 const navigate = vi.fn();
@@ -39,7 +38,7 @@ describe('UsersActionMenu', () => {
       data: createProfile({ username: 'current_user' }),
     });
 
-    renderWithTheme(
+    renderWithProviders(
       <UsersActionMenu
         onDelete={mockOnDelete}
         permissions={{
@@ -97,7 +96,7 @@ describe('UsersActionMenu', () => {
       data: createProfile({ username: 'current_user' }),
     });
 
-    renderWithTheme(
+    renderWithProviders(
       <UsersActionMenu
         onDelete={mockOnDelete}
         permissions={{

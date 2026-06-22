@@ -2,8 +2,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import { renderWithTheme } from 'src/utilities/testHelpers';
-
+import { renderWithProviders } from '../../utilities/testHelpers';
 import { CopyTooltip } from './CopyTooltip';
 
 import type { CopyTooltipProps } from './CopyTooltip';
@@ -17,7 +16,7 @@ const defaultProps: CopyTooltipProps = {
 
 describe('CopyTooltip', () => {
   it('renders a copy button with the correct aria-label', () => {
-    renderWithTheme(<CopyTooltip {...defaultProps} />);
+    renderWithProviders(<CopyTooltip {...defaultProps} />);
 
     expect(
       screen.getByLabelText(`Copy ${mockText} to clipboard`)
@@ -26,7 +25,7 @@ describe('CopyTooltip', () => {
 
   it('calls onClickCallback when clicked', async () => {
     const onClickCallback = vi.fn();
-    renderWithTheme(
+    renderWithProviders(
       <CopyTooltip {...defaultProps} onClickCallback={onClickCallback} />
     );
 
@@ -38,7 +37,7 @@ describe('CopyTooltip', () => {
   });
 
   it('renders a disabled button when disabled without a reason', () => {
-    renderWithTheme(<CopyTooltip {...defaultProps} disabled />);
+    renderWithProviders(<CopyTooltip {...defaultProps} disabled />);
 
     expect(
       screen.getByLabelText(`Copy ${mockText} to clipboard`)
@@ -47,7 +46,7 @@ describe('CopyTooltip', () => {
 
   it('does not call onClickCallback when disabled with a reason', async () => {
     const onClickCallback = vi.fn();
-    renderWithTheme(
+    renderWithProviders(
       <CopyTooltip
         {...defaultProps}
         disabled
@@ -64,7 +63,7 @@ describe('CopyTooltip', () => {
   });
 
   it('does not disable the button element when disabledReason is provided', () => {
-    renderWithTheme(
+    renderWithProviders(
       <CopyTooltip
         {...defaultProps}
         disabled

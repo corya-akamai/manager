@@ -2,9 +2,8 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import { getSwitchControl } from 'src/features/IAM/utilities/testHelpers';
-import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';
-
+import { getSwitchControl } from '../../../utilities/testHelpers';
+import { renderWithProvidersAndHookFormContext } from '../../../utilities/testHelpers';
 import { ActivationStatus } from './ActivationStatus';
 
 import type { EnforcementSettingsFormValues } from './EnforcementSettings';
@@ -21,7 +20,7 @@ const renderComponent = (
   values: Partial<EnforcementSettingsFormValues> = {},
   isConfigInvalid = false
 ) =>
-  renderWithThemeAndHookFormContext<EnforcementSettingsFormValues>({
+  renderWithProvidersAndHookFormContext<EnforcementSettingsFormValues>({
     component: <ActivationStatus isConfigInvalid={isConfigInvalid} />,
     useFormOptions: { defaultValues: { ...defaultValues, ...values } },
   });

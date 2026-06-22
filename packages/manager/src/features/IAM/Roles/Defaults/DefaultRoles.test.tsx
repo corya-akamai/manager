@@ -1,8 +1,6 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
 import { createAccountRoles } from '../../factories';
 import {
   ERROR_STATE_TEXT,
@@ -12,6 +10,10 @@ import {
 import {
   expectNotificationBannerText,
   getCdsButtonByText,
+} from '../../utilities/testHelpers';
+import {
+  mockMatchMedia,
+  renderWithProviders,
 } from '../../utilities/testHelpers';
 import { DefaultRoles } from './DefaultRoles';
 
@@ -99,7 +101,7 @@ describe('DefaultRoles', () => {
       data: createAccountRoles(),
       isLoading: false,
     });
-    renderWithTheme(<DefaultRoles />);
+    renderWithProviders(<DefaultRoles />);
 
     expect(screen.getByText('Default Roles for Delegate Users')).toBeVisible();
     expect(screen.getByText('Role')).toBeVisible();
@@ -113,7 +115,7 @@ describe('DefaultRoles', () => {
       isLoading: false,
     });
 
-    const { container } = renderWithTheme(<DefaultRoles />);
+    const { container } = renderWithProviders(<DefaultRoles />);
 
     expect(screen.getByText(NO_ASSIGNED_DEFAULT_ROLES_TEXT)).toBeVisible();
     expect(
@@ -129,7 +131,7 @@ describe('DefaultRoles', () => {
       status: 'error',
     });
 
-    renderWithTheme(<DefaultRoles />);
+    renderWithProviders(<DefaultRoles />);
     expect(screen.getByText(ERROR_STATE_TITLE)).toBeVisible();
     expect(screen.getByText(ERROR_STATE_TEXT)).toBeVisible();
   });
@@ -142,7 +144,7 @@ describe('DefaultRoles', () => {
       isLoading: false,
     });
 
-    renderWithTheme(<DefaultRoles />);
+    renderWithProviders(<DefaultRoles />);
 
     return expectNotificationBannerText(
       'You do not have permission to view default roles for delegate users.'

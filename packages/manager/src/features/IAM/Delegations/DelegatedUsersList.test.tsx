@@ -2,8 +2,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { renderWithTheme } from 'src/utilities/testHelpers';
-
+import { renderWithProviders } from '../utilities/testHelpers';
 import { DelegatedUsersList } from './DelegatedUsersList';
 
 const getVisibleEllipsis = (container: HTMLElement) =>
@@ -16,7 +15,7 @@ vi.mock('src/OAuth/oauthClient', () => ({
 
 describe('DelegatedUsersList', () => {
   it('renders comma-separated usernames when all fit', () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <DelegatedUsersList
         onViewAll={vi.fn()}
         users={['user-a', 'user-b', 'user-c']}
@@ -32,7 +31,7 @@ describe('DelegatedUsersList', () => {
   it('shows the overflow pill and ellipsis when totalCount exceeds the render cap', () => {
     const users = Array.from({ length: 30 }, (_, index) => `user-${index + 1}`);
 
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <DelegatedUsersList onViewAll={vi.fn()} users={users} />
     );
 
@@ -44,7 +43,9 @@ describe('DelegatedUsersList', () => {
     const onViewAll = vi.fn();
     const users = Array.from({ length: 30 }, (_, index) => `user-${index + 1}`);
 
-    renderWithTheme(<DelegatedUsersList onViewAll={onViewAll} users={users} />);
+    renderWithProviders(
+      <DelegatedUsersList onViewAll={onViewAll} users={users} />
+    );
 
     await userEvent.click(screen.getByText('+5'));
 
@@ -72,7 +73,7 @@ describe('DelegatedUsersList', () => {
       get: () => 40,
     });
 
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <DelegatedUsersList onViewAll={vi.fn()} users={users} />
     );
 

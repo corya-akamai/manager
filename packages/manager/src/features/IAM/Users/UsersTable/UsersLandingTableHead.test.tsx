@@ -1,13 +1,12 @@
 import { waitFor } from '@testing-library/react';
 import React from 'react';
 
+import { createProfile } from '../../factories';
 import {
   mockMatchMedia,
-  renderWithTheme,
+  renderWithProviders,
   wrapWithTableBody,
-} from 'src/utilities/testHelpers';
-
-import { createProfile } from '../../factories';
+} from '../../utilities/testHelpers';
 import { UsersLandingTableHead } from './UsersLandingTableHead';
 
 import type { SortOrder } from './UsersLandingTableHead';
@@ -42,7 +41,7 @@ describe('UsersLandingTableHead', () => {
       data: createProfile({ user_type: 'child' }),
     });
 
-    const { getByText } = renderWithTheme(
+    const { getByText } = renderWithProviders(
       wrapWithTableBody(<UsersLandingTableHead {...defaultProps} />)
     );
 
@@ -59,7 +58,7 @@ describe('UsersLandingTableHead', () => {
       data: createProfile({ user_type: 'default' }),
     });
 
-    const { getByText, queryByText } = renderWithTheme(
+    const { getByText, queryByText } = renderWithProviders(
       wrapWithTableBody(<UsersLandingTableHead {...defaultProps} />)
     );
 

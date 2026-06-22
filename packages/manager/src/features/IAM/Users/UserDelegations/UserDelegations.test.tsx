@@ -1,11 +1,13 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
 import { createAccountRoles, createChildAccountList } from '../../factories';
 import { NO_ACCOUNT_DELEGATIONS_TEXT } from '../../Shared/constants';
 import { expectNotificationBannerText } from '../../utilities/testHelpers';
+import {
+  mockMatchMedia,
+  renderWithProviders,
+} from '../../utilities/testHelpers';
 import { UserDelegations } from './UserDelegations';
 
 const queryMocks = vi.hoisted(() => ({
@@ -71,7 +73,7 @@ describe('UserDelegations', () => {
       isLoading: false,
     });
 
-    renderWithTheme(<UserDelegations />, {
+    renderWithProviders(<UserDelegations />, {
       flags: {
         iam: { enabled: true },
       },
@@ -87,7 +89,7 @@ describe('UserDelegations', () => {
       isLoading: false,
     });
 
-    renderWithTheme(<UserDelegations />, {
+    renderWithProviders(<UserDelegations />, {
       flags: {
         iam: { enabled: true },
       },
@@ -103,7 +105,7 @@ describe('UserDelegations', () => {
       },
     });
 
-    renderWithTheme(<UserDelegations />, {
+    renderWithProviders(<UserDelegations />, {
       flags: {
         iam: { enabled: true },
       },

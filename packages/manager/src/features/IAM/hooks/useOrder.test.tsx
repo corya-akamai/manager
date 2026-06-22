@@ -2,8 +2,8 @@ import { queryClientFactory } from '@linode/queries';
 import { act, renderHook, waitFor } from '@testing-library/react';
 
 import { http, HttpResponse, server } from 'src/mocks/testServer';
-import { wrapWithTheme } from 'src/utilities/testHelpers';
 
+import { wrapWithProviders } from '../utilities/testHelpers';
 import { useOrder } from './useOrder';
 
 import type { UseOrderProps } from './useOrder';
@@ -47,7 +47,7 @@ describe('useOrderV2', () => {
     const { result } = renderHook(
       () => useOrder({ ...defaultProps, prefix: 'test' }),
       {
-        wrapper: (ui) => wrapWithTheme(ui.children, { queryClient }),
+        wrapper: (ui) => wrapWithProviders(ui.children, { queryClient }),
       }
     );
 
@@ -76,7 +76,7 @@ describe('useOrderV2', () => {
     );
 
     const { result } = renderHook(() => useOrder(defaultProps), {
-      wrapper: (ui) => wrapWithTheme(ui.children, { queryClient }),
+      wrapper: (ui) => wrapWithProviders(ui.children, { queryClient }),
     });
 
     await waitFor(() => {
@@ -97,7 +97,7 @@ describe('useOrderV2', () => {
     );
 
     const { result } = renderHook(() => useOrder(defaultProps), {
-      wrapper: (ui) => wrapWithTheme(ui.children, { queryClient }),
+      wrapper: (ui) => wrapWithProviders(ui.children, { queryClient }),
     });
 
     await waitFor(() => {
@@ -125,7 +125,7 @@ describe('useOrderV2', () => {
     mockUseSearch.mockReturnValue({});
 
     const { result } = renderHook(() => useOrder(defaultProps), {
-      wrapper: (ui) => wrapWithTheme(ui.children, { queryClient }),
+      wrapper: (ui) => wrapWithProviders(ui.children, { queryClient }),
     });
 
     act(() => {

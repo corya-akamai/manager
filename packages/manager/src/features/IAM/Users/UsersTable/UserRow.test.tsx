@@ -1,13 +1,12 @@
 import { waitFor } from '@testing-library/react';
 import React from 'react';
 
+import { createProfile, createUser } from '../../factories';
 import {
   mockMatchMedia,
-  renderWithTheme,
+  renderWithProviders,
   wrapWithTableBody,
-} from 'src/utilities/testHelpers';
-
-import { createProfile, createUser } from '../../factories';
+} from '../../utilities/testHelpers';
 import { UserRow } from './UserRow';
 
 // Because the table row hides certain columns on small viewport sizes,
@@ -30,7 +29,7 @@ describe('UserRow', () => {
   it('renders a username and email', async () => {
     const user = createUser();
 
-    const { getByText } = renderWithTheme(
+    const { getByText } = renderWithProviders(
       wrapWithTableBody(<UserRow onDelete={vi.fn()} user={user} />)
     );
 
@@ -47,7 +46,7 @@ describe('UserRow', () => {
       data: createProfile({ user_type: 'child' }),
     });
 
-    const { getByText } = renderWithTheme(
+    const { getByText } = renderWithProviders(
       wrapWithTableBody(<UserRow onDelete={vi.fn()} user={user} />)
     );
 
@@ -69,7 +68,7 @@ describe('UserRow', () => {
       data: createProfile({ user_type: 'child' }),
     });
 
-    const { getAllByText, getByText, queryByText } = renderWithTheme(
+    const { getAllByText, getByText, queryByText } = renderWithProviders(
       wrapWithTableBody(<UserRow onDelete={vi.fn()} user={delegateUser} />)
     );
 
@@ -83,7 +82,7 @@ describe('UserRow', () => {
   it('renders "Never" if last_login is null', async () => {
     const user = createUser({ last_login: null });
 
-    const { getByText } = renderWithTheme(
+    const { getByText } = renderWithProviders(
       wrapWithTableBody(<UserRow onDelete={vi.fn()} user={user} />)
     );
 
@@ -103,7 +102,7 @@ describe('UserRow', () => {
       },
     });
 
-    const { findByText } = renderWithTheme(
+    const { findByText } = renderWithProviders(
       wrapWithTableBody(<UserRow onDelete={vi.fn()} user={user} />)
     );
 
@@ -125,7 +124,7 @@ describe('UserRow', () => {
       },
     });
 
-    const { findByText, getByText } = renderWithTheme(
+    const { findByText, getByText } = renderWithProviders(
       wrapWithTableBody(<UserRow onDelete={vi.fn()} user={user} />)
     );
 

@@ -1,9 +1,11 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { getCdsButtonHostByText } from 'src/features/IAM/utilities/testHelpers';
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
+import { getCdsButtonHostByText } from '../../utilities/testHelpers';
+import {
+  mockMatchMedia,
+  renderWithProviders,
+} from '../../utilities/testHelpers';
 import {
   NO_ASSIGNED_ENTITIES_TEXT,
   NO_ASSIGNED_ROLES_TEXT,
@@ -30,7 +32,7 @@ describe('NoAssignedRoles', () => {
   });
 
   it('renders with correct text for the Assigned Roles tab', async () => {
-    const { container } = renderWithTheme(
+    const { container } = renderWithProviders(
       <NoAssignedRoles
         hasAssignNewRoleDrawer={true}
         text={NO_ASSIGNED_ROLES_TEXT}
@@ -42,7 +44,7 @@ describe('NoAssignedRoles', () => {
   });
 
   it('renders with correct text for the Assigned Entities tab', async () => {
-    renderWithTheme(
+    renderWithProviders(
       <NoAssignedRoles
         hasAssignNewRoleDrawer={false}
         text={NO_ASSIGNED_ENTITIES_TEXT}

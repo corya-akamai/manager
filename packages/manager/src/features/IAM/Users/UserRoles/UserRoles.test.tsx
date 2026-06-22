@@ -2,8 +2,6 @@ import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { renderWithTheme } from 'src/utilities/testHelpers';
-
 import {
   createAccountEntity,
   createAccountRoles,
@@ -15,6 +13,7 @@ import {
   NO_ASSIGNED_ROLES_TEXT,
 } from '../../Shared/constants';
 import { getCdsButtonHostByText } from '../../utilities/testHelpers';
+import { renderWithProviders } from '../../utilities/testHelpers';
 import { UserRoles } from './UserRoles';
 
 const mockMatchMedia = () => {
@@ -107,7 +106,7 @@ describe('UserRoles', () => {
       }),
     });
 
-    const { container } = renderWithTheme(<UserRoles />);
+    const { container } = renderWithProviders(<UserRoles />);
 
     expect(screen.getByText('This list is empty')).toBeVisible();
     expect(screen.getByText(NO_ASSIGNED_ROLES_TEXT)).toBeVisible();
@@ -130,7 +129,7 @@ describe('UserRoles', () => {
       data: mockEntities,
     });
 
-    renderWithTheme(<UserRoles />);
+    renderWithProviders(<UserRoles />);
 
     expect(
       screen.getByText('View and manage roles assigned to the user.')
@@ -163,7 +162,7 @@ describe('UserRoles', () => {
       data: mockEntities,
     });
 
-    renderWithTheme(<UserRoles />);
+    renderWithProviders(<UserRoles />);
 
     expect(screen.getByText('firewall_admin')).toBeVisible();
   });
@@ -190,7 +189,7 @@ describe('UserRoles', () => {
       data: mockEntities,
     });
 
-    renderWithTheme(<UserRoles />);
+    renderWithProviders(<UserRoles />);
 
     expect(screen.getByText('account_admin')).toBeVisible();
     expect(screen.queryByText('firewall_admin')).not.toBeInTheDocument();
@@ -208,7 +207,7 @@ describe('UserRoles', () => {
       data: mockEntities,
     });
 
-    renderWithTheme(<UserRoles />);
+    renderWithProviders(<UserRoles />);
 
     expect(screen.getByText('account_linode_admin')).toBeVisible();
     expect(screen.getAllByText('All Linodes')[0]).toBeVisible();
@@ -231,7 +230,7 @@ describe('UserRoles', () => {
       status: 'error',
     });
 
-    renderWithTheme(<UserRoles />);
+    renderWithProviders(<UserRoles />);
     expect(screen.getByText(ERROR_STATE_TITLE)).toBeVisible();
     expect(screen.getByText(ERROR_STATE_TEXT)).toBeVisible();
   });

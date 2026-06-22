@@ -2,10 +2,12 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
 import { createAccountEntity } from '../../factories';
 import { submitCdsDrawerForm } from '../../utilities/testHelpers';
+import {
+  mockMatchMedia,
+  renderWithProviders,
+} from '../../utilities/testHelpers';
 import { UpdateEntitiesDrawer } from './UpdateEntitiesDrawer';
 
 import type { ExtendedRoleView } from '../types';
@@ -93,7 +95,7 @@ describe('UpdateEntitiesDrawer', () => {
   });
 
   it('should render correctly', async () => {
-    renderWithTheme(<UpdateEntitiesDrawer {...props} />);
+    renderWithProviders(<UpdateEntitiesDrawer {...props} />);
 
     // Verify the title renders
     expect(screen.getByText('Update Entities')).toBeVisible();
@@ -112,7 +114,7 @@ describe('UpdateEntitiesDrawer', () => {
       data: mockEntities,
       isLoading: false,
     });
-    renderWithTheme(<UpdateEntitiesDrawer {...props} />);
+    renderWithProviders(<UpdateEntitiesDrawer {...props} />);
 
     // Verify the prefilled entities
     expect(screen.getByText('Linode 1')).toBeVisible();
@@ -135,7 +137,7 @@ describe('UpdateEntitiesDrawer', () => {
       },
     });
 
-    renderWithTheme(<UpdateEntitiesDrawer {...props} />);
+    renderWithProviders(<UpdateEntitiesDrawer {...props} />);
 
     // Linode 1 is initially selected (from role.entity_ids)
     expect(screen.getByText('Linode 1')).toBeVisible();
@@ -171,7 +173,7 @@ describe('UpdateEntitiesDrawer', () => {
   });
 
   it('should close the drawer when cancel is clicked', async () => {
-    renderWithTheme(<UpdateEntitiesDrawer {...props} />);
+    renderWithProviders(<UpdateEntitiesDrawer {...props} />);
 
     // Click the cancel button
     const cancelButton = screen.getByTestId('cancel');

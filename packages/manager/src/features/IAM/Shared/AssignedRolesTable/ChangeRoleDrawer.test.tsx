@@ -2,16 +2,15 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import {
-  getShadowRootElement,
-  mockMatchMedia,
-  renderWithTheme,
-} from 'src/utilities/testHelpers';
-
 import { createAccountEntity, createAccountRoles } from '../../factories';
 import {
   mockScrollIntoView,
   submitCdsDrawerForm,
+} from '../../utilities/testHelpers';
+import {
+  getShadowRootElement,
+  mockMatchMedia,
+  renderWithProviders,
 } from '../../utilities/testHelpers';
 import { ChangeRoleDrawer } from './ChangeRoleDrawer';
 
@@ -100,14 +99,14 @@ describe('ChangeRoleDrawer', () => {
   });
 
   it('should render', async () => {
-    renderWithTheme(<ChangeRoleDrawer {...props} mode="change-role" />);
+    renderWithProviders(<ChangeRoleDrawer {...props} mode="change-role" />);
 
     // Verify title renders
     expect(screen.getByText('Change Role')).toBeVisible();
   });
 
   it('renders the correct text for account_access roles', async () => {
-    renderWithTheme(<ChangeRoleDrawer {...props} mode="change-role" />);
+    renderWithProviders(<ChangeRoleDrawer {...props} mode="change-role" />);
 
     // Check that the correct text is displayed for account_access
     expect(
@@ -116,7 +115,7 @@ describe('ChangeRoleDrawer', () => {
   });
 
   it('renders the correct text for entity_access roles', async () => {
-    renderWithTheme(
+    renderWithProviders(
       <ChangeRoleDrawer
         {...props}
         mode="change-role"
@@ -156,7 +155,7 @@ describe('ChangeRoleDrawer', () => {
       data: createAccountEntity(),
     });
 
-    renderWithTheme(<ChangeRoleDrawer {...props} mode="change-role" />);
+    renderWithProviders(<ChangeRoleDrawer {...props} mode="change-role" />);
 
     const cdsSelect = document.querySelector('cds-select');
     expect(cdsSelect).not.toBeNull();
@@ -218,7 +217,7 @@ describe('ChangeRoleDrawer', () => {
       data: createAccountRoles(),
     });
 
-    renderWithTheme(<ChangeRoleDrawer {...props} mode="change-role" />);
+    renderWithProviders(<ChangeRoleDrawer {...props} mode="change-role" />);
 
     const cdsSelect = document.querySelector('cds-select');
     expect(cdsSelect).not.toBeNull();

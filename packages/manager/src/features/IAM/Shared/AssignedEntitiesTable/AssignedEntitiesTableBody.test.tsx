@@ -6,9 +6,11 @@ vi.mock('src/OAuth/oauthClient', () => ({
 import { screen } from '@testing-library/react';
 import React from 'react';
 
-import { mockMatchMedia, renderWithTheme } from 'src/utilities/testHelpers';
-
 import { createUserRoles } from '../../factories';
+import {
+  mockMatchMedia,
+  renderWithProviders,
+} from '../../utilities/testHelpers';
 import { AssignedEntitiesTableBody } from './AssignedEntitiesTableBody';
 
 import type { EntitiesRole } from '../types';
@@ -27,7 +29,7 @@ const defaultPermissions = {
 
 describe('AssignedEntitiesTableBody', () => {
   it('renders loading state', () => {
-    renderWithTheme(
+    renderWithProviders(
       <table>
         <tbody>
           <AssignedEntitiesTableBody
@@ -50,7 +52,7 @@ describe('AssignedEntitiesTableBody', () => {
   });
 
   it('renders error state', () => {
-    renderWithTheme(
+    renderWithProviders(
       <table>
         <tbody>
           <AssignedEntitiesTableBody
@@ -78,7 +80,7 @@ describe('AssignedEntitiesTableBody', () => {
   });
 
   it('renders empty state', () => {
-    renderWithTheme(
+    renderWithProviders(
       <table>
         <tbody>
           <AssignedEntitiesTableBody
@@ -111,7 +113,7 @@ describe('AssignedEntitiesTableBody', () => {
       role_name: 'firewall_admin',
     };
 
-    renderWithTheme(
+    renderWithProviders(
       <table>
         <tbody>
           <AssignedEntitiesTableBody
