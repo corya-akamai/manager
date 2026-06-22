@@ -398,9 +398,7 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
       window.sessionStorage.setItem('LiveChatDescription', description);
       window.sessionStorage.setItem('EnableLiveChat', 'true');
 
-      window.dispatchEvent(new Event(LIVE_CHAT_ENABLE_EVENT));
-
-      const liveChatOutcome = await new Promise<
+      const liveChatOutcomePromise = new Promise<
         'cancelled' | 'failed' | 'ready' | 'timeout'
       >((resolve) => {
         let settled = false;
@@ -444,6 +442,10 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
           once: true,
         });
       });
+
+      window.dispatchEvent(new Event(LIVE_CHAT_ENABLE_EVENT));
+
+      const liveChatOutcome = await liveChatOutcomePromise;
 
       if (liveChatOutcome === 'cancelled') {
         // User chose to open a ticket instead — no error needed.
@@ -534,7 +536,10 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
           ...accumulator,
           errors: [
             ...accumulator.errors,
-            { error: newError, file: attachment.file.get('name') },
+            {
+              error: newError,
+              file: attachment.file.get('name'),
+            },
           ],
         };
       });
