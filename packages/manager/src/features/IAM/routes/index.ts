@@ -2,12 +2,11 @@ import { accountQueries, profileQueries } from '@linode/queries';
 import { queryOptions } from '@tanstack/react-query';
 import { createRoute, redirect } from '@tanstack/react-router';
 
-import { checkIAMEnabled } from 'src/features/IAM/hooks/useIsIAMEnabled';
-
-import { rootRoute } from '../root';
+import { rootRoute } from '../../../routes/root';
+import { checkIAMEnabled } from '../hooks/useIsIAMEnabled';
 import { IAMRoute } from './IAMRoute';
 
-import type { TableSearchParams } from '../types';
+import type { TableSearchParams } from '../../../routes/types';
 import type { AccessType, EntityType, User } from '@linode/api-v4';
 
 interface IamEntitiesSearchParams extends TableSearchParams {
@@ -46,9 +45,7 @@ const iamTabsRoute = createRoute({
   getParentRoute: () => iamRoute,
   path: '/',
 }).lazy(() =>
-  import('src/features/IAM/iamLandingLazyRoute').then(
-    (m) => m.iamLandingLazyRoute
-  )
+  import('../iamLandingLazyRoute').then((m) => m.iamLandingLazyRoute)
 );
 
 const iamUsersRoute = createRoute({
@@ -69,7 +66,7 @@ const iamUsersRoute = createRoute({
     }
   },
 }).lazy(() =>
-  import('src/features/IAM/Users/UsersTable/usersLandingLazyRoute').then(
+  import('../Users/UsersTable/usersLandingLazyRoute').then(
     (m) => m.usersLandingLazyRoute
   )
 );
@@ -101,9 +98,7 @@ const iamRolesRoute = createRoute({
     }
   },
 }).lazy(() =>
-  import('src/features/IAM/Roles/rolesLandingLazyRoute').then(
-    (m) => m.rolesLandingLazyRoute
-  )
+  import('../Roles/rolesLandingLazyRoute').then((m) => m.rolesLandingLazyRoute)
 );
 
 const iamDefaultsTabsRoute = createRoute({
@@ -123,7 +118,7 @@ const iamDefaultsTabsRoute = createRoute({
     }
   },
 }).lazy(() =>
-  import('src/features/IAM/Roles/Defaults/defaultsLandingLazyRoute').then(
+  import('../Roles/Defaults/defaultsLandingLazyRoute').then(
     (m) => m.defaultsLandingLazyRoute
   )
 );
@@ -133,7 +128,7 @@ const iamDefaultRolesRoute = createRoute({
   path: 'roles',
   validateSearch: (search: IamUserRolesSearchParams) => search,
 }).lazy(() =>
-  import('src/features/IAM/Roles/Defaults/defaultRolesLazyRoute').then(
+  import('../Roles/Defaults/defaultRolesLazyRoute').then(
     (m) => m.defaultRolesLazyRoute
   )
 );
@@ -143,7 +138,7 @@ const iamDefaultEntityAccessRoute = createRoute({
   path: 'entity-access',
   validateSearch: (search: IamEntitiesSearchParams) => search,
 }).lazy(() =>
-  import('src/features/IAM/Roles/Defaults/defaultEntityAccessLazyRoute').then(
+  import('../Roles/Defaults/defaultEntityAccessLazyRoute').then(
     (m) => m.defaultEntityAccessLazyRoute
   )
 );
@@ -186,7 +181,7 @@ const iamDelegationsRoute = createRoute({
     }
   },
 }).lazy(() =>
-  import('src/features/IAM/Delegations/delegationsLandingLazyRoute').then(
+  import('../Delegations/delegationsLandingLazyRoute').then(
     (m) => m.delegationsLandingLazyRoute
   )
 );
@@ -264,7 +259,7 @@ const iamUserNameRoute = createRoute({
     };
   },
 }).lazy(() =>
-  import('src/features/IAM/Users/userDetailsLandingLazyRoute').then(
+  import('../Users/userDetailsLandingLazyRoute').then(
     (m) => m.userDetailsLandingLazyRoute
   )
 );
@@ -280,7 +275,7 @@ const iamUserNameIndexRoute = createRoute({
     });
   },
 }).lazy(() =>
-  import('src/features/IAM/Users/userDetailsLandingLazyRoute').then(
+  import('../Users/userDetailsLandingLazyRoute').then(
     (m) => m.userDetailsLandingLazyRoute
   )
 );
@@ -304,7 +299,7 @@ const iamUserNameDetailsRoute = createRoute({
     }
   },
 }).lazy(() =>
-  import('src/features/IAM/Users/UserDetails/userProfileLazyRoute').then(
+  import('../Users/UserDetails/userProfileLazyRoute').then(
     (m) => m.userProfileLazyRoute
   )
 );
@@ -329,7 +324,7 @@ const iamUserNameRolesRoute = createRoute({
     }
   },
 }).lazy(() =>
-  import('src/features/IAM/Users/UserRoles/userRolesLazyRoute').then(
+  import('../Users/UserRoles/userRolesLazyRoute').then(
     (m) => m.userRolesLazyRoute
   )
 );
@@ -355,7 +350,7 @@ const iamUserNameEntitiesRoute = createRoute({
     }
   },
 }).lazy(() =>
-  import('src/features/IAM/Users/UserEntities/userEntitiesLazyRoute').then(
+  import('../Users/UserEntities/userEntitiesLazyRoute').then(
     (m) => m.userEntitiesLazyRoute
   )
 );
@@ -377,9 +372,9 @@ const iamUserNameDelegationsRoute = createRoute({
     }
   },
 }).lazy(() =>
-  import(
-    'src/features/IAM/Users/UserDelegations/userDelegationsLazyRoute'
-  ).then((m) => m.userDelegationsLazyRoute)
+  import('../Users/UserDelegations/userDelegationsLazyRoute').then(
+    (m) => m.userDelegationsLazyRoute
+  )
 );
 
 // ─── Settings ───────────────────────────────────────────────────────────
@@ -395,7 +390,7 @@ const iamSettingsRoute = createRoute({
     }
   },
 }).lazy(() =>
-  import('src/features/IAM/LoginSettings/loginSettingsLandingLazyRoute').then(
+  import('../LoginSettings/loginSettingsLandingLazyRoute').then(
     (m) => m.loginSettingsLandingLazyRoute
   )
 );
@@ -421,7 +416,7 @@ const iamSsoRoute = createRoute({
     }
   },
 }).lazy(() =>
-  import('src/features/IAM/LoginSettings/SSO/ssoLandingLazyRoute').then(
+  import('../LoginSettings/SSO/ssoLandingLazyRoute').then(
     (m) => m.ssoLandingLazyRoute
   )
 );
@@ -442,7 +437,7 @@ const iamSsoIdpConfigurationsRoute = createRoute({
   path: 'idp-configurations',
 }).lazy(() =>
   import(
-    'src/features/IAM/LoginSettings/SSO/IdpConfigurations/idpConfigurationsLazyRoute'
+    '../LoginSettings/SSO/IdpConfigurations/idpConfigurationsLazyRoute'
   ).then((m) => m.idpConfigurationsLazyRoute)
 );
 
@@ -451,7 +446,7 @@ const iamSsoEnforcementSettingsRoute = createRoute({
   path: 'enforcement-settings',
 }).lazy(() =>
   import(
-    'src/features/IAM/LoginSettings/SSO/EnforcementSettings/enforcementSettingsLazyRoute'
+    '../LoginSettings/SSO/EnforcementSettings/enforcementSettingsLazyRoute'
   ).then((m) => m.enforcementSettingsLazyRoute)
 );
 
