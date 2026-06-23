@@ -1,3 +1,4 @@
+import { Badge } from '@akamai/cds-components/react';
 import { useReservedIPsQuery } from '@linode/queries';
 import {
   Autocomplete,
@@ -76,6 +77,10 @@ export interface IPAddressSelectionProps {
    */
   selectedIP?: IPAddress | null;
   /**
+   * Whether to show a "New" badge next to the label
+   */
+  showNewBadge?: boolean;
+  /**
    * Custom tooltip text for auto and reserved options
    */
   tooltipText?: {
@@ -101,6 +106,7 @@ export const IPAddressSelection = ({
   pendoIds,
   regionId,
   selectedIP = null,
+  showNewBadge = false,
   tooltipText = {
     auto: "A public IPv4 address automatically assigned to your Linode. \
       Use this for standard web traffic that doesn't require a permanent, static IP. \
@@ -140,7 +146,7 @@ export const IPAddressSelection = ({
     <FormControl>
       <Box alignItems="center" display="flex" flexDirection="row">
         <FormLabel id="ip-address-label" sx={{ fontSize: label.fontSize }}>
-          {label.text}
+          {label.text} {showNewBadge && <Badge type="new">New</Badge>}
         </FormLabel>
       </Box>
       <RadioGroup

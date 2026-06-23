@@ -117,6 +117,7 @@ const options: { flag: keyof Flags; label: string }[] = [
   { flag: 'vpcDbaasResources', label: 'VPC DBaaS Resources' },
   { flag: 'vpcIpv6', label: 'VPC IPv6' },
   { flag: 'reserveIp', label: 'Reserve IP' },
+  { flag: 'reserveIpNewBadge', label: 'Reserve IP New Badge' },
   { flag: 'marketplaceV2GlobalBanner', label: 'Marketplace V2 Global Banner' },
 ];
 

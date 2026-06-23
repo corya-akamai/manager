@@ -3,6 +3,10 @@ import * as React from 'react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 
 import { IPAddressSelection } from 'src/features/ReservedIps/IPAddressSelection/IPAddressSelection';
+import {
+  useIsReserveIpEnabled,
+  useIsReserveIpNewBadgeEnabled,
+} from 'src/features/ReservedIps/utils';
 
 import type { LinodeCreateFormValues } from '../utilities';
 import type { IPAddress } from '@linode/api-v4';
@@ -19,6 +23,9 @@ interface Props {
 
 export const LinodeIPAddressSelection = ({ index }: Props) => {
   const { control } = useFormContext<LinodeCreateFormValues>();
+
+  const { isReserveIpEnabled } = useIsReserveIpEnabled();
+  const { isReserveIpNewBadgeEnabled } = useIsReserveIpNewBadgeEnabled();
 
   const regionId = useWatch({ control, name: 'region' });
 
@@ -97,6 +104,7 @@ export const LinodeIPAddressSelection = ({ index }: Props) => {
           }}
           regionId={regionId ?? ''}
           selectedIP={selectedIP}
+          showNewBadge={isReserveIpEnabled && isReserveIpNewBadgeEnabled}
         />
       )}
     />

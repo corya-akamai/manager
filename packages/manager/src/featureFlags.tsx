@@ -332,6 +332,7 @@ export interface Flags {
   promotionalOffers: PromotionalOffer[];
   referralBannerText: BannerContent;
   reserveIp: boolean;
+  reserveIpNewBadge: boolean;
   resourceLock: ResourceLockFlag;
   secureVmCopy: SecureVMCopy;
   selfServeBetas: boolean;

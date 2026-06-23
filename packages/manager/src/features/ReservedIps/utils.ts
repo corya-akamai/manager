@@ -16,6 +16,16 @@ export const useIsReserveIpEnabled = () => {
 };
 
 /**
+ *
+ * @returns an object that contains boolean property to check whether Reserved IP New Badge is enabled or not
+ */
+export const useIsReserveIpNewBadgeEnabled = () => {
+  const flags = useFlags();
+
+  return { isReserveIpNewBadgeEnabled: flags.reserveIpNewBadge ?? false };
+};
+
+/**
  * Generates a description for a Reserved IP based on its assigned entity.
  *
  * @param reservedIp - The Reserved IP address object
