@@ -243,7 +243,7 @@ describe('getSummaryStatus', () => {
         included_users_count: 3,
       })
     ).toBe(
-      'SSO is enforced for 3 included users. Other users log in using alternative methods.'
+      'SSO is enforced for 3 users. All remaining users can log in using alternative methods.'
     );
   });
 
@@ -259,7 +259,7 @@ describe('getSummaryStatus', () => {
         true
       )
     ).toBe(
-      'SSO is enabled and enforced for 3 included users. Other users log in using alternative methods.'
+      'SSO is enabled and required for 3 users. All remaining users can log in using alternative methods.'
     );
   });
 
@@ -286,7 +286,7 @@ describe('getSummaryStatus', () => {
         true
       )
     ).toBe(
-      'SSO is enabled and enforced. All users are required to log in with SSO. There are no excluded users (not recommended).'
+      'SSO is enabled and enforced. All users are required to log in with SSO. There are no SSO user exceptions (not recommended).'
     );
   });
 
@@ -299,7 +299,7 @@ describe('getSummaryStatus', () => {
         excluded_users_count: 5,
       })
     ).toBe(
-      'SSO is enforced. All users log in with SSO, except for 5 excluded users.'
+      'SSO is enforced. All users log in with SSO, except for 5 users listed as exceptions.'
     );
   });
 
@@ -315,7 +315,7 @@ describe('getSummaryStatus', () => {
         true
       )
     ).toBe(
-      'SSO is enabled and enforced. All users are required to log in with SSO, except for 5 excluded users.'
+      'SSO is enabled and enforced. All users are required to log in with SSO, except for 5 users listed as exceptions.'
     );
   });
 });

@@ -1,8 +1,6 @@
 import { screen } from '@testing-library/react';
 import * as React from 'react';
 
-import { SSO_INCLUDED_USERS_DOCS_LINK } from 'src/features/IAM/Shared/constants';
-
 import {
   mockMatchMedia,
   renderWithProvidersAndHookFormContext,
@@ -65,23 +63,14 @@ describe('IncludedUsersPanel', () => {
 
   it('renders the section heading', () => {
     renderComponent();
-    expect(screen.getByText('Included users')).toBeVisible();
+    expect(screen.getByText('SSO-Required Users')).toBeVisible();
     expect(
-      screen.getByText(/Before enforcing SSO for all users/i)
+      screen.getByText(/Choose specific users to log in with SSO only/i)
     ).toBeVisible();
-  });
-
-  it('renders the "Learn more" link with the correct href', () => {
-    renderComponent();
-    const link = screen.getByRole('link', { name: /learn more/i });
-    expect(link).toBeVisible();
-    expect(link).toHaveAttribute('href', SSO_INCLUDED_USERS_DOCS_LINK);
   });
 
   it('renders the TagInput element', () => {
     renderComponent();
-    expect(screen.getByText('Included Users')).toBeVisible();
-
     expect(document.querySelector('cds-tag-input')).toBeInTheDocument();
   });
 

@@ -7,7 +7,7 @@ export const CreateIdpConfigSchema = object({
   label: string()
     .required('This field is required.')
     .min(1, 'Label must be at least 1 character.')
-    .max(128, 'Label can have up to 128 characters.')
+    .max(128, 'Max of 128 characters.')
     .test(
       'no-whitespace-only',
       'Label cannot consist of only spaces.',
@@ -15,17 +15,17 @@ export const CreateIdpConfigSchema = object({
     )
     .matches(
       /^[A-Za-z0-9 _.-]+$/,
-      'Label can contain only letters, numbers, spaces, underscores, dashes, and periods.',
+      'A label can contain only letters, numbers, spaces, underscores, dashes and periods.',
     ),
   saml: object({
     entity_id: string()
       .required('This field is required.')
       .min(1, 'Entity ID must be at least 1 character.')
-      .max(255, 'Entity ID can have up to 255 characters.'),
+      .max(255, 'Max of 255 characters.'),
     identity_element: string().required('This field is required.'),
     idp_url: string()
       .required('This field is required.')
-      .max(255, 'IDP URL must be at most 255 characters.')
+      .max(255, 'Max of 255 characters.')
       .test('is-valid-idp-url', function (value) {
         if (!value) {
           return true;
@@ -51,10 +51,13 @@ export const CreateIdpConfigSchema = object({
         object({
           certificate: string()
             .required('This field is required.')
-            .max(4000, 'Certificate must be at most 4000 characters.')
+            .max(
+              4000,
+              'SAML Public Certificate can contain up to 4000 characters.',
+            )
             .test(
               'no-leading-trailing-whitespace',
-              'Certificate cannot start or end with whitespace.',
+              'Unable to parse the certificate. Make sure the input is correct.',
               (value) => !value || value === value.trim(),
             ),
         }),
@@ -83,7 +86,7 @@ export const CreateIdpConfigSchema = object({
         schema
           .required('This field is required.')
           .min(1, 'Attribute Name must be at least 1 character.')
-          .max(255, 'Attribute name can have up to 255 characters.'),
+          .max(255, 'Max of 255 characters.'),
     }),
   }),
 });
@@ -95,7 +98,7 @@ export const UpdateIdpConfigSchema = object({
   label: string()
     .required('This field is required.')
     .min(1, 'Label must be at least 1 character.')
-    .max(128, 'Label can have up to 128 characters.')
+    .max(128, 'Max of 128 characters.')
     .test(
       'no-whitespace-only',
       'Label cannot consist of only spaces.',
@@ -103,13 +106,13 @@ export const UpdateIdpConfigSchema = object({
     )
     .matches(
       /^[A-Za-z0-9 _.-]+$/,
-      'Label can contain only letters, numbers, spaces, underscores, dashes, and periods.',
+      'A label can contain only letters, numbers, spaces, underscores, dashes and periods.',
     ),
   saml: object({
     entity_id: string()
       .required('This field is required.')
       .min(1, 'Entity ID must be at least 1 character.')
-      .max(255, 'Entity ID can have up to 255 characters.'),
+      .max(255, 'Max of 255 characters.'),
     identity_element: string()
       .required('This field is required.')
       .oneOf(
@@ -118,7 +121,7 @@ export const UpdateIdpConfigSchema = object({
       ),
     idp_url: string()
       .required('This field is required.')
-      .max(255, 'IDP URL must be at most 255 characters.')
+      .max(255, 'Max of 255 characters.')
       .test('is-valid-idp-url', function (value) {
         if (!value) {
           return true;
@@ -144,10 +147,13 @@ export const UpdateIdpConfigSchema = object({
         object({
           certificate: string()
             .required('This field is required.')
-            .max(4000, 'Certificate must be at most 4000 characters.')
+            .max(
+              4000,
+              'SAML Public Certificate can contain up to 4000 characters.',
+            )
             .test(
               'no-leading-trailing-whitespace',
-              'Certificate cannot start or end with whitespace.',
+              'Unable to parse the certificate. Make sure the input is correct.',
               (value) => !value || value === value.trim(),
             ),
         }),
@@ -181,17 +187,17 @@ export const UpdateIdpConfigSchema = object({
         schema
           .required('Attribute Name is required.')
           .min(1, 'Attribute Name must be at least 1 character.')
-          .max(255, 'Attribute name can have up to 255 characters.'),
+          .max(255, 'Max of 255 characters.'),
     }),
   }),
 });
 export const AddCertificateSchema = object({
   certificate: string()
     .required('This field is required.')
-    .max(4000, 'Certificate must be at most 4000 characters.')
+    .max(4000, 'SAML Public Certificate can contain up to 4000 characters.')
     .test(
       'no-leading-trailing-whitespace',
-      'Certificate cannot start or end with whitespace.',
+      'Unable to parse the certificate. Make sure the input is correct.',
       (value) => !value || value === value.trim(),
     )
     .test(

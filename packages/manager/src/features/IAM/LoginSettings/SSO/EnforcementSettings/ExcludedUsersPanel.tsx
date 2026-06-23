@@ -2,7 +2,6 @@ import {
   Badge,
   FormError,
   FormField,
-  FormLabel,
   Icon,
   TagInput,
   Tooltip,
@@ -18,12 +17,11 @@ import { useDebouncedValue } from '../../../hooks/useDebouncedValue';
 import { useDelegationRole } from '../../../hooks/useDelegationRole';
 import { usePermissions } from '../../../hooks/usePermissions';
 import { useTagInputCloseHandler } from '../../../hooks/useTagInputCloseHandler';
+import { ERROR_STATE_TITLE } from '../../../Shared/constants';
 import {
-  ERROR_STATE_TITLE,
-  SSO_EXCLUDED_USERS_DOCS_LINK,
-} from '../../../Shared/constants';
-import { Link } from '../../../Shared/Link/Link';
-import { IAM_SSO_ENFORCE_PENDO_IDS } from '../../constants';
+  DUBLICATED_SSO_USER,
+  IAM_SSO_ENFORCE_PENDO_IDS,
+} from '../../constants';
 
 import type { EnforcementSettingsFormValues } from './EnforcementSettings';
 import type { TagInputElement } from '@akamai/cds-components';
@@ -129,7 +127,7 @@ export const ExcludedUsersPanel = ({ excludedUsers }: Props) => {
             font: Typography.Heading.S,
           }}
         >
-          Excluded Users
+          SSO User Exceptions
         </h2>
         <Badge color={isSSOEnabled && isSSOEnforced ? 'green' : 'neutral'}>
           {isSSOEnabled && isSSOEnforced ? 'Active' : 'Inactive'}
@@ -141,16 +139,10 @@ export const ExcludedUsersPanel = ({ excludedUsers }: Props) => {
           marginBottom: Spacing.S12,
         }}
       >
-        Excluded Users bypass the SSO enforcement and continue to log in with a
-        password. Add them to ensure emergency access to your account in case
-        your Identity Provider is unavailable. To improve security, we strongly
-        recommend configuring the two-factor authentication for these users.{' '}
-        <Link
-          pendoId={IAM_SSO_ENFORCE_PENDO_IDS.excludedUsersLearnMore}
-          to={SSO_EXCLUDED_USERS_DOCS_LINK}
-        >
-          Learn more.
-        </Link>
+        Allow these users to log in through alternative methods when SSO is
+        enforced for the whole account. In cases where your identity provider is
+        unavailable, these are your emergency access accounts. As a best
+        practice, configure two-factor authentication for these users.
       </p>
       <Controller
         control={control}
@@ -161,16 +153,6 @@ export const ExcludedUsersPanel = ({ excludedUsers }: Props) => {
             labelPosition="top"
             style={{ padding: Spacing.S0 }}
           >
-            <FormLabel
-              slot="label"
-              style={{
-                textAlign: 'left',
-                padding: Spacing.S0,
-                marginBottom: Spacing.S8,
-              }}
-            >
-              Excluded Users
-            </FormLabel>
             <Tooltip
               disabled={permissions?.update_idp_config_user_excludes}
               style={{ display: 'flex', gap: Spacing.S8 }}
@@ -203,7 +185,9 @@ export const ExcludedUsersPanel = ({ excludedUsers }: Props) => {
                 <Icon icon="info-outline" size="m" />
               )}
             </Tooltip>
-            <FormError slot="error">{fieldState.error?.message}</FormError>
+            <FormError slot="error" style={{ width: isSmUp ? 560 : '100%' }}>
+              {fieldState.error?.message}
+            </FormError>
           </FormField>
         )}
         rules={{
@@ -212,10 +196,7 @@ export const ExcludedUsersPanel = ({ excludedUsers }: Props) => {
             const overlap = value.filter((user) =>
               includedUsers.includes(user)
             );
-            return (
-              overlap.length === 0 ||
-              `Users can't be included and excluded at the same time. Remove the highlighted users from either list.`
-            );
+            return overlap.length === 0 || DUBLICATED_SSO_USER;
           },
         }}
       />

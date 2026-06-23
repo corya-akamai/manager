@@ -2,7 +2,6 @@ import {
   Badge,
   FormError,
   FormField,
-  FormLabel,
   Icon,
   TagInput,
   Tooltip,
@@ -18,12 +17,11 @@ import { useDebouncedValue } from '../../../hooks/useDebouncedValue';
 import { useDelegationRole } from '../../../hooks/useDelegationRole';
 import { usePermissions } from '../../../hooks/usePermissions';
 import { useTagInputCloseHandler } from '../../../hooks/useTagInputCloseHandler';
+import { ERROR_STATE_TITLE } from '../../../Shared/constants';
 import {
-  ERROR_STATE_TITLE,
-  SSO_INCLUDED_USERS_DOCS_LINK,
-} from '../../../Shared/constants';
-import { Link } from '../../../Shared/Link/Link';
-import { IAM_SSO_ENFORCE_PENDO_IDS } from '../../constants';
+  DUBLICATED_SSO_USER,
+  IAM_SSO_ENFORCE_PENDO_IDS,
+} from '../../constants';
 
 import type { EnforcementSettingsFormValues } from './EnforcementSettings';
 import type { TagInputElement } from '@akamai/cds-components';
@@ -130,7 +128,7 @@ export const IncludedUsersPanel = ({ includedUsers }: Props) => {
             font: Typography.Heading.S,
           }}
         >
-          Included users
+          SSO-Required Users
         </h2>
         <Badge color={isSSOEnabled && !isSSOEnforced ? 'green' : 'neutral'}>
           {isSSOEnabled && !isSSOEnforced ? 'Active' : 'Inactive'}
@@ -142,15 +140,12 @@ export const IncludedUsersPanel = ({ includedUsers }: Props) => {
           marginBottom: Spacing.S12,
         }}
       >
-        Before enforcing SSO for all users, enable it for included users only to
-        test the SSO login flow. With SSO enforced globally, this list doesn’t
-        apply.{' '}
-        <Link
-          pendoId={IAM_SSO_ENFORCE_PENDO_IDS.includedUsersLearnMore}
-          to={SSO_INCLUDED_USERS_DOCS_LINK}
-        >
-          Learn more.
-        </Link>
+        Choose specific users to log in with SSO only. This could be to test the
+        SSO-login process or other administrative reasons you may have. This
+        list is active only while SSO is enabled and not enforced for the rest
+        of the account. It has no effect once SSO is enforced globally. Users on
+        the SSO-required list will have SSO enforced with the rest of the
+        account.
       </p>
       <Controller
         control={control}
@@ -161,16 +156,6 @@ export const IncludedUsersPanel = ({ includedUsers }: Props) => {
             labelPosition="top"
             style={{ padding: Spacing.S0 }}
           >
-            <FormLabel
-              slot="label"
-              style={{
-                textAlign: 'left',
-                padding: Spacing.S0,
-                marginBottom: Spacing.S8,
-              }}
-            >
-              Included Users
-            </FormLabel>
             <Tooltip
               disabled={permissions?.update_idp_config_user_includes}
               style={{ display: 'flex', gap: Spacing.S8 }}
@@ -203,7 +188,9 @@ export const IncludedUsersPanel = ({ includedUsers }: Props) => {
                 <Icon icon="info-outline" size="m" />
               )}
             </Tooltip>
-            <FormError slot="error">{fieldState.error?.message}</FormError>
+            <FormError slot="error" style={{ width: isSmUp ? 560 : '100%' }}>
+              {fieldState.error?.message}
+            </FormError>
           </FormField>
         )}
         rules={{
@@ -212,10 +199,7 @@ export const IncludedUsersPanel = ({ includedUsers }: Props) => {
             const overlap = value.filter((user) =>
               excludedUsers.includes(user)
             );
-            return (
-              overlap.length === 0 ||
-              `Users can't be included and excluded at the same time. Remove the highlighted users from either list.`
-            );
+            return overlap.length === 0 || DUBLICATED_SSO_USER;
           },
         }}
       />

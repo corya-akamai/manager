@@ -82,7 +82,7 @@ export const getSummaryStatus = (
 
   // enabled = true and enforce = false and included_users_count > 0
   if (!idpConfig.enforce && idpConfig.included_users_count > 0) {
-    return `${isSummary ? 'SSO is enabled and enforced' : 'SSO is enforced'} for ${idpConfig.included_users_count} included user${idpConfig.included_users_count > 1 ? 's' : ''}. Other users log in using alternative methods.`;
+    return `${isSummary ? 'SSO is enabled and required' : 'SSO is enforced'} for ${idpConfig.included_users_count} user${idpConfig.included_users_count > 1 ? 's' : ''}. All remaining users can log in using alternative methods.`;
   }
 
   // enabled = true and enforce = false and included_users_count = 0
@@ -92,11 +92,11 @@ export const getSummaryStatus = (
 
   // enabled = true and enforce = true and excluded_users_count > 0
   if (idpConfig.excluded_users_count > 0) {
-    return `SSO is ${isSummary ? 'enabled and enforced. All users are required to' : 'enforced. All users'} log in with SSO, except for ${idpConfig.excluded_users_count} excluded user${idpConfig.excluded_users_count > 1 ? 's' : ''}.`;
+    return `SSO is ${isSummary ? 'enabled and enforced. All users are required to' : 'enforced. All users'} log in with SSO, except for ${idpConfig.excluded_users_count} user${idpConfig.excluded_users_count > 1 ? 's' : ''} listed as exceptions.`;
   }
 
   // enabled = true and enforce = true and excluded_users_count = 0
   return isSummary
-    ? 'SSO is enabled and enforced. All users are required to log in with SSO. There are no excluded users (not recommended).'
+    ? 'SSO is enabled and enforced. All users are required to log in with SSO. There are no SSO user exceptions (not recommended).'
     : 'SSO is enforced. All users log in with SSO.';
 };

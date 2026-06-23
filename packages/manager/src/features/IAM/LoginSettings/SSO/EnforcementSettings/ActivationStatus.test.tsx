@@ -28,20 +28,20 @@ const renderComponent = (
 describe('ActivationStatus', () => {
   it('renders the section heading', () => {
     renderComponent();
-    expect(screen.getByText('Activation Status')).toBeVisible();
+    expect(screen.getByText('SSO Enforcement Settings')).toBeVisible();
   });
 
   it('renders both switches', () => {
     renderComponent();
     expect(screen.getByText('Enable SSO')).toBeVisible();
-    expect(screen.getByText('Enforce SSO for all users')).toBeVisible();
+    expect(screen.getByText('Enforce SSO')).toBeVisible();
   });
 
   it('renders descriptive text for each switch', () => {
     renderComponent();
-    expect(screen.getByText(/Activates the IDP configuration/i)).toBeVisible();
+    expect(screen.getByText(/Activates SSO for this account/i)).toBeVisible();
     expect(
-      screen.getByText(/Enforces SSO for all users of the account/i)
+      screen.getByText(/Requires single-sign on for all users except/i)
     ).toBeVisible();
   });
 
@@ -59,7 +59,7 @@ describe('ActivationStatus', () => {
     renderComponent({ ssoEnabled: false });
 
     const enforceHost = screen
-      .getByText('Enforce SSO for all users')
+      .getByText('Enforce SSO')
       .closest('cds-switch') as HTMLElement;
     const enforceControl = await getSwitchControl(enforceHost);
     expect(enforceControl).toBeDisabled();
@@ -69,7 +69,7 @@ describe('ActivationStatus', () => {
     renderComponent({ ssoEnabled: true });
 
     const enforceHost = screen
-      .getByText('Enforce SSO for all users')
+      .getByText('Enforce SSO')
       .closest('cds-switch') as HTMLElement;
     const enforceControl = await getSwitchControl(enforceHost);
     expect(enforceControl).not.toBeDisabled();
@@ -100,7 +100,7 @@ describe('ActivationStatus', () => {
     renderComponent({ ssoEnabled: true, ssoEnforced: true });
 
     const enforceHost = screen
-      .getByText('Enforce SSO for all users')
+      .getByText('Enforce SSO')
       .closest('cds-switch') as HTMLElement;
     const enforceControl = await getSwitchControl(enforceHost);
     expect(enforceControl).toHaveAttribute('aria-checked', 'true');

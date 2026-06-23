@@ -6,7 +6,10 @@ import * as React from 'react';
 
 import { usePermissions } from '../hooks/usePermissions';
 import { CircleProgress } from '../Shared/CircleProgress/CircleProgress';
-import { SSO_ENFORCEMENT_LINK } from '../Shared/constants';
+import {
+  SSO_ENFORCEMENT_LINK,
+  SSO_RECOMMENDATIONS_LINK,
+} from '../Shared/constants';
 import { ErrorState } from '../Shared/ErrorState/ErrorState';
 import { Link } from '../Shared/Link/Link';
 import { Paper } from '../Shared/Paper/Paper';
@@ -82,12 +85,12 @@ export const LoginSettingsLanding = () => {
           font: Typography.Heading.S,
         }}
       >
-        Single Sign-On Enforcement
+        Enforce Single Sign-On
       </h2>
       <p>
-        The single sign-on (SSO) enforcement enables you to configure the SSO
-        login for users of your account, including identity provider (IDP)
-        configuration and excluded users.{' '}
+        Configure your identity provider (IDP), single sign-on (SSO) login
+        requirements for your account, and users you want to exclude from SSO
+        enforcement.{' '}
         <Link
           pendoId={IAM_SETTINGS_PENDO_IDS.learnMore}
           to={SSO_ENFORCEMENT_LINK}
@@ -110,10 +113,10 @@ export const LoginSettingsLanding = () => {
           style={{ marginBottom: Spacing.S16 }}
           type="warning"
         >
-          There are no excluded users. Not recommended.{' '}
+          There are no SSO user exceptions. Not recommended.{' '}
           <Link
             pendoId={IAM_SETTINGS_PENDO_IDS.learnMore}
-            to={SSO_ENFORCEMENT_LINK}
+            to={SSO_RECOMMENDATIONS_LINK}
           >
             Learn more.
           </Link>

@@ -1,8 +1,6 @@
 import { screen } from '@testing-library/react';
 import * as React from 'react';
 
-import { SSO_EXCLUDED_USERS_DOCS_LINK } from 'src/features/IAM/Shared/constants';
-
 import {
   mockMatchMedia,
   renderWithProvidersAndHookFormContext,
@@ -66,19 +64,14 @@ describe('ExcludedUsersPanel', () => {
   it('renders the section heading', () => {
     renderComponent();
     expect(
-      screen.getByRole('heading', { name: 'Excluded Users' })
+      screen.getByRole('heading', { name: 'SSO User Exceptions' })
     ).toBeVisible();
     expect(
-      screen.getByText(/Excluded Users bypass the SSO enforcement/i)
+      screen.getByText(
+        /Allow these users to log in through alternative methods/i
+      )
     ).toBeVisible();
     expect(document.querySelector('cds-tag-input')).toBeInTheDocument();
-  });
-
-  it('renders the "Learn more" link with the correct href', () => {
-    renderComponent();
-    const link = screen.getByRole('link', { name: /learn more/i });
-    expect(link).toBeVisible();
-    expect(link).toHaveAttribute('href', SSO_EXCLUDED_USERS_DOCS_LINK);
   });
 
   it('shows "Inactive" with neutral color when SSO is disabled', () => {

@@ -72,6 +72,9 @@ const mockIdpConfig = {
   },
 };
 
+const ACKNOWLEDGMENT_TEXT =
+  'I understand that my changes will be applied immediately and may affect the way users log in.';
+
 beforeAll(() => mockMatchMedia());
 
 describe('EnforcementSettings', () => {
@@ -164,16 +167,13 @@ describe('EnforcementSettings', () => {
   it('renders the Activation Status section', () => {
     renderWithProviders(<EnforcementSettings />);
 
-    expect(screen.getByText('Activation Status')).toBeVisible();
+    expect(screen.getByText('SSO Enforcement Settings')).toBeVisible();
   });
 
   it('renders the submit button as disabled when the form is not dirty', async () => {
     const { container } = renderWithProviders(<EnforcementSettings />);
 
-    const submitButton = await getCdsButtonByText(
-      container,
-      'Update SSO Enforcement'
-    );
+    const submitButton = await getCdsButtonByText(container, 'Save Changes');
     expect(submitButton).toBeDisabled();
   });
 
@@ -196,11 +196,7 @@ describe('EnforcementSettings', () => {
     const enableControl = await getSwitchControl(enableHost);
     await userEvent.click(enableControl as HTMLButtonElement);
 
-    expect(
-      screen.getByText(
-        /I understand updates apply immediately and will affect how/i
-      )
-    ).toBeVisible();
+    expect(screen.getByText(ACKNOWLEDGMENT_TEXT)).toBeVisible();
   });
 
   it('hides the acknowledgment checkbox when ssoEnabled is toggled back to its initial value', async () => {
@@ -213,19 +209,11 @@ describe('EnforcementSettings', () => {
 
     // Enable SSO — checkbox should appear
     await userEvent.click(enableControl as HTMLButtonElement);
-    expect(
-      screen.getByText(
-        /I understand updates apply immediately and will affect how/i
-      )
-    ).toBeVisible();
+    expect(screen.getByText(ACKNOWLEDGMENT_TEXT)).toBeVisible();
 
     // Disable SSO (back to initial value) — checkbox should disappear
     await userEvent.click(enableControl as HTMLButtonElement);
-    expect(
-      screen.queryByText(
-        /I understand updates apply immediately and will affect how/i
-      )
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText(ACKNOWLEDGMENT_TEXT)).not.toBeInTheDocument();
   });
 
   it('hides the acknowledgment checkbox when ssoEnabled and ssoEnforced are both toggled back to their initial values', async () => {
@@ -240,7 +228,7 @@ describe('EnforcementSettings', () => {
     await userEvent.click(enableControl as HTMLButtonElement);
 
     const enforceHost = screen
-      .getByText('Enforce SSO for all users')
+      .getByText('Enforce SSO')
       .closest('cds-switch') as HTMLElement;
     const enforceControl = await getSwitchControl(enforceHost);
 
@@ -251,9 +239,7 @@ describe('EnforcementSettings', () => {
     await userEvent.click(enableControl as HTMLButtonElement);
 
     // Both fields are back to their initial values — checkbox should not be visible
-    expect(
-      screen.queryByText(/I understand that my changes will be applied/i)
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText(ACKNOWLEDGMENT_TEXT)).not.toBeInTheDocument();
   });
 
   it('enables the submit button when the form is dirty', async () => {
@@ -265,10 +251,7 @@ describe('EnforcementSettings', () => {
     const enableControl = await getSwitchControl(enableHost);
     await userEvent.click(enableControl as HTMLButtonElement);
 
-    const submitButton = await getCdsButtonByText(
-      container,
-      'Update SSO Enforcement'
-    );
+    const submitButton = await getCdsButtonByText(container, 'Save Changes');
     expect(submitButton).toBeEnabled();
   });
 
@@ -325,7 +308,7 @@ describe('EnforcementSettings', () => {
   it('renders the Included Users Panel section', () => {
     renderWithProviders(<EnforcementSettings />);
 
-    expect(screen.getByText('Included users')).toBeVisible();
+    expect(screen.getByText('SSO-Required Users')).toBeVisible();
   });
 
   it('shows the acknowledgment validation error when submitting without checking', async () => {
@@ -337,10 +320,7 @@ describe('EnforcementSettings', () => {
     const enableControl = await getSwitchControl(enableHost);
     await userEvent.click(enableControl as HTMLButtonElement);
 
-    const submitButton = await getCdsButtonByText(
-      container,
-      'Update SSO Enforcement'
-    );
+    const submitButton = await getCdsButtonByText(container, 'Save Changes');
     await userEvent.click(submitButton as HTMLButtonElement);
 
     await waitFor(() => {
@@ -356,7 +336,7 @@ describe('EnforcementSettings', () => {
     renderWithProviders(<EnforcementSettings />);
 
     expect(
-      screen.getByRole('heading', { name: 'Excluded Users' })
+      screen.getByRole('heading', { name: 'SSO User Exceptions' })
     ).toBeVisible();
   });
 
@@ -399,7 +379,7 @@ describe('EnforcementSettings', () => {
       await userEvent.click(enableControl as HTMLButtonElement);
 
       const enforceHost = screen
-        .getByText('Enforce SSO for all users')
+        .getByText('Enforce SSO')
         .closest('cds-switch') as HTMLElement;
       const enforceControl = await getSwitchControl(enforceHost);
       await userEvent.click(enforceControl as HTMLButtonElement);
@@ -408,7 +388,7 @@ describe('EnforcementSettings', () => {
 
       expect(banner).not.toBeNull();
       expect(banner?.textContent).toContain(
-        'SSO is enabled and enforced. All users are required to log in with SSO. There are no excluded users (not recommended).'
+        'SSO is enabled and enforced. All users are required to log in with SSO. There are no SSO user exceptions (not recommended).'
       );
     });
   });

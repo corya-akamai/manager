@@ -116,7 +116,7 @@ export const SSO_REQUIRES_ACTIVE_CERTIFICATE =
   'SSO requires at least one active certificate. Add a new certificate to enable the deletion.';
 
 export const SSO_EXPIRED_ENFORCED =
-  "The certificate expired. SSO-enforced users can't log in until a new certificate is added.";
+  'All certificates have expired. Add a new certificate to allow SSO-enforced users to log in.';
 
 export const SSO_EXPIRING =
   'The certificate is about to expire. Add a new one to ensure continued operation of this SSO federation.';
@@ -134,3 +134,5 @@ export const ADD_CERTIFICATE_PERMISSION_ERROR =
   'You do not have permission to add certificates.';
 
 export const METADATA_HREF = 'https://login.linode.com/saml/sp/metadata';
+
+export const DUBLICATED_SSO_USER = `User's can't be SSO-required and an SSO exception at the same time. Remove any duplicated users from either list.`;

@@ -33,7 +33,7 @@ export const ActivationStatus = ({ isConfigInvalid }: Props) => {
           font: Typography.Heading.S,
         }}
       >
-        Activation Status
+        SSO Enforcement Settings
       </h2>
       <Controller
         control={control}
@@ -83,8 +83,9 @@ export const ActivationStatus = ({ isConfigInvalid }: Props) => {
               : undefined,
         }}
       >
-        Activates the IDP configuration. With the enforcement disabled, only
-        included users are required to log in with SSO.
+        Activates SSO for this account. It only applies to users you explicitly
+        select in SSO-Required Users. All others continue to log in normally
+        until you enforce SSO for everyone.
       </p>
       <Controller
         control={control}
@@ -99,7 +100,7 @@ export const ActivationStatus = ({ isConfigInvalid }: Props) => {
             <span
               style={{ display: 'flex', alignItems: 'center', gap: Spacing.S6 }}
             >
-              Enforce SSO for all users
+              Enforce SSO
               {!isSSOEnabled && (
                 <Tooltip
                   style={{ textAlign: 'left', whiteSpace: 'normal' }}
@@ -123,7 +124,9 @@ export const ActivationStatus = ({ isConfigInvalid }: Props) => {
             : undefined,
         }}
       >
-        Enforces SSO for all users of the account, except excluded users.
+        Requires single-sign on for all users except those listed as SSO
+        exceptions. Anyone listed in SSO-Required Users continues to log in
+        through SSO without additional changes.
       </p>
     </div>
   );

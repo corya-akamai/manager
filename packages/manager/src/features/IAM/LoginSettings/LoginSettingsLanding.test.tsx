@@ -89,7 +89,7 @@ describe('LoginSettingsLanding', () => {
 
     expect(container.querySelector('cds-notification-banner')).toBeVisible();
     expect(
-      screen.queryByRole('heading', { name: 'Single Sign-On Enforcement' })
+      screen.queryByRole('heading', { name: 'Enforce Single Sign-On' })
     ).not.toBeInTheDocument();
   });
 
@@ -122,10 +122,12 @@ describe('LoginSettingsLanding', () => {
     renderWithProviders(<LoginSettingsLanding />);
 
     expect(
-      screen.getByRole('heading', { name: 'Single Sign-On Enforcement' })
+      screen.getByRole('heading', { name: 'Enforce Single Sign-On' })
     ).toBeVisible();
     expect(
-      screen.getByText(/The single sign-on \(SSO\) enforcement enables you/i)
+      screen.getByText(
+        /Configure your identity provider \(IDP\), single sign-on \(SSO\) login requirements for your account, and users you want to exclude from SSO enforcement\./i
+      )
     ).toBeVisible();
   });
 
@@ -206,7 +208,7 @@ describe('LoginSettingsLanding', () => {
     expect(screen.getByLabelText('Status is active')).toBeVisible();
     expect(
       screen.getByText(
-        'SSO is enforced. All users log in with SSO, except for 2 excluded users.'
+        'SSO is enforced. All users log in with SSO, except for 2 users listed as exceptions.'
       )
     ).toBeVisible();
   });

@@ -251,8 +251,8 @@ export const EnforcementSettings = () => {
                   onChange={(e) => field.onChange(e.detail as boolean)}
                   required
                 >
-                  I understand updates apply immediately and will affect how
-                  users log in.
+                  I understand that my changes will be applied immediately and
+                  may affect the way users log in.
                 </Checkbox>
                 {Boolean(fieldState.error?.message) && (
                   <FormError slot="error" style={{ paddingLeft: Spacing.S32 }}>
@@ -287,7 +287,7 @@ export const EnforcementSettings = () => {
               type="submit"
               variant="primary"
             >
-              Update SSO Enforcement
+              Save Changes
               {!permissions?.update_idp_config && (
                 <Icon icon="info-outline" size="s" />
               )}
