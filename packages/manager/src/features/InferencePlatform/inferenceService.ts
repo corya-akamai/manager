@@ -12,8 +12,6 @@
 // TODO: Replace with the real auth mechanism once the API key service is ready.
 const INFERENCE_BASE_URL = import.meta.env.REACT_APP_INFERENCE_BASE_URL;
 const INFERENCE_API_KEY = import.meta.env.REACT_APP_INFERENCE_API_KEY ?? '';
-// TODO: Temporary explicit cap until max_tokens is user-configurable in the UI.
-const DEFAULT_MAX_TOKENS = 8192;
 
 const inferenceHeaders = {
   Authorization: `Bearer ${INFERENCE_API_KEY}`,
@@ -23,6 +21,40 @@ const inferenceHeaders = {
 export interface InferenceChatMessage {
   content: string;
   role: 'assistant' | 'system' | 'user';
+}
+
+/**
+ * Parameters forwarded to the chat completion API.
+ * All fields are optional — omitted fields let the model use its own defaults.
+ */
+export interface ChatCompletionOptions {
+  best_of?: null | number;
+  chat_template_kwargs?: null | { enable_thinking?: boolean };
+  frequency_penalty?: null | number;
+  ignore_eos?: boolean | null;
+  logit_bias?: null | Record<string, number>;
+  logprobs?: null | number;
+  max_tokens?: null | number;
+  min_p?: null | number;
+  min_tokens?: null | number;
+  n?: null | number;
+  presence_penalty?: null | number;
+  prompt_logprobs?: null | number;
+  reasoning_effort?: 'high' | 'low' | 'medium' | null;
+  repetition_penalty?: null | number;
+  seed?: null | number;
+  skip_special_tokens?: boolean | null;
+  spaces_between_special_tokens?: boolean | null;
+  stop?: null | string | string[];
+  stop_token_ids?: null | number[];
+  stream?: boolean;
+  stream_options?: null | { include_usage?: boolean };
+  temperature?: null | number;
+  tool_choice?: null | object | string;
+  tools?: null | object[];
+  top_k?: null | number;
+  top_p?: null | number;
+  user?: null | string;
 }
 
 export interface InferenceModel {
@@ -55,15 +87,14 @@ export const fetchInferenceModels = (): Promise<Response> =>
 export const requestInferenceChatCompletion = (
   messages: InferenceChatMessage[],
   model: string,
-  stream = false,
+  options: ChatCompletionOptions = {},
   signal?: AbortSignal
 ): Promise<Response> =>
   fetch(`${INFERENCE_BASE_URL}/chat/completions`, {
     body: JSON.stringify({
-      max_tokens: DEFAULT_MAX_TOKENS,
+      ...options,
       messages,
       model,
-      stream,
     }),
     headers: inferenceHeaders,
     method: 'POST',

@@ -2,6 +2,7 @@ import { createChatCompletion } from '@linode/api-v4';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import React, {
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -16,16 +17,12 @@ import {
   type Message,
   ModelPlaygroundInputContext,
   ModelPlaygroundModelContext,
+  ModelPlaygroundOptionsContext,
   ModelPlaygroundOutputContext,
 } from './ModelPlaygroundContext';
+import { mapSettingsToApiOptions } from './types';
 import { parseThinking } from './utils';
 
-// Toggle between streaming (SSE) and non-streaming (standard JSON) response mode.
-// TODO: Wire this up to a user-facing control once the UI supports it.
-const USE_STREAMING = true;
-
-// Placeholder model/provider until these are selectable from the Tuning sidebar.
-const MOCK_MODEL = 'gemma-4-31b';
 const MOCK_PROVIDER = 'google';
 
 interface Props {
@@ -45,6 +42,8 @@ export const ModelPlaygroundProvider = ({ children }: Props) => {
     null
   );
   const [selectedModel, setSelectedModel] = useState(modelFromUrl ?? '');
+
+  const { settings } = useContext(ModelPlaygroundOptionsContext);
 
   const onModelChange = useCallback(
     (model: string) => {
@@ -71,11 +70,13 @@ export const ModelPlaygroundProvider = ({ children }: Props) => {
   const isLoadingRef = useRef(isLoading);
   const messagesRef = useRef(messages);
   const selectedModelRef = useRef(selectedModel);
+  const settingsRef = useRef(settings);
 
   inputValueRef.current = inputValue;
   isLoadingRef.current = isLoading;
   messagesRef.current = messages;
   selectedModelRef.current = selectedModel;
+  settingsRef.current = settings;
 
   const applyStreamStart = useCallback((id: string) => {
     setMessages((prev) => [...prev, { content: '', id, role: 'assistant' }]);
@@ -132,39 +133,54 @@ export const ModelPlaygroundProvider = ({ children }: Props) => {
       !isMSWEnabled ||
       !getExtraPresets().includes('inferencePlatform:chat-completions')
     ) {
-      if (USE_STREAMING) {
-        await stream(conversationMessages, selectedModelRef.current, {
-          onChunk: applyStreamChunk,
-          onComplete: applyStreamComplete,
-          onError: applyStreamError,
-          onStart: applyStreamStart,
-        });
+      if (settingsRef.current.stream) {
+        await stream(
+          conversationMessages,
+          selectedModelRef.current,
+          {
+            onChunk: applyStreamChunk,
+            onComplete: applyStreamComplete,
+            onError: applyStreamError,
+            onStart: applyStreamStart,
+          },
+          settingsRef.current
+        );
         return;
       }
 
       // Non-streaming path
+      const assistantId = crypto.randomUUID();
+      applyStreamStart(assistantId);
       try {
+        const apiOptions = mapSettingsToApiOptions(settingsRef.current);
+        const requestMessages = settingsRef.current.systemPrompt
+          ? [
+              {
+                content: settingsRef.current.systemPrompt,
+                role: 'system' as const,
+              },
+              ...conversationMessages,
+            ]
+          : conversationMessages;
         const response = await requestInferenceChatCompletion(
-          conversationMessages,
-          selectedModelRef.current
+          requestMessages,
+          selectedModelRef.current,
+          apiOptions
         );
         const data = await response.json();
         const raw = data.choices?.[0]?.message?.content ?? '';
-        const { content: assistantContent, thinking } = parseThinking(raw);
-        setMessages((prev) => [
-          ...prev,
-          {
-            content: assistantContent,
-            id: crypto.randomUUID(),
-            role: 'assistant',
-            thinking,
-          },
-        ]);
+        const rawReasoning = data.choices?.[0]?.message?.reasoning ?? '';
+        const { content: assistantContent, thinking } = rawReasoning
+          ? { content: raw, thinking: rawReasoning }
+          : parseThinking(raw);
+        applyStreamComplete(assistantId, {
+          content: assistantContent,
+          thinking,
+        });
       } catch {
         // No response if the inference endpoint is unreachable.
         // TODO: Error handling in future Jira case: HELIX-39
-      } finally {
-        setIsLoading(false);
+        applyStreamError(assistantId);
       }
       return;
     }
@@ -173,7 +189,7 @@ export const ModelPlaygroundProvider = ({ children }: Props) => {
     try {
       const response = await createChatCompletion({
         messages: conversationMessages,
-        model: MOCK_MODEL,
+        model: selectedModelRef.current,
         provider: MOCK_PROVIDER,
       });
       const raw = response.choices[0]?.message.content ?? '';

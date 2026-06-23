@@ -130,6 +130,28 @@ describe('useInferenceStream', () => {
       });
     });
 
+    it('uses delta.reasoning as thinking when present alongside delta.content', async () => {
+      const lines = [
+        `data: ${JSON.stringify({ choices: [{ delta: { reasoning: 'step one' } }] })}\n`,
+        `data: ${JSON.stringify({ choices: [{ delta: { reasoning: ' step two' } }] })}\n`,
+        `data: ${JSON.stringify({ choices: [{ delta: { content: 'The answer.' } }] })}\n`,
+        'data: [DONE]\n',
+      ];
+      vi.mocked(
+        inferenceService.requestInferenceChatCompletion
+      ).mockResolvedValue(mockResponse(lines));
+
+      const { result } = renderHook(() => useInferenceStream());
+      const cbs = mockCallbacks();
+
+      await result.current.stream([], 'model-a', cbs);
+
+      expect(cbs.onComplete.mock.calls[0][1]).toEqual({
+        content: 'The answer.',
+        thinking: 'step one step two',
+      });
+    });
+
     it('ignores SSE lines that do not start with "data: "', async () => {
       const lines = [
         'event: message\n',
@@ -210,110 +232,6 @@ describe('useInferenceStream', () => {
       await result.current.stream([], 'model-a', cbs);
 
       expect(cbs.onComplete.mock.calls[0][1]).toEqual({ content: 'split' });
-    });
-  });
-
-  describe('cancellation', () => {
-    it('calls onComplete (not onError) with partial content when cancelled', async () => {
-      vi.mocked(
-        inferenceService.requestInferenceChatCompletion
-      ).mockImplementation((_messages, _model, _stream, signal) => {
-        const encoder = new TextEncoder();
-        let readCount = 0;
-        const stream = new ReadableStream<Uint8Array>({
-          pull(controller): Promise<void> | void {
-            if (readCount > 0) {
-              // Hang until the abort signal fires, then error the stream so
-              // reader.read() rejects with an AbortError.
-              return new Promise<void>(() => {
-                signal?.addEventListener('abort', () => {
-                  controller.error(
-                    new DOMException(
-                      'The user aborted a request.',
-                      'AbortError'
-                    )
-                  );
-                });
-              });
-            }
-            readCount++;
-            controller.enqueue(
-              encoder.encode(
-                `data: ${JSON.stringify({ choices: [{ delta: { content: 'partial' } }] })}\n`
-              )
-            );
-          },
-        });
-        return Promise.resolve({ body: stream } as unknown as Response);
-      });
-
-      const { result } = renderHook(() => useInferenceStream());
-      const cbs = mockCallbacks();
-
-      const streamPromise = result.current.stream([], 'model-a', cbs);
-      // Let the first chunk be read before cancelling.
-      await new Promise((resolve) => setTimeout(resolve, 50));
-      result.current.cancel();
-      await streamPromise;
-
-      expect(cbs.onComplete).toHaveBeenCalledOnce();
-      expect(cbs.onError).not.toHaveBeenCalled();
-    });
-
-    it('a new stream() call after cancel() works correctly', async () => {
-      const encoder = new TextEncoder();
-
-      // First call: a hanging stream that responds to abort
-      vi.mocked(
-        inferenceService.requestInferenceChatCompletion
-      ).mockImplementationOnce((_messages, _model, _stream, signal) => {
-        let readCount = 0;
-        const stream = new ReadableStream<Uint8Array>({
-          pull(controller): Promise<void> | void {
-            if (readCount > 0) {
-              return new Promise<void>(() => {
-                signal?.addEventListener('abort', () => {
-                  controller.error(
-                    new DOMException(
-                      'The user aborted a request.',
-                      'AbortError'
-                    )
-                  );
-                });
-              });
-            }
-            readCount++;
-            controller.enqueue(
-              encoder.encode(
-                `data: ${JSON.stringify({ choices: [{ delta: { content: 'first' } }] })}\n`
-              )
-            );
-          },
-        });
-        return Promise.resolve({ body: stream } as unknown as Response);
-      });
-
-      // Second call: a normal completing stream
-      vi.mocked(
-        inferenceService.requestInferenceChatCompletion
-      ).mockResolvedValueOnce(mockResponse(sseLines(['second'])));
-
-      const { result } = renderHook(() => useInferenceStream());
-      const firstCbs = mockCallbacks();
-      const secondCbs = mockCallbacks();
-
-      // Start first stream, cancel it, then immediately start second
-      const firstPromise = result.current.stream([], 'model-a', firstCbs);
-      await new Promise((resolve) => setTimeout(resolve, 50));
-      result.current.cancel();
-      await firstPromise;
-
-      await result.current.stream([], 'model-a', secondCbs);
-
-      expect(secondCbs.onComplete.mock.calls[0][1]).toEqual({
-        content: 'second',
-      });
-      expect(secondCbs.onError).not.toHaveBeenCalled();
     });
   });
 

@@ -75,7 +75,8 @@ const ReasoningBlock = memo(
     thinking: string;
     wasInterrupted: boolean;
   }) => {
-    const [open, setOpen] = useState(false);
+    // If thinking response is interrupted, reasoning block should render open with no animation
+    const [open, setOpen] = useState(() => wasInterrupted);
     const [constrainHeight, setConstrainHeight] = useState(false);
     const theme = useTheme();
     const scrollRef = useRef<HTMLDivElement>(null);
@@ -88,10 +89,15 @@ const ReasoningBlock = memo(
         setOpen(true);
         return;
       }
+      if (wasInterrupted) {
+        // Remove the height constraint so all interrupted reasoning is visible.
+        setConstrainHeight(false);
+        return;
+      }
       setOpen(false);
       const t = setTimeout(() => setConstrainHeight(false), 300);
       return () => clearTimeout(t);
-    }, [isStreaming]);
+    }, [isStreaming, wasInterrupted]);
 
     // Scroll to bottom of preview as reasoning arrives.
     useEffect(() => {
@@ -142,7 +148,7 @@ const ReasoningBlock = memo(
                   ? `${textBreathe} 1.4s ease-in-out infinite`
                   : 'none',
                 fontFamily: theme.font.bold,
-                fontSize: '0.875rem',
+                fontSize: theme.tokens.font.FontSize.Xs,
               }}
             >
               Reasoning
@@ -174,7 +180,7 @@ const ReasoningBlock = memo(
               borderRadius: '0 0 8px 8px',
               borderTop: 'none',
               color: ICON_AND_SECONDARY_COLOR,
-              fontSize: '0.875rem',
+              fontSize: theme.tokens.font.FontSize.Xs,
               maxHeight: constrainHeight ? 120 : 'none',
               overflowY: constrainHeight ? 'auto' : 'visible',
               px: 1.5,

@@ -2,9 +2,18 @@ import { useCallback, useRef } from 'react';
 import { throttle } from 'throttle-debounce';
 
 import { requestInferenceChatCompletion } from '../inferenceService';
+import {
+  DEFAULT_PLAYGROUND_SETTINGS,
+  mapSettingsToApiOptions,
+} from '../ModelPlayground/types';
 import { parseThinking, parseThinkingLive } from '../ModelPlayground/utils';
 
 import type { InferenceChatMessage } from '../inferenceService';
+import type { PlaygroundSettings } from '../ModelPlayground/types';
+
+// Flush streaming UI updates at a fixed cadence to reduce render pressure
+// from very small, high-frequency token chunks.
+const STREAM_FLUSH_INTERVAL_MS = 50;
 
 export interface StreamCallbacks {
   onChunk: (id: string, parsed: { content: string; thinking?: string }) => void;
@@ -23,9 +32,6 @@ export interface StreamCallbacks {
  * or `onError`.
  */
 export const useInferenceStream = () => {
-  // Flush streaming UI updates at a fixed cadence to reduce render pressure
-  // from very small, high-frequency token chunks.
-  const STREAM_FLUSH_INTERVAL_MS = 50;
   const throttledFlushRef = useRef<null | ReturnType<typeof throttle>>(null);
   // Held in a ref so `cancel` can abort any in-flight request without needing
   // to be recreated when the ref value changes.
@@ -40,13 +46,20 @@ export const useInferenceStream = () => {
     async (
       messages: InferenceChatMessage[],
       model: string,
-      { onChunk, onComplete, onError, onStart }: StreamCallbacks
+      { onChunk, onComplete, onError, onStart }: StreamCallbacks,
+      settings: PlaygroundSettings = DEFAULT_PLAYGROUND_SETTINGS
     ) => {
       const assistantId = crypto.randomUUID();
       let rawContent = '';
+      let rawReasoning = '';
 
       const flush = () => {
-        onChunk(assistantId, parseThinkingLive(rawContent));
+        onChunk(
+          assistantId,
+          rawReasoning
+            ? { content: rawContent, thinking: rawReasoning }
+            : parseThinkingLive(rawContent)
+        );
       };
 
       // Coalesce rapid chunk arrivals to at most one update per 30ms window.
@@ -60,11 +73,16 @@ export const useInferenceStream = () => {
 
       onStart(assistantId);
 
+      const apiOptions = mapSettingsToApiOptions(settings);
+      const allMessages: InferenceChatMessage[] = settings.systemPrompt
+        ? [{ content: settings.systemPrompt, role: 'system' }, ...messages]
+        : messages;
+
       try {
         const response = await requestInferenceChatCompletion(
-          messages,
+          allMessages,
           model,
-          true,
+          apiOptions,
           abortController.signal
         );
 
@@ -108,12 +126,14 @@ export const useInferenceStream = () => {
             try {
               const chunk = JSON.parse(data);
               const delta = chunk.choices?.[0]?.delta?.content ?? '';
+              const reasoning = chunk.choices?.[0]?.delta?.reasoning ?? '';
 
-              if (!delta) {
+              if (!delta && !reasoning) {
                 continue;
               }
 
-              rawContent += delta;
+              if (delta) rawContent += delta;
+              if (reasoning) rawReasoning += reasoning;
               scheduleFlush();
             } catch {
               // ignore malformed SSE chunks
@@ -125,17 +145,22 @@ export const useInferenceStream = () => {
           }
         }
 
-        // Cancel any pending throttled call before the final parse so we don't get a
-        // stale intermediate render after onComplete fires.
-        scheduleFlush.cancel();
-        throttledFlushRef.current = null;
-
-        onComplete(assistantId, parseThinking(rawContent));
+        onComplete(
+          assistantId,
+          rawReasoning
+            ? { content: rawContent, thinking: rawReasoning }
+            : parseThinking(rawContent)
+        );
       } catch (err) {
         if (err instanceof DOMException && err.name === 'AbortError') {
           // User cancelled — treat it as a normal completion so partial content
           // is kept rather than discarded.
-          onComplete(assistantId, parseThinking(rawContent));
+          onComplete(
+            assistantId,
+            rawReasoning
+              ? { content: rawContent, thinking: rawReasoning }
+              : parseThinking(rawContent)
+          );
         } else {
           onError(assistantId);
         }

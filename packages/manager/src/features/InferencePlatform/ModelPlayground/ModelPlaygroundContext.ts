@@ -1,5 +1,9 @@
 import React from 'react';
 
+import { DEFAULT_PLAYGROUND_SETTINGS } from './types';
+
+import type { PlaygroundSettings } from './types';
+
 export interface Message {
   content: string;
   id: string;
@@ -48,4 +52,15 @@ export const ModelPlaygroundOutputContext =
     isLoading: false,
     messages: [],
     streamingMessageId: null,
+  });
+
+export interface ModelPlaygroundOptionsContextValue {
+  onSettingsChange: (patch: Partial<PlaygroundSettings>) => void;
+  settings: PlaygroundSettings;
+}
+
+export const ModelPlaygroundOptionsContext =
+  React.createContext<ModelPlaygroundOptionsContextValue>({
+    onSettingsChange: () => undefined,
+    settings: DEFAULT_PLAYGROUND_SETTINGS,
   });
