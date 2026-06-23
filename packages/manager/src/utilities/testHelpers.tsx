@@ -16,7 +16,7 @@ import * as React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import type { FieldValues, UseFormProps } from 'react-hook-form';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
+import { legacy_configureStore as configureStore } from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import { FeatureFlagProvider, type FlagSet } from 'src/featureFlags';
