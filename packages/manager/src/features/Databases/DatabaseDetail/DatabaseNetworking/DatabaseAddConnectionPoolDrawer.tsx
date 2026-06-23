@@ -117,6 +117,7 @@ export const DatabaseAddConnectionPoolDrawer = (props: Props) => {
                   error={Boolean(fieldState.error)}
                   labelPosition="top"
                   onBlur={field.onBlur}
+                  style={{ maxWidth: '416px' }}
                 >
                   <FormLabel htmlFor="poolLabel" slot="label">
                     Pool Label
@@ -142,7 +143,7 @@ export const DatabaseAddConnectionPoolDrawer = (props: Props) => {
                   error={Boolean(fieldState.error)}
                   labelPosition="top"
                   onBlur={field.onBlur}
-                  style={{ paddingBottom: Spacing.S8 }}
+                  style={{ paddingBottom: Spacing.S8, maxWidth: '416px' }}
                 >
                   <FormLabel htmlFor="databaseName" slot="label">
                     Database Name
@@ -207,7 +208,7 @@ export const DatabaseAddConnectionPoolDrawer = (props: Props) => {
                           ?.value ?? '';
                       field.onChange(raw.length > 0 ? Number(raw) : raw);
                     }}
-                    style={{ width: '178px' }}
+                    style={{ width: '220px' }}
                     value={String(field.value ?? '')}
                   />
                   <FormError slot="error">
@@ -221,22 +222,28 @@ export const DatabaseAddConnectionPoolDrawer = (props: Props) => {
               control={control}
               name="username"
               render={({ field, fieldState }) => (
-                <FormField
-                  error={Boolean(fieldState.error)}
-                  labelPosition="top"
-                  onBlur={field.onBlur}
-                >
-                  <FormLabel htmlFor="username" slot="label">
-                    Username
-                  </FormLabel>
-                  <TextField
-                    {...field}
-                    disabled={field.value === null}
-                    id="username"
-                    onChange={field.onChange}
-                    placeholder={field.value === null ? '' : 'akmadmin'}
-                    value={field.value ?? ''}
-                  />
+                <>
+                  <FormField
+                    error={Boolean(fieldState.error)}
+                    labelPosition="top"
+                    onBlur={field.onBlur}
+                    style={{ paddingBottom: 0, maxWidth: '416px' }}
+                  >
+                    <FormLabel htmlFor="username" slot="label">
+                      Username
+                    </FormLabel>
+                    <TextField
+                      {...field}
+                      disabled={field.value === null}
+                      id="username"
+                      onChange={field.onChange}
+                      placeholder={field.value === null ? '' : 'akmadmin'}
+                      value={field.value ?? ''}
+                    />
+                    <FormError slot="error">
+                      {fieldState.error?.message}
+                    </FormError>
+                  </FormField>
                   <FormControlLabel
                     checked={field.value === null}
                     control={
@@ -259,10 +266,7 @@ export const DatabaseAddConnectionPoolDrawer = (props: Props) => {
                       margin: '8px 0',
                     }}
                   />
-                  <FormError slot="error">
-                    {fieldState.error?.message}
-                  </FormError>
-                </FormField>
+                </>
               )}
             />
           </Stack>

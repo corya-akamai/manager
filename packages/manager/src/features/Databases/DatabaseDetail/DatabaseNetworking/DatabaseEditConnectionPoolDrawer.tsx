@@ -111,6 +111,7 @@ export const DatabaseEditConnectionPoolDrawer = (props: Props) => {
                   error={Boolean(fieldState.error)}
                   labelPosition="top"
                   onBlur={field.onBlur}
+                  style={{ maxWidth: '416px' }}
                 >
                   <FormLabel htmlFor="poolLabel" slot="label">
                     Pool Label
@@ -136,7 +137,7 @@ export const DatabaseEditConnectionPoolDrawer = (props: Props) => {
                   error={Boolean(fieldState.error)}
                   labelPosition="top"
                   onBlur={field.onBlur}
-                  style={{ paddingBottom: Spacing.S8 }}
+                  style={{ paddingBottom: Spacing.S8, maxWidth: '416px' }}
                 >
                   <FormLabel htmlFor="databaseName" slot="label">
                     Database Name
@@ -201,7 +202,7 @@ export const DatabaseEditConnectionPoolDrawer = (props: Props) => {
                           ?.value ?? '';
                       field.onChange(raw.length > 0 ? Number(raw) : raw);
                     }}
-                    style={{ width: '178px' }}
+                    style={{ width: '220px' }}
                     value={String(field.value ?? '')}
                   />
                   <FormError slot="error">
@@ -219,6 +220,7 @@ export const DatabaseEditConnectionPoolDrawer = (props: Props) => {
                     error={Boolean(fieldState.error)}
                     labelPosition="top"
                     onBlur={field.onBlur}
+                    style={{ maxWidth: '416px' }}
                   >
                     <FormLabel htmlFor="username" slot="label">
                       Username
