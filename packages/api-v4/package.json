@@ -42,7 +42,7 @@
   "dependencies": {
     "@akamai/compute-ui-core": "0.0.0-20260615155722",
     "@linode/validation": "workspace:*",
-    "axios": "~1.16.0",
+    "axios": "~1.18.0",
     "ipaddr.js": "^2.0.0",
     "yup": "^1.4.0"
   },
