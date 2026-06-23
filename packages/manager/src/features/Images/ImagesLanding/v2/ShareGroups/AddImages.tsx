@@ -3,6 +3,7 @@ import { Spacing } from '@akamai/cds-tokens';
 import {
   useShareGroupQuery,
   useShareGroupsAddImagesMutation,
+  useShareGroupsImagesQuery,
 } from '@linode/queries';
 import { Box, Button, CircleProgress, ErrorState, Paper } from '@linode/ui';
 import { scrollErrorIntoViewV2 } from '@linode/utilities';
@@ -36,7 +37,6 @@ export const AddImages = () => {
   const { shareGroupId } = useParams({
     from: '/images/share-groups/owned-groups/$shareGroupId/add-images',
   });
-  const { mutateAsync: addImages } = useShareGroupsAddImagesMutation();
 
   const {
     data: shareGroup,
@@ -44,6 +44,17 @@ export const AddImages = () => {
     isLoading,
   } = useShareGroupQuery(shareGroupId, !!shareGroupId);
   const { label } = shareGroup ?? {};
+
+  const { data: images } = useShareGroupsImagesQuery(shareGroupId);
+
+  // Get the source image IDs of the images that are already in the share group.
+  // This is used to filter out images that are already in the share group from the list of images that can be added to the share group.
+  const sourceImageIds =
+    images?.data.map((image) =>
+      String(image.image_sharing?.shared_by?.source_image_id)
+    ) ?? [];
+
+  const { mutateAsync: addImages } = useShareGroupsAddImagesMutation();
 
   const form = useForm<ShareGroupFormPayload>();
   const {
@@ -172,6 +183,7 @@ export const AddImages = () => {
               pendoIDs={IMAGE_SELECT_TABLE_SHARE_GROUP_ADD_IMAGES_PENDO_IDS}
               selectedImages={selectedImages}
               setSelectedImages={setSelectedImages}
+              shareGroupImageIds={sourceImageIds}
               title="Add images to the share group"
             />
           </Paper>

@@ -43,6 +43,7 @@ interface ImageMultiSelectProps {
   setSelectedImages: React.Dispatch<
     React.SetStateAction<ShareGroupFormImage[]>
   >;
+  shareGroupImageIds?: string[];
   title: string;
 }
 
@@ -52,6 +53,7 @@ export const AddImagesPanel = (props: ImageMultiSelectProps) => {
     formControl,
     selectedImages,
     setSelectedImages,
+    shareGroupImageIds,
     title,
     pendoIDs,
   } = props;
@@ -60,6 +62,11 @@ export const AddImagesPanel = (props: ImageMultiSelectProps) => {
     control: formControl,
     name: 'images',
   });
+
+  const existingImageIds = React.useMemo(
+    () => new Set(shareGroupImageIds),
+    [shareGroupImageIds]
+  );
 
   const handleImagesTableSelect = (image: Image) => {
     const { id, label, description } = image;
@@ -94,7 +101,8 @@ export const AddImagesPanel = (props: ImageMultiSelectProps) => {
     return (
       image.status === 'available' &&
       image.is_public === false &&
-      image.created_by !== null
+      image.created_by !== null &&
+      !existingImageIds.has(image.id)
     );
   };
 
