@@ -508,6 +508,7 @@ interface LinodeCreateBanner extends BaseFeatureFlag {
 interface Context {
   anonymous: boolean;
   country: string;
+  isInternalUser: boolean;
   kind: string;
   privateAttributes: string[];
   taxID: string;

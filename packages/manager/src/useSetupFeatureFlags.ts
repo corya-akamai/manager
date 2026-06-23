@@ -21,6 +21,7 @@ export const useSetupFeatureFlags = () => {
 
   const userID = profile?.uid;
   const username = profile?.username;
+  const email = profile?.email;
 
   // Configure user for error reporting once we have the info we need.
   React.useEffect(() => {
@@ -56,11 +57,17 @@ export const useSetupFeatureFlags = () => {
         : account?.tax_id === ''
           ? 'Unknown'
           : account?.tax_id;
+
+      const isInternalUser =
+        typeof email === 'string' &&
+        email.toLowerCase().endsWith('@akamai.com');
+
       if (featureFlagClient && country && username && taxID) {
         featureFlagClient
           .identify({
             anonymous: true,
             country,
+            isInternalUser,
             kind: 'user',
             privateAttributes: ['country', 'taxID'],
             taxID,
@@ -88,7 +95,7 @@ export const useSetupFeatureFlags = () => {
         }
       }
     }
-  }, [username, account, accountError]);
+  }, [username, account, accountError, email]);
 
   return { areFeatureFlagsLoading };
 };
