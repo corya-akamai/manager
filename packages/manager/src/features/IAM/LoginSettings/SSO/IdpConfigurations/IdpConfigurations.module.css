@@ -10,7 +10,7 @@
   gap: var(--global-spacing-s24, 24px);
 }
 
-.sectionHeading {
+h3.sectionHeading {
   margin-top: var(--global-spacing-s24, 24px);
   margin-bottom: var(--global-spacing-s12, 12px);
 }
@@ -24,7 +24,8 @@
 }
 
 .metadataLink{
-  margin-top: var(--token-global-spacing-s16, 16px);
+  margin-top: 0;
+  margin-bottom: var(--token-global-spacing-s24, 24px);
 }
 .detailLabel {
   font-weight: var(--token-global-font-font-weight-bold, bold);

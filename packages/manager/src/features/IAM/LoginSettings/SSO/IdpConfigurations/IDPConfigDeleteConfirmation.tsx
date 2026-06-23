@@ -75,7 +75,7 @@ export const IDPConfigDeleteConfirmation = (props: Props) => {
   return (
     <Modal
       className={styles.removeAssignmentDialog}
-      height={typeToConfirmPreference ? '500px' : '275px'}
+      height={typeToConfirmPreference ? '462px' : '275px'}
       onModalClosed={onClose}
       open={open}
       role="dialog"
@@ -130,7 +130,7 @@ export const IDPConfigDeleteConfirmation = (props: Props) => {
           data-pendo-id={IAM_SSO_IDP_PENDO_IDS.deleteIDPConfigurationCancel}
           onClick={onClose}
           style={{ marginRight: Spacing.S8 }}
-          variant="link"
+          variant="secondary"
         >
           Cancel
         </Button>

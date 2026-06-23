@@ -52,6 +52,7 @@ export const ActivationStatus = ({ isConfigInvalid }: Props) => {
                 setValue('ssoEnforced', false, { shouldDirty: true });
               }
             }}
+            size="small"
           >
             <span
               style={{ display: 'flex', alignItems: 'center', gap: Spacing.S6 }}
@@ -75,7 +76,7 @@ export const ActivationStatus = ({ isConfigInvalid }: Props) => {
         style={{
           marginTop: Spacing.S0,
           marginBottom: Spacing.S12,
-          paddingLeft: 56,
+          paddingLeft: Spacing.S48,
           color:
             !permissions?.update_idp_config ||
             (!isSSOEnabled && isConfigInvalid)
@@ -96,6 +97,7 @@ export const ActivationStatus = ({ isConfigInvalid }: Props) => {
             data-pendo-id={IAM_SSO_ENFORCE_PENDO_IDS.enforceSSO}
             disabled={!permissions?.update_idp_config || !isSSOEnabled}
             onChange={(e) => field.onChange(e.detail)}
+            size="small"
           >
             <span
               style={{ display: 'flex', alignItems: 'center', gap: Spacing.S6 }}
@@ -118,7 +120,7 @@ export const ActivationStatus = ({ isConfigInvalid }: Props) => {
         style={{
           marginTop: Spacing.S0,
           marginBottom: Spacing.S0,
-          paddingLeft: 56,
+          paddingLeft: Spacing.S48,
           color: !isSSOEnabled
             ? 'var(--token-alias-content-text-primary-disabled, light-dark(#a3a3ab, #83838c))'
             : undefined,

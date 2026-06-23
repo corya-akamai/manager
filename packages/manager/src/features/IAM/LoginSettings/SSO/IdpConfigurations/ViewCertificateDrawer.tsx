@@ -1,4 +1,5 @@
 import { Button } from '@akamai/cds-components/react';
+import { Spacing } from '@akamai/cds-tokens';
 import { truncateMiddle } from '@akamai/compute-ui-core/formatting';
 import * as React from 'react';
 
@@ -56,6 +57,11 @@ export const ViewCertificateDrawer = ({ cert, onClose, open }: Props) => {
               status={
                 getCertificateStatus(cert.not_after, cert.not_before).status
               }
+              style={{
+                width: '12px',
+                height: '12px',
+                marginLeft: Spacing.S2,
+              }}
             />
           </p>
           <p className={styles.viewCertFlex}>

@@ -96,7 +96,7 @@ export const AddCertificateDrawer = ({
           />
         )}
 
-        <p style={{ marginBottom: Spacing.S16, marginTop: 0 }}>
+        <p style={{ marginBottom: Spacing.S12, marginTop: 0 }}>
           Enter a SAML certificate for the IDP configuration.
         </p>
 

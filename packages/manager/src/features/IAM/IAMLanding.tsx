@@ -66,7 +66,7 @@ export const IdentityAccessLanding = React.memo(() => {
 
   return (
     <>
-      <LandingHeader spacingBottom={Spacing.S4}>
+      <LandingHeader spacingBottom={Spacing.S4} spacingTop={0}>
         <Breadcrumb>
           <BreadcrumbItem>
             Identity and Access

@@ -31,7 +31,7 @@ export const Paper = ({
   className,
   dataTestId,
   style: styleProp,
-  outlined,
+  outlined = true,
 }: PaperProps) => {
   const spacingStyle = cssVars({
     '--paper-margin-bottom': marginBottom,

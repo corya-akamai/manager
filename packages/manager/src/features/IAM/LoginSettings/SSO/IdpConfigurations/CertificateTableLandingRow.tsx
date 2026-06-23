@@ -5,6 +5,7 @@ import {
   TableRow,
   Tooltip,
 } from '@akamai/cds-components/react';
+import { Spacing } from '@akamai/cds-tokens';
 import { truncateMiddle } from '@akamai/compute-ui-core/formatting';
 import React from 'react';
 
@@ -89,7 +90,11 @@ export const CertificateTableLandingRow = ({
       </TableCell>
       {!isMobileScreen && (
         <TableCell className={styles.expirationCell} hidden={isSmallScreen}>
-          <StatusIcon pulse={false} status={status} />
+          <StatusIcon
+            pulse={false}
+            status={status}
+            style={{ marginRight: 0 }}
+          />
           <DateTimeDisplay displayTime={false} value={cert.not_after} />
         </TableCell>
       )}
@@ -106,7 +111,7 @@ export const CertificateTableLandingRow = ({
             disabled={!permissions?.view_idp_config_certs}
             onClick={() => onViewDetails(cert)}
             style={{
-              paddingRight: 'var(--token-global-spacing-s8, 8px)',
+              paddingRight: Spacing.S8,
             }}
             type="button"
             variant="link"
