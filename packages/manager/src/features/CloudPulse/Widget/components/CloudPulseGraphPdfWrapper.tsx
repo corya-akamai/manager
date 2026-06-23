@@ -32,6 +32,11 @@ export interface CloudPulseGraphPdfProps extends CloudPulseLineGraph {
    */
   hiddenLegendRows?: string[];
   /**
+   * The resources | entities selected
+   */
+  resourceLabels?: string;
+
+  /**
    * The original widget label (without unit) to identify the corresponding SVG for PDF export
    */
   widgetLabel: string;
@@ -67,6 +72,7 @@ export const CloudPulseGraphPdfWrapper = React.memo(
       zoomRange,
       loading,
       areas,
+      resourceLabels,
       hiddenLegendRows,
       ...rest
     } = props;
@@ -134,6 +140,7 @@ export const CloudPulseGraphPdfWrapper = React.memo(
           errorText,
           loading: loading ?? false,
           hiddenLegendRows: hiddenLegendRows ?? [],
+          resourceLabels,
         });
       });
     }, [
@@ -146,6 +153,7 @@ export const CloudPulseGraphPdfWrapper = React.memo(
       widgetLabelWithUnit,
       zoomedLegendRows,
       zoomedData,
+      resourceLabels,
     ]);
 
     return (

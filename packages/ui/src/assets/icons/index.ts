@@ -1,5 +1,3 @@
-export { default as AkamaiLogoSmallIcon } from './akamai-logo-small.svg';
-export { default as AlertColorIcon } from './alert-color.svg';
 export { default as AlertIcon } from './alert.svg';
 export { default as CalendarScheduledIcon } from './calendar-schedule.svg';
 export { default as CalendarIcon } from './calendar.svg';

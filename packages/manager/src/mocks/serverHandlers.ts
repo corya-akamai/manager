@@ -4216,13 +4216,46 @@ export const handlers = [
           label: 'Linode Dashboard',
           service_type: 'linode',
           widgets: [
-            widgetFactory.build({
-              label: 'CPU utilization',
-              metric: 'system_cpu_utilization_percent',
+            {
+              metric: 'vm_cpu_time_total',
               unit: '%',
+              label: 'CPU Usage by Instance',
+              color: 'default',
+              size: 12,
+              chart_type: 'area',
+              y_label: 'vm_cpu_time_total',
               group_by: ['entity_id'],
-              y_label: 'system_cpu_utilization_ratio',
-            }),
+              aggregate_function: 'avg',
+            },
+            {
+              metric: 'vm_local_disk_iops_total',
+              unit: 'IOPS',
+              label: 'Local Disk I/O by Instance',
+              color: 'default',
+              size: 12,
+              chart_type: 'area',
+              y_label: 'vm_local_disk_iops_total',
+              group_by: ['entity_id'],
+              aggregate_function: 'avg',
+            },
+            {
+              metric: 'vm_network_bytes_total',
+              unit: 'Kbps',
+              label: 'Network Traffic In by Instance',
+              color: 'default',
+              size: 12,
+              chart_type: 'area',
+              y_label: 'vm_network_bytes_total',
+              group_by: ['entity_id'],
+              aggregate_function: 'avg',
+              filters: [
+                {
+                  dimension_label: 'pattern',
+                  operator: 'in',
+                  value: 'publicin',
+                },
+              ],
+            },
           ],
         })
       );
@@ -4234,6 +4267,30 @@ export const handlers = [
           id: 3,
           label: 'Nodebalancer Dashboard',
           service_type: 'nodebalancer',
+          widgets: [
+            {
+              metric: 'nb_ingress_traffic_rate',
+              unit: 'Bps',
+              label: 'Ingress Traffic Rate',
+              color: 'default',
+              size: 12,
+              chart_type: 'line',
+              y_label: 'nb_ingress_traffic_rate',
+              group_by: ['entity_id'],
+              aggregate_function: 'sum',
+            },
+            {
+              metric: 'nb_egress_traffic_rate',
+              unit: 'Bps',
+              label: 'Egress Traffic Rate',
+              color: 'default',
+              size: 12,
+              chart_type: 'line',
+              y_label: 'nb_egress_traffic_rate',
+              group_by: ['entity_id'],
+              aggregate_function: 'sum',
+            },
+          ],
         })
       );
     }
@@ -4261,6 +4318,39 @@ export const handlers = [
           id: 6,
           label: 'Object Storage Dashboard',
           service_type: 'objectstorage',
+          widgets: [
+            {
+              metric: 'obj_bucket_size',
+              unit: 'Bytes',
+              label: 'Content Stored',
+              color: 'default',
+              size: 6,
+              chart_type: 'line',
+              y_label: 'obj_bucket_size',
+              aggregate_function: 'sum',
+            },
+            {
+              metric: 'obj_bucket_num_objects',
+              unit: 'Count',
+              label: 'Number Of Objects',
+              color: 'default',
+              size: 6,
+              chart_type: 'line',
+              y_label: 'obj_bucket_num_objects',
+              aggregate_function: 'sum',
+            },
+            {
+              metric: 'obj_responses_num',
+              unit: 'Count',
+              label: 'Total Responses',
+              color: 'default',
+              size: 6,
+              chart_type: 'line',
+              y_label: 'obj_responses_num',
+              group_by: ['response_type'],
+              aggregate_function: 'sum',
+            },
+          ],
         })
       );
       response.data.push(
@@ -4268,6 +4358,39 @@ export const handlers = [
           id: 10,
           label: 'Endpoint Dashboard',
           service_type: 'objectstorage',
+          widgets: [
+            {
+              metric: 'obj_bucket_size',
+              unit: 'Bytes',
+              label: 'Content Stored',
+              color: 'default',
+              size: 6,
+              chart_type: 'line',
+              y_label: 'obj_bucket_size',
+              aggregate_function: 'sum',
+            },
+            {
+              metric: 'obj_bucket_num_objects',
+              unit: 'Count',
+              label: 'Number Of Objects',
+              color: 'default',
+              size: 6,
+              chart_type: 'line',
+              y_label: 'obj_bucket_num_objects',
+              aggregate_function: 'sum',
+            },
+            {
+              metric: 'obj_responses_num',
+              unit: 'Count',
+              label: 'Total Responses',
+              color: 'default',
+              size: 6,
+              chart_type: 'line',
+              y_label: 'obj_responses_num',
+              group_by: ['response_type'],
+              aggregate_function: 'sum',
+            },
+          ],
         })
       );
     }
@@ -4298,6 +4421,55 @@ export const handlers = [
           id: 5,
           service_type: 'netloadbalancer',
           label: 'Network Load Balancer',
+          widgets: [
+            {
+              metric: 'nlb_ingress_traffic',
+              unit: 'Bps',
+              label: 'Ingress Traffic Rate',
+              color: 'default',
+              size: 12,
+              chart_type: 'line',
+              y_label: 'nlb_ingress_traffic',
+              aggregate_function: 'sum',
+              description:
+                'Amount of incoming data processed by the Network Load Balancer.',
+            },
+            {
+              metric: 'nlb_ingress_packets',
+              unit: 'packets/s',
+              label: 'Ingress Packets Rate',
+              color: 'default',
+              size: 12,
+              chart_type: 'line',
+              y_label: 'nlb_ingress_packets',
+              aggregate_function: 'sum',
+              description:
+                'Rate of inbound packets received by the Network Load Balancer.',
+            },
+            {
+              metric: 'nlb_backend_ingress_traffic',
+              unit: 'Bps',
+              label: 'Ingress Traffic Rate Per backend',
+              color: 'default',
+              size: 12,
+              chart_type: 'line',
+              y_label: 'nlb_backend_ingress_traffic',
+              aggregate_function: 'sum',
+              description:
+                'Rate of incoming data processed by the Network Load Balancer per backend node.',
+            },
+            {
+              metric: 'nlb_backend_ingress_packets',
+              unit: 'packets/s',
+              label: 'Ingress Packets Rate Per backend',
+              color: 'default',
+              size: 12,
+              chart_type: 'line',
+              y_label: 'nlb_backend_ingress_packets',
+              aggregate_function: 'sum',
+              description: '',
+            },
+          ],
         })
       );
     }
@@ -4308,6 +4480,38 @@ export const handlers = [
           id: 11,
           service_type: 'logs',
           label: 'Log Delivery Status',
+          widgets: [
+            {
+              metric: 'success_upload_count',
+              unit: 'Count',
+              label: 'Success Upload',
+              color: 'default',
+              size: 6,
+              chart_type: 'area',
+              y_label: 'success_upload_count',
+              aggregate_function: 'sum',
+            },
+            {
+              metric: 'error_upload_count',
+              unit: 'Count',
+              label: 'Error Upload',
+              color: 'default',
+              size: 6,
+              chart_type: 'area',
+              y_label: 'error_upload_count',
+              aggregate_function: 'sum',
+            },
+            {
+              metric: 'error_upload_rate',
+              unit: '%',
+              label: 'Error Rate',
+              color: 'default',
+              size: 12,
+              chart_type: 'area',
+              y_label: 'error_upload_rate',
+              aggregate_function: 'avg',
+            },
+          ],
         })
       );
     }

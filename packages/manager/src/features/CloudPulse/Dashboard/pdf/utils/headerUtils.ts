@@ -3,6 +3,8 @@
  * Handles rendering of PDF page headers, including logo, dashboard info, and filters
  */
 
+import { RESOURCE_ID } from 'src/features/CloudPulse/Utils/constants';
+import { convertStringToCamelCasesWithSpaces } from 'src/features/CloudPulse/Utils/utils';
 import { formatDateTime } from 'src/features/CloudPulse/Widget/csv/CloudPulseWidgetCSVUtils';
 
 import {
@@ -172,20 +174,25 @@ export const createPageHeaders = ({
   filterConfig,
   akamaiLogoDataUrl,
   globalGroupBy,
+  resourceLabels,
 }: PDFUtilProps): number => {
   // Format the time range string from preset or custom range
-  const start = formatDateTime(timeDuration.start, timeDuration.timeZone);
+  const start = formatDateTime(
+    timeDuration.start,
+    timeDuration.timeZone,
+    false
+  );
 
   const end = formatDateTime(timeDuration.end, timeDuration.timeZone);
 
   const timeRange =
     timeDuration.preset && timeDuration.preset !== 'Reset'
-      ? timeDuration.preset
+      ? convertStringToCamelCasesWithSpaces(timeDuration.preset)
       : `${start} - ${end}`;
 
   // Add Akamai logo (centered at top) if provided
   if (akamaiLogoDataUrl) {
-    pdf.addImage(akamaiLogoDataUrl, 'PNG', pageWidth / 2 - 40, 10, 80, 34);
+    pdf.addImage(akamaiLogoDataUrl, 'JPEG', pageWidth / 2 - 40, 10, 80, 34);
   }
 
   // Draw the main header bar
@@ -199,7 +206,20 @@ export const createPageHeaders = ({
   // Draw the filter information box and get final Y position
   const headerEndY = drawGlobalFilterBox({
     pdf,
-    filterString: appendAppliedFilters({ filterData, filterConfig }),
+    filterString: appendAppliedFilters({
+      filterData: {
+        id: filterData.id,
+        label: {
+          ...filterData.label,
+          [RESOURCE_ID]: resourceLabels
+            ? [resourceLabels]
+            : filterData.label[RESOURCE_ID]
+              ? filterData.label[RESOURCE_ID]
+              : [], // if resource labels are provided, use them to override the filter labels for resource_id in the header, otherwise fall back to original filter labels
+        },
+      },
+      filterConfig,
+    }),
     pageWidth,
     globalGroupBy,
   });

@@ -30,6 +30,11 @@ export interface PdfData {
    */
   loading: boolean;
   /**
+   * The resources | entities selected
+   */
+  resourceLabels?: string;
+
+  /**
    * The label of the widget, used for the graph title in the PDF
    */
   widgetLabel: string;
@@ -68,6 +73,12 @@ export interface PDFUtilProps {
    * The jsPDF document instance used to render the header elements on the PDF page
    */
   pdf: jsPDF;
+
+  /**
+   * The resource labels to be displayed in the header
+   */
+  resourceLabels?: string;
+
   /**
    * The time duration of the data being displayed, used to format the time range string in the header
    */

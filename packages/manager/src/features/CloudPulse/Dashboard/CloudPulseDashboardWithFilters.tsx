@@ -34,6 +34,7 @@ import {
 } from '../Utils/ReusableDashboardFilterUtils';
 import { getAllDashboards } from '../Utils/utils';
 import { CloudPulseDashboard } from './CloudPulseDashboard';
+import { usePdfExport } from './pdf/utils/usePdfExport';
 
 import type { FilterData, FilterValueType } from './CloudPulseDashboardLanding';
 import type {
@@ -74,14 +75,10 @@ export const CloudPulseDashboardWithFilters = React.memo(
 const CloudPulseDashboardWithFiltersRenderer = React.memo(
   (props: CloudPulseDashboardWithFiltersProp) => {
     const { dashboardId, resource, region, serviceType } = props;
-
     const flags = useFlags();
 
-    const {
-      setGlobalSelectedDashboard,
-      setGlobalFilterData,
-      getIsWidgetLoading,
-    } = useCloudPulseContext();
+    const { setGlobalSelectedDashboard, setGlobalFilterData, isWidgetLoading } =
+      useCloudPulseContext();
 
     const { data: dashboardById, isError: isDashboardByIdError } =
       useCloudPulseDashboardByIdQuery(dashboardId, !serviceType);
@@ -171,6 +168,12 @@ const CloudPulseDashboardWithFiltersRenderer = React.memo(
     const handleGlobalRefresh = React.useCallback(() => {
       onFilterChange(REFRESH, Date.now(), []);
     }, [onFilterChange]);
+
+    const { handleDownloadPDF, isDownloadingPdf } = usePdfExport({
+      dashboard: currentDashboard,
+      filterData,
+      timeDuration,
+    });
 
     React.useEffect(() => {
       setGlobalFilterData(filterData);
@@ -279,10 +282,11 @@ const CloudPulseDashboardWithFiltersRenderer = React.memo(
                         data-testid="global-download-pdf"
                         disabled={
                           !currentDashboard ||
-                          getIsWidgetLoading() ||
+                          isWidgetLoading ||
                           !isMandatoryFiltersSelected
                         }
-                        loading={false}
+                        loading={isDownloadingPdf}
+                        onClick={handleDownloadPDF}
                         size="small"
                         sx={(theme) => ({
                           marginBlockEnd: 'auto',

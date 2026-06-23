@@ -37,9 +37,11 @@ export interface GlobalFilterProperties {
     dashboard: Dashboard | undefined,
     skipReset?: boolean
   ): void;
+  handleDownloadPDF: () => void;
   handleGroupByChange: (selectedValues: string[]) => void;
   handleTimeDurationChange(timeDuration: DateTimeWithPreset): void;
   handleToggleAppliedFilter(isVisible: boolean): void;
+  isDownloadingPdf?: boolean;
   isMandatoryFiltersSelected?: boolean;
 }
 
@@ -50,6 +52,8 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
     handleTimeDurationChange,
     handleToggleAppliedFilter,
     handleGroupByChange,
+    handleDownloadPDF,
+    isDownloadingPdf = false,
     isMandatoryFiltersSelected = false,
   } = props;
 
@@ -130,7 +134,7 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
     []
   );
 
-  const { getIsWidgetLoading } = useCloudPulseContext();
+  const { isWidgetLoading } = useCloudPulseContext();
 
   const isUnAuthorizedError =
     isError &&
@@ -191,9 +195,11 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
                   data-testid="global-download-pdf"
                   disabled={
                     !selectedDashboard ||
-                    getIsWidgetLoading() ||
+                    isWidgetLoading ||
                     !isMandatoryFiltersSelected
                   }
+                  loading={isDownloadingPdf}
+                  onClick={handleDownloadPDF}
                   size="small"
                   sx={(theme) => ({
                     marginBlockEnd: 'auto',

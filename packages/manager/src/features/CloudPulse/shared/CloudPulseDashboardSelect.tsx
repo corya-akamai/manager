@@ -5,6 +5,7 @@ import { useFlags } from 'src/hooks/useFlags';
 import { useCloudPulseDashboardsQuery } from 'src/queries/cloudpulse/dashboards';
 import { useCloudPulseServiceTypes } from 'src/queries/cloudpulse/services';
 
+import { useCloudPulseContext } from '../Context/useCloudPulseContext';
 import { getAllDashboards, getEnabledServiceTypes } from '../Utils/utils';
 
 import type {
@@ -57,6 +58,8 @@ export const CloudPulseDashboardSelect = React.memo(
       isLoading: serviceTypesLoading,
     } = useCloudPulseServiceTypes(true);
 
+    const { setCurrentServiceLabel } = useCloudPulseContext();
+
     const { aclpServices } = useFlags();
     // Check if the integration service type is enabled
     const serviceType =
@@ -70,10 +73,14 @@ export const CloudPulseDashboardSelect = React.memo(
       ? [serviceType]
       : getEnabledServiceTypes(serviceTypesList, aclpServices);
 
-    const serviceTypeMap: Map<CloudPulseServiceType, string> = new Map(
-      (serviceTypesList?.data || [])
-        .filter((item) => item?.service_type !== undefined)
-        .map((item) => [item.service_type, item.label ?? ''])
+    const serviceTypeMap: Map<CloudPulseServiceType, string> = React.useMemo(
+      () =>
+        new Map(
+          (serviceTypesList?.data || [])
+            .filter((item) => item?.service_type !== undefined)
+            .map((item) => [item.service_type, item.label ?? ''])
+        ),
+      [serviceTypesList]
     );
 
     const {
@@ -130,6 +137,15 @@ export const CloudPulseDashboardSelect = React.memo(
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dashboardsList]);
+
+    React.useEffect(() => {
+      if (selectedDashboard && serviceTypeMap.size > 0) {
+        setCurrentServiceLabel(
+          serviceTypeMap.get(selectedDashboard.service_type) ??
+            selectedDashboard.service_type
+        );
+      }
+    }, [selectedDashboard, serviceTypeMap, setCurrentServiceLabel]);
     return (
       <Autocomplete
         autoHighlight

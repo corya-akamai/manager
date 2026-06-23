@@ -87,7 +87,7 @@ describe('createPageHeaders', () => {
 
     expect(mockPdf.addImage).toHaveBeenCalledWith(
       'mock-logo-url',
-      'PNG',
+      'JPEG',
       260,
       10,
       80,

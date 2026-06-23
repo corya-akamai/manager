@@ -10,6 +10,7 @@ describe('svgToDataURL', () => {
         clearRect(): void {}
         drawImage(): void {}
         fillRect(): void {}
+        scale(): void {}
       },
       configurable: true,
       writable: true,
@@ -70,8 +71,8 @@ describe('svgToDataURL', () => {
     ); // Ensure exact parameters are passed to toDataURL
 
     expect(result.dataUrl).toBe(mockUrl);
-    expect(result.width).toBe(100);
-    expect(result.height).toBe(100);
+    expect(result.width).toBe(200);
+    expect(result.height).toBe(200);
   });
 
   it('should convert a real local/inline data URL path string', async () => {
