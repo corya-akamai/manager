@@ -42,6 +42,7 @@ const options: { flag: keyof Flags; label: string }[] = [
   { flag: 'gecko2', label: 'Gecko' },
   { flag: 'generationalPlansv2', label: 'Generational compute plans' },
   { flag: 'hostnameEndpoints', label: 'Hostname Endpoints' },
+  { flag: 'inferencePlatform', label: 'Inference Platform' },
   { flag: 'kubernetesBlackwellPlans', label: 'Kubernetes Blackwell Plans' },
   { flag: 'limitsEvolution', label: 'Limits Evolution' },
   { flag: 'linodeDiskEncryption', label: 'Linode Disk Encryption (LDE)' },
