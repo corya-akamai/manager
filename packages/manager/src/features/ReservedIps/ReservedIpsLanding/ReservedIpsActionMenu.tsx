@@ -39,6 +39,7 @@ export const ReservedIpsActionMenu = ({ handlers, ip }: Props) => {
     >
       {actions.map((action) => (
         <MenuItem
+          data-pendo-id={action.pendoId}
           data-testid={action.title}
           disabled={action.disabled}
           key={action.title}
