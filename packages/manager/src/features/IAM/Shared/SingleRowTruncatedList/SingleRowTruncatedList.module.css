@@ -56,8 +56,8 @@
 .entityChipBadge {
   align-items: center;
   background-color: var(
-    --token-global-color-ultramarine-20,
-    light-dark(#c8e4f7, #000000)
+    --token-component-badge-informative-subtle-background,
+    light-dark(lch(36.671 58.169 285.69 / 0.12), lch(77.722 28.674 275.08 / 0.12))
   );
   border-radius: var(--token-global-border-radius-s4, 4px);
   display: inline-flex;

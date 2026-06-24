@@ -41,7 +41,6 @@ import {
   ROLES_TABLE_PREFERENCE_KEY,
 } from '../../Shared/constants';
 import { Link } from '../../Shared/Link/Link';
-import { Paper } from '../../Shared/Paper/Paper';
 
 import type { RoleView, SelectOption } from '../../Shared/types';
 import type { Order } from '@akamai/cds-components/react/Table';
@@ -181,11 +180,11 @@ export const RolesTable = ({ roles = [] }: Props) => {
 
   return (
     <>
-      <Paper
-        marginTop={Spacing.S16}
-        padding={Spacing.S0}
-        paddingBottom={Spacing.S0}
-        paddingTop={Spacing.S0}
+      <Box
+        style={{
+          marginTop: Spacing.S16,
+          padding: 0,
+        }}
       >
         <Box
           direction="row"
@@ -411,7 +410,7 @@ export const RolesTable = ({ roles = [] }: Props) => {
             style={{ border: 0 }}
           />
         )}
-      </Paper>
+      </Box>
       <AssignSelectedRolesDrawer
         onClose={() => setIsDrawerOpen(false)}
         onSuccess={() => setSelectedRows([])}
