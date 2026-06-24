@@ -572,13 +572,6 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
   const handleSubmit = form.handleSubmit(async (values) => {
     const { onSuccess } = props;
 
-    if (values.entityType === 'none') {
-      form.setError('entityType', {
-        message: 'Please select a topic.',
-      });
-      return;
-    }
-
     if (isEligibleForLiveChat) {
       await handleStartLiveChat();
       return;
@@ -835,7 +828,22 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
               data-testid="submit"
               loading={submitting}
               onClick={
-                isEligibleForLiveChat ? handleStartLiveChat : handleSubmit
+                isEligibleForLiveChat
+                  ? handleStartLiveChat
+                  : () => {
+                      if (entityType === 'none') {
+                        form.setError('entityType', {
+                          message: 'Please select a category.',
+                        });
+                        if (!summary.trim()) {
+                          form.setError('summary', {
+                            message: 'Summary is required.',
+                          });
+                        }
+                        return;
+                      }
+                      handleSubmit();
+                    }
               }
             >
               {isEligibleForLiveChat ? 'Start a Live Chat' : 'Open Ticket'}

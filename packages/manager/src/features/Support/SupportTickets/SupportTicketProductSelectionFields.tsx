@@ -284,7 +284,9 @@ export const SupportTicketProductSelectionFields = (props: Props) => {
             render={({ field, fieldState }) => (
               <Autocomplete
                 data-qa-ticket-entity-type
-                errorText={fieldState.error?.message}
+                errorText={
+                  fieldState.error?.message || errors.entityType?.message
+                }
                 label="What is this regarding?"
                 onChange={(_e, type) => {
                   const currentTopicVariant =
@@ -301,6 +303,7 @@ export const SupportTicketProductSelectionFields = (props: Props) => {
                     return;
                   }
                   field.onChange(type?.value ?? 'none');
+                  clearErrors('entityType');
                   setValue('entityId', '');
                   setValue(
                     'entityInputValue',
@@ -315,7 +318,7 @@ export const SupportTicketProductSelectionFields = (props: Props) => {
                   clearErrors('entityId');
                 }}
                 options={topicOptions}
-                placeholder="Select an option?"
+                placeholder="Select a category"
                 renderOption={
                   liveChat
                     ? (props, option) => (
@@ -338,7 +341,7 @@ export const SupportTicketProductSelectionFields = (props: Props) => {
                       )
                     : undefined
                 }
-                value={selectedTopic}
+                value={selectedTopic ?? null}
               />
             )}
           />
