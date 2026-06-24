@@ -3,14 +3,13 @@ import { Typography } from '@akamai/cds-tokens';
 import { useAccountRoles } from '@linode/queries';
 import React from 'react';
 
-import { RolesTable } from 'src/features/IAM/Roles/RolesTable/RolesTable';
-import { CircleProgress } from 'src/features/IAM/Shared/CircleProgress/CircleProgress';
-import { mapAccountPermissionsToRoles } from 'src/features/IAM/Shared/utilities';
-
 import { useDelegationRole } from '../hooks/useDelegationRole';
 import { usePermissions } from '../hooks/usePermissions';
+import { CircleProgress } from '../Shared/CircleProgress/CircleProgress';
 import { Paper } from '../Shared/Paper/Paper';
+import { mapAccountPermissionsToRoles } from '../Shared/utilities';
 import { DefaultRolesPanel } from './Defaults/DefaultRolesPanel';
+import { RolesTable } from './RolesTable/RolesTable';
 
 export const RolesLanding = () => {
   const { data: permissions, isLoading: isPermissionsLoading } = usePermissions(

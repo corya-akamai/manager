@@ -77,6 +77,10 @@ export const ERROR_STATE_TITLE = 'An unexpected error occurred.';
 
 export const ERROR_STATE_TEXT = 'Refresh the page or try again later.';
 
+export const RESTRICTED_FIELD_TOOLTIP = 'This field can\u{2019}t be modified.';
+
+export const PARENT_USER = 'parent user';
+
 // Delegation error messages
 export const NO_ITEMS_TO_DISPLAY_TEXT = 'No items to display.';
 

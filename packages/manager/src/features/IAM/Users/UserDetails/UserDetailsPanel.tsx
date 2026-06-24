@@ -3,11 +3,10 @@ import { Color, Font, Spacing, Typography } from '@akamai/cds-tokens';
 import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
-import { PARENT_USER } from 'src/features/Account/constants';
-
 import { useActiveBreakpointIndex } from '../../hooks/useBreakpoint';
 import { useDelegationRole } from '../../hooks/useDelegationRole';
 import { Box } from '../../Shared/Box/Box';
+import { PARENT_USER } from '../../Shared/constants';
 import { EMAIL_MAX_LENGTH } from '../../Shared/constants';
 import { DateTimeDisplay } from '../../Shared/DateTimeDisplay/DateTimeDisplay';
 import { Divider } from '../../Shared/Divider/Divider';

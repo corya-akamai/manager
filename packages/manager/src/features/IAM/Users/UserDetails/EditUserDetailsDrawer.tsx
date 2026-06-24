@@ -19,10 +19,9 @@ import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { RESTRICTED_FIELD_TOOLTIP } from 'src/features/Account/constants';
-
 import { useDelegationRole } from '../../hooks/useDelegationRole';
 import { Box } from '../../Shared/Box/Box';
+import { RESTRICTED_FIELD_TOOLTIP } from '../../Shared/constants';
 import { Drawer, DrawerInlineActions } from '../../Shared/Drawer';
 
 import type { User } from '@linode/api-v4';

@@ -11,8 +11,7 @@ import {
 import { Font, Spacing } from '@akamai/cds-tokens';
 import React from 'react';
 
-import { useBreakpoint } from 'src/features/IAM/hooks/useBreakpoint';
-
+import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { CircleProgress } from '../CircleProgress/CircleProgress';
 
 export interface SelectableOption {

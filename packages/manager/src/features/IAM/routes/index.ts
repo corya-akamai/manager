@@ -2,6 +2,37 @@ import { accountQueries, profileQueries } from '@linode/queries';
 import { queryOptions } from '@tanstack/react-query';
 import { createRoute, redirect } from '@tanstack/react-router';
 
+/**
+ * DISTRIBUTION / DECOUPLING
+ *
+ * These are the only imports in features/IAM that reach outside the feature. When IAM
+ * ships as its own app, handle them as follows:
+ *
+ * 1. `rootRoute` (below)
+ *    - Remove this import from the monolith's `src/routes/root`.
+ *    - In the distributed app, pass that app's root route into IAM at mount time and
+ *      point `iamRoute`'s `getParentRoute` at it instead of `rootRoute`.
+ *    - Keep route definitions module-level in this file (export `iamRouteTree` as today).
+ *      Do not move `createRoute` calls into a factory — that inflates TanStack's global
+ *      `Register` type and breaks unrelated host files (Link, useTabs, etc.).
+ *
+ * 2. `TableSearchParams` from `src/routes/types` (type import below)
+ *    - Replace with `../utilities/utilities.types` (or a shared package type). IAM should
+ *      not depend on host route types; the local interface already matches pagination/order
+ *      search params used by IAM tables.
+ *
+ * 3. Monolith router (`src/routes/index.tsx`)
+ *    - Remove the `iamRouteTree` import and drop it from `routeTree.addChildren`.
+ *
+ * 4. Distributed app router
+ *    - Mount `iamRouteTree` on the distributed root (same as other feature route trees).
+ *    - Declare `Register` against the distributed `router` instance so IAM `useNavigate`,
+ *      `useSearch`, and `Link` keep route inference within the distributed app.
+ *
+ * Reverse coupling (host importing IAM hooks/components) is a separate cleanup — not
+ * covered here, but those imports must move behind a shared package or the distributed
+ * boundary before IAM can fully leave the monolith repo.
+ */
 import { rootRoute } from '../../../routes/root';
 import { checkIAMEnabled } from '../hooks/useIsIAMEnabled';
 import { IAMRoute } from './IAMRoute';

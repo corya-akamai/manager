@@ -20,16 +20,6 @@ import { capitalizeAllWords } from '@akamai/compute-ui-core/formatting';
 import { useLocation, useNavigate, useSearch } from '@tanstack/react-router';
 import React, { useState } from 'react';
 
-import { AssignSelectedRolesDrawer } from 'src/features/IAM/Roles/RolesTable/AssignSelectedRolesDrawer';
-import { RolesTableActionMenu } from 'src/features/IAM/Roles/RolesTable/RolesTableActionMenu';
-import { RolesTableExpandedRow } from 'src/features/IAM/Roles/RolesTable/RolesTableExpandedRow';
-import { DebouncedSearchField } from 'src/features/IAM/Shared/DebouncedSearchField/DebouncedSearchField';
-import globalStyles from 'src/features/IAM/Shared/global.module.css';
-import {
-  getFacadeRoleDescription,
-  mapEntityTypesForSelect,
-} from 'src/features/IAM/Shared/utilities';
-
 import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { useDelegationRole } from '../../hooks/useDelegationRole';
 import { usePagination } from '../../hooks/usePagination';
@@ -40,7 +30,16 @@ import {
   ROLES_LEARN_MORE_LINK,
   ROLES_TABLE_PREFERENCE_KEY,
 } from '../../Shared/constants';
+import { DebouncedSearchField } from '../../Shared/DebouncedSearchField/DebouncedSearchField';
+import globalStyles from '../../Shared/global.module.css';
 import { Link } from '../../Shared/Link/Link';
+import {
+  getFacadeRoleDescription,
+  mapEntityTypesForSelect,
+} from '../../Shared/utilities';
+import { AssignSelectedRolesDrawer } from './AssignSelectedRolesDrawer';
+import { RolesTableActionMenu } from './RolesTableActionMenu';
+import { RolesTableExpandedRow } from './RolesTableExpandedRow';
 
 import type { RoleView, SelectOption } from '../../Shared/types';
 import type { Order } from '@akamai/cds-components/react/Table';

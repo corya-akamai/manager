@@ -9,12 +9,11 @@ import { Spacing } from '@akamai/cds-tokens';
 import { truncateMiddle } from '@akamai/compute-ui-core/formatting';
 import React from 'react';
 
-import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
-import { CopyTooltip } from 'src/features/IAM/Shared/CopyTooltip/CopyTooltip';
-import { DateTimeDisplay } from 'src/features/IAM/Shared/DateTimeDisplay/DateTimeDisplay';
-import globalStyles from 'src/features/IAM/Shared/global.module.css';
-import { StatusIcon } from 'src/features/IAM/Shared/StatusIcon/StatusIcon';
-
+import { usePermissions } from '../../../hooks/usePermissions';
+import { CopyTooltip } from '../../../Shared/CopyTooltip/CopyTooltip';
+import { DateTimeDisplay } from '../../../Shared/DateTimeDisplay/DateTimeDisplay';
+import globalStyles from '../../../Shared/global.module.css';
+import { StatusIcon } from '../../../Shared/StatusIcon/StatusIcon';
 import {
   DELETE_PERMISSION_ERROR,
   IAM_SSO_IDP_PENDO_IDS,
@@ -24,8 +23,8 @@ import {
 } from '../../constants';
 import styles from './CertificatesTable.module.css';
 
+import type { Status } from '../../../Shared/StatusIcon/StatusIcon';
 import type { IdpCertificate } from '@linode/api-v4';
-import type { Status } from 'src/features/IAM/Shared/StatusIcon/StatusIcon';
 
 interface CertificateTableLandingProps {
   activeCertificateCount?: null | number;

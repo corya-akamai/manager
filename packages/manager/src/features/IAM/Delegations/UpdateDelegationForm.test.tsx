@@ -33,7 +33,7 @@ vi.mock('@linode/queries', async () => {
   };
 });
 
-vi.mock('src/features/IAM/hooks/usePermissions', async () => ({
+vi.mock('../hooks/usePermissions', async () => ({
   usePermissions: mocks.usePermissions,
 }));
 

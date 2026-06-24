@@ -1,12 +1,11 @@
 import { useGetIdpConfigsQuery } from '@linode/queries';
 import * as React from 'react';
 
-import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
-import { CircleProgress } from 'src/features/IAM/Shared/CircleProgress/CircleProgress';
-import { DocumentTitleSegment } from 'src/features/IAM/Shared/DocumentTitleSegment/DocumentTitleSegment';
-import { ErrorState } from 'src/features/IAM/Shared/ErrorState/ErrorState';
-import { NoIDPConfiguration } from 'src/features/IAM/Shared/NoIDPConfiguration/NoIDPConfiguration';
-
+import { usePermissions } from '../../../hooks/usePermissions';
+import { CircleProgress } from '../../../Shared/CircleProgress/CircleProgress';
+import { DocumentTitleSegment } from '../../../Shared/DocumentTitleSegment/DocumentTitleSegment';
+import { ErrorState } from '../../../Shared/ErrorState/ErrorState';
+import { NoIDPConfiguration } from '../../../Shared/NoIDPConfiguration/NoIDPConfiguration';
 import { EnforcementSettings } from './EnforcementSettings';
 
 export const EnforcementSettingsLanding = () => {

@@ -16,12 +16,9 @@ import { getAPIFilterFromQuery } from '@linode/search';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import React from 'react';
 
-import { DebouncedSearchField } from 'src/features/IAM/Shared/DebouncedSearchField/DebouncedSearchField';
-import globalStyles from 'src/features/IAM/Shared/global.module.css';
-import { usePaginationV2 } from 'src/hooks/usePaginationV2';
-
 import { useDelegationRole } from '../../hooks/useDelegationRole';
 import { useOrder } from '../../hooks/useOrder';
+import { usePagination } from '../../hooks/usePagination';
 import { usePermissions } from '../../hooks/usePermissions';
 import { Box } from '../../Shared/Box/Box';
 import {
@@ -29,6 +26,8 @@ import {
   IAM_DELEGATE_USERS_PENDO_IDS,
   IAM_PARENT_USERS_PENDO_IDS,
 } from '../../Shared/constants';
+import { DebouncedSearchField } from '../../Shared/DebouncedSearchField/DebouncedSearchField';
+import globalStyles from '../../Shared/global.module.css';
 import { Paper } from '../../Shared/Paper/Paper';
 import { UserDeleteConfirmation } from '../../Shared/UserDeleteConfirmation';
 import { CreateUserDrawer } from './CreateUserDrawer';
@@ -61,7 +60,7 @@ export const UsersLanding = () => {
     'create_user',
     'view_user',
   ]);
-  const pagination = usePaginationV2({
+  const pagination = usePagination({
     currentRoute: '/iam/users',
     initialPage: 1,
     preferenceKey: 'iam-account-users-pagination',

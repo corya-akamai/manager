@@ -4,6 +4,7 @@ import { createRoute, createRouter, redirect } from '@tanstack/react-router';
 import React from 'react';
 
 import { ErrorComponent } from 'src/features/ErrorBoundary/ErrorComponent';
+// DISTRIBUTION: remove this import and iamRouteTree from routeTree.addChildren below.
 import { iamRouteTree } from 'src/features/IAM/routes';
 
 import { accountRouteTree } from './account';
