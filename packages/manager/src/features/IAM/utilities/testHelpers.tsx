@@ -1,3 +1,4 @@
+import { FeatureFlagClient } from '@akamai/compute-ui-core/feature-flags';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   createMemoryHistory,
@@ -18,14 +19,16 @@ import mediaQuery from 'css-mediaquery';
 import * as React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import type { FieldValues, UseFormProps } from 'react-hook-form';
+import { Provider as ReduxStoreProvider } from 'react-redux';
 
+import { FeatureFlagProvider } from 'src/featureFlags';
 import { LinodeThemeWrapper } from 'src/LinodeThemeWrapper';
+import { storeFactory } from 'src/store';
 
-import { IAMFlagOverridesProvider } from '../hooks/useFlags';
-
-import type { IAMFlagSet } from '../hooks/useFlags';
+import type { FeatureFlagProvider as FeatureFlagProviderType } from '@akamai/compute-ui-core/feature-flags';
 import type { QueryClient as QueryClientType } from '@tanstack/react-query';
 import type { AnyRootRoute, AnyRouter } from '@tanstack/react-router';
+import type { FlagSet } from 'src/featureFlags';
 
 /**
  * Resolves a shadow DOM query on a host element.
@@ -282,7 +285,7 @@ export const resizeScreenSize = (width: number) => {
 };
 
 interface Options {
-  flags?: IAMFlagSet;
+  flags?: FlagSet;
   initialEntries?: string[];
   initialRoute?: string;
   queryClient?: QueryClientType;
@@ -326,14 +329,38 @@ export const wrapWithProviders = (ui: any, options: Options = {}) => {
       routeTree: rootRoute.addChildren([indexRoute]),
     });
 
+  class MockFlagProvider implements FeatureFlagProviderType<FlagSet, unknown> {
+    getFlag(key: keyof FlagSet) {
+      return (options.flags as FlagSet)[key] as any;
+    }
+
+    getFlags() {
+      return options.flags ?? {};
+    }
+
+    async identify() {}
+
+    async start() {}
+
+    subscribe() {
+      return () => {};
+    }
+  }
+
+  const featureFlagClient = new FeatureFlagClient<FlagSet, unknown>({
+    provider: () => new MockFlagProvider(),
+  });
+
   return (
-    <QueryClientProvider client={passedQueryClient || queryClient}>
-      <LinodeThemeWrapper theme={options.theme ?? 'light'}>
-        <IAMFlagOverridesProvider value={options.flags ?? {}}>
-          <RouterProvider router={router} />
-        </IAMFlagOverridesProvider>
-      </LinodeThemeWrapper>
-    </QueryClientProvider>
+    <ReduxStoreProvider store={storeFactory()}>
+      <QueryClientProvider client={passedQueryClient || queryClient}>
+        <LinodeThemeWrapper theme={options.theme ?? 'light'}>
+          <FeatureFlagProvider client={featureFlagClient}>
+            <RouterProvider router={router} />
+          </FeatureFlagProvider>
+        </LinodeThemeWrapper>
+      </QueryClientProvider>
+    </ReduxStoreProvider>
   );
 };
 

@@ -118,6 +118,3 @@ export const ROLES_TABLE_PREFERENCE_KEY = 'roles';
 export const ENTITIES_TABLE_PREFERENCE_KEY = 'entities';
 
 export const ASSIGNED_ROLES_TABLE_PREFERENCE_KEY = 'assigned-roles';
-
-export const LAUNCH_DARKLY_API_KEY =
-  import.meta.env.REACT_APP_LAUNCH_DARKLY_ID || '67ed97f93736be0c14fa0ea2';

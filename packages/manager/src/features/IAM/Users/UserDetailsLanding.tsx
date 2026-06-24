@@ -15,9 +15,9 @@ import {
 import React from 'react';
 
 import { useIsIAMEnabled } from 'src/features/IAM/hooks/useIsIAMEnabled';
+import { useFlags } from 'src/hooks/useFlags';
 
 import { useDelegationRole } from '../hooks/useDelegationRole';
-import { useFlags } from '../hooks/useFlags';
 import { useTabs } from '../hooks/useTabs';
 import {
   IAM_LABEL,

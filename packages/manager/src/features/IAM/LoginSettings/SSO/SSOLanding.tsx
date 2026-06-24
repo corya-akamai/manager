@@ -10,8 +10,8 @@ import { Outlet, useLocation, useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 
 import { useIsIAMEnabled } from 'src/features/IAM/hooks/useIsIAMEnabled';
+import { useFlags } from 'src/hooks/useFlags';
 
-import { useFlags } from '../../hooks/useFlags';
 import { useTabs } from '../../hooks/useTabs';
 import { IAM_LABEL, SSO_DOCS_LINK } from '../../Shared/constants';
 import { DocsLink } from '../../Shared/DocsLink/DocsLink';
