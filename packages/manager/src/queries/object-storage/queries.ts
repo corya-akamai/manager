@@ -256,12 +256,15 @@ export const useObjectStorageEndpointsQuery = (enabled = true) => {
  */
 export const useBucketsByRegionQueries = (
   regionIds: string[],
-  enabled: boolean = true
+  enabled: boolean = true,
+  opts: { retryOnMount?: boolean } = {}
 ): UseQueryResult<ObjectStorageBucket[], APIError[]>[] => {
+  const retryOnMount = opts.retryOnMount ?? true;
   return useQueries({
     queries: regionIds.map((regionId) => ({
       ...objectStorageQueries.allBucketsInRegion(regionId),
       enabled: enabled && Boolean(regionId),
+      retryOnMount,
     })),
   });
 };

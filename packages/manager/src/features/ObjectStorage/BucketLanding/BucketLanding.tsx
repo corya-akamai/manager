@@ -54,12 +54,17 @@ export const BucketLanding = ({ isCreateBucketDrawerOpen }: Props) => {
     [objectStorageEndpoints, regionIdsFilter, endpointsFilter]
   );
 
+  // Don't retry on mount because we don't want to trigger refetching of buckets
+  // when the user is interacting with the filters.
   const {
     data: buckets,
     failedRegionIds,
     isLoading: areBucketsLoading,
     bucketFetchFailedForAllRegions,
-  } = useObjectStorageBuckets({ regionIds: requiredRegionIds });
+  } = useObjectStorageBuckets({
+    regionIds: requiredRegionIds,
+    retryOnMount: false,
+  });
 
   const handleFiltersChange = React.useCallback(
     ({
@@ -116,7 +121,7 @@ export const BucketLanding = ({ isCreateBucketDrawerOpen }: Props) => {
   const {
     failedRegionIds: allFailedRegionIds,
     isLoading: areAllBucketsLoading,
-  } = useObjectStorageBuckets();
+  } = useObjectStorageBuckets({ retryOnMount: false });
   const unavailableRegionLabels = React.useMemo(() => {
     if (areBucketsLoading) {
       return [];

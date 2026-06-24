@@ -9,6 +9,7 @@ import type { UseQueryResult } from '@tanstack/react-query';
 export interface UseObjectStorageBucketsByRegionsOptions {
   enabled?: boolean;
   regionIds?: null | Set<string>;
+  retryOnMount?: boolean;
 }
 
 export interface UseObjectStorageBucketsByRegionsResult {
@@ -23,6 +24,7 @@ export interface UseObjectStorageBucketsByRegionsResult {
 export const useObjectStorageBucketQueriesByRegions = ({
   regionIds = null,
   enabled = true,
+  retryOnMount = true,
 }: UseObjectStorageBucketsByRegionsOptions = {}): UseObjectStorageBucketsByRegionsResult => {
   const {
     regionsWithAssignedEndpoints,
@@ -40,7 +42,8 @@ export const useObjectStorageBucketQueriesByRegions = ({
   );
   const bucketQueries = useBucketsByRegionQueries(
     regionIdsToQuery,
-    enabled && regionIdsToQuery.length > 0
+    enabled && regionIdsToQuery.length > 0,
+    { retryOnMount }
   );
 
   const bucketQueriesByRegions: Record<

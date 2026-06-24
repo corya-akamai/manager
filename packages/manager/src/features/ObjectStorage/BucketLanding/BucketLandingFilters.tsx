@@ -41,8 +41,10 @@ export const BucketLandingFilters = (props: BucketLandingFiltersProps) => {
     isLoading: areRegionsLoading,
   } = useObjectStorageRegionsWithAssignedEndpoints();
 
+  // Don't retry on mount because we don't want to trigger refetching of buckets
+  // when the user is interacting with the filters.
   const { isLoading: areBucketsLoading, bucketQueriesByRegions } =
-    useObjectStorageBucketQueriesByRegions();
+    useObjectStorageBucketQueriesByRegions({ retryOnMount: false });
 
   const regionMultiselectOptions = React.useMemo(() => {
     if (!regionsWithAssignedEndpoints || areBucketsLoading) {

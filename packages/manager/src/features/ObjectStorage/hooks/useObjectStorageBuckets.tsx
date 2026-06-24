@@ -7,6 +7,7 @@ import type { APIError, ObjectStorageBucket } from '@linode/api-v4';
 export interface UseObjectStorageBucketsOptions {
   enabled?: boolean;
   regionIds?: null | Set<string>;
+  retryOnMount?: boolean;
 }
 
 export interface UseObjectStorageBucketsResult {
@@ -25,6 +26,7 @@ export interface UseObjectStorageBucketsResult {
 export const useObjectStorageBuckets = ({
   regionIds = null,
   enabled = true,
+  retryOnMount = true,
 }: UseObjectStorageBucketsOptions = {}): UseObjectStorageBucketsResult => {
   const {
     bucketQueriesByRegions,
@@ -34,6 +36,7 @@ export const useObjectStorageBuckets = ({
   } = useObjectStorageBucketQueriesByRegions({
     regionIds,
     enabled,
+    retryOnMount,
   });
 
   const queries = useMemo(
