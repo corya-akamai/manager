@@ -102,7 +102,6 @@ export const CertificatesTable = (props: CombinedProps) => {
     ? certificates.find((cert) => cert.id === viewCertId)
     : undefined;
 
-  const isSMDown = useBreakpoint('down', 'sm');
   return (
     <>
       {!isLandingMode && (
@@ -202,7 +201,7 @@ export const CertificatesTable = (props: CombinedProps) => {
                       isDeleted ? styles.deletedCell : ''
                     }`}
                   >
-                    {truncateMiddle(cert.certificate, isSMDown ? 12 : 24)}
+                    {truncateMiddle(cert.certificate, isMobileScreen ? 12 : 24)}
                   </TableCell>
 
                   <TableCell className={styles.expirationCell}>

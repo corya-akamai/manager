@@ -5,6 +5,7 @@ import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 
 import { usePermissions } from '../hooks/usePermissions';
+import { Box } from '../Shared/Box/Box';
 import { CircleProgress } from '../Shared/CircleProgress/CircleProgress';
 import {
   SSO_ENFORCEMENT_LINK,
@@ -98,16 +99,16 @@ export const LoginSettingsLanding = () => {
           Learn more.
         </Link>
       </p>
-      <div
+      <Box
+        direction="row"
         style={{
           margin: `${Spacing.S16} 0`,
-          display: 'flex',
           alignItems: 'center',
         }}
       >
         <StatusIcon status={getStatus(idpConfig)} />
         <p>{getSummaryStatus(idpConfig)}</p>
-      </div>
+      </Box>
       {isEnforcedForAllUsers && (
         <NotificationBanner
           style={{ marginBottom: Spacing.S16 }}

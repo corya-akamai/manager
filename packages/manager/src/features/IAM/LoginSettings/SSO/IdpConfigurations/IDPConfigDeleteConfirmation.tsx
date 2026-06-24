@@ -21,18 +21,11 @@ interface Props {
   idpConfigId: string;
   idpConfigLabel: string;
   onClose: () => void;
-  onSuccess?: () => void;
   open: boolean;
 }
 
 export const IDPConfigDeleteConfirmation = (props: Props) => {
-  const {
-    onClose: _onClose,
-    onSuccess,
-    open,
-    idpConfigId,
-    idpConfigLabel,
-  } = props;
+  const { onClose: _onClose, open, idpConfigId, idpConfigLabel } = props;
 
   const {
     mutateAsync: deleteIdpConfig,
@@ -62,9 +55,6 @@ export const IDPConfigDeleteConfirmation = (props: Props) => {
       type: 'success',
     });
 
-    if (onSuccess) {
-      onSuccess();
-    }
     onClose();
   };
 
@@ -85,7 +75,7 @@ export const IDPConfigDeleteConfirmation = (props: Props) => {
       <span slot="title">{`Delete IDP Configuration ${idpConfigLabel}?`}</span>
       <div slot="body">
         <NotificationBanner type="warning">
-          Deleting this configuration permanently removes all associated IPD
+          Deleting this configuration permanently removes all associated IDP
           details, certificates and users lists, and disables single sign-on.
           Users will be required to log in using alternative methods.
         </NotificationBanner>

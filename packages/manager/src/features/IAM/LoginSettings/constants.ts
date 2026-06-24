@@ -135,4 +135,4 @@ export const ADD_CERTIFICATE_PERMISSION_ERROR =
 
 export const METADATA_HREF = 'https://login.linode.com/saml/sp/metadata';
 
-export const DUBLICATED_SSO_USER = `User's can't be SSO-required and an SSO exception at the same time. Remove any duplicated users from either list.`;
+export const DUPLICATED_SSO_USER = `User's can't be SSO-required and an SSO exception at the same time. Remove any duplicated users from either list.`;

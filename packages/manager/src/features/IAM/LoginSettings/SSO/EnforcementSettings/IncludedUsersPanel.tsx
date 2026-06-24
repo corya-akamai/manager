@@ -17,9 +17,10 @@ import { useDebouncedValue } from '../../../hooks/useDebouncedValue';
 import { useDelegationRole } from '../../../hooks/useDelegationRole';
 import { usePermissions } from '../../../hooks/usePermissions';
 import { useTagInputCloseHandler } from '../../../hooks/useTagInputCloseHandler';
+import { Box } from '../../../Shared/Box/Box';
 import { ERROR_STATE_TITLE } from '../../../Shared/constants';
 import {
-  DUBLICATED_SSO_USER,
+  DUPLICATED_SSO_USER,
   IAM_SSO_ENFORCE_PENDO_IDS,
 } from '../../constants';
 
@@ -119,8 +120,8 @@ export const IncludedUsersPanel = ({ includedUsers }: Props) => {
   const tagInputValidFn = (item: string) => !excludedUsers.includes(item);
 
   return (
-    <div>
-      <div style={{ display: 'flex', gap: Spacing.S12 }}>
+    <>
+      <Box direction="row" spacing={Spacing.S12}>
         <h2
           style={{
             marginTop: Spacing.S0,
@@ -133,7 +134,7 @@ export const IncludedUsersPanel = ({ includedUsers }: Props) => {
         <Badge color={isSSOEnabled && !isSSOEnforced ? 'green' : 'neutral'}>
           {isSSOEnabled && !isSSOEnforced ? 'Active' : 'Inactive'}
         </Badge>
-      </div>
+      </Box>
       <p
         style={{
           marginTop: Spacing.S0,
@@ -199,10 +200,10 @@ export const IncludedUsersPanel = ({ includedUsers }: Props) => {
             const overlap = value.filter((user) =>
               excludedUsers.includes(user)
             );
-            return overlap.length === 0 || DUBLICATED_SSO_USER;
+            return overlap.length === 0 || DUPLICATED_SSO_USER;
           },
         }}
       />
-    </div>
+    </>
   );
 };

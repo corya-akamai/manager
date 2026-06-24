@@ -26,6 +26,7 @@ import { Divider } from 'src/features/IAM/Shared/Divider/Divider';
 import { ErrorState } from 'src/features/IAM/Shared/ErrorState/ErrorState';
 import { Paper } from 'src/features/IAM/Shared/Paper/Paper';
 
+import { Box } from '../../../Shared/Box/Box';
 import { IAM_SSO_ENFORCE_PENDO_IDS } from '../../constants';
 import { getSummaryStatus, hasNoValidCertificates } from '../utilities';
 import { ActivationStatus } from './ActivationStatus';
@@ -269,7 +270,7 @@ export const EnforcementSettings = () => {
           />
         )}
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Box direction="row" style={{ justifyContent: 'flex-end' }}>
           <Tooltip
             disabled={permissions?.update_idp_config}
             tooltipPlacement="bottom"
@@ -293,7 +294,7 @@ export const EnforcementSettings = () => {
               )}
             </Button>
           </Tooltip>
-        </div>
+        </Box>
       </form>
     </FormProvider>
   );
