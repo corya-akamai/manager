@@ -86,6 +86,10 @@ export const DatabaseBackups = () => {
     database.available_restore_times !== null &&
     database.available_restore_times.length === 0;
 
+  const isCalendarDisabled =
+    isValkeyBackupUnavailable ||
+    (database?.engine !== 'valkey' && !oldestBackup);
+
   const unableToRestoreCopy =
     (database?.engine !== 'valkey' && !oldestBackup) ||
     isValkeyBackupUnavailable
@@ -294,7 +298,9 @@ export const DatabaseBackups = () => {
                           field.value?.toISO() || DateTime.now().toUTC().toISO()
                         }
                         disabledFn={() =>
-                          disabled || versionOption === 'newest'
+                          disabled ||
+                          versionOption === 'newest' ||
+                          isCalendarDisabled
                         }
                         max={DateTime.now().toUTC().toISO()}
                         min={database?.oldest_restore_time ?? undefined}
