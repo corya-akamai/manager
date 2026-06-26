@@ -1,4 +1,4 @@
-import { Box, CircleProgress, Drawer } from '@linode/ui';
+import { Box, CircleProgress, Drawer, ErrorState } from '@linode/ui';
 import * as React from 'react';
 
 import { CopyableTextField } from 'src/components/CopyableTextField/CopyableTextField';
@@ -30,16 +30,28 @@ interface HostNamesDrawerContentProps {
 export const HostNamesDrawerContent = ({
   accessKeyId,
 }: HostNamesDrawerContentProps) => {
-  const { data: objectStorageKey, isLoading: isAccessKeyLoading } =
-    useObjectStorageAccessKey(
-      accessKeyId ?? -1,
-      accessKeyId !== null && accessKeyId !== undefined
-    );
-  const { regionsByIdMap, isLoading: isStorageEndpointsLoading } =
-    useObjectStorageRegions();
+  const {
+    data: objectStorageKey,
+    isLoading: isAccessKeyLoading,
+    error: accessKeyError,
+  } = useObjectStorageAccessKey(
+    accessKeyId ?? -1,
+    accessKeyId !== null && accessKeyId !== undefined
+  );
+  const {
+    regionsByIdMap,
+    isLoading: isStorageEndpointsLoading,
+    errors: regionsError,
+  } = useObjectStorageRegions();
 
   if (isAccessKeyLoading || isStorageEndpointsLoading) {
     return <CircleProgress />;
+  }
+
+  if (accessKeyError || regionsError) {
+    const error = accessKeyError ?? regionsError!;
+
+    return <ErrorState errorText={error[0].reason} />;
   }
 
   if (!regionsByIdMap) {
