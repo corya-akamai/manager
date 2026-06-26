@@ -11,15 +11,16 @@ import { PlaygroundLink } from './PlaygroundLink';
 import type { Model } from '../modelLibrary.types';
 
 interface ModelCardProps {
+  location?: 'dashboard' | 'modelLibrary';
   model: Model;
 }
 
-export const ModelCard = ({ model }: ModelCardProps) => {
+export const ModelCard = ({ model, location }: ModelCardProps) => {
   const cmTheme = useTheme();
 
   return (
     <Paper
-      sx={(theme) => ({
+      sx={() => ({
         borderRadius: 1,
         display: 'flex',
         flexDirection: 'column',
@@ -70,15 +71,13 @@ export const ModelCard = ({ model }: ModelCardProps) => {
             <Typography
               sx={(theme) => ({
                 color: theme.palette.primary.main,
-                font: theme.font.bold,
               })}
               variant="h3"
             >
               {model.title}
             </Typography>
-            <Typography color="text.secondary" variant="body2">
-              {model.providerName}
-            </Typography>
+
+            <Typography variant="body1">{model.providerName}</Typography>
           </Stack>
         </Stack>
 
@@ -93,6 +92,10 @@ export const ModelCard = ({ model }: ModelCardProps) => {
             lineHeight: 1.5,
             font: theme.font.semibold,
             minHeight: 58,
+            display: '-webkit-box',
+            overflow: 'hidden',
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: 'vertical',
           })}
           variant="body2"
         >
@@ -107,6 +110,7 @@ export const ModelCard = ({ model }: ModelCardProps) => {
             <InfoChip
               description={tag.description}
               key={`tag-${index}`}
+              splitMetricRows={false}
               type="useCase"
               value={tag.label}
             />
@@ -117,12 +121,14 @@ export const ModelCard = ({ model }: ModelCardProps) => {
       {/* Stats row */}
       <Stack direction="row" gap={0.4} sx={{ mt: 0.5 }}>
         <InfoChip
+          splitMetricRows={location === 'dashboard'}
           title="Parameters"
           titlePosition="after"
           type="metric"
           value={`${model.parametersB} B`}
         />
         <InfoChip
+          splitMetricRows={location === 'dashboard'}
           title="Context Length"
           titlePosition="after"
           type="metric"
@@ -131,7 +137,7 @@ export const ModelCard = ({ model }: ModelCardProps) => {
       </Stack>
 
       {/* Pricing */}
-      <Typography variant="body2">
+      {/* <Typography variant="body2">
         Price:{' '}
         <Box
           component="span"
@@ -143,7 +149,7 @@ export const ModelCard = ({ model }: ModelCardProps) => {
           {model.priceOutputPerMillion.toFixed(2)} output
         </Box>{' '}
         per 1 million tokens
-      </Typography>
+      </Typography> */}
 
       {/* Footer: capabilities + Serverless badge */}
       {/* <Stack alignItems="center" direction="row" justifyContent="space-between">

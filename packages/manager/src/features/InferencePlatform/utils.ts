@@ -9,7 +9,6 @@ import { useFlags } from 'src/hooks/useFlags';
 
 import type { Theme } from '@mui/material/styles';
 
-
 export const providerIcon = (
   providerLogo: string
 ): null | React.FC<React.SVGProps<SVGSVGElement>> => {
@@ -44,11 +43,11 @@ export const providerIconStyles = (
         '--color-a':
           cmTheme.palette.mode === 'light'
             ? 'hsl(255, 78.67%, 55.88%)'
-            : 'hsl(242, 89.87%, 72.02%)',
+            : 'hsl(242, 95.87%, 73.02%)',
         '--color-b':
           cmTheme.palette.mode === 'dark'
             ? 'hsl(255, 78.67%, 78.88%)'
-            : 'hsl(242, 89.87%, 98.02%)',
+            : 'hsl(242, 89.87%, 72.02%)',
       };
 
     case 'google':
