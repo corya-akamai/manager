@@ -322,7 +322,6 @@ export interface Flags {
   objectStorageGen2: BaseFeatureFlag;
   objectStorageGlobalQuotas: boolean;
   objectStorageSummaryPageLinks: boolean;
-  objSummaryPage: boolean;
   passwordlessLinodes: boolean;
   placementGroupPolicyUpdate: boolean;
   premiumNodebalancer: boolean;

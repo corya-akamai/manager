@@ -40,7 +40,7 @@ const AccessKeyLanding = React.lazy(() =>
 );
 
 export const ObjectStorageLanding = () => {
-  const { promotionalOffers, objSummaryPage } = useFlags();
+  const { promotionalOffers } = useFlags();
   const navigate = useNavigate();
   const { routeId } = useRouterState({
     select: (s) => s.matches[s.matches.length - 1],
@@ -61,28 +61,20 @@ export const ObjectStorageLanding = () => {
 
   const userHasNoBucketCreated = buckets?.length === 0;
 
-  // TODO: Remove when OBJ Summary is enabled
   const objTabs: Tab[] = [
+    { title: 'Summary', to: '/object-storage/summary' },
     { title: 'Buckets', to: '/object-storage/buckets' },
     { title: 'Access Keys', to: '/object-storage/access-keys' },
   ];
 
-  if (objSummaryPage) {
-    objTabs.unshift({ title: 'Summary', to: '/object-storage/summary' });
-  }
-
-  const { handleTabChange, tabIndex, tabs, getTabIndex } = useTabs(objTabs);
-
-  const summaryTabIndex = getTabIndex('/object-storage/summary');
-  const bucketsTabIndex = getTabIndex('/object-storage/buckets');
-  const accessKeysTabIndex = getTabIndex('/object-storage/access-keys');
+  const { handleTabChange, tabIndex, tabs } = useTabs(objTabs);
 
   const objPromotionalOffers =
     promotionalOffers?.filter((offer) =>
       offer.features.includes('Object Storage')
     ) ?? [];
 
-  const isAccessKeysTab = tabIndex === accessKeysTabIndex;
+  const isAccessKeysTab = tabIndex === 2;
 
   const createButtonText = isAccessKeysTab
     ? 'Create Access Key'
@@ -97,7 +89,7 @@ export const ObjectStorageLanding = () => {
   };
 
   const isObjectStorageEnabled = accountSettings?.object_storage === 'active';
-  const isObjectStorageOpened = routeId === '/object-storage/';
+  const isAtObjectStorageRoot = routeId === '/object-storage/';
   const isSummaryOpened = routeId === '/object-storage/summary';
   const isCreateBucketOpen = routeId === '/object-storage/buckets/create';
   const isEmptyStateLandingPageShown =
@@ -112,29 +104,24 @@ export const ObjectStorageLanding = () => {
     isObjectStorageEnabled;
 
   useEffect(() => {
-    // TODO: Remove condition when OBJ Summary is enabled
-    if (!isEmptyStateLandingPageShown && isObjectStorageOpened) {
-      navigate({
-        to: objSummaryPage
-          ? '/object-storage/summary'
-          : '/object-storage/buckets',
-      });
+    if (!isEmptyStateLandingPageShown && isAtObjectStorageRoot) {
+      navigate({ to: '/object-storage/summary', replace: true });
       return;
     }
-    if (isEmptyStateLandingPageShown && !isObjectStorageOpened) {
+    if (isEmptyStateLandingPageShown && !isAtObjectStorageRoot) {
       if (isRestrictedUser) {
-        navigate({ to: '/object-storage' });
+        navigate({ to: '/object-storage', replace: true });
         return;
       }
 
       if (!routeId.endsWith('/create')) {
-        navigate({ to: '/object-storage' });
+        navigate({ to: '/object-storage', replace: true });
         return;
       }
     }
   }, [
     isEmptyStateLandingPageShown,
-    isObjectStorageOpened,
+    isAtObjectStorageRoot,
     isRestrictedUser,
     routeId,
   ]);
@@ -188,17 +175,15 @@ export const ObjectStorageLanding = () => {
 
             <React.Suspense fallback={<SuspenseLoader />}>
               <TabPanels>
-                {objSummaryPage && (
-                  <SafeTabPanel index={summaryTabIndex}>
-                    <SummaryLanding />
-                  </SafeTabPanel>
-                )}
-                <SafeTabPanel index={bucketsTabIndex}>
+                <SafeTabPanel index={0}>
+                  <SummaryLanding />
+                </SafeTabPanel>
+                <SafeTabPanel index={1}>
                   <BucketLanding
                     isCreateBucketDrawerOpen={isCreateBucketOpen}
                   />
                 </SafeTabPanel>
-                <SafeTabPanel index={accessKeysTabIndex}>
+                <SafeTabPanel index={2}>
                   <AccessKeyLanding isRestrictedUser={isRestrictedUser} />
                 </SafeTabPanel>
               </TabPanels>
