@@ -57,8 +57,8 @@ vi.mock('@linode/queries', async () => {
   };
 });
 
-vi.mock('src/queries/object-storage/queries', async () => {
-  const actual = await vi.importActual('src/queries/object-storage/queries');
+vi.mock('../hooks/useObjectStorageBucket', async () => {
+  const actual = await vi.importActual('../hooks/useObjectStorageBucket');
   return {
     ...actual,
     useObjectStorageBucket: queryMocks.useObjectStorageBucket,
@@ -85,7 +85,7 @@ describe('BucketDetailsDrawer: Gen1 endpoint', () => {
       isLoading: false,
     });
     queryMocks.useObjectStorageBucket.mockReturnValue({
-      data: bucket,
+      bucket,
       isLoading: false,
     });
 
@@ -143,7 +143,7 @@ describe('BucketDetailsDrawer: Gen1 endpoint', () => {
 
   it('handles undefined selectedBucket gracefully', () => {
     queryMocks.useRegionQuery.mockReturnValue({ data: undefined });
-    queryMocks.useObjectStorageBucket.mockReturnValue({ data: undefined });
+    queryMocks.useObjectStorageBucket.mockReturnValue({ bucket: undefined });
 
     renderWithThemeAndHookFormContext({
       component: (
@@ -166,7 +166,7 @@ describe('BucketDetailsDrawer: Gen1 endpoint', () => {
       region: region.id,
     });
     queryMocks.useRegionQuery.mockReturnValue({ data: region });
-    queryMocks.useObjectStorageBucket.mockReturnValue({ data: gen2Bucket });
+    queryMocks.useObjectStorageBucket.mockReturnValue({ bucket: gen2Bucket });
 
     const { getByText } = renderWithThemeAndHookFormContext({
       component: (

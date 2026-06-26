@@ -9,9 +9,9 @@ import * as React from 'react';
 import { CopyTooltip } from 'src/components/CopyTooltip/CopyTooltip';
 import { Link } from 'src/components/Link';
 import { MaskableText } from 'src/components/MaskableText/MaskableText';
-import { useObjectStorageBucket } from 'src/queries/object-storage/queries';
 
 import { AccessSelect } from '../BucketDetail/AccessTab/AccessSelect';
+import { useObjectStorageBucket } from '../hooks/useObjectStorageBucket';
 
 export interface BucketDetailsDrawerProps {
   bucketName?: string;
@@ -52,7 +52,7 @@ const BucketDetailsDrawerContent = ({
     regionId ?? ''
   );
   const { data: profile, isLoading: profileIsLoading } = useProfile();
-  const { data: bucket, isLoading: bucketIsLoading } = useObjectStorageBucket({
+  const { bucket, isLoading: bucketIsLoading } = useObjectStorageBucket({
     bucketName: bucketName ?? '',
     regionId: regionId ?? '',
     enabled: Boolean(bucketName && regionId),
