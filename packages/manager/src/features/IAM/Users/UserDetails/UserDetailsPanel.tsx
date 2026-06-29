@@ -1,13 +1,12 @@
 import { Button, Icon, Tooltip } from '@akamai/cds-components/react';
 import { Color, Font, Spacing, Typography } from '@akamai/cds-tokens';
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate, useSearch } from '@tanstack/react-router';
 import React from 'react';
 
 import { useActiveBreakpointIndex } from '../../hooks/useBreakpoint';
 import { useDelegationRole } from '../../hooks/useDelegationRole';
 import { Box } from '../../Shared/Box/Box';
-import { PARENT_USER } from '../../Shared/constants';
-import { EMAIL_MAX_LENGTH } from '../../Shared/constants';
+import { EMAIL_MAX_LENGTH, PARENT_USER } from '../../Shared/constants';
 import { DateTimeDisplay } from '../../Shared/DateTimeDisplay/DateTimeDisplay';
 import { Divider } from '../../Shared/Divider/Divider';
 import { MaskableText } from '../../Shared/MaskableText/MaskableText';
@@ -19,6 +18,7 @@ import { EditUserDetailsDrawer } from './EditUserDetailsDrawer';
 import styles from './UserDetailsPanel.module.css';
 import { getTotalAssignedRoles } from './utils';
 
+import type { IAMAction } from '../../routes';
 import type { IamUserRoles, User } from '@linode/api-v4';
 
 interface ItemsGridStyle extends React.CSSProperties {
@@ -41,10 +41,10 @@ export const UserDetailsPanel = ({
   activeUser,
   permissions,
 }: Props) => {
-  const [isEditDrawerOpen, setIsEditDrawerOpen] = React.useState(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
-
   const navigate = useNavigate();
+  const { action } = useSearch({
+    from: '/iam/users/$username/details',
+  });
   const { profileUserName } = useDelegationRole();
 
   const isDelegateUserType = activeUser.user_type === 'delegate';
@@ -83,6 +83,39 @@ export const UserDetailsPanel = ({
   const assignRolesCount = assignedRoles
     ? getTotalAssignedRoles(assignedRoles)
     : 0;
+
+  const actionHandler = (action: IAMAction, username: string) => {
+    navigate({
+      to: `/iam/users/${username}/details`,
+      search: (prev) => ({
+        ...prev,
+        action,
+      }),
+    });
+  };
+
+  const handleDeleteUser = (username: string) => {
+    actionHandler('delete-user', username);
+  };
+
+  const handleEditUser = (username: string) => {
+    actionHandler('edit-user', username);
+  };
+
+  const handleCloseDialog = (expectedAction?: IAMAction) => {
+    if (expectedAction && action !== expectedAction) {
+      return;
+    }
+
+    navigate({
+      params: { username: activeUser.username },
+      search: (prev) => ({
+        ...prev,
+        action: undefined,
+      }),
+      to: '/iam/users/$username/details',
+    });
+  };
 
   const items = [
     {
@@ -270,7 +303,7 @@ export const UserDetailsPanel = ({
           <Tooltip disabled={!isEditUserDisabled} tooltipText={editTooltipText}>
             <Button
               disabled={isEditUserDisabled}
-              onClick={() => setIsEditDrawerOpen(true)}
+              onClick={() => handleEditUser(activeUser.username)}
               variant="link"
             >
               Edit Details
@@ -285,7 +318,7 @@ export const UserDetailsPanel = ({
           >
             <Button
               disabled={isDeleteUserDisabled}
-              onClick={() => setIsDeleteDialogOpen(true)}
+              onClick={() => handleDeleteUser(activeUser.username)}
               variant="link"
             >
               Delete User
@@ -308,13 +341,13 @@ export const UserDetailsPanel = ({
       <EditUserDetailsDrawer
         activeUser={activeUser}
         canUpdateUser={permissions?.update_user}
-        onClose={() => setIsEditDrawerOpen(false)}
-        open={isEditDrawerOpen}
+        onClose={() => handleCloseDialog('edit-user')}
+        open={action === 'edit-user'}
       />
       <UserDeleteConfirmation
-        onClose={() => setIsDeleteDialogOpen(false)}
+        onClose={() => handleCloseDialog('delete-user')}
         onSuccess={() => navigate({ to: '/iam/users' })}
-        open={isDeleteDialogOpen}
+        open={action === 'delete-user'}
         username={activeUser.username}
       />
     </Paper>

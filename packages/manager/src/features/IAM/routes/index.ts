@@ -47,8 +47,10 @@ interface IamEntitiesSearchParams extends TableSearchParams {
 }
 
 interface IamUsersSearchParams extends TableSearchParams {
+  action?: string;
   company?: string;
   query?: string; // to be deprecated once UIE-9292 is resolved
+  username?: string;
   users?: string;
 }
 
@@ -56,6 +58,14 @@ interface IamUserRolesSearchParams extends TableSearchParams {
   query?: string;
   roleType?: 'all' | AccessType;
 }
+
+const iamActions = {
+  'add-user': 'add-user',
+  'delete-user': 'delete-user',
+  'edit-user': 'edit-user',
+} as const;
+
+export type IAMAction = (typeof iamActions)[keyof typeof iamActions];
 
 const iamRoute = createRoute({
   component: IAMRoute,
@@ -553,10 +563,9 @@ export const iamRouteTree = iamRoute.addChildren([
         iamDefaultEntityAccessRoute,
       ]),
     ]),
-    iamUsersRoute,
+    iamUsersRoute.addChildren([iamUsersCatchAllRoute]),
     iamDelegationsRoute,
     iamSettingsRoute.addChildren([iamSettingsCatchAllRoute]),
-    iamUsersCatchAllRoute,
     iamRolesCatchAllRoute,
     iamDelegationsCatchAllRoute,
   ]),
