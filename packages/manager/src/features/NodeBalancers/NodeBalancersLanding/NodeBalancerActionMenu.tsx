@@ -7,6 +7,7 @@ import { ActionMenu } from 'src/components/ActionMenu/ActionMenu';
 import { InlineMenuAction } from 'src/components/InlineMenuAction/InlineMenuAction';
 import { getRestrictedResourceText } from 'src/features/Account/utils';
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
+import { useFlags } from 'src/hooks/useFlags';
 
 import { useIsNodebalancerVPCEnabled } from '../utils';
 
@@ -32,6 +33,7 @@ export const NodeBalancerActionMenu = (props: Props) => {
     isOpen
   );
 
+  const { premiumNodebalancer } = useFlags();
   const { isNodebalancerVPCEnabled } = useIsNodebalancerVPCEnabled();
 
   const actions: Action[] = [
@@ -56,6 +58,18 @@ export const NodeBalancerActionMenu = (props: Props) => {
         });
       },
       title: 'Settings',
+    },
+    {
+      hidden: !premiumNodebalancer,
+      onClick: () => {
+        navigate({
+          params: {
+            id: String(nodeBalancerId),
+          },
+          to: `/nodebalancers/$id/metrics`,
+        });
+      },
+      title: 'Metrics',
     },
     {
       disabled: !permissions.delete_nodebalancer,

@@ -1799,14 +1799,24 @@ export const handlers = [
     return HttpResponse.json(newFirewall);
   }),
   http.get('*/v4/nodebalancers', () => {
-    const nodeBalancers = nodeBalancerFactory.buildList(3);
-    nodeBalancers.push(
+    const nodeBalancers = [
+      ...nodeBalancerFactory.buildList(3),
       nodeBalancerFactory.build({
         id: 333,
         label: 'NodeBalancer-33',
         region: 'ap-west',
-      })
-    );
+      }),
+      nodeBalancerFactory.build({
+        id: 334,
+        label: 'nodebalancer-with-no-configs',
+      }),
+      nodeBalancerFactory.build({
+        id: 335,
+        label: 'premium-nodebalancer-with-no-configs',
+        type: 'premium',
+      }),
+    ];
+
     return HttpResponse.json(makeResourcePage(nodeBalancers));
   }),
   http.get('*/v4/nodebalancers/types', () => {
@@ -1833,9 +1843,16 @@ export const handlers = [
     return HttpResponse.json(nodeBalancer);
   }),
   http.get('*/nodebalancers/:nodeBalancerID/configs', ({ params }) => {
-    const configs = nodeBalancerConfigFactory.buildList(2, {
-      nodebalancer_id: Number(params.nodeBalancerID),
-    });
+    // Mocked IDs of NodeBalancers that have no configs
+    const isNodeBalancerWithNoConfigs = [334, 335].includes(
+      Number(params.nodeBalancerID)
+    );
+
+    const configs = isNodeBalancerWithNoConfigs
+      ? []
+      : nodeBalancerConfigFactory.buildList(2, {
+          nodebalancer_id: Number(params.nodeBalancerID),
+        });
     return HttpResponse.json(makeResourcePage(configs));
   }),
   http.get('*/nodebalancers/:nodeBalancerID/configs/:configID/nodes', () => {
