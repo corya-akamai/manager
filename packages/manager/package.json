@@ -27,8 +27,6 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@fontsource/fira-code": "^5.1.1",
-    "@fontsource/nunito-sans": "^5.1.1",
     "@hookform/resolvers": "3.9.1",
     "@linode/api-v4": "workspace:*",
     "@linode/design-language-system": "^5.3.2",
