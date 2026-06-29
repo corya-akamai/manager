@@ -5,7 +5,6 @@ import {
   Tab,
   Tabs,
 } from '@akamai/cds-components/react';
-import { Spacing } from '@akamai/cds-tokens';
 import { Outlet, useLocation, useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 
@@ -67,7 +66,7 @@ export const IdentityAccessLanding = React.memo(() => {
 
   return (
     <>
-      <LandingHeader spacingBottom={Spacing.S4} spacingTop={0}>
+      <LandingHeader>
         <Breadcrumb>
           <BreadcrumbItem>
             Identity and Access

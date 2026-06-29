@@ -1,5 +1,4 @@
 import { NotificationBanner } from '@akamai/cds-components/react';
-import { Typography } from '@akamai/cds-tokens';
 import { useAccountRoles } from '@linode/queries';
 import React from 'react';
 
@@ -47,7 +46,6 @@ export const RolesLanding = () => {
     <>
       {(isChildUserType || isDelegateUserType) && <DefaultRolesPanel />}
       <Paper>
-        <h2 style={{ font: Typography.Heading.M }}>Roles</h2>
         <RolesTable roles={roles} />
       </Paper>
     </>

@@ -100,8 +100,8 @@ export const UserDelegationsTable = () => {
     <Paper>
       <h2
         style={{
-          font: Typography.Heading.M,
-          marginBottom: Spacing.S24,
+          font: Typography.Heading.S,
+          marginBottom: Spacing.S16,
         }}
       >
         Account Delegations

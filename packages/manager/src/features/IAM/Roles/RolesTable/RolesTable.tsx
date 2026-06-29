@@ -181,7 +181,6 @@ export const RolesTable = ({ roles = [] }: Props) => {
     <>
       <Box
         style={{
-          marginTop: Spacing.S16,
           padding: 0,
         }}
       >

@@ -49,7 +49,7 @@ export const DefaultEntityAccess = () => {
     <Paper>
       {hasAssignedEntities ? (
         <>
-          <h2 style={{ font: Typography.Heading.M }}>
+          <h2 style={{ font: Typography.Heading.S }}>
             Default Entity Access for Delegate Users
           </h2>
           <p style={{ marginTop: Spacing.S16, marginBottom: Spacing.S16 }}>

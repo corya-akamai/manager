@@ -56,7 +56,7 @@ export const UserRoles = () => {
       <DocumentTitleSegment segment={`${username} - User Roles`} />
       {hasAssignedRoles ? (
         <Paper>
-          <h2 style={{ font: Typography.Heading.M }}>Assigned Roles</h2>
+          <h2 style={{ font: Typography.Heading.S }}>Assigned Roles</h2>
           <p
             style={{
               margin: `${Spacing.S12} 0 ${Spacing.S20}`,

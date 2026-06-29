@@ -5,7 +5,6 @@ import {
   Tab,
   Tabs,
 } from '@akamai/cds-components/react';
-import { Spacing } from '@akamai/cds-tokens';
 import { Outlet, useLocation, useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 
@@ -55,12 +54,8 @@ export const SSOLanding = () => {
 
   return (
     <>
-      <LandingHeader spacingBottom={Spacing.S4}>
-        <Breadcrumb
-          style={{
-            flexWrap: 'nowrap',
-          }}
-        >
+      <LandingHeader>
+        <Breadcrumb>
           <BreadcrumbItem
             onCdsBreadcrumbClick={() => navigate({ to: '/iam/users' })}
           >

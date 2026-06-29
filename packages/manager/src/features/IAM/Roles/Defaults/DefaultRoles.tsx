@@ -50,7 +50,7 @@ export const DefaultRoles = () => {
     <Paper>
       {hasAssignedRoles ? (
         <>
-          <h2 style={{ font: Typography.Heading.M }}>
+          <h2 style={{ font: Typography.Heading.S }}>
             Default Roles for Delegate Users
           </h2>
           <p style={{ marginTop: Spacing.S16 }}>

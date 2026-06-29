@@ -80,7 +80,7 @@ export const CertificateTableLandingRow = ({
       <TableCell className={styles.certCellLanding}>
         {truncateMiddle(
           cert.certificate,
-          isSmallScreen ? (isMobileScreen ? 18 : 24) : 46
+          isSmallScreen ? (isMobileScreen ? 12 : 24) : 46
         )}
         <CopyTooltip
           pendoId={IAM_SSO_IDP_PENDO_IDS.copyCertificate}
@@ -98,7 +98,10 @@ export const CertificateTableLandingRow = ({
         </TableCell>
       )}
 
-      <TableCell className={globalStyles.actionsCell}>
+      <TableCell
+        className={globalStyles.actionsCell}
+        style={{ minWidth: '50px' }}
+      >
         <Tooltip
           className={styles.actionButton}
           disabled={permissions?.view_idp_config_certs}
@@ -124,6 +127,7 @@ export const CertificateTableLandingRow = ({
         <Tooltip
           className={styles.actionButton}
           disabled={!deleteDisabled}
+          style={{ minWidth: '50px' }}
           tooltipPlacement="bottom"
           tooltipText={
             !canDelete

@@ -291,45 +291,42 @@ export const UserDetailsPanel = ({
 
   return (
     <Paper>
-      <div style={{ padding: `${Spacing.S8} ${Spacing.S0}` }}>
-        <Box
-          direction="row"
-          style={{
-            alignItems: 'center',
-            gap: 24,
-          }}
-        >
-          <p style={{ flex: 1, font: Typography.Heading.M }}>User Details</p>
-          <Tooltip disabled={!isEditUserDisabled} tooltipText={editTooltipText}>
-            <Button
-              disabled={isEditUserDisabled}
-              onClick={() => handleEditUser(activeUser.username)}
-              variant="link"
-            >
-              Edit Details
-              {isEditUserDisabled ? (
-                <Icon icon="info-outline" size="m" />
-              ) : null}
-            </Button>
-          </Tooltip>
-          <Tooltip
-            disabled={!isDeleteUserDisabled}
-            tooltipText={deleteTooltipText}
+      <Box
+        direction="row"
+        style={{
+          alignItems: 'center',
+          gap: 24,
+        }}
+      >
+        <h2 style={{ flex: 1, font: Typography.Heading.S }}>User Details</h2>
+        <Tooltip disabled={!isEditUserDisabled} tooltipText={editTooltipText}>
+          <Button
+            disabled={isEditUserDisabled}
+            onClick={() => handleEditUser(activeUser.username)}
+            variant="link"
           >
-            <Button
-              disabled={isDeleteUserDisabled}
-              onClick={() => handleDeleteUser(activeUser.username)}
-              variant="link"
-            >
-              Delete User
-              {isDeleteUserDisabled ? (
-                <Icon icon="info-outline" size="m" />
-              ) : null}
-            </Button>
-          </Tooltip>
-        </Box>
-        <Divider spacingBottom={Spacing.S16} spacingTop={Spacing.S24} />
-      </div>
+            Edit Details
+            {isEditUserDisabled ? <Icon icon="info-outline" size="m" /> : null}
+          </Button>
+        </Tooltip>
+        <Tooltip
+          disabled={!isDeleteUserDisabled}
+          tooltipText={deleteTooltipText}
+        >
+          <Button
+            disabled={isDeleteUserDisabled}
+            onClick={() => handleDeleteUser(activeUser.username)}
+            variant="link"
+          >
+            Delete User
+            {isDeleteUserDisabled ? (
+              <Icon icon="info-outline" size="m" />
+            ) : null}
+          </Button>
+        </Tooltip>
+      </Box>
+      <Divider spacingBottom={Spacing.S16} spacingTop={Spacing.S16} />
+
       <div className={styles.itemsGrid} style={itemsGridStyle}>
         {items.map((item) => (
           <Box className={styles.itemBox} key={item.label}>

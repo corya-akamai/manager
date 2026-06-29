@@ -5,7 +5,6 @@ import {
   Tab,
   Tabs,
 } from '@akamai/cds-components/react';
-import { Spacing } from '@akamai/cds-tokens';
 import {
   Outlet,
   useLoaderData,
@@ -76,7 +75,7 @@ export const UserDetailsLanding = () => {
 
   return (
     <>
-      <LandingHeader spacingBottom={Spacing.S4}>
+      <LandingHeader>
         <Breadcrumb
           style={{
             flexWrap: 'nowrap',

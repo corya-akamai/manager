@@ -55,7 +55,7 @@ export const UserEntities = () => {
 
       {hasAssignedRoles ? (
         <Paper>
-          <h2 style={{ font: Typography.Heading.M }}>Entity Access</h2>
+          <h2 style={{ font: Typography.Heading.S }}>Entity Access</h2>
           <p
             style={{
               margin: `${Spacing.S12} 0 ${Spacing.S20}`,
