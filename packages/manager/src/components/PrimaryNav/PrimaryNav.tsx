@@ -140,7 +140,7 @@ export const PrimaryNav = (props: PrimaryNavProps) => {
   const { limitsEvolution } = flags;
 
   const { isPlacementGroupsEnabled } = useIsPlacementGroupsEnabled();
-  const { isDatabasesEnabled, isDatabasesV2Beta } = useIsDatabasesEnabled();
+  const isDatabasesEnabled = useIsDatabasesEnabled();
 
   const { isIAMEnabled } = useIsIAMEnabled();
 
@@ -286,7 +286,6 @@ export const PrimaryNav = (props: PrimaryNavProps) => {
                 display: 'Databases',
                 hide: !isDatabasesEnabled,
                 to: '/databases',
-                isBeta: isDatabasesV2Beta,
               },
             ],
             name: 'Databases',
@@ -384,7 +383,6 @@ export const PrimaryNav = (props: PrimaryNavProps) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [
         isDatabasesEnabled,
-        isDatabasesV2Beta,
         isManaged,
         isPlacementGroupsEnabled,
         isACLPEnabled,

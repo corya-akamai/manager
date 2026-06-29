@@ -97,63 +97,6 @@ describe('PrimaryNav', () => {
     expect(getByTestId(queryString).getAttribute('aria-current')).toBe('false');
   });
 
-  it('should show Databases menu item if the user has the account capability V1', async () => {
-    const account = accountFactory.build({
-      capabilities: ['Managed Databases'],
-    });
-
-    queryMocks.useAccount.mockReturnValue({
-      data: account,
-      isLoading: false,
-      error: null,
-    });
-
-    const flags: Partial<Flags> = {
-      dbaasV2: {
-        beta: true,
-        enabled: true,
-      },
-    };
-
-    renderWithTheme(<PrimaryNav {...props} />, {
-      flags,
-    });
-
-    const databaseNavItem = screen.getByTestId('menu-item-Databases');
-
-    expect(databaseNavItem).toBeVisible();
-    expect(screen.queryByTestId('betaChip')).toBeNull();
-  });
-
-  it('should show Databases menu item if the user has the account capability V2 Beta', async () => {
-    const account = accountFactory.build({
-      capabilities: ['Managed Databases Beta'],
-    });
-
-    queryMocks.useAccount.mockReturnValue({
-      data: account,
-      isLoading: false,
-      error: null,
-    });
-
-    const flags: Partial<Flags> = {
-      dbaasV2: {
-        beta: true,
-        enabled: true,
-      },
-    };
-
-    const { findByTestId } = renderWithTheme(<PrimaryNav {...props} />, {
-      flags,
-    });
-
-    const databaseNavItem = await findByTestId('menu-item-Databases');
-    const betaChip = await findByTestId('betaChip');
-
-    expect(databaseNavItem).toBeVisible();
-    expect(betaChip).toBeVisible();
-  });
-
   it('should show Databases menu item if the user has the account capability V2', async () => {
     const account = accountFactory.build({
       capabilities: ['Managed Databases'],
@@ -165,47 +108,7 @@ describe('PrimaryNav', () => {
       error: null,
     });
 
-    const flags: Partial<Flags> = {
-      dbaasV2: {
-        beta: false,
-        enabled: true,
-      },
-    };
-
-    const { findByTestId, queryByTestId } = renderWithTheme(
-      <PrimaryNav {...props} />,
-      {
-        flags,
-      }
-    );
-
-    const databaseNavItem = await findByTestId('menu-item-Databases');
-
-    expect(databaseNavItem).toBeVisible();
-    expect(queryByTestId('betaChip')).toBeNull();
-  });
-
-  it('should show Databases menu item if the user has the account capability V2', async () => {
-    const account = accountFactory.build({
-      capabilities: ['Managed Databases Beta'],
-    });
-
-    queryMocks.useAccount.mockReturnValue({
-      data: account,
-      isLoading: false,
-      error: null,
-    });
-
-    const flags: Partial<Flags> = {
-      dbaasV2: {
-        beta: true,
-        enabled: true,
-      },
-    };
-
-    const { findByTestId } = renderWithTheme(<PrimaryNav {...props} />, {
-      flags,
-    });
+    const { findByTestId } = renderWithTheme(<PrimaryNav {...props} />);
 
     const databaseNavItem = await findByTestId('menu-item-Databases');
 

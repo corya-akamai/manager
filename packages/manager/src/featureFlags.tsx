@@ -277,25 +277,17 @@ export interface Flags {
   cloudManagerDesignUpdatesBanner: DesignUpdatesBannerFlag;
   cloudNat: CloudNatFlag;
   computePricing: ComputePricing;
-  databaseAdvancedConfig: boolean;
   databaseBeta: boolean;
-  databasePgBouncer: boolean;
   databasePremium: boolean;
-  databaseResize: boolean;
   databaseResizeGenerationalPlans: boolean;
   databaseRestrictPlanResize: boolean;
   databases: boolean;
   databaseValkey: BetaFeatureFlag;
-  databaseVpc: boolean;
-  databaseVpcBeta: boolean;
-  dbaasV2: BetaFeatureFlag;
-  dbaasV2MonitorMetrics: BetaFeatureFlag;
   disableLargestGbPlans: boolean;
   fwRulesetsPrefixLists: FirewallRulesetsAndPrefixLists;
   gecko2: GeckoFeatureFlag;
   generationalPlansv2: GenerationalPlansFlag;
   gpuv2: GpuV2;
-  hostnameEndpoints: boolean;
   iam: BaseFeatureFlag;
   iamFederation: boolean;
   iamNewBadge: boolean;
@@ -345,7 +337,6 @@ export interface Flags {
   udp: boolean;
   vmHostMaintenance: VMHostMaintenanceFlag;
   volumeSummaryPage: boolean;
-  vpcDbaasResources: boolean;
   vpcIpv6: boolean;
 }
 

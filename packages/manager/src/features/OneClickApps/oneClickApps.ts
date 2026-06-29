@@ -2296,7 +2296,7 @@ export const oneClickApps: Record<number, OCA> = {
     summary: 'AI Agent Platform',
     website: 'https://hermes-agent.nousresearch.com',
   },
-    2141983: {
+  2141983: {
     alt_description: 'Visual AI App Builder',
     alt_name:
       'Open-source visual framework for building AI agents and workflows without writing code.',

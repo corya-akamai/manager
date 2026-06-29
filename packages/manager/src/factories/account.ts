@@ -47,7 +47,6 @@ export const accountFactory = Factory.Sync.makeFactory<Account>({
     'LKE HA Control Planes',
     'Machine Images',
     'Managed Databases',
-    'Managed Databases Beta',
     'NETINT Quadra T1U',
     'Network LoadBalancer',
     'NodeBalancers',

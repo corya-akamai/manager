@@ -14,28 +14,19 @@ import { getUniqueResourcesFromSubnets } from '../utils';
 import type { VPC } from '@linode/api-v4/lib/vpcs/types';
 
 interface Props {
-  displayVPCDBaaSResources: boolean;
   handleDeleteVPC: () => void;
   handleEditVPC: () => void;
   vpc: VPC;
 }
 
-export const VPCRow = ({
-  handleDeleteVPC,
-  handleEditVPC,
-  displayVPCDBaaSResources,
-  vpc,
-}: Props) => {
+export const VPCRow = ({ handleDeleteVPC, handleEditVPC, vpc }: Props) => {
   const { id, label, subnets } = vpc;
   const { data: regions } = useRegionsQuery();
 
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   const regionLabel = regions?.find((r) => r.id === vpc.region)?.label ?? '';
-  const numResources = getUniqueResourcesFromSubnets(
-    vpc.subnets,
-    displayVPCDBaaSResources
-  );
+  const numResources = getUniqueResourcesFromSubnets(vpc.subnets);
 
   const { data: permissions, isLoading } = usePermissions(
     'vpc',

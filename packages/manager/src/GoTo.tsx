@@ -20,7 +20,7 @@ export const GoTo = React.memo(() => {
   const isManagedAccount = accountSettings?.managed ?? false;
 
   const { isPlacementGroupsEnabled } = useIsPlacementGroupsEnabled();
-  const { isDatabasesEnabled } = useIsDatabasesEnabled();
+  const isDatabasesEnabled = useIsDatabasesEnabled();
   const { isMarketplaceV2FeatureEnabled } = useIsMarketplaceV2Enabled();
   const { isNetworkLoadBalancerEnabled } = useIsNetworkLoadBalancerEnabled();
   const { isReserveIpEnabled } = useIsReserveIpEnabled();

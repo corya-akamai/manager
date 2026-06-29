@@ -120,8 +120,6 @@ import {
   paymentFactory,
   paymentMethodFactory,
   placementGroupFactory,
-  possibleMySQLReplicationTypes,
-  possiblePostgresReplicationTypes,
   postgresConfigResponse,
   promoFactory,
   serviceAlertFactory,
@@ -196,29 +194,12 @@ export const makeResourcePage = <T>(
 });
 
 const makeMockDatabase = (params: PathParams): Database => {
-  const isDefault = Number(params.id) % 2 !== 0;
   const db: Record<string, boolean | number | string | undefined> = {
     engine: params.engine as 'mysql',
     id: Number(params.id),
     label: `database-${params.id}`,
-    platform: isDefault ? 'rdbms-default' : 'rdbms-legacy',
+    platform: 'rdbms-default',
   };
-  if (!isDefault) {
-    db.replication_commit_type =
-      params.engine === 'postgresql' ? 'local' : undefined;
-
-    db.replication_type =
-      params.engine === 'mysql'
-        ? pickRandom(possibleMySQLReplicationTypes)
-        : undefined;
-
-    db.replication_type =
-      params.engine === 'postgresql'
-        ? pickRandom(possiblePostgresReplicationTypes)
-        : undefined;
-
-    db.ssl_connection = true;
-  }
 
   const database = databaseFactory.build(db);
 

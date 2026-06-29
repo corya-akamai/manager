@@ -21,7 +21,6 @@ import {
   VPC_LANDING_TABLE_PREFERENCE_KEY,
 } from 'src/features/VPCs/constants';
 import { VPC_DOCS_LINK, VPC_LABEL } from 'src/features/VPCs/constants';
-import { useFlags } from 'src/hooks/useFlags';
 import { useOrderV2 } from 'src/hooks/useOrderV2';
 import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 
@@ -97,8 +96,6 @@ const VPCLanding = () => {
     isFetching: isFetchingVPC,
     error: selectedVPCError,
   } = useVPCQuery(params.vpcId ?? -1, !!params.vpcId);
-
-  const flags = useFlags();
 
   if (error) {
     return (
@@ -176,7 +173,6 @@ const VPCLanding = () => {
         <TableBody>
           {vpcs?.data.map((vpc: VPC) => (
             <VPCRow
-              displayVPCDBaaSResources={Boolean(flags.vpcDbaasResources)}
               handleDeleteVPC={() => handleDeleteVPC(vpc)}
               handleEditVPC={() => handleEditVPC(vpc)}
               key={vpc.id}

@@ -84,7 +84,6 @@ export const accountCapabilities = [
   'LKE Network Access Control List (IP ACL)',
   'Machine Images',
   'Managed Databases',
-  'Managed Databases Beta',
   'NETINT Quadra T1U',
   'Network LoadBalancer',
   'NodeBalancers',

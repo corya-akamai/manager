@@ -1,6 +1,5 @@
 import { Button } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
-import { useNavigate } from '@tanstack/react-router';
 import React from 'react';
 
 import { Link } from 'src/components/Link';
@@ -15,9 +14,7 @@ import { DatabaseAdvancedConfigurationDrawer } from './DatabaseAdvancedConfigura
 import { formatConfigValue } from './utilities';
 
 export const DatabaseAdvancedConfiguration = () => {
-  const navigate = useNavigate();
-  const { database, isAdvancedConfigEnabled, engine } =
-    useDatabaseDetailContext();
+  const { database } = useDatabaseDetailContext();
   const [advancedConfigurationDrawerOpen, setAdvancedConfigurationDrawerOpen] =
     React.useState<boolean>(false);
 
@@ -26,17 +23,6 @@ export const DatabaseAdvancedConfiguration = () => {
   });
 
   const engineConfigs = database.engine_config;
-
-  if (!isAdvancedConfigEnabled) {
-    navigate({
-      to: `/databases/$engine/$databaseId/summary`,
-      params: {
-        engine,
-        databaseId: database.id,
-      },
-    });
-    return null;
-  }
 
   return (
     <Paper paddingBottom={Spacing.S40}>
