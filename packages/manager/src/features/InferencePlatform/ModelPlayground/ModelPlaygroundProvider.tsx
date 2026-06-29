@@ -15,6 +15,7 @@ import { useInferenceStream } from '../hooks/useInferenceStream';
 import { requestInferenceChatCompletion } from '../inferenceService';
 import {
   type Message,
+  type MessageMetadata,
   ModelPlaygroundInputContext,
   ModelPlaygroundModelContext,
   ModelPlaygroundOptionsContext,
@@ -57,11 +58,13 @@ export const ModelPlaygroundProvider = ({ children }: Props) => {
   );
 
   const { cancel, stream } = useInferenceStream();
+  const nonStreamAbortRef = useRef<AbortController | null>(null);
 
-  // Abort any in-flight stream if the user navigates away from the playground.
+  // Abort any in-flight request if the user navigates away from the playground.
   useEffect(() => {
     return () => {
       cancel();
+      nonStreamAbortRef.current?.abort();
     };
   }, [cancel]);
 
@@ -78,24 +81,45 @@ export const ModelPlaygroundProvider = ({ children }: Props) => {
   selectedModelRef.current = selectedModel;
   settingsRef.current = settings;
 
-  const applyStreamStart = useCallback((id: string) => {
-    setMessages((prev) => [...prev, { content: '', id, role: 'assistant' }]);
+  const applyStreamStart = useCallback((id: string, startedAt: number) => {
+    setMessages((prev) => [
+      ...prev,
+      { content: '', id, role: 'assistant', startedAt },
+    ]);
     setStreamingMessageId(id);
   }, []);
 
   const applyStreamChunk = useCallback(
-    (id: string, parsed: { content: string; thinking?: string }) => {
+    (
+      id: string,
+      parsed: { content: string; thinking?: string },
+      timeToFirstTokenMs?: number
+    ) => {
       setMessages((prev) =>
-        prev.map((m) => (m.id === id ? { ...m, ...parsed } : m))
+        prev.map((m) =>
+          m.id === id
+            ? {
+                ...m,
+                ...parsed,
+                ...(timeToFirstTokenMs !== undefined && { timeToFirstTokenMs }),
+              }
+            : m
+        )
       );
     },
     []
   );
 
   const applyStreamComplete = useCallback(
-    (id: string, final: { content: string; thinking?: string }) => {
+    (
+      id: string,
+      final: { content: string; thinking?: string },
+      metadata?: MessageMetadata
+    ) => {
       setMessages((prev) =>
-        prev.map((m) => (m.id === id ? { ...m, ...final } : m))
+        prev.map((m) =>
+          m.id === id ? { ...m, ...final, ...(metadata && { metadata }) } : m
+        )
       );
       setStreamingMessageId(null);
       setIsLoading(false);
@@ -133,6 +157,7 @@ export const ModelPlaygroundProvider = ({ children }: Props) => {
       !isMSWEnabled ||
       !getExtraPresets().includes('inferencePlatform:chat-completions')
     ) {
+      // Streaming path
       if (settingsRef.current.stream) {
         await stream(
           conversationMessages,
@@ -150,7 +175,10 @@ export const ModelPlaygroundProvider = ({ children }: Props) => {
 
       // Non-streaming path
       const assistantId = crypto.randomUUID();
-      applyStreamStart(assistantId);
+      const startTime = Date.now();
+      applyStreamStart(assistantId, startTime);
+      const nonStreamAbort = new AbortController();
+      nonStreamAbortRef.current = nonStreamAbort;
       try {
         const apiOptions = mapSettingsToApiOptions(settingsRef.current);
         const requestMessages = settingsRef.current.systemPrompt
@@ -162,25 +190,52 @@ export const ModelPlaygroundProvider = ({ children }: Props) => {
               ...conversationMessages,
             ]
           : conversationMessages;
+
         const response = await requestInferenceChatCompletion(
           requestMessages,
           selectedModelRef.current,
-          apiOptions
+          apiOptions,
+          nonStreamAbort.signal
         );
+
         const data = await response.json();
+        const durationMs = Date.now() - startTime;
         const raw = data.choices?.[0]?.message?.content ?? '';
         const rawReasoning = data.choices?.[0]?.message?.reasoning ?? '';
+        const completionTokens: number | undefined =
+          data.usage?.completion_tokens ?? undefined;
+        const promptTokens: number | undefined =
+          data.usage?.prompt_tokens ?? undefined;
         const { content: assistantContent, thinking } = rawReasoning
           ? { content: raw, thinking: rawReasoning }
           : parseThinking(raw);
-        applyStreamComplete(assistantId, {
-          content: assistantContent,
-          thinking,
-        });
+
+        applyStreamComplete(
+          assistantId,
+          { content: assistantContent, thinking },
+          {
+            completionTokens,
+            durationMs,
+            promptTokens,
+          }
+        );
       } catch {
-        // No response if the inference endpoint is unreachable.
-        // TODO: Error handling in future Jira case: HELIX-39
-        applyStreamError(assistantId);
+        if (nonStreamAbort.signal.aborted) {
+          applyStreamComplete(
+            assistantId,
+            { content: '' },
+            {
+              cancelled: true,
+              durationMs: Date.now() - startTime,
+            }
+          );
+        } else {
+          // No response if the inference endpoint is unreachable.
+          // TODO: Error handling in future Jira case: HELIX-39
+          applyStreamError(assistantId);
+        }
+      } finally {
+        nonStreamAbortRef.current = null;
       }
       return;
     }
@@ -221,7 +276,10 @@ export const ModelPlaygroundProvider = ({ children }: Props) => {
     () => ({
       inputValue,
       isLoading,
-      onCancel: cancel,
+      onCancel: () => {
+        cancel();
+        nonStreamAbortRef.current?.abort();
+      },
       onInputChange: setInputValue,
       onSend,
     }),

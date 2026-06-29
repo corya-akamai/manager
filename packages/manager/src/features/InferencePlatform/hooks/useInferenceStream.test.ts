@@ -233,6 +233,20 @@ describe('useInferenceStream', () => {
 
       expect(cbs.onComplete.mock.calls[0][1]).toEqual({ content: 'split' });
     });
+
+    it('does not include cancelled in metadata on normal completion', async () => {
+      vi.mocked(
+        inferenceService.requestInferenceChatCompletion
+      ).mockResolvedValue(mockResponse(sseLines(['hello'])));
+
+      const { result } = renderHook(() => useInferenceStream());
+      const cbs = mockCallbacks();
+
+      await result.current.stream([], 'model-a', cbs);
+
+      const metadata = cbs.onComplete.mock.calls[0][2];
+      expect(metadata?.cancelled).toBeUndefined();
+    });
   });
 
   describe('error handling', () => {

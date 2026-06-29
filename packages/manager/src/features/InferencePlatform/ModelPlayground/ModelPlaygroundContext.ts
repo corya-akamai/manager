@@ -4,11 +4,21 @@ import { DEFAULT_PLAYGROUND_SETTINGS } from './types';
 
 import type { PlaygroundSettings } from './types';
 
+export interface MessageMetadata {
+  cancelled?: boolean;
+  completionTokens?: number;
+  durationMs: number;
+  promptTokens?: number;
+}
+
 export interface Message {
   content: string;
   id: string;
+  metadata?: MessageMetadata;
   role: 'assistant' | 'user';
+  startedAt?: number;
   thinking?: string;
+  timeToFirstTokenMs?: number;
 }
 
 export interface ModelPlaygroundInputContextValue {

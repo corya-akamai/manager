@@ -60,6 +60,7 @@ describe('useInferenceStream — cancellation', () => {
     await streamPromise;
 
     expect(cbs.onComplete).toHaveBeenCalledOnce();
+    expect(cbs.onComplete.mock.calls[0][2]).toMatchObject({ cancelled: true });
     expect(cbs.onError).not.toHaveBeenCalled();
   });
 

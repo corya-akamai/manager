@@ -9,6 +9,7 @@ import {
 import { parseThinking, parseThinkingLive } from '../ModelPlayground/utils';
 
 import type { InferenceChatMessage } from '../inferenceService';
+import type { MessageMetadata } from '../ModelPlayground/ModelPlaygroundContext';
 import type { PlaygroundSettings } from '../ModelPlayground/types';
 
 // Flush streaming UI updates at a fixed cadence to reduce render pressure
@@ -16,13 +17,18 @@ import type { PlaygroundSettings } from '../ModelPlayground/types';
 const STREAM_FLUSH_INTERVAL_MS = 50;
 
 export interface StreamCallbacks {
-  onChunk: (id: string, parsed: { content: string; thinking?: string }) => void;
+  onChunk: (
+    id: string,
+    parsed: { content: string; thinking?: string },
+    timeToFirstTokenMs?: number
+  ) => void;
   onComplete: (
     id: string,
-    final: { content: string; thinking?: string }
+    final: { content: string; thinking?: string },
+    metadata?: MessageMetadata
   ) => void;
   onError: (id: string) => void;
-  onStart: (id: string) => void;
+  onStart: (id: string, startedAt: number) => void;
 }
 
 /**
@@ -52,17 +58,23 @@ export const useInferenceStream = () => {
       const assistantId = crypto.randomUUID();
       let rawContent = '';
       let rawReasoning = '';
+      let completionTokens: number | undefined;
+      let firstTokenTime: number | undefined;
+      let promptTokens: number | undefined;
+
+      const startTime = Date.now();
 
       const flush = () => {
         onChunk(
           assistantId,
           rawReasoning
             ? { content: rawContent, thinking: rawReasoning }
-            : parseThinkingLive(rawContent)
+            : parseThinkingLive(rawContent),
+          firstTokenTime !== undefined ? firstTokenTime - startTime : undefined
         );
       };
 
-      // Coalesce rapid chunk arrivals to at most one update per 30ms window.
+      // Coalesce rapid chunk arrivals to at most one update per 50ms window.
       const scheduleFlush = throttle(STREAM_FLUSH_INTERVAL_MS, false, flush);
       throttledFlushRef.current = scheduleFlush;
 
@@ -71,12 +83,29 @@ export const useInferenceStream = () => {
       const abortController = new AbortController();
       abortControllerRef.current = abortController;
 
-      onStart(assistantId);
+      onStart(assistantId, startTime);
 
       const apiOptions = mapSettingsToApiOptions(settings);
       const allMessages: InferenceChatMessage[] = settings.systemPrompt
         ? [{ content: settings.systemPrompt, role: 'system' }, ...messages]
         : messages;
+
+      // Shared completion path — used for both normal end and user cancellation.
+      const completeStream = (cancelled = false) => {
+        const durationMs = Date.now() - startTime;
+        onComplete(
+          assistantId,
+          rawReasoning
+            ? { content: rawContent, thinking: rawReasoning }
+            : parseThinking(rawContent),
+          {
+            cancelled: cancelled || undefined,
+            completionTokens,
+            durationMs,
+            promptTokens,
+          }
+        );
+      };
 
       try {
         const response = await requestInferenceChatCompletion(
@@ -94,13 +123,11 @@ export const useInferenceStream = () => {
         const decoder = new TextDecoder();
         // lineBuffer carries any partial line left over between read() calls.
         let lineBuffer = '';
-        let done = false;
 
-        while (!done) {
+        outer: while (true) {
           const result = await reader.read();
-          done = result.done;
 
-          if (done) {
+          if (result.done) {
             break;
           }
 
@@ -108,7 +135,6 @@ export const useInferenceStream = () => {
           const lines = lineBuffer.split('\n');
           // The last element may be an incomplete line; hold it for the next chunk.
           lineBuffer = lines.pop() ?? '';
-          let stop = false;
 
           for (const line of lines) {
             if (!line.startsWith('data: ')) {
@@ -119,8 +145,7 @@ export const useInferenceStream = () => {
             const data = line.slice(6).trim();
 
             if (data === '[DONE]') {
-              stop = true;
-              break;
+              break outer;
             }
 
             try {
@@ -128,10 +153,15 @@ export const useInferenceStream = () => {
               const delta = chunk.choices?.[0]?.delta?.content ?? '';
               const reasoning = chunk.choices?.[0]?.delta?.reasoning ?? '';
 
+              completionTokens =
+                chunk.usage?.completion_tokens ?? completionTokens;
+              promptTokens = chunk.usage?.prompt_tokens ?? promptTokens;
+
               if (!delta && !reasoning) {
                 continue;
               }
 
+              firstTokenTime ??= Date.now();
               if (delta) rawContent += delta;
               if (reasoning) rawReasoning += reasoning;
               scheduleFlush();
@@ -139,28 +169,18 @@ export const useInferenceStream = () => {
               // ignore malformed SSE chunks
             }
           }
-
-          if (stop) {
-            break;
-          }
         }
 
-        onComplete(
-          assistantId,
-          rawReasoning
-            ? { content: rawContent, thinking: rawReasoning }
-            : parseThinking(rawContent)
-        );
+        // Cancel any pending throttled call before the final parse so we don't get a
+        // stale intermediate render after onComplete fires.
+        scheduleFlush.cancel();
+        throttledFlushRef.current = null;
+
+        completeStream();
       } catch (err) {
         if (err instanceof DOMException && err.name === 'AbortError') {
-          // User cancelled — treat it as a normal completion so partial content
-          // is kept rather than discarded.
-          onComplete(
-            assistantId,
-            rawReasoning
-              ? { content: rawContent, thinking: rawReasoning }
-              : parseThinking(rawContent)
-          );
+          // User cancelled — keep partial content but mark as cancelled.
+          completeStream(true);
         } else {
           onError(assistantId);
         }
