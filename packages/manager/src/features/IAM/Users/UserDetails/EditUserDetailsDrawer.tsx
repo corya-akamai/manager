@@ -90,7 +90,9 @@ export const EditUserDetailsDrawer = (props: Props) => {
       }
     }
 
-    if (!hasError) {
+    // If the username changed, navigation already handled routing to the new URL.
+    // Calling handleClose() would navigate back to the old username URL via onClose().
+    if (!hasError && values.username === activeUser.username) {
       handleClose();
     }
   };
