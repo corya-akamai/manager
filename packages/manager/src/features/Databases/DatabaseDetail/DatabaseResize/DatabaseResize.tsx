@@ -438,6 +438,7 @@ export const DatabaseResize = () => {
 
   const handleOnClose = () => {
     setIsResizeConfirmationDialogOpen(false);
+    setClusterName('');
     resetMutation?.();
   };
 
