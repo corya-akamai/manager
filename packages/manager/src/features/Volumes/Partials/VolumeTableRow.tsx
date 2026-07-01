@@ -1,3 +1,4 @@
+import { TableCell, TableRow } from '@akamai/cds-components/react/Table';
 import { getFormattedStatus } from '@akamai/compute-ui-core/api';
 import { useNotificationsQuery, useRegionsQuery } from '@linode/queries';
 import { Box, Chip } from '@linode/ui';
@@ -8,8 +9,6 @@ import { makeStyles } from 'tss-react/mui';
 
 import { Link } from 'src/components/Link';
 import { StatusIcon } from 'src/components/StatusIcon/StatusIcon';
-import { TableCell } from 'src/components/TableCell';
-import { TableRow } from 'src/components/TableRow';
 import { useFlags } from 'src/hooks/useFlags';
 import { useInProgressEvents } from 'src/queries/events/events';
 
@@ -116,8 +115,16 @@ export const VolumeTableRow = React.memo((props: Props) => {
     volume.encryption === 'enabled' ? 'Encrypted' : 'Not Encrypted';
 
   return (
-    <TableRow data-qa-volume-cell={volume.id} key={`volume-row-${volume.id}`}>
-      <TableCell data-qa-volume-cell-label={volume.label}>
+    <TableRow
+      data-qa-volume-cell={volume.id}
+      hoverable
+      key={`volume-row-${volume.id}`}
+      zebra
+    >
+      <TableCell
+        data-qa-volume-cell-label={volume.label}
+        style={{ flex: '0 1 25%' }}
+      >
         <Box
           sx={{
             alignItems: 'center',
@@ -174,17 +181,27 @@ export const VolumeTableRow = React.memo((props: Props) => {
           )}
         </Box>
       </TableCell>
-      <TableCell statusCell>
+
+      <TableCell style={{ flex: '0 1 12%' }}>
         <StatusIcon status={volumeStatusIconMap[volumeStatus]} />
         {getFormattedStatus(volumeStatus)}{' '}
         {getEventProgress(mostRecentVolumeEvent)}
       </TableCell>
+
       {isVolumesLanding && (
-        <TableCell data-qa-volume-region data-testid="region" noWrap>
+        <TableCell
+          data-qa-volume-region
+          data-testid="region"
+          style={{ textWrap: 'nowrap' }}
+        >
           {regionLabel}
         </TableCell>
       )}
-      <TableCell data-qa-volume-size>{volume.size} GB</TableCell>
+
+      <TableCell data-qa-volume-size style={{ flex: '0 1 12%' }}>
+        {volume.size} GB
+      </TableCell>
+
       {!isVolumesLanding && (
         <Hidden xsDown>
           <TableCell className={classes.volumePath} data-qa-fs-path>
@@ -192,15 +209,23 @@ export const VolumeTableRow = React.memo((props: Props) => {
           </TableCell>
         </Hidden>
       )}
+
       {isVolumesLanding && (
-        <TableCell data-qa-volume-cell-attachment={volume.linode_label}>
+        <TableCell
+          data-qa-volume-cell-attachment={volume.linode_label}
+          style={{ flex: '0 1 15%' }}
+        >
           <AttachedToValue volume={volume} />
         </TableCell>
       )}
+
       {isBlockStorageEncryptionFeatureEnabled && (
-        <TableCell noWrap>{encryptionStatus}</TableCell>
+        <TableCell style={{ textWrap: 'nowrap', flex: '0 1 15%' }}>
+          {encryptionStatus}
+        </TableCell>
       )}
-      <TableCell actionCell>
+
+      <TableCell style={{ maxWidth: 40 }}>
         <VolumesActionMenu
           handlers={handlers}
           isVolumesLanding={isVolumesLanding} // Passing this down to govern logic re: showing Attach or Detach in action menu.
