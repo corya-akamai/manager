@@ -109,6 +109,7 @@ export type MockPresetExtraId =
   | 'account:custom'
   | 'account:managed-disabled'
   | 'account:managed-enabled'
+  | 'account:tfa-enforcement'
   | 'api:response-time'
   | 'events:custom'
   | 'inferencePlatform:api-keys'

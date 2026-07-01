@@ -40,6 +40,7 @@ const mockUsers: User[] = [
     restricted: false,
     ssh_keys: [],
     tfa_enabled: false,
+    tfa_enforced: false,
     user_type: 'default',
     username: 'user1',
     verified_phone_number: null,

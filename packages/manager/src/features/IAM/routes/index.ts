@@ -425,8 +425,9 @@ const iamSettingsRoute = createRoute({
   path: 'settings',
   beforeLoad: ({ context }) => {
     const isFederationEnabled = Boolean(context?.flags?.iamFederation);
+    const isTfaEnforcementEnabled = Boolean(context?.flags?.iamTfaEnforcement);
 
-    if (!isFederationEnabled) {
+    if (!isFederationEnabled && !isTfaEnforcementEnabled) {
       throw redirect({ to: '/iam/users', replace: true });
     }
   },
@@ -499,6 +500,32 @@ const iamSsoCatchAllRoute = createRoute({
       to: '/iam/settings/sso/idp-configurations',
       replace: true,
     });
+  },
+});
+
+// ─── 2FA Enforcement sub-page ────────────────────────────────────────────────
+
+const iamTfaEnforcementRoute = createRoute({
+  getParentRoute: () => iamRoute,
+  path: '/settings/tfa-enforcement',
+  beforeLoad: ({ context }) => {
+    const isTfaEnforcementEnabled = Boolean(context?.flags?.iamTfaEnforcement);
+
+    if (!isTfaEnforcementEnabled) {
+      throw redirect({ to: '/iam/users', replace: true });
+    }
+  },
+}).lazy(() =>
+  import('../LoginSettings/TFA/tfaEnforcementLandingLazyRoute').then(
+    (m) => m.tfaEnforcementLandingLazyRoute
+  )
+);
+
+const iamTfaEnforcementCatchAllRoute = createRoute({
+  getParentRoute: () => iamTfaEnforcementRoute,
+  path: '/$invalidPath',
+  beforeLoad: () => {
+    throw redirect({ to: '/iam/settings/tfa-enforcement', replace: true });
   },
 });
 
@@ -576,6 +603,7 @@ export const iamRouteTree = iamRoute.addChildren([
     iamSsoEnforcementSettingsRoute,
     iamSsoCatchAllRoute,
   ]),
+  iamTfaEnforcementRoute.addChildren([iamTfaEnforcementCatchAllRoute]),
   iamUserNameRoute.addChildren([
     iamUserNameIndexRoute,
     iamUserNameDetailsRoute,

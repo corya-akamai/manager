@@ -4,6 +4,7 @@ import { mswDB } from 'src/mocks/indexedDB';
 import { extraMockPresets } from 'src/mocks/presets';
 import { dbSeeders } from 'src/mocks/presets/crud/seeds';
 import { removeSeeds } from 'src/mocks/presets/crud/seeds/utils';
+import { setTfaEnforcementData as setTfaEnforcementMockData } from 'src/mocks/presets/extra/account/tfaEnforcement';
 
 import { BaselinePresetOptions } from './components/BaselinePresetOptions';
 import { DevToolSelect } from './components/DevToolSelect';
@@ -23,6 +24,7 @@ import {
   getExtraPresetsMap,
   getSeeders,
   getSeedsCountMap,
+  getTfaEnforcementData,
   isMSWEnabled,
   saveBaselinePreset,
   saveCustomAccountData,
@@ -38,6 +40,7 @@ import {
   saveMSWEnabled,
   saveSeeders,
   saveSeedsCountMap,
+  saveTfaEnforcementData,
 } from './utils';
 
 import type {
@@ -49,6 +52,7 @@ import type {
   PermissionType,
   Profile,
 } from '@linode/api-v4';
+import type { TfaEnforcementMockData } from 'src/mocks/presets/extra/account/tfaEnforcement';
 import type {
   MockPresetBaselineId,
   MockPresetCrudId,
@@ -79,6 +83,9 @@ export const ServiceWorkerTool = () => {
   const [customAccountData, setCustomAccountData] = React.useState<
     Account | null | undefined
   >(getCustomAccountData());
+  const [tfaEnforcementData, setTfaEnforcementData] = React.useState<
+    null | TfaEnforcementMockData | undefined
+  >(getTfaEnforcementData());
   const [customProfileData, setCustomProfileData] = React.useState<
     null | Profile | undefined
   >(getCustomProfileData());
@@ -133,6 +140,7 @@ export const ServiceWorkerTool = () => {
     const currentEventsData = getCustomEventsData();
     const currentMaintenanceData = getCustomMaintenanceData();
     const currentNotificationsData = getCustomNotificationsData();
+    const currentTfaEnforcementData = getTfaEnforcementData();
     const hasCustomAccountChanges =
       JSON.stringify(currentAccountData) !== JSON.stringify(customAccountData);
     const hasCustomGrantsChanges =
@@ -147,6 +155,9 @@ export const ServiceWorkerTool = () => {
     const hasCustomNotificationsChanges =
       JSON.stringify(currentNotificationsData) !==
       JSON.stringify(customNotificationsData);
+    const hasTfaEnforcementChanges =
+      JSON.stringify(currentTfaEnforcementData) !==
+      JSON.stringify(tfaEnforcementData);
 
     const hasCustomUserAccountPermissionsChanges =
       JSON.stringify(currentUserAccountPermissionsData) !==
@@ -162,6 +173,7 @@ export const ServiceWorkerTool = () => {
       hasCustomEventsChanges ||
       hasCustomMaintenanceChanges ||
       hasCustomNotificationsChanges ||
+      hasTfaEnforcementChanges ||
       hasCustomUserAccountPermissionsChanges ||
       hasCustomUserEntityPermissionsChanges
     ) {
@@ -177,6 +189,7 @@ export const ServiceWorkerTool = () => {
     customGrantsData,
     customNotificationsData,
     customProfileData,
+    tfaEnforcementData,
     customUserAccountPermissionsData,
     customUserEntityPermissionsData,
   ]);
@@ -192,6 +205,16 @@ export const ServiceWorkerTool = () => {
 
       if (extraPresets.includes('account:custom') && customAccountData) {
         saveCustomAccountData(customAccountData);
+      }
+
+      if (extraPresets.includes('account:tfa-enforcement')) {
+        if (tfaEnforcementData) {
+          saveTfaEnforcementData(tfaEnforcementData);
+          setTfaEnforcementMockData(tfaEnforcementData);
+        }
+      } else {
+        saveTfaEnforcementData(null);
+        setTfaEnforcementMockData(null);
       }
 
       if (extraPresets.includes('profile-grants:custom')) {
@@ -259,6 +282,7 @@ export const ServiceWorkerTool = () => {
       setCustomEventsData(getCustomEventsData());
       setCustomMaintenanceData(getCustomMaintenanceData());
       setCustomNotificationsData(getCustomNotificationsData());
+      setTfaEnforcementData(getTfaEnforcementData());
       setCustomUserAccountPermissionsData(
         getCustomUserAccountPermissionsData()
       );
@@ -283,6 +307,7 @@ export const ServiceWorkerTool = () => {
       setCustomEventsData(null);
       setCustomMaintenanceData(null);
       setCustomNotificationsData(null);
+      setTfaEnforcementData(null);
       setCustomUserAccountPermissionsData(null);
       setCustomUserEntityPermissionsData(null);
 
@@ -297,6 +322,8 @@ export const ServiceWorkerTool = () => {
       saveCustomEventsData(null);
       saveCustomMaintenanceData(null);
       saveCustomNotificationsData(null);
+      saveTfaEnforcementData(null);
+      setTfaEnforcementMockData(null);
       saveCustomUserAccountPermissionsData(null);
       saveCustomUserEntityPermissionsData(null);
 
@@ -536,8 +563,10 @@ export const ServiceWorkerTool = () => {
                   }
                   onPresetCountChange={presetHandlers.changeCount}
                   onSelectChange={presetHandlers.changeSelect}
+                  onTfaEnforcementChange={setTfaEnforcementData}
                   onTogglePreset={presetHandlers.toggle}
                   presetsCountMap={presetsCountMap}
+                  tfaEnforcementData={tfaEnforcementData}
                 />
               </div>
             </div>

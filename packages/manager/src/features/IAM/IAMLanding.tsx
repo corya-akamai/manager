@@ -13,6 +13,7 @@ import { useFlags } from 'src/hooks/useFlags';
 import { useDelegationRole } from './hooks/useDelegationRole';
 import { useIsIAMEnabled } from './hooks/useIsIAMEnabled';
 import { useIsIAMFederationEnabled } from './hooks/useIsIAMFederationEnabled';
+import { useIsIAMTfaEnforcementEnabled } from './hooks/useIsIAMTfaEnforcementEnabled';
 import { useTabs } from './hooks/useTabs';
 import { IAM_LANDING_PENDO_IDS } from './LoginSettings/constants';
 import { IAM_DOCS_LINK, ROLES_LEARN_MORE_LINK } from './Shared/constants';
@@ -30,6 +31,7 @@ export const IdentityAccessLanding = React.memo(() => {
   const navigate = useNavigate();
   const { isParentUserType } = useDelegationRole();
   const { isIAMFederationEnabled } = useIsIAMFederationEnabled();
+  const { isIAMTfaEnforcementEnabled } = useIsIAMTfaEnforcementEnabled();
   const tabsRef = React.useRef<TabsElement>(null);
 
   const { tabs, tabIndex, handleTabChange } = useTabs(
@@ -51,7 +53,7 @@ export const IdentityAccessLanding = React.memo(() => {
         pendoId: IAM_LANDING_PENDO_IDS.accountDelegationsTab,
       },
       {
-        hide: !isIAMFederationEnabled,
+        hide: !(isIAMFederationEnabled || isIAMTfaEnforcementEnabled),
         to: `/iam/settings`,
         title: 'Settings',
         pendoId: IAM_LANDING_PENDO_IDS.settingsTab,

@@ -2837,6 +2837,7 @@ export const handlers = [
       maintenance_policy: 'linode/migrate',
       network_helper: true,
       object_storage: 'active',
+      tfa_enforced: false,
     });
   }),
   http.put('*/account/settings/*', async ({ request }) => {

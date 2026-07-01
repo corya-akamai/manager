@@ -291,6 +291,7 @@ export interface Flags {
   iam: BaseFeatureFlag;
   iamFederation: boolean;
   iamNewBadge: boolean;
+  iamTfaEnforcement: boolean;
   inferencePlatform: boolean;
   ipv6Sharing: boolean;
   kubernetesBlackwellPlans: boolean;

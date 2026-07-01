@@ -12,6 +12,7 @@ import { customNotificationsPreset } from './extra/account/customNotifications';
 import { customProfileAndGrantsPreset } from './extra/account/customProfileAndGrants';
 import { managedDisabledPreset } from './extra/account/managedDisabled';
 import { managedEnabledPreset } from './extra/account/managedEnabled';
+import { tfaEnforcementPreset } from './extra/account/tfaEnforcement';
 import { apiResponseTimePreset } from './extra/api/api';
 import {
   inferencePlatformApiKeysPreset,
@@ -49,6 +50,7 @@ export const baselineMockPresets: MockPresetBaseline[] = [
 export const extraMockPresets: MockPresetExtra[] = [
   apiResponseTimePreset,
   customAccountPreset,
+  tfaEnforcementPreset,
   customProfileAndGrantsPreset,
   customEventsPreset,
   customUserAccountPermissionsPreset,
