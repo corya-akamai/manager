@@ -5,6 +5,7 @@ import {
   ActionsPanel,
   CircleProgress,
   Drawer,
+  ErrorState,
   Notice,
   TextField,
   Typography,
@@ -23,6 +24,7 @@ import { useObjectStorageRegions } from 'src/features/ObjectStorage/hooks/useObj
 import { SecretTokenDialog } from 'src/features/Profile/SecretTokenDialog/SecretTokenDialog';
 import {
   useCreateAccessKeyMutation,
+  useObjectStorageAccessKey,
   useUpdateAccessKeyMutation,
 } from 'src/queries/object-storage/queries';
 
@@ -46,13 +48,13 @@ import type {
   Region,
   UpdateObjectStorageKeyPayload,
 } from '@linode/api-v4';
+import type { OpenClose } from '@linode/utilities';
 import type { FormikHelpers } from 'formik';
 
 export interface AccessKeyDrawerProps {
+  accessKeyId?: number;
   isOpen: boolean;
   mode: MODE;
-  // If the mode is 'editing', we should have an ObjectStorageKey to edit
-  objectStorageKey?: ObjectStorageKey;
   onClose: () => void;
 }
 
@@ -105,38 +107,107 @@ export const getDefaultScopes = (
     .sort(sortByRegion(regionLookup));
 
 export const AccessKeyDrawer = (props: AccessKeyDrawerProps) => {
-  const { mode, onClose, isOpen, objectStorageKey } = props;
-
-  const { data: profile } = useProfile();
-  const isRestrictedUser = profile?.restricted ?? false;
+  const { mode, onClose, isOpen, accessKeyId } = props;
 
   const displayKeysDialog = useOpenClose();
   // Key to display in Confirmation Modal upon creation
   const [keyToDisplay, setKeyToDisplay] =
     React.useState<null | ObjectStorageKey>(null);
 
-  const { regionsByIdMap } = useObjectStorageRegions();
-
   const {
     data: buckets = [],
-    bucketFetchFailedForAllRegions,
+    error,
     isLoading: areBucketsLoading,
   } = useObjectStorageBuckets();
+
+  const hasBuckets = buckets.length > 0;
+  const createMode = mode === 'creating';
+  const title = createMode ? 'Create Access Key' : 'Edit Access Key';
+
+  return (
+    <>
+      <Drawer
+        onClose={onClose}
+        open={isOpen}
+        title={title}
+        wide={createMode && hasBuckets}
+      >
+        <AccessKeyDrawerContent
+          accessKeyId={accessKeyId}
+          areBucketsLoading={areBucketsLoading}
+          buckets={buckets}
+          bucketsError={error}
+          createMode={createMode}
+          displayKeysDialog={displayKeysDialog}
+          hasBuckets={hasBuckets}
+          isOpen={isOpen}
+          onClose={onClose}
+          setKeyToDisplay={setKeyToDisplay}
+        />
+      </Drawer>
+
+      {keyToDisplay && (
+        <SecretTokenDialog
+          objectStorageKey={keyToDisplay}
+          onClose={displayKeysDialog.close}
+          open={displayKeysDialog.isOpen}
+          title="Access Keys"
+        />
+      )}
+    </>
+  );
+};
+
+export interface AccessKeyDrawerContentProps {
+  accessKeyId?: number;
+  areBucketsLoading: boolean;
+  buckets: ObjectStorageBucket[];
+  bucketsError: null | string;
+  createMode: boolean;
+  displayKeysDialog: OpenClose;
+  hasBuckets: boolean;
+  isOpen: boolean;
+  onClose: () => void;
+  setKeyToDisplay: (key: ObjectStorageKey) => void;
+}
+
+// TODO: Extract AccessKeyForm component from the content component
+const AccessKeyDrawerContent = (props: AccessKeyDrawerContentProps) => {
+  const {
+    onClose,
+    isOpen,
+    accessKeyId,
+    setKeyToDisplay,
+    displayKeysDialog,
+    createMode,
+    buckets,
+    areBucketsLoading,
+    bucketsError,
+    hasBuckets,
+  } = props;
+
+  const {
+    data: objectStorageKey,
+    isLoading: isObjectStorageKeyLoading,
+    error: objectStorageKeyError,
+  } = useObjectStorageAccessKey(
+    accessKeyId ?? -1,
+    accessKeyId !== null && accessKeyId !== undefined
+  );
+
+  const { data: profile, error: profileError } = useProfile();
+  const isRestrictedUser = profile?.restricted ?? false;
+
+  const { regionsByIdMap, errors: regionsError } = useObjectStorageRegions();
 
   const { data: accountSettings } = useAccountSettings();
   const { mutateAsync: createAccessKey } = useCreateAccessKeyMutation();
   const { mutateAsync: updateAccessKey } = useUpdateAccessKeyMutation();
 
-  const hasBuckets = buckets.length > 0;
-
-  const createMode = mode === 'creating';
-
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   // This is for local display management only, not part of the payload
   // and so not included in Formik's types
   const [limitedAccessChecked, setLimitedAccessChecked] = useState(false);
-
-  const title = createMode ? 'Create Access Key' : 'Edit Access Key';
 
   const initialLabelValue =
     !createMode && objectStorageKey ? objectStorageKey.label : '';
@@ -242,29 +313,28 @@ export const AccessKeyDrawer = (props: AccessKeyDrawerProps) => {
     initialValues,
     enableReinitialize: true,
     onSubmit: (values) => {
-      // If the user hasn't toggled the Limited Access button,
-      // don't include any bucket_access information in the payload.
+      if (createMode) {
+        // If the user hasn't toggled the Limited Access button,
+        // don't include any bucket_access information in the payload.
 
-      // If any/all permissions are 'none' or null, don't include them in the response.
-      const access = values.bucket_access ?? [];
+        // If any/all permissions are 'none' or null, don't include them in the response.
+        const access = values.bucket_access ?? [];
 
-      const payload = limitedAccessChecked
-        ? {
-            ...values,
-            bucket_access: access.filter(
-              (thisAccess: DisplayedAccessKeyScope) =>
-                thisAccess.permissions !== 'none' &&
-                thisAccess.permissions !== null
-            ),
-          }
-        : { ...values, bucket_access: null };
+        const payload = limitedAccessChecked
+          ? {
+              ...values,
+              bucket_access: access.filter(
+                (thisAccess: DisplayedAccessKeyScope) =>
+                  thisAccess.permissions !== 'none' &&
+                  thisAccess.permissions !== null
+              ),
+            }
+          : { ...values, bucket_access: null };
 
-      const updatePayload = generateUpdatePayload(values, initialValues);
-
-      if (mode !== 'creating') {
-        handleEditKey(updatePayload, formik);
-      } else {
         handleCreateKey(payload, formik);
+      } else {
+        const updatePayload = generateUpdatePayload(values, initialValues);
+        handleEditKey(updatePayload, formik);
       }
     },
     validateOnBlur: true,
@@ -275,10 +345,10 @@ export const AccessKeyDrawer = (props: AccessKeyDrawerProps) => {
 
   const isSaveDisabled =
     isRestrictedUser ||
-    (mode !== 'creating' &&
+    (!createMode &&
       objectStorageKey &&
       !hasLabelOrRegionsChanged(formik.values, objectStorageKey)) ||
-    (mode === 'creating' &&
+    (createMode &&
       limitedAccessChecked &&
       !hasAccessBeenSelectedForAllBuckets(formik.values.bucket_access));
 
@@ -312,141 +382,133 @@ export const AccessKeyDrawer = (props: AccessKeyDrawerProps) => {
     formik.resetForm({ values: initialValues });
   }, [isOpen]);
 
+  if (areBucketsLoading || isObjectStorageKeyLoading) {
+    return <CircleProgress />;
+  }
+
+  if (objectStorageKeyError || bucketsError || regionsError || profileError) {
+    const error = objectStorageKeyError ?? regionsError ?? profileError;
+
+    return (
+      <ErrorState errorText={(error && error[0])?.reason ?? bucketsError!} />
+    );
+  }
+
   return (
     <>
-      <Drawer
-        onClose={onClose}
-        open={isOpen}
-        title={title}
-        wide={createMode && hasBuckets}
-      >
-        {areBucketsLoading ? (
-          <CircleProgress />
-        ) : (
-          <>
-            {formik.status && (
-              <Notice
-                data-qa-error
-                key={formik.status}
-                text={formik.status}
-                variant="error"
-              />
-            )}
-
-            {isRestrictedUser && (
-              <Notice
-                text="You don't have permissions to create an Access Key. Please contact an account administrator for details."
-                variant="error"
-              />
-            )}
-
-            {/* Explainer copy if we're in 'creating' mode */}
-            {createMode && (
-              <Typography>
-                Generate an Access Key for use with an{' '}
-                <Link
-                  className="h-u"
-                  to="https://techdocs.akamai.com/cloud-computing/docs/getting-started-with-object-storage#object-storage-tools"
-                >
-                  S3-compatible client
-                </Link>
-                .
-              </Typography>
-            )}
-
-            {!hasBuckets ? (
-              <Typography sx={{ paddingTop: '10px' }}>
-                This key will have unlimited access to all buckets on your
-                account. The option to create a limited access key is only
-                available after creating one or more buckets.
-              </Typography>
-            ) : null}
-
-            <TextField
-              data-qa-add-label
-              disabled={isRestrictedUser}
-              error={formik.touched.label ? !!formik.errors.label : false}
-              errorText={formik.touched.label ? formik.errors.label : undefined}
-              label="Label"
-              name="label"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              required
-              value={formik.values.label}
-            />
-            <AccessKeyRegions
-              disabled={isRestrictedUser}
-              error={
-                formik.touched.regions
-                  ? (formik.errors.regions as string)
-                  : undefined
-              }
-              name="regions"
-              onChange={(values) => {
-                const bucketsInRegions = buckets.filter(
-                  (bucket) => bucket.region && values.includes(bucket.region)
-                );
-                formik.setFieldValue(
-                  'bucket_access',
-                  getDefaultScopes(bucketsInRegions, regionsByIdMap)
-                );
-                formik.setFieldValue('regions', values);
-              }}
-              required
-              selectedRegion={formik.values.regions}
-            />
-            {createMode && (
-              <Typography
-                sx={(theme) => ({
-                  marginTop: theme.spacing(2),
-                })}
-              >
-                Unlimited S3 access key can be used to create buckets in the
-                selected region using S3 Endpoint returned on successful
-                creation of the key.
-              </Typography>
-            )}
-            {createMode && !bucketFetchFailedForAllRegions && (
-              <LimitedAccessControls
-                bucket_access={formik.values.bucket_access}
-                checked={limitedAccessChecked}
-                handleToggle={handleToggleAccess}
-                mode={mode}
-                selectedRegions={formik.values.regions}
-                updateScopes={handleScopeUpdate}
-              />
-            )}
-            <ActionsPanel
-              primaryButtonProps={{
-                'data-testid': 'submit',
-                disabled: isSaveDisabled,
-                label: createMode ? 'Create Access Key' : 'Save Changes',
-                loading: formik.isSubmitting,
-                onClick: beforeSubmit,
-              }}
-              secondaryButtonProps={{
-                'data-testid': 'cancel',
-                label: 'Cancel',
-                onClick: onClose,
-              }}
-            />
-            <EnableObjectStorageModal
-              handleSubmit={formik.handleSubmit}
-              onClose={() => setDialogOpen(false)}
-              open={dialogOpen}
-            />
-          </>
-        )}
-      </Drawer>
-
-      {keyToDisplay && (
-        <SecretTokenDialog
-          objectStorageKey={keyToDisplay}
-          onClose={displayKeysDialog.close}
-          open={displayKeysDialog.isOpen}
-          title="Access Keys"
+      {formik.status && (
+        <Notice
+          data-qa-error
+          key={formik.status}
+          text={formik.status}
+          variant="error"
         />
       )}
+
+      {isRestrictedUser && (
+        <Notice
+          text="You don't have permissions to create an Access Key. Please contact an account administrator for details."
+          variant="error"
+        />
+      )}
+
+      {/* Explainer copy if we're in 'creating' mode */}
+      {createMode && (
+        <Typography>
+          Generate an Access Key for use with an{' '}
+          <Link
+            className="h-u"
+            to="https://techdocs.akamai.com/cloud-computing/docs/getting-started-with-object-storage#object-storage-tools"
+          >
+            S3-compatible client
+          </Link>
+          .
+        </Typography>
+      )}
+
+      {!hasBuckets ? (
+        <Typography sx={{ paddingTop: '10px' }}>
+          This key will have unlimited access to all buckets on your account.
+          The option to create a limited access key is only available after
+          creating one or more buckets.
+        </Typography>
+      ) : null}
+
+      <TextField
+        data-qa-add-label
+        disabled={isRestrictedUser}
+        error={formik.touched.label ? !!formik.errors.label : false}
+        errorText={formik.touched.label ? formik.errors.label : undefined}
+        label="Label"
+        name="label"
+        onBlur={formik.handleBlur}
+        onChange={formik.handleChange}
+        required
+        value={formik.values.label}
+      />
+
+      <AccessKeyRegions
+        disabled={isRestrictedUser}
+        error={
+          formik.touched.regions ? (formik.errors.regions as string) : undefined
+        }
+        name="regions"
+        onChange={(values) => {
+          const bucketsInRegions = buckets.filter(
+            (bucket) => bucket.region && values.includes(bucket.region)
+          );
+          formik.setFieldValue(
+            'bucket_access',
+            getDefaultScopes(bucketsInRegions, regionsByIdMap)
+          );
+          formik.setFieldValue('regions', values);
+        }}
+        required
+        selectedRegion={formik.values.regions}
+      />
+
+      {createMode && (
+        <Typography
+          sx={(theme) => ({
+            marginTop: theme.spacing(2),
+          })}
+        >
+          Unlimited S3 access key can be used to create buckets in the selected
+          region using S3 Endpoint returned on successful creation of the key.
+        </Typography>
+      )}
+
+      {createMode && !bucketsError && (
+        <LimitedAccessControls
+          bucket_access={formik.values.bucket_access}
+          checked={limitedAccessChecked}
+          handleToggle={handleToggleAccess}
+          mode="creating"
+          selectedRegions={formik.values.regions}
+          updateScopes={handleScopeUpdate}
+        />
+      )}
+
+      <ActionsPanel
+        primaryButtonProps={{
+          'data-testid': 'submit',
+          disabled: isSaveDisabled,
+          label: createMode ? 'Create Access Key' : 'Save Changes',
+          loading: formik.isSubmitting,
+          onClick: beforeSubmit,
+        }}
+        secondaryButtonProps={{
+          'data-testid': 'cancel',
+          label: 'Cancel',
+          onClick: onClose,
+        }}
+      />
+
+      <EnableObjectStorageModal
+        handleSubmit={formik.handleSubmit}
+        onClose={() => setDialogOpen(false)}
+        open={dialogOpen}
+      />
     </>
   );
 };

@@ -1,19 +1,12 @@
 import React from 'react';
 
-import { useObjectStorageAccessKey } from 'src/queries/object-storage/queries';
-
+import { AccessKeyDrawer } from './AccessKeyDrawer';
 import { useAccessKeyDrawers } from './hooks/useAccessKeyDrawers';
 import { HostNamesDrawer } from './HostNamesDrawer';
-import { AccessKeyDrawer } from './OMC_AccessKeyDrawer';
 import { ViewPermissionsDrawer } from './ViewPermissionsDrawer';
 
 export const AccessKeysDrawerOutlet = () => {
   const { drawer, closeDrawer } = useAccessKeyDrawers();
-
-  const { data: objectStorageKey } = useObjectStorageAccessKey(
-    drawer?.accessKeyId ?? -1,
-    drawer?.accessKeyId !== null && drawer?.accessKeyId !== undefined
-  );
 
   return (
     <>
@@ -24,9 +17,9 @@ export const AccessKeysDrawerOutlet = () => {
       />
 
       <AccessKeyDrawer
+        accessKeyId={drawer?.accessKeyId}
         isOpen={drawer?.type === 'edit-access-key'}
         mode="editing"
-        objectStorageKey={objectStorageKey}
         onClose={closeDrawer}
       />
 
