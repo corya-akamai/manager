@@ -6,6 +6,7 @@ import { CircleProgress } from '../../../Shared/CircleProgress/CircleProgress';
 import { DocumentTitleSegment } from '../../../Shared/DocumentTitleSegment/DocumentTitleSegment';
 import { ErrorState } from '../../../Shared/ErrorState/ErrorState';
 import { NoIDPConfiguration } from '../../../Shared/NoIDPConfiguration/NoIDPConfiguration';
+import { Paper } from '../../../Shared/Paper/Paper';
 import { EnforcementSettings } from './EnforcementSettings';
 
 export const EnforcementSettingsLanding = () => {
@@ -31,7 +32,9 @@ export const EnforcementSettingsLanding = () => {
       {hasIdpConfig ? (
         <EnforcementSettings />
       ) : (
-        <NoIDPConfiguration permissions={permissions} />
+        <Paper>
+          <NoIDPConfiguration permissions={permissions} />
+        </Paper>
       )}
     </>
   );

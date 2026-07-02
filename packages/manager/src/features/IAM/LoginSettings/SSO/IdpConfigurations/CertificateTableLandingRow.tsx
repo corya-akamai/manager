@@ -152,8 +152,14 @@ export const CertificateTableLandingRow = ({
             variant="link"
           >
             Delete
-            {deleteDisabled && <Icon icon="info-outline" size="s" />}
           </Button>
+          {deleteDisabled && (
+            <Icon
+              icon="info-outline"
+              size="s"
+              style={{ marginLeft: 'var(--token-global-spacing-s4, 4px)' }}
+            />
+          )}
         </Tooltip>
       </TableCell>
     </TableRow>

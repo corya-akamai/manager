@@ -1,6 +1,8 @@
 import { useGetIdpConfigsQuery } from '@linode/queries';
 import * as React from 'react';
 
+import { Paper } from 'src/features/IAM/Shared/Paper/Paper';
+
 import { usePermissions } from '../../../hooks/usePermissions';
 import { CircleProgress } from '../../../Shared/CircleProgress/CircleProgress';
 import { DocumentTitleSegment } from '../../../Shared/DocumentTitleSegment/DocumentTitleSegment';
@@ -31,7 +33,9 @@ export const IdpConfigurationsLanding = () => {
       {hasIdpConfig ? (
         <IdpConfigurations idpConfig={data?.data[0]} />
       ) : (
-        <NoIDPConfiguration permissions={permissions} />
+        <Paper>
+          <NoIDPConfiguration permissions={permissions} />
+        </Paper>
       )}
     </>
   );
