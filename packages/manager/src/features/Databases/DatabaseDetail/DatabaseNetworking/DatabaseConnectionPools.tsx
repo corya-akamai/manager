@@ -22,7 +22,6 @@ import {
   CONNECTION_POOL_LABEL_CELL_STYLES,
   MANAGE_CONNECTION_POOLS_LEARN_MORE_LINK,
 } from 'src/features/Databases/constants';
-import { StyledLabelTypography } from 'src/features/Databases/DatabaseDetail/DatabaseSummary/DatabaseSummaryClusterConfiguration.style';
 import { useBreakpoint } from 'src/features/Databases/hooks/useBreakpoint';
 import { usePaginationV2 } from 'src/hooks/usePaginationV2';
 
@@ -104,9 +103,7 @@ export const DatabaseConnectionPools = ({ database }: Props) => {
       {connectionPools && connectionPools.data.length > 0 && (
         <div className={styles.summaryLabelValueContainer}>
           <div className={styles.summaryLabelColumn}>
-            <StyledLabelTypography>
-              {hasPublicVPC ? 'Public Service URI' : 'Service URI'}
-            </StyledLabelTypography>
+            <p>{hasPublicVPC ? 'Public Service URI' : 'Service URI'}</p>
           </div>
           <div className={styles.summaryValueColumn}>
             <ServiceURI database={database} />
@@ -114,9 +111,7 @@ export const DatabaseConnectionPools = ({ database }: Props) => {
           {hasPublicVPC && (
             <>
               <div className={styles.summaryLabelColumn}>
-                <StyledLabelTypography>
-                  Private Service URI
-                </StyledLabelTypography>
+                <p>Private Service URI</p>
               </div>
               <div className={styles.summaryValueColumn}>
                 <ServiceURI database={database} showPrivateVPC />

@@ -9,7 +9,6 @@ import { Paper } from '../../shared/Paper/Paper';
 import { cssVars } from '../../shared/utilities/cssVars';
 import styles from '../DatabaseDetail.module.css';
 import { useDatabaseDetailContext } from '../DatabaseDetailContext';
-import { StyledLabelTypography } from '../DatabaseSummary/DatabaseSummaryClusterConfiguration.style';
 import { DatabaseAdvancedConfigurationDrawer } from './DatabaseAdvancedConfigurationDrawer';
 import { formatConfigValue } from './utilities';
 
@@ -56,7 +55,7 @@ export const DatabaseAdvancedConfiguration = () => {
               Object.entries(value!).map(([configLabel, configValue]) => (
                 <React.Fragment key={`${key}-${configLabel}`}>
                   <div className={styles.summaryLabelColumn}>
-                    <StyledLabelTypography>{`${key}.${configLabel}`}</StyledLabelTypography>
+                    <p>{`${key}.${configLabel}`}</p>
                   </div>
                   <div className={styles.summaryValueColumn}>
                     {formatConfigValue(String(configValue))}
@@ -66,7 +65,7 @@ export const DatabaseAdvancedConfiguration = () => {
             ) : (
               <React.Fragment key={key}>
                 <div className={styles.summaryLabelColumn}>
-                  <StyledLabelTypography>{`${key}`}</StyledLabelTypography>
+                  <p>{`${key}`}</p>
                 </div>
                 <div className={styles.summaryValueColumn}>
                   {formatConfigValue(String(value))}
