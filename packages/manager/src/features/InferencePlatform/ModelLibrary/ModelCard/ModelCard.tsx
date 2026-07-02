@@ -82,11 +82,11 @@ export const ModelCard = ({ model, location }: ModelCardProps) => {
         </Stack>
 
         {/* Playground link */}
-        {model.isServerless && <PlaygroundLink modelId={model.id} />}
+        {model.playgroundAvailable && <PlaygroundLink modelId={model.id} />}
       </Stack>
 
       {/* Description */}
-      {model.description && (
+      {(model.descriptionShort || model.description) && (
         <Typography
           sx={(theme) => ({
             lineHeight: 1.5,
@@ -99,7 +99,7 @@ export const ModelCard = ({ model, location }: ModelCardProps) => {
           })}
           variant="body2"
         >
-          {model.descriptionShort}
+          {model.descriptionShort || model.description}
         </Typography>
       )}
 
@@ -136,20 +136,23 @@ export const ModelCard = ({ model, location }: ModelCardProps) => {
         />
       </Stack>
 
-      {/* Pricing */}
-      {/* <Typography variant="body2">
-        Price:{' '}
-        <Box
-          component="span"
-          sx={(theme) => ({
-            font: theme.font.bold,
-          })}
-        >
-          ${model.priceInputPerMillion.toFixed(2)} input / $
-          {model.priceOutputPerMillion.toFixed(2)} output
-        </Box>{' '}
-        per 1 million tokens
-      </Typography> */}
+      {/* Pricing - only show if pricing data is available */}
+      {model.priceInputPerMillion !== undefined &&
+        model.priceOutputPerMillion !== undefined && (
+          <Typography variant="body2">
+            Price:{' '}
+            <Box
+              component="span"
+              sx={(theme) => ({
+                font: theme.font.bold,
+              })}
+            >
+              ${model.priceInputPerMillion.toFixed(2)} input / $
+              {model.priceOutputPerMillion.toFixed(2)} output
+            </Box>{' '}
+            per 1 million tokens
+          </Typography>
+        )}
 
       {/* Footer: capabilities + Serverless badge */}
       {/* <Stack alignItems="center" direction="row" justifyContent="space-between">

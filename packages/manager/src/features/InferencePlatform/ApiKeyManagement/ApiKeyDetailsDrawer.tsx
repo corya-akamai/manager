@@ -114,6 +114,7 @@ export const ApiKeyDetailsDrawer = ({
       setIsEditingLabel(false);
       setIsEditingDescription(false);
 
+      // Set selected models based on allowed_models
       if (allModelIds.length > 0) {
         // If allowed_models is empty or ['*'], it means all models are allowed
         if (
@@ -123,6 +124,7 @@ export const ApiKeyDetailsDrawer = ({
         ) {
           setSelectedModels([...allModelIds]);
         } else {
+          // Show only the specific allowed models as checked
           setSelectedModels(apiKey.allowed_models);
         }
       }

@@ -1,4 +1,5 @@
 import { createChatCompletion } from '@linode/api-v4';
+import { useProfile } from '@linode/queries';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import React, {
   useCallback,
@@ -13,6 +14,7 @@ import { getExtraPresets, isMSWEnabled } from 'src/dev-tools/utils';
 
 import { useInferenceStream } from '../hooks/useInferenceStream';
 import { requestInferenceChatCompletion } from '../inferenceService';
+import { getOrCreatePlaygroundKey } from '../playgroundKeyService';
 import {
   type Message,
   type MessageMetadata,
@@ -31,10 +33,10 @@ interface Props {
 }
 
 export const ModelPlaygroundProvider = ({ children }: Props) => {
-  const { model: modelFromUrl } = useSearch({
-    from: '/inference-platform/model-playground',
-  });
+  const search = useSearch({ strict: false }) as { model?: string };
+  const modelFromUrl = search.model;
   const navigate = useNavigate();
+  const { data: profile } = useProfile();
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
@@ -157,11 +159,27 @@ export const ModelPlaygroundProvider = ({ children }: Props) => {
       !isMSWEnabled ||
       !getExtraPresets().includes('inferencePlatform:chat-completions')
     ) {
+      // Get or create a playground API key for authentication
+      let apiKey: string;
+      try {
+        if (!profile?.username) {
+          // Cannot create playground key without a valid username
+          setIsLoading(false);
+          return;
+        }
+        apiKey = await getOrCreatePlaygroundKey(profile.username);
+      } catch {
+        // TODO: Handle API key creation failure
+        setIsLoading(false);
+        return;
+      }
+
       // Streaming path
       if (settingsRef.current.stream) {
         await stream(
           conversationMessages,
           selectedModelRef.current,
+          apiKey,
           {
             onChunk: applyStreamChunk,
             onComplete: applyStreamComplete,
@@ -194,6 +212,7 @@ export const ModelPlaygroundProvider = ({ children }: Props) => {
         const response = await requestInferenceChatCompletion(
           requestMessages,
           selectedModelRef.current,
+          apiKey,
           apiOptions,
           nonStreamAbort.signal
         );
@@ -269,6 +288,7 @@ export const ModelPlaygroundProvider = ({ children }: Props) => {
     applyStreamComplete,
     applyStreamError,
     applyStreamStart,
+    profile?.username,
     stream,
   ]);
 

@@ -48,6 +48,8 @@ const mockCallbacks = () => ({
   onStart: vi.fn(),
 });
 
+const MOCK_API_KEY = 'test-playground-api-key';
+
 // ---------------------------------------------------------------------------
 // Tests
 // ---------------------------------------------------------------------------
@@ -70,7 +72,7 @@ describe('useInferenceStream', () => {
       const { result } = renderHook(() => useInferenceStream());
       const cbs = mockCallbacks();
 
-      await result.current.stream([], 'model-a', cbs);
+      await result.current.stream([], 'model-a', MOCK_API_KEY, cbs);
 
       expect(cbs.onStart).toHaveBeenCalledOnce();
       // Verify the ID is a non-empty string (crypto.randomUUID format)
@@ -88,7 +90,7 @@ describe('useInferenceStream', () => {
       const { result } = renderHook(() => useInferenceStream());
       const cbs = mockCallbacks();
 
-      await result.current.stream([], 'model-a', cbs);
+      await result.current.stream([], 'model-a', MOCK_API_KEY, cbs);
 
       expect(cbs.onComplete).toHaveBeenCalledOnce();
       expect(cbs.onComplete.mock.calls[0][1]).toEqual({
@@ -105,7 +107,7 @@ describe('useInferenceStream', () => {
       const { result } = renderHook(() => useInferenceStream());
       const cbs = mockCallbacks();
 
-      await result.current.stream([], 'model-a', cbs);
+      await result.current.stream([], 'model-a', MOCK_API_KEY, cbs);
 
       const id = cbs.onStart.mock.calls[0][0];
       expect(cbs.onChunk.mock.calls[0][0]).toBe(id);
@@ -122,7 +124,7 @@ describe('useInferenceStream', () => {
       const { result } = renderHook(() => useInferenceStream());
       const cbs = mockCallbacks();
 
-      await result.current.stream([], 'model-a', cbs);
+      await result.current.stream([], 'model-a', MOCK_API_KEY, cbs);
 
       expect(cbs.onComplete.mock.calls[0][1]).toEqual({
         content: 'The answer.',
@@ -144,7 +146,7 @@ describe('useInferenceStream', () => {
       const { result } = renderHook(() => useInferenceStream());
       const cbs = mockCallbacks();
 
-      await result.current.stream([], 'model-a', cbs);
+      await result.current.stream([], 'model-a', MOCK_API_KEY, cbs);
 
       expect(cbs.onComplete.mock.calls[0][1]).toEqual({
         content: 'The answer.',
@@ -165,7 +167,7 @@ describe('useInferenceStream', () => {
       const { result } = renderHook(() => useInferenceStream());
       const cbs = mockCallbacks();
 
-      await result.current.stream([], 'model-a', cbs);
+      await result.current.stream([], 'model-a', MOCK_API_KEY, cbs);
 
       expect(cbs.onComplete.mock.calls[0][1]).toEqual({ content: 'hello' });
     });
@@ -179,7 +181,7 @@ describe('useInferenceStream', () => {
       const { result } = renderHook(() => useInferenceStream());
       const cbs = mockCallbacks();
 
-      await result.current.stream([], 'model-a', cbs);
+      await result.current.stream([], 'model-a', MOCK_API_KEY, cbs);
 
       expect(cbs.onError).not.toHaveBeenCalled();
       expect(cbs.onComplete.mock.calls[0][1]).toEqual({ content: 'valid' });
@@ -197,7 +199,7 @@ describe('useInferenceStream', () => {
       const { result } = renderHook(() => useInferenceStream());
       const cbs = mockCallbacks();
 
-      await result.current.stream([], 'model-a', cbs);
+      await result.current.stream([], 'model-a', MOCK_API_KEY, cbs);
 
       expect(cbs.onComplete.mock.calls[0][1]).toEqual({
         content: 'real content',
@@ -229,7 +231,7 @@ describe('useInferenceStream', () => {
       const { result } = renderHook(() => useInferenceStream());
       const cbs = mockCallbacks();
 
-      await result.current.stream([], 'model-a', cbs);
+      await result.current.stream([], 'model-a', MOCK_API_KEY, cbs);
 
       expect(cbs.onComplete.mock.calls[0][1]).toEqual({ content: 'split' });
     });
@@ -242,7 +244,7 @@ describe('useInferenceStream', () => {
       const { result } = renderHook(() => useInferenceStream());
       const cbs = mockCallbacks();
 
-      await result.current.stream([], 'model-a', cbs);
+      await result.current.stream([], 'model-a', MOCK_API_KEY, cbs);
 
       const metadata = cbs.onComplete.mock.calls[0][2];
       expect(metadata?.cancelled).toBeUndefined();
@@ -258,7 +260,7 @@ describe('useInferenceStream', () => {
       const { result } = renderHook(() => useInferenceStream());
       const cbs = mockCallbacks();
 
-      await result.current.stream([], 'model-a', cbs);
+      await result.current.stream([], 'model-a', MOCK_API_KEY, cbs);
 
       expect(cbs.onError).toHaveBeenCalledOnce();
       expect(cbs.onComplete).not.toHaveBeenCalled();
@@ -272,7 +274,7 @@ describe('useInferenceStream', () => {
       const { result } = renderHook(() => useInferenceStream());
       const cbs = mockCallbacks();
 
-      await result.current.stream([], 'model-a', cbs);
+      await result.current.stream([], 'model-a', MOCK_API_KEY, cbs);
 
       expect(cbs.onError).toHaveBeenCalledOnce();
       expect(cbs.onComplete).not.toHaveBeenCalled();

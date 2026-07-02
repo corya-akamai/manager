@@ -4,6 +4,7 @@ import {
   deleteApiKey,
   getApiKey,
   getApiKeys,
+  getModels,
   revokeApiKey,
   updateApiKey,
 } from 'src/mocks/presets/crud/handlers/inferencePlatform';
@@ -34,9 +35,21 @@ export const inferencePlatformApiKeysPreset: MockPresetExtra = {
     updateApiKey,
     revokeApiKey,
     deleteApiKey,
+    getModels, // Include models so the drawer can display allowed models
   ],
   id: 'inferencePlatform:api-keys',
   label: 'API Keys',
+};
+
+export const inferencePlatformModelsPreset: MockPresetExtra = {
+  desc: 'Mocks the inference platform models endpoint for the Model Library.',
+  group: {
+    id: 'Inference Platform',
+    type: 'checkbox',
+  },
+  handlers: [getModels],
+  id: 'inferencePlatform:models',
+  label: 'Model Library',
 };
 
 // Keep the old export for backward compatibility

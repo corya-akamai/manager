@@ -14,6 +14,7 @@ import type {
   ChatResponseBody,
   CreateApiKeyPayload,
   CreateApiKeyResponse,
+  InferenceModelsResponse,
   UpdateApiKeyPayload,
 } from './types';
 
@@ -84,10 +85,23 @@ export const deleteApiKey = (keyId: number) =>
  * updateApiKey
  *
  * Updates an Inference API key.
+ * For playground keys, this performs credential rotation and returns the new full key.
+ * For user keys, this updates label/description.
  */
 export const updateApiKey = (keyId: number, data: UpdateApiKeyPayload) =>
-  Request<ApiKey>(
+  Request<CreateApiKeyResponse>(
     setURL(`${BETA_API_ROOT}/inference/api-keys/${keyId}`),
     setMethod('PUT'),
     setData(data),
+  );
+
+/**
+ * getInferenceModels
+ *
+ * Returns the list of available inference models.
+ */
+export const getInferenceModels = () =>
+  Request<InferenceModelsResponse>(
+    setURL(`${BETA_API_ROOT}/inference/models`),
+    setMethod('GET'),
   );

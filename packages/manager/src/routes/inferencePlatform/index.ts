@@ -87,8 +87,8 @@ export const inferencePlatformRouteTree = inferencePlatformRoute.addChildren([
   inferencePlatformIndexRoute,
   inferencePlatformDashboardRoute,
   inferencePlatformInferenceHubRoute,
+  inferencePlatformModelLibraryRoute,
   inferencePlatformModelPlaygroundRoute,
   inferencePlatformApiKeyManagementRoute,
-  inferencePlatformModelLibraryRoute,
   inferencePlatformUsageRoute,
 ]);

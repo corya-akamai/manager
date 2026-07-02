@@ -2,6 +2,7 @@ import {
   createApiKey,
   deleteApiKey,
   getApiKeys,
+  getInferenceModels,
   revokeApiKey,
   updateApiKey,
 } from '@linode/api-v4';
@@ -19,6 +20,7 @@ import type {
   CreateApiKeyPayload,
   CreateApiKeyResponse,
   Filter,
+  InferenceModelsResponse,
   Params,
   ResourcePage,
   UpdateApiKeyPayload,
@@ -29,6 +31,10 @@ export const inferenceQueries = createQueryKeys('inference', {
     queryFn: () => getApiKeys(params, filter),
     queryKey: [params, filter],
   }),
+  models: {
+    queryFn: getInferenceModels,
+    queryKey: null,
+  },
 });
 
 /**
@@ -43,6 +49,16 @@ export const useInferenceApiKeysQuery = (
     ...inferenceQueries.apiKeys(params, filter),
     enabled,
     placeholderData: keepPreviousData,
+  });
+
+/**
+ * Hook to fetch available inference models.
+ */
+export const useInferenceModelsQuery = (enabled = true) =>
+  useQuery<InferenceModelsResponse, APIError[]>({
+    ...inferenceQueries.models,
+    enabled,
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
   });
 
 /**

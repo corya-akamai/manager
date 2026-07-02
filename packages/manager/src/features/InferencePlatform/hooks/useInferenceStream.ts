@@ -52,6 +52,7 @@ export const useInferenceStream = () => {
     async (
       messages: InferenceChatMessage[],
       model: string,
+      apiKey: string,
       { onChunk, onComplete, onError, onStart }: StreamCallbacks,
       settings: PlaygroundSettings = DEFAULT_PLAYGROUND_SETTINGS
     ) => {
@@ -111,6 +112,7 @@ export const useInferenceStream = () => {
         const response = await requestInferenceChatCompletion(
           allMessages,
           model,
+          apiKey,
           apiOptions,
           abortController.signal
         );

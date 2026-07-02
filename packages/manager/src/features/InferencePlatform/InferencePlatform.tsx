@@ -49,8 +49,8 @@ export const InferencePlatform = () => {
 
   const tabs: Tab[] = [
     { title: 'Dashboard', to: '/inference-platform/dashboard' },
-    { title: 'Model Playground', to: '/inference-platform/model-playground' },
     { title: 'Model Library', to: '/inference-platform/model-library' },
+    { title: 'Model Playground', to: '/inference-platform/model-playground' },
     {
       title: 'API Key Management',
       to: '/inference-platform/api-key-management',
@@ -77,10 +77,10 @@ export const InferencePlatform = () => {
                 <Dashboard />
               </SafeTabPanel>
               <SafeTabPanel index={1}>
-                <ModelPlayground />
+                <ModelLibrary />
               </SafeTabPanel>
               <SafeTabPanel index={2}>
-                <ModelLibrary />
+                <ModelPlayground />
               </SafeTabPanel>
               <SafeTabPanel index={3}>
                 <ApiKeyManagement />

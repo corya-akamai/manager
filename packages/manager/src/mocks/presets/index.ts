@@ -16,6 +16,7 @@ import { tfaEnforcementPreset } from './extra/account/tfaEnforcement';
 import { apiResponseTimePreset } from './extra/api/api';
 import {
   inferencePlatformApiKeysPreset,
+  inferencePlatformModelsPreset,
   inferencePlatformPreset,
 } from './extra/inferencePlatform/inferencePlatform';
 import { linodeLimitsPreset } from './extra/limits/linode-limits';
@@ -59,6 +60,7 @@ export const extraMockPresets: MockPresetExtra[] = [
   customNotificationsPreset,
   inferencePlatformPreset,
   inferencePlatformApiKeysPreset,
+  inferencePlatformModelsPreset,
   linodeLimitsPreset,
   lkeLimitsPreset,
   managedEnabledPreset,

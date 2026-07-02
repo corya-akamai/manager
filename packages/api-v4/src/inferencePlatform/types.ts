@@ -80,9 +80,41 @@ export interface UpdateApiKeyPayload {
   label?: string;
 }
 
-// Model types
-export interface Model {
+// Inference Model types from /v4beta/inference/models
+export interface InferenceModelProvider {
+  id: string;
+  name: string;
+}
+
+export interface InferenceModelModalities {
+  input: string[];
+  output: string[];
+}
+
+export interface InferenceModelParameters {
+  context_window: number;
+  max_output_tokens: number;
+  parameter_count_billions: number;
+}
+
+export interface InferenceModel {
+  capabilities: string[];
+  description: string;
   id: string;
   label: string;
-  provider: string;
+  lifecycle_status: string;
+  modalities: InferenceModelModalities;
+  parameters: InferenceModelParameters;
+  playground_available: boolean;
+  price_input_per_million?: number;
+  price_output_per_million?: number;
+  provider: InferenceModelProvider;
+  regions: string[];
+  tags: string[];
+  type: string;
+  use_cases: string[];
+}
+
+export interface InferenceModelsResponse {
+  data: InferenceModel[];
 }

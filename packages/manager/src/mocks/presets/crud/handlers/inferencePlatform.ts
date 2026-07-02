@@ -5,36 +5,22 @@ import {
   makeResponse,
 } from 'src/mocks/utilities/response';
 
-import type { ChatResponseBody } from '@linode/api-v4';
+import type {
+  ApiKey,
+  ApiKeyType,
+  ChatResponseBody,
+  InferenceModel,
+} from '@linode/api-v4';
 import type { StrictResponse } from 'msw';
 import type { MockState } from 'src/mocks/types';
 
-// API Key types (local to mocks)
-type ApiKeyStatus = 'active' | 'expired' | 'revoked';
-
-type ApiKeyType = 'playground' | 'user';
-
-interface ApiKey {
-  allowed_models: string[];
-  created: string;
-  description: string;
-  expiry: null | string;
-  id: number;
-  key: string;
-  key_prefix: string;
-  key_type: ApiKeyType;
-  label: string;
-  last_used: null | string;
-  status: ApiKeyStatus;
-  updated: string;
-  usage_24h?: number[];
-}
-
 // Mock API Keys data
+// Note: The `key` field is always '[REDACTED]' after creation.
+// The full key is only returned on POST (create) requests.
 const mockApiKeys: ApiKey[] = [
   {
     id: 1,
-    key: 'sk_aka_7x8K9mNpQr3sTuVw2xYz4aBcDeF5gHiJ6kLm',
+    key: '[REDACTED]',
     key_prefix: 'sk_aka_7x8K9mNp',
     key_type: 'user',
     label: 'Production Inference Key',
@@ -49,8 +35,8 @@ const mockApiKeys: ApiKey[] = [
   },
   {
     id: 2,
+    key: '[REDACTED]',
     key_prefix: 'sk-aka-9pQ2rS',
-    key: 'sk-aka-9pQ2rSQr3sTuVw2xYz4aBcDeF5gHiJ6kLm',
     key_type: 'user',
     label: 'Dev Team Key',
     allowed_models: ['qwen3-embedding-4b', 'gemma-4-26b-a4b-it', 'qwen3-8b'],
@@ -64,8 +50,8 @@ const mockApiKeys: ApiKey[] = [
   },
   {
     id: 3,
+    key: '[REDACTED]',
     key_prefix: 'sk-aka-3vWxYz',
-    key: 'sk-aka-3vWxYzQr3sTuVw2xYz4aBcDeF5gHiJ6kLm',
     key_type: 'playground',
     allowed_models: ['gemma-4-26b-a4b-it'],
     status: 'expired',
@@ -79,8 +65,8 @@ const mockApiKeys: ApiKey[] = [
   },
   {
     id: 4,
+    key: '[REDACTED]',
     key_prefix: 'sk-aka-5kLmNo',
-    key: 'sk-aka-5kLmNoQr3sTuVw2xYz4aBcDeF5gHiJ6kLm',
     key_type: 'user',
     allowed_models: ['*'],
     status: 'active',
@@ -94,8 +80,8 @@ const mockApiKeys: ApiKey[] = [
   },
   {
     id: 5,
+    key: '[REDACTED]',
     key_prefix: 'sk-aka-8rTuVw',
-    key: 'sk-aka-8rTuVwQr3sTuVw2xYz4aBcDeF5gHiJ6kLm',
     key_type: 'user',
     allowed_models: ['qwen3-8b'],
     status: 'revoked',
@@ -106,6 +92,170 @@ const mockApiKeys: ApiKey[] = [
     label: 'Revoked Test Key',
     last_used: '2026-03-15T09:20:00Z',
     usage_24h: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  },
+];
+
+// Mock Models data
+const mockModels: InferenceModel[] = [
+  {
+    capabilities: ['chat', 'completion'],
+    description:
+      'Qwen3 8B is a powerful language model with strong reasoning capabilities and multilingual support.',
+    id: 'qwen3-8b',
+    label: 'Qwen3 8B',
+    lifecycle_status: 'active',
+    modalities: {
+      input: ['text'],
+      output: ['text'],
+    },
+    parameters: {
+      context_window: 32768,
+      max_output_tokens: 8192,
+      parameter_count_billions: 8,
+    },
+    playground_available: true,
+    provider: {
+      id: 'qwen',
+      name: 'Qwen',
+    },
+    regions: ['us-ord', 'us-sea'],
+    tags: ['instruction-tuned'],
+    type: 'text-generation',
+    use_cases: ['chatbots', 'content-generation'],
+  },
+  {
+    capabilities: ['chat', 'completion'],
+    description:
+      'Qwen3 4B is a compact yet capable model optimized for efficient inference.',
+    id: 'qwen3-4b',
+    label: 'Qwen3 4B',
+    lifecycle_status: 'active',
+    modalities: {
+      input: ['text'],
+      output: ['text'],
+    },
+    parameters: {
+      context_window: 32768,
+      max_output_tokens: 8192,
+      parameter_count_billions: 4,
+    },
+    playground_available: true,
+    provider: {
+      id: 'qwen',
+      name: 'Qwen',
+    },
+    regions: ['us-ord', 'us-sea'],
+    tags: ['instruction-tuned', 'efficient'],
+    type: 'text-generation',
+    use_cases: ['chatbots', 'content-generation'],
+  },
+  {
+    capabilities: ['chat', 'completion'],
+    description:
+      "Google's Gemma 4 26B parameter instruction-tuned model with extended context window support up to 262K tokens.",
+    id: 'gemma-4-26b-a4b-it',
+    label: 'Gemma 4 26B A4B IT',
+    lifecycle_status: 'active',
+    modalities: {
+      input: ['text'],
+      output: ['text'],
+    },
+    parameters: {
+      context_window: 262144,
+      max_output_tokens: 8192,
+      parameter_count_billions: 26,
+    },
+    playground_available: true,
+    provider: {
+      id: 'google',
+      name: 'Google',
+    },
+    regions: ['us-ord', 'us-sea', 'eu-mil'],
+    tags: ['instruction-tuned', 'long-context'],
+    type: 'text-generation',
+    use_cases: ['chatbots', 'content-generation', 'long-context'],
+  },
+  {
+    capabilities: ['chat', 'completion'],
+    description:
+      'Meta Llama 3.3 70B Instruct is a large language model optimized for instruction following and complex reasoning.',
+    id: 'llama-3.3-70b-instruct',
+    label: 'Llama 3.3 70B Instruct',
+    lifecycle_status: 'active',
+    modalities: {
+      input: ['text'],
+      output: ['text'],
+    },
+    parameters: {
+      context_window: 131072,
+      max_output_tokens: 8192,
+      parameter_count_billions: 70,
+    },
+    playground_available: true,
+    provider: {
+      id: 'meta',
+      name: 'Meta',
+    },
+    regions: ['us-ord', 'us-sea'],
+    tags: ['instruction-tuned', 'large'],
+    type: 'text-generation',
+    use_cases: ['chatbots', 'content-generation', 'reasoning'],
+    price_input_per_million: 0.2,
+    price_output_per_million: 0.5,
+  },
+  {
+    capabilities: ['embedding'],
+    description:
+      'Qwen3 Embedding 4B is optimized for generating high-quality text embeddings.',
+    id: 'qwen3-embedding-4b',
+    label: 'Qwen3 Embedding 4B',
+    lifecycle_status: 'active',
+    modalities: {
+      input: ['text'],
+      output: ['embedding'],
+    },
+    parameters: {
+      context_window: 8192,
+      max_output_tokens: 0,
+      parameter_count_billions: 4,
+    },
+    playground_available: false,
+    provider: {
+      id: 'qwen',
+      name: 'Qwen',
+    },
+    regions: ['us-ord'],
+    tags: ['embedding'],
+    type: 'embedding',
+    use_cases: ['semantic-search', 'rag'],
+  },
+  {
+    capabilities: ['chat', 'completion'],
+    description:
+      'DeepSeek R1 is a reasoning-focused model with strong performance on complex tasks.',
+    id: 'deepseek-r1-0528',
+    label: 'DeepSeek R1',
+    lifecycle_status: 'active',
+    modalities: {
+      input: ['text'],
+      output: ['text'],
+    },
+    parameters: {
+      context_window: 65536,
+      max_output_tokens: 8192,
+      parameter_count_billions: 67,
+    },
+    playground_available: true,
+    provider: {
+      id: 'deepseek',
+      name: 'DeepSeek',
+    },
+    regions: ['us-ord', 'us-sea'],
+    tags: ['reasoning'],
+    type: 'text-generation',
+    use_cases: ['reasoning', 'code-generation'],
+    price_input_per_million: 0.2,
+    price_output_per_million: 0.5,
   },
 ];
 
@@ -160,6 +310,21 @@ export const createChatCompletion = (_mockState: MockState) => [
       });
     }
   ),
+];
+
+/**
+ * GET /v4beta/inference/models
+ * Returns list of available models
+ */
+export const getModels = (_mockState: MockState) => [
+  http.get('*/v4beta/inference/models', async () => {
+    // Simulate network delay
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
+    return makeResponse({
+      data: mockModels,
+    });
+  }),
 ];
 
 /**
@@ -231,15 +396,24 @@ export const createApiKey = (_mockState: MockState) => [
     const keyPrefix = `sk-aka-${Math.random().toString(36).substring(2, 8)}`;
     const fullApiKey = `${keyPrefix}${Math.random().toString(36).substring(2, 20)}${Math.random().toString(36).substring(2, 20)}`;
 
+    const keyType = (payload?.key_type as ApiKeyType) || 'user';
+
+    // For playground keys, set a 15-minute expiry if not specified
+    let expiry = (payload?.expiry as string) || null;
+    if (keyType === 'playground' && !expiry) {
+      const expiryDate = new Date(Date.now() + 15 * 60 * 1000);
+      expiry = expiryDate.toISOString();
+    }
+
     const newKey: ApiKey = {
       allowed_models: (payload?.allowed_models as string[]) || ['*'],
       created: now,
       description,
-      expiry: (payload?.expiry as string) || null,
+      expiry,
       id: Date.now(),
-      key: keyPrefix, // Store only the prefix, full key is returned separately on creation
+      key: '[REDACTED]', // Full key is only returned on creation response
       key_prefix: keyPrefix,
-      key_type: 'user',
+      key_type: keyType,
       label,
       last_used: null,
       status: 'active',
@@ -249,7 +423,7 @@ export const createApiKey = (_mockState: MockState) => [
 
     mockApiKeys.push(newKey);
 
-    // Return the full key only on creation (it won't be shown again)
+    // Return the full key only on creation (subsequent requests return [REDACTED])
     return makeResponse({
       ...newKey,
       key: fullApiKey,
@@ -312,7 +486,9 @@ export const revokeApiKey = (_mockState: MockState) => [
 
 /**
  * PUT /v4beta/inference/api-keys/:id
- * Updates an API key
+ * Updates an API key.
+ * For playground keys: performs credential rotation with expiry reset.
+ * For user keys: updates label/description/allowed_models.
  */
 export const updateApiKey = (_mockState: MockState) => [
   http.put('*/v4beta/inference/api-keys/:id', async ({ params, request }) => {
@@ -328,9 +504,37 @@ export const updateApiKey = (_mockState: MockState) => [
       );
     }
 
+    const existingKey = mockApiKeys[index];
     const payload = (await request.json()) as Record<string, unknown>;
+
+    // For playground keys: rotation with new credentials and expiry reset
+    if (existingKey.key_type === 'playground') {
+      const now = new Date().toISOString();
+      const newKeyPrefix = `sk-aka-${Math.random().toString(36).substring(2, 8)}`;
+      const newFullKey = `${newKeyPrefix}${Math.random().toString(36).substring(2, 20)}${Math.random().toString(36).substring(2, 20)}`;
+      const newExpiry = new Date(Date.now() + 15 * 60 * 1000).toISOString();
+
+      const rotatedKey: ApiKey = {
+        ...existingKey,
+        expiry: newExpiry,
+        key: '[REDACTED]', // Full key only returned in response
+        key_prefix: newKeyPrefix,
+        status: 'active', // Reactivate if expired
+        updated: now,
+      };
+
+      mockApiKeys[index] = rotatedKey;
+
+      // Return with full key (only on rotation response)
+      return makeResponse({
+        ...rotatedKey,
+        key: newFullKey,
+      });
+    }
+
+    // For user keys: normal update
     const updatedKey = {
-      ...mockApiKeys[index],
+      ...existingKey,
       ...(payload.allowed_models !== undefined && {
         allowed_models: payload.allowed_models as string[],
       }),
@@ -341,6 +545,7 @@ export const updateApiKey = (_mockState: MockState) => [
         expiry: payload.expiry as null | string,
       }),
       ...(payload.label !== undefined && { label: payload.label as string }),
+      updated: new Date().toISOString(),
     };
 
     mockApiKeys[index] = updatedKey;

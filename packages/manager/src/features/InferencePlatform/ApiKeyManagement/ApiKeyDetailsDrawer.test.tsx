@@ -7,13 +7,66 @@ import { renderWithTheme } from 'src/utilities/testHelpers';
 import { InferencePlatformContext } from '../InferencePlatformContext';
 import { ApiKeyDetailsDrawer } from './ApiKeyDetailsDrawer';
 
-import type { InferenceModel } from '../inferenceService';
-import type { ApiKey } from '@linode/api-v4';
+import type { ApiKey, InferenceModel } from '@linode/api-v4';
 
 const mockModels: InferenceModel[] = [
-  { id: 'model-1', object: 'model' },
-  { id: 'model-2', object: 'model' },
-  { id: 'model-3', object: 'model' },
+  {
+    capabilities: ['chat', 'completion'],
+    description: 'Test model 1',
+    id: 'model-1',
+    label: 'Model 1',
+    lifecycle_status: 'active',
+    modalities: { input: ['text'], output: ['text'] },
+    parameters: {
+      context_window: 32768,
+      max_output_tokens: 8192,
+      parameter_count_billions: 8,
+    },
+    playground_available: true,
+    provider: { id: 'test', name: 'Test' },
+    regions: ['us-ord'],
+    tags: [],
+    type: 'text-generation',
+    use_cases: [],
+  },
+  {
+    capabilities: ['chat', 'completion'],
+    description: 'Test model 2',
+    id: 'model-2',
+    label: 'Model 2',
+    lifecycle_status: 'active',
+    modalities: { input: ['text'], output: ['text'] },
+    parameters: {
+      context_window: 32768,
+      max_output_tokens: 8192,
+      parameter_count_billions: 8,
+    },
+    playground_available: true,
+    provider: { id: 'test', name: 'Test' },
+    regions: ['us-ord'],
+    tags: [],
+    type: 'text-generation',
+    use_cases: [],
+  },
+  {
+    capabilities: ['chat', 'completion'],
+    description: 'Test model 3',
+    id: 'model-3',
+    label: 'Model 3',
+    lifecycle_status: 'active',
+    modalities: { input: ['text'], output: ['text'] },
+    parameters: {
+      context_window: 32768,
+      max_output_tokens: 8192,
+      parameter_count_billions: 8,
+    },
+    playground_available: true,
+    provider: { id: 'test', name: 'Test' },
+    regions: ['us-ord'],
+    tags: [],
+    type: 'text-generation',
+    use_cases: [],
+  },
 ];
 
 const mockApiKey = apiKeyFactory.build({
@@ -101,7 +154,7 @@ describe('ApiKeyDetailsDrawer', () => {
       ...defaultProps,
       apiKey: apiKeyFactory.build({ key_type: 'playground' }),
     });
-    expect(getByText('Playground Key')).toBeVisible();
+    expect(getByText('Playground')).toBeVisible();
   });
 
   it('shows edit button for Name field on user keys', () => {
