@@ -1,7 +1,15 @@
 import { useCallback, useRef } from 'react';
 import { throttle } from 'throttle-debounce';
 
-import { requestInferenceChatCompletion } from '../inferenceService';
+import {
+  classifyNetworkError,
+  extractApiErrorMessage,
+  parseErrorBody,
+} from '../inferenceErrors';
+import {
+  INFERENCE_REQUEST_TIMEOUT_MS,
+  requestInferenceChatCompletion,
+} from '../inferenceService';
 import {
   DEFAULT_PLAYGROUND_SETTINGS,
   mapSettingsToApiOptions,
@@ -27,7 +35,7 @@ export interface StreamCallbacks {
     final: { content: string; thinking?: string },
     metadata?: MessageMetadata
   ) => void;
-  onError: (id: string) => void;
+  onError: (id: string, error?: string) => void;
   onStart: (id: string, startedAt: number) => void;
 }
 
@@ -60,8 +68,10 @@ export const useInferenceStream = () => {
       let rawContent = '';
       let rawReasoning = '';
       let completionTokens: number | undefined;
+      let finishReason: string | undefined;
       let firstTokenTime: number | undefined;
       let promptTokens: number | undefined;
+      let stopReason: string | undefined;
 
       const startTime = Date.now();
 
@@ -84,6 +94,10 @@ export const useInferenceStream = () => {
       const abortController = new AbortController();
       abortControllerRef.current = abortController;
 
+      const timeoutId = setTimeout(() => {
+        abortController.abort('timeout');
+      }, INFERENCE_REQUEST_TIMEOUT_MS);
+
       onStart(assistantId, startTime);
 
       const apiOptions = mapSettingsToApiOptions(settings);
@@ -103,7 +117,9 @@ export const useInferenceStream = () => {
             cancelled: cancelled || undefined,
             completionTokens,
             durationMs,
+            finishReason,
             promptTokens,
+            stopReason,
           }
         );
       };
@@ -116,6 +132,15 @@ export const useInferenceStream = () => {
           apiOptions,
           abortController.signal
         );
+
+        // A non-ok status or a 200 with a non-streaming content type both
+        // indicate an error body (some gateways return 200 for validation
+        // failures instead of 4xx).
+        const contentType = response.headers.get('content-type') ?? '';
+        if (!response.ok || !contentType.includes('text/event-stream')) {
+          const msg = await extractApiErrorMessage(response);
+          throw new Error(msg);
+        }
 
         if (!response.body) {
           throw new Error('No response body');
@@ -152,11 +177,23 @@ export const useInferenceStream = () => {
 
             try {
               const chunk = JSON.parse(data);
+
+              // vLLM can emit an error event inline in the stream instead of
+              // closing with a non-200 status. Surface it as a real error.
+              if (chunk.error) {
+                const msg =
+                  parseErrorBody(chunk) ??
+                  'The inference service returned an error.';
+                throw new Error(msg);
+              }
+
               const delta = chunk.choices?.[0]?.delta?.content ?? '';
               const reasoning = chunk.choices?.[0]?.delta?.reasoning ?? '';
 
               completionTokens =
                 chunk.usage?.completion_tokens ?? completionTokens;
+              finishReason = chunk.choices?.[0]?.finish_reason ?? finishReason;
+              stopReason = chunk.choices?.[0]?.stop_reason ?? stopReason;
               promptTokens = chunk.usage?.prompt_tokens ?? promptTokens;
 
               if (!delta && !reasoning) {
@@ -167,26 +204,33 @@ export const useInferenceStream = () => {
               if (delta) rawContent += delta;
               if (reasoning) rawReasoning += reasoning;
               scheduleFlush();
-            } catch {
-              // ignore malformed SSE chunks
+            } catch (e) {
+              if (!(e instanceof SyntaxError)) {
+                throw e;
+              }
+              // SyntaxError means JSON.parse failed on a malformed chunk — skip it.
             }
           }
         }
 
-        // Cancel any pending throttled call before the final parse so we don't get a
-        // stale intermediate render after onComplete fires.
-        scheduleFlush.cancel();
-        throttledFlushRef.current = null;
+        if (!rawContent && !rawReasoning) {
+          throw new Error('The inference service returned an empty response.');
+        }
 
         completeStream();
       } catch (err) {
         if (err instanceof DOMException && err.name === 'AbortError') {
-          // User cancelled — keep partial content but mark as cancelled.
-          completeStream(true);
+          if (abortController.signal.reason === 'timeout') {
+            onError(assistantId, 'Request timed out. Please try again.');
+          } else {
+            // User cancelled — keep partial content but mark as cancelled.
+            completeStream(true);
+          }
         } else {
-          onError(assistantId);
+          onError(assistantId, classifyNetworkError(err));
         }
       } finally {
+        clearTimeout(timeoutId);
         scheduleFlush.cancel();
         throttledFlushRef.current = null;
       }

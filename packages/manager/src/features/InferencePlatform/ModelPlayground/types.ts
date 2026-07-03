@@ -54,7 +54,7 @@ export const mapSettingsToApiOptions = (
   max_tokens: settings.max_tokens ?? null,
   min_p: settings.min_p ?? null,
   presence_penalty: settings.presence_penalty ?? null,
-  reasoning_effort: settings.reasoning_effort,
+  reasoning_effort: settings.enableThinking ? settings.reasoning_effort : null,
   repetition_penalty: settings.repetition_penalty ?? null,
   seed: settings.seed ?? null,
   stop: settings.stop ?? null,

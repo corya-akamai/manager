@@ -13,6 +13,8 @@ const mockCallbacks = () => ({
   onStart: vi.fn(),
 });
 
+const SSE_HEADERS = new Headers({ 'content-type': 'text/event-stream' });
+
 describe('useInferenceStream — cancellation', () => {
   beforeEach(() => {
     vi.spyOn(inferenceService, 'requestInferenceChatCompletion');
@@ -49,7 +51,11 @@ describe('useInferenceStream — cancellation', () => {
           );
         },
       });
-      return Promise.resolve({ body: stream } as unknown as Response);
+      return Promise.resolve({
+        body: stream,
+        headers: SSE_HEADERS,
+        ok: true,
+      } as unknown as Response);
     });
 
     const { result } = renderHook(() => useInferenceStream());
@@ -98,7 +104,11 @@ describe('useInferenceStream — cancellation', () => {
           );
         },
       });
-      return Promise.resolve({ body: stream } as unknown as Response);
+      return Promise.resolve({
+        body: stream,
+        headers: SSE_HEADERS,
+        ok: true,
+      } as unknown as Response);
     });
 
     // Second call: a normal completing stream
@@ -123,6 +133,8 @@ describe('useInferenceStream — cancellation', () => {
       inferenceService.requestInferenceChatCompletion
     ).mockResolvedValueOnce({
       body: makeStream(sseLines(['second'])),
+      headers: SSE_HEADERS,
+      ok: true,
     } as unknown as Response);
 
     const { result } = renderHook(() => useInferenceStream());

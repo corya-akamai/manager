@@ -17,10 +17,14 @@ import CoreUser from 'src/assets/icons/entityIcons/coreuser.svg';
 import { Markdown } from 'src/components/Markdown/Markdown';
 
 import { pulse } from './animations';
+import { ClearOutputButton } from './ClearOutputButton';
 import { MetadataBar } from './MetadataBar';
 import { ModelPlaygroundOutputContext } from './ModelPlaygroundContext';
+import { PlaygroundEmptyState } from './PlaygroundEmptyState';
 
 import type { Message } from './ModelPlaygroundContext';
+
+const ICON_AND_SECONDARY_COLOR = 'text.secondary' as const;
 
 const breathe = keyframes`
   0%, 100% { opacity: 0.2; transform: scale(0.8); }
@@ -45,8 +49,6 @@ const DOT_SX = {
   width: 8,
 } as const;
 
-const ICON_AND_SECONDARY_COLOR = 'text.secondary' as const;
-
 const ICON_BOX_SX = {
   alignItems: 'center',
   alignSelf: 'flex-start',
@@ -67,6 +69,9 @@ const MARKDOWN_SX = {
   '& p:first-of-type': { mt: 0 },
   '& p:last-of-type': { mb: 0 },
 } as const;
+
+// Prevents markdown-it from treating 4-space-indented lines in model reasoning as code blocks.
+const LEADING_INDENT_RE = /^ {4}/gm;
 
 const ReasoningBlock = memo(
   ({
@@ -201,12 +206,15 @@ const ReasoningBlock = memo(
               color: ICON_AND_SECONDARY_COLOR,
               fontSize: theme.tokens.font.FontSize.Xs,
               maxHeight: constrainHeight ? 120 : 'none',
+              overflowX: 'hidden',
               overflowY: constrainHeight ? 'auto' : 'visible',
               px: 1.5,
               py: 1,
             }}
           >
-            <Markdown textOrMarkdown={thinking} />
+            <Markdown
+              textOrMarkdown={thinking.replace(LEADING_INDENT_RE, '')}
+            />
           </Box>
         </Collapse>
       </Box>
@@ -300,6 +308,7 @@ const AssistantMessageRow = memo(
               }}
             >
               <MetadataBar
+                error={message.error}
                 metadata={message.metadata}
                 startedAt={message.startedAt}
                 timeToFirstTokenMs={message.timeToFirstTokenMs}
@@ -353,31 +362,39 @@ export const OutputBox = () => {
   }, [messages]);
 
   return (
-    <Box
-      onScroll={handleScroll}
-      ref={scrollBoxRef}
-      sx={{
-        bgcolor:
-          theme.palette.mode === 'light' ? theme.bg.white : theme.bg.offWhite,
-        flex: 1,
-        minHeight: 0,
-        overflowY: 'auto',
-        p: 2,
-      }}
-    >
-      {messages.map((message) =>
-        message.role === 'user' ? (
-          <UserMessageRow key={message.id} message={message} />
-        ) : (
-          <AssistantMessageRow
-            isStreaming={message.id === streamingMessageId}
-            key={message.id}
-            message={message}
-            onReasoningExpand={handleReasoningExpand}
-          />
-        )
-      )}
-      <div ref={bottomRef} />
+    <Box sx={{ flex: 1, minHeight: 0 }}>
+      <Box
+        onScroll={handleScroll}
+        ref={scrollBoxRef}
+        sx={{
+          bgcolor:
+            theme.palette.mode === 'light' ? theme.bg.white : theme.bg.offWhite,
+          height: '100%',
+          overflowY: 'auto',
+          p: 2,
+          position: 'relative',
+        }}
+      >
+        <ClearOutputButton />
+        <PlaygroundEmptyState />
+        {messages.length > 0 && (
+          <>
+            {messages.map((message) =>
+              message.role === 'user' ? (
+                <UserMessageRow key={message.id} message={message} />
+              ) : (
+                <AssistantMessageRow
+                  isStreaming={message.id === streamingMessageId}
+                  key={message.id}
+                  message={message}
+                  onReasoningExpand={handleReasoningExpand}
+                />
+              )
+            )}
+            <div ref={bottomRef} />
+          </>
+        )}
+      </Box>
     </Box>
   );
 };

@@ -1,6 +1,7 @@
-import { Box, keyframes, Stack, Tooltip, useTheme } from '@linode/ui';
+import { Box, keyframes, Stack, useTheme } from '@linode/ui';
 import { useInterval } from '@linode/utilities';
 import Check from '@mui/icons-material/Check';
+import ErrorOutline from '@mui/icons-material/ErrorOutline';
 import Warning from '@mui/icons-material/Warning';
 import React, { memo, useCallback, useState } from 'react';
 
@@ -9,6 +10,7 @@ import { pulse } from './animations';
 import type { MessageMetadata } from './ModelPlaygroundContext';
 
 interface MetadataBarProps {
+  error?: string;
   metadata?: MessageMetadata;
   startedAt: number;
   timeToFirstTokenMs?: number;
@@ -19,13 +21,43 @@ const statSlideIn = keyframes`
   to   { opacity: 1; transform: translateY(0); }
 `;
 
+/**
+ * Returns a human-readable warning message for non-normal finish reasons,
+ * or null when the response completed normally (no message needed).
+ */
+const getFinishMessage = (
+  finishReason?: string,
+  stopReason?: string
+): null | string => {
+  if (!finishReason || finishReason === 'stop') {
+    return stopReason ? `Stopped at stop sequence: "${stopReason}"` : null;
+  }
+  switch (finishReason) {
+    case 'content_filter':
+      return 'Response was filtered by a content policy';
+    case 'function_call':
+    case 'tool_calls':
+      return 'Response ended to handle a tool call';
+    case 'length':
+      return 'Max output tokens reached — response may be incomplete';
+    default:
+      return `Response ended: ${finishReason}`;
+  }
+};
+
 export const MetadataBar = memo(
-  ({ metadata, startedAt, timeToFirstTokenMs }: MetadataBarProps) => {
+  ({ error, metadata, startedAt, timeToFirstTokenMs }: MetadataBarProps) => {
     const theme = useTheme();
     const [elapsed, setElapsed] = useState(() => Date.now() - startedAt);
-    const pending = !metadata;
+    const errored = Boolean(error);
+    const pending = !metadata && !errored;
     const cancelled = metadata?.cancelled ?? false;
-    const complete = !pending && !cancelled;
+    const finishMessage = getFinishMessage(
+      metadata?.finishReason,
+      metadata?.stopReason
+    );
+    const warned = Boolean(!errored && !cancelled && !pending && finishMessage);
+    const complete = !pending && !cancelled && !errored && !warned;
 
     const tickElapsed = useCallback(
       () => setElapsed(Date.now() - startedAt),
@@ -35,7 +67,7 @@ export const MetadataBar = memo(
     useInterval({
       callback: tickElapsed,
       delay: 100,
-      when: !metadata,
+      when: !metadata && !errored,
     });
 
     const ttft =
@@ -67,34 +99,62 @@ export const MetadataBar = memo(
       <Stack
         alignItems="center"
         direction="row"
-        gap={2.5}
         sx={{
           bgcolor: complete
             ? theme.palette.mode === 'dark'
               ? theme.tokens.alias.Background.Recommendationsubtle
               : theme.tokens.color.Green[10]
-            : 'transparent',
-          border: complete
-            ? 'none'
-            : `1px solid ${theme.tokens.alias.Border.Normal}`,
+            : errored
+              ? theme.palette.mode === 'dark'
+                ? theme.tokens.alias.Background.Negativesubtle
+                : theme.tokens.color.Red[10]
+              : warned || cancelled
+                ? theme.palette.mode === 'dark'
+                  ? theme.tokens.alias.Background.Warningsubtle
+                  : theme.tokens.color.Yellow[10]
+                : 'transparent',
+          border:
+            complete || errored || warned || cancelled
+              ? 'none'
+              : `1px solid ${theme.tokens.alias.Border.Normal}`,
           borderRadius: '8px',
+          columnGap: 2.5,
+          flexWrap: 'wrap',
           px: 1.5,
           py: 0.75,
+          rowGap: 0.5,
         }}
       >
-        {pending ? (
-          <Box
-            sx={{
-              animation: `${pulse} 1.2s ease-out infinite`,
-              bgcolor: 'text.disabled',
-              borderRadius: '50%',
-              flexShrink: 0,
-              height: 11,
-              width: 11,
-            }}
-          />
-        ) : cancelled ? (
-          <Tooltip title="Response was cancelled">
+        {/* Icon + error text grouped so they never split across rows */}
+        <Stack
+          alignItems="center"
+          direction="row"
+          gap={1}
+          sx={{
+            flex: errored || cancelled || warned ? '1 1 auto' : '0 0 auto',
+            minWidth: 0,
+          }}
+        >
+          {pending ? (
+            <Box
+              sx={{
+                animation: `${pulse} 1.2s ease-out infinite`,
+                bgcolor: 'text.disabled',
+                borderRadius: '50%',
+                flexShrink: 0,
+                height: 11,
+                width: 11,
+              }}
+            />
+          ) : errored ? (
+            <ErrorOutline
+              sx={{
+                color: theme.palette.error.dark,
+                flexShrink: 0,
+                fontSize: '16px',
+              }}
+            />
+          ) : cancelled || warned ? (
             <Warning
               sx={{
                 color: theme.tokens.alias.Content.Icon.Warning,
@@ -102,25 +162,44 @@ export const MetadataBar = memo(
                 fontSize: '16px',
               }}
             />
-          </Tooltip>
-        ) : (
-          <Check
-            sx={{
-              color: theme.tokens.alias.Content.Icon.Recommendation,
-              flexShrink: 0,
-              fontSize: '16px',
-            }}
-          />
-        )}
+          ) : (
+            <Check
+              sx={{
+                color: theme.tokens.alias.Content.Icon.Recommendation,
+                flexShrink: 0,
+                fontSize: '16px',
+              }}
+            />
+          )}
+          {(errored || cancelled || warned) && (
+            <Box
+              sx={{
+                color: errored ? theme.palette.error.dark : 'text.secondary',
+                flex: 1,
+                fontSize: theme.tokens.font.FontSize.Xs,
+                minWidth: 0,
+                overflowWrap: 'break-word',
+              }}
+            >
+              {errored
+                ? error
+                : cancelled
+                  ? 'Response was cancelled'
+                  : finishMessage}
+            </Box>
+          )}
+        </Stack>
         <Stack
           alignItems="center"
           direction="row"
           gap={2}
           sx={{
-            color: pending ? 'text.secondary' : 'text.primary',
-            flex: 1,
+            color: complete ? 'text.primary' : 'text.secondary',
+            flex: '1 1 auto',
+            flexWrap: 'wrap',
             fontSize: theme.tokens.font.FontSize.Xs,
             justifyContent: 'flex-end',
+            minWidth: 0,
           }}
         >
           {stats

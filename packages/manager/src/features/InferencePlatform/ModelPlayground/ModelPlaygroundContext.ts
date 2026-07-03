@@ -8,11 +8,14 @@ export interface MessageMetadata {
   cancelled?: boolean;
   completionTokens?: number;
   durationMs: number;
+  finishReason?: string;
   promptTokens?: number;
+  stopReason?: string;
 }
 
 export interface Message {
   content: string;
+  error?: string;
   id: string;
   metadata?: MessageMetadata;
   role: 'assistant' | 'user';
@@ -25,6 +28,7 @@ export interface ModelPlaygroundInputContextValue {
   inputValue: string;
   isLoading: boolean;
   onCancel: () => void;
+  onClearMessages: () => void;
   onInputChange: (value: string) => void;
   onSend: () => void;
 }
@@ -47,6 +51,7 @@ export const ModelPlaygroundInputContext =
     inputValue: '',
     isLoading: false,
     onCancel: () => undefined,
+    onClearMessages: () => undefined,
     onInputChange: () => undefined,
     onSend: () => undefined,
   });

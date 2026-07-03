@@ -1,5 +1,4 @@
 import '@testing-library/jest-dom';
-import userEvent from '@testing-library/user-event';
 import { act } from 'react';
 import React from 'react';
 
@@ -149,19 +148,38 @@ describe('MetadataBar', () => {
       expect(queryByTestId('CheckIcon')).not.toBeInTheDocument();
     });
 
-    it('shows "Response was cancelled" in the tooltip on hover', async () => {
-      vi.useRealTimers();
-      const user = userEvent.setup();
-      const { findByRole, getByTestId } = renderWithTheme(
+    it('shows "Response was cancelled" inline', () => {
+      const { getByText } = renderWithTheme(
         <MetadataBar
           metadata={makeMetadata({ cancelled: true })}
-          startedAt={Date.now() - 1000}
+          startedAt={BASE_TIME - 1000}
         />
       );
-      const warning = getByTestId('WarningIcon');
-      await user.hover(warning);
-      const tooltip = await findByRole('tooltip');
-      expect(tooltip).toHaveTextContent('Response was cancelled');
+      getByText('Response was cancelled');
+    });
+  });
+
+  describe('error state', () => {
+    it('shows the error icon and not the check or warning icon', () => {
+      const { getByTestId, queryByTestId } = renderWithTheme(
+        <MetadataBar
+          error="Something went wrong"
+          startedAt={BASE_TIME - 1000}
+        />
+      );
+      getByTestId('ErrorOutlineIcon');
+      expect(queryByTestId('CheckIcon')).not.toBeInTheDocument();
+      expect(queryByTestId('WarningIcon')).not.toBeInTheDocument();
+    });
+
+    it('displays the error message inline', () => {
+      const { getByText } = renderWithTheme(
+        <MetadataBar
+          error="Something went wrong"
+          startedAt={BASE_TIME - 1000}
+        />
+      );
+      getByText('Something went wrong');
     });
   });
 });

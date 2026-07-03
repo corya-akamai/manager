@@ -12,6 +12,13 @@
 const INFERENCE_BASE_URL = import.meta.env.REACT_APP_INFERENCE_BASE_URL;
 
 /**
+ * Client-side request timeout in milliseconds. Set slightly above the
+ * backend's 300s gateway timeout so the server's own error response has a
+ * chance to arrive first, giving a more specific error message.
+ */
+export const INFERENCE_REQUEST_TIMEOUT_MS = 320_000;
+
+/**
  * Builds the headers for inference API requests with the provided API key.
  */
 const buildInferenceHeaders = (apiKey: string) => ({

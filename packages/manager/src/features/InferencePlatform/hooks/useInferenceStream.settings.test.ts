@@ -142,4 +142,19 @@ describe('useInferenceStream — settings forwarding', () => {
       chat_template_kwargs: { enable_thinking: false },
     });
   });
+
+  it('sets reasoning_effort to null when enableThinking is false', async () => {
+    const { result } = renderHook(() => useInferenceStream());
+
+    await result.current.stream([], 'model-a', MOCK_API_KEY, mockCallbacks(), {
+      ...DEFAULT_PLAYGROUND_SETTINGS,
+      enableThinking: false,
+      reasoning_effort: 'high',
+    });
+
+    const apiOptions = vi.mocked(
+      inferenceService.requestInferenceChatCompletion
+    ).mock.calls[0][3];
+    expect(apiOptions).toMatchObject({ reasoning_effort: null });
+  });
 });
