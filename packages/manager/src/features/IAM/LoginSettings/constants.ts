@@ -11,6 +11,7 @@ export const IAM_LANDING_PENDO_IDS = {
 export const IAM_SETTINGS_PENDO_IDS = {
   learnMore: 'IAM Settings-Learn more',
   manageSSOEnforcement: 'IAM Settings-Manage SSO Enforcement',
+  manageTFAEnforcement: 'IAM Settings-Manage TFA Enforcement',
 };
 
 // Pendo IDs for IAM SSO - IDP Configuration tab
