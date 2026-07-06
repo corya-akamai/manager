@@ -13,29 +13,29 @@ import { TabPanels } from 'src/components/Tabs/TabPanels';
 import { Tabs } from 'src/components/Tabs/Tabs';
 import { TanStackTabLinkList } from 'src/components/Tabs/TanStackTabLinkList';
 import { TransferDisplay } from 'src/components/TransferDisplay/TransferDisplay';
-import { useObjectStorageBuckets } from 'src/features/ObjectStorage/hooks/useObjectStorageBuckets';
+import { useObjectStorageBuckets } from 'src/features/ObjectStorage/Buckets/hooks/useObjectStorageBuckets';
 import { useFlags } from 'src/hooks/useFlags';
 import { useTabs } from 'src/hooks/useTabs';
 
 import { getRestrictedResourceText } from '../Account/utils';
-import { AccessKeysDrawerOutlet } from './AccessKeyLanding/AccessKeysDrawerOutlet';
-import { useAccessKeyDrawers } from './AccessKeyLanding/hooks/useAccessKeyDrawers';
-import { BillingNotice } from './BillingNotice';
-import { BucketDrawerOutlet } from './BucketLanding/BucketDrawerOutlet';
-import { BucketLanding } from './BucketLanding/BucketLanding';
-import { BucketLandingEmptyState } from './BucketLanding/BucketLandingEmptyState';
-import { useBucketDrawers } from './BucketLanding/hooks/useBucketDrawers';
+import { AccessKeyDrawerOutlet } from './AccessKeys/AccessKeyDrawerOutlet';
+import { useAccessKeyDrawers } from './AccessKeys/hooks/useAccessKeyDrawers';
+import { BucketDrawerOutlet } from './Buckets/BucketDrawerOutlet';
+import { BucketList } from './Buckets/BucketList';
+import { useBucketDrawers } from './Buckets/hooks/useBucketDrawers';
+import { ObjectStorageOnboarding } from './Onboarding/ObjectStorageOnboarding';
+import { BillingNotice } from './shared/components/Notice/BillingNotice';
 
 import type { Tab } from 'src/hooks/useTabs';
 
-const SummaryLanding = React.lazy(() =>
-  import('./SummaryLanding/SummaryLanding').then((module) => ({
-    default: module.SummaryLanding,
+const EndpointSummaryView = React.lazy(() =>
+  import('./Summary/EndpointSummaryPanel').then((module) => ({
+    default: module.EndpointSummaryPanel,
   }))
 );
-const AccessKeyLanding = React.lazy(() =>
-  import('./AccessKeyLanding/AccessKeyLanding').then((module) => ({
-    default: module.AccessKeyLanding,
+const AccessKeyList = React.lazy(() =>
+  import('./AccessKeys/AccessKeyList').then((module) => ({
+    default: module.AccessKeyList,
   }))
 );
 
@@ -92,8 +92,7 @@ export const ObjectStorageLanding = () => {
   const isAtObjectStorageRoot = routeId === '/object-storage/';
   const isSummaryOpened = routeId === '/object-storage/summary';
   const isCreateBucketOpen = routeId === '/object-storage/buckets/create';
-  const isEmptyStateLandingPageShown =
-    !isObjectStorageEnabled || isRestrictedUser;
+  const isOnboardingViewShown = !isObjectStorageEnabled || isRestrictedUser;
 
   // Users must explicitly cancel Object Storage in their Account Settings to avoid being billed.
   // Display a warning if the service is active but no buckets are present.
@@ -104,11 +103,11 @@ export const ObjectStorageLanding = () => {
     isObjectStorageEnabled;
 
   useEffect(() => {
-    if (!isEmptyStateLandingPageShown && isAtObjectStorageRoot) {
+    if (!isOnboardingViewShown && isAtObjectStorageRoot) {
       navigate({ to: '/object-storage/summary', replace: true });
       return;
     }
-    if (isEmptyStateLandingPageShown && !isAtObjectStorageRoot) {
+    if (isOnboardingViewShown && !isAtObjectStorageRoot) {
       if (isRestrictedUser) {
         navigate({ to: '/object-storage', replace: true });
         return;
@@ -119,12 +118,7 @@ export const ObjectStorageLanding = () => {
         return;
       }
     }
-  }, [
-    isEmptyStateLandingPageShown,
-    isAtObjectStorageRoot,
-    isRestrictedUser,
-    routeId,
-  ]);
+  }, [isOnboardingViewShown, isAtObjectStorageRoot, isRestrictedUser, routeId]);
 
   return (
     <>
@@ -136,7 +130,7 @@ export const ObjectStorageLanding = () => {
         }`}
       />
 
-      {!isEmptyStateLandingPageShown && (
+      {!isOnboardingViewShown && (
         <LandingHeader
           breadcrumbProps={{ pathname: '/object-storage' }}
           buttonDataAttrs={{
@@ -157,8 +151,8 @@ export const ObjectStorageLanding = () => {
         />
       )}
 
-      {isEmptyStateLandingPageShown ? (
-        <BucketLandingEmptyState isRestricted={isRestrictedUser} />
+      {isOnboardingViewShown ? (
+        <ObjectStorageOnboarding isRestricted={isRestrictedUser} />
       ) : (
         <>
           <Tabs index={tabIndex} onChange={handleTabChange}>
@@ -176,15 +170,13 @@ export const ObjectStorageLanding = () => {
             <React.Suspense fallback={<SuspenseLoader />}>
               <TabPanels>
                 <SafeTabPanel index={0}>
-                  <SummaryLanding />
+                  <EndpointSummaryView />
                 </SafeTabPanel>
                 <SafeTabPanel index={1}>
-                  <BucketLanding
-                    isCreateBucketDrawerOpen={isCreateBucketOpen}
-                  />
+                  <BucketList isCreateBucketDrawerOpen={isCreateBucketOpen} />
                 </SafeTabPanel>
                 <SafeTabPanel index={2}>
-                  <AccessKeyLanding isRestrictedUser={isRestrictedUser} />
+                  <AccessKeyList isRestrictedUser={isRestrictedUser} />
                 </SafeTabPanel>
               </TabPanels>
             </React.Suspense>
@@ -195,7 +187,7 @@ export const ObjectStorageLanding = () => {
       )}
 
       <BucketDrawerOutlet />
-      <AccessKeysDrawerOutlet />
+      <AccessKeyDrawerOutlet />
     </>
   );
 };

@@ -248,8 +248,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - Quota resource metrics enum ([#13447](https://github.com/linode/manager/pull/13447))
 - Add DeepSeek-R1 and OpenClaw to Quick Deploy Apps ([#13499](https://github.com/linode/manager/pull/13499))
 - IAM: Add Pendo IDs for Parent/Child ([#13530](https://github.com/linode/manager/pull/13530))
-- sftpgo 
-([#13531](https://github.com/linode/manager/pull/13531))
+- sftpgo
+  ([#13531](https://github.com/linode/manager/pull/13531))
 
 ### Changed:
 

@@ -132,45 +132,35 @@ const objectStorageBucketDetailRoute = createRoute({
   path: 'buckets/$regionId/$bucketName',
   validateSearch: (search: ObjectStorageDetailSearchParams) => search,
 }).lazy(() =>
-  import(
-    'src/features/ObjectStorage/BucketDetail/bucketDetailLandingLazyRoute'
-  ).then((m) => m.bucketDetailLandingLazyRoute)
+  import('src/features/ObjectStorage/Buckets/BucketDetails/bucketDetailsPageLazyRoute').then((m) => m.bucketDetailsPageLazyRoute)
 );
 
 const objectStorageBucketDetailObjectsRoute = createRoute({
   getParentRoute: () => objectStorageBucketDetailRoute,
   path: 'objects',
 }).lazy(() =>
-  import(
-    'src/features/ObjectStorage/BucketDetail/bucketDetailLandingLazyRoute'
-  ).then((m) => m.bucketDetailLandingLazyRoute)
+  import('src/features/ObjectStorage/Buckets/BucketDetails/bucketDetailsPageLazyRoute').then((m) => m.bucketDetailsPageLazyRoute)
 );
 
 const objectStorageBucketDetailAccessRoute = createRoute({
   getParentRoute: () => objectStorageBucketDetailRoute,
   path: 'access',
 }).lazy(() =>
-  import(
-    'src/features/ObjectStorage/BucketDetail/bucketDetailLandingLazyRoute'
-  ).then((m) => m.bucketDetailLandingLazyRoute)
+  import('src/features/ObjectStorage/Buckets/BucketDetails/bucketDetailsPageLazyRoute').then((m) => m.bucketDetailsPageLazyRoute)
 );
 
 const objectStorageBucketSSLRoute = createRoute({
   getParentRoute: () => objectStorageBucketDetailRoute,
   path: 'ssl',
 }).lazy(() =>
-  import(
-    'src/features/ObjectStorage/BucketDetail/bucketDetailLandingLazyRoute'
-  ).then((m) => m.bucketDetailLandingLazyRoute)
+  import('src/features/ObjectStorage/Buckets/BucketDetails/bucketDetailsPageLazyRoute').then((m) => m.bucketDetailsPageLazyRoute)
 );
 
 const objectStorageBucketMetricsRoute = createRoute({
   getParentRoute: () => objectStorageBucketDetailRoute,
   path: 'metrics',
 }).lazy(() =>
-  import(
-    'src/features/ObjectStorage/BucketDetail/bucketDetailLandingLazyRoute'
-  ).then((m) => m.bucketDetailLandingLazyRoute)
+  import('src/features/ObjectStorage/Buckets/BucketDetails/bucketDetailsPageLazyRoute').then((m) => m.bucketDetailsPageLazyRoute)
 );
 
 export const objectStorageRouteTree = objectStorageRoute.addChildren([

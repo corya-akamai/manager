@@ -46,10 +46,10 @@ const queryMocks = vi.hoisted(() => ({
 }));
 
 vi.mock(
-  'src/features/ObjectStorage/hooks/useObjectStorageBuckets',
+  'src/features/ObjectStorage/Buckets/hooks/useObjectStorageBuckets',
   async () => {
     const actual = await vi.importActual(
-      'src/features/ObjectStorage/hooks/useObjectStorageBuckets'
+      'src/features/ObjectStorage/Buckets/hooks/useObjectStorageBuckets'
     );
     return {
       ...actual,

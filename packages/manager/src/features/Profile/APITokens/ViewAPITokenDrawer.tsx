@@ -6,9 +6,9 @@ import { TableBody } from 'src/components/TableBody';
 import { TableCell } from 'src/components/TableCell';
 import { TableHead } from 'src/components/TableHead';
 import { TableRow } from 'src/components/TableRow';
-import { AccessCell } from 'src/features/ObjectStorage/AccessKeyLanding/AccessCell';
 import { useRestrictedGlobalGrantCheck } from 'src/hooks/useRestrictedGlobalGrantCheck';
 
+import { AccessCell } from './AccessCell';
 import {
   StyledAccessCell,
   StyledPermissionsCell,
