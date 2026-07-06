@@ -18,8 +18,7 @@ import { VolumeDetailsHeader } from './VolumeDetailsHeader';
 export const VolumeDetails = () => {
   const navigate = useNavigate();
 
-  const { volumeSummaryPage, aclpServices, blockStorageContextualMetrics } =
-    useFlags();
+  const { aclpServices, blockStorageContextualMetrics } = useFlags();
   const { isError: aclpServiceError, isLoading: aclServiceLoading } =
     useCloudPulseServiceByServiceType('blockstorage', true);
 
@@ -59,8 +58,8 @@ export const VolumeDetails = () => {
     },
   ]);
 
-  if (!volumeSummaryPage || volumeError) {
-    return <ErrorState errorText={volumeError?.[0].reason ?? 'Not found'} />;
+  if (volumeError) {
+    return <ErrorState errorText={volumeError?.[0].reason} />;
   }
 
   if (volumeLoading || regionLoading || aclServiceLoading || !volume) {
