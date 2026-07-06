@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useBucketsByRegionQueries } from 'src/queries/object-storage/queries';
 
-import type { ObjectStorageBucket } from '@linode/api-v4';
+import type { APIError, ObjectStorageBucket } from '@linode/api-v4';
 
 export interface UseObjectStorageBucketOptions {
   bucketName: string;
@@ -11,7 +11,8 @@ export interface UseObjectStorageBucketOptions {
 }
 
 export interface UseObjectStorageBucketResult {
-  bucket: ObjectStorageBucket | undefined;
+  bucket: null | ObjectStorageBucket;
+  error: APIError[] | null;
   isError: boolean;
   isLoading: boolean;
 }
@@ -26,18 +27,29 @@ export const useObjectStorageBucket = ({
     data: buckets,
     isError,
     isLoading,
+    error,
   } = useBucketsByRegionQueries([regionId], enabled)[0];
 
   const bucket = useMemo(() => {
     if (!buckets) {
       return undefined;
     }
-    return buckets.find((b) => b.region === regionId && b.label === bucketName);
+    return (
+      buckets.find((b) => b.region === regionId && b.label === bucketName) ??
+      null
+    );
   }, [buckets, regionId, bucketName]);
 
+  const isNotFoundError = bucket === null;
+
   return {
-    bucket,
-    isError,
+    bucket: bucket ?? null,
+    error: error
+      ? error
+      : isNotFoundError
+        ? [{ reason: `Bucket '${bucketName}' could not be found.` }]
+        : null,
+    isError: isError || isNotFoundError,
     isLoading,
   };
 };

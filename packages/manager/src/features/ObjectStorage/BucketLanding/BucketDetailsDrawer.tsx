@@ -2,7 +2,13 @@ import { readableBytes } from '@akamai/compute-ui-core/api';
 import { formatDate } from '@akamai/compute-ui-core/datetime';
 import { pluralize, truncateMiddle } from '@akamai/compute-ui-core/formatting';
 import { useProfile, useRegionQuery } from '@linode/queries';
-import { CircleProgress, Divider, Drawer, Typography } from '@linode/ui';
+import {
+  CircleProgress,
+  Divider,
+  Drawer,
+  ErrorState,
+  Typography,
+} from '@linode/ui';
 import { styled } from '@mui/material/styles';
 import * as React from 'react';
 
@@ -48,11 +54,21 @@ const BucketDetailsDrawerContent = ({
   bucketName,
   regionId,
 }: BucketDetailsDrawerContentProps) => {
-  const { data: region, isLoading: regionIsLoading } = useRegionQuery(
-    regionId ?? ''
-  );
-  const { data: profile, isLoading: profileIsLoading } = useProfile();
-  const { bucket, isLoading: bucketIsLoading } = useObjectStorageBucket({
+  const {
+    data: region,
+    isLoading: regionIsLoading,
+    error: regionError,
+  } = useRegionQuery(regionId ?? '');
+  const {
+    data: profile,
+    isLoading: profileIsLoading,
+    error: profileError,
+  } = useProfile();
+  const {
+    bucket,
+    isLoading: bucketIsLoading,
+    error: bucketError,
+  } = useObjectStorageBucket({
     bucketName: bucketName ?? '',
     regionId: regionId ?? '',
     enabled: Boolean(bucketName && regionId),
@@ -60,6 +76,12 @@ const BucketDetailsDrawerContent = ({
 
   if (bucketIsLoading || regionIsLoading || profileIsLoading) {
     return <CircleProgress />;
+  }
+
+  if (bucketError || regionError || profileError) {
+    const error = bucketError ?? regionError ?? profileError!;
+
+    return <ErrorState errorText={error[0].reason} />;
   }
 
   if (!bucket || !regionId || !bucketName) {
