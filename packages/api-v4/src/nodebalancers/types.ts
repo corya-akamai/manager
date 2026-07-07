@@ -10,9 +10,9 @@ type UDPStickiness = 'none' | 'session' | 'source_ip';
 
 export type Stickiness = TCPStickiness | UDPStickiness;
 
-type NodeBalancerType = 'common' | 'premium' | 'premium_40gb';
+export type NodeBalancerType = 'common' | 'premium' | 'premium_40gb';
 
-type NodeBalancerBackendConnectivity =
+export type NodeBalancerBackendConnectivity =
   | 'ipv6'
   | 'ipv6_and_vpc'
   | 'legacy'
