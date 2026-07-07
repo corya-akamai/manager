@@ -6,7 +6,7 @@
  * helper in `@linode/api-v4` because of the different base URL.
  *
  * Set REACT_APP_INFERENCE_BASE_URL in your .env file, e.g.:
- *   REACT_APP_INFERENCE_BASE_URL=http://us-sea-data-plane-dev.aic-si-alpha.armada.akaplat.net/v1
+ *   REACT_APP_INFERENCE_BASE_URL=https://api.alpha.akamai-inference.com/v1
  */
 
 const INFERENCE_BASE_URL = import.meta.env.REACT_APP_INFERENCE_BASE_URL;
