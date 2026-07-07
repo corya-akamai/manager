@@ -27,19 +27,32 @@ const statSlideIn = keyframes`
  */
 const getFinishMessage = (
   finishReason?: string,
-  stopReason?: string
+  stopReason?: number | string
 ): null | string => {
-  if (!finishReason || finishReason === 'stop') {
-    return stopReason ? `Stopped at stop sequence: "${stopReason}"` : null;
+  if (!finishReason) {
+    return null;
   }
+
+  if (finishReason === 'stop') {
+    if (typeof stopReason === 'string') {
+      return `Stopped at stop sequence: ${JSON.stringify(stopReason)}`;
+    }
+
+    // A numeric stop reason is a token ID, not a stop sequence.
+    return null;
+  }
+
   switch (finishReason) {
     case 'content_filter':
       return 'Response was filtered by a content policy';
+
     case 'function_call':
     case 'tool_calls':
-      return 'Response ended to handle a tool call';
+      return 'Model attempted to make a tool call, but tool calling is not yet supported in the playground';
+
     case 'length':
       return 'Max output tokens reached — response may be incomplete';
+
     default:
       return `Response ended: ${finishReason}`;
   }
