@@ -1,5 +1,5 @@
 import { useAccount } from '@linode/queries';
-import { isFeatureEnabled } from '@linode/utilities';
+import { isFeatureEnabledV2 } from '@linode/utilities';
 
 import Google from 'src/assets/icons/ai/providers/google.svg';
 import Moonshot from 'src/assets/icons/ai/providers/moonshot.svg';
@@ -74,10 +74,8 @@ export const useIsInferencePlatformEnabled = (): {
     return { isInferencePlatformEnabled: false };
   }
 
-  // TODO: Switch to isFeatureEnabledV2 (AND logic) once the 'AI' capability
-  // is available in the API. Currently using OR logic for development.
-  const isInferencePlatformEnabled = isFeatureEnabled(
-    'AI',
+  const isInferencePlatformEnabled = isFeatureEnabledV2(
+    'AI Inference',
     Boolean(flags.inferencePlatform),
     account?.capabilities ?? []
   );

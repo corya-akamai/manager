@@ -5,6 +5,8 @@ import { PromoCard } from './PromoCard';
 
 import type { PromoCardData } from './PromoCard';
 
+const PROMO_CARDS_ENABLED = false;
+
 const cards: PromoCardData[] = [
   {
     cta: 'View SDK',
@@ -123,6 +125,10 @@ const cards: PromoCardData[] = [
 ];
 
 export const PromoCardsSection = () => {
+  if (!PROMO_CARDS_ENABLED) {
+    return null;
+  }
+
   return (
     <Box
       sx={(theme) => ({

@@ -3,7 +3,13 @@ import React from 'react';
 
 import { Link } from 'src/components/Link';
 
+const BENCHMARK_FEATURE_ENABLED = false;
+
 export const BenchmarkBannerSection = () => {
+  if (!BENCHMARK_FEATURE_ENABLED) {
+    return null;
+  }
+
   return (
     <Paper
       sx={(theme) => ({

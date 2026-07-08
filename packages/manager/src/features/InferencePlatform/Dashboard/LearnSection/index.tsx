@@ -5,6 +5,8 @@ import { LearnCard } from './LearnCard';
 
 import type { LearnItem } from './LearnCard';
 
+const LEARN_SECTION_ENABLED = false;
+
 const learnColumns: LearnItem[][] = [
   [
     {
@@ -39,6 +41,10 @@ const learnColumns: LearnItem[][] = [
 ];
 
 export const LearnSection = () => {
+  if (!LEARN_SECTION_ENABLED) {
+    return null;
+  }
+
   return (
     <Stack marginBottom={4}>
       <Typography sx={{ mb: 2 }} variant="h3">

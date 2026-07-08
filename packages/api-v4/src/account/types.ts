@@ -68,7 +68,7 @@ export interface Account {
 export type BillingSource = 'akamai' | 'linode';
 
 export const accountCapabilities = [
-  'AI',
+  'AI Inference',
   'Akamai Cloud Load Balancer',
   'Akamai Cloud Pulse',
   'Akamai Cloud Pulse Logs',

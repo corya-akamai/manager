@@ -19,12 +19,36 @@ const tabRightBorderWidthByIndex = {
 };
 
 const snippets: Record<string, string> = {
-  curl: `curl -X POST "https://api.akamai.com/inference/v1/chat/completions" \\
-  -H "Authorization: Bearer <API_KEY>" \\
+  curl: `curl -X POST "https://api.akamai-inference.com/v1/chat/completions" \\
+  -H "Authorization: Bearer <AKAMAI_API_KEY>" \\
   -H "Content-Type: application/json" \\
-  -d '{"model":"llama-3.1-8b","messages":[{"role":"user","content":"Write a release note summary."}]}'`,
-  python: `from openai import OpenAI\n\nclient = OpenAI(base_url="https://api.akamai.com/inference/v1")\n\nresponse = client.chat.completions.create(\n  model="llama-3.1-8b",\n  messages=[{"role": "user", "content": "Write a release note summary."}]\n)\n\nprint(response.choices[0].message.content)`,
-  typescript: `import OpenAI from "openai";\n\nconst client = new OpenAI({\n  baseURL: "https://api.akamai.com/inference/v1",\n  apiKey: process.env.AKAMAI_API_KEY,\n});\n\nconst response = await client.chat.completions.create({\n  model: "llama-3.1-8b",\n  messages: [{ role: "user", content: "Write a release note summary." }],\n});\n\nconsole.log(response.choices[0]?.message?.content);`,
+  -d '{"model":"gemma-4-26b-a4b-it","messages":[{"role":"user","content":"Write a release note summary."}]}'`,
+  python: `from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.akamai-inference.com/v1",
+    api_key="AKAMAI_API_KEY",
+)
+
+response = client.chat.completions.create(
+    model="gemma-4-26b-a4b-it",
+    messages=[{"role": "user", "content": "Write a release note summary."}],
+)
+
+print(response.choices[0].message.content)`,
+  typescript: `import OpenAI from "openai";
+
+const client = new OpenAI({
+  baseURL: "https://api.akamai-inference.com/v1",
+  apiKey: "AKAMAI_API_KEY",
+});
+
+const response = await client.chat.completions.create({
+  model: "gemma-4-26b-a4b-it",
+  messages: [{ role: "user", content: "Write a release note summary." }],
+});
+
+console.log(response.choices[0].message.content);`,
 };
 
 export const QuickstartSection = () => {
