@@ -77,9 +77,15 @@ export const TFASection = ({ error, tfaSettings }: Props) => {
       >
         <StatusIcon status={isEnforced ? 'active' : 'inactive'} />
         <p>
-          {isEnforced
-            ? `Enabled. 2FA is enforced for ${enforcedUsersCount} out of ${totalUsers} users of this account.`
-            : 'Disabled. 2FA is optional for users on this account.'}
+          {isEnforced ? (
+            <>
+              Enabled. 2FA is enforced for{' '}
+              <strong>{enforcedUsersCount} out of</strong>{' '}
+              <strong>{totalUsers} users</strong> of this account.
+            </>
+          ) : (
+            'Disabled. 2FA is optional for users on this account.'
+          )}
         </p>
       </Box>
       <Button
