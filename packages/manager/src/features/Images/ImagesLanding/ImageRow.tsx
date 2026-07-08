@@ -33,6 +33,7 @@ export const ImageRow = (props: Props) => {
     created,
     expiry,
     id,
+    is_shared,
     label,
     regions,
     size,
@@ -45,9 +46,6 @@ export const ImageRow = (props: Props) => {
 
   const isFailedUpload =
     image.status === 'pending_upload' && event?.status === 'failed';
-
-  const shareGroupCount =
-    image.image_sharing?.shared_with?.sharegroup_count ?? 0;
 
   const getSizeForImage = (
     size: number,
@@ -103,7 +101,7 @@ export const ImageRow = (props: Props) => {
                 text="This image supports our Metadata service via cloud-init."
               />
             )}
-            {shareGroupCount > 0 && (
+            {is_shared && (
               <TooltipIcon
                 icon={<CoreSharedIcon />}
                 sxTooltipIcon={{

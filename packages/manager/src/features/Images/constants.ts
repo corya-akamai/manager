@@ -19,7 +19,10 @@ export const SHARE_GROUP_COLUMN_HEADER_TOOLTIP =
   "Displays the share group for images shared with you; your custom images don't display a group name.";
 
 export const SHARED_IMAGE_ICON_TOOLTIP =
-  'Image shared. Use the View Share Groups action menu to view the groups this image is shared with.';
+  'Image shared. Use the View Share Groups action menu item to view the groups this image is shared with.';
+
+export const LINODE_CREATE_SHARED_IMAGE_ICON_TOOLTIP =
+  'This image is shared with a group.';
 
 // Pendo IDs for the Images Landing sub-tabs
 export const OWNED_BY_ME_IMAGES_TAB_PENDO_IDS = {
