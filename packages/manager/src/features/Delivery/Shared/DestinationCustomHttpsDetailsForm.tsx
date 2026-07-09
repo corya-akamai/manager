@@ -183,7 +183,7 @@ export const DestinationCustomHttpsDetailsForm = (
           labelTooltipIconSize="small"
           status="info"
           sxTooltipIcon={{ p: 1 }}
-          text="Certificate details are used to authenticate the audit log delivery service and verify the HTTPs destination during mutual TLS (mTLS( connections. This section is required only if the destination enforces client certificate authentication."
+          text="Certificate details are used to authenticate the audit log delivery service and verify the HTTPs destination during mutual TLS (mTLS) connections. This section is required only if the destination enforces client certificate authentication."
         />
       </Stack>
       <Controller
