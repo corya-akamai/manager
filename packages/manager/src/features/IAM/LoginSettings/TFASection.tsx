@@ -1,10 +1,10 @@
 import { Button, NotificationBanner } from '@akamai/cds-components/react';
 import { Spacing, Typography } from '@akamai/cds-tokens';
-import { useAccountUsers, useGetTfaOptionalUsersQuery } from '@linode/queries';
 import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 
 import { usePermissions } from '../hooks/usePermissions';
+import { useTfaUserCounts } from '../hooks/useTfaUserCounts';
 import { Box } from '../Shared/Box/Box';
 import { TFA_ENFORCEMENT_LINK } from '../Shared/constants';
 import { ErrorState } from '../Shared/ErrorState/ErrorState';
@@ -23,16 +23,14 @@ interface Props {
 export const TFASection = ({ error, tfaSettings }: Props) => {
   const navigate = useNavigate();
 
-  // TODO: Replace with the correct permissions once they are implemented.
+  // TODO: UIE-12176 Replace with the correct permissions once they are available in the API.
   const { data: permissions, error: permissionsError } = usePermissions(
     'account',
     ['is_account_admin']
   );
 
-  const { data: allUsersData } = useAccountUsers({ params: { page_size: 1 } });
-  const { data: tfaOptionalUsers } = useGetTfaOptionalUsersQuery({
-    page_size: 1,
-  });
+  const isEnforced = tfaSettings?.tfa_enforced ?? false;
+  const { enforcedUsersCount, totalUsers } = useTfaUserCounts(isEnforced);
 
   if (!permissions?.is_account_admin) {
     return (
@@ -42,16 +40,13 @@ export const TFASection = ({ error, tfaSettings }: Props) => {
       />
     );
   }
-
   if (permissionsError || (error && permissions?.is_account_admin)) {
-    return <ErrorState />;
+    return (
+      <Paper>
+        <ErrorState />
+      </Paper>
+    );
   }
-
-  const isEnforced = tfaSettings?.tfa_enforced ?? false;
-  const totalUsers = allUsersData?.results ?? 0;
-  // Users exempt from 2FA enforcement
-  const optionalUsersCount = tfaOptionalUsers?.results ?? 0;
-  const enforcedUsersCount = totalUsers - optionalUsersCount;
 
   return (
     <Paper padding={Spacing.S24} paddingTop={Spacing.S24}>

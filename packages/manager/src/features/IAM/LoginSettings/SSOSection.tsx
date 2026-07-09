@@ -72,7 +72,11 @@ export const SSOSection = ({ error, idpConfigs }: Props) => {
   }
 
   if (permissionsError || (error && permissions?.view_idp_config)) {
-    return <ErrorState />;
+    return (
+      <Paper>
+        <ErrorState />
+      </Paper>
+    );
   }
 
   return (

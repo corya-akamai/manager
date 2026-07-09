@@ -14,11 +14,13 @@ import {
 } from '@linode/queries';
 import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 
 import { useFlags } from 'src/hooks/useFlags';
 
 import { useIsIAMEnabled } from '../../hooks/useIsIAMEnabled';
+import { usePermissions } from '../../hooks/usePermissions';
+import { useTfaUserCounts } from '../../hooks/useTfaUserCounts';
 import { Box } from '../../Shared/Box/Box';
 import { CircleProgress } from '../../Shared/CircleProgress/CircleProgress';
 import { IAM_LABEL, TFA_ENFORCEMENT_LINK } from '../../Shared/constants';
@@ -27,10 +29,12 @@ import { DocumentTitleSegment } from '../../Shared/DocumentTitleSegment/Document
 import { ErrorState } from '../../Shared/ErrorState/ErrorState';
 import { LandingHeader } from '../../Shared/LandingHeader/LandingHeader';
 import { Paper } from '../../Shared/Paper/Paper';
+import { SummarySection } from './SummarySection';
 
 import type { APIError } from '@linode/api-v4';
 
-interface TfaEnforcementFormValues {
+export interface TfaEnforcementFormValues {
+  isAcknowledged: boolean;
   tfa_enforced: boolean;
 }
 
@@ -38,6 +42,16 @@ export const TfaEnforcementLanding = () => {
   const navigate = useNavigate();
   const flags = useFlags();
   const { isIAMEnabled } = useIsIAMEnabled();
+
+  // TODO: UIE-12176 Replace with the correct permissions once they are available in the API.
+  const { data: permissions, error: permissionsError } = usePermissions(
+    'account',
+    [
+      'update_account_settings',
+      'list_tfa_optional_users',
+      'update_tfa_optional_users',
+    ]
+  );
 
   const {
     data: tfaSettings,
@@ -48,21 +62,34 @@ export const TfaEnforcementLanding = () => {
   const { mutateAsync: updateTfaSettings } =
     useUpdateTfaEnforcementAccountSettingsMutation();
 
+  // Preserve optional users selection when enforcement is toggled off so it
+  // can be restored when the toggle is turned back on (UIE-12026).
+  const preservedOptionalUsersCountRef = React.useRef<null | number>(null);
+
+  const form = useForm<TfaEnforcementFormValues>({
+    // keepDirtyValues ensures that a background refetch of tfaSettings does not
+    // silently reset fields the user has already touched (e.g. isAcknowledged).
+    resetOptions: { keepDirtyValues: true },
+    values: {
+      isAcknowledged: false,
+      tfa_enforced: tfaSettings?.tfa_enforced ?? false,
+    },
+  });
+
   const {
     control,
-    formState: { errors, isDirty, isSubmitting },
+    formState: { errors, isSubmitting, isDirty },
     getValues,
     handleSubmit,
     reset,
     setError,
     watch,
-  } = useForm<TfaEnforcementFormValues>({
-    values: {
-      tfa_enforced: tfaSettings?.tfa_enforced ?? false,
-    },
-  });
+  } = form;
 
   const isEnforced = watch('tfa_enforced');
+
+  const { enforcedUsersCount, optionalUsersCount, totalUsers } =
+    useTfaUserCounts(isEnforced);
 
   const onSubmit = async (values: TfaEnforcementFormValues) => {
     try {
@@ -71,7 +98,7 @@ export const TfaEnforcementLanding = () => {
         text: '2FA enforcement updated successfully.',
         type: 'success',
       });
-      reset({ ...getValues() }, { keepDirty: false });
+      reset({ ...getValues(), isAcknowledged: false }, { keepDirty: false });
       navigate({ to: '/iam/settings' });
     } catch (err) {
       const apiErrors = err as APIError[];
@@ -85,7 +112,7 @@ export const TfaEnforcementLanding = () => {
     return <CircleProgress />;
   }
 
-  if (settingsError) {
+  if (settingsError || permissionsError) {
     return (
       <Paper>
         <ErrorState />
@@ -123,64 +150,84 @@ export const TfaEnforcementLanding = () => {
           type="error"
         />
       )}
-
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: Spacing.S24,
-          marginTop: Spacing.S24,
-        }}
-      >
-        <Box>
-          <Controller
-            control={control}
-            name="tfa_enforced"
-            render={({ field }) => (
-              <Switch
-                checked={field.value}
-                onChange={(e) => field.onChange(e.detail)}
-                size="small"
-              >
-                Enforce two-factor authentication on this account
-              </Switch>
-            )}
-          />
-          <p>
-            Enable this option to select users you want to enforce the
-            two-factor authentication for.
-          </p>
-        </Box>
-        {isEnforced && (
-          <Paper padding={Spacing.S16} paddingTop={Spacing.S16}>
-            <h3
-              style={{
-                font: Typography.Heading.S,
-                marginBottom: Spacing.S8,
-              }}
-            >
-              Account Users
-            </h3>
+      <FormProvider {...form}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: Spacing.S24,
+            marginTop: Spacing.S24,
+          }}
+        >
+          <Box>
+            <Controller
+              control={control}
+              name="tfa_enforced"
+              render={({ field }) => (
+                <Switch
+                  checked={field.value}
+                  disabled={!permissions?.update_account_settings}
+                  onChange={(e) => {
+                    const next = e.detail as boolean;
+                    if (!next) {
+                      // Turning off — preserve optional users count for restore
+                      // when re-enabled (UIE-12026 will extend this to full list).
+                      preservedOptionalUsersCountRef.current =
+                        optionalUsersCount;
+                    }
+                    field.onChange(next);
+                  }}
+                  size="small"
+                >
+                  Enforce two-factor authentication on this account
+                </Switch>
+              )}
+            />
             <p>
-              Select users you want to enforce two-factor authentication for.
-              For unselected users the 2FA login will be optional.
+              Enable this option to select users you want to enforce the
+              two-factor authentication for.
             </p>
-            {/* TODO: UIE-12026 - Account Users table will be implemented in a separate ticket */}
-          </Paper>
-        )}
+          </Box>
+          {isEnforced && (
+            <Paper padding={Spacing.S16} paddingTop={Spacing.S16}>
+              <h3
+                style={{
+                  font: Typography.Heading.S,
+                  marginBottom: Spacing.S8,
+                }}
+              >
+                Account Users
+              </h3>
+              <p>
+                Select users you want to enforce two-factor authentication for.
+                For unselected users the 2FA login will be optional.
+              </p>
+              {/* TODO: UIE-12026 - Account Users table will be implemented in a separate ticket */}
+            </Paper>
+          )}
 
-        <Box direction="row" style={{ justifyContent: 'flex-end' }}>
-          <Button
-            disabled={!isDirty}
-            processing={isSubmitting}
-            type="submit"
-            variant="primary"
-          >
-            Update Two-Factor Authentication Enforcement
-          </Button>
-        </Box>
-      </form>
+          {(isEnforced || (tfaSettings?.tfa_enforced ?? false)) && (
+            <SummarySection
+              enforcedUsersCount={enforcedUsersCount}
+              isEnforced={isEnforced}
+              optionalUsersCount={optionalUsersCount}
+              totalUsers={totalUsers}
+            />
+          )}
+
+          <Box direction="row" style={{ justifyContent: 'flex-end' }}>
+            <Button
+              disabled={!isDirty || !permissions?.update_account_settings}
+              processing={isSubmitting}
+              type="submit"
+              variant="primary"
+            >
+              Update Two-Factor Authentication Enforcement
+            </Button>
+          </Box>
+        </form>
+      </FormProvider>
     </>
   );
 };
