@@ -1,4 +1,6 @@
-import { useTheme } from '@mui/material/styles';
+import { Alias } from '@linode/design-language-system';
+import { Box, CircleProgress, Paper, Typography } from '@linode/ui';
+import { keyframes, useTheme } from '@mui/material/styles';
 import React from 'react';
 import {
   Bar,
@@ -40,9 +42,13 @@ export type StackedBarChartProps = {
   data: ChartPayload;
   gridStrokeColor?: string;
   height?: number;
+  isLoading?: boolean;
   legendFontSize?: number;
   legendIconSize?: number;
   legendItemSpacing?: number;
+  legendLineHeight?: number;
+  legendRowGap?: number;
+  legendRows?: number;
   legendTextColor?: string;
   seriesColorIndices?: Record<string, number>;
   stacked?: boolean;
@@ -52,8 +58,11 @@ export type StackedBarChartProps = {
   tooltipTitle?: string;
   valueFormatter?: (value: number) => string;
   xAxisColor?: string;
+  xAxisFontSize?: number;
+  xAxisInterval?: number;
   xAxisLabelColor?: string;
   yAxisColor?: string;
+  yAxisFontSize?: number;
   yAxisLabelColor?: string;
 };
 
@@ -62,16 +71,9 @@ type ThemeColor = {
   light: string;
 };
 
-const FALLBACK_COLORS: ThemeColor[] = [
-  { dark: 'hsl(217, 75%, 58%)', light: 'hsl(217, 91%, 64%)' },
-  { dark: 'hsl(131, 56%, 41%)', light: 'hsl(131, 71%, 47%)' },
-  { dark: 'hsl(41, 90%, 45%)', light: 'hsl(41, 100%, 50%)' },
-  { dark: 'hsl(271, 50%, 61%)', light: 'hsl(271, 58%, 60%)' },
-  { dark: 'hsl(0, 64%, 52%)', light: 'hsl(0, 78%, 58%)' },
-  { dark: 'hsl(187, 72%, 41%)', light: 'hsl(187, 94%, 41%)' },
-  { dark: 'hsl(290, 56%, 41%)', light: 'hsl(290, 71%, 47%)' },
-  { dark: 'hsl(161, 56%, 41%)', light: 'hsl(161, 71%, 47%)' },
-];
+const FALLBACK_COLORS: string[] = Object.values(Alias.Chart.Categorical).map(
+  (categoricalColor) => categoricalColor.Primary
+);
 
 const THEME_COLORS = {
   barHighlight: {
@@ -117,22 +119,53 @@ const resolveThemeColor = (
 };
 
 const defaultValueFormatter = (value: number) => {
+  // Format large numbers with abbreviations (K, M, B)
+  if (value >= 1_000_000_000) {
+    const formatted = value / 1_000_000_000;
+    return formatted % 1 === 0 ? `${formatted}B` : `${formatted.toFixed(1)}B`;
+  }
+  if (value >= 1_000_000) {
+    const formatted = value / 1_000_000;
+    return formatted % 1 === 0 ? `${formatted}M` : `${formatted.toFixed(1)}M`;
+  }
+  if (value >= 1_000) {
+    const formatted = value / 1_000;
+    return formatted % 1 === 0 ? `${formatted}K` : `${formatted.toFixed(1)}K`;
+  }
   return new Intl.NumberFormat('en-US').format(value);
 };
 
-const getStableColorIndex = (seriesId: string, colorCount: number) => {
-  // Use a deterministic hash of the series ID to always get the same color
-  const hash = Array.from(seriesId).reduce(
-    (currentHash, character) => currentHash + character.charCodeAt(0),
-    0
-  );
-  return hash % colorCount;
-};
+const MIN_X_AXIS_LABEL_SPACING_PX = 48;
+const MAX_LEGEND_COLUMNS = 5;
+const MIN_LEGEND_COLUMNS = 3;
+const LEGEND_FOUR_COLUMN_BREAKPOINT_PX = 960;
+const LEGEND_THREE_COLUMN_BREAKPOINT_PX = 720;
+const LEGEND_LABEL_MAX_WIDTH_PX = 120;
+const LEGEND_LABEL_MAX_WIDTH_FIVE_COLUMNS_PX = LEGEND_LABEL_MAX_WIDTH_PX + 20;
+const EMPTY_STATE_AXIS_MAX_VALUE = 1;
+const LOADING_TIMEOUT_MS = 15_000;
+const LOADING_TRANSITION_DURATION_MS = 600;
+const NO_DATA_FADE_IN_DELAY_MS = 400;
+const NO_DATA_FADE_IN_DURATION_MS = 500;
+const TRANSPARENT_COLOR = 'transparent';
+
+const noDataFadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`;
 
 export const StackedBarChart = ({
   xAxisColor, // Color override  for the X-axis line. CSS color string.
+  xAxisFontSize = 14, // Font size of X-axis tick labels. Unit: px. Default: 14.
+  xAxisInterval = 1, // Interval for X-axis tick labels (e.g., 2 shows every 2nd label). Default: 1.
   xAxisLabelColor, // Color override for X-axis tick labels. CSS color string.
   yAxisColor, // Color override  for the Y-axis line. CSS color string.
+  yAxisFontSize = 14, // Font size of Y-axis tick labels. Unit: px. Default: 14.
   yAxisLabelColor, // Color override  for Y-axis tick labels. CSS color string.
   barAnimationDuration = 400, // Bar entrance/update animation duration in ms. Unit: ms. Default: 400.
   barHighlightColor, // Color override for the hover highlight rectangle. CSS color string. Takes precedence over barHoverColor.
@@ -144,7 +177,11 @@ export const StackedBarChart = ({
   legendFontSize = 12, // Font size of legend item labels. Unit: px. Default: 12.
   legendIconSize = 12, // Width and height of each legend color swatch. Unit: px. Default: 12.
   legendItemSpacing = 23, // Horizontal gap between legend items. Unit: px. Default: 23.
+  legendLineHeight = 1.3, // Line height of legend items for controlling wrap spacing. Default: 1.3.
+  legendRowGap = 4, // Vertical gap between legend rows when wrapping. Unit: px. Default: 4.
+  legendRows = 2, // Number of legend rows to reserve in layout. Unit: rows. Default: 2.
   legendTextColor, // Color override for legend label text. CSS color string.
+  isLoading = false,
   seriesColorIndices, // Maps series id → color palette index for consistent colors across filtered views.
   stackId, // Custom Recharts stackId when stacked=true. Default: 'stack-1'.
   stacked = true, // When true, bars are stacked. When false, bars are side-by-side. Default: true.
@@ -154,6 +191,26 @@ export const StackedBarChart = ({
   valueFormatter = defaultValueFormatter, // Formats values for Y-axis ticks and tooltip. (value: number) => string.
 }: StackedBarChartProps) => {
   const cmTheme = useTheme();
+  const [chartWidth, setChartWidth] = React.useState(0);
+  const [hasLoadingTimedOut, setHasLoadingTimedOut] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!isLoading) {
+      setHasLoadingTimedOut(false);
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setHasLoadingTimedOut(true);
+    }, LOADING_TIMEOUT_MS);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [isLoading]);
+
+  const showSpinner = isLoading && !hasLoadingTimedOut;
+  const forceNoDataState = isLoading && hasLoadingTimedOut;
 
   const resolvedLegendTextColor =
     legendTextColor ?? cmTheme.palette.text.secondary;
@@ -173,22 +230,17 @@ export const StackedBarChart = ({
 
   const keyedSeries = React.useMemo(() => {
     const series = data?.series ?? [];
-    return series.map((item) => {
-      const colorIndex =
-        seriesColorIndices?.[item.id] ??
-        getStableColorIndex(item.id, FALLBACK_COLORS.length);
+    return series.map((item, index) => {
+      const colorIndex = seriesColorIndices?.[item.id] ?? index;
 
       return {
         ...item,
-        color: resolveThemeColor(
-          cmTheme.palette.mode,
-          FALLBACK_COLORS[colorIndex % FALLBACK_COLORS.length],
-          item.color
-        ),
+        color:
+          item.color ?? FALLBACK_COLORS[colorIndex % FALLBACK_COLORS.length],
         dataKey: item.id,
       };
     });
-  }, [data, seriesColorIndices, cmTheme.palette.mode]);
+  }, [data, seriesColorIndices]);
 
   const chartData = React.useMemo(() => {
     const pointCount = Math.max(
@@ -214,77 +266,183 @@ export const StackedBarChart = ({
     });
   }, [keyedSeries]);
 
-  if (keyedSeries.length === 0) {
-    return null;
-  }
+  const hasRenderableData = React.useMemo(() => {
+    if (keyedSeries.length === 0) {
+      return false;
+    }
 
-  return (
-    <div>
-      <div style={{ height, width: '100%' }}>
-        <ResponsiveContainer height="100%" width="100%">
-          <BarChart
-            barCategoryGap="31%"
-            barSize={barWidth}
-            data={chartData}
-            margin={{ bottom: 0, left: 0, right: 0, top: 0 }}
-          >
-            <CartesianGrid
-              stroke={resolvedGridStrokeColor}
-              strokeDasharray="3 3"
-              vertical={false}
-            />
-            <XAxis
-              dataKey="time"
-              interval={1}
-              minTickGap={16}
-              stroke={resolvedXAxisColor}
-              tick={{ fill: resolvedXAxisLabelColor }}
-            />
-            <YAxis
-              stroke={resolvedYAxisColor}
-              tick={{ fill: resolvedYAxisLabelColor }}
-              tickFormatter={(value) => valueFormatter(value as number)}
-            />
-            <Tooltip
-              animationDuration={tooltipAnimationDuration}
-              content={(props) => (
-                <StackedBarChartTooltip
-                  active={props.active}
-                  label={props.label}
-                  payload={props.payload}
-                  tooltipDateTimeColor={tooltipDateTimeColor}
-                  tooltipTitle={tooltipTitle}
-                  valueFormatter={valueFormatter}
-                />
-              )}
-              cursor={{ fill: resolvedBarHighlightColor }}
-            />
-            {keyedSeries.map((item) => (
-              <Bar
-                activeBar={false}
-                animationDuration={barAnimationDuration}
-                dataKey={item.dataKey}
-                fill={item.color}
-                key={item.dataKey}
-                name={item.label}
-                stackId={stacked ? (stackId ?? 'stack-1') : undefined}
-              />
-            ))}
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
+    if (
+      keyedSeries.length === 1 &&
+      keyedSeries[0]?.id === 'no-data' &&
+      keyedSeries[0]?.values.length === 1 &&
+      keyedSeries[0]?.values[0]?.value === 1
+    ) {
+      return false;
+    }
 
+    return keyedSeries.some((series) =>
+      series.values.some((point) => point.value !== 0)
+    );
+  }, [keyedSeries]);
+
+  const isEmptyState = forceNoDataState || !hasRenderableData;
+  const showNoDataOverlay = forceNoDataState || (!isLoading && isEmptyState);
+  const xAxisStrokeColor = isEmptyState
+    ? TRANSPARENT_COLOR
+    : resolvedXAxisColor;
+  const xAxisTickColor = isEmptyState
+    ? TRANSPARENT_COLOR
+    : resolvedXAxisLabelColor;
+  const yAxisStrokeColor = isEmptyState
+    ? TRANSPARENT_COLOR
+    : resolvedYAxisColor;
+  const yAxisTickColor = isEmptyState
+    ? TRANSPARENT_COLOR
+    : resolvedYAxisLabelColor;
+  const effectiveGridStrokeColor = isEmptyState
+    ? TRANSPARENT_COLOR
+    : resolvedGridStrokeColor;
+
+  const displayChartData = React.useMemo(() => {
+    if (chartData.length > 0) {
+      return chartData;
+    }
+
+    return [{ time: '', tooltipLabel: '' }];
+  }, [chartData]);
+
+  const effectiveXAxisInterval = React.useMemo(() => {
+    const pointCount = displayChartData.length;
+    const baseInterval = Math.max(1, xAxisInterval);
+
+    if (pointCount <= 1 || chartWidth <= 0) {
+      return baseInterval;
+    }
+
+    const maxTickLabels = Math.max(
+      1,
+      Math.floor(chartWidth / MIN_X_AXIS_LABEL_SPACING_PX)
+    );
+    const widthBasedInterval = Math.max(
+      1,
+      Math.ceil(pointCount / maxTickLabels)
+    );
+
+    return Math.max(baseInterval, widthBasedInterval);
+  }, [displayChartData.length, chartWidth, xAxisInterval]);
+
+  const handleContainerResize = React.useCallback((width: number) => {
+    const normalizedWidth = Math.max(0, Math.floor(width));
+    setChartWidth((previousWidth) =>
+      previousWidth === normalizedWidth ? previousWidth : normalizedWidth
+    );
+  }, []);
+
+  const legendColumns = React.useMemo(() => {
+    if (chartWidth <= 0) {
+      return MAX_LEGEND_COLUMNS;
+    }
+
+    if (chartWidth < LEGEND_THREE_COLUMN_BREAKPOINT_PX) {
+      return MIN_LEGEND_COLUMNS;
+    }
+
+    if (chartWidth < LEGEND_FOUR_COLUMN_BREAKPOINT_PX) {
+      return 4;
+    }
+
+    return MAX_LEGEND_COLUMNS;
+  }, [chartWidth]);
+
+  const legendLabelMaxWidthPx =
+    legendColumns >= 4
+      ? LEGEND_LABEL_MAX_WIDTH_FIVE_COLUMNS_PX
+      : LEGEND_LABEL_MAX_WIDTH_PX;
+
+  const legendItemMaxWidthPx =
+    legendIconSize + 6 + legendLabelMaxWidthPx + legendItemSpacing;
+  const legendGridMaxWidthPx =
+    legendColumns * legendItemMaxWidthPx - legendItemSpacing;
+  const legendSingleRowMinHeightPx =
+    Math.max(legendIconSize, Math.ceil(legendFontSize * legendLineHeight)) + 4;
+  const resolvedLegendRows = Math.max(1, legendRows);
+  const legendReservedHeightPx =
+    resolvedLegendRows * legendSingleRowMinHeightPx +
+    (resolvedLegendRows - 1) * legendRowGap;
+  const legendItems = isEmptyState ? [] : keyedSeries;
+
+  const noDataOverlay = (
+    <Box
+      sx={{
+        '@media (prefers-reduced-motion: reduce)': {
+          animation: 'none',
+        },
+        alignItems: 'center',
+        animation: showNoDataOverlay
+          ? `${noDataFadeIn} ${NO_DATA_FADE_IN_DURATION_MS}ms ease ${NO_DATA_FADE_IN_DELAY_MS}ms both`
+          : 'none',
+        display: 'flex',
+        inset: 0,
+        justifyContent: 'center',
+        opacity: showNoDataOverlay ? 1 : 0,
+        pointerEvents: 'none',
+        position: 'absolute',
+        transition: `opacity ${LOADING_TRANSITION_DURATION_MS}ms ease`,
+        zIndex: 1,
+      }}
+    >
+      <Paper
+        sx={(theme) => ({
+          marginLeft: 0,
+          marginBottom: -1,
+          backgroundColor: theme.tokens.alias.Background.Neutralsubtle,
+          borderRadius: 1.5,
+          borderWidth: 0,
+          px: 1.5,
+          py: 0.75,
+        })}
+        variant="outlined"
+      >
+        <Typography
+          sx={(theme) => ({
+            color: theme.palette.text.secondary,
+            font: cmTheme.font.semibold,
+            fontSize: 12,
+          })}
+        >
+          No Data
+        </Typography>
+      </Paper>
+    </Box>
+  );
+
+  const legend = (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: 8,
+        paddingBottom: 4,
+        position: 'relative',
+        zIndex: 0,
+        width: '100%',
+      }}
+    >
       <div
         style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: legendItemSpacing,
-          justifyContent: 'center',
-          marginTop: 8,
+          columnGap: legendItemSpacing,
+          zIndex: 0,
+          display: 'grid',
+          gridTemplateColumns: `repeat(${legendColumns}, minmax(0, 1fr))`,
+          height: `${legendReservedHeightPx}px`,
+          lineHeight: legendLineHeight,
+          maxWidth: `${legendGridMaxWidthPx}px`,
+          minHeight: `${legendReservedHeightPx}px`,
+          rowGap: legendRowGap,
           width: '100%',
         }}
       >
-        {keyedSeries.map((item) => (
+        {legendItems.map((item) => (
           <div
             key={`legend-${item.dataKey}`}
             style={{
@@ -293,6 +451,12 @@ export const StackedBarChart = ({
               display: 'inline-flex',
               fontSize: legendFontSize,
               gap: 6,
+              justifySelf: 'center',
+              maxWidth: `${legendItemMaxWidthPx}px`,
+              minWidth: 0,
+              paddingTop: 2,
+              paddingBottom: 2,
+              width: '100%',
             }}
           >
             <span
@@ -304,10 +468,182 @@ export const StackedBarChart = ({
                 width: legendIconSize,
               }}
             />
-            <span>{item.label}</span>
+            <span
+              style={{
+                maxWidth: `${legendLabelMaxWidthPx}px`,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+              title={item.label}
+            >
+              {item.label}
+            </span>
           </div>
         ))}
       </div>
+    </div>
+  );
+
+  const loadingOverlay = (
+    <Box
+      sx={{
+        alignItems: 'center',
+        display: 'flex',
+        inset: 0,
+        justifyContent: 'center',
+        opacity: showSpinner ? 1 : 0,
+        pointerEvents: showSpinner ? 'auto' : 'none',
+        position: 'absolute',
+        transition: `opacity ${LOADING_TRANSITION_DURATION_MS}ms ease`,
+        zIndex: 3,
+      }}
+    >
+      <CircleProgress size="md" />
+    </Box>
+  );
+
+  if (keyedSeries.length === 0) {
+    return (
+      <div style={{ position: 'relative', width: '100%' }}>
+        <div
+          style={{
+            opacity: showSpinner ? 0 : 1,
+            transition: `opacity ${LOADING_TRANSITION_DURATION_MS}ms ease`,
+          }}
+        >
+          <div style={{ height, position: 'relative', width: '100%' }}>
+            <ResponsiveContainer
+              height="100%"
+              onResize={handleContainerResize}
+              width="100%"
+            >
+              <BarChart
+                barCategoryGap="31%"
+                barSize={barWidth}
+                data={displayChartData}
+                margin={{ bottom: 0, left: 0, right: 0, top: 0 }}
+              >
+                <CartesianGrid
+                  stroke={effectiveGridStrokeColor}
+                  strokeDasharray="3 3"
+                  vertical={false}
+                />
+                <XAxis
+                  dataKey="time"
+                  interval={0}
+                  minTickGap={16}
+                  stroke={xAxisStrokeColor}
+                  tick={{
+                    fill: xAxisTickColor,
+                    fontSize: xAxisFontSize,
+                  }}
+                  tickLine={false}
+                />
+                <YAxis
+                  allowDecimals={false}
+                  domain={[0, EMPTY_STATE_AXIS_MAX_VALUE]}
+                  stroke={yAxisStrokeColor}
+                  tick={{
+                    fill: yAxisTickColor,
+                    fontSize: yAxisFontSize,
+                  }}
+                  tickFormatter={(value) => valueFormatter(value as number)}
+                  width={45}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+
+            {noDataOverlay}
+          </div>
+
+          {legend}
+        </div>
+
+        {loadingOverlay}
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ position: 'relative', width: '100%' }}>
+      <div
+        style={{
+          opacity: showSpinner ? 0 : 1,
+          transition: `opacity ${LOADING_TRANSITION_DURATION_MS}ms ease`,
+        }}
+      >
+        <div style={{ height, position: 'relative', width: '100%' }}>
+          <ResponsiveContainer
+            height="100%"
+            onResize={handleContainerResize}
+            width="100%"
+          >
+            <BarChart
+              barCategoryGap="31%"
+              barSize={barWidth}
+              data={displayChartData}
+              margin={{ bottom: 0, left: 0, right: 0, top: 0 }}
+            >
+              <CartesianGrid
+                stroke={effectiveGridStrokeColor}
+                strokeDasharray="3 3"
+                vertical={false}
+              />
+              <XAxis
+                dataKey="time"
+                interval={effectiveXAxisInterval - 1}
+                minTickGap={16}
+                stroke={xAxisStrokeColor}
+                tick={{ fill: xAxisTickColor, fontSize: xAxisFontSize }}
+              />
+              <YAxis
+                allowDecimals={false}
+                domain={
+                  isEmptyState ? [0, EMPTY_STATE_AXIS_MAX_VALUE] : undefined
+                }
+                stroke={yAxisStrokeColor}
+                tick={{ fill: yAxisTickColor, fontSize: yAxisFontSize }}
+                tickFormatter={(value) => valueFormatter(value as number)}
+                width={45}
+              />
+              <Tooltip
+                animationDuration={tooltipAnimationDuration}
+                content={(props) => (
+                  <StackedBarChartTooltip
+                    active={props.active}
+                    label={props.label}
+                    payload={props.payload}
+                    tooltipDateTimeColor={tooltipDateTimeColor}
+                    tooltipTitle={tooltipTitle}
+                    valueFormatter={valueFormatter}
+                  />
+                )}
+                cursor={{ fill: resolvedBarHighlightColor }}
+                wrapperStyle={{ zIndex: 1000 }}
+              />
+              {keyedSeries.map((item) => (
+                <Bar
+                  activeBar={false}
+                  animationDuration={barAnimationDuration}
+                  dataKey={item.dataKey}
+                  fill={item.color}
+                  hide={isEmptyState}
+                  key={item.dataKey}
+                  name={item.label}
+                  stackId={stacked ? (stackId ?? 'stack-1') : undefined}
+                />
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+
+          {noDataOverlay}
+        </div>
+
+        {legend}
+      </div>
+
+      {loadingOverlay}
     </div>
   );
 };

@@ -15,6 +15,8 @@ import type {
   CreateApiKeyPayload,
   CreateApiKeyResponse,
   InferenceModelsResponse,
+  InferenceUsage,
+  InferenceUsageRequest,
   UpdateApiKeyPayload,
 } from './types';
 
@@ -104,4 +106,18 @@ export const getInferenceModels = () =>
   Request<InferenceModelsResponse>(
     setURL(`${BETA_API_ROOT}/inference/models`),
     setMethod('GET'),
+  );
+
+/**
+ * getInferenceUsage
+ *
+ * Returns usage statistics for the Inference Platform.
+ *
+ * @param data Optional request body with filtering parameters (e.g., date range, group_by)
+ */
+export const getInferenceUsage = (data?: InferenceUsageRequest) =>
+  Request<InferenceUsage>(
+    setURL(`${BETA_API_ROOT}/inference/usage`),
+    setMethod('POST'),
+    setData(data),
   );

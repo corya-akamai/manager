@@ -1,25 +1,37 @@
 import React from 'react';
 
-import {
-  StackedBarChart,
-  type StackedBarChartProps,
-} from 'src/components/StackedBarChart';
+import { getExtraPresets, isMSWEnabled } from 'src/dev-tools/utils';
 
-import { filterChartPayloadBySeries } from './chartUtils';
+import type {
+  ChartPayload,
+  DataSeries,
+} from '../Dashboard/UsageSection/chartUtils';
 
-import type { ChartPayload, DataSeries } from './chartUtils';
+type UsageDynamicData = {
+  input: ChartPayload;
+  output: ChartPayload;
+  request: ChartPayload;
+  total: ChartPayload;
+};
 
-type ManagedProps = 'data' | 'seriesColorIndices';
+type UsageDataContextType = {
+  dynamicData: UsageDynamicData;
+};
 
-type DynamicChartUpdateProps = Omit<StackedBarChartProps, ManagedProps> & {
-  chartComponent?: React.ComponentType<StackedBarChartProps>;
-  data: ChartPayload;
-  selectedSeriesId: string;
-  seriesColorIndices?: Record<string, number>;
+const UsageDataContext = React.createContext<undefined | UsageDataContextType>(
+  undefined
+);
+
+type UsageDataProviderProps = {
+  children: React.ReactNode;
+  initialInputData: ChartPayload;
+  initialOutputData: ChartPayload;
+  initialRequestData: ChartPayload;
+  initialTotalData: ChartPayload;
   updateIntervalMs?: number;
 };
 
-const DEFAULT_UPDATE_INTERVAL_MS = 15000;
+const DEFAULT_UPDATE_INTERVAL_MS = 5000;
 const DEFAULT_START_DATE = '10/06/2026';
 
 const cloneData = (data: ChartPayload): ChartPayload => ({
@@ -160,43 +172,79 @@ const rollSeriesForward = (series: DataSeries): DataSeries => {
   };
 };
 
-export const DynamicChartUpdate = ({
-  chartComponent = StackedBarChart,
-  data,
-  selectedSeriesId,
-  seriesColorIndices,
+const rollPayloadForward = (payload: ChartPayload): ChartPayload => ({
+  ...payload,
+  series: payload.series.map(rollSeriesForward),
+});
+
+export const UsageDataProvider = ({
+  children,
+  initialInputData,
+  initialOutputData,
+  initialRequestData,
+  initialTotalData,
   updateIntervalMs = DEFAULT_UPDATE_INTERVAL_MS,
-  ...chartProps
-}: DynamicChartUpdateProps) => {
-  const [dynamicData, setDynamicData] = React.useState<ChartPayload>(() =>
-    cloneData(data)
+}: UsageDataProviderProps) => {
+  // Check if Usage mock is enabled (evaluated at render time)
+  const useMockAnimation =
+    isMSWEnabled && getExtraPresets().includes('inferencePlatform:usage');
+
+  const [dynamicData, setDynamicData] = React.useState<UsageDynamicData>(
+    () => ({
+      input: cloneData(initialInputData),
+      output: cloneData(initialOutputData),
+      request: cloneData(initialRequestData),
+      total: cloneData(initialTotalData),
+    })
   );
 
+  // Update when API data changes (React Query refetch)
   React.useEffect(() => {
-    setDynamicData(cloneData(data));
-  }, [data]);
+    setDynamicData({
+      input: cloneData(initialInputData),
+      output: cloneData(initialOutputData),
+      request: cloneData(initialRequestData),
+      total: cloneData(initialTotalData),
+    });
+  }, [
+    initialInputData,
+    initialOutputData,
+    initialRequestData,
+    initialTotalData,
+  ]);
 
+  // Animation interval - only runs when mock is enabled
   React.useEffect(() => {
+    if (!useMockAnimation) {
+      return;
+    }
+
     const intervalId = window.setInterval(() => {
-      setDynamicData((previousData) => ({
-        ...previousData,
-        series: previousData.series.map(rollSeriesForward),
+      setDynamicData((prev) => ({
+        input: rollPayloadForward(prev.input),
+        output: rollPayloadForward(prev.output),
+        request: rollPayloadForward(prev.request),
+        total: rollPayloadForward(prev.total),
       }));
     }, updateIntervalMs);
 
     return () => {
       window.clearInterval(intervalId);
     };
-  }, [updateIntervalMs]);
+  }, [useMockAnimation, updateIntervalMs]);
 
-  const filteredData = React.useMemo(
-    () => filterChartPayloadBySeries(dynamicData, selectedSeriesId),
-    [dynamicData, selectedSeriesId]
+  return (
+    <UsageDataContext.Provider value={{ dynamicData }}>
+      {children}
+    </UsageDataContext.Provider>
   );
+};
 
-  return React.createElement(chartComponent, {
-    ...chartProps,
-    data: filteredData,
-    seriesColorIndices,
-  });
+// eslint-disable-next-line react-refresh/only-export-components
+export const useUsageData = () => {
+  const context = React.useContext(UsageDataContext);
+  if (!context) {
+    throw new Error('useUsageData must be used within a UsageDataProvider');
+  }
+  return context.dynamicData;
 };

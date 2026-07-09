@@ -10,6 +10,8 @@ import type {
   ApiKeyType,
   ChatResponseBody,
   InferenceModel,
+  InferenceUsage,
+  InferenceUsageTimeSeries,
 } from '@linode/api-v4';
 import type { StrictResponse } from 'msw';
 import type { MockState } from 'src/mocks/types';
@@ -93,6 +95,59 @@ const mockApiKeys: ApiKey[] = [
     last_used: '2026-03-15T09:20:00Z',
     usage_24h: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   },
+  // Generate 150 additional keys for pagination testing
+  ...Array.from({ length: 100 }, (_, i) => {
+    const id = 6 + i;
+    const statuses: Array<'active' | 'expired' | 'revoked'> = [
+      'active',
+      'active',
+      'active',
+      'expired',
+      'revoked',
+    ];
+    const keyTypes: ApiKeyType[] = ['user', 'user', 'user', 'playground'];
+    const models = [
+      ['qwen3-8b'],
+      ['qwen3-4b', 'qwen3-8b'],
+      ['*'],
+      ['gemma-4-26b-a4b-it'],
+      ['qwen3-embedding-4b'],
+    ];
+    const descriptions = [
+      'Auto-generated test key for pagination testing',
+      'Development key for ML experiments',
+      'Production workload key',
+      'Staging environment key',
+      'Testing and QA key',
+    ];
+
+    return {
+      id,
+      key: '[REDACTED]',
+      key_prefix: `sk-aka-${String(id).padStart(4, '0')}`,
+      key_type: keyTypes[i % keyTypes.length],
+      label: `Test API Key ${id}`,
+      allowed_models: models[i % models.length],
+      status: statuses[i % statuses.length],
+      created: new Date(
+        Date.now() - (100 - i) * 24 * 60 * 60 * 1000
+      ).toISOString(),
+      updated: new Date(
+        Date.now() - (50 - (i % 50)) * 24 * 60 * 60 * 1000
+      ).toISOString(),
+      description: descriptions[i % descriptions.length],
+      expiry: new Date(
+        Date.now() + (i % 2 === 0 ? 90 : 180) * 24 * 60 * 60 * 1000
+      ).toISOString(),
+      last_used:
+        i % 3 === 0
+          ? null
+          : new Date(Date.now() - i * 60 * 60 * 1000).toISOString(),
+      usage_24h: Array.from({ length: 12 }, () =>
+        Math.floor(Math.random() * 10)
+      ),
+    } as ApiKey;
+  }),
 ];
 
 // Mock Models data
@@ -550,5 +605,238 @@ export const updateApiKey = (_mockState: MockState) => [
 
     mockApiKeys[index] = updatedKey;
     return makeResponse(updatedKey);
+  }),
+];
+
+const generateMockUsage = (
+  groupBy: 'api-key' | 'model' = 'model',
+  apiKeyId?: number
+): InferenceUsage => {
+  // Usage scale mapping for API keys based on their characteristics
+  const getApiKeyScale = (apiKey: ApiKey): number => {
+    // Expired/revoked keys have no recent usage
+    if (apiKey.status === 'expired' || apiKey.status === 'revoked') {
+      return 0;
+    }
+    // Never-used keys should render as zero usage in UI details views.
+    if (apiKey.last_used === null) {
+      return 0;
+    }
+    // Scale based on key type and position (production keys have more usage)
+    const scaleMap: Record<number, number> = {
+      1: 800000, // Production Inference Key - highest usage
+      2: 400000, // Dev Team Key - moderate usage
+      4: 100000, // Staging Key - lower usage
+    };
+    return scaleMap[apiKey.id] || 50000; // Default scale for new keys
+  };
+
+  // Data sources based on groupBy
+  // For API keys, use label as the id so it displays correctly in chart legends/filters
+  // For models, derive usage scale from model parameters (larger models = more usage)
+  const getModelScale = (model: InferenceModel): number => {
+    const params = model.parameters.parameter_count_billions;
+    // Scale usage based on model size: ~15k tokens per billion parameters
+    // Embedding models get lower baseline usage
+    const baseScale = model.type === 'embedding' ? 5000 : 15000;
+    return params * baseScale;
+  };
+
+  let groups =
+    groupBy === 'api-key'
+      ? mockApiKeys.map((apiKey) => ({
+          id: apiKey.label,
+          label: apiKey.label,
+          scale: getApiKeyScale(apiKey),
+        }))
+      : mockModels.map((model) => ({
+          id: model.id,
+          label: model.label,
+          scale: getModelScale(model),
+        }));
+
+  // Filter by specific API key ID if provided (look up by numeric id, filter by label)
+  if (apiKeyId !== undefined) {
+    const apiKey = mockApiKeys.find((k) => k.id === apiKeyId);
+    if (apiKey) {
+      groups = groups.filter((g) => g.label === apiKey.label);
+    } else {
+      // If no match found, create a fallback entry
+      groups = [
+        {
+          id: `API Key ${apiKeyId}`,
+          label: `API Key ${apiKeyId}`,
+          scale: 0,
+        },
+      ];
+    }
+  }
+
+  // For groups with many entries, show top 5 and combine rest into "Other"
+  const TOP_N = 5;
+  let otherGroup: null | { id: string; label: string; scale: number } = null;
+
+  // Apply Top N aggregation when not filtering by specific API key and there are more than TOP_N groups
+  if (apiKeyId === undefined && groups.length > TOP_N) {
+    // Sort by scale (usage) descending to get top entries
+    const sortedGroups = [...groups].sort((a, b) => b.scale - a.scale);
+    const topGroups = sortedGroups.slice(0, TOP_N);
+    const remainingGroups = sortedGroups.slice(TOP_N);
+
+    // Calculate combined scale for "Other" category
+    const otherScale = remainingGroups.reduce((sum, g) => sum + g.scale, 0);
+    const otherCount = remainingGroups.length;
+    const otherLabel =
+      groupBy === 'api-key'
+        ? `Other (${otherCount} keys)`
+        : `Other (${otherCount} models)`;
+
+    otherGroup = {
+      id: 'other',
+      label: otherLabel,
+      scale: otherScale,
+    };
+
+    groups = [...topGroups, otherGroup];
+  }
+
+  // Generate time series data (hourly for last 24 hours)
+  const timeSeries: InferenceUsageTimeSeries[] = [];
+  const now = new Date();
+  // Start from 24 hours ago
+  const startTime = new Date(now);
+  startTime.setHours(startTime.getHours() - 23, 0, 0, 0);
+
+  for (let hour = 0; hour < 24; hour++) {
+    const bucket = new Date(startTime);
+    bucket.setHours(startTime.getHours() + hour);
+
+    for (const group of groups) {
+      // Scale tokens based on group's usage pattern
+      const inputTokens = Math.floor((Math.random() * 0.5 + 0.2) * group.scale);
+      const outputTokens = Math.floor(
+        (Math.random() * 1.5 + 0.5) * group.scale
+      );
+      // Request count scales with token usage - in similar magnitude to tokens
+      const requestCount = Math.max(
+        1,
+        Math.floor((Math.random() * 0.3 + 0.1) * group.scale)
+      );
+      timeSeries.push({
+        bucket: bucket.toISOString(),
+        group_id: group.id,
+        group_label: group.label,
+        input_tokens: inputTokens,
+        output_tokens: outputTokens,
+        request_count: requestCount,
+        total_tokens: inputTokens + outputTokens,
+      });
+    }
+  }
+
+  // Calculate totals from time series
+  const totalInputTokens = timeSeries.reduce(
+    (sum, t) => sum + t.input_tokens,
+    0
+  );
+  const totalOutputTokens = timeSeries.reduce(
+    (sum, t) => sum + t.output_tokens,
+    0
+  );
+  const totalTokens = totalInputTokens + totalOutputTokens;
+  const totalRequests = timeSeries.reduce((sum, t) => sum + t.request_count, 0);
+  const failedRequests = Math.floor(totalRequests * 0.01);
+
+  // Generate breakdown by group
+  const breakdown = groups.map((group) => {
+    const groupData = timeSeries.filter((t) => t.group_id === group.id);
+    const inputTokens = groupData.reduce((sum, t) => sum + t.input_tokens, 0);
+    const outputTokens = groupData.reduce((sum, t) => sum + t.output_tokens, 0);
+    const groupTotalTokens = inputTokens + outputTokens;
+    return {
+      id: group.id,
+      input_tokens: inputTokens,
+      label: group.label,
+      output_tokens: outputTokens,
+      percentage: Math.round((groupTotalTokens / totalTokens) * 1000) / 10,
+      request_count: groupData.reduce((sum, t) => sum + t.request_count, 0),
+      total_tokens: groupTotalTokens,
+    };
+  });
+
+  return {
+    breakdown,
+    summary: {
+      avg_latency_ms: Math.round(Math.random() * 200 + 150),
+      failed_requests: failedRequests,
+      input_tokens: totalInputTokens,
+      output_tokens: totalOutputTokens,
+      successful_requests: totalRequests - failedRequests,
+      total_requests: totalRequests,
+      total_tokens: totalTokens,
+    },
+    time_series: timeSeries,
+  };
+};
+
+/**
+ * POST /v4beta/inference/usage
+ * Returns usage statistics
+ *
+ * Supported request parameters:
+ * - group_by: 'model' | 'api_key' (defaults to 'model')
+ * - api_key_id: number (optional, filters results to specific API key)
+ * - model_id: string (optional, filters results to specific model)
+ * - granularity: 'hourly' | 'daily' (defaults to 'hourly', for future use)
+ * - start_date: string (ISO date, for future use)
+ * - end_date: string (ISO date, for future use)
+ * - include_breakdown: boolean (defaults to true)
+ * - include_time_series: boolean (defaults to true)
+ * - top_n: number (for future use, limits breakdown results)
+ */
+export const getUsage = (_mockState: MockState) => [
+  http.post('*/v4beta/inference/usage', async ({ request }) => {
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
+    let body: Record<string, unknown> = {};
+    try {
+      body = (await request.json()) as Record<string, unknown>;
+    } catch {
+      // The usage endpoint supports an empty POST body.
+      // Default to an empty options object when no JSON body is provided.
+      body = {};
+    }
+
+    // Extract and validate parameters with defaults
+    const groupBy = (body?.group_by === 'api-key' ? 'api-key' : 'model') as
+      | 'api-key'
+      | 'model';
+    const apiKeyId =
+      typeof body?.api_key_id === 'number' ? body.api_key_id : undefined;
+    const modelId =
+      typeof body?.model_id === 'string' ? body.model_id : undefined;
+    // Note: granularity, start_date, end_date, top_n parsed but not yet used
+    const includeBreakdown = body?.include_breakdown !== false;
+    const includeTimeSeries = body?.include_time_series !== false;
+
+    let usage = generateMockUsage(groupBy, apiKeyId);
+
+    // Apply optional model_id filter when grouping by model
+    if (modelId && groupBy === 'model') {
+      usage = {
+        ...usage,
+        breakdown: usage.breakdown.filter((item) => item.id === modelId),
+        time_series: usage.time_series.filter(
+          (entry) => entry.group_id === modelId
+        ),
+      };
+    }
+
+    // Conditionally include breakdown and time_series based on request params
+    return makeResponse({
+      breakdown: includeBreakdown ? usage.breakdown : [],
+      summary: usage.summary,
+      time_series: includeTimeSeries ? usage.time_series : [],
+    });
   }),
 ];

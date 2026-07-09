@@ -1,35 +1,31 @@
+import { useInferenceUsageQuery } from '@linode/queries';
 import { Box, Paper, Select, Stack, Typography } from '@linode/ui';
 import React from 'react';
 
 import { StackedBarChart } from 'src/components/StackedBarChart';
+import { getExtraPresets, isMSWEnabled } from 'src/dev-tools/utils';
+import { transformApiDataToChartPayload } from 'src/features/InferencePlatform/Usage/usageUtils';
 
-import tokenUsageData from '../TokenUsageData.json';
 import { filterChartPayloadBySeries } from './chartUtils';
 import { DynamicChartUpdate } from './DynamicChartUpdate';
 
-interface UsageSectionProps {
-  /**
-   * When true, the chart data updates dynamically at regular intervals.
-   * When false, the chart displays static data without updates.
-   * @default true
-   */
-  doDynamicData?: boolean;
-}
+export const UsageSection = () => {
+  // Check if Usage mock is enabled (evaluated at render time)
+  const useMockAnimation =
+    isMSWEnabled && getExtraPresets().includes('inferencePlatform:usage');
 
-export const UsageSection = ({ doDynamicData = true }: UsageSectionProps) => {
+  // Fetch usage data from API (MSW intercepts when mock is enabled)
+  // Explicit params to avoid relying on server defaults
+  const { data: apiUsageData } = useInferenceUsageQuery({
+    granularity: 'hour',
+    group_by: 'model',
+    include_time_series: true,
+  });
+
+  // Transform data: use API data when available, fall back to minimal "no data" placeholder
   const transformedData = React.useMemo(() => {
-    return {
-      series: tokenUsageData.series.map((series) => ({
-        id: series.seriesName,
-        label: series.seriesName,
-        values: series.values.map((point) => ({
-          date: point.date,
-          time: point.time,
-          value: point.value,
-        })),
-      })),
-    };
-  }, []);
+    return transformApiDataToChartPayload(apiUsageData);
+  }, [apiUsageData]);
 
   // Map each series ID to its position in the array (for consistent colors)
   const seriesColorIndices = React.useMemo(() => {
@@ -43,10 +39,12 @@ export const UsageSection = ({ doDynamicData = true }: UsageSectionProps) => {
   const seriesOptions = React.useMemo(() => {
     return [
       { label: 'All series', value: 'all' },
-      ...transformedData.series.map((series) => ({
-        label: series.label,
-        value: series.id,
-      })),
+      ...transformedData.series
+        .filter((series) => series.id !== 'no-data')
+        .map((series) => ({
+          label: series.label,
+          value: series.id,
+        })),
     ];
   }, [transformedData]);
 
@@ -104,7 +102,7 @@ export const UsageSection = ({ doDynamicData = true }: UsageSectionProps) => {
           </Box>
         </Stack>
 
-        {doDynamicData ? (
+        {useMockAnimation ? (
           <DynamicChartUpdate
             barWidth={16}
             chartComponent={StackedBarChart}
@@ -116,6 +114,7 @@ export const UsageSection = ({ doDynamicData = true }: UsageSectionProps) => {
           />
         ) : (
           <StackedBarChart
+            barWidth={16}
             data={filterChartPayloadBySeries(
               transformedData,
               selectedSeriesId.value

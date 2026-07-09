@@ -1,13 +1,23 @@
+import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
 import { apiKeyFactory } from 'src/factories/inferencePlatform';
+import { getUsage } from 'src/mocks/presets/crud/handlers/inferencePlatform';
+import { server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
 import { InferencePlatformContext } from '../InferencePlatformContext';
 import { ApiKeyDetailsDrawer } from './ApiKeyDetailsDrawer';
 
 import type { ApiKey, InferenceModel } from '@linode/api-v4';
+import type { MockState } from 'src/mocks/types';
+
+vi.mock('./UsageSparkline', () => ({
+  UsageSparkline: ({ data }: { data: number[] }) => (
+    <output aria-label="usage sparkline data">{data.join(',')}</output>
+  ),
+}));
 
 const mockModels: InferenceModel[] = [
   {
@@ -106,11 +116,12 @@ const renderWithContext = (props: TestProps = defaultProps) => {
 describe('ApiKeyDetailsDrawer', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    server.use(...getUsage({} as MockState));
   });
 
   it('renders the drawer with key label in title', () => {
     const { getByRole } = renderWithContext();
-    expect(getByRole('heading', { name: 'my-api-key Details' })).toBeVisible();
+    expect(getByRole('heading', { name: 'my-api-key' })).toBeVisible();
   });
 
   it('renders null when apiKey is null', () => {
@@ -186,18 +197,51 @@ describe('ApiKeyDetailsDrawer', () => {
   });
 
   it('calls onClose when Close button is clicked', async () => {
+    const user = userEvent.setup();
     const onClose = vi.fn();
     const { getByRole } = renderWithContext({
       ...defaultProps,
       onClose,
     });
-    await userEvent.click(getByRole('button', { name: 'Close' }));
+    await user.click(getByRole('button', { name: 'Close' }));
     expect(onClose).toHaveBeenCalled();
   });
 
   it('renders Usage 24h section', () => {
     const { getByText } = renderWithContext();
     expect(getByText('Usage 24h')).toBeVisible();
+  });
+
+  it('renders zero usage sparkline for never-used keys', async () => {
+    const { getByLabelText } = renderWithContext({
+      ...defaultProps,
+      apiKey: apiKeyFactory.build({
+        id: 999999,
+        last_used: null,
+        status: 'active',
+      }),
+    });
+
+    await waitFor(() => {
+      const values = getByLabelText('usage sparkline data').textContent ?? '';
+      expect(values).toBe(Array.from({ length: 24 }, () => 0).join(','));
+    });
+  });
+
+  it('renders non-zero usage sparkline for used keys', async () => {
+    const { getByLabelText } = renderWithContext({
+      ...defaultProps,
+      apiKey: apiKeyFactory.build({ id: 1, last_used: '2026-05-14T10:30:00Z' }),
+    });
+
+    await waitFor(() => {
+      const values = getByLabelText('usage sparkline data').textContent ?? '';
+      const parsed = values
+        .split(',')
+        .map((value) => Number(value))
+        .filter((value) => !Number.isNaN(value));
+      expect(parsed.some((value) => value > 0)).toBe(true);
+    });
   });
 
   it('displays Created and Updated labels', () => {

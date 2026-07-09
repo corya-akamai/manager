@@ -118,3 +118,52 @@ export interface InferenceModel {
 export interface InferenceModelsResponse {
   data: InferenceModel[];
 }
+
+// Usage types
+export interface InferenceUsageSummary {
+  avg_latency_ms: number;
+  failed_requests: number;
+  input_tokens: number;
+  output_tokens: number;
+  successful_requests: number;
+  total_requests: number;
+  total_tokens: number;
+}
+
+export interface InferenceUsageTimeSeries {
+  bucket: string;
+  group_id: string;
+  group_label: string;
+  input_tokens: number;
+  output_tokens: number;
+  request_count: number;
+  total_tokens: number;
+}
+
+export interface InferenceUsageBreakdown {
+  id: string;
+  input_tokens: number;
+  label: string;
+  output_tokens: number;
+  percentage: number;
+  request_count: number;
+  total_tokens: number;
+}
+
+export interface InferenceUsage {
+  breakdown: InferenceUsageBreakdown[];
+  summary: InferenceUsageSummary;
+  time_series: InferenceUsageTimeSeries[];
+}
+
+export interface InferenceUsageRequest {
+  api_key_id?: number;
+  end_date?: string;
+  granularity?: string;
+  group_by?: string;
+  include_breakdown?: boolean;
+  include_time_series?: boolean;
+  model_id?: string;
+  start_date?: string;
+  top_n?: number;
+}

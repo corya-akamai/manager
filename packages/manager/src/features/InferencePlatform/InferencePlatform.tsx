@@ -67,6 +67,7 @@ export const InferencePlatform = () => {
         <LandingHeader
           breadcrumbProps={{ pathname: '/inference-platform' }}
           removeCrumbX={1}
+          spacingBottom={4}
           title="Inference Platform"
         />
         <Tabs index={tabIndex} onChange={handleTabChange}>
