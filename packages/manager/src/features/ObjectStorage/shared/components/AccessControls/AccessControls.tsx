@@ -21,6 +21,7 @@ import {
   useUpdateObjectAccessMutation,
 } from 'src/queries/object-storage/queries';
 
+import { getEndpointCapabilities } from '../../../shared/endpointCapabilities';
 import { bucketACLOptions, objectACLOptions } from '../../utils/utilities';
 import { copy } from './AccessControls.data';
 
@@ -53,10 +54,10 @@ export const AccessControls = React.memo((props: Props) => {
 
   const { close: closeDialog, isOpen, open: openDialog } = useOpenClose();
   const label = capitalize(variant);
+  const endpointCapabilities = getEndpointCapabilities(endpointType);
 
   // CORS is only available at a bucket level, not at an object level.
-  const isCorsAvailable =
-    variant === 'bucket' && endpointType !== 'E2' && endpointType !== 'E3';
+  const isCorsAvailable = variant === 'bucket' && endpointCapabilities.cors;
 
   const {
     data: bucketAccessData,

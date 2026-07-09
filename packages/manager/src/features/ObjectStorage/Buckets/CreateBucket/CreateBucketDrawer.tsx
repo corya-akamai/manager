@@ -32,6 +32,7 @@ import { reportAgreementSigningError } from 'src/utilities/reportAgreementSignin
 import { EnableObjectStorageModal } from '../../shared/components/Modal/EnableObjectStorageModal';
 import { QuotasInfoNotice } from '../../shared/components/Notice/QuotasInfoNotice';
 import { ObjectStorageRegionSelect } from '../../shared/components/RegionSelect/ObjectStorageRegionSelect';
+import { getEndpointCapabilities } from '../../shared/endpointCapabilities';
 import { useObjectStorageRegions } from '../../shared/hooks/useObjectStorageRegions';
 import { useObjectStorageBuckets } from '../hooks/useObjectStorageBuckets';
 import { BucketRateLimitTable } from './BucketRateLimitTable';
@@ -256,9 +257,9 @@ export const CreateBucketDrawer = (props: Props) => {
   const updateEndpointType = (endpointOption: EndpointOption | null) => {
     if (endpointOption) {
       const { endpoint_type, s3_endpoint } = endpointOption;
-      const isGen2Endpoint = endpoint_type === 'E2' || endpoint_type === 'E3';
+      const endpointCapabilities = getEndpointCapabilities(endpoint_type);
 
-      if (isGen2Endpoint) {
+      if (!endpointCapabilities.cors) {
         setValue('cors_enabled', false);
       }
 

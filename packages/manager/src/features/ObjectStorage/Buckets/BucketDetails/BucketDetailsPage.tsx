@@ -14,6 +14,7 @@ import { useFlags } from 'src/hooks/useFlags';
 import { useTabs } from 'src/hooks/useTabs';
 import { useCloudPulseServiceByServiceType } from 'src/queries/cloudpulse/services';
 
+import { getEndpointCapabilities } from '../../shared/endpointCapabilities';
 import { useObjectStorageBuckets } from './../hooks/useObjectStorageBuckets';
 
 const BucketObjectsPanel = React.lazy(() =>
@@ -41,7 +42,6 @@ const BucketMetricsPanel = React.lazy(() =>
 );
 
 const BUCKET_DETAILS_URL = '/object-storage/buckets/$regionId/$bucketName';
-const ENDPOINT_TYPES_WITH_NO_METRICS_SUPPORT = ['E0', 'E1'];
 const OBJECT_STORAGE_METRICS_KEY = 'Object Storage';
 
 export const BucketDetailsPage = React.memo(() => {
@@ -70,17 +70,17 @@ export const BucketDetailsPage = React.memo(() => {
     error: regionError,
   } = useRegionQuery(bucket?.region || '');
 
-  const { endpoint_type } = bucket ?? {};
+  const endpointType = bucket ? (bucket.endpoint_type ?? 'E0') : undefined;
 
-  const isGen2Endpoint = endpoint_type === 'E2' || endpoint_type === 'E3';
+  const endpointCapabilities = getEndpointCapabilities(endpointType);
 
   const regionSupportsMetrics = region?.monitors?.metrics?.includes(
     OBJECT_STORAGE_METRICS_KEY
   );
 
   const isBucketMetricsTabHidden =
-    !endpoint_type ||
-    ENDPOINT_TYPES_WITH_NO_METRICS_SUPPORT.includes(endpoint_type) ||
+    !endpointType ||
+    !endpointCapabilities.metrics ||
     aclpServiceError ||
     !aclpServices?.objectstorage?.metrics?.enabled ||
     !objectStorageContextualMetrics ||
@@ -99,7 +99,7 @@ export const BucketDetailsPage = React.memo(() => {
     {
       title: 'SSL/TLS',
       to: `${BUCKET_DETAILS_URL}/ssl`,
-      hide: isGen2Endpoint,
+      hide: !endpointCapabilities.customTlsCertificate,
     },
     {
       title: 'Metrics',
@@ -152,7 +152,7 @@ export const BucketDetailsPage = React.memo(() => {
             <SafeTabPanel index={1}>
               <BucketAccessPanel
                 bucketName={bucketName}
-                endpointType={endpoint_type}
+                endpointType={endpointType}
                 regionId={regionId}
               />
             </SafeTabPanel>

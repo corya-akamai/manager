@@ -10,6 +10,7 @@ import { CopyTooltip } from 'src/components/CopyTooltip/CopyTooltip';
 import { Link } from 'src/components/Link';
 
 import { AccessControls } from '../../../../shared/components/AccessControls/AccessControls';
+import { getEndpointCapabilities } from '../../../../shared/endpointCapabilities';
 import { useObjectStorageBuckets } from '../../../hooks/useObjectStorageBuckets';
 
 export interface ObjectDetailsDrawerProps {
@@ -49,7 +50,7 @@ export const BucketObjectDetailsDrawer = React.memo(
       ({ label, region }) => label === bucketName && region === regionId
     );
 
-    const { endpoint_type: endpointType } = bucket ?? {};
+    const endpointType = bucket ? (bucket.endpoint_type ?? 'E0') : undefined;
 
     try {
       if (lastModified) {
@@ -59,8 +60,9 @@ export const BucketObjectDetailsDrawer = React.memo(
       }
     } catch {}
 
-    const isEndpointTypeE2E3 = endpointType === 'E2' || endpointType === 'E3';
-    const isAccessSelectEnabled = open && name && !isEndpointTypeE2E3;
+    const endpointCapabilities = getEndpointCapabilities(endpointType);
+    const isAccessSelectEnabled =
+      open && name && endpointCapabilities.objectAcl;
     const shouldShowAccessSelect = !isLoadingEndpoint && isAccessSelectEnabled;
 
     return (
