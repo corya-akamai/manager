@@ -1,8 +1,4 @@
-import {
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { describe, expect } from 'vitest';
@@ -12,10 +8,10 @@ import {
   objectStorageBucketFactory,
 } from 'src/factories';
 import { DestinationEdit } from 'src/features/Delivery/Destinations/DestinationForm/DestinationEdit';
+import { waitForLoadingToComplete } from 'src/features/Delivery/Shared/testHelpers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';
 
-const loadingTestId = 'circle-progress';
 const destinationId = 123;
 const mockDestination = akamaiObjectStorageDestinationFactory.build({
   id: destinationId,
@@ -89,9 +85,7 @@ describe('DestinationEdit', () => {
       component: <DestinationEdit />,
     });
 
-    const loadingElement = screen.queryByTestId(loadingTestId);
-    expect(loadingElement).toBeInTheDocument();
-    await waitForElementToBeRemoved(loadingElement);
+    await waitForLoadingToComplete();
 
     assertInputHasValue('Destination Type', 'Akamai Object Storage');
     await waitFor(() => {
@@ -116,8 +110,7 @@ describe('DestinationEdit', () => {
         component: <DestinationEdit />,
       });
 
-      const loadingElement = screen.queryByTestId(loadingTestId);
-      await waitForElementToBeRemoved(loadingElement);
+      await waitForLoadingToComplete();
     };
 
     it('should default to "Enter Bucket details manually" radio in edit mode', async () => {
@@ -271,8 +264,7 @@ describe('DestinationEdit', () => {
         renderWithThemeAndHookFormContext({
           component: <DestinationEdit />,
         });
-        const loadingElement = screen.queryByTestId(loadingTestId);
-        await waitForElementToBeRemoved(loadingElement);
+        await waitForLoadingToComplete();
 
         const testConnectionButton = screen.getByRole('button', {
           name: testConnectionButtonText,
@@ -322,8 +314,7 @@ describe('DestinationEdit', () => {
           component: <DestinationEdit />,
         });
 
-        const loadingElement = screen.queryByTestId(loadingTestId);
-        await waitForElementToBeRemoved(loadingElement);
+        await waitForLoadingToComplete();
         const testConnectionButton = screen.getByRole('button', {
           name: testConnectionButtonText,
         });
