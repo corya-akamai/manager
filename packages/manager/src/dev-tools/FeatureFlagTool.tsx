@@ -50,6 +50,7 @@ const options: { flag: keyof Flags; label: string }[] = [
   { flag: 'lkeEnterprise2', label: 'LKE-Enterprise' },
   { flag: 'marketplaceV2', label: 'MarketplaceV2' },
   { flag: 'networkLoadBalancer', label: 'Network Load Balancer' },
+  { flag: 'nitro', label: 'Nitro' },
   { flag: 'nodebalancerIpv6', label: 'NodeBalancer Dual Stack (IPv6)' },
   { flag: 'nodebalancerVpc', label: 'NodeBalancer-VPC Integration' },
   { flag: 'premiumNodebalancer', label: 'Premium Nodebalancer' },

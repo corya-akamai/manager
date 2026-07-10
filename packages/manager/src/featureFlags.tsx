@@ -309,6 +309,7 @@ export interface Flags {
   metadata: boolean;
   mtc: MTC;
   networkLoadBalancer: boolean;
+  nitro: BaseFeatureFlag;
   nodebalancerIpv6: boolean;
   nodebalancerVpc: boolean;
   objectStorageContextualMetrics: boolean;

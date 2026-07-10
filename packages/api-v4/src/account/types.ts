@@ -79,6 +79,7 @@ export const accountCapabilities = [
   'Cloud Firewall Rule Set',
   'CloudPulse',
   'Disk Encryption',
+  'GPUDirect RDMA',
   'Kubernetes',
   'Kubernetes Enterprise',
   'Kubernetes Enterprise BYO VPC',
