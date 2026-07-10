@@ -12,6 +12,7 @@ const mockNavigate = vi.fn();
 
 const queryMocks = vi.hoisted(() => ({
   useGetIdpConfigsQuery: vi.fn(),
+  useIsIAMFederationEnabled: vi.fn(),
   useNavigate: vi.fn(() => mockNavigate),
   usePermissions: vi.fn(),
 }));
@@ -29,6 +30,14 @@ vi.mock('@linode/queries', async () => {
   return {
     ...actual,
     useGetIdpConfigsQuery: queryMocks.useGetIdpConfigsQuery,
+  };
+});
+
+vi.mock('../hooks/useIsIAMFederationEnabled', async () => {
+  const actual = await vi.importActual('../hooks/useIsIAMFederationEnabled');
+  return {
+    ...actual,
+    useIsIAMFederationEnabled: queryMocks.useIsIAMFederationEnabled,
   };
 });
 
@@ -69,10 +78,25 @@ describe('LoginSettingsLanding', () => {
       error: null,
       isLoading: false,
     });
+    queryMocks.useIsIAMFederationEnabled.mockReturnValue({
+      isIAMFederationEnabled: true,
+    });
     queryMocks.usePermissions.mockReturnValue({
       data: { view_idp_config: true },
       error: null,
     });
+  });
+
+  it('does not render the SSO section when IAM Federation is disabled', () => {
+    queryMocks.useIsIAMFederationEnabled.mockReturnValue({
+      isIAMFederationEnabled: false,
+    });
+
+    renderWithProviders(<LoginSettingsLanding />);
+
+    expect(
+      screen.queryByRole('heading', { name: 'Enforce Single Sign-On' })
+    ).not.toBeInTheDocument();
   });
 
   it('shows a no-permission banner when the user cannot view IDP configurations', () => {

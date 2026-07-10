@@ -110,6 +110,9 @@ export const TFA_ENFORCEMENT_LINK =
 export const SSO_DOCS_LINK =
   'https://techdocs.akamai.com/cloud-computing/docs/single-sign-on-cm';
 
+export const PARENT_CHILD_IAM_LINK =
+  'https://techdocs.akamai.com/cloud-computing/docs/parent-child-iam';
+
 export const SSO_RECOMMENDATIONS_LINK =
   'https://techdocs.akamai.com/home#why-should-you-configure-an-emergency-access-account';
 

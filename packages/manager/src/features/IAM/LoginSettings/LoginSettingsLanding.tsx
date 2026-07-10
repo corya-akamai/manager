@@ -5,6 +5,7 @@ import {
 } from '@linode/queries';
 import * as React from 'react';
 
+import { useIsIAMFederationEnabled } from '../hooks/useIsIAMFederationEnabled';
 import { useIsIAMTfaEnforcementEnabled } from '../hooks/useIsIAMTfaEnforcementEnabled';
 import { Box } from '../Shared/Box/Box';
 import { CircleProgress } from '../Shared/CircleProgress/CircleProgress';
@@ -13,6 +14,7 @@ import { TFASection } from './TFASection';
 
 export const LoginSettingsLanding = () => {
   const { isIAMTfaEnforcementEnabled } = useIsIAMTfaEnforcementEnabled();
+  const { isIAMFederationEnabled } = useIsIAMFederationEnabled();
 
   const {
     data: idpConfigs,
@@ -35,7 +37,9 @@ export const LoginSettingsLanding = () => {
       {isIAMTfaEnforcementEnabled && (
         <TFASection error={tfaError} tfaSettings={tfaSettings} />
       )}
-      <SSOSection error={ssoError} idpConfigs={idpConfigs} />
+      {isIAMFederationEnabled && (
+        <SSOSection error={ssoError} idpConfigs={idpConfigs} />
+      )}
     </Box>
   );
 };

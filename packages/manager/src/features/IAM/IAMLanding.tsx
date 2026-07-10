@@ -16,7 +16,12 @@ import { useIsIAMFederationEnabled } from './hooks/useIsIAMFederationEnabled';
 import { useIsIAMTfaEnforcementEnabled } from './hooks/useIsIAMTfaEnforcementEnabled';
 import { useTabs } from './hooks/useTabs';
 import { IAM_LANDING_PENDO_IDS } from './LoginSettings/constants';
-import { IAM_DOCS_LINK, ROLES_LEARN_MORE_LINK } from './Shared/constants';
+import {
+  IAM_DOCS_LINK,
+  PARENT_CHILD_IAM_LINK,
+  ROLES_LEARN_MORE_LINK,
+  SSO_DOCS_LINK,
+} from './Shared/constants';
 import { DocsLink } from './Shared/DocsLink/DocsLink';
 import { LandingHeader } from './Shared/LandingHeader/LandingHeader';
 import { SuspenseLoader } from './Shared/SuspenseLoader/SuspenseLoader';
@@ -66,6 +71,15 @@ export const IdentityAccessLanding = React.memo(() => {
     navigate({ to: '/iam/users', replace: true });
   }
 
+  const DOCS_LINK_MAP: [string, string][] = [
+    ['/iam/settings', SSO_DOCS_LINK],
+    ['/iam/delegations', PARENT_CHILD_IAM_LINK],
+    ['/iam/roles', ROLES_LEARN_MORE_LINK],
+  ];
+
+  const docsLink =
+    DOCS_LINK_MAP.find(([path]) => location.pathname.startsWith(path))?.[1] ??
+    IAM_DOCS_LINK;
   return (
     <>
       <LandingHeader>
@@ -75,10 +89,7 @@ export const IdentityAccessLanding = React.memo(() => {
             {showNewBadge ? <Badge type="new">New</Badge> : null}
           </BreadcrumbItem>
         </Breadcrumb>
-        <DocsLink
-          href={tabIndex === 0 ? IAM_DOCS_LINK : ROLES_LEARN_MORE_LINK}
-          pendoId={IAM_LANDING_PENDO_IDS.docsLink}
-        />
+        <DocsLink href={docsLink} pendoId={IAM_LANDING_PENDO_IDS.docsLink} />
       </LandingHeader>
       <div style={{ overflowX: 'auto' }}>
         <Tabs
