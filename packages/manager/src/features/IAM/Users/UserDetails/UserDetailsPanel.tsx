@@ -5,6 +5,7 @@ import React from 'react';
 
 import { useActiveBreakpointIndex } from '../../hooks/useBreakpoint';
 import { useDelegationRole } from '../../hooks/useDelegationRole';
+import { useIsIAMTfaEnforcementEnabled } from '../../hooks/useIsIAMTfaEnforcementEnabled';
 import { Box } from '../../Shared/Box/Box';
 import { EMAIL_MAX_LENGTH, PARENT_USER } from '../../Shared/constants';
 import { DateTimeDisplay } from '../../Shared/DateTimeDisplay/DateTimeDisplay';
@@ -16,7 +17,7 @@ import { truncateEnd } from '../../Shared/truncate';
 import { UserDeleteConfirmation } from '../../Shared/UserDeleteConfirmation';
 import { EditUserDetailsDrawer } from './EditUserDetailsDrawer';
 import styles from './UserDetailsPanel.module.css';
-import { getTotalAssignedRoles } from './utils';
+import { getTfaStatus, getTotalAssignedRoles } from './utils';
 
 import type { IAMAction } from '../../routes';
 import type { IamUserRoles, User } from '@linode/api-v4';
@@ -46,6 +47,12 @@ export const UserDetailsPanel = ({
     from: '/iam/users/$username/details',
   });
   const { profileUserName } = useDelegationRole();
+  const { isIAMTfaEnforcementEnabled } = useIsIAMTfaEnforcementEnabled();
+  const { iconStatus: tfaIconStatus, label: tfaLabel } = getTfaStatus(
+    activeUser.tfa_enabled,
+    activeUser.tfa_enforced,
+    isIAMTfaEnforcementEnabled
+  );
 
   const isDelegateUserType = activeUser.user_type === 'delegate';
 
@@ -229,7 +236,8 @@ export const UserDetailsPanel = ({
       value: (
         <Box direction="row">
           <StatusIcon
-            status={activeUser.tfa_enabled ? 'active' : 'inactive'}
+            pulse={false}
+            status={tfaIconStatus}
             style={{ alignSelf: 'center' }}
           />
           <p
@@ -238,7 +246,7 @@ export const UserDetailsPanel = ({
               fontWeight: Font.FontWeight.Bold,
             }}
           >
-            {activeUser.tfa_enabled ? 'Enabled' : 'Disabled'}
+            {tfaLabel}
           </p>
         </Box>
       ),
