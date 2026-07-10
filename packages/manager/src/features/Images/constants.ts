@@ -24,9 +24,31 @@ export const SHARED_IMAGE_ICON_TOOLTIP =
 export const LINODE_CREATE_SHARED_IMAGE_ICON_TOOLTIP =
   'This image is shared with a group.';
 
+export const IMAGE_LIBRARY_TAB_PENDO_IDS = {
+  ownedByMe: 'Images Library-Owned',
+  sharedWithMe: 'Images Library-Shared',
+  recoveryImages: 'Images Library-Recovery',
+};
+
 // Pendo IDs for the Images Landing sub-tabs
 export const OWNED_BY_ME_IMAGES_TAB_PENDO_IDS = {
+  encryptedLink: 'Images Library Owned-Encrypted',
+  imageSharingDocsLink: 'Images Library Owned-Docs',
+  metadataSupportedIcon: 'Images Library Owned-Cloud-init',
+  replicatedRegionPopover: 'Images Library Owned-Replicated in',
+  sharedImageLabel: 'Images Library Owned-Image name',
+  sharedImageIcon: 'Images Library Owned-Shared Image',
+  actionMenuLabel: 'Images Library Owned-Action Menu',
+  actionMenu: {
+    editImageDetails: 'Images Library Owned-Edit Details',
+    viewImageShareGroups: 'Images Library Owned-View Image Share Groups',
+    manageReplicas: 'Images Library Owned-Manage Replicas',
+    deployNewLinode: 'Images Library Owned-Deploy to New Linode',
+    rebuildLinode: 'Images Library Owned-Rebuild an Existing Linode',
+    deleteImage: 'Images Library Owned-Delete Image',
+  },
   searchImagesBar: 'Images Library Owned-Search',
+  createImageButton: 'Images Library Owned-Create Image',
 };
 
 export const SHARED_WITH_ME_IMAGES_TAB_PENDO_IDS = {
