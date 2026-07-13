@@ -14,6 +14,7 @@ import { useGetDelegatedChildAccountsForUserQuery } from '@linode/queries';
 import { useNavigate, useParams, useSearch } from '@tanstack/react-router';
 import * as React from 'react';
 
+import { useHasTableStripingEnabled } from '../../hooks/useHasTableStripingEnabled';
 import { useOrder } from '../../hooks/useOrder';
 import { usePagination } from '../../hooks/usePagination';
 import { CircleProgress } from '../../Shared/CircleProgress/CircleProgress';
@@ -32,6 +33,7 @@ export const UserDelegationsTable = () => {
     from: USER_DELEGATION_ROUTE,
   });
   const navigate = useNavigate();
+  const hasTableStripingEnabled = useHasTableStripingEnabled();
 
   const { handleOrderChange, order, orderBy } = useOrder({
     initialRoute: {
@@ -151,7 +153,7 @@ export const UserDelegationsTable = () => {
             </TableRow>
           )}
           {childAccounts?.data?.map((childAccount) => (
-            <TableRow key={childAccount.euuid} zebra>
+            <TableRow key={childAccount.euuid} zebra={hasTableStripingEnabled}>
               <TableCell style={{ overflowX: 'auto' }}>
                 {childAccount.company}
               </TableCell>

@@ -9,6 +9,7 @@ import { Spacing } from '@akamai/cds-tokens';
 import { truncateMiddle } from '@akamai/compute-ui-core/formatting';
 import React from 'react';
 
+import { useHasTableStripingEnabled } from '../../../hooks/useHasTableStripingEnabled';
 import { usePermissions } from '../../../hooks/usePermissions';
 import { CopyTooltip } from '../../../Shared/CopyTooltip/CopyTooltip';
 import { DateTimeDisplay } from '../../../Shared/DateTimeDisplay/DateTimeDisplay';
@@ -53,6 +54,7 @@ export const CertificateTableLandingRow = ({
     'view_idp_config_certs',
     'delete_idp_config_cert',
   ]);
+  const hasTableStripingEnabled = useHasTableStripingEnabled();
 
   const isSsoEnabled = !!ssoEnabled;
   const activeCount = activeCertificateCount ?? 0;
@@ -76,7 +78,7 @@ export const CertificateTableLandingRow = ({
   const deleteDisabled = !canDelete || ssoBlocksDelete;
 
   return (
-    <TableRow hoverable key={cert.id} rowborder>
+    <TableRow hoverable key={cert.id} rowborder zebra={hasTableStripingEnabled}>
       <TableCell className={styles.certCellLanding}>
         {truncateMiddle(
           cert.certificate,

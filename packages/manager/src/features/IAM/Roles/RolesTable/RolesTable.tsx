@@ -22,6 +22,7 @@ import React, { useState } from 'react';
 
 import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { useDelegationRole } from '../../hooks/useDelegationRole';
+import { useHasTableStripingEnabled } from '../../hooks/useHasTableStripingEnabled';
 import { usePagination } from '../../hooks/usePagination';
 import { usePermissions } from '../../hooks/usePermissions';
 import { Box } from '../../Shared/Box/Box';
@@ -71,6 +72,7 @@ export const RolesTable = ({ roles = [] }: Props) => {
   const { query } = useSearch({
     strict: false,
   });
+  const hasTableStripingEnabled = useHasTableStripingEnabled();
 
   const [filterableEntityType, setFilterableEntityType] =
     useState<null | SelectOption>(ALL_ROLES_OPTION);
@@ -323,6 +325,7 @@ export const RolesTable = ({ roles = [] }: Props) => {
                   select={(event) => handleSelect(event, roleRow)}
                   selectable
                   selected={selectedRows.includes(roleRow)}
+                  zebra={hasTableStripingEnabled}
                 >
                   <TableCell
                     {...(selectedRows.includes(roleRow)
