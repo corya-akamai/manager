@@ -91,6 +91,7 @@ export const accountCapabilities = [
   'Machine Images',
   'Managed Databases',
   'NETINT Quadra T1U',
+  'NAT Gateway',
   'Network LoadBalancer',
   'NodeBalancers',
   'Object Storage Access Key Regions',

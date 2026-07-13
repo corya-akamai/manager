@@ -113,6 +113,7 @@ const options: { flag: keyof Flags; label: string }[] = [
   { flag: 'reserveIp', label: 'Reserve IP' },
   { flag: 'reserveIpNewBadge', label: 'Reserve IP New Badge' },
   { flag: 'marketplaceV2GlobalBanner', label: 'Marketplace V2 Global Banner' },
+  { flag: 'natgateway', label: 'NAT Gateways' },
 ];
 
 interface RenderFlagItemProps {

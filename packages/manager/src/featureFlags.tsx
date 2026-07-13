@@ -308,6 +308,7 @@ export interface Flags {
   marketplaceV2GlobalBanner: boolean;
   metadata: boolean;
   mtc: MTC;
+  natgateway: NATGatewaysFlag;
   networkLoadBalancer: boolean;
   nitro: BaseFeatureFlag;
   nodebalancerIpv6: boolean;
@@ -423,6 +424,12 @@ interface SecureVMCopy {
   linodeCreate?: BannerContent;
 }
 
+interface NATGatewaysFlag {
+  beta: boolean;
+  enabled: boolean;
+  ga: boolean;
+}
+
 export type ProductInformationBannerLocation =
   | 'Account'
   | 'Betas'
@@ -439,6 +446,7 @@ export type ProductInformationBannerLocation =
   | 'Longview'
   | 'Managed'
   | 'Marketplace'
+  | 'NAT Gateways'
   | 'Network LoadBalancers'
   | 'NodeBalancers'
   | 'Object Storage'

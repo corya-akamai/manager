@@ -470,4 +470,88 @@ describe('PrimaryNav', () => {
 
     expect(reservedIpsNavItem).toBeVisible();
   });
+
+  it('should show NAT Gateways menu item if the user has the account capability and the flag is enabled', async () => {
+    const account = accountFactory.build({
+      capabilities: ['NAT Gateway'],
+    });
+
+    queryMocks.useAccount.mockReturnValue({
+      data: account,
+      isLoading: false,
+      error: null,
+    });
+
+    const flags: Partial<Flags> = {
+      natgateway: {
+        beta: false,
+        enabled: true,
+        ga: true,
+      },
+    };
+
+    const { findByTestId } = renderWithTheme(<PrimaryNav {...props} />, {
+      flags,
+    });
+
+    const natGatewaysNavItem = await findByTestId('menu-item-NAT Gateways');
+
+    expect(natGatewaysNavItem).toBeVisible();
+  });
+
+  it('should not show NAT Gateways menu item if the user lacks the account capability', async () => {
+    const account = accountFactory.build({
+      capabilities: [],
+    });
+
+    queryMocks.useAccount.mockReturnValue({
+      data: account,
+      isLoading: false,
+      error: null,
+    });
+
+    const flags: Partial<Flags> = {
+      natgateway: {
+        beta: true,
+        enabled: true,
+        ga: false,
+      },
+    };
+
+    const { queryByTestId } = renderWithTheme(<PrimaryNav {...props} />, {
+      flags,
+    });
+
+    const natGatewaysNavItem = queryByTestId('menu-item-NAT Gateways');
+
+    expect(natGatewaysNavItem).toBeNull();
+  });
+
+  it('should not show NAT Gateways menu item if the feature flag is disabled', async () => {
+    const account = accountFactory.build({
+      capabilities: ['NAT Gateway'],
+    });
+
+    queryMocks.useAccount.mockReturnValue({
+      data: account,
+      isLoading: false,
+      error: null,
+    });
+
+    const flags: Partial<Flags> = {
+      natgateway: {
+        beta: false,
+        enabled: false,
+        ga: false,
+      },
+    };
+
+    const { queryByTestId } = renderWithTheme(<PrimaryNav {...props} />, {
+      flags,
+    });
+
+    const natGatewaysNavItem = queryByTestId('menu-item-NAT Gateways');
+
+    expect(natGatewaysNavItem).toBeNull();
+  });
 });

@@ -33,6 +33,7 @@ import { maintenanceRouteTree } from './maintenance';
 import { managedRouteTree } from './managed';
 import { marketplaceRouteTree } from './marketplace';
 import { cloudPulseMetricsRouteTree } from './metrics';
+import { natGatewaysRouteTree } from './natgateways';
 import { networkLoadBalancersRouteTree } from './networkLoadBalancer';
 import { nodeBalancersRouteTree } from './nodeBalancers';
 import { objectStorageRouteTree } from './objectStorage';
@@ -86,6 +87,7 @@ export const routeTree = rootRoute.addChildren([
   maintenanceRouteTree,
   managedRouteTree,
   marketplaceRouteTree,
+  natGatewaysRouteTree,
   networkLoadBalancersRouteTree,
   nodeBalancersRouteTree,
   objectStorageRouteTree,

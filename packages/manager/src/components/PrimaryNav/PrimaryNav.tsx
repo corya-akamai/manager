@@ -25,6 +25,7 @@ import { useIsACLPLogsNew } from 'src/features/Delivery/deliveryUtils';
 import { useIsIAMEnabled } from 'src/features/IAM/hooks/useIsIAMEnabled';
 import { useIsInferencePlatformEnabled } from 'src/features/InferencePlatform/utils';
 import { useIsMarketplaceV2Enabled } from 'src/features/Marketplace/shared';
+import { useIsNATGatewaysEnabled } from 'src/features/NATGateways/utils';
 import { useIsNetworkLoadBalancerEnabled } from 'src/features/NetworkLoadBalancers/utils';
 import { useIsPlacementGroupsEnabled } from 'src/features/PlacementGroups/utils';
 import {
@@ -65,6 +66,7 @@ export type NavEntity =
   | 'Marketplace' // TODO: Cloud Manager Marketplace - Remove marketplace references once 'Quick Deploy Apps' is fully rolled out
   | 'Metrics'
   | 'Monitor'
+  | 'NAT Gateways'
   | 'Network Load Balancer'
   | 'NodeBalancers'
   | 'Object Storage'
@@ -145,6 +147,8 @@ export const PrimaryNav = (props: PrimaryNavProps) => {
   const { isIAMEnabled } = useIsIAMEnabled();
 
   const { isInferencePlatformEnabled } = useIsInferencePlatformEnabled();
+
+  const { isNATGatewaysEnabled, isNATGatewaysBeta } = useIsNATGatewaysEnabled();
 
   const { isNetworkLoadBalancerEnabled } = useIsNetworkLoadBalancerEnabled();
 
@@ -251,6 +255,12 @@ export const PrimaryNav = (props: PrimaryNavProps) => {
               {
                 display: 'NodeBalancers',
                 to: '/nodebalancers',
+              },
+              {
+                display: 'NAT Gateways',
+                hide: !isNATGatewaysEnabled,
+                to: '/natgateways',
+                isBeta: isNATGatewaysEnabled && isNATGatewaysBeta,
               },
               {
                 attr: {
@@ -390,6 +400,8 @@ export const PrimaryNav = (props: PrimaryNavProps) => {
         isIAMEnabled,
         isMarketplaceV2FeatureEnabled,
         isNetworkLoadBalancerEnabled,
+        isNATGatewaysEnabled,
+        isNATGatewaysBeta,
         isReserveIpEnabled,
         isReserveIpNewBadgeEnabled,
         isInferencePlatformEnabled,
