@@ -26,9 +26,12 @@ const queryMocks = vi.hoisted(() => ({
   }),
 }));
 
-vi.mock('src/features/ObjectStorage/hooks/useObjectStorageBuckets', () => ({
-  useObjectStorageBuckets: queryMocks.useObjectStorageBuckets,
-}));
+vi.mock(
+  'src/features/ObjectStorage/Buckets/hooks/useObjectStorageBuckets',
+  () => ({
+    useObjectStorageBuckets: queryMocks.useObjectStorageBuckets,
+  })
+);
 
 const user = userEvent.setup({ delay: null });
 
