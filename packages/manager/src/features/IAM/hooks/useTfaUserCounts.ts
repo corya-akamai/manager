@@ -8,7 +8,7 @@ interface UseTfaUserCountsResult {
 
 /**
  * Returns user counts relevant to the 2FA enforcement summary.
- * Both queries fetch only `page_size: 1` to retrieve the total count cheaply.
+ * Both queries fetch only `page_size: 25` (API minimum) to retrieve the total count cheaply.
  *
  * @param isEnforced - Current form value of the enforcement toggle. When
  * `false`, `enforcedUsersCount` is 0 (reflects what will happen after save).
@@ -16,9 +16,9 @@ interface UseTfaUserCountsResult {
 export const useTfaUserCounts = (
   isEnforced: boolean
 ): UseTfaUserCountsResult => {
-  const { data: allUsersData } = useAccountUsers({ params: { page_size: 1 } });
+  const { data: allUsersData } = useAccountUsers({ params: { page_size: 25 } });
   const { data: tfaOptionalUsersData } = useGetTfaOptionalUsersQuery({
-    page_size: 1,
+    page_size: 25,
   });
 
   const totalUsers = allUsersData?.results ?? 0;
