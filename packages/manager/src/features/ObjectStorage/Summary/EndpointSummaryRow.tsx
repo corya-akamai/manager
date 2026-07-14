@@ -1,13 +1,13 @@
-import { Box, ErrorState, Typography } from '@linode/ui';
-import { Grid } from '@mui/material';
 import * as React from 'react';
 
 import { LinearProgress } from 'src/components/LinearProgress';
-import { Link } from 'src/components/Link';
 import { QuotaUsageBar } from 'src/components/QuotaUsageBar/QuotaUsageBar';
 import { useQuotasWithUsageQuery } from 'src/features/Account/Quotas/hooks/useQuotasWithUsageQuery';
 import { objectStorageQuotaService } from 'src/features/Account/Quotas/quotaServices';
 import { useFlags } from 'src/hooks/useFlags';
+
+import { ErrorState } from '../shared/components/ErrorState/ErrorState';
+import { Link } from '../shared/components/Link/Link';
 
 import type {
   ObjectStorageEndpoint,
@@ -41,7 +41,6 @@ export const EndpointSummaryRow = ({ endpoint }: Props) => {
   if (isError) {
     return (
       <ErrorState
-        compact={true}
         errorText={`There was an error retrieving ${endpoint.s3_endpoint} endpoint data.`}
       />
     );
@@ -69,10 +68,10 @@ export const EndpointSummaryRow = ({ endpoint }: Props) => {
     if (isLoading) {
       return (
         <LinearProgress
-          sx={(theme) => ({
-            padding: '4px',
-            marginBottom: theme.spacingFunction(24),
-          })}
+          sx={{
+            padding: 'var(--token-global-spacing-s4)',
+            marginBottom: 'var(--token-global-spacing-s24)',
+          }}
         />
       );
     }
@@ -88,25 +87,19 @@ export const EndpointSummaryRow = ({ endpoint }: Props) => {
       );
     }
 
-    return <Typography>Data not available</Typography>;
+    return <p>Data not available</p>;
   }
 
   return (
-    <Box>
-      <Box
-        sx={(theme) => ({
+    <div>
+      <div
+        style={{
           display: 'flex',
           justifyContent: 'space-between',
-          marginBottom: theme.spacingFunction(8),
-        })}
+          marginBottom: 'var(--token-global-spacing-s8)',
+        }}
       >
-        <Typography
-          sx={(theme) => ({
-            font: theme.tokens.alias.Typography.Heading.Xs,
-          })}
-        >
-          {endpoint.s3_endpoint}
-        </Typography>
+        <h4>{endpoint.s3_endpoint}</h4>
 
         {objectStorageSummaryPageLinks && (
           <Link
@@ -115,32 +108,27 @@ export const EndpointSummaryRow = ({ endpoint }: Props) => {
             Show buckets
           </Link>
         )}
-      </Box>
+      </div>
 
-      <Grid container spacing={8}>
+      <div style={{ display: 'flex', gap: 'var(--token-global-spacing-s64)' }}>
         {displayedQuotaTypes.map(({ label, type }) => {
           const quotaWithUsage = quotasByType[type];
 
           return (
-            <Grid key={type} size={{ sm: 4 }}>
-              <Typography
-                sx={(theme) => ({
-                  font: theme.tokens.alias.Typography.Label.Regular.S,
-                  color:
-                    theme.palette.mode === 'light'
-                      ? theme.tokens.color.Neutrals[70]
-                      : theme.tokens.color.Neutrals[5],
-                  paddingY: theme.spacingFunction(2),
-                })}
+            <div key={type} style={{ flex: '1' }}>
+              <label
+                style={{
+                  color: 'var(--token-alias-content-text-secondary-default)',
+                }}
               >
                 {label}
-              </Typography>
+              </label>
 
               {getUsageBar(quotaWithUsage)}
-            </Grid>
+            </div>
           );
         })}
-      </Grid>
-    </Box>
+      </div>
+    </div>
   );
 };

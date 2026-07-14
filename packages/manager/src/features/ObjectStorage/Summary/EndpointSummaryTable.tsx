@@ -1,4 +1,3 @@
-import { Box } from '@linode/ui';
 import React, { useEffect, useState } from 'react';
 
 import { PaginationFooter } from 'src/components/PaginationFooter/PaginationFooter';
@@ -30,18 +29,18 @@ export const EndpointSummaryTable = ({ endpoints }: Props) => {
 
   return (
     <>
-      <Box
+      <div
         data-testid="table-endpoint-summary"
-        sx={(theme) => ({
+        style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: theme.spacingFunction(24),
-        })}
+          gap: 'var(--token-global-spacing-s24)',
+        }}
       >
         {paginatedEndpoints.map((endpoint, index) => {
           return <EndpointSummaryRow endpoint={endpoint} key={index} />;
         })}
-      </Box>
+      </div>
 
       <PaginationFooter
         count={endpoints.length}

@@ -17,6 +17,7 @@ import { useObjectStorageBuckets } from 'src/features/ObjectStorage/Buckets/hook
 import { useFlags } from 'src/hooks/useFlags';
 import { useTabs } from 'src/hooks/useTabs';
 
+import './shared/index.css';
 import { getRestrictedResourceText } from '../Account/utils';
 import { AccessKeyDrawerOutlet } from './AccessKeys/AccessKeyDrawerOutlet';
 import { useAccessKeyDrawers } from './AccessKeys/hooks/useAccessKeyDrawers';

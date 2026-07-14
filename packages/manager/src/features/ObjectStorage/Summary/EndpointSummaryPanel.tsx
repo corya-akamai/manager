@@ -1,12 +1,11 @@
-import { Box, Typography } from '@linode/ui';
 import React from 'react';
 
 import { DocumentTitleSegment } from 'src/components/DocumentTitle';
-import { Link } from 'src/components/Link';
 import { useObjectStorageSelection } from 'src/features/ObjectStorage/ObjectStorageContext';
 import { useFlags } from 'src/hooks/useFlags';
 
 import { EndpointMultiSelect } from '../shared/components/EndpointSelect/EndpointMultiSelect';
+import { Link } from '../shared/components/Link/Link';
 import { EndpointSummaryTable } from './EndpointSummaryTable';
 
 export const EndpointSummaryPanel = () => {
@@ -21,57 +20,55 @@ export const EndpointSummaryPanel = () => {
     <>
       <DocumentTitleSegment segment="Summary" />
 
-      <Box
-        sx={(theme) => ({
-          backgroundColor: theme.bg.bgPaper,
-          padding: theme.spacingFunction(20),
+      <div
+        style={{
+          backgroundColor: 'var(--token-component-content-panel-background)',
+          padding: 'var(--token-global-spacing-s20)',
           display: 'flex',
           flexDirection: 'column',
-          gap: theme.spacingFunction(24),
-        })}
+          gap: 'var(--token-global-spacing-s24)',
+        }}
       >
-        <Box
-          sx={(theme) => ({
+        <div
+          style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: theme.spacingFunction(8),
-          })}
+            gap: 'var(--token-global-spacing-s8)',
+          }}
         >
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Typography variant="h3">Endpoint Summary</Typography>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <h3>Endpoint Summary</h3>
+
             {objectStorageSummaryPageLinks && (
               <Link to="/object-storage/access-keys">Manage access keys</Link>
             )}
-          </Box>
+          </div>
 
-          <Typography
-            sx={(theme) => ({
-              color:
-                theme.palette.mode === 'light'
-                  ? theme.tokens.color.Neutrals[70]
-                  : theme.tokens.color.Neutrals[5],
-            })}
+          <p
+            style={{
+              color: 'var(--token-alias-content-text-primary-default)',
+            }}
           >
             Select one or more endpoints in the dropdown list to view usage
             summaries for those endpoints. You can view quotas and request
             increases on the {''}
             <Link to="/quotas?service=object-storage">Quotas</Link> page.
-          </Typography>
-        </Box>
+          </p>
+        </div>
 
-        <Box sx={{ maxWidth: '630px' }}>
+        <div style={{ maxWidth: '630px' }}>
           <EndpointMultiSelect
             onChange={setSelectedEndpoints}
             values={selectedEndpoints}
           />
-        </Box>
+        </div>
 
         {!!selectedEndpoints.length && (
           <EndpointSummaryTable
             endpoints={selectedEndpoints.map((selected) => selected.endpoint)}
           />
         )}
-      </Box>
+      </div>
     </>
   );
 };
