@@ -136,6 +136,7 @@ pipeline {
                 nodejs(configId: "npmrc-ro", nodeJSInstallationName: "v22") {
                     sh "pnpm build"
                     sh "pnpm release --env=develop"
+                    sh "pnpm release:cloudpulse --env=develop"
                 }
             }
         }
@@ -175,6 +176,7 @@ pipeline {
                 nodejs(configId: "npmrc-ro", nodeJSInstallationName: "v22") {
                     sh "pnpm build"
                     sh "pnpm release --env=staging"
+                    sh "pnpm release:cloudpulse --env=staging"
                 }
             }
         }
@@ -208,6 +210,7 @@ pipeline {
                 nodejs(configId: "npmrc-ro", nodeJSInstallationName: "v22") {
                     sh "pnpm build"
                     sh "pnpm release --env=master"
+                    sh "pnpm release:cloudpulse --env=master"
                 }
             }
         }
