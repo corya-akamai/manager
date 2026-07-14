@@ -791,9 +791,15 @@ const NodeBalancerCreate = () => {
               isGeckoLAEnabled={isGeckoLAEnabled}
               noMarginTop
               onChange={(e, region) => regionChange(region?.id ?? '')}
+              pendoIdPrefix="NodeBalancers Create Region"
               regions={regions ?? []}
               textFieldProps={{
-                helperText: <RegionHelperText mb={2} />,
+                helperText: (
+                  <RegionHelperText
+                    mb={2}
+                    speedTestPendoId="NodeBalancers Create-Docs Speedtest"
+                  />
+                ),
                 helperTextPosition: 'top',
               }}
               value={nodeBalancerFields.region ?? ''}
@@ -801,6 +807,7 @@ const NodeBalancerCreate = () => {
             <DocsLink
               href="https://www.linode.com/pricing"
               label={DOCS_LINK_LABEL_DC_PRICING}
+              pendoId='NodeBalancers Create-Docs Pricing"'
             />
           </Stack>
         </Paper>
@@ -816,7 +823,13 @@ const NodeBalancerCreate = () => {
             <Typography>
               Assign an existing Firewall to this NodeBalancer to control
               inbound network traffic.{' '}
-              <Link to={FIREWALL_GET_STARTED_LINK}>Learn more</Link>.
+              <Link
+                pendoId="NodeBalancers Create-Docs Firewall"
+                to={FIREWALL_GET_STARTED_LINK}
+              >
+                Learn more
+              </Link>
+              .
             </Typography>
           }
           permissions={permissions}
@@ -998,6 +1011,7 @@ const NodeBalancerCreate = () => {
       >
         <Button
           buttonType="primary"
+          data-pendo-id="NodeBalancers Create-Create NodeBalancer End Flow"
           data-qa-deploy-nodebalancer
           disabled={
             (showGDPRCheckbox && !hasSignedAgreement) ||

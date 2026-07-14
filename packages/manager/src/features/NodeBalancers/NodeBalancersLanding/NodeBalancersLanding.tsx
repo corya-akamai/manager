@@ -104,9 +104,12 @@ export const NodeBalancersLanding = () => {
             isSingular: false,
             resourceType: 'NodeBalancers',
           }),
+          'data-pendo-id':
+            'NodeBalancers Landing-Create NodeBalancer Start Flow',
         }}
         disabledCreateButton={!permissions.create_nodebalancer}
         docsLink="https://techdocs.akamai.com/cloud-computing/docs/getting-started-with-nodebalancers"
+        docsPendoId="NodeBalancers Landing-Docs"
         entity="NodeBalancer"
         onButtonClick={() => navigate({ to: '/nodebalancers/create' })}
         title="NodeBalancers"

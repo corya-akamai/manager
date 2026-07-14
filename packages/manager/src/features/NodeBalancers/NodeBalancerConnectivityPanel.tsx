@@ -151,6 +151,7 @@ export const NodeBalancerConnectivityPanel = (props: Props) => {
                 control={
                   <RadioButton
                     checked={nodeBalancerFields.backend_connectivity === 'vpc'}
+                    data-pendo-id="NodeBalancers Create Network Connectivity Backend-VPC"
                     data-testid="backend-connectivity-vpc-radio"
                     disabled={disabled}
                     style={{
@@ -181,6 +182,7 @@ export const NodeBalancerConnectivityPanel = (props: Props) => {
                 control={
                   <RadioButton
                     checked={nodeBalancerFields.backend_connectivity === 'ipv6'}
+                    data-pendo-id="NodeBalancers Create Network Connectivity Backend-IPv6"
                     data-testid="backend-connectivity-ipv6-radio"
                     disabled={disabled}
                     style={{
@@ -217,6 +219,7 @@ export const NodeBalancerConnectivityPanel = (props: Props) => {
                       checked={
                         nodeBalancerFields.backend_connectivity === 'legacy'
                       }
+                      data-pendo-id="NodeBalancers Create Network Connectivity Backend-Legacy"
                       data-testid="backend-connectivity-legacy-radio"
                       disabled={disabled}
                       style={{

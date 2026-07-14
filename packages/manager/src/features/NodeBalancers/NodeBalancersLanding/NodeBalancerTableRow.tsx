@@ -61,7 +61,11 @@ export const NodeBalancerTableRow = (props: NodeBalancer) => {
   return (
     <TableRow key={id}>
       <TableCell>
-        <Link accessibleAriaLabel={label} to={`/nodebalancers/${id}`}>
+        <Link
+          accessibleAriaLabel={label}
+          pendoId="NodeBalancers Landing-NodeBalancer Details"
+          to={`/nodebalancers/${id}`}
+        >
           {label}
         </Link>
 

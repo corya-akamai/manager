@@ -46,6 +46,7 @@ export const NodeBalancerActionMenu = (props: Props) => {
           to: `/nodebalancers/$id/configurations`,
         });
       },
+      pendoId: 'NodeBalancers Landing-Configurations',
       title: 'Configurations',
     },
     {
@@ -57,6 +58,7 @@ export const NodeBalancerActionMenu = (props: Props) => {
           to: `/nodebalancers/$id/settings`,
         });
       },
+      pendoId: 'NodeBalancers Landing-Settings',
       title: 'Settings',
     },
     {
@@ -69,6 +71,7 @@ export const NodeBalancerActionMenu = (props: Props) => {
           to: `/nodebalancers/$id/metrics`,
         });
       },
+      pendoId: 'NodeBalancers Landing-Metrics',
       title: 'Metrics',
     },
     {
@@ -81,6 +84,7 @@ export const NodeBalancerActionMenu = (props: Props) => {
           to: `/nodebalancers/$id/delete`,
         });
       },
+      pendoId: 'NodeBalancers Landing-Delete',
       title: 'Delete',
       tooltip: !permissions.delete_nodebalancer
         ? getRestrictedResourceText({
@@ -112,6 +116,7 @@ export const NodeBalancerActionMenu = (props: Props) => {
       ariaLabel={`Action menu for NodeBalancer ${nodeBalancerId}`}
       loading={isLoading}
       onOpen={() => setIsOpen(true)}
+      pendoId="NodeBalancers Landing-Action Menu"
     />
   );
 };

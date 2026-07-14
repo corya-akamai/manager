@@ -31,7 +31,7 @@ export const NodeBalancerTierPanel = (props: Props) => {
             Choose the NodeBalancer that best aligns with your application's
             performance, scale, and protocol requirements.{' '}
             <Link
-              data-pendo-id="NodeBalancers Create-Docs Tiers"
+              pendoId="NodeBalancers Create-Docs Tiers"
               to={PREMIUM_NON_PREMIUM_NB_LINK}
             >
               Learn more

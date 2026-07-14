@@ -253,6 +253,9 @@ export const PrimaryNav = (props: PrimaryNavProps) => {
                 to: '/netloadbalancers',
               },
               {
+                attr: {
+                  'data-pendo-id': 'menu-item-NodeBalancers',
+                },
                 display: 'NodeBalancers',
                 to: '/nodebalancers',
               },
