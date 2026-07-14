@@ -28,6 +28,7 @@ export interface LKEClusterInfo {
 
 export interface NodeBalancer {
   backend_connectivity?: NodeBalancerBackendConnectivity;
+  backend_ipv6_prefix?: string;
   /**
    * Maximum number of new TCP connections that a client (identified by a specific source IP)
    * is allowed to initiate every second.

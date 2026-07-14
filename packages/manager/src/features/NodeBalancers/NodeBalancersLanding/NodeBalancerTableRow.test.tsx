@@ -70,6 +70,34 @@ describe('NodeBalancerTableRow', () => {
     expect(getByText('us-east')).toBeVisible();
   });
 
+  it.each([
+    ['legacy', 'IPv4'],
+    ['ipv6', 'IPv6'],
+    ['vpc', 'VPC'],
+  ] as const)(
+    'renders the backend connectivity column as "%s" -> "%s"',
+    (backendConnectivity, expected) => {
+      resizeScreenSize(breakpoints.values.lg);
+      const { getByText } = renderWithTheme(
+        <NodeBalancerTableRow
+          {...props}
+          backend_connectivity={backendConnectivity}
+        />
+      );
+
+      expect(getByText(expected)).toBeVisible();
+    }
+  );
+
+  it('renders a dash for the backend connectivity column when it is undefined', () => {
+    resizeScreenSize(breakpoints.values.lg);
+    const { getByText } = renderWithTheme(
+      <NodeBalancerTableRow {...props} backend_connectivity={undefined} />
+    );
+
+    expect(getByText('-')).toBeVisible();
+  });
+
   it('deletes the NodeBalancer', async () => {
     queryMocks.userPermissions.mockReturnValue({
       data: {

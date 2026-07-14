@@ -145,6 +145,7 @@ export const NodeBalancerConnectivityPanel = (props: Props) => {
                   e.detail.value as NodeBalancerBackendConnectivity
                 )
               }
+              value={nodeBalancerFields.backend_connectivity ?? 'vpc'}
             >
               <FormControlLabel
                 control={

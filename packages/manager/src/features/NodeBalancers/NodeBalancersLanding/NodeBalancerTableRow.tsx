@@ -24,7 +24,8 @@ import { NodeBalancerVPC } from './NodeBalancerVPC';
 import type { NodeBalancer } from '@linode/api-v4/lib/nodebalancers';
 
 export const NodeBalancerTableRow = (props: NodeBalancer) => {
-  const { id, ipv4, label, region, transfer, type } = props;
+  const { id, ipv4, label, region, transfer, type, backend_connectivity } =
+    props;
   const { isNodebalancerVPCEnabled } = useIsNodebalancerVPCEnabled();
   const {
     aclpNbMetricsIntegration,
@@ -43,6 +44,19 @@ export const NodeBalancerTableRow = (props: NodeBalancer) => {
   const nodesDown =
     configs?.reduce((result, config) => config.nodes_status.down + result, 0) ??
     0;
+
+  const backendConnectivity = React.useMemo(() => {
+    switch (backend_connectivity) {
+      case 'ipv6':
+        return 'IPv6';
+      case 'legacy':
+        return 'IPv4';
+      case 'vpc':
+        return 'VPC';
+      default:
+        return '-';
+    }
+  }, [backend_connectivity]);
 
   return (
     <TableRow key={id}>
@@ -113,6 +127,9 @@ export const NodeBalancerTableRow = (props: NodeBalancer) => {
       <TableCell>
         <IPAddress ips={[ipv4]} isHovered={true} showMore />
       </TableCell>
+      <Hidden mdDown>
+        <TableCell>{backendConnectivity}</TableCell>
+      </Hidden>
       <Hidden smDown>
         <TableCell data-qa-region>
           <RegionIndicator region={region} />

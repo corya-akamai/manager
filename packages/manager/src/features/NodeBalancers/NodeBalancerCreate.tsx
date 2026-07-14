@@ -768,7 +768,7 @@ const NodeBalancerCreate = () => {
                 type,
                 backend_connectivity:
                   type === 'premium' && prev.backend_connectivity === 'legacy'
-                    ? 'ipv6'
+                    ? 'vpc'
                     : prev.backend_connectivity,
               }));
             }}
@@ -909,6 +909,9 @@ const NodeBalancerCreate = () => {
                   nodeBalancerFields.configs[idx].check_timeout!
                 }
                 healthCheckType={nodeBalancerFields.configs[idx].check!}
+                nodeBalancerBackendConnectivity={
+                  nodeBalancerFields.backend_connectivity
+                }
                 nodeBalancerRegion={nodeBalancerFields.region}
                 nodeBalancerSubnetId={nodeBalancerFields?.vpcs?.[0].subnet_id}
                 nodeBalancerVpcId={vpcSelected?.id}

@@ -1,4 +1,7 @@
-import { useNodeBalancerQuery, useNodeBalancersQuery } from '@linode/queries';
+import {
+  useNodeBalancerQuery,
+  useNodebalancersBetaQuery,
+} from '@linode/queries';
 import { CircleProgress, ErrorState } from '@linode/ui';
 import { Hidden } from '@linode/ui';
 import { useMatch, useNavigate, useParams } from '@tanstack/react-router';
@@ -56,7 +59,7 @@ export const NodeBalancersLanding = () => {
     ['+order_by']: orderBy,
   };
 
-  const { data, error, isLoading } = useNodeBalancersQuery(
+  const { data, error, isLoading } = useNodebalancersBetaQuery(
     {
       page: pagination.page,
       page_size: pagination.pageSize,
@@ -127,6 +130,9 @@ export const NodeBalancersLanding = () => {
               <TableCell>Ports</TableCell>
             </Hidden>
             <TableCell>Frontend IP</TableCell>
+            <Hidden mdDown>
+              <TableCell>Backend</TableCell>
+            </Hidden>
             <Hidden smDown>
               <TableSortCell
                 active={orderBy === 'region'}
