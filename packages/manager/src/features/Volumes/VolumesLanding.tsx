@@ -14,7 +14,7 @@ import {
 import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 import { useVolumesQuery } from '@linode/queries';
 import { getAPIFilterFromQuery } from '@linode/search';
-import { CircleProgress, ErrorState, Stack } from '@linode/ui';
+import { CircleProgress, Stack } from '@linode/ui';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import React from 'react';
 
@@ -35,6 +35,7 @@ import {
 import { VOLUME_TABLE_PREFERENCE_KEY } from 'src/routes/volumes/constants';
 
 import { useVolumeActionHandlers } from './hooks/useVolumeActionHandlers';
+import { ErrorState } from './Partials/ErrorState';
 import { VolumeTableRow } from './Partials/VolumeTableRow';
 import { VolumeDrawers } from './VolumeDrawers/VolumeDrawers';
 import { VolumesLandingEmptyState } from './VolumesLandingEmptyState';
@@ -131,6 +132,7 @@ export const VolumesLanding = () => {
         errorText={
           getAPIErrorOrDefault(error, 'Error loading your volumes.')[0].reason
         }
+        heightPx="300px"
       />
     );
   }
@@ -238,10 +240,7 @@ export const VolumesLanding = () => {
           </TableHead>
           <TableBody>
             {search?.query && error && (
-              <ZeroErrorState>
-                <ZeroErrorIcon icon="error-cloud" />
-                <ZeroErrorTitle>{error[0].reason}</ZeroErrorTitle>
-              </ZeroErrorState>
+              <ErrorState errorText={error[0].reason} />
             )}
             {volumes?.data.length === 0 && (
               <ZeroErrorState>
