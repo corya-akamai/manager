@@ -32,6 +32,7 @@ import { DocumentTitleSegment } from '../../Shared/DocumentTitleSegment/Document
 import { ErrorState } from '../../Shared/ErrorState/ErrorState';
 import { LandingHeader } from '../../Shared/LandingHeader/LandingHeader';
 import { Paper } from '../../Shared/Paper/Paper';
+import { IAM_TFA_ENFORCE_PENDO_IDS } from '../constants';
 import { AccountUsersTable } from './AccountUsersTable';
 import { SummarySection } from './SummarySection';
 
@@ -169,7 +170,10 @@ export const TfaEnforcementLanding = () => {
             Manage Two-Factor Authentication Enforcement
           </BreadcrumbItem>
         </Breadcrumb>
-        <DocsLink href={TFA_ENFORCEMENT_LINK} />
+        <DocsLink
+          href={TFA_ENFORCEMENT_LINK}
+          pendoId={IAM_TFA_ENFORCE_PENDO_IDS.docs}
+        />
       </LandingHeader>
 
       {errors.root?.message && (
@@ -196,6 +200,7 @@ export const TfaEnforcementLanding = () => {
               render={({ field }) => (
                 <Switch
                   checked={field.value}
+                  data-pendo-id={IAM_TFA_ENFORCE_PENDO_IDS.enforce2FA}
                   disabled={!permissions?.update_account_settings}
                   onChange={(e) => {
                     field.onChange(e.detail as boolean);
@@ -235,6 +240,7 @@ export const TfaEnforcementLanding = () => {
 
           <Box direction="row" style={{ justifyContent: 'flex-end' }}>
             <Button
+              data-pendo-id={IAM_TFA_ENFORCE_PENDO_IDS.updateTFAEnforcement}
               disabled={!isDirty || !permissions?.update_account_settings}
               processing={isSubmitting}
               type="submit"

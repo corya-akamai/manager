@@ -7,6 +7,7 @@ import * as React from 'react';
 
 import { getAPIErrorFor } from 'src/utilities/getAPIErrorFor';
 
+import { PROFILE_AUTH_PENDO_IDS } from '../../constants';
 import { DisableTwoFactorDialog } from './DisableTwoFactorDialog';
 import { EnableTwoFactorForm } from './EnableTwoFactorForm';
 import { ScratchCodeDialog } from './ScratchCodeDialog';
@@ -215,7 +216,13 @@ export const TwoFactor = (props: TwoFactorProps) => {
         )}
         {twoFactorEnabled && (
           <StyledCTAWrapper>
-            <LinkButton data-qa-hide-show-code onClick={toggleHidden}>
+            <LinkButton
+              data-pendo-id={
+                twoFactorConfirmed ? PROFILE_AUTH_PENDO_IDS.reset2FA : undefined
+              }
+              data-qa-hide-show-code
+              onClick={toggleHidden}
+            >
               {showQRCode
                 ? 'Hide QR Code'
                 : twoFactorConfirmed

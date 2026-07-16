@@ -8,6 +8,7 @@ import * as React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { usePermissions } from '../../hooks/usePermissions';
+import { IAM_TFA_ENFORCE_PENDO_IDS } from '../constants';
 
 import type { TfaEnforcementFormValues } from './TfaEnforcementLanding';
 
@@ -120,6 +121,7 @@ export const SummarySection = ({ isEnforced, totalUsers }: Props) => {
             <div>
               <Checkbox
                 checked={field.value}
+                data-pendo-id={IAM_TFA_ENFORCE_PENDO_IDS.consentChecked}
                 disabled={!permissions?.update_account_settings}
                 onChange={(e) => field.onChange(e.detail as boolean)}
                 required

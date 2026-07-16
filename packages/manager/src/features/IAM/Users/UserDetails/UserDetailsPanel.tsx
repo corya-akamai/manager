@@ -6,6 +6,7 @@ import React from 'react';
 import { useActiveBreakpointIndex } from '../../hooks/useBreakpoint';
 import { useDelegationRole } from '../../hooks/useDelegationRole';
 import { useIsIAMTfaEnforcementEnabled } from '../../hooks/useIsIAMTfaEnforcementEnabled';
+import { IAM_USERS_USER_DETAILS_PENDO_IDS } from '../../LoginSettings/constants';
 import { Box } from '../../Shared/Box/Box';
 import { EMAIL_MAX_LENGTH, PARENT_USER } from '../../Shared/constants';
 import { DateTimeDisplay } from '../../Shared/DateTimeDisplay/DateTimeDisplay';
@@ -309,6 +310,7 @@ export const UserDetailsPanel = ({
         <h2 style={{ flex: 1, font: Typography.Heading.S }}>User Details</h2>
         <Tooltip disabled={!isEditUserDisabled} tooltipText={editTooltipText}>
           <Button
+            data-pendo-id={IAM_USERS_USER_DETAILS_PENDO_IDS.editDetails}
             disabled={isEditUserDisabled}
             onClick={() => handleEditUser(activeUser.username)}
             variant="link"
@@ -322,6 +324,7 @@ export const UserDetailsPanel = ({
           tooltipText={deleteTooltipText}
         >
           <Button
+            data-pendo-id={IAM_USERS_USER_DETAILS_PENDO_IDS.deleteUser}
             disabled={isDeleteUserDisabled}
             onClick={() => handleDeleteUser(activeUser.username)}
             variant="link"

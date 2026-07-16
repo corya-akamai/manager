@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { Box } from '../../Shared/Box/Box';
+import { IAM_TFA_ENFORCE_PENDO_IDS } from '../constants';
 import styles from './TfaEnforcement.module.css';
 interface Props {
   clearDisabled: boolean;
@@ -52,6 +53,7 @@ export const AccountUsersTableControls = ({
 
       <Box className={styles.controlsButtonsContainer} direction="row">
         <Button
+          data-pendo-id={IAM_TFA_ENFORCE_PENDO_IDS.bulkSelectAllPages}
           disabled={
             scopedOptionsLength === 0 ||
             selectedScopedCount >= scopedOptionsLength
@@ -64,6 +66,7 @@ export const AccountUsersTableControls = ({
         </Button>
         {isSmUp && <div className={styles.divider} />}
         <Button
+          data-pendo-id={IAM_TFA_ENFORCE_PENDO_IDS.bulkDeselect}
           disabled={clearDisabled}
           onClick={onClear}
           type="button"

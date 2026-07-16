@@ -8,6 +8,7 @@ import { Spacing } from '@akamai/cds-tokens';
 import * as React from 'react';
 
 import { useBreakpoint } from '../../hooks/useBreakpoint';
+import { IAM_TFA_ENFORCE_PENDO_IDS } from '../constants';
 
 type SortOrder = 'asc' | 'desc';
 
@@ -45,6 +46,7 @@ export const AccountUsersTableHead = ({
               scopedOptionsLength > 0 &&
               selectedScopedCount >= scopedOptionsLength
             }
+            data-pendo-id={IAM_TFA_ENFORCE_PENDO_IDS.selectAllCurrentPage}
             disabled={
               scopedOptionsLength === 0 ||
               selectedScopedCount >= scopedOptionsLength

@@ -11,6 +11,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { Box } from '../../Shared/Box/Box';
+import { IAM_TFA_ENFORCE_PENDO_IDS } from '../constants';
 import styles from './TfaEnforcement.module.css';
 
 import type { SelectOption } from '../../Shared/types';
@@ -59,6 +60,7 @@ export const AccountUsersTableToolbar = ({
       }}
     >
       <SearchField
+        data-pendo-id={IAM_TFA_ENFORCE_PENDO_IDS.searchUsernameOrEmail}
         isLoading={isLoading}
         onChange={(e) => {
           const target = e.target as HTMLInputElement | null;
@@ -84,6 +86,7 @@ export const AccountUsersTableToolbar = ({
           Sort by
         </p>
         <Select
+          data-pendo-id={IAM_TFA_ENFORCE_PENDO_IDS.sortByUsers}
           items={filterableOptions}
           onChange={(e) => {
             const item = (e as CustomEvent).detail as SelectOption;
@@ -102,6 +105,7 @@ export const AccountUsersTableToolbar = ({
           tooltipText="Click to re-apply the sort order with the current selection state."
         >
           <Button
+            data-pendo-id={IAM_TFA_ENFORCE_PENDO_IDS.refreshSorting}
             disabled={scopedOptionsLength === 0}
             onClick={onRefreshSorting}
             type="button"

@@ -20,6 +20,7 @@ import * as React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useDelegationRole } from '../../hooks/useDelegationRole';
+import { IAM_USERS_USER_DETAILS_PENDO_IDS } from '../../LoginSettings/constants';
 import { Box } from '../../Shared/Box/Box';
 import { RESTRICTED_FIELD_TOOLTIP } from '../../Shared/constants';
 import { Drawer, DrawerInlineActions } from '../../Shared/Drawer';
@@ -250,6 +251,7 @@ export const EditUserDetailsDrawer = (props: Props) => {
         </Box>
         <DrawerInlineActions>
           <Button
+            data-pendo-id={IAM_USERS_USER_DETAILS_PENDO_IDS.editDetailsCancel}
             data-testid="cancel"
             onClick={handleClose}
             variant="secondary"
@@ -257,6 +259,7 @@ export const EditUserDetailsDrawer = (props: Props) => {
             Cancel
           </Button>
           <Button
+            data-pendo-id={IAM_USERS_USER_DETAILS_PENDO_IDS.editDetailsEdit}
             data-testid="submit"
             disabled={!isDirty}
             processing={isSubmitting || isUpdatingUsername || isUpdatingEmail}
