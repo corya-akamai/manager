@@ -21,6 +21,7 @@ import type { APIError } from '@linode/api-v4/lib/types';
 
 export interface TwoFactorProps {
   disabled?: boolean;
+  isTfaEnforced?: boolean;
   twoFactor?: boolean;
   username?: string;
 }
@@ -28,7 +29,7 @@ export interface TwoFactorProps {
 export const TwoFactor = (props: TwoFactorProps) => {
   const needSecurityQuestionsCopy =
     'To use two-factor authentication you must set up your security questions listed below.';
-  const { disabled, twoFactor, username } = props;
+  const { disabled, isTfaEnforced, twoFactor, username } = props;
   const queryClient = useQueryClient();
   const [errors, setErrors] = React.useState<APIError[] | undefined>(undefined);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -151,6 +152,7 @@ export const TwoFactor = (props: TwoFactorProps) => {
 
   const [disable2FAOpen, setDisable2FAOpen] = React.useState(false);
   const [scratchDialogOpen, setScratchDialogOpen] = React.useState(false);
+  const isToggleDisabled = disabled || (isTfaEnforced && twoFactorConfirmed);
 
   const toggleDisable2FA = () => {
     setDisable2FAOpen((prev) => !prev);
@@ -191,7 +193,7 @@ export const TwoFactor = (props: TwoFactorProps) => {
         {(hasSecurityQuestions && !twoFactor) || twoFactor ? (
           typeof twoFactorConfirmed !== 'undefined' && (
             <TwoFactorToggle
-              disabled={disabled}
+              disabled={isToggleDisabled}
               onChange={toggleTwoFactorEnabled}
               toggleDisableDialog={toggleDisable2FA}
               twoFactorConfirmed={twoFactorConfirmed}
@@ -205,6 +207,11 @@ export const TwoFactor = (props: TwoFactorProps) => {
             typeProps={{ style: { fontSize: '0.875rem' } }}
             variant="warning"
           />
+        )}
+        {isTfaEnforced && twoFactorConfirmed && (
+          <Typography variant="body1">
+            Your company policy enforces two-factor authentication.
+          </Typography>
         )}
         {twoFactorEnabled && (
           <StyledCTAWrapper>
