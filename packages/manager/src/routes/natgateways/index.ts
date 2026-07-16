@@ -18,6 +18,16 @@ const natGatewaysIndexRoute = createRoute({
   ).then((m) => m.natGatewaysLazyRoute)
 );
 
+const natGatewaysCreateRoute = createRoute({
+  getParentRoute: () => natGatewaysRoute,
+  path: 'create',
+}).lazy(() =>
+  import(
+    'src/features/NATGateways/NATGatewaysCreate/NATGatewaysCreateLazyRoute'
+  ).then((m) => m.natGatewaysCreateLazyRoute)
+);
+
 export const natGatewaysRouteTree = natGatewaysRoute.addChildren([
   natGatewaysIndexRoute,
+  natGatewaysCreateRoute,
 ]);
