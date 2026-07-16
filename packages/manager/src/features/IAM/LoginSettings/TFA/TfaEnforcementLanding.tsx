@@ -9,8 +9,11 @@ import {
 } from '@akamai/cds-components/react';
 import { Spacing, Typography } from '@akamai/cds-tokens';
 import {
+  useAllAccountUsersQuery,
   useGetTfaEnforcementAccountSettingsQuery,
+  useGetTfaOptionalUsersQuery,
   useUpdateTfaEnforcementAccountSettingsMutation,
+  useUpdateTfaOptionalUsersMutation,
 } from '@linode/queries';
 import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
@@ -29,13 +32,15 @@ import { DocumentTitleSegment } from '../../Shared/DocumentTitleSegment/Document
 import { ErrorState } from '../../Shared/ErrorState/ErrorState';
 import { LandingHeader } from '../../Shared/LandingHeader/LandingHeader';
 import { Paper } from '../../Shared/Paper/Paper';
+import { AccountUsersTable } from './AccountUsersTable';
 import { SummarySection } from './SummarySection';
 
-import type { APIError } from '@linode/api-v4';
+import type { APIError, TfaOptionalUser, User } from '@linode/api-v4';
 
 export interface TfaEnforcementFormValues {
   isAcknowledged: boolean;
   tfa_enforced: boolean;
+  tfaOptionalUsers: string[];
 }
 
 export const TfaEnforcementLanding = () => {
@@ -62,9 +67,20 @@ export const TfaEnforcementLanding = () => {
   const { mutateAsync: updateTfaSettings } =
     useUpdateTfaEnforcementAccountSettingsMutation();
 
-  // Preserve optional users selection when enforcement is toggled off so it
-  // can be restored when the toggle is turned back on (UIE-12026).
-  const preservedOptionalUsersCountRef = React.useRef<null | number>(null);
+  const { mutateAsync: updateOptionalUsers } =
+    useUpdateTfaOptionalUsersMutation();
+
+  const { data: tfaOptionalUsers } = useGetTfaOptionalUsersQuery();
+
+  const { data: allUsers } = useAllAccountUsersQuery(true);
+  const allUsernames = React.useMemo(
+    () => (allUsers ?? []).map((user: User) => user.username),
+    [allUsers]
+  );
+
+  const tfaOptionalUsersOptions = React.useMemo(() => {
+    return tfaOptionalUsers?.data.map((user: TfaOptionalUser) => user.username);
+  }, [tfaOptionalUsers]);
 
   const form = useForm<TfaEnforcementFormValues>({
     // keepDirtyValues ensures that a background refetch of tfaSettings does not
@@ -73,6 +89,7 @@ export const TfaEnforcementLanding = () => {
     values: {
       isAcknowledged: false,
       tfa_enforced: tfaSettings?.tfa_enforced ?? false,
+      tfaOptionalUsers: tfaOptionalUsersOptions ?? [],
     },
   });
 
@@ -88,12 +105,24 @@ export const TfaEnforcementLanding = () => {
 
   const isEnforced = watch('tfa_enforced');
 
-  const { enforcedUsersCount, optionalUsersCount, totalUsers } =
-    useTfaUserCounts(isEnforced);
+  const { totalUsers } = useTfaUserCounts(isEnforced);
 
   const onSubmit = async (values: TfaEnforcementFormValues) => {
     try {
-      await updateTfaSettings({ tfa_enforced: values.tfa_enforced });
+      const requests: Promise<unknown>[] = [
+        updateTfaSettings({ tfa_enforced: values.tfa_enforced }),
+      ];
+      // Only update optional users when enforcement is on; when off, the list
+      // is irrelevant and submitting stale data would be incorrect.
+      if (values.tfa_enforced) {
+        requests.push(
+          updateOptionalUsers({ usernames: values.tfaOptionalUsers })
+        );
+      } else {
+        // Enforcement off: all users become optional.
+        requests.push(updateOptionalUsers({ usernames: allUsernames }));
+      }
+      await Promise.all(requests);
       toast.open({
         text: '2FA enforcement updated successfully.',
         type: 'success',
@@ -169,14 +198,7 @@ export const TfaEnforcementLanding = () => {
                   checked={field.value}
                   disabled={!permissions?.update_account_settings}
                   onChange={(e) => {
-                    const next = e.detail as boolean;
-                    if (!next) {
-                      // Turning off — preserve optional users count for restore
-                      // when re-enabled (UIE-12026 will extend this to full list).
-                      preservedOptionalUsersCountRef.current =
-                        optionalUsersCount;
-                    }
-                    field.onChange(next);
+                    field.onChange(e.detail as boolean);
                   }}
                   size="small"
                 >
@@ -190,7 +212,7 @@ export const TfaEnforcementLanding = () => {
             </p>
           </Box>
           {isEnforced && (
-            <Paper padding={Spacing.S16} paddingTop={Spacing.S16}>
+            <Paper padding={Spacing.S24} paddingTop={Spacing.S16}>
               <h3
                 style={{
                   font: Typography.Heading.S,
@@ -203,17 +225,12 @@ export const TfaEnforcementLanding = () => {
                 Select users you want to enforce two-factor authentication for.
                 For unselected users the 2FA login will be optional.
               </p>
-              {/* TODO: UIE-12026 - Account Users table will be implemented in a separate ticket */}
+              <AccountUsersTable tfaOptionalUsers={tfaOptionalUsersOptions} />
             </Paper>
           )}
 
           {(isEnforced || (tfaSettings?.tfa_enforced ?? false)) && (
-            <SummarySection
-              enforcedUsersCount={enforcedUsersCount}
-              isEnforced={isEnforced}
-              optionalUsersCount={optionalUsersCount}
-              totalUsers={totalUsers}
-            />
+            <SummarySection isEnforced={isEnforced} totalUsers={totalUsers} />
           )}
 
           <Box direction="row" style={{ justifyContent: 'flex-end' }}>

@@ -1,0 +1,77 @@
+import { Button } from '@akamai/cds-components/react';
+import { Spacing } from '@akamai/cds-tokens';
+import * as React from 'react';
+
+import { useBreakpoint } from '../../hooks/useBreakpoint';
+import { Box } from '../../Shared/Box/Box';
+import styles from './TfaEnforcement.module.css';
+interface Props {
+  clearDisabled: boolean;
+  onClear: () => void;
+  onSelectAll: () => void;
+  scopedOptionsLength: number;
+  selectedScopedCount: number;
+  selectedUsersLength: number;
+  showSelectedOnly: boolean;
+  totalCount: number;
+}
+
+export const AccountUsersTableControls = ({
+  clearDisabled,
+  onClear,
+  onSelectAll,
+  scopedOptionsLength,
+  selectedScopedCount,
+  selectedUsersLength,
+  showSelectedOnly,
+  totalCount,
+}: Props) => {
+  const isSmUp = useBreakpoint('up', 'sm');
+
+  return (
+    <Box
+      className={styles.controlsContainer}
+      direction="row"
+      style={{
+        justifyContent: isSmUp ? 'flex-start' : 'space-between',
+      }}
+    >
+      <Box
+        className={styles.controlsSelectedUsersContainer}
+        direction="row"
+        style={{
+          gap: isSmUp ? Spacing.S8 : undefined,
+        }}
+      >
+        <span>
+          Users selected: {selectedUsersLength}/
+          {showSelectedOnly ? selectedUsersLength : totalCount}
+        </span>
+        {isSmUp && <div className={styles.divider} />}
+      </Box>
+
+      <Box className={styles.controlsButtonsContainer} direction="row">
+        <Button
+          disabled={
+            scopedOptionsLength === 0 ||
+            selectedScopedCount >= scopedOptionsLength
+          }
+          onClick={onSelectAll}
+          type="button"
+          variant="link"
+        >
+          Select all
+        </Button>
+        {isSmUp && <div className={styles.divider} />}
+        <Button
+          disabled={clearDisabled}
+          onClick={onClear}
+          type="button"
+          variant="link"
+        >
+          Clear all
+        </Button>
+      </Box>
+    </Box>
+  );
+};

@@ -12,36 +12,38 @@ import { usePermissions } from '../../hooks/usePermissions';
 import type { TfaEnforcementFormValues } from './TfaEnforcementLanding';
 
 interface Props {
-  enforcedUsersCount: number;
   isEnforced: boolean;
-  optionalUsersCount: number;
   totalUsers: number;
 }
 
-export const SummarySection = ({
-  enforcedUsersCount,
-  isEnforced,
-  optionalUsersCount,
-  totalUsers,
-}: Props) => {
+export const SummarySection = ({ isEnforced, totalUsers }: Props) => {
   const {
     control,
     formState: { dirtyFields },
+    watch,
   } = useFormContext<TfaEnforcementFormValues>();
   // TODO: UIE-12176 Replace with the correct permissions once they are available in the API.
   const { data: permissions } = usePermissions('account', [
     'update_account_settings',
   ]);
 
-  // TODO: UIE-12026 - When the Account Users table is implemented,
-  // update hasSettingsChanged to also include dirty optional users selections.
-  const hasSettingsChanged = !!dirtyFields.tfa_enforced;
+  const hasSettingsChanged =
+    !!dirtyFields.tfa_enforced || !!dirtyFields.tfaOptionalUsers;
+
+  // Watch tfaOptionalUsers to conditionally update the number of optional users in the summary section`
+  const tfaOptionalUsers = watch('tfaOptionalUsers');
+
+  const notEnforcedUsersCount = tfaOptionalUsers?.length ?? 0;
+
+  const enforcedUsers = isEnforced
+    ? Math.max(0, totalUsers - notEnforcedUsersCount)
+    : 0;
 
   return (
     <>
       <NotificationBanner type="info">
         <>
-          {isEnforced && optionalUsersCount > 0 ? (
+          {isEnforced && notEnforcedUsersCount > 0 ? (
             <>
               <strong>Summary:</strong>
               <ul
@@ -53,14 +55,18 @@ export const SummarySection = ({
                 <li>
                   Two-factor authentication will be enforced for{' '}
                   <strong>
-                    {enforcedUsersCount} of {totalUsers} account users
+                    {enforcedUsers} of {totalUsers} account users
                   </strong>
                   .
                 </li>
                 <li>
-                  The remaining <strong>{optionalUsersCount} users</strong> will
-                  be able to log in using password only. 2FA is optional for
-                  them.
+                  The remaining{' '}
+                  <strong>
+                    {notEnforcedUsersCount} user
+                    {notEnforcedUsersCount !== 1 ? 's' : ''}
+                  </strong>{' '}
+                  will be able to log in using password only. 2FA is optional
+                  for them.
                 </li>
               </ul>
             </>
@@ -69,7 +75,7 @@ export const SummarySection = ({
               <strong>Summary:</strong> Two-factor authentication will be
               enforced for{' '}
               <strong>
-                {enforcedUsersCount} of {totalUsers} account users
+                {enforcedUsers} of {totalUsers} account users
               </strong>
               .
             </p>

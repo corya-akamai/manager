@@ -508,6 +508,7 @@ const iamSsoCatchAllRoute = createRoute({
 const iamTfaEnforcementRoute = createRoute({
   getParentRoute: () => iamRoute,
   path: '/settings/tfa-enforcement',
+  validateSearch: (search: TableSearchParams) => search,
   beforeLoad: ({ context }) => {
     const isTfaEnforcementEnabled = Boolean(context?.flags?.iamTfaEnforcement);
 
