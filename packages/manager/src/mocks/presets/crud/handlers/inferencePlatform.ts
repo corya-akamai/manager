@@ -672,33 +672,8 @@ const generateMockUsage = (
     }
   }
 
-  // For groups with many entries, show top 5 and combine rest into "Other"
-  const TOP_N = 5;
-  let otherGroup: null | { id: string; label: string; scale: number } = null;
-
-  // Apply Top N aggregation when not filtering by specific API key and there are more than TOP_N groups
-  if (apiKeyId === undefined && groups.length > TOP_N) {
-    // Sort by scale (usage) descending to get top entries
-    const sortedGroups = [...groups].sort((a, b) => b.scale - a.scale);
-    const topGroups = sortedGroups.slice(0, TOP_N);
-    const remainingGroups = sortedGroups.slice(TOP_N);
-
-    // Calculate combined scale for "Other" category
-    const otherScale = remainingGroups.reduce((sum, g) => sum + g.scale, 0);
-    const otherCount = remainingGroups.length;
-    const otherLabel =
-      groupBy === 'api-key'
-        ? `Other (${otherCount} keys)`
-        : `Other (${otherCount} models)`;
-
-    otherGroup = {
-      id: 'other',
-      label: otherLabel,
-      scale: otherScale,
-    };
-
-    groups = [...topGroups, otherGroup];
-  }
+  // Note: The API returns ALL groups. Top N aggregation (e.g., "Top 5 + Other")
+  // is handled by the UI/frontend, not by the API response.
 
   // Generate time series data (hourly for last 24 hours)
   const timeSeries: InferenceUsageTimeSeries[] = [];

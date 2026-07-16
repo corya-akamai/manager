@@ -2,10 +2,7 @@ import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
-import {
-  createUsageData,
-  createUsageDataWithOther,
-} from 'src/factories/inferencePlatform';
+import { createUsageData } from 'src/factories/inferencePlatform';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithTheme } from 'src/utilities/testHelpers';
 
@@ -274,40 +271,43 @@ describe('Usage - Metric card values', () => {
 });
 
 // Additional model groups for Top 5 + Other testing
+// Now we send ALL 8 models to the API, and the UI aggregates to Top 5 + Other
 const MODEL_3 = { id: 'gemma-4-26b', label: 'Gemma 4 26B', scale: 22500000 };
 const MODEL_4 = { id: 'qwen3-8b', label: 'Qwen3 8B', scale: 15000000 };
 const MODEL_5 = { id: 'deepseek-r1', label: 'DeepSeek R1', scale: 7500000 };
+// Models that will be aggregated into "Other" by the UI
+const MODEL_6 = { id: 'phi-3-mini', label: 'Phi 3 Mini', scale: 2500000 };
+const MODEL_7 = { id: 'gemma-2b', label: 'Gemma 2B', scale: 1500000 };
+const MODEL_8 = { id: 'tiny-llama', label: 'Tiny Llama', scale: 1000000 };
 const OTHER_LABEL = 'Other (3 models)';
 
-// Top 5 models for the "with Other" test data
-const topFiveModels = [
-  { ...LLAMA_MODEL, scale: 35000000 }, // ~70M total tokens
-  { ...MISTRAL_MODEL, scale: 30000000 }, // ~60M total tokens
-  MODEL_3, // ~45M total tokens
-  MODEL_4, // ~30M total tokens
-  MODEL_5, // ~15M total tokens
+// All 8 models - UI will show top 5 by usage and aggregate the rest into "Other"
+const allEightModels = [
+  { ...LLAMA_MODEL, scale: 35000000 }, // ~70M total tokens (Top 1)
+  { ...MISTRAL_MODEL, scale: 30000000 }, // ~60M total tokens (Top 2)
+  MODEL_3, // ~45M total tokens (Top 3)
+  MODEL_4, // ~30M total tokens (Top 4)
+  MODEL_5, // ~15M total tokens (Top 5)
+  MODEL_6, // ~5M total tokens (aggregated into Other)
+  MODEL_7, // ~3M total tokens (aggregated into Other)
+  MODEL_8, // ~2M total tokens (aggregated into Other)
 ];
 
-// Generate mock data with Top 5 + Other using factory
-const mockUsageDataWithOther = createUsageDataWithOther(
-  topFiveModels,
-  3, // 3 models aggregated into "Other"
-  5000000, // Scale for "Other" (~10M total tokens)
-  'model'
-);
+// Generate mock data with all 8 models - UI will aggregate to Top 5 + Other
+const mockUsageDataWithAllModels = createUsageData(allEightModels);
 
 describe('Usage - Top N + Other aggregation', () => {
-  it('displays "Other" category when API returns aggregated data', async () => {
+  it('displays "Other" category when API returns more than 5 groups', async () => {
     server.use(
       http.post(USAGE_ENDPOINT, () => {
-        return HttpResponse.json(mockUsageDataWithOther);
+        return HttpResponse.json(mockUsageDataWithAllModels);
       })
     );
 
     const { getAllByText } = renderWithTheme(<Usage />);
 
     // Wait for data to load and verify "Other" label is displayed
-    // Use getAllByText since "Other" appears in multiple chart legends
+    // The UI aggregates the bottom 3 models into "Other (3 models)"
     await waitFor(() => {
       const otherElements = getAllByText(OTHER_LABEL);
       expect(otherElements.length).toBeGreaterThan(0);
@@ -318,7 +318,7 @@ describe('Usage - Top N + Other aggregation', () => {
   it('displays all top 5 models plus Other in the filter dropdown', async () => {
     server.use(
       http.post(USAGE_ENDPOINT, () => {
-        return HttpResponse.json(mockUsageDataWithOther);
+        return HttpResponse.json(mockUsageDataWithAllModels);
       })
     );
 
@@ -345,53 +345,18 @@ describe('Usage - Top N + Other aggregation', () => {
   it('includes Other group in total token calculations', async () => {
     server.use(
       http.post(USAGE_ENDPOINT, () => {
-        return HttpResponse.json(mockUsageDataWithOther);
+        return HttpResponse.json(mockUsageDataWithAllModels);
       })
     );
 
     const { getByText } = renderWithTheme(<Usage />);
 
-    // Total tokens from all groups including Other (calculated by factory)
+    // Total tokens from all 8 models (UI aggregates bottom 3 into Other)
     // The factory creates: totalTokens = scale * 2 (2 buckets)
-    // Sum of scales: 35M + 30M + 22.5M + 15M + 7.5M + 5M = 115M
+    // Sum of scales: 35M + 30M + 22.5M + 15M + 7.5M + 2.5M + 1.5M + 1M = 115M
     // Total tokens = 115M * 2 = 230M
     await waitFor(() => {
       expect(getByText('230M')).toBeVisible();
-    });
-  });
-
-  it('can filter by Other category', async () => {
-    server.use(
-      http.post(USAGE_ENDPOINT, () => {
-        return HttpResponse.json(mockUsageDataWithOther);
-      })
-    );
-
-    const user = userEvent.setup();
-    const { getByLabelText, getByText, getAllByText } = renderWithTheme(
-      <Usage />
-    );
-
-    // Wait for data to load
-    await waitFor(() => {
-      expect(getByText('230M')).toBeVisible();
-    });
-
-    // Open dropdown and select "Other"
-    await user.click(getByLabelText('Model'));
-    await waitFor(() => {
-      // Find the dropdown option (not the legend text)
-      const otherOptions = getAllByText(OTHER_LABEL);
-      expect(otherOptions.length).toBeGreaterThan(0);
-    });
-
-    // Click on the first "Other" option (the dropdown option)
-    const otherOptions = getAllByText(OTHER_LABEL);
-    await user.click(otherOptions[0]);
-
-    // Should now show only Other's tokens: 5M scale * 2 buckets = 10M total
-    await waitFor(() => {
-      expect(getByText('10M')).toBeVisible();
     });
   });
 });

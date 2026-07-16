@@ -48,6 +48,8 @@ const sumSeriesValues = (
 };
 
 interface UsageContentProps {
+  /** All groups without aggregation - for dropdown options */
+  allGroups: Array<{ id: string; label: string }>;
   isLoading: boolean;
   metricsByValue: 'api-key' | 'model';
   onMetricsByChange: (value: 'api-key' | 'model') => void;
@@ -56,6 +58,7 @@ interface UsageContentProps {
 }
 
 const UsageContent = ({
+  allGroups,
   isLoading,
   metricsByValue,
   onMetricsByChange,
@@ -72,15 +75,14 @@ const UsageContent = ({
     );
   }, [dynamicData.total.series]);
 
-  // Options come from the data - works for both model and api_key grouping
+  // Options come from allGroups (non-aggregated) for dropdowns
+  // Sorted alphabetically by label (All is always first)
   const filterOptions = React.useMemo(
     () => [
       { label: 'All', value: 'all' },
-      ...dynamicData.total.series
-        .filter((s) => s.id !== 'no-data')
-        .map((s) => ({ label: s.label, value: s.id })),
+      ...allGroups.map((g) => ({ label: g.label, value: g.id })),
     ],
-    [dynamicData.total.series]
+    [allGroups]
   );
 
   // Determine active selection based on metricsBy
@@ -340,7 +342,10 @@ export const Usage = () => {
   // Transform API data to chart format in a single pass (more efficient than
   // calling transform 4 times - only iterates time_series once, constructs
   // Date objects once, and sorts once per group)
+  // - When "All" is selected: applies Top 5 + "Other" aggregation
+  // - When a specific item is selected: shows only that item's data
   const {
+    allGroups,
     input: initialInputData,
     output: initialOutputData,
     request: initialRequestData,
@@ -350,8 +355,12 @@ export const Usage = () => {
       | InferenceUsage
       | undefined;
 
-    return transformAllUsageData(usageDataForCharts);
-  }, [apiUsageData, isUsageNotFound]);
+    return transformAllUsageData(
+      usageDataForCharts,
+      metricsByValue,
+      selectedValue.value
+    );
+  }, [apiUsageData, isUsageNotFound, metricsByValue, selectedValue.value]);
 
   return (
     <UsageDataProvider
@@ -361,6 +370,7 @@ export const Usage = () => {
       initialTotalData={initialTotalData}
     >
       <UsageContent
+        allGroups={allGroups}
         isLoading={isFetching}
         metricsByValue={metricsByValue}
         onMetricsByChange={handleMetricsByChange}
