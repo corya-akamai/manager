@@ -166,4 +166,18 @@ describe('DatabaseSummaryConnectionDetails', () => {
       expect(queryAllByText('Public')).toHaveLength(1);
     });
   });
+
+  it('should not display Database Name for Valkey clusters', async () => {
+    queryMocks.useDatabaseCredentialsQuery.mockReturnValue({});
+
+    const database = databaseFactory.build({ engine: 'valkey' }) as Database;
+
+    const { queryAllByText } = renderWithTheme(
+      <DatabaseSummaryConnectionDetails database={database} />
+    );
+
+    await waitFor(() => {
+      expect(queryAllByText('Database name')).toHaveLength(0);
+    });
+  });
 });

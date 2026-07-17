@@ -135,9 +135,11 @@ export const DatabaseSummaryConnectionDetails = (props: Props) => {
       <ConnectionDetailsRow isSummaryTab label="Password">
         {CredentialsContent}
       </ConnectionDetailsRow>
-      <ConnectionDetailsRow isSummaryTab label="Database name">
-        defaultdb
-      </ConnectionDetailsRow>
+      {database.engine !== 'valkey' && (
+        <ConnectionDetailsRow isSummaryTab label="Database name">
+          defaultdb
+        </ConnectionDetailsRow>
+      )}
       <ConnectionDetailsHostRows database={database} isSummaryTab />
       <ConnectionDetailsRow isSummaryTab label="Port">
         {database.port}
