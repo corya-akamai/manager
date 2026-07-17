@@ -64,23 +64,27 @@ vi.mock('../../hooks/usePermissions', () => ({
   usePermissions: mocks.usePermissions,
 }));
 
-const makeUsers = (): User[] =>
-  [
-    {
-      email: 'alice@acme.com',
-      username: 'alice',
-    },
-    {
-      email: 'bob@acme.com',
-      username: 'bob',
-    },
-  ] as User[];
+const makeUsers = (count = 2): User[] =>
+  Array.from({ length: count }, (_, index) => {
+    const username = `user-${index + 1}`;
+    return {
+      email: `${username}@acme.com`,
+      username,
+    } as User;
+  });
 
-const renderComponent = (tfaOptionalUsers: string[] = ['bob']) => {
+const renderComponent = (
+  tfaOptionalUsers: string[] = ['user-2'],
+  totalUsers = 2,
+  initialEntries = ['/iam/settings/tfa-enforcement?page=1&pageSize=10']
+) => {
   return renderWithProviders(
-    <AccountUsersTable tfaOptionalUsers={tfaOptionalUsers} />,
+    <AccountUsersTable
+      tfaOptionalUsers={tfaOptionalUsers}
+      totalUsers={totalUsers}
+    />,
     {
-      initialEntries: ['/iam/settings/tfa-enforcement?page=1&pageSize=10'],
+      initialEntries,
       initialRoute: '/iam/settings/tfa-enforcement',
     }
   );
@@ -128,15 +132,15 @@ beforeEach(() => {
 
 describe('AccountUsersTable', () => {
   it('renders table rows and selection summary', () => {
-    const { container } = renderComponent(['bob']);
+    const { container } = renderComponent(['user-2'], 2);
 
-    expect(container).toHaveTextContent('alice');
-    expect(container).toHaveTextContent('bob');
+    expect(container).toHaveTextContent('user-1');
+    expect(container).toHaveTextContent('user-2');
     expect(screen.getByText('Users selected: 1/2')).toBeVisible();
   });
 
   it('selects all users when clicking "Select all"', async () => {
-    const { container } = renderComponent(['bob']);
+    const { container } = renderComponent(['user-2'], 2);
     const selectAllButton = await getCdsButtonByText(container, 'Select all');
 
     await userEvent.click(selectAllButton as HTMLElement);
@@ -147,14 +151,14 @@ describe('AccountUsersTable', () => {
   });
 
   it('clears all enforced users when clicking "Clear all"', async () => {
-    const { container } = renderComponent(['bob']);
+    const { container } = renderComponent(['user-2'], 2);
     const clearAllButton = await getCdsButtonByText(container, 'Clear all');
 
     await userEvent.click(clearAllButton as HTMLElement);
 
     expect(mocks.setValue).toHaveBeenCalledWith(
       'tfaOptionalUsers',
-      ['bob', 'alice'],
+      ['user-2', 'user-1'],
       {
         shouldDirty: true,
       }
@@ -162,10 +166,10 @@ describe('AccountUsersTable', () => {
   });
 
   it('updates optional users when toggling a checked row off', async () => {
-    const { container } = renderComponent(['bob']);
+    const { container } = renderComponent(['user-2'], 2);
     const row = Array.from(
       container.querySelectorAll<HTMLElement>('cds-table-row')
-    ).find((r) => r.textContent?.includes('alice'));
+    ).find((r) => r.textContent?.includes('user-1'));
 
     expect(row).toBeTruthy();
 
@@ -173,7 +177,7 @@ describe('AccountUsersTable', () => {
 
     expect(mocks.setValue).toHaveBeenCalledWith(
       'tfaOptionalUsers',
-      ['bob', 'alice'],
+      ['user-2', 'user-1'],
       {
         shouldDirty: true,
       }
@@ -186,10 +190,10 @@ describe('AccountUsersTable', () => {
       setValue: mocks.setValue,
     });
 
-    const { container } = renderComponent(['bob']);
+    const { container } = renderComponent(['user-2'], 2);
     const row = Array.from(
       container.querySelectorAll<HTMLElement>('cds-table-row')
-    ).find((r) => r.textContent?.includes('alice'));
+    ).find((r) => r.textContent?.includes('user-1'));
 
     expect(row).toBeTruthy();
 
@@ -238,5 +242,17 @@ describe('AccountUsersTable', () => {
     renderComponent([]);
 
     expect(screen.getByText('No users found')).toBeVisible();
+  });
+
+  it('shows global selected count over filtered users count', () => {
+    mocks.useAllAccountUsersQuery.mockReturnValue({
+      data: makeUsers(5),
+      error: undefined,
+      isLoading: false,
+    });
+
+    renderComponent([], 100);
+
+    expect(screen.getByText('Users selected: 100/5')).toBeVisible();
   });
 });

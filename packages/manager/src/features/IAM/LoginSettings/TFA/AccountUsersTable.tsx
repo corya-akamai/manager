@@ -7,10 +7,10 @@ import {
 } from '@akamai/cds-components/react';
 import { useAllAccountUsersQuery } from '@linode/queries';
 import { getAPIFilterFromQuery } from '@linode/search';
+import { useNavigate, useSearch } from '@tanstack/react-router';
 import * as React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { useDebouncedValue } from '../../hooks/useDebouncedValue';
 import { useDelegationRole } from '../../hooks/useDelegationRole';
 import { useOrder } from '../../hooks/useOrder';
 import { usePagination } from '../../hooks/usePagination';
@@ -40,12 +40,14 @@ const getErrorText = (
 
 interface Props {
   tfaOptionalUsers: string[] | undefined;
+  totalUsers: number;
 }
 
-export const AccountUsersTable = ({ tfaOptionalUsers }: Props) => {
+export const AccountUsersTable = ({ totalUsers, tfaOptionalUsers }: Props) => {
   const { setValue } = useFormContext<TfaEnforcementFormValues>();
-  const [filterText, setFilterText] = React.useState('');
   const [showSelectedOnly, setShowSelectedOnly] = React.useState(false);
+  const navigate = useNavigate();
+  const { query } = useSearch({ from: TFA_ENFORCEMENT_ROUTE });
 
   // optionalUsers = users for whom 2FA is NOT enforced
   const [optionalUsers, setOptionalUsers] = React.useState<string[]>(
@@ -62,18 +64,13 @@ export const AccountUsersTable = ({ tfaOptionalUsers }: Props) => {
     () => new Set(tfaOptionalUsers ?? [])
   );
 
-  const debouncedFilterText = useDebouncedValue(filterText);
-
   // Filter out delegate users from the users if user is a child user.
   const { isChildUserType } = useDelegationRole();
   const { data: permissions } = usePermissions('account', ['view_user']);
 
-  const { error: searchError, filter } = getAPIFilterFromQuery(
-    debouncedFilterText,
-    {
-      searchableFieldsWithoutOperator: ['username', 'email'],
-    }
-  );
+  const { error: searchError, filter } = getAPIFilterFromQuery(query ?? '', {
+    searchableFieldsWithoutOperator: ['username', 'email'],
+  });
   const order = useOrder({
     initialRoute: {
       defaultOrder: {
@@ -136,9 +133,28 @@ export const AccountUsersTable = ({ tfaOptionalUsers }: Props) => {
     [userOptions, selectedUsersSet]
   );
 
-  const isSearching =
-    filterText.length > 0 && debouncedFilterText !== filterText;
-  const isLoading = isUsersLoading || isSearching;
+  const selectedUsersCount = React.useMemo(
+    () => Math.max(totalUsers - optionalUsernamesSet.size, 0),
+    [optionalUsernamesSet, totalUsers]
+  );
+
+  const isLoading = isUsersLoading;
+
+  const handleSearch = React.useCallback(
+    (value: string) => {
+      const nextQuery = value === '' ? undefined : String(value);
+
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          page: 1,
+          query: nextQuery,
+        }),
+        to: TFA_ENFORCEMENT_ROUTE,
+      });
+    },
+    [navigate]
+  );
 
   const filteredRows = React.useMemo(() => {
     const source = showSelectedOnly ? selectedUsers : userOptions;
@@ -245,34 +261,31 @@ export const AccountUsersTable = ({ tfaOptionalUsers }: Props) => {
   return (
     <div>
       <AccountUsersTableToolbar
-        filterText={filterText}
         hasInteracted={hasInteracted}
         isLoading={isLoading}
-        onFilterChange={(value) => {
-          setFilterText(value);
-        }}
         onRefreshSorting={() => {
           setSortSnapshot(new Set(optionalUsernamesSet));
           setHasInteracted(false);
         }}
+        onSearch={handleSearch}
         onSortOrderChange={(value) => {
           setSortOrder(value);
           setSortSnapshot(new Set(optionalUsernamesSet));
           setHasInteracted(false);
         }}
+        query={query ?? ''}
         scopedOptionsLength={scopedOptions.length}
         sortOrder={sortOrder}
       />
 
       <AccountUsersTableControls
         clearDisabled={clearDisabled}
+        filteredUsersCount={userOptions.length}
         onClear={handleClear}
         onSelectAll={handleSelectAll}
         scopedOptionsLength={scopedOptions.length}
         selectedScopedCount={selectedScopedCount}
-        selectedUsersLength={selectedUsers.length}
-        showSelectedOnly={showSelectedOnly}
-        totalCount={totalCount}
+        selectedUsersCount={selectedUsersCount}
       />
 
       <div>

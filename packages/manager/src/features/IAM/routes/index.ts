@@ -59,6 +59,10 @@ interface IamUserRolesSearchParams extends TableSearchParams {
   roleType?: 'all' | AccessType;
 }
 
+interface IamTfaEnforcementSearchParams extends TableSearchParams {
+  query?: string;
+}
+
 const iamActions = {
   'add-user': 'add-user',
   'delete-user': 'delete-user',
@@ -508,7 +512,7 @@ const iamSsoCatchAllRoute = createRoute({
 const iamTfaEnforcementRoute = createRoute({
   getParentRoute: () => iamRoute,
   path: '/settings/tfa-enforcement',
-  validateSearch: (search: TableSearchParams) => search,
+  validateSearch: (search: IamTfaEnforcementSearchParams) => search,
   beforeLoad: ({ context }) => {
     const isTfaEnforcementEnabled = Boolean(context?.flags?.iamTfaEnforcement);
 

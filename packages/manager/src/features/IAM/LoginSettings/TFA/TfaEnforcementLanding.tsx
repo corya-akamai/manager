@@ -230,7 +230,10 @@ export const TfaEnforcementLanding = () => {
                 Select users you want to enforce two-factor authentication for.
                 For unselected users the 2FA login will be optional.
               </p>
-              <AccountUsersTable tfaOptionalUsers={tfaOptionalUsersOptions} />
+              <AccountUsersTable
+                tfaOptionalUsers={tfaOptionalUsersOptions}
+                totalUsers={totalUsers}
+              />
             </Paper>
           )}
 

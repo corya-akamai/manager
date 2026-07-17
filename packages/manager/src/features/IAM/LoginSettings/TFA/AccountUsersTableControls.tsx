@@ -8,24 +8,22 @@ import { IAM_TFA_ENFORCE_PENDO_IDS } from '../constants';
 import styles from './TfaEnforcement.module.css';
 interface Props {
   clearDisabled: boolean;
+  filteredUsersCount: number;
   onClear: () => void;
   onSelectAll: () => void;
   scopedOptionsLength: number;
   selectedScopedCount: number;
-  selectedUsersLength: number;
-  showSelectedOnly: boolean;
-  totalCount: number;
+  selectedUsersCount: number;
 }
 
 export const AccountUsersTableControls = ({
   clearDisabled,
+  filteredUsersCount,
   onClear,
   onSelectAll,
   scopedOptionsLength,
   selectedScopedCount,
-  selectedUsersLength,
-  showSelectedOnly,
-  totalCount,
+  selectedUsersCount,
 }: Props) => {
   const isSmUp = useBreakpoint('up', 'sm');
 
@@ -45,8 +43,7 @@ export const AccountUsersTableControls = ({
         }}
       >
         <span>
-          Users selected: {selectedUsersLength}/
-          {showSelectedOnly ? selectedUsersLength : totalCount}
+          Users selected: {selectedUsersCount}/{filteredUsersCount}
         </span>
         {isSmUp && <div className={styles.divider} />}
       </Box>

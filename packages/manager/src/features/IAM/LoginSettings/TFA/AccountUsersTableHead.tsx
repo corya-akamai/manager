@@ -47,10 +47,7 @@ export const AccountUsersTableHead = ({
               selectedScopedCount >= scopedOptionsLength
             }
             data-pendo-id={IAM_TFA_ENFORCE_PENDO_IDS.selectAllCurrentPage}
-            disabled={
-              scopedOptionsLength === 0 ||
-              selectedScopedCount >= scopedOptionsLength
-            }
+            disabled={scopedOptionsLength === 0}
             indeterminate={
               selectedScopedCount > 0 &&
               selectedScopedCount < scopedOptionsLength

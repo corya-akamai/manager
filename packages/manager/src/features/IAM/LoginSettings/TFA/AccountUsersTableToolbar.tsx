@@ -1,16 +1,11 @@
-import {
-  Button,
-  Icon,
-  SearchField,
-  Select,
-  Tooltip,
-} from '@akamai/cds-components/react';
+import { Button, Icon, Select, Tooltip } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import * as React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { Box } from '../../Shared/Box/Box';
+import { DebouncedSearchField } from '../../Shared/DebouncedSearchField/DebouncedSearchField';
 import { IAM_TFA_ENFORCE_PENDO_IDS } from '../constants';
 import styles from './TfaEnforcement.module.css';
 
@@ -25,23 +20,23 @@ const filterableOptions: SelectOption[] = [
 type SortOrder = 'selected' | 'unselected';
 
 interface Props {
-  filterText: string;
   hasInteracted: boolean;
   isLoading: boolean;
-  onFilterChange: (value: string) => void;
   onRefreshSorting: () => void;
+  onSearch: (value: string) => void;
   onSortOrderChange: (value: SortOrder) => void;
+  query: string;
   scopedOptionsLength: number;
   sortOrder: SortOrder;
 }
 
 export const AccountUsersTableToolbar = ({
-  filterText,
   hasInteracted,
   isLoading,
-  onFilterChange,
   onRefreshSorting,
+  onSearch,
   onSortOrderChange,
+  query,
   scopedOptionsLength,
   sortOrder,
 }: Props) => {
@@ -59,16 +54,13 @@ export const AccountUsersTableToolbar = ({
         gap: isSmUp ? Spacing.S24 : Spacing.S12,
       }}
     >
-      <SearchField
+      <DebouncedSearchField
         data-pendo-id={IAM_TFA_ENFORCE_PENDO_IDS.searchUsernameOrEmail}
         isLoading={isLoading}
-        onChange={(e) => {
-          const target = e.target as HTMLInputElement | null;
-          onFilterChange(target?.value ?? '');
-        }}
+        onSearch={onSearch}
         placeholder="Search username or email"
         style={{ width: isSmUp ? 280 : '100%' }}
-        value={filterText}
+        value={query}
       />
       <Box
         className={styles.toolbarSortingContainer}
