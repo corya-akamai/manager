@@ -46,6 +46,7 @@ import { SupportTicketProductSelectionFields } from './SupportTicketProductSelec
 import { SupportTicketSMTPFields } from './SupportTicketSMTPFields';
 import {
   formatDescription,
+  useLiveChatAvailability,
   useLiveChatCapability,
   useTicketSeverityCapability,
 } from './ticketUtils';
@@ -191,6 +192,11 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
   const location = useLocation();
   const locationState = location.state as SupportTicketLocationState;
   const liveChatEnabled = useLiveChatCapability();
+  const {
+    isLiveChatAvailable: liveChatAvailable,
+    isAvailabilityLoading,
+    refetchAvailability,
+  } = useLiveChatAvailability(liveChatEnabled && open);
   const showLiveChatFallbackWarning = Boolean(locationState?.liveChatDisabled);
 
   // Collect prefilled data from props or Link parameters.
@@ -263,9 +269,15 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
     entityInputValue !== SUPPORT_TOPIC_GENERAL;
 
   const isLiveChatAvailable =
-    liveChatEnabled && !liveChatFailed && !locationState?.liveChatDisabled;
+    liveChatEnabled &&
+    liveChatAvailable &&
+    !liveChatFailed &&
+    !locationState?.liveChatDisabled;
 
   const isEligibleForLiveChat = isAccountBillingTopic && isLiveChatAvailable;
+
+  const isLiveChatAvailabilityPending =
+    isAccountBillingTopic && isAvailabilityLoading;
 
   const { mutateAsync: createSupportTicket } = useCreateSupportTicketMutation();
 
@@ -284,9 +296,20 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
 
   React.useEffect(() => {
     if (!open) {
+      // Abort any in-flight live chat wait so a stale outcome can't fire after close.
+      liveChatCleanupRef.current?.();
+      setLiveChatFailed(false);
+      setSwitchedToTicket(false);
+      setShowChatTimeoutWarning(false);
       resetDialog();
     }
   }, [open]);
+
+  React.useEffect(() => {
+    if (open && liveChatEnabled) {
+      refetchAvailability();
+    }
+  }, [open, liveChatEnabled, refetchAvailability]);
 
   /**
    * Store 'general' support ticket data in local storage if it exists.
@@ -382,6 +405,14 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
     setShowChatTimeoutWarning(false);
     form.clearErrors('root');
 
+    const { data: isAvailableNow } = await refetchAvailability();
+    if (isAvailableNow !== true) {
+      setLiveChatFailed(true);
+      form.setError('root', { message: LIVE_CHAT_TICKET_FALLBACK_MESSAGE });
+      setSubmitting(false);
+      return;
+    }
+
     try {
       const { chat_token } = await getLiveChatToken();
 
@@ -390,6 +421,8 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
           message:
             'Unable to start live chat because no chat token was returned.',
         });
+        setLiveChatFailed(true);
+        setSubmitting(false);
         return;
       }
 
@@ -826,7 +859,7 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
             <Button
               buttonType="primary"
               data-testid="submit"
-              loading={submitting}
+              loading={submitting || isLiveChatAvailabilityPending}
               onClick={
                 isEligibleForLiveChat
                   ? handleStartLiveChat
