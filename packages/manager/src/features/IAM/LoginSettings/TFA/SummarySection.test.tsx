@@ -55,7 +55,7 @@ describe('SummarySection', () => {
       initialRoute: '/iam/settings/tfa-enforcement',
     });
 
-    expect(screen.getByText(/1 of 3 account users/i)).toBeVisible();
+    expect(screen.getByText(/1 of 3 users/i)).toBeVisible();
     expect(screen.getByText(/The remaining/i)).toHaveTextContent(
       /2\s*user\s*s/i
     );
@@ -73,7 +73,7 @@ describe('SummarySection', () => {
       initialRoute: '/iam/settings/tfa-enforcement',
     });
 
-    expect(screen.getByText(/0 of 0 account users/i)).toBeVisible();
+    expect(screen.getByText(/0 of 0 users/i)).toBeVisible();
     expect(
       screen.queryByText(/-1 of 0 account users/i)
     ).not.toBeInTheDocument();
@@ -91,7 +91,9 @@ describe('SummarySection', () => {
       initialRoute: '/iam/settings/tfa-enforcement',
     });
 
-    expect(screen.getByText(/0 of 5 account users/i)).toBeVisible();
+    expect(
+      screen.getByText(/2FA is no longer mandatory for this account/i)
+    ).toBeVisible();
   });
 
   it('renders acknowledgement checkbox when form settings changed', () => {

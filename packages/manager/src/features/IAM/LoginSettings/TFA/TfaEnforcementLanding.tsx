@@ -125,7 +125,7 @@ export const TfaEnforcementLanding = () => {
       }
       await Promise.all(requests);
       toast.open({
-        text: '2FA enforcement updated successfully.',
+        text: '2FA enforcement updated',
         type: 'success',
       });
       reset({ ...getValues(), isAcknowledged: false }, { keepDirty: false });
@@ -166,9 +166,7 @@ export const TfaEnforcementLanding = () => {
           >
             Account Settings
           </BreadcrumbItem>
-          <BreadcrumbItem>
-            Manage Two-Factor Authentication Enforcement
-          </BreadcrumbItem>
+          <BreadcrumbItem>Manage 2FA Enforcement</BreadcrumbItem>
         </Breadcrumb>
         <DocsLink
           href={TFA_ENFORCEMENT_LINK}
@@ -211,9 +209,8 @@ export const TfaEnforcementLanding = () => {
                 </Switch>
               )}
             />
-            <p>
-              Enable this option to select users you want to enforce the
-              two-factor authentication for.
+            <p style={{ paddingLeft: Spacing.S48 }}>
+              Turn this on to select which users must use 2FA to log in.
             </p>
           </Box>
           {isEnforced && (
@@ -224,11 +221,11 @@ export const TfaEnforcementLanding = () => {
                   marginBottom: Spacing.S8,
                 }}
               >
-                Account Users
+                Manage 2FA Users
               </h3>
               <p>
-                Select users you want to enforce two-factor authentication for.
-                For unselected users the 2FA login will be optional.
+                Select the users required to log in with 2FA. For all other
+                users, 2FA remains optional.
               </p>
               <AccountUsersTable
                 tfaOptionalUsers={tfaOptionalUsersOptions}
@@ -249,7 +246,7 @@ export const TfaEnforcementLanding = () => {
               type="submit"
               variant="primary"
             >
-              Update Two-Factor Authentication Enforcement
+              Save Changes
             </Button>
           </Box>
         </form>

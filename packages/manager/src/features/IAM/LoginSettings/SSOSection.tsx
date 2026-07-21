@@ -105,6 +105,7 @@ export const SSOSection = ({ error, idpConfigs }: Props) => {
         style={{
           margin: `${Spacing.S16} 0`,
           alignItems: 'center',
+          flexWrap: 'nowrap',
         }}
       >
         <StatusIcon status={getStatus(idpConfig)} />

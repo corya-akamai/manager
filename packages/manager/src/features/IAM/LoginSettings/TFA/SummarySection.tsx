@@ -44,68 +44,60 @@ export const SummarySection = ({ isEnforced, totalUsers }: Props) => {
     <>
       <NotificationBanner type="info">
         <>
-          {isEnforced && notEnforcedUsersCount > 0 ? (
-            <>
-              <strong>Summary:</strong>
-              <ul
-                style={{
-                  margin: `${Spacing.S4} 0 ${Spacing.S8}`,
-                  paddingLeft: Spacing.S20,
-                }}
-              >
-                <li>
-                  Two-factor authentication will be enforced for{' '}
-                  <strong>
-                    {enforcedUsers} of {totalUsers} account users
-                  </strong>
-                  .
-                </li>
-                <li>
-                  The remaining{' '}
+          {isEnforced ? (
+            <p
+              style={{
+                margin: `${Spacing.S4} 0 ${Spacing.S16}`,
+              }}
+            >
+              <strong>Summary:</strong> 2FA will be enforced for{' '}
+              <strong>
+                {enforcedUsers} of {totalUsers} users
+              </strong>
+              {notEnforcedUsersCount === 0 && ' in this account.'}
+              {notEnforcedUsersCount > 0 && (
+                <>
+                  . The remaining{' '}
                   <strong>
                     {notEnforcedUsersCount} user
                     {notEnforcedUsersCount !== 1 ? 's' : ''}
                   </strong>{' '}
-                  will be able to log in using password only. 2FA is optional
-                  for them.
-                </li>
-              </ul>
-            </>
+                  can still log in using a password only, as 2FA remains for
+                  them.
+                </>
+              )}
+            </p>
           ) : (
-            <p style={{ margin: `0 0 ${Spacing.S8}` }}>
-              <strong>Summary:</strong> Two-factor authentication will be
-              enforced for{' '}
-              <strong>
-                {enforcedUsers} of {totalUsers} account users
-              </strong>
-              .
+            <p style={{ margin: `0 0 ${Spacing.S16}` }}>
+              <strong>Summary:</strong> 2FA is no longer mandatory for this
+              account.
             </p>
           )}
-          <strong>What happens next:</strong>
-          <ul style={{ margin: `${Spacing.S4} 0 0`, paddingLeft: Spacing.S20 }}>
+          <strong>What happens next?</strong>
+          <ul style={{ margin: `${Spacing.S2} 0 0`, paddingLeft: Spacing.S20 }}>
             {isEnforced ? (
               <>
                 <li>
-                  Users with enforced two-step login who don&apos;t have it yet
-                  configured will receive an email with instructions how to do
-                  it. They will be required to configure it before their next
-                  log in.
+                  <strong>Existing Users:</strong> Newly selected users will
+                  receive an email with setup instructions. They must configure
+                  2FA before they can log in again.
                 </li>
                 <li>
-                  New users added to the account will be required to configure
-                  two-factor authentication by default before their first log
-                  in.
+                  <strong>New Users:</strong> Any new users added to this
+                  account going forward are automatically required to set up 2FA
+                  before their first login.
                 </li>
               </>
             ) : (
               <>
                 <li>
-                  Users who were already enforced to use two-factor
-                  authentication will be able to switch to password-only login.
+                  <strong>Existing Users:</strong> Members who were previously
+                  required to use 2FA can now log in using just their password.
+                  2FA is now optional for them.
                 </li>
                 <li>
-                  For new users added to the account two-factor authentication
-                  will be optional.
+                  <strong>New Users:</strong> 2FA is completely optional for any
+                  new users added to the account going forward.
                 </li>
               </>
             )}
@@ -127,8 +119,8 @@ export const SummarySection = ({ isEnforced, totalUsers }: Props) => {
                 required
               >
                 {isEnforced
-                  ? 'I understand that my changes will be applied immediately and will block selected users from logging in until they configure two-factor authentication.'
-                  : 'I understand that this change will be applied immediately.'}
+                  ? 'I understand that my changes apply immediately upon saving and block newly-selected users from logging in until they configure two-factor authentication.'
+                  : 'I understand that my changes will be applied immediately.'}
               </Checkbox>
               {Boolean(fieldState.error?.message) && (
                 <FormError slot="error" style={{ paddingLeft: Spacing.S32 }}>
@@ -140,7 +132,7 @@ export const SummarySection = ({ isEnforced, totalUsers }: Props) => {
           rules={{
             validate: (value) =>
               value ||
-              'You need to confirm that you understand the impact of applied changes.',
+              'You need to confirm that you understand the impact of these changes.',
           }}
         />
       )}

@@ -225,11 +225,9 @@ describe('TfaEnforcementLanding', () => {
 
     renderComponent();
 
-    expect(screen.getByText('Account Users')).toBeVisible();
-    expect(
-      screen.getByText(/Two-factor authentication will be enforced for/i)
-    ).toBeVisible();
-    expect(screen.getByText(/1 of 3 account users|1 of 3/i)).toBeVisible();
+    expect(screen.getByText('Manage 2FA Users')).toBeVisible();
+    expect(screen.getByText(/2FA will be enforced for/i)).toBeVisible();
+    expect(screen.getByText(/1 of 3/i)).toBeVisible();
   });
 
   it('submits enabled enforcement with current optional users', async () => {
@@ -237,13 +235,10 @@ describe('TfaEnforcementLanding', () => {
 
     await clickEnforcementSwitch();
     await acknowledgeChange(
-      'I understand that my changes will be applied immediately and will block selected users from logging in until they configure two-factor authentication.'
+      'I understand that my changes apply immediately upon saving and block newly-selected users from logging in until they configure two-factor authentication.'
     );
 
-    const submitButton = await getCdsButtonByText(
-      container,
-      'Update Two-Factor Authentication Enforcement'
-    );
+    const submitButton = await getCdsButtonByText(container, 'Save Changes');
     await userEvent.click(submitButton as HTMLButtonElement);
 
     await waitFor(() => {
@@ -259,7 +254,7 @@ describe('TfaEnforcementLanding', () => {
     });
 
     expect(vi.mocked(toast.open)).toHaveBeenCalledWith({
-      text: '2FA enforcement updated successfully.',
+      text: '2FA enforcement updated',
       type: 'success',
     });
     expect(mockNavigate).toHaveBeenCalledWith({ to: '/iam/settings' });
@@ -276,13 +271,10 @@ describe('TfaEnforcementLanding', () => {
 
     await clickEnforcementSwitch();
     await acknowledgeChange(
-      'I understand that this change will be applied immediately.'
+      'I understand that my changes will be applied immediately.'
     );
 
-    const submitButton = await getCdsButtonByText(
-      container,
-      'Update Two-Factor Authentication Enforcement'
-    );
+    const submitButton = await getCdsButtonByText(container, 'Save Changes');
     await userEvent.click(submitButton as HTMLButtonElement);
 
     await waitFor(() => {

@@ -56,11 +56,11 @@ export const TFASection = ({ error, tfaSettings }: Props) => {
           font: Typography.Heading.S,
         }}
       >
-        Two-Factor Authentication Enforcement
+        Enforce Two-Factor Authentication (2FA)
       </h2>
       <p>
-        Two-factor authentication (2FA) enforcement enables you to enforce
-        two-step login for specific or all users of your account.{' '}
+        Secure your account by enforcing two-step login. Choose whether to apply
+        this requirement globally to all users or target specific individuals.{' '}
         <Link to={TFA_ENFORCEMENT_LINK}>Learn more.</Link>
       </p>
       <Box
@@ -68,18 +68,18 @@ export const TFASection = ({ error, tfaSettings }: Props) => {
         style={{
           margin: `${Spacing.S16} 0`,
           alignItems: 'center',
+          flexWrap: 'nowrap',
         }}
       >
         <StatusIcon status={isEnforced ? 'active' : 'inactive'} />
         <p>
           {isEnforced ? (
             <>
-              Enabled. 2FA is enforced for{' '}
-              <strong>{enforcedUsersCount} out of</strong>{' '}
-              <strong>{totalUsers} users</strong> of this account.
+              Enforced. {enforcedUsersCount} of {totalUsers} users are required
+              to use 2FA to log in.
             </>
           ) : (
-            'Disabled. 2FA is optional for users on this account.'
+            'Not enforced. 2FA is optional for all users on this account.'
           )}
         </p>
       </Box>

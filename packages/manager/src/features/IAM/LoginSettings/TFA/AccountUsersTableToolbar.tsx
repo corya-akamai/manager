@@ -13,7 +13,7 @@ import type { SelectOption } from '../../Shared/types';
 import type { TfaEnforcementFormValues } from './TfaEnforcementLanding';
 
 const filterableOptions: SelectOption[] = [
-  { label: 'Unselected first', value: 'unselected' },
+  { label: 'Not selected first', value: 'unselected' },
   { label: 'Selected first', value: 'selected' },
 ];
 
@@ -94,7 +94,7 @@ export const AccountUsersTableToolbar = ({
         <Tooltip
           className={styles.toolbarTooltip}
           tooltipPlacement="bottom"
-          tooltipText="Click to re-apply the sort order with the current selection state."
+          tooltipText="Re-sort the list based on your current selections."
         >
           <Button
             data-pendo-id={IAM_TFA_ENFORCE_PENDO_IDS.refreshSorting}
@@ -104,7 +104,7 @@ export const AccountUsersTableToolbar = ({
             variant="link"
           >
             <Icon icon="reload" size="s" />
-            Refresh sorting
+            Re-sort list
             <Icon icon="info-outline" size="s" />
           </Button>
         </Tooltip>

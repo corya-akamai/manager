@@ -199,7 +199,7 @@ describe('AccountUsersTable', () => {
 
     await userEvent.click(row as HTMLElement);
 
-    expect(screen.getByText('Refresh sorting')).toBeVisible();
+    expect(screen.getByText('Re-sort list')).toBeVisible();
 
     const cdsSelect = container.querySelector('cds-select');
     expect(cdsSelect).toBeTruthy();
@@ -214,7 +214,7 @@ describe('AccountUsersTable', () => {
     });
 
     await waitFor(() => {
-      expect(screen.queryByText('Refresh sorting')).not.toBeInTheDocument();
+      expect(screen.queryByText('Re-sort list')).not.toBeInTheDocument();
     });
   });
 
