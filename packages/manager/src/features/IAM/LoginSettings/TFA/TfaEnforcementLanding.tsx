@@ -72,7 +72,8 @@ export const TfaEnforcementLanding = () => {
   const { mutateAsync: updateOptionalUsers } =
     useUpdateTfaOptionalUsersMutation();
 
-  const { data: tfaOptionalUsers } = useGetTfaOptionalUsersQuery();
+  const { data: tfaOptionalUsers, isLoading: isOptionalUsersLoading } =
+    useGetTfaOptionalUsersQuery();
 
   const { data: allUsers } = useAllAccountUsersQuery(true);
   const allUsernames = React.useMemo(
@@ -130,7 +131,6 @@ export const TfaEnforcementLanding = () => {
         type: 'success',
       });
       reset({ ...getValues(), isAcknowledged: false }, { keepDirty: false });
-      navigate({ to: '/iam/settings' });
     } catch (err) {
       const apiErrors = err as APIError[];
       setError('root', {
@@ -258,10 +258,14 @@ export const TfaEnforcementLanding = () => {
                 Select the users required to log in with 2FA. For all other
                 users, 2FA remains optional.
               </p>
-              <AccountUsersTable
-                tfaOptionalUsers={tfaOptionalUsersOptions}
-                totalUsers={totalUsers}
-              />
+              {isOptionalUsersLoading ? (
+                <CircleProgress />
+              ) : (
+                <AccountUsersTable
+                  tfaOptionalUsers={tfaOptionalUsersOptions}
+                  totalUsers={totalUsers}
+                />
+              )}
             </Paper>
           )}
 

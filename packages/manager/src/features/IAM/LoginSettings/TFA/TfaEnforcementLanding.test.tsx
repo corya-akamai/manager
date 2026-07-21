@@ -257,7 +257,7 @@ describe('TfaEnforcementLanding', () => {
       text: '2FA enforcement updated',
       type: 'success',
     });
-    expect(mockNavigate).toHaveBeenCalledWith({ to: '/iam/settings' });
+    expect(mockNavigate).not.toHaveBeenCalled();
   });
 
   it('submits disabled enforcement with all account users as optional', async () => {

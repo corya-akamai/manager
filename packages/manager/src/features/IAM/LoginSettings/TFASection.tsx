@@ -24,15 +24,16 @@ export const TFASection = ({ error, tfaSettings }: Props) => {
   const navigate = useNavigate();
 
   // TODO: UIE-12176 Replace with the correct permissions once they are available in the API.
-  const { data: permissions, error: permissionsError } = usePermissions(
-    'account',
-    ['is_account_admin']
-  );
+  const {
+    data: permissions,
+    error: permissionsError,
+    isLoading: isPermissionsLoading,
+  } = usePermissions('account', ['is_account_admin']);
 
   const isEnforced = tfaSettings?.tfa_enforced ?? false;
   const { enforcedUsersCount, totalUsers } = useTfaUserCounts(isEnforced);
 
-  if (!permissions?.is_account_admin) {
+  if (!permissions?.is_account_admin && !isPermissionsLoading) {
     return (
       <NotificationBanner
         text="You do not have permission to view 2FA enforcement settings."

@@ -3,7 +3,10 @@ import { resolveMockPreset } from 'src/mocks/mockPreset';
 import { createInitialMockStore, emptyStore } from 'src/mocks/mockState';
 import { allMockPresets, defaultBaselineMockPreset } from 'src/mocks/presets';
 import { dbSeeders } from 'src/mocks/presets/crud/seeds';
-import { setTfaEnforcementData as setTfaEnforcementMockData } from 'src/mocks/presets/extra/account/tfaEnforcement';
+import {
+  defaultTfaEnforcementMockData,
+  setTfaEnforcementData as setTfaEnforcementMockData,
+} from 'src/mocks/presets/extra/account/tfaEnforcement';
 
 import {
   getBaselinePreset,
@@ -107,10 +110,7 @@ export async function loadDevTools() {
 
     if (extraMswPresetIds.includes('account:tfa-enforcement')) {
       setTfaEnforcementMockData(
-        getTfaEnforcementData() ?? {
-          tfaEnforced: true,
-          tfaOptionalUsers: [],
-        }
+        getTfaEnforcementData() ?? defaultTfaEnforcementMockData
       );
     }
 

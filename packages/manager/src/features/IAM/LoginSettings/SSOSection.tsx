@@ -30,7 +30,7 @@ interface Props {
 export const SSOSection = ({ error, idpConfigs }: Props) => {
   const navigate = useNavigate();
 
-  const { data: permissions, error: permissionsError } = usePermissions(
+  const { data: permissions, error: permissionsError, isLoading: isPermissionsLoading } = usePermissions(
     'account',
     ['view_idp_config']
   );
@@ -62,7 +62,7 @@ export const SSOSection = ({ error, idpConfigs }: Props) => {
   const hasCertExpiredError =
     idpConfig?.enabled && expiredCount > 0 && activeCertificatesCount === 0;
 
-  if (!permissions?.view_idp_config) {
+  if (!permissions?.view_idp_config && !isPermissionsLoading) {
     return (
       <NotificationBanner
         text="You do not have permission to view IDP configurations."

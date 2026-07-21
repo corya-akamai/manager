@@ -252,6 +252,9 @@ export const tfaOptionalUsersSeeder: MockSeeder = {
 
     const current = getTfaEnforcementData();
     saveTfaEnforcementData({
+      profileSecurityQuestionsConfigured:
+        current?.profileSecurityQuestionsConfigured ?? false,
+      profileTwoFactorAuth: current?.profileTwoFactorAuth ?? false,
       tfaEnforced: current?.tfaEnforced ?? true,
       tfaOptionalUsers: optionalUsernames,
     });
