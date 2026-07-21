@@ -32,6 +32,7 @@ export const AlertsEngineTypeFilter = React.memo(
       <Autocomplete
         autoHighlight
         clearOnBlur
+        data-pendo-id="monitor-alerts-entity-details-Engine"
         label="Database Engine"
         onChange={(e, engineOption) =>
           handleSelection(engineOption?.id, 'engineType')
