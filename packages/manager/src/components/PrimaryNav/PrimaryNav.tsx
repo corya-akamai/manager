@@ -21,7 +21,7 @@ import {
 } from 'src/components/PrimaryNav/constants';
 import { useIsACLPEnabled } from 'src/features/CloudPulse/Utils/utils';
 import { useIsDatabasesEnabled } from 'src/features/Databases/utilities';
-import { useIsACLPLogsNew } from 'src/features/Delivery/deliveryUtils';
+import { useACLPLogsFlags } from 'src/features/Delivery/deliveryUtils';
 import { useIsIAMEnabled } from 'src/features/IAM/hooks/useIsIAMEnabled';
 import { useIsInferencePlatformEnabled } from 'src/features/InferencePlatform/utils';
 import { useIsMarketplaceV2Enabled } from 'src/features/Marketplace/shared';
@@ -131,7 +131,7 @@ export const PrimaryNav = (props: PrimaryNavProps) => {
   const isManaged = accountSettings?.managed ?? false;
 
   const { isACLPEnabled } = useIsACLPEnabled();
-  const isACLPLogsNew = useIsACLPLogsNew();
+  const { isACLPLogsNew } = useACLPLogsFlags();
 
   const isAlertsEnabled =
     isACLPEnabled &&

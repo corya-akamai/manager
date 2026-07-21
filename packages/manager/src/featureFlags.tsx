@@ -145,19 +145,11 @@ interface AclpFlagPerServiceType extends Pick<AclpFlag, 'beta' | 'enabled'> {
   defaultPreset?: string;
 }
 
-interface AclpLogsFlag extends BetaFeatureFlag {
+interface AclpLogsFlag {
   /**
-   * This property indicates whether to bypass account capabilities check or not
+   * This property indicates whether Custom HTTPS destination allows bearer authorization type
    */
-  bypassAccountCapabilities?: boolean;
-  /**
-   * This property indicates whether to show Custom HTTPS destination type
-   */
-  customHttpsEnabled?: boolean;
-  /**
-   * This property indicates whether to show the "Metrics" tab on Logs Stream details page or not
-   */
-  metricsEnabled?: boolean;
+  bearerTokenAuthEnabled?: boolean;
   /**
    * This property indicates whether the feature is new or not
    */

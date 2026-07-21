@@ -9,6 +9,7 @@ import { accountFactory } from 'src/factories';
 import {
   fillOutAkamaiObjectStorageDestinationFields,
   mockObjectStorageBuckets,
+  mockScrollIntoView,
 } from 'src/features/Delivery/Shared/testHelpers';
 import { http, HttpResponse, server } from 'src/mocks/testServer';
 import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';
@@ -16,6 +17,7 @@ import { renderWithThemeAndHookFormContext } from 'src/utilities/testHelpers';
 import { DestinationCreate } from './DestinationCreate';
 
 import type { CreateDestinationPayload } from '@linode/api-v4';
+import type { Flags } from 'src/featureFlags';
 
 const queryMocks = vi.hoisted(() => ({
   useObjectStorageBuckets: vi.fn().mockReturnValue({
@@ -40,6 +42,8 @@ const createDestinationButtonText = 'Create Destination';
 
 describe('DestinationCreate', () => {
   beforeEach(() => {
+    mockScrollIntoView();
+
     queryMocks.useObjectStorageBuckets.mockReturnValue({
       data: mockObjectStorageBuckets,
       error: null,
@@ -49,6 +53,7 @@ describe('DestinationCreate', () => {
   });
 
   const renderDestinationCreate = (
+    flags?: Partial<Flags>,
     defaultValues?: Partial<CreateDestinationPayload>
   ) => {
     renderWithThemeAndHookFormContext({
@@ -59,6 +64,7 @@ describe('DestinationCreate', () => {
           ...defaultValues,
         },
       },
+      options: { flags },
     });
   };
 
@@ -340,6 +346,112 @@ describe('DestinationCreate', () => {
       });
 
       expect(createDestinationButton).toBeDisabled();
+    });
+
+    it('should not have available Bearer Token authorization', async () => {
+      renderDestinationCreate();
+      await selectCustomHttpsDestinationType();
+
+      const authenticationAutocomplete = screen.getByLabelText(
+        'Authentication Type'
+      );
+      await user.click(authenticationAutocomplete);
+
+      expect(screen.queryByText('Bearer Token')).not.toBeInTheDocument();
+    });
+
+    describe('and bearerTokenAuthEnabled feature flag is set to true', () => {
+      const flags = {
+        aclpLogs: {
+          bearerTokenAuthEnabled: true,
+        },
+      };
+      let authenticationAutocomplete: HTMLElement;
+      let testConnectionButton: HTMLElement;
+      let createDestinationButton: HTMLElement;
+
+      beforeEach(async () => {
+        renderDestinationCreate(flags);
+        await selectCustomHttpsDestinationType();
+
+        authenticationAutocomplete = screen.getByLabelText(
+          'Authentication Type'
+        );
+        testConnectionButton = screen.getByRole('button', {
+          name: testConnectionButtonText,
+        });
+        createDestinationButton = screen.getByRole('button', {
+          name: createDestinationButtonText,
+        });
+      });
+
+      it('should render Authentication autocomplete with None selected and allow to select Bearer Token', async () => {
+        expect(authenticationAutocomplete).toHaveValue('None');
+
+        await user.click(authenticationAutocomplete);
+        const bearerTokenAuthentication =
+          await screen.findByText('Bearer Token');
+        await user.click(bearerTokenAuthentication);
+
+        expect(authenticationAutocomplete).toHaveValue('Bearer Token');
+      });
+
+      describe('and Bearer Token authorization is set', () => {
+        beforeEach(async () => {
+          await user.click(authenticationAutocomplete);
+          const bearerTokenAuthentication =
+            await screen.findByText('Bearer Token');
+          await user.click(bearerTokenAuthentication);
+        });
+
+        it('should render Bearer Token input and allow to type text and validate as required', async () => {
+          expect(createDestinationButton).toBeDisabled();
+
+          await user.click(testConnectionButton);
+
+          expect(
+            await screen.findByText(
+              'Bearer Token is required for Bearer Token authentication.'
+            )
+          ).toBeInTheDocument();
+
+          const bearerTokenInput = screen.getByLabelText('Bearer Token');
+          await user.type(bearerTokenInput, 'exampleTokenString');
+
+          expect(bearerTokenInput).toHaveValue('exampleTokenString');
+
+          await user.click(testConnectionButton);
+
+          expect(
+            await screen.queryByText(
+              'Bearer Token is required for Bearer Token authentication.'
+            )
+          ).not.toBeInTheDocument();
+        });
+
+        it('should render Header Name input and allow to type text', async () => {
+          const headerNameInput = screen.getByLabelText(
+            'Header Name (optional)'
+          );
+          await user.type(headerNameInput, 'X-Auth');
+
+          expect(headerNameInput).toHaveAttribute(
+            'placeholder',
+            'Authorization'
+          );
+          expect(headerNameInput).toHaveValue('X-Auth');
+        });
+
+        it('should render Token Prefix input and allow to type text', async () => {
+          const tokenPrefixInput = screen.getByLabelText(
+            'Token Prefix (optional)'
+          );
+          await user.type(tokenPrefixInput, 'testBearer');
+
+          expect(tokenPrefixInput).toHaveAttribute('placeholder', 'Bearer');
+          expect(tokenPrefixInput).toHaveValue('testBearer');
+        });
+      });
     });
   });
 });
