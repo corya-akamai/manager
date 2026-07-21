@@ -171,6 +171,7 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
               defaultValue={preferences?.[TIME_DURATION]}
               handleStatsChange={handleTimeRangeChange}
               savePreferences={!isImpersonatedUser} // no need to save preferences impersonated user, as it is disabled
+              serviceType={selectedDashboard?.service_type}
             />
 
             <CloudPulseTooltip placement="bottom-end" title="Refresh">

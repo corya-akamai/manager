@@ -138,6 +138,13 @@ interface AclpFlag {
   showWidgetDimensionFilters?: boolean;
 }
 
+interface AclpFlagPerServiceType extends Pick<AclpFlag, 'beta' | 'enabled'> {
+  /**
+   * The optional default time duration preset for the service type, e.g., last 7 days, last 30 minutes, etc.
+   */
+  defaultPreset?: string;
+}
+
 interface AclpLogsFlag extends BetaFeatureFlag {
   /**
    * This property indicates whether to bypass account capabilities check or not
@@ -490,8 +497,8 @@ export interface AclpAlertServiceTypeConfig {
 
 export type AclpServices = {
   [serviceType in CloudPulseServiceType]: {
-    alerts?: AclpFlag;
-    metrics?: AclpFlag;
+    alerts?: AclpFlagPerServiceType;
+    metrics?: AclpFlagPerServiceType;
   };
 };
 
