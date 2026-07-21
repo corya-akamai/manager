@@ -1,9 +1,7 @@
-import { Notice, Typography } from '@linode/ui';
+import { NotificationBanner } from '@akamai/cds-components/react';
 import { useOpenClose } from '@linode/utilities';
 import * as React from 'react';
-import { makeStyles } from 'tss-react/mui';
 
-import { Link } from 'src/components/Link';
 import { TypeToConfirmDialog } from 'src/components/TypeToConfirmDialog/TypeToConfirmDialog';
 import { useDeleteBucketMutation } from 'src/queries/object-storage/queries';
 import {
@@ -11,17 +9,11 @@ import {
   sendDeleteBucketFailedEvent,
 } from 'src/utilities/analytics/customEventAnalytics';
 
+import { Link } from '../../shared/components/Link/Link';
 import { CancelNotice } from '../../shared/components/Notice/CancelNotice';
 import { useObjectStorageBuckets } from '../hooks/useObjectStorageBuckets';
 
 import type { APIError, ObjectStorageBucket } from '@linode/api-v4';
-import type { Theme } from '@mui/material/styles';
-
-const useStyles = makeStyles()((theme: Theme) => ({
-  copy: {
-    marginTop: theme.spacing(),
-  },
-}));
 
 export interface BucketDeletionDialogRef {
   close: () => void;
@@ -32,7 +24,6 @@ export const BucketDeletionDialogWithRef =
   React.forwardRef<BucketDeletionDialogRef>((_, ref) => {
     const { data: allBuckets } = useObjectStorageBuckets();
 
-    const { classes } = useStyles();
     const removeBucketConfirmationDialog = useOpenClose();
     const {
       mutate: deleteBucket,
@@ -99,15 +90,17 @@ export const BucketDeletionDialogWithRef =
         onClose={close}
         open={removeBucketConfirmationDialog.isOpen}
         title={`Delete Bucket ${bucketLabel}`}
-        typographyStyle={{ marginTop: '20px' }}
+        typographyStyle={{ marginTop: 'var(--token-global-spacing-s20)' }}
       >
-        <Notice variant="warning">
-          <Typography style={{ fontSize: '0.875rem' }}>
-            <strong>Warning:</strong> Deleting a bucket is permanent and
-            can&rsquo;t be undone.
-          </Typography>
-        </Notice>
-        <Typography className={classes.copy}>
+        <NotificationBanner
+          style={{ marginBottom: 'var(--token-global-spacing-s24)' }}
+          type="warning"
+        >
+          <strong>Warning:</strong> Deleting a bucket is permanent and
+          can&rsquo;t be undone.
+        </NotificationBanner>
+
+        <p style={{ marginBottom: 'var(--token-global-spacing-s8)' }}>
           A bucket must be empty before deleting it. Please{' '}
           <Link to="https://techdocs.akamai.com/cloud-computing/docs/lifecycle-policies">
             delete all objects
@@ -117,8 +110,9 @@ export const BucketDeletionDialogWithRef =
             another tool
           </Link>{' '}
           to force deletion.
-        </Typography>
-        {allBuckets?.length === 1 && <CancelNotice className={classes.copy} />}
+        </p>
+
+        {allBuckets?.length === 1 && <CancelNotice />}
       </TypeToConfirmDialog>
     );
   });
