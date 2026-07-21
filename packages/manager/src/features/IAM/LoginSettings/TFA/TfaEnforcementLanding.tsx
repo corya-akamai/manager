@@ -15,7 +15,7 @@ import {
   useUpdateTfaEnforcementAccountSettingsMutation,
   useUpdateTfaOptionalUsersMutation,
 } from '@linode/queries';
-import { useNavigate } from '@tanstack/react-router';
+import { useBlocker, useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
@@ -27,6 +27,7 @@ import { useTfaUserCounts } from '../../hooks/useTfaUserCounts';
 import { Box } from '../../Shared/Box/Box';
 import { CircleProgress } from '../../Shared/CircleProgress/CircleProgress';
 import { IAM_LABEL, TFA_ENFORCEMENT_LINK } from '../../Shared/constants';
+import { DiscardChangesModal } from '../../Shared/DiscardChangesModal/DiscardChangesModal';
 import { DocsLink } from '../../Shared/DocsLink/DocsLink';
 import { DocumentTitleSegment } from '../../Shared/DocumentTitleSegment/DocumentTitleSegment';
 import { ErrorState } from '../../Shared/ErrorState/ErrorState';
@@ -138,6 +139,30 @@ export const TfaEnforcementLanding = () => {
     }
   };
 
+  const hasUnsavedChanges = isDirty;
+
+  const {
+    proceed,
+    reset: resetBlocker,
+    status,
+  } = useBlocker({
+    enableBeforeUnload: hasUnsavedChanges,
+    shouldBlockFn: () => hasUnsavedChanges,
+    withResolver: true,
+  });
+
+  const handleProceedNavigation = React.useCallback(() => {
+    if (status === 'blocked' && proceed) {
+      proceed();
+    }
+  }, [status, proceed]);
+
+  const handleCancelNavigation = React.useCallback(() => {
+    if (status === 'blocked' && resetBlocker) {
+      resetBlocker();
+    }
+  }, [status, resetBlocker]);
+
   if (isLoading) {
     return <CircleProgress />;
   }
@@ -182,6 +207,12 @@ export const TfaEnforcementLanding = () => {
         />
       )}
       <FormProvider {...form}>
+        <DiscardChangesModal
+          onClose={handleCancelNavigation}
+          onDiscard={handleProceedNavigation}
+          open={status === 'blocked'}
+        />
+
         <form
           onSubmit={handleSubmit(onSubmit)}
           style={{
