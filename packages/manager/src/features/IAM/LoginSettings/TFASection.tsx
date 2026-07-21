@@ -6,7 +6,7 @@ import * as React from 'react';
 import { usePermissions } from '../hooks/usePermissions';
 import { useTfaUserCounts } from '../hooks/useTfaUserCounts';
 import { Box } from '../Shared/Box/Box';
-import { TFA_ENFORCEMENT_LINK } from '../Shared/constants';
+import { TFA_ENFORCEMENT_LEARN_MORE_LINK } from '../Shared/constants';
 import { ErrorState } from '../Shared/ErrorState/ErrorState';
 import { Link } from '../Shared/Link/Link';
 import { Paper } from '../Shared/Paper/Paper';
@@ -61,7 +61,7 @@ export const TFASection = ({ error, tfaSettings }: Props) => {
       <p>
         Secure your account by enforcing two-step login. Choose whether to apply
         this requirement globally to all users or target specific individuals.{' '}
-        <Link to={TFA_ENFORCEMENT_LINK}>Learn more.</Link>
+        <Link to={TFA_ENFORCEMENT_LEARN_MORE_LINK}>Learn more.</Link>
       </p>
       <Box
         direction="row"

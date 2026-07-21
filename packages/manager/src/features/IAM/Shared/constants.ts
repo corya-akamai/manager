@@ -103,9 +103,11 @@ export const USER_ENTITIES_LINK =
 export const SSO_ENFORCEMENT_LINK =
   'https://techdocs.akamai.com/cloud-computing/v1_sk/docs/sso-cm-configuration';
 
-// TODO: Update this link to point to the correct 2FA documentation once it is available
 export const TFA_ENFORCEMENT_LINK =
-  'https://techdocs.akamai.com/cloud-computing/v1_sk/docs/sso-cm-configuration';
+  'https://techdocs.akamai.com/cloud-computing/docs/two-factor-authentication-for-akamai-cloud';
+
+export const TFA_ENFORCEMENT_LEARN_MORE_LINK =
+  'https://techdocs.akamai.com/cloud-computing/docs/enforce-two-factor-authentication';
 
 export const SSO_DOCS_LINK =
   'https://techdocs.akamai.com/cloud-computing/docs/single-sign-on-cm';

@@ -72,7 +72,10 @@ export const IdentityAccessLanding = React.memo(() => {
   }
 
   const DOCS_LINK_MAP: [string, string][] = [
-    ['/iam/settings', SSO_DOCS_LINK],
+    [
+      '/iam/settings',
+      isIAMTfaEnforcementEnabled ? IAM_DOCS_LINK : SSO_DOCS_LINK,
+    ],
     ['/iam/delegations', PARENT_CHILD_IAM_LINK],
     ['/iam/roles', ROLES_LEARN_MORE_LINK],
   ];
