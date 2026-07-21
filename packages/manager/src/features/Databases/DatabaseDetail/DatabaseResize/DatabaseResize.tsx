@@ -546,7 +546,7 @@ export const DatabaseResize = () => {
           {isTypeToConfirmEnabled ? (
             <>
               <p>
-                To confirm deletion, type the name of the Database Cluster{' '}
+                To confirm resizing, type the name of the Database Cluster{' '}
                 <strong>({database.label})</strong> in the field below:
               </p>
               <FormField>
