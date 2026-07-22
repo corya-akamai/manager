@@ -1,8 +1,6 @@
 ## [2026-07-29] - v0.163.0
 
 
-### :
-
 ### Added:
 
 - Nodebalancer Tier and Backend Connectivity types ([#479](https://git.source.akamai.com/projects/FEE/repos/cloud-manager/pull-requests/479))
