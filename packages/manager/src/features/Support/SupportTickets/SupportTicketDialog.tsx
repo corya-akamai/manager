@@ -19,7 +19,10 @@ import type { JSX } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { debounce } from 'throttle-debounce';
 
-import { teardownLiveChat } from 'src/hooks/useLiveChatBootstrap';
+import {
+  reinitializeLiveChat,
+  teardownLiveChat,
+} from 'src/hooks/useLiveChatBootstrap';
 import { sendSupportTicketExitEvent } from 'src/utilities/analytics/customEventAnalytics';
 import { storage, supportTicketStorageDefaults } from 'src/utilities/storage';
 
@@ -97,6 +100,8 @@ const isErrorWithOptionalResponseStatus = (
 
 const LIVE_CHAT_TICKET_FALLBACK_MESSAGE =
   'Live chat is not available right now. Please open a support ticket instead.';
+
+let hasLiveChatFailedThisSession = false;
 
 export type EntityType =
   | 'bucket'
@@ -259,10 +264,11 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
     ticketType,
   } = form.watch();
 
-  const [liveChatFailed, setLiveChatFailed] = React.useState(false);
+  const [liveChatFailed, setLiveChatFailed] = React.useState(
+    hasLiveChatFailedThisSession
+  );
   const [showChatTimeoutWarning, setShowChatTimeoutWarning] =
     React.useState(false);
-  const [switchedToTicket, setSwitchedToTicket] = React.useState(false);
 
   const isAccountBillingTopic =
     entityType === SUPPORT_TOPIC_GENERAL &&
@@ -285,10 +291,16 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
 
   const [submitting, setSubmitting] = React.useState<boolean>(false);
   const liveChatCleanupRef = React.useRef<(() => void) | null>(null);
+  const liveChatInitializingRef = React.useRef(false);
+  const liveChatAbortedRef = React.useRef(false);
 
   // Clean up pending live chat listeners/timeouts if the dialog unmounts.
   React.useEffect(() => {
     return () => {
+      liveChatAbortedRef.current = true;
+      if (liveChatInitializingRef.current) {
+        teardownLiveChat();
+      }
       liveChatCleanupRef.current?.();
       liveChatCleanupRef.current = null;
     };
@@ -296,14 +308,24 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
 
   React.useEffect(() => {
     if (!open) {
+      if (liveChatInitializingRef.current) {
+        liveChatAbortedRef.current = true;
+        teardownLiveChat();
+      }
       // Abort any in-flight live chat wait so a stale outcome can't fire after close.
       liveChatCleanupRef.current?.();
-      setLiveChatFailed(false);
-      setSwitchedToTicket(false);
       setShowChatTimeoutWarning(false);
       resetDialog();
     }
   }, [open]);
+
+  // Persist a live chat failure for the rest of the page session so the user
+  // can't reattempt live chat after one failure, even after reopening the dialog.
+  React.useEffect(() => {
+    if (liveChatFailed) {
+      hasLiveChatFailedThisSession = true;
+    }
+  }, [liveChatFailed]);
 
   React.useEffect(() => {
     if (open && liveChatEnabled) {
@@ -401,11 +423,16 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
       return;
     }
 
+    liveChatInitializingRef.current = true;
+    liveChatAbortedRef.current = false;
+    reinitializeLiveChat();
+
     setSubmitting(true);
     setShowChatTimeoutWarning(false);
     form.clearErrors('root');
 
     const { data: isAvailableNow } = await refetchAvailability();
+
     if (isAvailableNow !== true) {
       setLiveChatFailed(true);
       form.setError('root', { message: LIVE_CHAT_TICKET_FALLBACK_MESSAGE });
@@ -415,6 +442,10 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
 
     try {
       const { chat_token } = await getLiveChatToken();
+
+      if (liveChatAbortedRef.current) {
+        return;
+      }
 
       if (!chat_token) {
         form.setError('root', {
@@ -486,15 +517,7 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
       }
 
       if (liveChatOutcome === 'failed') {
-        form.setError('root', {
-          message: 'Unable to start live chat. Please try again.',
-        });
-        return;
-      }
-
-      if (liveChatOutcome === 'timeout') {
         teardownLiveChat();
-        setSwitchedToTicket(true);
         setLiveChatFailed(true);
         form.setError('root', {
           message: LIVE_CHAT_TICKET_FALLBACK_MESSAGE,
@@ -502,6 +525,16 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
         return;
       }
 
+      if (liveChatOutcome === 'timeout') {
+        teardownLiveChat();
+        setLiveChatFailed(true);
+        form.setError('root', {
+          message: LIVE_CHAT_TICKET_FALLBACK_MESSAGE,
+        });
+        return;
+      }
+
+      liveChatInitializingRef.current = false;
       props.onClose();
       window.setTimeout(() => resetDialog(true), 500);
     } catch (err: unknown) {
@@ -511,11 +544,13 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
       if (status === 500) {
         setLiveChatFailed(true);
       } else {
+        setLiveChatFailed(true);
         form.setError('root', {
-          message: 'Unable to start live chat. Please try again.',
+          message: LIVE_CHAT_TICKET_FALLBACK_MESSAGE,
         });
       }
     } finally {
+      liveChatInitializingRef.current = false;
       setShowChatTimeoutWarning(false);
       setSubmitting(false);
     }
@@ -524,7 +559,6 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
   const handleSwitchToTicket = () => {
     teardownLiveChat();
     liveChatCleanupRef.current?.();
-    setSwitchedToTicket(true);
     setLiveChatFailed(true);
     setShowChatTimeoutWarning(false);
     setSubmitting(false);
@@ -766,13 +800,6 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
           )}
           {(!ticketType || ticketType === 'general') && (
             <>
-              {showLiveChatFallbackWarning && !switchedToTicket && (
-                <Notice
-                  spacingTop={16}
-                  text="Live Chat is not available at this time. Please open a support ticket below."
-                  variant="info"
-                />
-              )}
               {props.hideProductSelection ? null : (
                 <SupportTicketProductSelectionFields
                   liveChat={isLiveChatAvailable}
@@ -816,16 +843,21 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
                   variant="info"
                 />
               )}
-              {form.formState.errors.root && !showLiveChatFallbackWarning && (
+              {(form.formState.errors.root ||
+                (showLiveChatFallbackWarning && isAccountBillingTopic)) && (
                 <Notice
                   data-qa-notice
                   spacingTop={16}
-                  text={form.formState.errors.root.message}
-                  variant={
-                    form.formState.errors.root.message ===
+                  text={
+                    form.formState.errors.root?.message ??
                     LIVE_CHAT_TICKET_FALLBACK_MESSAGE
-                      ? 'info'
-                      : 'error'
+                  }
+                  variant={
+                    form.formState.errors.root &&
+                    form.formState.errors.root.message !==
+                      LIVE_CHAT_TICKET_FALLBACK_MESSAGE
+                      ? 'error'
+                      : 'info'
                   }
                 />
               )}
