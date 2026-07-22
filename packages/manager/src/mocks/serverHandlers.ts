@@ -365,6 +365,8 @@ const databases = [
       return databaseInstanceFactory.build({
         id,
         label: `databases-instance-${id}`,
+        engine: id === 1 ? 'mysql' : id <= 3 ? 'valkey' : 'postgresql',
+        region: 'ap-west',
       });
     });
     return HttpResponse.json(makeResourcePage(databases));

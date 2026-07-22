@@ -12,6 +12,10 @@ const engineOptions: EngineType[] = [
     id: 'postgresql',
     label: 'PostgreSQL',
   },
+  {
+    id: 'valkey',
+    label: 'Valkey',
+  },
 ];
 
 export interface AlertsEngineOptionProps {
