@@ -80,7 +80,7 @@ export const TFASection = ({ error, tfaSettings }: Props) => {
               to use 2FA to log in.
             </>
           ) : (
-            'Not enforced. 2FA is optional for all users on this account.'
+            'Not enforced. 2FA is optional for all users in this account.'
           )}
         </p>
       </Box>
