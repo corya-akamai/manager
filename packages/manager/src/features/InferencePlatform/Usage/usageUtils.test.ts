@@ -186,6 +186,28 @@ describe('usageUtils', () => {
       // Date should be in DD/MM/YYYY format (en-GB locale)
       expect(firstValue.date).toMatch(/^\d{2}\/\d{2}\/\d{4}$/);
     });
+
+    it('keeps time labels unique by including the date across multiple days', () => {
+      // Buckets at the same clock time on different days would otherwise
+      // collapse to a single "HH:MM" X-axis category and stack every bar.
+      const multiDayData = createUsageData(
+        [MODEL_1],
+        ['2026-06-21T00:00:00Z', '2026-06-22T00:00:00Z', '2026-06-23T00:00:00Z']
+      );
+
+      const values = transformAllUsageData(multiDayData).total.series[0].values;
+
+      // For multi-day ranges, time includes the date (DD/MM\nHH:MM) for unique bucketing.
+      // xAxisDate is also set for rendering the two-line X-axis tick.
+      values.forEach((v) => {
+        expect(v.time).toMatch(/^\d{2}\/\d{2}\n\d{2}:\d{2}$/);
+        expect(v.xAxisDate).toMatch(/^\d{2}\/\d{2}$/);
+      });
+
+      // Every bucket must map to a distinct X-axis category via the time field.
+      const times = values.map((v) => v.time);
+      expect(new Set(times).size).toBe(values.length);
+    });
   });
 
   describe('transformApiDataToChartPayload', () => {

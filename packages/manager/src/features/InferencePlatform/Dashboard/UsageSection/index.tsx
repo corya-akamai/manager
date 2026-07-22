@@ -104,7 +104,7 @@ export const UsageSection = () => {
 
         {useMockAnimation ? (
           <DynamicChartUpdate
-            barWidth={16}
+            barWidth={13}
             chartComponent={StackedBarChart}
             data={transformedData}
             selectedSeriesId={selectedSeriesId.value}
@@ -114,7 +114,7 @@ export const UsageSection = () => {
           />
         ) : (
           <StackedBarChart
-            barWidth={16}
+            barWidth={13}
             data={filterChartPayloadBySeries(
               transformedData,
               selectedSeriesId.value

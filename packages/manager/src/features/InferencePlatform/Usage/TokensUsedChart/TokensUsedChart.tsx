@@ -55,7 +55,7 @@ export const TokensUsedChart = ({
   // Otherwise, use DynamicChartUpdate to manage the interval
   const chart = externalChartData ? (
     <StackedBarChart
-      barWidth={14}
+      barWidth={11}
       data={filteredChartData}
       height={160}
       isLoading={isLoading}
@@ -66,7 +66,7 @@ export const TokensUsedChart = ({
     />
   ) : (
     <DynamicChartUpdate
-      barWidth={14}
+      barWidth={11}
       chartComponent={StackedBarChart}
       data={filteredChartData}
       height={160}

@@ -21,6 +21,7 @@ export type DataPoint = {
   date?: string;
   time: string;
   value: number;
+  xAxisDate?: string;
 };
 
 export type DataSeries = {
@@ -58,6 +59,7 @@ export type StackedBarChartProps = {
   tooltipTitle?: string;
   valueFormatter?: (value: number) => string;
   xAxisColor?: string;
+  xAxisDateFontSize?: number;
   xAxisFontSize?: number;
   xAxisInterval?: number;
   xAxisLabelColor?: string;
@@ -161,11 +163,12 @@ const noDataFadeIn = keyframes`
 
 export const StackedBarChart = ({
   xAxisColor, // Color override  for the X-axis line. CSS color string.
-  xAxisFontSize = 14, // Font size of X-axis tick labels. Unit: px. Default: 14.
+  xAxisDateFontSize, // Font size for the date sub-label below each X-axis tick. Unit: px. Default: xAxisFontSize - 2.
+  xAxisFontSize = 12, // Font size of X-axis tick labels. Unit: px. Default: 12.
   xAxisInterval = 1, // Interval for X-axis tick labels (e.g., 2 shows every 2nd label). Default: 1.
   xAxisLabelColor, // Color override for X-axis tick labels. CSS color string.
   yAxisColor, // Color override  for the Y-axis line. CSS color string.
-  yAxisFontSize = 14, // Font size of Y-axis tick labels. Unit: px. Default: 14.
+  yAxisFontSize = 12, // Font size of Y-axis tick labels. Unit: px. Default: 12.
   yAxisLabelColor, // Color override  for Y-axis tick labels. CSS color string.
   barAnimationDuration = 400, // Bar entrance/update animation duration in ms. Unit: ms. Default: 400.
   barHighlightColor, // Color override for the hover highlight rectangle. CSS color string. Takes precedence over barHoverColor.
@@ -215,6 +218,8 @@ export const StackedBarChart = ({
   const resolvedLegendTextColor =
     legendTextColor ?? cmTheme.palette.text.secondary;
   const resolvedXAxisColor = xAxisColor ?? cmTheme.tokens.alias.Border.Neutral;
+  const resolvedXAxisDateFontSize =
+    xAxisDateFontSize ?? Math.max(8, xAxisFontSize - 2);
   const resolvedXAxisLabelColor =
     xAxisLabelColor ?? cmTheme.palette.text.secondary;
   const resolvedYAxisColor = yAxisColor ?? cmTheme.tokens.alias.Border.Neutral;
@@ -243,23 +248,51 @@ export const StackedBarChart = ({
   }, [data, seriesColorIndices]);
 
   const chartData = React.useMemo(() => {
-    const pointCount = Math.max(
-      ...keyedSeries.map((item) => item.values.length),
-      0
+    // Build a per-series value lookup keyed by the time label so that rows are
+    // aligned by timestamp rather than by position. This correctly handles
+    // sparse data where different series may be missing buckets at certain
+    // times (the missing value defaults to 0).
+    const lookupByKey = new Map(
+      keyedSeries.map((s) => [
+        s.dataKey,
+        new Map(s.values.map((v) => [v.time, v.value])),
+      ])
     );
 
-    return Array.from({ length: pointCount }, (_, index) => {
-      const referencePoint = keyedSeries[0]?.values[index];
-      const pointTime = referencePoint?.time ?? '';
-      const pointDate = referencePoint?.date;
-      const tooltipLabel = pointDate ? `${pointDate} ${pointTime}` : pointTime;
-      const row: { [key: string]: number | string } = {
-        time: pointTime,
-        tooltipLabel,
-      };
+    // Collect the ordered union of time labels across all series. Each series
+    // is already sorted chronologically, so iterating them in order and
+    // appending only new time labels preserves correct chronological ordering.
+    const seenTimes = new Set<string>();
+    const orderedPoints: Array<{
+      date?: string;
+      time: string;
+      xAxisDate?: string;
+    }> = [];
 
-      keyedSeries.forEach((item) => {
-        row[item.dataKey] = item.values[index]?.value ?? 0;
+    for (const series of keyedSeries) {
+      for (const point of series.values) {
+        if (!seenTimes.has(point.time)) {
+          seenTimes.add(point.time);
+          orderedPoints.push({
+            date: point.date,
+            time: point.time,
+            xAxisDate: point.xAxisDate,
+          });
+        }
+      }
+    }
+
+    return orderedPoints.map(({ date, time, xAxisDate }) => {
+      // Extract just the clock time if time contains "DD/MM\nHH:MM" format
+      const clockTime = time.includes('\n') ? time.split('\n')[1] : time;
+      const tooltipLabel = date ? `${date} ${clockTime}` : clockTime;
+      const row: { [key: string]: number | string } = { time, tooltipLabel };
+      if (xAxisDate) {
+        row.xAxisDate = xAxisDate;
+      }
+
+      keyedSeries.forEach((series) => {
+        row[series.dataKey] = lookupByKey.get(series.dataKey)?.get(time) ?? 0;
       });
 
       return row;
@@ -330,6 +363,77 @@ export const StackedBarChart = ({
 
     return Math.max(baseInterval, widthBasedInterval);
   }, [displayChartData.length, chartWidth, xAxisInterval]);
+
+  const hasXAxisDates = React.useMemo(
+    () =>
+      displayChartData.some(
+        (row) => typeof row.xAxisDate === 'string' && row.xAxisDate !== ''
+      ),
+    [displayChartData]
+  );
+
+  const xAxisHeight = hasXAxisDates
+    ? xAxisFontSize + resolvedXAxisDateFontSize + 18
+    : undefined;
+
+  const XAxisTick = React.useCallback(
+    (props: {
+      index?: number;
+      payload?: { value: string };
+      x?: number | string;
+      y?: number | string;
+    }) => {
+      const { payload, index } = props;
+      const x = Number(props.x ?? 0);
+      const y = Number(props.y ?? 0);
+      const showLabel =
+        index !== undefined && index % effectiveXAxisInterval === 0;
+      // The time field may contain "DD/MM\nHH:MM" for multi-day ranges - extract just the clock time
+      const rawTime = payload?.value ?? '';
+      const timeLabel = showLabel
+        ? rawTime.includes('\n')
+          ? rawTime.split('\n')[1]
+          : rawTime
+        : '';
+      const row = index !== undefined ? displayChartData[index] : undefined;
+      const xAxisDateLabel =
+        showLabel && row && typeof row.xAxisDate === 'string'
+          ? row.xAxisDate
+          : '';
+
+      return (
+        <g transform={`translate(${x},${y})`}>
+          {showLabel && (
+            <text
+              dy={xAxisFontSize}
+              fill={xAxisTickColor}
+              fontSize={xAxisFontSize}
+              textAnchor="middle"
+            >
+              {timeLabel}
+            </text>
+          )}
+          {xAxisDateLabel && (
+            <text
+              dy={xAxisFontSize + 4 + resolvedXAxisDateFontSize}
+              fill={xAxisTickColor}
+              fontSize={resolvedXAxisDateFontSize}
+              textAnchor="middle"
+            >
+              {xAxisDateLabel}
+            </text>
+          )}
+        </g>
+      );
+    },
+    [
+      displayChartData,
+      effectiveXAxisInterval,
+      resolvedXAxisDateFontSize,
+      xAxisFontSize,
+      xAxisTickColor,
+    ]
+  );
 
   const handleContainerResize = React.useCallback((width: number) => {
     const normalizedWidth = Math.max(0, Math.floor(width));
@@ -519,7 +623,7 @@ export const StackedBarChart = ({
               width="100%"
             >
               <BarChart
-                barCategoryGap="31%"
+                barCategoryGap="45%"
                 barSize={barWidth}
                 data={displayChartData}
                 margin={{ bottom: 0, left: 0, right: 0, top: 0 }}
@@ -531,13 +635,11 @@ export const StackedBarChart = ({
                 />
                 <XAxis
                   dataKey="time"
+                  height={xAxisHeight}
                   interval={0}
                   minTickGap={16}
                   stroke={xAxisStrokeColor}
-                  tick={{
-                    fill: xAxisTickColor,
-                    fontSize: xAxisFontSize,
-                  }}
+                  tick={XAxisTick}
                   tickLine={false}
                 />
                 <YAxis
@@ -580,7 +682,7 @@ export const StackedBarChart = ({
             width="100%"
           >
             <BarChart
-              barCategoryGap="31%"
+              barCategoryGap="45%"
               barSize={barWidth}
               data={displayChartData}
               margin={{ bottom: 0, left: 0, right: 0, top: 0 }}
@@ -592,10 +694,10 @@ export const StackedBarChart = ({
               />
               <XAxis
                 dataKey="time"
-                interval={effectiveXAxisInterval - 1}
-                minTickGap={16}
+                height={xAxisHeight}
+                interval={0}
                 stroke={xAxisStrokeColor}
-                tick={{ fill: xAxisTickColor, fontSize: xAxisFontSize }}
+                tick={XAxisTick}
               />
               <YAxis
                 allowDecimals={false}

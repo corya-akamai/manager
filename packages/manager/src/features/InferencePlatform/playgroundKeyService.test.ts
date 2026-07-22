@@ -201,10 +201,7 @@ describe('rotatePlaygroundKey', () => {
 
     const result = await rotatePlaygroundKey(123);
 
-    expect(updateApiKey).toHaveBeenCalledWith(123, {
-      description: '',
-      label: '',
-    });
+    expect(updateApiKey).toHaveBeenCalledWith(123, {});
     expect(result).toEqual(rotatedResponse);
   });
 
@@ -270,10 +267,7 @@ describe('getOrCreatePlaygroundKey', () => {
       const result = await getOrCreatePlaygroundKey('testuser');
 
       expect(result).toBe(ROTATED_KEY);
-      expect(updateApiKey).toHaveBeenCalledWith(123, {
-        description: '',
-        label: '',
-      });
+      expect(updateApiKey).toHaveBeenCalledWith(123, {});
     });
 
     it('rotates key if server status is expired (even if timestamp has not expired)', async () => {
@@ -295,10 +289,7 @@ describe('getOrCreatePlaygroundKey', () => {
       const result = await getOrCreatePlaygroundKey('testuser');
 
       expect(result).toBe(ROTATED_KEY);
-      expect(updateApiKey).toHaveBeenCalledWith(123, {
-        description: '',
-        label: '',
-      });
+      expect(updateApiKey).toHaveBeenCalledWith(123, {});
     });
 
     it('creates new key if rotation fails', async () => {

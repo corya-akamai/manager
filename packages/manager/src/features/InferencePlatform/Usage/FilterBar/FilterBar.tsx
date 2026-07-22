@@ -54,7 +54,7 @@ export const FilterBar = ({
                 }
               }}
               selected={selectedModel}
-              valueFn={(item) => (item as FilterBarOption).value}
+              valueFn={(item) => (item as FilterBarOption).label}
             />
           </Box>
         </Stack>
@@ -83,7 +83,7 @@ export const FilterBar = ({
                 }
               }}
               selected={selectedApiKey}
-              valueFn={(item) => (item as FilterBarOption).value}
+              valueFn={(item) => (item as FilterBarOption).label}
             />
           </Box>
         </Stack>

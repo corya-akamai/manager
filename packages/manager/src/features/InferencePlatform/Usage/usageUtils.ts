@@ -39,6 +39,7 @@ type GroupValue = {
   request: number;
   time: string;
   total: number;
+  xAxisDate?: string;
 };
 
 /** A single group (model or API key) with its time-series bucket values. */
@@ -58,6 +59,23 @@ const buildGroupMap = (
 ): GroupEntry[] => {
   const map = new Map<string, GroupEntry>();
 
+  // The chart uses the "time" label ("HH:MM") as the X-axis category key.
+  // When the data spans more than one calendar day, that label is no longer
+  // unique per bucket (e.g. daily buckets all render as "00:00"), which causes
+  // every bar to collapse onto a single X-axis position. Detect a multi-day
+  // range up front so we can prefix the label with a compact date and keep
+  // each bucket distinct.
+  const distinctDays = new Set(
+    timeSeries.map((entry) =>
+      new Date(entry.bucket).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
+    )
+  );
+  const spansMultipleDays = distinctDays.size > 1;
+
   for (const entry of timeSeries) {
     let group = map.get(entry.group_id);
     if (!group) {
@@ -66,22 +84,34 @@ const buildGroupMap = (
     }
 
     const date = new Date(entry.bucket);
+    const fullDate = date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+    const clockTime = date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      hour12: false,
+      minute: '2-digit',
+    });
+    const compactDate = date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+    });
+
     group.values.push({
       bucket: entry.bucket,
-      date: date.toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      }),
+      // For multi-day ranges the compact date is shown as a sub-label below
+      // the clock time on the X-axis tick; it is also included in the tooltip
+      // label via the date field.
+      date: spansMultipleDays ? compactDate : fullDate,
       input: entry.input_tokens,
       output: entry.output_tokens,
       request: entry.request_count,
-      time: date.toLocaleTimeString('en-US', {
-        hour: '2-digit',
-        hour12: false,
-        minute: '2-digit',
-      }),
+      // time is used as the X-axis dataKey for bucketing - must be unique per bucket
+      time: spansMultipleDays ? `${compactDate}\n${clockTime}` : clockTime,
       total: entry.total_tokens,
+      xAxisDate: spansMultipleDays ? compactDate : undefined,
     });
   }
 
@@ -170,6 +200,7 @@ const toChartPayload = (
       date: v.date,
       time: v.time,
       value: v[metric],
+      ...(v.xAxisDate !== undefined && { xAxisDate: v.xAxisDate }),
     })),
   })),
 });

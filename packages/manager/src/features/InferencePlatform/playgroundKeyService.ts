@@ -116,10 +116,7 @@ export const rotatePlaygroundKey = async (
 ): Promise<CreateApiKeyResponse> => {
   // For playground keys, PUT performs rotation - label/description are ignored
   // but the server requires a valid payload structure
-  const response = await updateApiKey(keyId, {
-    description: '',
-    label: '',
-  });
+  const response = await updateApiKey(keyId, {});
 
   // Store the rotated key in session storage
   storePlaygroundKey(response);

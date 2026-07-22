@@ -2,6 +2,7 @@ export type DataPoint = {
   date?: string;
   time: string;
   value: number;
+  xAxisDate?: string;
 };
 
 export type DataSeries = {
