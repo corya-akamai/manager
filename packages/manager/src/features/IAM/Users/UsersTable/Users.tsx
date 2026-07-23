@@ -204,6 +204,23 @@ export const UsersLanding = () => {
   };
 
   const canCreateUser = permissions.create_user;
+  const selectedUserExists = Boolean(
+    selectedUsername &&
+      users?.data.some((user) => user.username === selectedUsername)
+  );
+
+  // We need to clear the dialog state from the URL if the user being deleted does not exist in the users list.
+  // This can happen if a link to delete a user had not existing user in the URL
+  React.useEffect(() => {
+    if (
+      action === 'delete-user' &&
+      selectedUsername &&
+      users &&
+      !selectedUserExists
+    ) {
+      clearDialogAction('delete-user');
+    }
+  }, [action, selectedUsername, selectedUserExists, users]);
 
   return (
     <React.Fragment>
@@ -319,7 +336,7 @@ export const UsersLanding = () => {
       />
       <UserDeleteConfirmation
         onClose={handleDeleteDialogClose}
-        open={action === 'delete-user' && Boolean(selectedUsername)}
+        open={action === 'delete-user' && selectedUserExists}
         username={selectedUsername ?? ''}
       />
     </React.Fragment>
