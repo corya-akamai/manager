@@ -42,11 +42,7 @@ export const TFASection = ({ error, tfaSettings }: Props) => {
     );
   }
   if (permissionsError || (error && permissions?.is_account_admin)) {
-    return (
-      <Paper>
-        <ErrorState />
-      </Paper>
-    );
+    return <ErrorState withPaper />;
   }
 
   return (

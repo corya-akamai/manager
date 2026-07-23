@@ -98,7 +98,9 @@ export const AccountDelegationsTable = ({
           {error && (
             <TableRow>
               <TableCell style={{ justifyContent: 'center' }}>
-                <ErrorState errorText={error[0]?.reason} />
+                <div style={{ margin: '0 auto' }}>
+                  <ErrorState errorText={error[0]?.reason} />
+                </div>
               </TableCell>
             </TableRow>
           )}

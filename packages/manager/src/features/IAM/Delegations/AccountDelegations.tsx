@@ -96,7 +96,7 @@ export const AccountDelegations = () => {
   return (
     <Paper>
       <FormField
-        error={Boolean(error?.[0]?.reason)}
+        error={Boolean(company && error?.[0]?.reason)}
         labelPosition="top"
         style={{ padding: 0, marginBottom: Spacing.S16 }}
       >

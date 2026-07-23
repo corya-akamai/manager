@@ -201,7 +201,7 @@ export const EnforcementSettings = () => {
     excludedUsersError ||
     permissionsError
   ) {
-    return <ErrorState />;
+    return <ErrorState withPaper />;
   }
 
   return (

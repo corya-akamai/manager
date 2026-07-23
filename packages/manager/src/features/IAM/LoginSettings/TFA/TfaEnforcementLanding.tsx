@@ -168,11 +168,7 @@ export const TfaEnforcementLanding = () => {
   }
 
   if (settingsError || permissionsError) {
-    return (
-      <Paper>
-        <ErrorState />
-      </Paper>
-    );
+    return <ErrorState withPaper />;
   }
 
   return (
