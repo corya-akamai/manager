@@ -1,6 +1,5 @@
 import { Select } from '@akamai/cds-components/react';
-import { Box, Typography } from '@linode/ui';
-import { useTheme } from '@mui/material/styles';
+import { Box, Typography, useTheme } from '@linode/ui';
 import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 
 import { useInferencePlatform } from '../InferencePlatformContext';
