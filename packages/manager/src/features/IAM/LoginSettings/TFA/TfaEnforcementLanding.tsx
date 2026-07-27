@@ -98,7 +98,7 @@ export const TfaEnforcementLanding = () => {
 
   const {
     control,
-    formState: { errors, isSubmitting, isDirty },
+    formState: { dirtyFields, errors, isSubmitting, isDirty },
     getValues,
     handleSubmit,
     reset,
@@ -139,7 +139,8 @@ export const TfaEnforcementLanding = () => {
     }
   };
 
-  const hasUnsavedChanges = isDirty;
+  const hasUnsavedChanges =
+    !!dirtyFields.tfa_enforced || !!dirtyFields.tfaOptionalUsers;
 
   const {
     proceed,
@@ -147,7 +148,16 @@ export const TfaEnforcementLanding = () => {
     status,
   } = useBlocker({
     enableBeforeUnload: hasUnsavedChanges,
-    shouldBlockFn: () => hasUnsavedChanges,
+    shouldBlockFn: ({ next, current }) => {
+      if (!hasUnsavedChanges) {
+        return false;
+      }
+
+      // Allow in-place route updates (e.g. page/pageSize/order/orderBy/query).
+      return (
+        current.pathname !== next.pathname || current.routeId !== next.routeId
+      );
+    },
     withResolver: true,
   });
 
