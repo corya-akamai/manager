@@ -5,24 +5,16 @@ import {
   TableHeaderCell,
   TableRow,
 } from '@akamai/cds-components/react/Table';
-import {
-  ZeroErrorDescription,
-  ZeroErrorIcon,
-  ZeroErrorState,
-  ZeroErrorTitle,
-} from '@akamai/cds-components/react/ZeroErrorState';
 import { getAPIErrorOrDefault } from '@akamai/compute-ui-core/api';
 import { useVolumesQuery } from '@linode/queries';
 import { getAPIFilterFromQuery } from '@linode/search';
-import { CircleProgress, Stack } from '@linode/ui';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import React from 'react';
 
-import { DebouncedSearchTextField } from 'src/components/DebouncedSearchTextField';
+import './index.css';
 import { DocumentTitleSegment } from 'src/components/DocumentTitle';
 import { useIsBlockStorageEncryptionFeatureEnabled } from 'src/components/Encryption/utils';
 import { LandingHeader } from 'src/components/LandingHeader';
-import { Link } from 'src/components/Link';
 import { PaginationFooter } from 'src/components/PaginationFooter/PaginationFooter';
 import { getRestrictedResourceText } from 'src/features/Account/utils';
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
@@ -35,7 +27,10 @@ import {
 import { VOLUME_TABLE_PREFERENCE_KEY } from 'src/routes/volumes/constants';
 
 import { useVolumeActionHandlers } from './hooks/useVolumeActionHandlers';
+import { CircleProgress } from './Partials/CircleProgress';
+import { EmptyState } from './Partials/EmptyState';
 import { ErrorState } from './Partials/ErrorState';
+import { VolumesSearchField } from './Partials/VolumesSearchField';
 import { VolumeTableRow } from './Partials/VolumeTableRow';
 import { VolumeDrawers } from './VolumeDrawers/VolumeDrawers';
 import { VolumesLandingEmptyState } from './VolumesLandingEmptyState';
@@ -142,8 +137,9 @@ export const VolumesLanding = () => {
   }
 
   return (
-    <Stack spacing={2}>
+    <div className="stack">
       <DocumentTitleSegment segment="Volumes" />
+
       <LandingHeader
         breadcrumbProps={{
           pathname: 'Volumes',
@@ -160,20 +156,18 @@ export const VolumesLanding = () => {
         docsLink="https://techdocs.akamai.com/cloud-computing/docs/block-storage"
         entity="Volume"
         onButtonClick={() => navigate({ to: '/volumes/create' })}
+        spacingBottom={0}
         title="Volumes"
       />
-      <DebouncedSearchTextField
-        clearable
+
+      <VolumesSearchField
         errorText={searchError?.message}
-        hideLabel
-        isSearching={isFetching}
-        label="Search"
+        isLoading={isFetching}
         onSearch={onSearch}
-        placeholder="Search Volumes"
         value={search?.query ?? ''}
       />
 
-      <div style={{ overflowX: 'auto', width: '100%' }}>
+      <div style={{ overflowX: 'auto', width: '100%', margin: 0 }}>
         <Table
           style={
             {
@@ -240,16 +234,10 @@ export const VolumesLanding = () => {
           </TableHead>
           <TableBody>
             {search?.query && error && (
-              <ErrorState errorText={error[0].reason} />
+              <ErrorState errorText={error[0].reason} isTransparent={false} />
             )}
             {volumes?.data.length === 0 && (
-              <ZeroErrorState>
-                <ZeroErrorIcon icon="doc-no-selection" />
-                <ZeroErrorTitle>No data to display</ZeroErrorTitle>
-                <ZeroErrorDescription>
-                  Create a new <Link to="/volumes/create">volume</Link>
-                </ZeroErrorDescription>
-              </ZeroErrorState>
+              <EmptyState message="No volume found" />
             )}
             {volumes?.data.map((volume) => (
               <VolumeTableRow
@@ -278,6 +266,6 @@ export const VolumesLanding = () => {
         onCloseHandler={navigateToVolumes}
         onDeleteSuccessHandler={navigateToVolumes}
       />
-    </Stack>
+    </div>
   );
 };
