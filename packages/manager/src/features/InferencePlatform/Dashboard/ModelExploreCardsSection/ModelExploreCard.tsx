@@ -1,5 +1,4 @@
-import { Box, Paper, Stack, Typography } from '@linode/ui';
-import { useTheme } from '@mui/material/styles';
+import { Box, Paper, Stack, Typography, useTheme } from '@linode/ui';
 import React from 'react';
 
 import LeftArrowIcon from 'src/assets/icons/arrow-left.svg';

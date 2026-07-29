@@ -1,5 +1,6 @@
+import { Select } from '@akamai/cds-components/react/Select';
 import { useInferenceUsageQuery } from '@linode/queries';
-import { Box, Paper, Select, Stack, Typography } from '@linode/ui';
+import { Box, Paper, Stack, Typography } from '@linode/ui';
 import React from 'react';
 
 import { StackedBarChart } from 'src/components/StackedBarChart';
@@ -71,9 +72,6 @@ export const UsageSection = () => {
           direction="row"
           justifyContent="space-between"
           sx={{
-            "& [data-testid='inputLabelWrapper']": {
-              display: 'none',
-            },
             mb: 1,
             padding: '0px 0px 16px 14px',
           }}
@@ -86,18 +84,22 @@ export const UsageSection = () => {
               mb: 0,
             }}
           >
-            <Select
-              label=""
-              onChange={(_, option) => {
+            <Select<{ label: string; value: string }>
+              aria-label="Series"
+              items={seriesOptions}
+              onChange={(event) => {
+                const option = event.detail as unknown as null | {
+                  label: string;
+                  value: string;
+                };
                 if (option) {
-                  setSelectedSeriesId(
-                    option as { label: string; value: string }
-                  );
+                  setSelectedSeriesId(option);
                 }
               }}
-              options={seriesOptions}
-              sx={{ margins: 0, padding: 0 }}
-              value={selectedSeriesId}
+              selected={selectedSeriesId}
+              valueFn={(item) =>
+                (item as { label: string; value: string }).value
+              }
             />
           </Box>
         </Stack>
