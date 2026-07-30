@@ -15,12 +15,13 @@ import {
   useUpdateTfaEnforcementAccountSettingsMutation,
   useUpdateTfaOptionalUsersMutation,
 } from '@linode/queries';
-import { useBlocker, useNavigate } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 import * as React from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
 import { useFlags } from 'src/hooks/useFlags';
 
+import { useDiscardChanges } from '../../hooks/useDiscardChanges';
 import { useIsIAMEnabled } from '../../hooks/useIsIAMEnabled';
 import { usePermissions } from '../../hooks/usePermissions';
 import { useTfaUserCounts } from '../../hooks/useTfaUserCounts';
@@ -139,39 +140,11 @@ export const TfaEnforcementLanding = () => {
     }
   };
 
-  const hasUnsavedChanges =
-    !!dirtyFields.tfa_enforced || !!dirtyFields.tfaOptionalUsers;
-
-  const {
-    proceed,
-    reset: resetBlocker,
-    status,
-  } = useBlocker({
-    enableBeforeUnload: hasUnsavedChanges,
-    shouldBlockFn: ({ next, current }) => {
-      if (!hasUnsavedChanges) {
-        return false;
-      }
-
-      // Allow in-place route updates (e.g. page/pageSize/order/orderBy/query).
-      return (
-        current.pathname !== next.pathname || current.routeId !== next.routeId
-      );
-    },
-    withResolver: true,
-  });
-
-  const handleProceedNavigation = React.useCallback(() => {
-    if (status === 'blocked' && proceed) {
-      proceed();
-    }
-  }, [status, proceed]);
-
-  const handleCancelNavigation = React.useCallback(() => {
-    if (status === 'blocked' && resetBlocker) {
-      resetBlocker();
-    }
-  }, [status, resetBlocker]);
+  const { handleCancelNavigation, handleProceedNavigation, status } =
+    useDiscardChanges([
+      !!dirtyFields.tfa_enforced,
+      !!dirtyFields.tfaOptionalUsers,
+    ]);
 
   if (isLoading) {
     return <CircleProgress />;
