@@ -254,7 +254,7 @@ describe('UserDetailsPanel – Delete User button', () => {
     ).toBeNull();
   });
 
-  it('opens the delete confirmation dialog when the Delete User button is clicked', () => {
+  it('opens the delete confirmation dialog when the Delete User button is clicked', async () => {
     queryMocks.useProfile.mockReturnValue({
       data: createProfile({ username: 'current_user' }),
     });
@@ -262,6 +262,17 @@ describe('UserDetailsPanel – Delete User button', () => {
     const user = createUser({
       user_type: 'default',
       username: 'other_user',
+    });
+
+    queryMocks.useAccountUser.mockReturnValue({
+      data: user,
+      error: null,
+      isLoading: false,
+    });
+
+    // Mock useSearch to return the action when requested
+    queryMocks.useSearch.mockReturnValue({
+      action: 'delete-user',
     });
 
     const { container } = renderWithProviders(

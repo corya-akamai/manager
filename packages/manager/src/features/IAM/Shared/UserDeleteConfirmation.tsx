@@ -27,11 +27,7 @@ export const UserDeleteConfirmation = (props: Props) => {
 
   const { profileUserName } = useDelegationRole();
 
-  const {
-    data: permissions,
-    isLoading: isLoadingPermissions,
-    error: permissionsError,
-  } = usePermissions('account', ['delete_user']);
+  const { data: permissions } = usePermissions('account', ['delete_user']);
 
   const {
     data: user,
@@ -77,24 +73,18 @@ export const UserDeleteConfirmation = (props: Props) => {
     }
   };
 
-  if (isLoadingUser || isLoadingPermissions) {
-    return <CircleProgress />;
+  if (!open) {
+    return null;
   }
 
-  if (userError || permissionsError) {
-    return <ErrorState />;
-  }
-
-  return (
-    <Modal
-      className={styles.removeAssignmentDialog}
-      onModalClosed={onClose}
-      open={open}
-      role="dialog"
-      size={error || isDeleteUserDisabled ? 'medium' : 'small'}
-    >
-      <span slot="title">{`Delete user?`}</span>
-      <div slot="body">
+  let bodyContent: React.ReactNode;
+  if (userError) {
+    bodyContent = <ErrorState />;
+  } else if (isLoadingUser) {
+    bodyContent = <CircleProgress />;
+  } else {
+    bodyContent = (
+      <>
         {isDeleteUserDisabled && (
           <NotificationBanner
             style={{ marginBottom: Spacing.S8 }}
@@ -107,7 +97,25 @@ export const UserDeleteConfirmation = (props: Props) => {
           permanent and can&apos;t be undone.
         </NotificationBanner>
         {error && <ErrorState />}
-      </div>
+      </>
+    );
+  }
+
+  const modalSize =
+    error || isDeleteUserDisabled || userError || isLoadingUser
+      ? 'medium'
+      : 'small';
+
+  return (
+    <Modal
+      className={styles.removeAssignmentDialog}
+      onModalClosed={onClose}
+      open={open}
+      role="dialog"
+      size={modalSize}
+    >
+      <span slot="title">{`Delete user?`}</span>
+      <div slot="body">{bodyContent}</div>
       <div
         slot="actions"
         style={{
@@ -126,7 +134,7 @@ export const UserDeleteConfirmation = (props: Props) => {
           Cancel
         </Button>
         <Button
-          disabled={isDeleteUserDisabled}
+          disabled={isDeleteUserDisabled || !!userError || isLoadingUser}
           onClick={onDelete}
           processing={isPending}
           variant="primary"
