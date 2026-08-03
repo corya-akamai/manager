@@ -4,6 +4,7 @@ import {
   NotificationBanner,
   Select,
 } from '@akamai/cds-components/react';
+import { LoadingSpinner } from '@akamai/cds-components/react/LoadingSpinner';
 import { Spacing } from '@akamai/cds-tokens';
 import {
   useAccountRoles,
@@ -36,13 +37,20 @@ import type { DrawerModes, EntitiesOption, ExtendedRoleView } from '../types';
 import type { RolesType } from '../utilities';
 
 interface Props {
+  isRolesLoading?: boolean;
   mode: DrawerModes;
   onClose: () => void;
   open: boolean;
   role: ExtendedRoleView | undefined;
 }
 
-export const ChangeRoleDrawer = ({ mode, onClose, open, role }: Props) => {
+export const ChangeRoleDrawer = ({
+  isRolesLoading = false,
+  mode,
+  onClose,
+  open,
+  role,
+}: Props) => {
   const { username } = useParams({ strict: false });
   const { data: accountRoles, isLoading: accountPermissionsLoading } =
     useAccountRoles();
@@ -130,12 +138,14 @@ export const ChangeRoleDrawer = ({ mode, onClose, open, role }: Props) => {
   }, [selectedOptions, accountRoles]);
 
   const onSubmit = async (data: { roleName: RolesType }) => {
-    if (role?.name === data.roleName.label) {
+    if (!role) return;
+
+    if (role.name === data.roleName.label) {
       handleClose();
       return;
     }
     try {
-      const initialRole = role?.name;
+      const initialRole = role.name;
       const newRole = data.roleName.label;
       const access = data.roleName.access;
 
@@ -166,6 +176,8 @@ export const ChangeRoleDrawer = ({ mode, onClose, open, role }: Props) => {
     onClose();
   };
 
+  const roleMissing = !isRolesLoading && !role;
+
   return (
     <Drawer
       className={styles.noMargin}
@@ -175,83 +187,113 @@ export const ChangeRoleDrawer = ({ mode, onClose, open, role }: Props) => {
       width={isSMUp ? '600px' : '100%'}
     >
       <div slot="header">Change Role</div>
-      <form
-        id="change-role-drawer-form"
-        onSubmit={handleSubmit(onSubmit)}
-        slot="body"
-      >
-        {errors.root?.message && (
-          <NotificationBanner text={errors.root?.message} type="error" />
-        )}
-        <p style={{ marginBottom: Spacing.S20 }}>
-          Select a role you want{' '}
-          {role?.access === 'account_access'
-            ? isDefaultDelegationRolesForChildAccount
-              ? 'to assign by default to new delegate users.'
-              : 'to assign.'
-            : 'the entities to be attached to.'}{' '}
-          <Link to={ROLES_LEARN_MORE_LINK}>
-            Learn more about roles and permissions
-          </Link>
-          .
-        </p>
+      {isRolesLoading ? (
+        <div
+          slot="body"
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            padding: Spacing.S24,
+          }}
+        >
+          <LoadingSpinner data-testid="circle-progress" size="medium" />
+        </div>
+      ) : roleMissing ? (
+        <div slot="body">
+          <NotificationBanner type="error">
+            <p style={{ marginBottom: Spacing.S0 }}>
+              This role is no longer assigned or could not be found.
+            </p>
+          </NotificationBanner>
+          <DrawerInlineActions>
+            <Button
+              data-testid="cancel"
+              onClick={handleClose}
+              variant="secondary"
+            >
+              Close
+            </Button>
+          </DrawerInlineActions>
+        </div>
+      ) : (
+        <form
+          id="change-role-drawer-form"
+          onSubmit={handleSubmit(onSubmit)}
+          slot="body"
+        >
+          {errors.root?.message && (
+            <NotificationBanner text={errors.root?.message} type="error" />
+          )}
+          <p style={{ marginBottom: Spacing.S20 }}>
+            Select a role you want{' '}
+            {role?.access === 'account_access'
+              ? isDefaultDelegationRolesForChildAccount
+                ? 'to assign by default to new delegate users.'
+                : 'to assign.'
+              : 'the entities to be attached to.'}{' '}
+            <Link to={ROLES_LEARN_MORE_LINK}>
+              Learn more about roles and permissions
+            </Link>
+            .
+          </p>
 
-        <p style={{ marginBottom: Spacing.S8 }}>
-          Change the role from <strong>{role?.name}</strong> to:
-        </p>
+          <p style={{ marginBottom: Spacing.S8 }}>
+            Change the role from <strong>{role?.name}</strong> to:
+          </p>
 
-        <Controller
-          control={control}
-          name="roleName"
-          render={({ field, fieldState }) => (
-            <Select
-              autocomplete
-              clearable
-              error={Boolean(fieldState.error?.message)}
-              errorMessage={fieldState.error?.message ?? ''}
-              isLoading={accountPermissionsLoading}
-              items={allRoles}
-              noItemsLabel="You have no options to choose from"
-              onChange={(event) => {
-                const newValue = event.detail as unknown as null | RolesType;
-                field.onChange(newValue);
-              }}
-              placeholder="Select a Role"
-              selected={field.value || null}
+          <Controller
+            control={control}
+            name="roleName"
+            render={({ field, fieldState }) => (
+              <Select
+                autocomplete
+                clearable
+                error={Boolean(fieldState.error?.message)}
+                errorMessage={fieldState.error?.message ?? ''}
+                isLoading={accountPermissionsLoading}
+                items={allRoles}
+                noItemsLabel="You have no options to choose from"
+                onChange={(event) => {
+                  const newValue = event.detail as unknown as null | RolesType;
+                  field.onChange(newValue);
+                }}
+                placeholder="Select a Role"
+                selected={field.value || null}
+                style={{ marginBottom: Spacing.S16 }}
+                valueFn={(item) => (item as RolesType).label}
+              />
+            )}
+            rules={{ required: 'Role is required.' }}
+          />
+
+          {selectedRole && (
+            <AssignedPermissionsPanel
+              key={selectedRole.name}
+              mode={mode}
+              role={selectedRole}
               style={{ marginBottom: Spacing.S16 }}
-              valueFn={(item) => (item as RolesType).label}
+              value={formattedAssignedEntities ?? []}
             />
           )}
-          rules={{ required: 'Role is required.' }}
-        />
-
-        {selectedRole && (
-          <AssignedPermissionsPanel
-            key={selectedRole.name}
-            mode={mode}
-            role={selectedRole}
-            style={{ marginBottom: Spacing.S16 }}
-            value={formattedAssignedEntities ?? []}
-          />
-        )}
-        <DrawerInlineActions>
-          <Button
-            data-testid="cancel"
-            onClick={handleClose}
-            variant="secondary"
-          >
-            Cancel
-          </Button>
-          <Button
-            data-testid="submit"
-            processing={isSubmitting}
-            type="submit"
-            variant="primary"
-          >
-            Save
-          </Button>
-        </DrawerInlineActions>
-      </form>
+          <DrawerInlineActions>
+            <Button
+              data-testid="cancel"
+              onClick={handleClose}
+              variant="secondary"
+            >
+              Cancel
+            </Button>
+            <Button
+              data-testid="submit"
+              processing={isSubmitting}
+              type="submit"
+              variant="primary"
+            >
+              Save
+            </Button>
+          </DrawerInlineActions>
+        </form>
+      )}
     </Drawer>
   );
 };

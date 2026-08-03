@@ -112,7 +112,7 @@ describe('Users', () => {
     expect(container.querySelector('cds-select')).toBeVisible();
   });
 
-  it('does not open delete confirmation for a username not in users list', () => {
+  it('opens delete confirmation for a username not in users list, showing an error', () => {
     const user = createUser({ username: 'existing-user' });
     queryMocks.useAccountUsers.mockReturnValue({
       data: {
@@ -136,7 +136,7 @@ describe('Users', () => {
 
     expect(getByTestId('user-delete-confirmation')).toHaveAttribute(
       'data-open',
-      'false'
+      'true'
     );
   });
 

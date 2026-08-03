@@ -264,16 +264,7 @@ describe('UserDetailsPanel – Delete User button', () => {
       username: 'other_user',
     });
 
-    queryMocks.useAccountUser.mockReturnValue({
-      data: user,
-      error: null,
-      isLoading: false,
-    });
-
-    // Mock useSearch to return the action when requested
-    queryMocks.useSearch.mockReturnValue({
-      action: 'delete-user',
-    });
+    queryMocks.useAccountUser.mockReturnValue({ data: user });
 
     const { container } = renderWithProviders(
       <UserDetailsPanel

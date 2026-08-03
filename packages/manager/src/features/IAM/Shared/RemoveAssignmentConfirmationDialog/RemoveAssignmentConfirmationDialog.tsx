@@ -4,6 +4,7 @@ import {
   Modal,
   NotificationBanner,
 } from '@akamai/cds-components/react';
+import { LoadingSpinner } from '@akamai/cds-components/react/LoadingSpinner';
 import { Spacing } from '@akamai/cds-tokens';
 import {
   useGetDefaultDelegationAccessQuery,
@@ -21,7 +22,10 @@ import styles from './RemoveAssignmentConfirmationDialog.module.css';
 import type { EntitiesRole } from '../types';
 
 interface Props {
+  isRolesLoading?: boolean;
   onClose: () => void;
+  /** Clears remaining URL params after the exit animation finishes. */
+  onExited?: () => void;
   onSuccess?: () => void;
   open: boolean;
   role: EntitiesRole | undefined;
@@ -29,7 +33,15 @@ interface Props {
 }
 
 export const RemoveAssignmentConfirmationDialog = (props: Props) => {
-  const { onClose: _onClose, onSuccess, open, role, username } = props;
+  const {
+    isRolesLoading = false,
+    onClose: _onClose,
+    onExited,
+    onSuccess,
+    open,
+    role,
+    username,
+  } = props;
 
   const { isDefaultDelegationRolesForChildAccount } =
     useIsDefaultDelegationRolesForChildAccount();
@@ -58,9 +70,16 @@ export const RemoveAssignmentConfirmationDialog = (props: Props) => {
     enabled: isDefaultDelegationRolesForChildAccount,
   });
 
+  // before-closed runs while Lit `_state === 'closing'`, when re-asserting
+  // open=true is ignored — so the router can clear `open` during the exit animation.
+  // Only clear `action` here so `role` stays available for the exit frame.
   const onClose = () => {
-    reset(); // resets the error state of the useMutation
     _onClose();
+  };
+
+  const onModalClosed = () => {
+    reset();
+    onExited?.();
   };
 
   const mutationFn = isDefaultDelegationRolesForChildAccount
@@ -103,13 +122,17 @@ export const RemoveAssignmentConfirmationDialog = (props: Props) => {
     ? defaultDelegationRolesError
     : userRolesError;
 
+  const assignmentMissing = !isRolesLoading && !role;
+  const canSubmit = Boolean(role) && !isRolesLoading && !isPending;
+
   return (
     <Modal
       className={styles.removeAssignmentDialog}
-      onModalClosed={onClose}
+      onModalBeforeClosed={onClose}
+      onModalClosed={onModalClosed}
       open={open}
       role="dialog"
-      size={error ? 'medium' : 'small'}
+      size={error || assignmentMissing ? 'medium' : 'small'}
     >
       <span slot="title">
         {isDefaultDelegationRolesForChildAccount
@@ -117,29 +140,49 @@ export const RemoveAssignmentConfirmationDialog = (props: Props) => {
           : `Remove entity from the role assignment?`}
       </span>
       <div slot="body">
-        <NotificationBanner type="warning">
-          {isDefaultDelegationRolesForChildAccount ? (
+        {isRolesLoading ? (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              padding: Spacing.S24,
+            }}
+          >
+            <LoadingSpinner data-testid="circle-progress" size="medium" />
+          </div>
+        ) : assignmentMissing ? (
+          <NotificationBanner type="error">
             <p style={{ marginBottom: Spacing.S0 }}>
-              Delegate users won’t get the <strong>{role?.role_name}</strong>{' '}
-              access on the{' '}
-              <strong style={{ wordBreak: 'break-word' }}>
-                {role?.entity_name}
-              </strong>{' '}
-              entity by default.
+              This role assignment or entity could not be found.
             </p>
-          ) : (
-            <p style={{ marginBottom: Spacing.S0 }}>
-              You’re about to remove the{' '}
-              <strong style={{ wordBreak: 'break-word' }}>
-                {role?.entity_name}
-              </strong>{' '}
-              entity from the <strong>{role?.role_name}</strong> role for{' '}
-              <strong>{username}</strong>. This change will be applied
-              immediately.
-            </p>
-          )}
-        </NotificationBanner>
-        {error && <ErrorState errorText={getErrorMessage(error)} />}
+          </NotificationBanner>
+        ) : (
+          <>
+            <NotificationBanner type="warning">
+              {isDefaultDelegationRolesForChildAccount ? (
+                <p style={{ marginBottom: Spacing.S0 }}>
+                  Delegate users won’t get the{' '}
+                  <strong>{role?.role_name}</strong> access on the{' '}
+                  <strong style={{ wordBreak: 'break-word' }}>
+                    {role?.entity_name}
+                  </strong>{' '}
+                  entity by default.
+                </p>
+              ) : (
+                <p style={{ marginBottom: Spacing.S0 }}>
+                  You’re about to remove the{' '}
+                  <strong style={{ wordBreak: 'break-word' }}>
+                    {role?.entity_name}
+                  </strong>{' '}
+                  entity from the <strong>{role?.role_name}</strong> role for{' '}
+                  <strong>{username}</strong>. This change will be applied
+                  immediately.
+                </p>
+              )}
+            </NotificationBanner>
+            {error && <ErrorState errorText={getErrorMessage(error)} />}
+          </>
+        )}
       </div>
       <div
         slot="actions"
@@ -156,16 +199,18 @@ export const RemoveAssignmentConfirmationDialog = (props: Props) => {
           style={{ marginRight: Spacing.S8 }}
           variant="link"
         >
-          Cancel
+          {assignmentMissing ? 'Close' : 'Cancel'}
         </Button>
-        <Button
-          disabled={isPending}
-          onClick={onDelete}
-          processing={isPending}
-          variant="primary"
-        >
-          Remove
-        </Button>
+        {!assignmentMissing && !isRolesLoading && (
+          <Button
+            disabled={!canSubmit}
+            onClick={onDelete}
+            processing={isPending}
+            variant="primary"
+          >
+            Remove
+          </Button>
+        )}
       </div>
     </Modal>
   );

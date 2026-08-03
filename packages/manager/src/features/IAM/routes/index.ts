@@ -54,7 +54,10 @@ interface IamUsersSearchParams extends TableSearchParams {
 }
 
 interface IamUserRolesSearchParams extends TableSearchParams {
+  action?: string;
+  entity?: string;
   query?: string;
+  role?: string;
   roleType?: 'all' | AccessType;
 }
 
@@ -64,8 +67,13 @@ interface IamTfaEnforcementSearchParams extends TableSearchParams {
 
 const iamActions = {
   'add-user': 'add-user',
+  'assign-new-roles': 'assign-new-roles',
+  'change-role': 'change-role',
   'delete-user': 'delete-user',
   'edit-user': 'edit-user',
+  'unassign-role': 'unassign-role',
+  'update-entities': 'update-entities',
+  'remove-entity': 'remove-entity',
 } as const;
 
 export type IAMAction = (typeof iamActions)[keyof typeof iamActions];

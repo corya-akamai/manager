@@ -202,4 +202,30 @@ describe('RemoveAssignmentConfirmationDialog', () => {
       screen.getByText(INTERNAL_ERROR_NO_CHANGES_SAVED)
     ).toBeInTheDocument();
   });
+
+  it('shows a pending state while roles are loading', () => {
+    renderWithProviders(
+      <RemoveAssignmentConfirmationDialog
+        {...props}
+        isRolesLoading
+        role={undefined}
+      />
+    );
+
+    expect(screen.getByTestId('circle-progress')).toBeInTheDocument();
+    expect(document.body.querySelectorAll('cds-button')).toHaveLength(1);
+  });
+
+  it('shows an error state when the assignment is missing after load', async () => {
+    renderWithProviders(
+      <RemoveAssignmentConfirmationDialog {...props} role={undefined} />
+    );
+
+    expect(
+      screen.getByText(/This role assignment or entity could not be found/i)
+    ).toBeInTheDocument();
+
+    const closeButton = await getCdsButtonByText(document.body, 'Close');
+    expect(closeButton).toBeVisible();
+  });
 });

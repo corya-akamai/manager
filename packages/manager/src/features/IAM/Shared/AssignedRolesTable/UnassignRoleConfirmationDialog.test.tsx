@@ -200,4 +200,31 @@ describe('UnassignRoleConfirmationDialog', () => {
       screen.getByText(INTERNAL_ERROR_NO_CHANGES_SAVED)
     ).toBeInTheDocument();
   });
+
+  it('shows a pending state while roles are loading', () => {
+    renderWithProviders(
+      <UnassignRoleConfirmationDialog
+        {...props}
+        isRolesLoading
+        role={undefined}
+      />
+    );
+
+    expect(screen.getByTestId('circle-progress')).toBeInTheDocument();
+    expect(document.body.querySelectorAll('cds-button')).toHaveLength(1);
+  });
+
+  it('shows an error state when the role is missing after load', async () => {
+    renderWithProviders(
+      <UnassignRoleConfirmationDialog {...props} role={undefined} />
+    );
+
+    expect(
+      screen.getByText(/This role is no longer assigned or could not be found/i)
+    ).toBeInTheDocument();
+
+    const closeButton = await getCdsButtonByText(document.body, 'Close');
+    expect(closeButton).toBeVisible();
+    expect(document.body.querySelectorAll('cds-button')).toHaveLength(1);
+  });
 });
