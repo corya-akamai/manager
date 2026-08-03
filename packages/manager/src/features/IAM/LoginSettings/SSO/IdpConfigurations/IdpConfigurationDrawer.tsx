@@ -305,9 +305,9 @@ export const IdpConfigurationDrawer = ({
           name="saml.idp_url"
           render={({ field, fieldState }) => (
             <FormField
+              className={styles.formFieldTextSpaced}
               error={!!fieldState.error}
               label-position="top"
-              style={{ padding: 0 }}
             >
               <FormLabel slot="label">IDP URL</FormLabel>
               <TextField
