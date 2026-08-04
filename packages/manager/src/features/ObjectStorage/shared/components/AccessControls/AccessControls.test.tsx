@@ -21,9 +21,7 @@ const defaultProps: Props = {
 };
 
 const renderComponent = (props: Partial<Props> = {}) =>
-  renderWithTheme(<AccessControls {...defaultProps} {...props} />, {
-    flags: { objectStorageGen2: { enabled: true } },
-  });
+  renderWithTheme(<AccessControls {...defaultProps} {...props} />);
 
 describe('AccessSelect', () => {
   it.each([

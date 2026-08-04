@@ -162,9 +162,6 @@ describe('BucketDetailsDrawer: Gen1 endpoint', () => {
           regionId={gen2Bucket.region}
         />
       ),
-      options: {
-        flags: { objectStorageGen2: { enabled: true } },
-      },
     });
 
     expect(

@@ -313,7 +313,6 @@ export interface Flags {
   nodebalancerIpv6: boolean;
   nodebalancerVpc: boolean;
   objectStorageContextualMetrics: boolean;
-  objectStorageGen2: BaseFeatureFlag;
   objectStorageGlobalQuotas: boolean;
   objectStorageSummaryPageLinks: boolean;
   passwordlessLinodes: boolean;
