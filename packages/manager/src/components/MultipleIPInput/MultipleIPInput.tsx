@@ -154,7 +154,7 @@ export interface MultipeIPInputProps {
   /**
    * Tooltip text for extra info on hover.
    */
-  tooltip?: string;
+  tooltip?: React.JSX.Element | string;
 }
 
 export const MultipleIPInput = React.memo((props: MultipeIPInputProps) => {

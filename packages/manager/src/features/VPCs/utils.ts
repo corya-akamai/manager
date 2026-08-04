@@ -1,3 +1,8 @@
+import { useAccount } from '@linode/queries';
+import { isFeatureEnabledV2 } from '@linode/utilities';
+
+import { useFlags } from 'src/hooks/useFlags';
+
 import { getPrimaryInterfaceIndex } from '../Linodes/LinodesDetail/LinodeConfigs/utilities';
 
 import type { ExtendedIP } from '@akamai/compute-ui-core/api';
@@ -270,4 +275,23 @@ export const transformLinodeInterfaceErrorsToFormikErrors = (
   }
 
   return errors;
+};
+
+/**
+ *
+ * @returns an object that contains a boolean property to check whether the
+ * Custom VPC IPv4 Ranges feature is enabled (nitro feature flag + account capability)
+ */
+export const useIsCustomVPCIPv4RangesEnabled = () => {
+  const flags = useFlags();
+
+  const { data: account } = useAccount();
+
+  const isCustomVPCIPv4RangesEnabled = isFeatureEnabledV2(
+    'Custom VPC IPv4 Ranges',
+    Boolean(flags.nitro?.enabled),
+    account?.capabilities ?? []
+  );
+
+  return { isCustomVPCIPv4RangesEnabled };
 };

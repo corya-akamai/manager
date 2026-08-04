@@ -16,6 +16,8 @@ export const IP_EITHER_BOTH_NOT_NEITHER =
 // @TODO VPC IPv6 - remove below constant when IPv6 is in GA
 const TEMPORARY_IPV4_REQUIRED_MESSAGE = 'A subnet must have an IPv4 range.';
 
+const MAX_VPC_IPV4_RANGES_MESSAGE =
+  'A maximum of 30 IPv4 ranges can be configured per VPC.';
 export const determineIPType = (ip: string) => {
   try {
     let addr;
@@ -279,6 +281,29 @@ export const createVPCSchema = object({
       otherwise: () => array().of(createSubnetSchemaWithIPv6),
     }),
   ipv6: array().of(createVPCIPv6Schema).max(1).optional(),
+  ipv4: array()
+    .of(
+      object({
+        range: string().test({
+          name: 'VPC IPv4 CIDR format',
+          message: 'The VPC IPv4 range must be in CIDR format.',
+          test: (value) => {
+            if (!value || value.trim() === '') {
+              return true;
+            }
+
+            return vpcsValidateIP({
+              value,
+              shouldHaveIPMask: true,
+              mustBeIPMask: false,
+            });
+          },
+        }),
+      }),
+    )
+    .max(30, MAX_VPC_IPV4_RANGES_MESSAGE)
+    .optional(),
+  vpc_type: string().oneOf(['regular', 'rdma']).optional(),
 });
 
 export const modifySubnetSchema = object({
