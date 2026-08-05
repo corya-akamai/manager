@@ -40,8 +40,11 @@ import type { TableSearchParams } from '../../../routes/types';
 import type { AccessType, EntityType, User } from '@linode/api-v4';
 
 interface IamEntitiesSearchParams extends TableSearchParams {
+  action?: string;
+  entity?: string;
   entityType?: 'all' | EntityType;
   query?: string;
+  role?: string;
   selectedRole?: string;
 }
 
@@ -69,6 +72,7 @@ const iamActions = {
   'add-user': 'add-user',
   'assign-new-roles': 'assign-new-roles',
   'change-role': 'change-role',
+  'change-role-for-entity': 'change-role-for-entity',
   'delete-user': 'delete-user',
   'edit-user': 'edit-user',
   'unassign-role': 'unassign-role',
