@@ -6,6 +6,7 @@ import * as React from 'react';
 import { usePermissions } from '../hooks/usePermissions';
 import { useTfaUserCounts } from '../hooks/useTfaUserCounts';
 import { Box } from '../Shared/Box/Box';
+import { CircleProgress } from '../Shared/CircleProgress/CircleProgress';
 import { TFA_ENFORCEMENT_LEARN_MORE_LINK } from '../Shared/constants';
 import { ErrorState } from '../Shared/ErrorState/ErrorState';
 import { Link } from '../Shared/Link/Link';
@@ -31,7 +32,15 @@ export const TFASection = ({ error, tfaSettings }: Props) => {
   } = usePermissions('account', ['is_account_admin']);
 
   const isEnforced = tfaSettings?.tfa_enforced ?? false;
-  const { enforcedUsersCount, totalUsers } = useTfaUserCounts(isEnforced);
+  const {
+    enforcedUsersCount,
+    totalUsers,
+    isLoading: isTfaUserCountsLoading,
+  } = useTfaUserCounts(isEnforced);
+
+  if (isPermissionsLoading || isTfaUserCountsLoading) {
+    return <CircleProgress />;
+  }
 
   if (!permissions?.is_account_admin && !isPermissionsLoading) {
     return (
@@ -41,6 +50,7 @@ export const TFASection = ({ error, tfaSettings }: Props) => {
       />
     );
   }
+
   if (permissionsError || (error && permissions?.is_account_admin)) {
     return <ErrorState withPaper />;
   }

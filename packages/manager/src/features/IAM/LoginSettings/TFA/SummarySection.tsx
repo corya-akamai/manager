@@ -62,8 +62,8 @@ export const SummarySection = ({ isEnforced, totalUsers }: Props) => {
                     {notEnforcedUsersCount} user
                     {notEnforcedUsersCount !== 1 ? 's' : ''}
                   </strong>{' '}
-                  can still log in using a password only, as 2FA remains for
-                  them.
+                  can still log in using a password only, as 2FA remains
+                  optional for them.
                 </>
               )}
             </p>
