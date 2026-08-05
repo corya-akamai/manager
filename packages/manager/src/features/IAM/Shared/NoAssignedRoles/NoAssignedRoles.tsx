@@ -24,6 +24,7 @@ interface Props {
 
 const DEFAULTS_ROLES_URL = '/iam/roles/defaults/roles';
 const USER_ROLES_URL = '/iam/users/$username/roles';
+
 export const NoAssignedRoles = (props: Props) => {
   const { text, hasAssignNewRoleDrawer } = props;
   const { data: permissions } = usePermissions('account', [
@@ -33,12 +34,7 @@ export const NoAssignedRoles = (props: Props) => {
   const { isDefaultDelegationRolesForChildAccount } =
     useIsDefaultDelegationRolesForChildAccount();
   const navigate = useNavigate();
-
-  const { action } = useSearch({
-    from: isDefaultDelegationRolesForChildAccount
-      ? DEFAULTS_ROLES_URL
-      : USER_ROLES_URL,
-  });
+  const { action } = useSearch({ strict: false }) as { action?: IAMAction };
 
   const permissionToCheck = isDefaultDelegationRolesForChildAccount
     ? permissions?.update_default_delegate_access
@@ -85,8 +81,8 @@ export const NoAssignedRoles = (props: Props) => {
       <ZeroErrorIcon icon="doc-no-selection" />
       <ZeroErrorTitle>This list is empty</ZeroErrorTitle>
       <ZeroErrorDescription>{text}</ZeroErrorDescription>
-      <ZeroErrorActions>
-        {hasAssignNewRoleDrawer && (
+      {hasAssignNewRoleDrawer && (
+        <ZeroErrorActions>
           <Tooltip
             disabled={permissionToCheck}
             tooltipPlacement="bottom"
@@ -108,8 +104,8 @@ export const NoAssignedRoles = (props: Props) => {
               {!permissionToCheck && <Icon icon="info-outline" size="m" />}
             </Button>
           </Tooltip>
-        )}
-      </ZeroErrorActions>
+        </ZeroErrorActions>
+      )}
       {hasAssignNewRoleDrawer && (
         <AssignNewRoleDrawer
           onClose={() => clearDialogAction('assign-new-roles')}
