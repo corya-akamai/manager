@@ -164,18 +164,12 @@ const DISPLAYED_OBJECT_STORAGE_ENDPOINT_QUOTA_TYPES: ObjectStorageEndpointQuota[
     'obj-total-ingress-throughput',
   ] as const;
 
-export const objectStorageQuotaService = (
-  objectStorageGlobalQuotasEnabled?: boolean
-): QuotaService =>
+export const objectStorageQuotaService = (): QuotaService =>
   ({
     type: 'object-storage',
     label: 'Object Storage',
     scopes: {
-      ...(objectStorageGlobalQuotasEnabled
-        ? {
-            global: { quotaCollection: 'global-quotas' },
-          }
-        : {}),
+      global: { quotaCollection: 'global-quotas' },
       'obj-endpoint': {
         quotaCollection: 'quotas',
         apiFilterFunction: (
