@@ -1,10 +1,5 @@
 import { toast } from '@akamai/cds-components/notification-toast';
-import {
-  Button,
-  Icon,
-  NotificationBanner,
-  Tooltip,
-} from '@akamai/cds-components/react';
+import { Button, NotificationBanner } from '@akamai/cds-components/react';
 import { Spacing } from '@akamai/cds-tokens';
 import {
   useAccountUsers,
@@ -258,6 +253,13 @@ export const UpdateDelegationForm = ({
       )}
       <FormProvider {...form}>
         <form onSubmit={handleSubmit(onSubmit)} slot="body">
+          {!permissions.update_delegate_users && (
+            <NotificationBanner
+              style={{ marginBottom: Spacing.S8 }}
+              text="You do not have permission to update delegations."
+              type="error"
+            />
+          )}
           <p style={{ marginBottom: Spacing.S16 }}>
             Add or remove users who should have access to the child account.
             Users removed from this list will lose the role assignment on the
@@ -288,14 +290,19 @@ export const UpdateDelegationForm = ({
               totalUserCount
             )}
             filterText={filterText}
-            isClearDisabled={clearDisabled || isSubmitting}
-            isDisabled={isSubmitting}
+            isClearDisabled={
+              clearDisabled ||
+              isSubmitting ||
+              !permissions?.update_delegate_users
+            }
+            isDisabled={isSubmitting || !permissions?.update_delegate_users}
             isFilterDisabled={isFetchingAllUsers || isSubmitting}
             isFilterLoading={isFetchingAllUsers || isSearching}
             isLoading={isLoading}
             isSelectAllDisabled={
-              totalUserCount > 0 &&
-              displayedSelectedUsers.length >= totalUserCount
+              (totalUserCount > 0 &&
+                displayedSelectedUsers.length >= totalUserCount) ||
+              !permissions?.update_delegate_users
             }
             isShowSelectedOnlyDisabled={selectedUsers.length === 0}
             loadingLabel={isFetchingAllUsers ? 'Fetching all users...' : ''}
@@ -336,27 +343,16 @@ export const UpdateDelegationForm = ({
             >
               Cancel
             </Button>
-            <Tooltip
-              disabled={permissions?.update_delegate_users}
-              tooltipText={
-                !permissions?.update_delegate_users
-                  ? 'You do not have permission to update delegations.'
-                  : undefined
-              }
+            <Button
+              data-pendo-id={IAM_PARENT_USERS_PENDO_IDS.updateDelegationSave}
+              data-testid="submit"
+              disabled={!permissions?.update_delegate_users}
+              processing={isSubmitting}
+              type="submit"
+              variant="primary"
             >
-              <Button
-                data-pendo-id={IAM_PARENT_USERS_PENDO_IDS.updateDelegationSave}
-                data-testid="submit"
-                processing={isSubmitting}
-                type="submit"
-                variant="primary"
-              >
-                Save Changes
-                {!permissions?.update_delegate_users ? (
-                  <Icon icon="info-outline" size="m" />
-                ) : null}
-              </Button>
-            </Tooltip>
+              Save Changes
+            </Button>
           </DrawerInlineActions>
         </form>
       </FormProvider>

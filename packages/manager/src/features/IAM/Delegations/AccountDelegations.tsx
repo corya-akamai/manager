@@ -49,6 +49,8 @@ export const AccountDelegations = () => {
     initialPage: 1,
     searchParams: (prev) => ({
       ...prev,
+      action: undefined,
+      euuid: undefined,
       company: company || undefined,
     }),
   });

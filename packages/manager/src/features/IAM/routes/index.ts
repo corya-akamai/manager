@@ -51,6 +51,7 @@ interface IamEntitiesSearchParams extends TableSearchParams {
 interface IamUsersSearchParams extends TableSearchParams {
   action?: string;
   company?: string;
+  euuid?: string;
   query?: string; // to be deprecated once UIE-9292 is resolved
   username?: string;
   users?: string;
@@ -76,6 +77,7 @@ const iamActions = {
   'delete-user': 'delete-user',
   'edit-user': 'edit-user',
   'unassign-role': 'unassign-role',
+  'update-delegation': 'update-delegation',
   'update-entities': 'update-entities',
   'remove-entity': 'remove-entity',
 } as const;
