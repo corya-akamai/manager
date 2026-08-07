@@ -113,8 +113,8 @@
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
-    "@akamai/compute-ui-portal": "1.0.2",
-    "@akamai/compute-ui-portal-menu": "1.0.0",
+    "@akamai/compute-ui-portal": "1.0.5",
+    "@akamai/compute-ui-portal-menu": "1.0.4",
     "@storybook/addon-a11y": "^10.5.3",
     "@storybook/addon-docs": "^10.5.3",
     "@storybook/react-vite": "^10.5.3",
