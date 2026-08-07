@@ -4,6 +4,9 @@ export const getLinodeInterfaceType = (networkInterface: LinodeInterface) => {
   if (networkInterface.vpc) {
     return 'VPC';
   }
+  if (networkInterface.rdma_vpc) {
+    return 'VPC - RDMA';
+  }
   if (networkInterface.vlan) {
     return 'VLAN';
   }

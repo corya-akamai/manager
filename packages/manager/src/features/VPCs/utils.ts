@@ -137,7 +137,8 @@ export const getIsVPCLKEEnterpriseCluster = (vpc: VPC) =>
   /^lke\d+/i.test(vpc.label);
 
 export const getLinodeInterfacePrimaryIPv4 = (iface: LinodeInterface) =>
-  iface.vpc?.ipv4?.addresses.find((address) => address.primary)?.address;
+  iface.vpc?.ipv4?.addresses.find((address) => address.primary)?.address ??
+  iface.rdma_vpc?.ipv4?.addresses.find((address) => address.primary)?.address;
 
 export const getLinodeInterfaceIPv4Ranges = (iface: LinodeInterface) =>
   iface.vpc?.ipv4?.ranges.map((range) => range.range);

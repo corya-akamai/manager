@@ -1,4 +1,4 @@
-import { truncate } from '@akamai/compute-ui-core/formatting';
+import { splitAt, truncate } from '@akamai/compute-ui-core/formatting';
 import { useRegionsQuery, useVPCQuery } from '@linode/queries';
 import {
   Box,
@@ -15,13 +15,16 @@ import { DismissibleBanner } from 'src/components/DismissibleBanner/DismissibleB
 import { DocumentTitleSegment } from 'src/components/DocumentTitle';
 import { EntityHeader } from 'src/components/EntityHeader/EntityHeader';
 import { LandingHeader } from 'src/components/LandingHeader';
+import { ShowMore } from 'src/components/ShowMore/ShowMore';
 import { usePermissions } from 'src/features/IAM/hooks/usePermissions';
 import { LKE_ENTERPRISE_AUTOGEN_VPC_WARNING } from 'src/features/Kubernetes/constants';
 import { VPC_DOCS_LINK, VPC_LABEL } from 'src/features/VPCs/constants';
+import { useFlags } from 'src/hooks/useFlags';
 
 import {
   getIsVPCLKEEnterpriseCluster,
   getUniqueResourcesFromSubnets,
+  useIsCustomVPCIPv4RangesEnabled,
 } from '../utils';
 import { VPCDeleteDialog } from '../VPCLanding/VPCDeleteDialog';
 import { VPCEditDrawer } from '../VPCLanding/VPCEditDrawer';
@@ -34,7 +37,35 @@ import {
 } from './VPCDetail.styles';
 import { VPCSubnetsTable } from './VPCSubnetsTable';
 
-import type { VPC } from '@linode/api-v4';
+import type { VPC, VPCIPv4Range } from '@linode/api-v4';
+
+/**
+ * Displays up to 2 IPv4 ranges, with a "+N" ShowMore popover
+ * for any overflow ranges.
+ */
+const MAX_VISIBLE_IPV4_RANGES = 2;
+const VPCIPv4RangesList = ({ ipv4 }: { ipv4: VPCIPv4Range[] }) => {
+  const [visible, overflow] = splitAt(MAX_VISIBLE_IPV4_RANGES, ipv4);
+
+  return (
+    <>
+      {visible.map((r) => r.range).join(', ')}{' '}
+      {overflow.length > 0 && (
+        <ShowMore
+          ariaItemType="tags"
+          items={overflow}
+          render={(items) => (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {items.map((ipv4) => (
+                <span key={ipv4.range}>{ipv4.range}</span>
+              ))}
+            </div>
+          )}
+        />
+      )}
+    </>
+  );
+};
 
 const VPCDetail = () => {
   const params = useParams({ strict: false });
@@ -56,6 +87,9 @@ const VPCDetail = () => {
     ['update_vpc', 'delete_vpc'],
     vpcId
   );
+
+  const flags = useFlags();
+  const { isCustomVPCIPv4RangesEnabled } = useIsCustomVPCIPv4RangesEnabled();
 
   const handleEditVPC = (vpc: VPC) => {
     navigate({
@@ -134,6 +168,33 @@ const VPCDetail = () => {
         value: vpc.updated,
       },
     ],
+    ...(flags.nitro?.enabled || isCustomVPCIPv4RangesEnabled
+      ? [
+          [
+            ...(flags.nitro?.enabled
+              ? [
+                  {
+                    label: 'VPC Type',
+                    value: vpc.vpc_type === 'rdma' ? 'RDMA' : 'Regular',
+                  },
+                ]
+              : []),
+            ...(isCustomVPCIPv4RangesEnabled
+              ? [
+                  {
+                    label: 'IPv4 Ranges',
+                    value:
+                      vpc.ipv4 && vpc.ipv4.length > 0 ? (
+                        <VPCIPv4RangesList ipv4={vpc.ipv4} />
+                      ) : (
+                        'None'
+                      ),
+                  },
+                ]
+              : []),
+          ],
+        ]
+      : []),
   ];
 
   return (
@@ -193,17 +254,18 @@ const VPCDetail = () => {
       </EntityHeader>
       <StyledBox>
         <StyledSummaryBox data-qa-vpc-summary display="flex" flex={1}>
-          {summaryData.map((col) => {
+          {summaryData.map((col, index) => {
             return (
-              <Box key={col[0].label} paddingRight={6}>
-                <StyledSummaryTextTypography>
-                  <span style={{ font: theme.font.bold }}>{col[0].label}</span>{' '}
-                  {col[0].value}
-                </StyledSummaryTextTypography>
-                <StyledSummaryTextTypography>
-                  <span style={{ font: theme.font.bold }}>{col[1].label}</span>{' '}
-                  {col[1].value}
-                </StyledSummaryTextTypography>
+              <Box
+                key={col[0]?.label ?? `summary-col-${index}`}
+                paddingRight={6}
+              >
+                {col.map((item) => (
+                  <StyledSummaryTextTypography key={item.label}>
+                    <span style={{ font: theme.font.bold }}>{item.label}</span>{' '}
+                    {item.value}
+                  </StyledSummaryTextTypography>
+                ))}
               </Box>
             );
           })}
@@ -271,6 +333,7 @@ const VPCDetail = () => {
         isVPCLKEEnterpriseCluster={isVPCLKEEnterpriseCluster}
         vpcId={vpc.id}
         vpcRegion={vpc.region}
+        vpcType={vpc.vpc_type}
       />
     </>
   );

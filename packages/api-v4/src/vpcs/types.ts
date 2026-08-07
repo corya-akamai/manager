@@ -16,6 +16,7 @@ export interface VPC {
   created: string;
   description: string;
   id: number;
+  ipv4?: VPCIPv4Range[];
   ipv6?: VPCIPv6[];
   label: string;
   region: string;
