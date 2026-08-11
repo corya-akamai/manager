@@ -10,8 +10,8 @@ import {
 import { Spacing, Typography } from '@akamai/cds-tokens';
 import {
   useAllAccountUsersQuery,
+  useAllTfaOptionalUsersQuery,
   useGetTfaEnforcementAccountSettingsQuery,
-  useGetTfaOptionalUsersQuery,
   useUpdateTfaEnforcementAccountSettingsMutation,
   useUpdateTfaOptionalUsersMutation,
 } from '@linode/queries';
@@ -74,7 +74,7 @@ export const TfaEnforcementLanding = () => {
     useUpdateTfaOptionalUsersMutation();
 
   const { data: tfaOptionalUsers, isLoading: isOptionalUsersLoading } =
-    useGetTfaOptionalUsersQuery();
+    useAllTfaOptionalUsersQuery();
 
   const { data: allUsers } = useAllAccountUsersQuery(true);
   const allUsernames = React.useMemo(
@@ -83,7 +83,7 @@ export const TfaEnforcementLanding = () => {
   );
 
   const tfaOptionalUsersOptions = React.useMemo(() => {
-    return tfaOptionalUsers?.data.map((user: TfaOptionalUser) => user.username);
+    return tfaOptionalUsers?.map((user: TfaOptionalUser) => user.username);
   }, [tfaOptionalUsers]);
 
   const form = useForm<TfaEnforcementFormValues>({
