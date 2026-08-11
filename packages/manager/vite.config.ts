@@ -23,10 +23,10 @@ const cdsDarkTokensScope = (): Plugin => ({
 
 const mfe = mfeLibBuild({
   entryJs: resolve(DIRNAME, 'src/entry.tsx'),
-  outDir: resolve(DIRNAME, 'dist'),
+  outDir: resolve(DIRNAME, 'build'),
   serve: {
     localAppName: 'cloud-manager-distributed',
-    localDistRoot: resolve(process.cwd(), 'dist'),
+    localDistRoot: resolve(process.cwd(), 'build'),
     appsRoot: resolve(process.cwd(), 'node_modules/@akamai'),
   },
 });
