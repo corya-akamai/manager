@@ -94,21 +94,23 @@ export const ChangeRoleDrawer = ({
     if (!accountRoles) {
       return [];
     }
-    return getAllRoles(accountRoles).filter((el) => {
-      const matchesRoleContext =
-        el.entity_type === role?.entity_type &&
-        el.access === role?.access &&
-        el.value !== role?.name;
-      // Exclude account roles already assigned to the user
-      if (isAccountRole(el)) {
-        return matchesRoleContext;
-      }
-      // Exclude entity roles already assigned to the user
-      if (isEntityRole(el)) {
-        return matchesRoleContext;
-      }
-      return true;
-    });
+    return getAllRoles(accountRoles)
+      .filter((el) => {
+        const matchesRoleContext =
+          el.entity_type === role?.entity_type &&
+          el.access === role?.access &&
+          el.value !== role?.name;
+        // Exclude account roles already assigned to the user
+        if (isAccountRole(el)) {
+          return matchesRoleContext;
+        }
+        // Exclude entity roles already assigned to the user
+        if (isEntityRole(el)) {
+          return matchesRoleContext;
+        }
+        return true;
+      })
+      .sort((a, b) => a.value.localeCompare(b.value));
   }, [accountRoles, role]);
 
   const {

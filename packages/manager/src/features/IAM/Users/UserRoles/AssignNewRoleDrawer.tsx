@@ -78,20 +78,22 @@ export const AssignNewRoleDrawer = ({
     if (!accountRoles) {
       return [];
     }
-    return getAllRoles(accountRoles).filter((role) => {
-      // exclude account and entities roles that are already assigned to the user
-      if (isAccountRole(role)) {
-        return !assignedRoles?.account_access.includes(role.value);
-      }
+    return getAllRoles(accountRoles)
+      .filter((role) => {
+        // exclude account and entities roles that are already assigned to the user
+        if (isAccountRole(role)) {
+          return !assignedRoles?.account_access.includes(role.value);
+        }
 
-      if (isEntityRole(role)) {
-        return !assignedRoles?.entity_access.some((entity) =>
-          entity.roles.includes(role.value)
-        );
-      }
+        if (isEntityRole(role)) {
+          return !assignedRoles?.entity_access.some((entity) =>
+            entity.roles.includes(role.value)
+          );
+        }
 
-      return true;
-    });
+        return true;
+      })
+      .sort((a, b) => a.value.localeCompare(b.value));
   }, [accountRoles, assignedRoles]);
 
   const { mutateAsync: updateUserRoles, isPending: isUserRolesPending } =

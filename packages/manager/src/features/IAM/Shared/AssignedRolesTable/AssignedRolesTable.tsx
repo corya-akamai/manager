@@ -15,7 +15,12 @@ import {
   useGetDefaultDelegationAccessQuery,
   useUserRoles,
 } from '@linode/queries';
-import { useNavigate, useParams, useSearch } from '@tanstack/react-router';
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearch,
+} from '@tanstack/react-router';
 import React from 'react';
 
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
@@ -75,9 +80,17 @@ const DEFAULTS_ROLES_URL = '/iam/roles/defaults/roles';
 const USER_ROLES_URL = '/iam/users/$username/roles';
 const MIN_PAGE_SIZE = 25;
 
+/** Snapshot passed via router location state so overlays survive list updates. */
+type AssignedRolesLocationState = {
+  overlayEntity?: CombinedEntity;
+  overlayRole?: ExtendedRoleView;
+};
+
 export const AssignedRolesTable = () => {
   const { username } = useParams({ strict: false });
   const navigate = useNavigate();
+  const location = useLocation();
+  const locationState = location.state as AssignedRolesLocationState;
 
   const { isDefaultDelegationRolesForChildAccount } =
     useIsDefaultDelegationRolesForChildAccount();
@@ -246,10 +259,14 @@ export const AssignedRolesTable = () => {
   );
 
   const actionHandler = (
-    action: IAMAction,
-    username?: string,
-    role?: string,
-    entity?: string
+    nextAction: IAMAction,
+    options?: {
+      entity?: string;
+      overlayEntity?: CombinedEntity;
+      overlayRole?: ExtendedRoleView;
+      role?: string;
+      username?: string;
+    }
   ) => {
     navigate({
       to: isDefaultDelegationRolesForChildAccount
@@ -257,48 +274,67 @@ export const AssignedRolesTable = () => {
         : USER_ROLES_URL,
       search: (prev) => ({
         ...prev,
-        action,
-        username,
-        role,
-        entity,
+        action: nextAction,
+        username: options?.username,
+        role: options?.role,
+        entity: options?.entity,
+      }),
+      state: (prev) => ({
+        ...prev,
+        overlayRole: options?.overlayRole,
+        overlayEntity: options?.overlayEntity,
       }),
     });
   };
 
-  const selectedRole = React.useMemo(
-    () =>
-      roleParam && roles ? roles.find((r) => r.name === roleParam) : undefined,
-    [roleParam, roles]
-  );
+  // Prefer the location-state snapshot (set when opening). Fall back to a list
+  // lookup for deep links / refresh where history state is empty.
+  const selectedRole =
+    locationState.overlayRole?.name === roleParam
+      ? locationState.overlayRole
+      : roleParam && roles
+        ? roles.find((r) => r.name === roleParam)
+        : undefined;
 
   const selectedEntity = React.useMemo<CombinedEntity | undefined>(() => {
+    if (
+      locationState.overlayEntity?.name === entityParam &&
+      locationState.overlayEntity
+    ) {
+      return locationState.overlayEntity;
+    }
     if (!entityParam || !entities) return undefined;
     const e = entities.find((entity) => entity.label === entityParam);
     return e ? { id: e.id, name: e.label } : undefined;
-  }, [entityParam, entities]);
+  }, [entityParam, entities, locationState.overlayEntity]);
 
   const handleAssignNewRoles = () => {
     actionHandler('assign-new-roles');
   };
 
   const handleChangeRole = (role: ExtendedRoleView) => {
-    actionHandler('change-role', undefined, role.name);
+    actionHandler('change-role', { role: role.name, overlayRole: role });
     setDrawerMode('change-role');
   };
 
   const handleUnassignRole = (role: ExtendedRoleView) => {
-    actionHandler('unassign-role', undefined, role.name);
+    actionHandler('unassign-role', { role: role.name, overlayRole: role });
   };
 
   const handleUpdateEntities = (role: ExtendedRoleView) => {
-    actionHandler('update-entities', undefined, role.name);
+    actionHandler('update-entities', { role: role.name, overlayRole: role });
   };
 
   const handleRemoveAssignment = (
     entity: CombinedEntity,
     role: ExtendedRoleView
   ) => {
-    actionHandler('remove-entity', undefined, role.name, entity.name);
+    actionHandler('remove-entity', {
+      role: role.name,
+      entity: entity.name,
+      overlayRole: role,
+      overlayEntity: entity,
+    });
   };
 
   const clearDialogAction = (expectedAction?: IAMAction) => {
@@ -308,8 +344,8 @@ export const AssignedRolesTable = () => {
       return;
     }
 
-    // Only clear `action` here so modal bodies keep `role`/`entity` during the
-    // exit animation. Remaining params are cleared in `clearDialogParams`.
+    // Only clear `action` here so URL `role`/`entity` and location-state
+    // snapshots remain during the exit animation. Cleared in `clearDialogParams`.
     navigate({
       to: isDefaultDelegationRolesForChildAccount
         ? DEFAULTS_ROLES_URL
@@ -318,6 +354,8 @@ export const AssignedRolesTable = () => {
         ...prev,
         action: undefined,
       }),
+      // navigate() without state replaces history state with {} — keep snapshot.
+      state: (prev) => prev,
     });
   };
 
@@ -331,6 +369,11 @@ export const AssignedRolesTable = () => {
         role: undefined,
         username: undefined,
         entity: undefined,
+      }),
+      state: (prev) => ({
+        ...prev,
+        overlayRole: undefined,
+        overlayEntity: undefined,
       }),
     });
   };
@@ -350,6 +393,11 @@ export const AssignedRolesTable = () => {
         role: undefined,
         username: undefined,
         entity: undefined,
+      }),
+      state: (prev) => ({
+        ...prev,
+        overlayRole: undefined,
+        overlayEntity: undefined,
       }),
     });
   };

@@ -123,7 +123,7 @@ export const RemoveAssignmentConfirmationDialog = (props: Props) => {
     : userRolesError;
 
   const assignmentMissing = !isRolesLoading && !role;
-  const canSubmit = Boolean(role) && !isRolesLoading && !isPending;
+  const canSubmit = Boolean(role) && !isRolesLoading;
 
   return (
     <Modal

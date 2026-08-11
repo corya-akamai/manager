@@ -122,8 +122,7 @@ export const UnassignRoleConfirmationDialog = (props: Props) => {
     : userRolesError;
 
   const roleMissing = !isRolesLoading && !role;
-  const canSubmit =
-    Boolean(role) && !isRolesLoading && !isPending && !isDefaultRolesPending;
+  const canSubmit = Boolean(role) && !isRolesLoading;
 
   return (
     <Modal
