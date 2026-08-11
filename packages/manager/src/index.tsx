@@ -40,7 +40,7 @@ computeUiCoreApi.configure({
   responseMiddleware: (response) => oauthClient.responseMiddleware(response),
 });
 
-const Main = () => {
+export const Main = () => {
   if (!navigator.cookieEnabled) {
     return <CookieWarning />;
   }
@@ -76,9 +76,6 @@ async function loadApp() {
 
     root.render(<DevTools queryClient={queryClient} store={store} />);
   }
-
-  const container = document.getElementById('root');
-  createRoot(container!).render(<Main />);
 }
 
 loadApp();

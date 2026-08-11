@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -10,12 +10,16 @@
         color-scheme: light !important;
       }
     </style>
+    <link rel="stylesheet" href="./node_modules/@akamai/compute-ui-app-loader/dist/app-loader.css" />
   </head>
   <body>
     <cui-portal>
-      <div id="root"></div>
+      <cui-app-loader></cui-app-loader>
     </cui-portal>
     <script type="module" src="/libs/compute-ui-portal/latest/compute-ui-portal.js"></script>
-    <script type="module" src="/src/index.tsx"></script>
+    <script
+      type="module"
+      src="/libs/compute-ui-app-loader/latest/compute-ui-app-loader.js"
+    ></script>
   </body>
 </html>

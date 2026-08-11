@@ -1,6 +1,8 @@
 import { profileFactory } from '@linode/utilities';
 import { AxiosHeaders } from 'axios';
 
+import { API_ROOT } from 'src/constants';
+
 import {
   getURL,
   handleError,
@@ -71,7 +73,7 @@ describe('getURL', () => {
       url: 'http://localhost:5000/profile',
     };
 
-    expect(getURL(config)).toBe('https://api.linode.com/v4/profile');
+    expect(getURL(config)).toBe(`${API_ROOT}/profile`);
   });
 });
 

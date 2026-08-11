@@ -1,9 +1,6 @@
-import {
-  computeUiPortalProxy,
-  externalComputeUiPortalScript,
-  injectPortalConfig,
-} from '@akamai/compute-ui-portal/vite';
+import { mfeLibBuild } from '@akamai/compute-ui-app-loader/plugins';
 import react from '@vitejs/plugin-react';
+import { resolve } from 'node:path';
 import { URL } from 'url';
 import svgr from 'vite-plugin-svgr';
 import { defineConfig, type Plugin } from 'vitest/config';
@@ -24,23 +21,33 @@ const cdsDarkTokensScope = (): Plugin => ({
   },
 });
 
-export default defineConfig({
-  build: {
-    outDir: 'build',
-    rollupOptions: {
-      external: [/^\/libs\/compute-ui-portal\//],
-    },
+const mfe = mfeLibBuild({
+  entryJs: resolve(DIRNAME, 'src/entry.tsx'),
+  outDir: resolve(DIRNAME, 'dist'),
+  serve: {
+    localAppName: 'cloud-manager-distributed',
+    localDistRoot: resolve(process.cwd(), 'dist'),
+    appsRoot: resolve(process.cwd(), 'node_modules/@akamai'),
   },
+});
+
+export default defineConfig({
+  build: mfe.build,
   envPrefix: 'COMPUTE_',
   plugins: [
     cdsDarkTokensScope(),
     react(),
     svgr({ svgrOptions: { exportType: 'default' }, include: '**/*.svg' }),
     urlCanParsePolyfill(),
-    computeUiPortalProxy(),
-    externalComputeUiPortalScript(),
-    injectPortalConfig(),
+    ...mfe.plugins,
   ],
+  define: {
+    // Keep production behavior for app builds, but let Vitest run in test mode
+    // so React Testing Library can use React.act correctly.
+    'process.env.NODE_ENV': JSON.stringify(
+      process.env.VITEST ? 'test' : 'production'
+    ),
+  },
   resolve: {
     alias: {
       src: `${DIRNAME}/src`,
