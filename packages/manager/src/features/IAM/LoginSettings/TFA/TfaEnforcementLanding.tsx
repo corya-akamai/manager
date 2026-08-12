@@ -168,7 +168,7 @@ export const TfaEnforcementLanding = () => {
           <BreadcrumbItem
             onCdsBreadcrumbClick={() => navigate({ to: '/iam/settings' })}
           >
-            Account Settings
+            Settings
           </BreadcrumbItem>
           <BreadcrumbItem>Manage 2FA Enforcement</BreadcrumbItem>
         </Breadcrumb>

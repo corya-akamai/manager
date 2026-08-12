@@ -86,7 +86,7 @@ export const AccountUsersTableHead = ({
             sorted={order.orderBy === 'email' ? order.order : undefined}
             style={{ minWidth: '60%' }}
           >
-            Email Address
+            Email
           </TableHeaderCell>
         )}
       </TableRow>
