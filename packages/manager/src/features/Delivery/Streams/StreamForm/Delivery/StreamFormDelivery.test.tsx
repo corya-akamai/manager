@@ -61,7 +61,8 @@ describe('StreamFormDelivery', () => {
   });
 
   const renderComponentAndAddNewDestinationName = async (
-    destinationTypeToSet: DestinationType
+    destinationTypeToSet: DestinationType,
+    flags = {}
   ) => {
     renderWithThemeAndHookFormContext({
       component: (
@@ -80,6 +81,9 @@ describe('StreamFormDelivery', () => {
             destinations: [],
           },
         },
+      },
+      options: {
+        flags,
       },
     });
 
@@ -319,6 +323,43 @@ describe('StreamFormDelivery', () => {
           await user.type(clientKeyInput, 'test');
 
           expect(clientKeyInput).toHaveValue('test');
+        });
+
+        describe('Private Key Passphrase field', () => {
+          it('should not render Private Key Passphrase field when flag is disabled', async () => {
+            await renderComponentAndAddNewDestinationName(
+              destinationType.CustomHttps
+            );
+
+            expect(
+              screen.queryByLabelText('Private Key Passphrase')
+            ).not.toBeInTheDocument();
+          });
+
+          it('should render Private Key Passphrase field when flag is enabled', async () => {
+            await renderComponentAndAddNewDestinationName(
+              destinationType.CustomHttps,
+              { aclpLogs: { privateKeyPassphraseEnabled: true } }
+            );
+
+            expect(
+              screen.getByLabelText('Private Key Passphrase')
+            ).toBeInTheDocument();
+          });
+
+          it('should allow to type text in Private Key Passphrase input when flag is enabled', async () => {
+            await renderComponentAndAddNewDestinationName(
+              destinationType.CustomHttps,
+              { aclpLogs: { privateKeyPassphraseEnabled: true } }
+            );
+
+            const passphraseInput = screen.getByLabelText(
+              'Private Key Passphrase'
+            );
+            await user.type(passphraseInput, 'test-passphrase-123');
+
+            expect(passphraseInput).toHaveValue('test-passphrase-123');
+          });
         });
       });
 

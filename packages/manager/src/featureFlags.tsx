@@ -154,6 +154,10 @@ interface AclpLogsFlag {
    * This property indicates whether the feature is new or not
    */
   new?: boolean;
+  /**
+   * This property indicates whether to show Private Key Passphrase field in the Custom HTTPS destination form
+   */
+  privateKeyPassphraseEnabled?: boolean;
 }
 
 interface LkeEnterpriseFlag extends BaseFeatureFlag {

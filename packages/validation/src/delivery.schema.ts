@@ -110,6 +110,7 @@ const clientCertificateDetailsSchema = object({
   client_ca_certificate: string(),
   client_certificate: string(),
   client_private_key: string(),
+  client_private_key_passphrase: string(),
 }).test(
   'all-or-nothing-cert-details',
   'If any certificate detail is provided, all are required.',
@@ -118,16 +119,27 @@ const clientCertificateDetailsSchema = object({
       return true;
     }
 
-    const { client_ca_certificate, client_certificate, client_private_key } =
-      value;
-
-    const fields = [
+    const {
+      client_ca_certificate,
+      client_certificate,
+      client_private_key,
+      client_private_key_passphrase,
+    } = value;
+    const requiredFields = [
       client_ca_certificate,
       client_certificate,
       client_private_key,
     ];
-    const hasAnyValue = fields.some(hasValue);
-    const hasAllValues = fields.every(hasValue);
+    const hasAnyValue = requiredFields.some(hasValue);
+    const hasAllValues = requiredFields.every(hasValue);
+
+    if (!client_private_key && hasValue(client_private_key_passphrase)) {
+      return this.createError({
+        path: `${this.path}.client_private_key_passphrase`,
+        message:
+          'Private Key Passphrase must be empty when the Client Private Key is not provided.',
+      });
+    }
 
     if (!hasAnyValue || hasAllValues) {
       return true;
