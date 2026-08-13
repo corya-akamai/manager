@@ -155,7 +155,9 @@ export const CloudPulseDashboardSelect = React.memo(
         disabled={
           !dashboardsList.length ||
           (!savePreferences && !!onlyServiceLevelDashboardIdAvailable) ||
-          (!savePreferences && dashboardsList.length === 1)
+          (!savePreferences &&
+            dashboardsList.length === 1 &&
+            integrationServiceType !== undefined) // Disable only for contextual view when only one dashboard and integration service type is provided.
         }
         errorText={dashboardsList?.length ? '' : errorText}
         fullWidth

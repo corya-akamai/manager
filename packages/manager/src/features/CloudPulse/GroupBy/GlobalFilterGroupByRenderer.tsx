@@ -46,7 +46,7 @@ export const GlobalFilterGroupByRenderer = (
   const { options, defaultValue, isLoading } = useGlobalDimensions(
     selectedDashboard?.id,
     selectedDashboard?.service_type,
-    preferenceGroupBy as string[]
+    savePreferences ? (preferenceGroupBy as string[]) : undefined
   );
 
   const [open, setOpen] = React.useState(false);

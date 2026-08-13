@@ -1,21 +1,26 @@
+import { useProfile } from '@linode/queries';
 import { Box, Divider, Notice } from '@linode/ui';
 import { IconButton } from '@mui/material';
 import { GridLegacy } from '@mui/material';
+import { DateTime } from 'luxon';
 import * as React from 'react';
 
 import DownloadIcon from 'src/assets/icons/lke-download.svg';
 import Reload from 'src/assets/icons/refresh.svg';
 import { useFlags } from 'src/hooks/useFlags';
-import { oauthClient } from 'src/OAuth/oauthClient';
 import { useResourcesQuery } from 'src/queries/cloudpulse/resources';
+import { storage } from 'src/utilities/storage';
 
 import { useCloudPulseContext } from '../Context/useCloudPulseContext';
 import { GlobalFilterGroupByRenderer } from '../GroupBy/GlobalFilterGroupByRenderer';
 import { CloudPulseDashboardFilterBuilder } from '../shared/CloudPulseDashboardFilterBuilder';
 import { CloudPulseDashboardSelect } from '../shared/CloudPulseDashboardSelect';
-import { CloudPulseDateTimeRangePicker } from '../shared/CloudPulseDateTimeRangePicker';
+import { CloudPulseDateTimeRangePickerRenderer } from '../shared/CloudPulseDateTimeRangePickerRenderer';
 import { CloudPulseTooltip } from '../shared/CloudPulseTooltip';
-import { convertToGmt } from '../Utils/CloudPulseDateTimePickerUtils';
+import {
+  convertToGmt,
+  defaultTimeDuration,
+} from '../Utils/CloudPulseDateTimePickerUtils';
 import {
   DASHBOARD_ID,
   GROUP_BY,
@@ -60,17 +65,38 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
 
   const flags = useFlags();
 
-  const { preferences, updateGlobalFilterPreference: updatePreferences } =
-    useAclpPreference();
+  const { data: profile } = useProfile();
+
+  // Type-safe guard: useProfile() data can be undefined (or not narrowed), so ensure timezone exists before reading it.
+  const profileTimezone =
+    profile &&
+    typeof profile === 'object' &&
+    'timezone' in profile &&
+    typeof profile.timezone === 'string'
+      ? profile.timezone
+      : undefined;
+
+  const timezone =
+    profileTimezone === 'GMT'
+      ? 'Etc/GMT'
+      : (profileTimezone ?? DateTime.local().zoneName);
+
+  const {
+    preferences,
+    updateGlobalFilterPreference: updatePreferences,
+    isLoading: isPreferenceLoading,
+  } = useAclpPreference();
   const [selectedDashboard, setSelectedDashboard] = React.useState<
     Dashboard | undefined
   >();
+  const [timeDuration, setTimeDuration] = React.useState<DateTimeWithPreset>();
 
   const handleTimeRangeChange = React.useCallback(
     (timeDuration: DateTimeWithPreset, savePref: boolean = false) => {
       if (savePref) {
         updatePreferences({ [TIME_DURATION]: timeDuration });
       }
+      setTimeDuration(timeDuration);
       handleTimeDurationChange({
         ...timeDuration,
         end: convertToGmt(timeDuration.end, timeDuration.timeZone),
@@ -88,6 +114,16 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
         });
       }
       setSelectedDashboard(dashboard);
+      const defaultTimeDurationPreset = dashboard?.service_type
+        ? flags.aclpServices?.[dashboard?.service_type]?.metrics?.defaultPreset
+        : undefined;
+
+      const timeDuration = defaultTimeDuration(
+        timezone,
+        defaultTimeDurationPreset
+      );
+
+      setTimeDuration(timeDuration);
       handleDashboardChange(
         dashboard,
         preferences?.[DASHBOARD_ID] === dashboard?.id
@@ -143,7 +179,9 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
       (error instanceof Array &&
         error.length > 0 &&
         error[0]?.reason === 'Unauthorized'));
-  const isImpersonatedUser = oauthClient.getIsLoggedInAsCustomer();
+  const isImpersonatedUser =
+    storage.authentication.token.get()?.toLowerCase().startsWith('admin') ??
+    false;
 
   return (
     <GridLegacy container>
@@ -167,10 +205,15 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
             flexWrap="wrap"
             gap={2}
           >
-            <CloudPulseDateTimeRangePicker
-              defaultValue={preferences?.[TIME_DURATION]}
+            <CloudPulseDateTimeRangePickerRenderer
+              defaultValue={
+                isImpersonatedUser ? timeDuration : preferences?.[TIME_DURATION]
+              }
               handleStatsChange={handleTimeRangeChange}
-              savePreferences={!isImpersonatedUser} // no need to save preferences impersonated user, as it is disabled
+              isDisabled={
+                isPreferenceLoading || !selectedDashboard?.service_type
+              }
+              savePreferences={!isImpersonatedUser}
               serviceType={selectedDashboard?.service_type}
             />
 

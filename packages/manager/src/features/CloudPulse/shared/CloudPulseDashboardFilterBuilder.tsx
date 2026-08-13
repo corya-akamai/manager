@@ -6,7 +6,7 @@ import KeyboardCaretDownIcon from 'src/assets/icons/caret_down.svg';
 import KeyboardCaretRightIcon from 'src/assets/icons/caret_right.svg';
 import InfoIcon from 'src/assets/icons/info.svg';
 import NullComponent from 'src/components/NullComponent';
-import { oauthClient } from 'src/OAuth/oauthClient';
+import { storage } from 'src/utilities/storage';
 
 import RenderComponent from '../shared/CloudPulseComponentRenderer';
 import {
@@ -125,7 +125,9 @@ export const CloudPulseDashboardFilterBuilder = React.memo(
       LOADING_DELAYS.LARGE_DATASET
     );
 
-    const isImpersonatedUser = oauthClient.getIsLoggedInAsCustomer();
+    const isImpersonatedUser =
+      storage.authentication.token.get()?.toLowerCase().startsWith('admin') ??
+      false;
 
     const checkAndUpdateDependentFilters = React.useCallback(
       (filterKey: string, value: FilterValueType) => {
