@@ -24,12 +24,11 @@ interface Props {
 export const TFASection = ({ error, tfaSettings }: Props) => {
   const navigate = useNavigate();
 
-  // TODO: UIE-12176 Replace with the correct permissions once they are available in the API.
   const {
     data: permissions,
     error: permissionsError,
     isLoading: isPermissionsLoading,
-  } = usePermissions('account', ['is_account_admin']);
+  } = usePermissions('account', ['list_tfa_optional_users']);
 
   const isEnforced = tfaSettings?.tfa_enforced ?? false;
   const {
@@ -42,7 +41,7 @@ export const TFASection = ({ error, tfaSettings }: Props) => {
     return <CircleProgress />;
   }
 
-  if (!permissions?.is_account_admin && !isPermissionsLoading) {
+  if (!permissions?.list_tfa_optional_users && !isPermissionsLoading) {
     return (
       <NotificationBanner
         text="You do not have permission to view 2FA enforcement settings."
@@ -51,7 +50,7 @@ export const TFASection = ({ error, tfaSettings }: Props) => {
     );
   }
 
-  if (permissionsError || (error && permissions?.is_account_admin)) {
+  if (permissionsError || (error && permissions?.list_tfa_optional_users)) {
     return <ErrorState withPaper />;
   }
 

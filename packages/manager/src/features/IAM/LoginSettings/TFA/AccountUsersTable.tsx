@@ -39,11 +39,16 @@ const getErrorText = (
     : undefined);
 
 interface Props {
+  disabled?: boolean;
   tfaOptionalUsers: string[] | undefined;
   totalUsers: number;
 }
 
-export const AccountUsersTable = ({ totalUsers, tfaOptionalUsers }: Props) => {
+export const AccountUsersTable = ({
+  totalUsers,
+  tfaOptionalUsers,
+  disabled,
+}: Props) => {
   const { setValue } = useFormContext<TfaEnforcementFormValues>();
   const [showSelectedOnly, setShowSelectedOnly] = React.useState(false);
   const navigate = useNavigate();
@@ -280,6 +285,7 @@ export const AccountUsersTable = ({ totalUsers, tfaOptionalUsers }: Props) => {
 
       <AccountUsersTableControls
         clearDisabled={clearDisabled}
+        disabled={disabled}
         filteredUsersCount={userOptions.length}
         onClear={handleClear}
         onSelectAll={handleSelectAll}
@@ -296,6 +302,7 @@ export const AccountUsersTable = ({ totalUsers, tfaOptionalUsers }: Props) => {
           }}
         >
           <AccountUsersTableHead
+            disabled={disabled}
             onSelectAll={handleSelectAll}
             order={order}
             scopedOptionsLength={scopedOptions.length}
@@ -312,6 +319,7 @@ export const AccountUsersTable = ({ totalUsers, tfaOptionalUsers }: Props) => {
               paginatedRows.map((p) => (
                 <AccountUserRow
                   checked={selectedUsersSet.has(p.option.value)}
+                  disabled={disabled}
                   email={p.email}
                   key={p.rank}
                   onToggle={(checked) => handleToggle(p.option.value, checked)}
