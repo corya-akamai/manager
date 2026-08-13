@@ -70,8 +70,11 @@ export const TfaEnforcementLanding = () => {
   const { mutateAsync: updateOptionalUsers } =
     useUpdateTfaOptionalUsersMutation();
 
-  const { data: tfaOptionalUsers, isLoading: isOptionalUsersLoading } =
-    useAllTfaOptionalUsersQuery();
+  const {
+    data: tfaOptionalUsers,
+    isLoading: isOptionalUsersLoading,
+    error: tfaOptionalUsersError,
+  } = useAllTfaOptionalUsersQuery();
 
   const { data: allUsers } = useAllAccountUsersQuery(true);
   const allUsernames = React.useMemo(
@@ -253,6 +256,7 @@ export const TfaEnforcementLanding = () => {
                 <AccountUsersTable
                   disabled={!permissions?.update_tfa_optional_users}
                   tfaOptionalUsers={tfaOptionalUsersOptions}
+                  tfaOptionalUsersError={tfaOptionalUsersError}
                   totalUsers={totalUsers}
                 />
               )}

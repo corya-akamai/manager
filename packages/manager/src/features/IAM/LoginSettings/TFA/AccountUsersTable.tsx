@@ -41,6 +41,7 @@ const getErrorText = (
 interface Props {
   disabled?: boolean;
   tfaOptionalUsers: string[] | undefined;
+  tfaOptionalUsersError?: unknown;
   totalUsers: number;
 }
 
@@ -48,6 +49,7 @@ export const AccountUsersTable = ({
   totalUsers,
   tfaOptionalUsers,
   disabled,
+  tfaOptionalUsersError,
 }: Props) => {
   const { setValue } = useFormContext<TfaEnforcementFormValues>();
   const [showSelectedOnly, setShowSelectedOnly] = React.useState(false);
@@ -104,6 +106,8 @@ export const AccountUsersTable = ({
     error: usersError,
     isLoading: isUsersLoading,
   } = useAllAccountUsersQuery(permissions?.view_user, usersFilter);
+
+  const usersDataError = tfaOptionalUsersError || usersError;
 
   const userOptions = React.useMemo(() => {
     if (!users) {
@@ -204,13 +208,16 @@ export const AccountUsersTable = ({
     [scopedOptions, selectedUsersSet]
   );
 
-  const clearDisabled = !filteredRows.some((row) =>
-    selectedUsersSet.has(row.option.value)
-  );
+  const clearDisabled =
+    !!usersDataError ||
+    !filteredRows.some((row) => selectedUsersSet.has(row.option.value));
 
   const hasNoResults = paginatedRows.length === 0 && userOptions.length === 0;
+
+  const errorText = getErrorText(searchError, usersDataError);
+
   const showNoUsersText =
-    !isLoading && !searchError && !usersError && hasNoResults;
+    !isLoading && !searchError && !usersDataError && hasNoResults;
 
   const applyOptionalUsersUpdate = (next: string[]) => {
     setOptionalUsers(next);
@@ -259,9 +266,7 @@ export const AccountUsersTable = ({
     applyOptionalUsersUpdate(next);
   };
 
-  const errorText = getErrorText(searchError, usersError);
-
-  const shouldShowPagination = totalCount > MIN_PAGE_SIZE;
+  const shouldShowPagination = totalCount > MIN_PAGE_SIZE && !usersDataError;
 
   return (
     <div>
@@ -286,12 +291,12 @@ export const AccountUsersTable = ({
       <AccountUsersTableControls
         clearDisabled={clearDisabled}
         disabled={disabled}
-        filteredUsersCount={userOptions.length}
+        filteredUsersCount={usersDataError ? 0 : userOptions.length}
         onClear={handleClear}
         onSelectAll={handleSelectAll}
-        scopedOptionsLength={scopedOptions.length}
-        selectedScopedCount={selectedScopedCount}
-        selectedUsersCount={selectedUsersCount}
+        scopedOptionsLength={usersDataError ? 0 : scopedOptions.length}
+        selectedScopedCount={usersDataError ? 0 : selectedScopedCount}
+        selectedUsersCount={usersDataError ? 0 : selectedUsersCount}
       />
 
       <div>
@@ -305,11 +310,11 @@ export const AccountUsersTable = ({
             disabled={disabled}
             onSelectAll={handleSelectAll}
             order={order}
-            scopedOptionsLength={scopedOptions.length}
-            selectedScopedCount={selectedScopedCount}
+            scopedOptionsLength={usersDataError ? 0 : scopedOptions.length}
+            selectedScopedCount={usersDataError ? 0 : selectedScopedCount}
           />
           <TableBody>
-            {isLoading ? (
+            {errorText ? null : isLoading ? (
               <TableRow>
                 <TableCell style={{ justifyContent: 'center' }}>
                   <CircleProgress />

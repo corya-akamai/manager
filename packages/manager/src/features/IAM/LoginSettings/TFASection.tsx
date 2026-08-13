@@ -35,6 +35,7 @@ export const TFASection = ({ error, tfaSettings }: Props) => {
     enforcedUsersCount,
     totalUsers,
     isLoading: isTfaUserCountsLoading,
+    isError: isTfaUserCountsError,
   } = useTfaUserCounts(isEnforced);
 
   if (isPermissionsLoading || isTfaUserCountsLoading) {
@@ -50,7 +51,11 @@ export const TFASection = ({ error, tfaSettings }: Props) => {
     );
   }
 
-  if (permissionsError || (error && permissions?.list_tfa_optional_users)) {
+  if (
+    permissionsError ||
+    (error && permissions?.list_tfa_optional_users) ||
+    isTfaUserCountsError
+  ) {
     return <ErrorState withPaper />;
   }
 
