@@ -453,5 +453,99 @@ describe('DestinationCreate', () => {
         });
       });
     });
+
+    it('should allow hostname URL in Endpoint URL', async () => {
+      const verifyDestinationSpy = vi.fn();
+
+      server.use(
+        http.post('*/monitor/streams/destinations/verify', () => {
+          verifyDestinationSpy();
+          return HttpResponse.json({});
+        }),
+        http.get('*/profile', () => {
+          return HttpResponse.json(profileFactory.build());
+        })
+      );
+
+      renderDestinationCreate();
+
+      const testConnectionButton = screen.getByRole('button', {
+        name: testConnectionButtonText,
+      });
+
+      await fillOutCustomHttpsForm();
+      const endpointUrlInput = screen.getByLabelText('Endpoint URL');
+      await user.clear(endpointUrlInput);
+      await user.type(endpointUrlInput, 'https://example.com');
+
+      await user.click(testConnectionButton);
+
+      expect(verifyDestinationSpy).toHaveBeenCalled();
+    });
+
+    it('should not allow IPv4 address in Endpoint URL', async () => {
+      const verifyDestinationSpy = vi.fn();
+
+      server.use(
+        http.post('*/monitor/streams/destinations/verify', () => {
+          verifyDestinationSpy();
+          return HttpResponse.json({});
+        }),
+        http.get('*/profile', () => {
+          return HttpResponse.json(profileFactory.build());
+        })
+      );
+
+      renderDestinationCreate();
+
+      const testConnectionButton = screen.getByRole('button', {
+        name: testConnectionButtonText,
+      });
+
+      await fillOutCustomHttpsForm();
+      const endpointUrlInput = screen.getByLabelText('Endpoint URL');
+      await user.clear(endpointUrlInput);
+      await user.type(endpointUrlInput, 'https://192.168.1.10');
+
+      await user.click(testConnectionButton);
+
+      expect(verifyDestinationSpy).not.toHaveBeenCalled();
+      await screen.findByText(
+        'Endpoint URL must be a valid URL with a hostname. IP addresses aren\'t allowed.'
+      );
+    });
+
+    it('should not allow IPv6 address in Endpoint URL', async () => {
+      const verifyDestinationSpy = vi.fn();
+
+      server.use(
+        http.post('*/monitor/streams/destinations/verify', () => {
+          verifyDestinationSpy();
+          return HttpResponse.json({});
+        }),
+        http.get('*/profile', () => {
+          return HttpResponse.json(profileFactory.build());
+        })
+      );
+
+      renderDestinationCreate();
+
+      const testConnectionButton = screen.getByRole('button', {
+        name: testConnectionButtonText,
+      });
+
+      await fillOutCustomHttpsForm();
+      const endpointUrlInput = screen.getByLabelText('Endpoint URL');
+      await user.clear(endpointUrlInput);
+      await user.click(endpointUrlInput);
+      await user.paste('https://[2001:db8::1]');
+
+      await user.click(testConnectionButton);
+
+      expect(verifyDestinationSpy).not.toHaveBeenCalled();
+      await screen.findByText(
+        'Endpoint URL must be a valid URL with a hostname. IP addresses aren\'t allowed.'
+      );
+    });
   });
 });

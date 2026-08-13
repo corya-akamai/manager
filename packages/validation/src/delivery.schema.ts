@@ -1,3 +1,4 @@
+import ipaddr from 'ipaddr.js';
 import {
   array,
   boolean,
@@ -14,7 +15,7 @@ import type { InferType, MixedSchema, Schema } from 'yup';
 const maxLength = 255;
 const maxLengthMessage = 'Length must be 255 characters or less.';
 
-const isValidUrl = (input: string, checkProtocol = true): boolean => {
+const isValidUrl = (input: string, checkProtocol = true, prohibitIp = false): boolean => {
   if (/\s/.test(input)) {
     return false;
   }
@@ -25,10 +26,17 @@ const isValidUrl = (input: string, checkProtocol = true): boolean => {
 
     const { protocol, hostname } = new URL(urlToCheck);
 
+    const unwrappedHostname =
+      hostname.startsWith('[') && hostname.endsWith(']')
+        ? hostname.slice(1, -1)
+        : hostname;
+    const hasIpAddress = ipaddr.isValid(unwrappedHostname);
+
     return (
       ['http:', 'https:'].includes(protocol) &&
       !['127.0.0.1', '[::1]', 'localhost'].includes(hostname) &&
-      (hostname.includes('.') || hostname.includes(':'))
+      (hostname.includes('.') || hostname.includes(':')) &&
+      (!prohibitIp || !hasIpAddress)
     );
   } catch {
     return false;
@@ -238,8 +246,10 @@ const customHTTPSDetailsSchema = object({
   endpoint_url: string()
     .max(maxLength, maxLengthMessage)
     .required('Endpoint URL is required.')
-    .test('is-valid-url', 'Endpoint URL must be a valid URL.', (value) =>
-      isValidUrl(value),
+    .test(
+      'is-valid-url-hostname',
+      'Endpoint URL must be a valid URL with a hostname. IP addresses aren\'t allowed.',
+      (value) => isValidUrl(value, true, true),
     ),
 });
 
