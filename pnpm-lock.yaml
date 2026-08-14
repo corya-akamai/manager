@@ -537,8 +537,8 @@ importers:
         version: 4.4.2
     devDependencies:
       '@akamai/compute-ui-app-loader':
-        specifier: ^1.0.0-20260807235953-1d6d8fdc8b4be7b2f694e5326b241519733826e7
-        version: 1.0.0-20260807235953-1d6d8fdc8b4be7b2f694e5326b241519733826e7
+        specifier: ^1.0.0-develop-20260814143847-444ec8211b41d947aeddc79a35c3b1dd22053eb2
+        version: 1.0.0-staging-20260814144005-444ec8211b41d947aeddc79a35c3b1dd22053eb2
       '@akamai/compute-ui-portal':
         specifier: latest
         version: 1.0.4(@lit/react@1.0.8(@types/react@19.1.6))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -1058,8 +1058,8 @@ packages:
   '@akamai/cds-tokens@0.0.0-20260622084103':
     resolution: {integrity: sha512-uSfYON0DkwDmErs1v5pmMWMAP6Vb6irAInzrBnEEU8jSfuN0t+NiY4yNeT4W/2DSZLAzu5sWGSy3+nSoOtsVgQ==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/cds-tokens/-/@akamai/cds-tokens-0.0.0-20260622084103.tgz}
 
-  '@akamai/compute-ui-app-loader@1.0.0-20260807235953-1d6d8fdc8b4be7b2f694e5326b241519733826e7':
-    resolution: {integrity: sha512-EYf8wrS5//D+wdAcFUaL7wGwfSVjcZFLnD+rxhOeqQDe4uMPAn293z7UJsb5Ts2WvVdZmOI7JDeeJITWpBj9ww==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-app-loader/-/@akamai/compute-ui-app-loader-1.0.0-20260807235953-1d6d8fdc8b4be7b2f694e5326b241519733826e7.tgz}
+  '@akamai/compute-ui-app-loader@1.0.0-staging-20260814144005-444ec8211b41d947aeddc79a35c3b1dd22053eb2':
+    resolution: {integrity: sha512-6HV+WywfVkDpxY9MnaDWsH0pqW7PTxI8B4rDqxgG4K5SxzfxVXRFfsN9AzuRQfK0L6i1K68Cplv3vWT2h40vvw==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-app-loader/-/@akamai/compute-ui-app-loader-1.0.0-staging-20260814144005-444ec8211b41d947aeddc79a35c3b1dd22053eb2.tgz}
 
   '@akamai/compute-ui-core@0.0.0-20260615155722':
     resolution: {integrity: sha512-GeyTIMBRxwJV7Y8jN+lk6fRElWnIkxWqGCyP1VGvc2JxeceX+RC2MeOTRtxswMQEY4ih27QwsR+bYUddVZnomQ==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-core/-/@akamai/compute-ui-core-0.0.0-20260615155722.tgz}
@@ -7015,7 +7015,7 @@ snapshots:
 
   '@akamai/cds-tokens@0.0.0-20260622084103': {}
 
-  '@akamai/compute-ui-app-loader@1.0.0-20260807235953-1d6d8fdc8b4be7b2f694e5326b241519733826e7':
+  '@akamai/compute-ui-app-loader@1.0.0-staging-20260814144005-444ec8211b41d947aeddc79a35c3b1dd22053eb2':
     dependencies:
       lit: 3.3.2
 

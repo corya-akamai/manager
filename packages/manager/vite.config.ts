@@ -42,10 +42,12 @@ export default defineConfig({
     ...mfe.plugins,
   ],
   define: {
-    // Keep production behavior for app builds, but let Vitest run in test mode
-    // so React Testing Library can use React.act correctly.
+    // Must be explicit: Rolldown (Vite 8) does not auto-substitute process.env.NODE_ENV
+    // in browser bundles, causing ReferenceError at runtime (see UIE-12467).
+    // Vite sets process.env.NODE_ENV to 'development'|'production' before running,
+    // so this correctly gives the dev bundle in serve mode and prod bundle in builds.
     'process.env.NODE_ENV': JSON.stringify(
-      process.env.VITEST ? 'test' : 'production'
+      process.env.VITEST ? 'test' : (process.env.NODE_ENV ?? 'production')
     ),
   },
   resolve: {
