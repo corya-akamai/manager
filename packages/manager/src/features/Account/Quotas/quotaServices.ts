@@ -193,17 +193,17 @@ export const objectStorageQuotaService = (): QuotaService =>
           switch (quota.quota_type) {
             case 'obj-total-egress-throughput':
               return {
-                text: 'Egress usage available in Cloud Pulse Metrics',
+                text: 'Egress usage available in Metrics',
                 url: '/metrics',
                 tooltip:
-                  'To view egress usage by endpoint, open the Object Storage Endpoint Activity dashboard available within Akamai Cloud Pulse Metrics and select your endpoint.',
+                  'To view egress usage by endpoint, open the Object Storage Endpoint Activity dashboard available within Metrics and select your endpoint.',
               };
             case 'obj-total-ingress-throughput':
               return {
-                text: 'Ingress usage available in Cloud Pulse Metrics',
+                text: 'Ingress usage available in Metrics',
                 url: '/metrics',
                 tooltip:
-                  'To view ingress usage by endpoint, open the Object Storage Endpoint Activity dashboard available within Akamai Cloud Pulse Metrics and select your endpoint.',
+                  'To view ingress usage by endpoint, open the Object Storage Endpoint Activity dashboard available within Metrics and select your endpoint.',
               };
             default:
               return null;
