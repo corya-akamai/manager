@@ -113,7 +113,7 @@
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
-    "@akamai/compute-ui-app-loader": "^1.0.0-develop-20260814143847-444ec8211b41d947aeddc79a35c3b1dd22053eb2",
+    "@akamai/compute-ui-app-loader": "^1.0.0-staging-20260814174155-8f6600e7c90db861d2c713f473e91e3a73bd3755",
     "@akamai/compute-ui-portal": "latest",
     "@akamai/compute-ui-portal-menu": "latest",
     "@storybook/addon-a11y": "^10.5.7",
