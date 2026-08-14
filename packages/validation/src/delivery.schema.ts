@@ -57,7 +57,7 @@ const basicAuthenticationDetailsSchema = object({
 const bearerTokenAuthenticationDetailsSchema = object({
   bearer_token_authentication_value: string()
     .max(8192, 'Length must be 8192 characters or less.')
-    .required('Bearer Token is required for Bearer Token authentication.'),
+    .required('Bearer token is required.'),
   bearer_token_authentication_header_name: string()
     .max(maxLength, maxLengthMessage)
     .optional(),
@@ -224,7 +224,7 @@ const customHTTPSDetailsSchema = object({
     .optional()
     .test(
       'unique-header-names',
-      'Custom Header names must be unique.',
+      'Header name is already in use. Choose a different name.',
       function (headers) {
         if (!headers || headers.length === 0) {
           return true;
@@ -243,7 +243,8 @@ const customHTTPSDetailsSchema = object({
             errors.push(
               this.createError({
                 path: `${this.path}[${index}].name`,
-                message: 'Custom Header name must be unique.',
+                message:
+                  'Header name is already in use. Choose a different name.',
               }),
             );
           } else {

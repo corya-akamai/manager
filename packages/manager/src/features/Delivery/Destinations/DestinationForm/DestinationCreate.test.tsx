@@ -410,12 +410,10 @@ describe('DestinationCreate', () => {
           await user.click(testConnectionButton);
 
           expect(
-            await screen.findByText(
-              'Bearer Token is required for Bearer Token authentication.'
-            )
+            await screen.findByText('Bearer token is required.')
           ).toBeInTheDocument();
 
-          const bearerTokenInput = screen.getByLabelText('Bearer Token');
+          const bearerTokenInput = screen.getByLabelText('Token');
           await user.type(bearerTokenInput, 'exampleTokenString');
 
           expect(bearerTokenInput).toHaveValue('exampleTokenString');
@@ -423,9 +421,7 @@ describe('DestinationCreate', () => {
           await user.click(testConnectionButton);
 
           expect(
-            await screen.queryByText(
-              'Bearer Token is required for Bearer Token authentication.'
-            )
+            await screen.queryByText('Bearer token is required.')
           ).not.toBeInTheDocument();
         });
 

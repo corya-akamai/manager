@@ -95,6 +95,30 @@ export const DestinationCustomHttpsDetailsForm = (
     <>
       <Controller
         control={control}
+        name={controlPaths.endpointUrl}
+        render={({ field, fieldState }) => (
+          <TextField
+            aria-required
+            errorText={fieldState.error?.message}
+            inputProps={{
+              'data-pendo-id': `${pendoIdPrefix}Endpoint URL`,
+            }}
+            label="Endpoint URL"
+            labelTooltipText="The HTTPS endpoint for audit log delivery."
+            onBlur={field.onBlur}
+            onChange={(value) => {
+              field.onChange(value);
+            }}
+            value={field.value}
+          />
+        )}
+      />
+      <Divider sx={{ my: 3 }} />
+      <Typography sx={{ mt: 0 }} variant="h2">
+        Advanced Settings
+      </Typography>
+      <Controller
+        control={control}
         name={controlPaths.authenticationType}
         render={({ field, fieldState }) => (
           <Autocomplete
@@ -174,7 +198,7 @@ export const DestinationCustomHttpsDetailsForm = (
                   inputProps={{
                     'data-pendo-id': `${pendoIdPrefix}Bearer Token`,
                   }}
-                  label="Bearer Token"
+                  label="Token"
                   labelTooltipText={
                     'This token is securely stored and can’t be viewed after it’s saved. Keep a copy in a secure location, as you’ll need to provide it again whenever you edit this destination.'
                   }
@@ -226,33 +250,9 @@ export const DestinationCustomHttpsDetailsForm = (
             />
           </>
         )}
-      <Controller
-        control={control}
-        name={controlPaths.endpointUrl}
-        render={({ field, fieldState }) => (
-          <TextField
-            aria-required
-            errorText={fieldState.error?.message}
-            inputProps={{
-              'data-pendo-id': `${pendoIdPrefix}Endpoint URL`,
-            }}
-            label="Endpoint URL"
-            labelTooltipText="The HTTPS endpoint for audit log delivery."
-            onBlur={field.onBlur}
-            onChange={(value) => {
-              field.onChange(value);
-            }}
-            value={field.value}
-          />
-        )}
-      />
-      <Divider sx={{ my: 3 }} />
-      <Typography sx={{ mt: 0 }} variant="h2">
-        Connection Settings
-      </Typography>
       <Stack alignItems="center" direction="row" flexWrap="nowrap" mt={2}>
         <Typography variant="h3">
-          Client Certificate Authentication&nbsp;
+          Client Certificate&nbsp;
           <span
             style={{ fontWeight: theme.tokens.font.FontWeight.Regular.Normal }}
           >

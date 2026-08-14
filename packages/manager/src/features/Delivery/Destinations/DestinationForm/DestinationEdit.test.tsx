@@ -256,7 +256,7 @@ describe('DestinationEdit', () => {
       );
       expect(authenticationTypeSelect).toHaveValue('Bearer Token');
 
-      const bearerTokenInput = screen.getByLabelText('Bearer Token');
+      const bearerTokenInput = screen.getByLabelText('Token');
       const headerNameInput = screen.getByLabelText('Header Name (optional)');
       const tokenPrefixInput = screen.getByLabelText('Token Prefix (optional)');
 
@@ -287,7 +287,7 @@ describe('DestinationEdit', () => {
       );
       expect(authenticationTypeSelect).toHaveValue('Bearer Token');
 
-      const bearerTokenInput = screen.getByLabelText('Bearer Token');
+      const bearerTokenInput = screen.getByLabelText('Token');
       const headerNameInput = screen.getByLabelText('Header Name (optional)');
       const tokenPrefixInput = screen.getByLabelText('Token Prefix (optional)');
 
