@@ -213,23 +213,34 @@ export const objectStorageQuotaService = (): QuotaService =>
     },
   }) satisfies QuotaService;
 
-const VOLUMES_QUOTA_NAMES = new Map<string, string>([
-  ['vol-attachments|region', 'Attachment Count'],
-  ['vol-capacity|global', 'Global Storage Capacity'],
-  ['vol-capacity|region', 'Regional Storage Capacity'],
-  ['vol-volumes|region', 'Volume Count'],
+const VOLUMES_QUOTA_TYPE_NAMES = new Map<string, string>([
+  ['vol-attachments', 'Attachment Count'],
+  ['vol-capacity', 'Storage Capacity'],
+  ['vol-volumes', 'Volume Count'],
 ]);
+
+const evaluateVolumeQuotaName = (quota: VolumesQuota): string => {
+  let quotaTypeName = VOLUMES_QUOTA_TYPE_NAMES.get(quota.quota_type);
+  if (!quotaTypeName) {
+    // handle unexpected quota names by falling back to the API-provided name,
+    // removing the "Block Storage" prefix and any scope prefix
+    quotaTypeName = quota.quota_name
+      .replace('Block Storage ', '')
+      .replace('Global ', '')
+      .replace('Regional ', '');
+  }
+  const prefix = quota.scope === 'global' ? 'Global ' : 'Regional ';
+  return prefix + quotaTypeName;
+};
 
 const volumeQuotaTransformFunction = (quota: VolumesQuota): VolumesQuota => {
   return {
     ...quota,
-    quota_name:
-      VOLUMES_QUOTA_NAMES.get(`${quota.quota_type}|${quota.scope}`) ??
-      quota.quota_name,
+    quota_name: evaluateVolumeQuotaName(quota),
   };
 };
 
-export const volumesQuotaService: QuotaService = {
+export const volumesQuotaService: QuotaService<VolumesQuota> = {
   type: 'volumes',
   label: 'Volumes',
   scopes: {
@@ -253,4 +264,4 @@ export const volumesQuotaService: QuotaService = {
       transformFunction: volumeQuotaTransformFunction,
     },
   },
-} satisfies QuotaService<VolumesQuota>;
+};
