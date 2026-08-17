@@ -20,6 +20,7 @@ import { CloudPulseTooltip } from '../shared/CloudPulseTooltip';
 import {
   convertToGmt,
   defaultTimeDuration,
+  getTimeFromPreset,
 } from '../Utils/CloudPulseDateTimePickerUtils';
 import {
   DASHBOARD_ID,
@@ -90,6 +91,32 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
     Dashboard | undefined
   >();
   const [timeDuration, setTimeDuration] = React.useState<DateTimeWithPreset>();
+
+  // Track whether we have already applied the saved time preference.
+  // The picker's own useEffect fires on mount with defaultTimeDuration() because
+  // preferences are loaded asynchronously. Once the API responds we need to
+  // override that default with the real saved value — but only once, so we
+  // don't fight with manual user selections made afterwards.
+  const hasAppliedTimePref = React.useRef(false);
+  const savedTimePref = preferences?.[TIME_DURATION] as
+    | DateTimeWithPreset
+    | undefined;
+
+  React.useEffect(() => {
+    if (savedTimePref && !hasAppliedTimePref.current) {
+      hasAppliedTimePref.current = true;
+      const refreshed = getTimeFromPreset(
+        savedTimePref,
+        savedTimePref.timeZone ?? ''
+      );
+      handleTimeDurationChange({
+        ...refreshed,
+        end: convertToGmt(refreshed.end, refreshed.timeZone),
+        start: convertToGmt(refreshed.start, refreshed.timeZone),
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [savedTimePref]);
 
   const handleTimeRangeChange = React.useCallback(
     (timeDuration: DateTimeWithPreset, savePref: boolean = false) => {
