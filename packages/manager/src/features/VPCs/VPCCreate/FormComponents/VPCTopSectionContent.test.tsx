@@ -352,7 +352,7 @@ describe('VPC Top Section form content', () => {
         screen.getByRole('button', { name: 'Add IPv4 Range' })
       ).toBeVisible();
       expect(
-        screen.getByLabelText('VPC IPv4 Range ip-address-0')
+        screen.queryByLabelText('VPC IPv4 Range (CIDR)', { exact: false })
       ).toBeVisible();
     });
   });

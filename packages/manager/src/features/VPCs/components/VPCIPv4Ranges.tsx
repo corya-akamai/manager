@@ -27,6 +27,11 @@ interface Props {
   onChange: (ranges: VPCIPv4Range[]) => void;
 
   /**
+   * Marks the field as optional.
+   */
+  optional?: boolean;
+
+  /**
    * Per-range error messages, aligned by index with `ranges`.
    */
   rangeErrors?: (string | undefined)[];
@@ -46,7 +51,8 @@ interface Props {
  * `ranges` from the API response).
  */
 export const VPCIPv4Ranges = (props: Props) => {
-  const { disabled, error, onBlur, onChange, rangeErrors, ranges } = props;
+  const { disabled, error, onBlur, onChange, optional, rangeErrors, ranges } =
+    props;
 
   // Always show at least one input so the user has an empty field to fill in.
   const displayRanges: VPCIPv4Range[] =
@@ -67,8 +73,9 @@ export const VPCIPv4Ranges = (props: Props) => {
         onBlur?.();
       }}
       onChange={(ips) => onChange(ips.map((ip) => ({ range: ip.address })))}
+      optional={optional}
       placeholder="Enter IPv4 Range"
-      title="VPC IPv4 Range"
+      title="VPC IPv4 Range (CIDR)"
       tooltip={
         <div
           style={{
@@ -78,14 +85,15 @@ export const VPCIPv4Ranges = (props: Props) => {
           }}
         >
           <p style={{ margin: 0 }}>
-            The custom IPv4 address space for this VPC.
+            Add upto 30 canonical CIDR ranges with prefixes from /5 to /30.
           </p>
           <p style={{ margin: 0 }}>
-            These private ranges define available subnet boundaries and are not
-            advertised to the public internet.
+            Unused fields will default to standard RFC 1918 ranges: 10.0.0.0/8,
+            172.16.0.0/12 or 192.168.0.0/16.
           </p>
           <p style={{ margin: 0 }}>
-            Most IPv4 ranges are available except for certain restricted ranges.
+            Reserved ranges, including 192.168.128.0/17, as well as loopback,
+            multicast, and Akamai-owned IP addresses are not allowed.
           </p>
         </div>
       }

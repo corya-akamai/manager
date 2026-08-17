@@ -61,7 +61,7 @@ export const LinodeEntityDetailRowInterfaceFirewall = (props: Props) => {
           VPC: undefined,
           Public: undefined,
           VLAN: undefined,
-          'VPC - RDMA': undefined,
+          'RDMA - VPC': undefined,
         }
       );
     },

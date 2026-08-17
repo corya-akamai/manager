@@ -27,12 +27,9 @@ const RDMAInterfacesTableRowHead = () => {
 
   return (
     <TableRow headerborder>
-      <TableHeaderCell style={{ width: '15%' }}>Interface ID</TableHeaderCell>
-      {showFromSmUp && (
-        <TableHeaderCell style={{ width: '30%' }}>MAC Address</TableHeaderCell>
-      )}
-      <TableHeaderCell style={{ width: '30%' }}>IPv4</TableHeaderCell>
-      <TableHeaderCell style={{ width: '15%' }}>Interface Type</TableHeaderCell>
+      <TableHeaderCell>Interface ID</TableHeaderCell>
+      {showFromSmUp && <TableHeaderCell>MAC Address</TableHeaderCell>}
+      <TableHeaderCell>IPv4</TableHeaderCell>
     </TableRow>
   );
 };

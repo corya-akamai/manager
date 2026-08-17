@@ -24,7 +24,6 @@ import { useFlags } from 'src/hooks/useFlags';
 import {
   getIsVPCLKEEnterpriseCluster,
   getUniqueResourcesFromSubnets,
-  useIsCustomVPCIPv4RangesEnabled,
 } from '../utils';
 import { VPCDeleteDialog } from '../VPCLanding/VPCDeleteDialog';
 import { VPCEditDrawer } from '../VPCLanding/VPCEditDrawer';
@@ -89,7 +88,6 @@ const VPCDetail = () => {
   );
 
   const flags = useFlags();
-  const { isCustomVPCIPv4RangesEnabled } = useIsCustomVPCIPv4RangesEnabled();
 
   const handleEditVPC = (vpc: VPC) => {
     navigate({
@@ -147,6 +145,25 @@ const VPCDetail = () => {
         value: numResources,
       },
     ],
+    ...(flags.nitro?.enabled
+      ? [
+          [
+            {
+              label: 'VPC Type',
+              value: vpc.vpc_type === 'rdma' ? 'RDMA' : 'Regular',
+            },
+            {
+              label: 'VPC IPv4 Ranges',
+              value:
+                vpc.ipv4 && vpc.ipv4.length > 0 ? (
+                  <VPCIPv4RangesList ipv4={vpc.ipv4} />
+                ) : (
+                  'RFC 1918 (default)'
+                ),
+            },
+          ],
+        ]
+      : []),
     [
       {
         label: 'Region',
@@ -168,33 +185,6 @@ const VPCDetail = () => {
         value: vpc.updated,
       },
     ],
-    ...(flags.nitro?.enabled || isCustomVPCIPv4RangesEnabled
-      ? [
-          [
-            ...(flags.nitro?.enabled
-              ? [
-                  {
-                    label: 'VPC Type',
-                    value: vpc.vpc_type === 'rdma' ? 'RDMA' : 'Regular',
-                  },
-                ]
-              : []),
-            ...(isCustomVPCIPv4RangesEnabled
-              ? [
-                  {
-                    label: 'IPv4 Ranges',
-                    value:
-                      vpc.ipv4 && vpc.ipv4.length > 0 ? (
-                        <VPCIPv4RangesList ipv4={vpc.ipv4} />
-                      ) : (
-                        'None'
-                      ),
-                  },
-                ]
-              : []),
-          ],
-        ]
-      : []),
   ];
 
   return (

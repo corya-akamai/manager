@@ -3,7 +3,6 @@ import * as React from 'react';
 
 import { MaskableText } from 'src/components/MaskableText/MaskableText';
 import { getLinodeInterfaceIPs } from 'src/features/Linodes/LinodesDetail/LinodeNetworking/LinodeInterfaces/LinodeInterfaceIPs.utils';
-import { getLinodeInterfaceType } from 'src/features/Linodes/LinodesDetail/LinodeNetworking/LinodeInterfaces/utilities';
 
 import { useBreakpoint } from '../hooks/useBreakpoint';
 
@@ -19,7 +18,6 @@ export const RDMAInterfaceRow = (props: Props) => {
   const showFromSmUp = useBreakpoint('up', 'sm');
 
   const [primaryIPv4] = getLinodeInterfaceIPs(networkInterface);
-  const type = getLinodeInterfaceType(networkInterface);
 
   return (
     <TableRow zebra>
@@ -30,7 +28,6 @@ export const RDMAInterfaceRow = (props: Props) => {
         </TableCell>
       )}
       <TableCell>{primaryIPv4 ?? '—'}</TableCell>
-      <TableCell>{type}</TableCell>
     </TableRow>
   );
 };

@@ -107,7 +107,6 @@ describe('SubnetRDMALinodeRow', () => {
 
     expect(getByText(rdmaInterface.id)).toBeVisible();
     expect(getByText(rdmaInterface.mac_address)).toBeVisible();
-    expect(getByText('VPC - RDMA')).toBeVisible();
   });
 
   it('shows an empty message when there are no RDMA interfaces for this VPC', async () => {

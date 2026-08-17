@@ -301,7 +301,7 @@ export const VPCTopSectionContent = (props: Props) => {
                 <RadioButtonContainer
                   checked={(field.value ?? 'regular') === 'regular'}
                   disabled={disabled}
-                  label="Regular (N/S)"
+                  label="Regular"
                   testId="vpc-type-regular-radio"
                   toolTipText="Standard VPC environment for traditional network interfaces and general application traffic."
                   value="regular"
@@ -309,7 +309,7 @@ export const VPCTopSectionContent = (props: Props) => {
                 <RadioButtonContainer
                   checked={field.value === 'rdma'}
                   disabled={disabled}
-                  label="RDMA (E/W)"
+                  label="RDMA"
                   testId="vpc-type-rdma-radio"
                   toolTipText="Specialized VPC for RDMA interfaces, optimized for direct device-to-device communication using RDMA."
                   value="rdma"
@@ -484,6 +484,7 @@ export const VPCTopSectionContent = (props: Props) => {
                   field.onChange(ranges);
                   trigger('ipv4');
                 }}
+                optional
                 rangeErrors={(field.value ?? []).map(
                   (_, index) => errors.ipv4?.[index]?.range?.message
                 )}

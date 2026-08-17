@@ -158,7 +158,7 @@ describe('VPC Detail Summary section', () => {
     expect(getByText('VPC Type')).toBeVisible();
     expect(getByText('RDMA')).toBeVisible();
 
-    expect(getByText('IPv4 Ranges')).toBeVisible();
+    expect(getByText('VPC IPv4 Ranges')).toBeVisible();
     expect(getByText('10.0.0.0/24')).toBeVisible();
   });
 

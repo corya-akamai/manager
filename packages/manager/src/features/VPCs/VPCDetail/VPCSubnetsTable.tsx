@@ -417,7 +417,7 @@ export const VPCSubnetsTable = (props: Props) => {
                 }}
               >
                 <TableRow>
-                  <TableCell sx={{ width: '70%' }}>
+                  <TableCell sx={{ width: '50%' }}>
                     RDMA Interfaces (grouped by Linode)
                   </TableCell>
                   <TableCell>RDMA Interfaces</TableCell>
