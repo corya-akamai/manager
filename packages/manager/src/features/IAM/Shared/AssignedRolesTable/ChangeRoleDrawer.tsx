@@ -19,6 +19,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
+import { usePermissions } from '../../hooks/usePermissions';
 import { Drawer, DrawerInlineActions } from '../../Shared/Drawer';
 import { AssignedPermissionsPanel } from '../AssignedPermissionsPanel/AssignedPermissionsPanel';
 import { ROLES_LEARN_MORE_LINK } from '../constants';
@@ -57,6 +58,16 @@ export const ChangeRoleDrawer = ({
 
   const { isDefaultDelegationRolesForChildAccount } =
     useIsDefaultDelegationRolesForChildAccount();
+
+  const { data: permissions } = usePermissions('account', [
+    'is_account_admin',
+    'update_default_delegate_access',
+  ]);
+
+  const permissionToCheck = isDefaultDelegationRolesForChildAccount
+    ? permissions?.update_default_delegate_access
+    : permissions?.is_account_admin;
+
   const { data: defaultRolesData } = useGetDefaultDelegationAccessQuery({
     enabled: isDefaultDelegationRolesForChildAccount,
   });
@@ -223,6 +234,13 @@ export const ChangeRoleDrawer = ({
           onSubmit={handleSubmit(onSubmit)}
           slot="body"
         >
+          {!permissionToCheck && (
+            <NotificationBanner
+              style={{ marginBottom: Spacing.S8 }}
+              text="You do not have permission to change this role."
+              type="error"
+            />
+          )}
           {errors.root?.message && (
             <NotificationBanner text={errors.root?.message} type="error" />
           )}
@@ -287,6 +305,7 @@ export const ChangeRoleDrawer = ({
             </Button>
             <Button
               data-testid="submit"
+              disabled={!permissionToCheck}
               processing={isSubmitting}
               type="submit"
               variant="primary"

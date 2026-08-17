@@ -15,6 +15,7 @@ import {
 import React from 'react';
 
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
+import { usePermissions } from '../../hooks/usePermissions';
 import { ErrorState } from '../ErrorState/ErrorState';
 import { deleteUserEntity, getErrorMessage } from '../utilities';
 import styles from './RemoveAssignmentConfirmationDialog.module.css';
@@ -45,6 +46,15 @@ export const RemoveAssignmentConfirmationDialog = (props: Props) => {
 
   const { isDefaultDelegationRolesForChildAccount } =
     useIsDefaultDelegationRolesForChildAccount();
+
+  const { data: permissions } = usePermissions('account', [
+    'is_account_admin',
+    'update_default_delegate_access',
+  ]);
+
+  const permissionToCheck = isDefaultDelegationRolesForChildAccount
+    ? permissions?.update_default_delegate_access
+    : permissions?.is_account_admin;
 
   const {
     error: userRolesError,
@@ -132,7 +142,9 @@ export const RemoveAssignmentConfirmationDialog = (props: Props) => {
       onModalClosed={onModalClosed}
       open={open}
       role="dialog"
-      size={error || assignmentMissing ? 'medium' : 'small'}
+      size={
+        error || assignmentMissing || !permissionToCheck ? 'medium' : 'small'
+      }
     >
       <span slot="title">
         {isDefaultDelegationRolesForChildAccount
@@ -158,6 +170,13 @@ export const RemoveAssignmentConfirmationDialog = (props: Props) => {
           </NotificationBanner>
         ) : (
           <>
+            {!permissionToCheck && (
+              <NotificationBanner
+                style={{ marginBottom: Spacing.S8 }}
+                text="You do not have permission to remove this assignment."
+                type="error"
+              />
+            )}
             <NotificationBanner type="warning">
               {isDefaultDelegationRolesForChildAccount ? (
                 <p style={{ marginBottom: Spacing.S0 }}>
@@ -203,7 +222,7 @@ export const RemoveAssignmentConfirmationDialog = (props: Props) => {
         </Button>
         {!assignmentMissing && !isRolesLoading && (
           <Button
-            disabled={!canSubmit}
+            disabled={!canSubmit || !permissionToCheck}
             onClick={onDelete}
             processing={isPending}
             variant="primary"

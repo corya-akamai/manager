@@ -17,6 +17,7 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
+import { usePermissions } from '../../hooks/usePermissions';
 import { Drawer, DrawerInlineActions } from '../../Shared/Drawer';
 import styles from '../../Shared/global.module.css';
 import { AssignedPermissionsPanel } from '../AssignedPermissionsPanel/AssignedPermissionsPanel';
@@ -55,6 +56,15 @@ export const ChangeRoleForEntityDrawer = ({
 }: Props) => {
   const { isDefaultDelegationRolesForChildAccount } =
     useIsDefaultDelegationRolesForChildAccount();
+
+  const { data: permissions } = usePermissions('account', [
+    'is_account_admin',
+    'update_default_delegate_access',
+  ]);
+
+  const permissionToCheck = isDefaultDelegationRolesForChildAccount
+    ? permissions?.update_default_delegate_access
+    : permissions?.is_account_admin;
 
   const { data: accountRoles, isLoading: accountPermissionsLoading } =
     useAccountRoles();
@@ -217,6 +227,13 @@ export const ChangeRoleForEntityDrawer = ({
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} slot="body">
+          {!permissionToCheck && (
+            <NotificationBanner
+              style={{ marginBottom: Spacing.S8 }}
+              text="You do not have permission to change this role."
+              type="error"
+            />
+          )}
           {errors.root?.message && (
             <NotificationBanner text={errors.root?.message} type="error" />
           )}
@@ -277,6 +294,7 @@ export const ChangeRoleForEntityDrawer = ({
             </Button>
             <Button
               data-testid="submit"
+              disabled={!permissionToCheck}
               processing={isSubmitting}
               type="submit"
               variant="primary"

@@ -16,6 +16,7 @@ import { useParams } from '@tanstack/react-router';
 import React from 'react';
 
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
+import { usePermissions } from '../../hooks/usePermissions';
 import { ErrorState } from '../ErrorState/ErrorState';
 import styles from '../RemoveAssignmentConfirmationDialog/RemoveAssignmentConfirmationDialog.module.css';
 import { deleteUserRole, getErrorMessage } from '../utilities';
@@ -47,6 +48,15 @@ export const UnassignRoleConfirmationDialog = (props: Props) => {
   const { data: defaultRolesData } = useGetDefaultDelegationAccessQuery({
     enabled: isDefaultDelegationRolesForChildAccount,
   });
+
+  const { data: permissions } = usePermissions('account', [
+    'is_account_admin',
+    'update_default_delegate_access',
+  ]);
+
+  const permissionToCheck = isDefaultDelegationRolesForChildAccount
+    ? permissions?.update_default_delegate_access
+    : permissions?.is_account_admin;
 
   const { data: userRolesData } = useUserRoles(
     username ?? '',
@@ -117,6 +127,10 @@ export const UnassignRoleConfirmationDialog = (props: Props) => {
     }
   };
 
+  const removeText = !permissionToCheck
+    ? `You do not have permission to ${isDefaultDelegationRolesForChildAccount ? 'remove' : 'unassign'} this role.`
+    : undefined;
+
   const error = isDefaultDelegationRolesForChildAccount
     ? defaultDelegationRolesError
     : userRolesError;
@@ -131,7 +145,7 @@ export const UnassignRoleConfirmationDialog = (props: Props) => {
       onModalClosed={onModalClosed}
       open={open}
       role="dialog"
-      size={error || roleMissing ? 'medium' : 'small'}
+      size={error || roleMissing || !permissionToCheck ? 'medium' : 'small'}
       titleMaxLength={150}
     >
       <span slot="title">
@@ -158,6 +172,13 @@ export const UnassignRoleConfirmationDialog = (props: Props) => {
           </NotificationBanner>
         ) : (
           <>
+            {!permissionToCheck && (
+              <NotificationBanner
+                style={{ marginBottom: Spacing.S8 }}
+                text={removeText}
+                type="error"
+              />
+            )}
             <NotificationBanner type="warning">
               {isDefaultDelegationRolesForChildAccount ? (
                 <p style={{ marginBottom: Spacing.S0 }}>
@@ -195,7 +216,7 @@ export const UnassignRoleConfirmationDialog = (props: Props) => {
         </Button>
         {!roleMissing && !isRolesLoading && (
           <Button
-            disabled={!canSubmit}
+            disabled={!canSubmit || !permissionToCheck}
             onClick={onDelete}
             processing={isPending || isDefaultRolesPending}
             variant="primary"

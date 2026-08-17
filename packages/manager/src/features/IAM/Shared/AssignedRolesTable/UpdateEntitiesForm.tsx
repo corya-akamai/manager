@@ -12,6 +12,7 @@ import React from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
 import { useIsDefaultDelegationRolesForChildAccount } from '../../hooks/useDelegationRole';
+import { usePermissions } from '../../hooks/usePermissions';
 import { AssignedPermissionsPanel } from '../AssignedPermissionsPanel/AssignedPermissionsPanel';
 import { INTERNAL_ERROR_NO_CHANGES_SAVED } from '../constants';
 import { DrawerInlineActions } from '../Drawer/DrawerInlineActions';
@@ -38,6 +39,15 @@ export const UpdateEntitiesForm = ({
   const { data: defaultRolesData } = useGetDefaultDelegationAccessQuery({
     enabled: isDefaultDelegationRolesForChildAccount,
   });
+
+  const { data: permissions } = usePermissions('account', [
+    'is_account_admin',
+    'update_default_delegate_access',
+  ]);
+
+  const permissionToCheck = isDefaultDelegationRolesForChildAccount
+    ? permissions?.update_default_delegate_access
+    : permissions?.is_account_admin;
 
   const { data: userRolesData } = useUserRoles(
     username,
@@ -124,6 +134,13 @@ export const UpdateEntitiesForm = ({
   return (
     <FormProvider {...form}>
       <form onSubmit={handleSubmit(onSubmit)} slot="body">
+        {!permissionToCheck && (
+          <NotificationBanner
+            style={{ marginBottom: Spacing.S8 }}
+            text="You do not have permission to update this role."
+            type="error"
+          />
+        )}
         {errors.root?.message && (
           <NotificationBanner text={errors.root?.message} type="error" />
         )}
@@ -167,6 +184,7 @@ export const UpdateEntitiesForm = ({
           </Button>
           <Button
             data-testid="submit"
+            disabled={!permissionToCheck}
             processing={isSubmitting}
             type="submit"
             variant="primary"
