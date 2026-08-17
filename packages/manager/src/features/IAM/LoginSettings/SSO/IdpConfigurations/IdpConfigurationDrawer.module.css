@@ -31,6 +31,7 @@
 }
 
 .sectionHeading {
+  font: var(--token-alias-typography-label-bold-l, 700 1rem/1.25rem 'Nunito Sans');
   margin-top: var(--token-global-spacing-s32, 32px);
   margin-bottom: var(--token-global-spacing-s12, 12px);
 }
