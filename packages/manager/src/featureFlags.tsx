@@ -108,6 +108,11 @@ interface AclpFlag {
   enableCSVDownload?: boolean;
 
   /**
+   * This property indicates whether to show custom tooltip in the charts or not
+   */
+  enableCustomTooltip?: boolean;
+
+  /**
    * This property indicates whether the feature is enabled
    */
   enabled: boolean;
