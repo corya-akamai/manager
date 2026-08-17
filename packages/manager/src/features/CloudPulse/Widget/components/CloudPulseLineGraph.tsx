@@ -139,7 +139,7 @@ export const CloudPulseLineGraph = React.memo((props: CloudPulseLineGraph) => {
               onClick={resetZoom}
               sx={(theme) => ({
                 height: '26px',
-                width: '84px',
+                width: '88px',
                 padding: theme.spacingFunction(4, 8),
                 fontSize: theme.tokens.font.FontSize.Xxxs,
               })}
