@@ -80,6 +80,7 @@ export const QuickstartSection = () => {
         snippets={snippets}
         syntaxHighlightingLanguageMap={syntaxHighlightingLanguageMap}
         tabRightBorderWidthByIndex={tabRightBorderWidthByIndex}
+        viewMoreEnabled={false}
       />
     </Paper>
   );

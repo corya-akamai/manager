@@ -15,7 +15,11 @@ import type { InferType, MixedSchema, Schema } from 'yup';
 const maxLength = 255;
 const maxLengthMessage = 'Length must be 255 characters or less.';
 
-const isValidUrl = (input: string, checkProtocol = true, prohibitIp = false): boolean => {
+const isValidUrl = (
+  input: string,
+  checkProtocol = true,
+  prohibitIp = false,
+): boolean => {
   if (/\s/.test(input)) {
     return false;
   }
@@ -261,7 +265,7 @@ const customHTTPSDetailsSchema = object({
     .required('Endpoint URL is required.')
     .test(
       'is-valid-url-hostname',
-      'Endpoint URL must be a valid URL with a hostname. IP addresses aren\'t allowed.',
+      "Endpoint URL must be a valid URL with a hostname. IP addresses aren't allowed.",
       (value) => isValidUrl(value, true, true),
     ),
 });

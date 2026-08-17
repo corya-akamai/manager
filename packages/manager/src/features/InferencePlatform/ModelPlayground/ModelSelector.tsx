@@ -21,16 +21,13 @@ export const ModelSelector = () => {
   // There is currently no information in the API response to determine if the
   // model is compatible with the model playground besides the presence of
   // "embedding" in the model ID, so we filter those out here.
-  const options: ModelOption[] = useMemo(
-    () =>
-      models
-        .filter((m) => !m.id.includes('embedding'))
-        .map((m) => ({
-          label: MODEL_SUPPLEMENTARY[m.id]?.title ?? m.id,
-          value: m.id,
-        })),
-    [models]
-  );
+  const options: ModelOption[] = useMemo(() => {
+    const filtered = models.filter((m) => !m.id.includes('embedding'));
+    return filtered.map((m) => ({
+      label: MODEL_SUPPLEMENTARY[m.id]?.title ?? m.id,
+      value: m.id,
+    }));
+  }, [models]);
 
   // Once models load, default-select the first one if the current selection
   // is no longer in the list.
