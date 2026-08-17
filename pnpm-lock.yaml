@@ -311,8 +311,8 @@ importers:
         specifier: 0.0.0-20260622084103
         version: 0.0.0-20260622084103
       '@akamai/compute-ui-core':
-        specifier: 1.0.2
-        version: 1.0.2(luxon@3.4.4)
+        specifier: 1.1.1-develop-20260817135918-1b5479a9b0e0988323114e9c9e8f33440422c06e
+        version: 1.1.1-develop-20260817135918-1b5479a9b0e0988323114e9c9e8f33440422c06e(luxon@3.4.4)(peggy@4.2.0)
       '@braintree/sanitize-url':
         specifier: ^7.1.0
         version: 7.1.0
@@ -1059,7 +1059,7 @@ packages:
     resolution: {integrity: sha512-uSfYON0DkwDmErs1v5pmMWMAP6Vb6irAInzrBnEEU8jSfuN0t+NiY4yNeT4W/2DSZLAzu5sWGSy3+nSoOtsVgQ==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/cds-tokens/-/@akamai/cds-tokens-0.0.0-20260622084103.tgz}
 
   '@akamai/compute-ui-app-loader@1.0.0-staging-20260814174155-8f6600e7c90db861d2c713f473e91e3a73bd3755':
-    resolution: {integrity: sha512-fa3+XI6RCPWp6dykI7yGSWGyST7w4l/AES8gEN2I46mVXbeRY4dObOnXil1YwFz62bj2PoS3JUTH/YrS3nG+MQ==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-app-loader/-/@akamai/compute-ui-app-loader-1.0.0-staging-20260814174155-8f6600e7c90db861d2c713f473e91e3a73bd3755.tgz}
+    resolution: {integrity: sha512-fa3+XI6RCPWp6dykI7yGSWGyST7w4l/AES8gEN2I46mVXbeRY4dObOnXil1YwFz62bj2PoS3JUTH/YrS3nG+MQ==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-app-loader/-/@akamai/compute-ui-app-loader-1.0.0-staging-20260814174155-8f6600e7c90db861d2c713f473e91e3a73bd3755.tgz}
 
   '@akamai/compute-ui-core@0.0.0-20260615155722':
     resolution: {integrity: sha512-GeyTIMBRxwJV7Y8jN+lk6fRElWnIkxWqGCyP1VGvc2JxeceX+RC2MeOTRtxswMQEY4ih27QwsR+bYUddVZnomQ==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-core/-/@akamai/compute-ui-core-0.0.0-20260615155722.tgz}
@@ -1084,7 +1084,21 @@ packages:
         optional: true
 
   '@akamai/compute-ui-core@1.1.0':
-    resolution: {integrity: sha512-JBj9GZFv6jkZcnK4jLFLi/pMpG4VxovtOBfoE2QrNGGBjO231aOiGr2/b7fPYi6v+nrkOxotcN8NHl6fnaQbcA==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-core/-/@akamai/compute-ui-core-1.1.0.tgz}
+    resolution: {integrity: sha512-JBj9GZFv6jkZcnK4jLFLi/pMpG4VxovtOBfoE2QrNGGBjO231aOiGr2/b7fPYi6v+nrkOxotcN8NHl6fnaQbcA==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-core/-/@akamai/compute-ui-core-1.1.0.tgz}
+    peerDependencies:
+      '@launchdarkly/js-client-sdk': ^4
+      luxon: ^3
+      peggy: ^5
+    peerDependenciesMeta:
+      '@launchdarkly/js-client-sdk':
+        optional: true
+      luxon:
+        optional: true
+      peggy:
+        optional: true
+
+  '@akamai/compute-ui-core@1.1.1-develop-20260817135918-1b5479a9b0e0988323114e9c9e8f33440422c06e':
+    resolution: {integrity: sha512-1yyJC1QLhClvqeEYXHE+or7Omeiw42cq2+j7GQn/LkGkYAJBRYYQNdLjEAHQoM3CTvjPrBooWjGeGN9HNaeixQ==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-core/-/@akamai/compute-ui-core-1.1.1-develop-20260817135918-1b5479a9b0e0988323114e9c9e8f33440422c06e.tgz}
     peerDependencies:
       '@launchdarkly/js-client-sdk': ^4
       luxon: ^3
@@ -5155,7 +5169,7 @@ packages:
     engines: {node: '>=18'}
 
   ky@2.0.2:
-    resolution: {integrity: sha512-/GmXpo9F9W+f8n4Ivr2iH+7h7wL7jLbLKWkMlpflcCRb6kGjBfTlASEXaZ9qUgNTn4VgS0P2pwxxzQ4EM6Ulgg==}
+    resolution: {integrity: sha512-/GmXpo9F9W+f8n4Ivr2iH+7h7wL7jLbLKWkMlpflcCRb6kGjBfTlASEXaZ9qUgNTn4VgS0P2pwxxzQ4EM6Ulgg==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/ky/-/ky-2.0.2.tgz}
     engines: {node: '>=22'}
 
   language-subtag-registry@0.3.23:
@@ -6974,6 +6988,15 @@ snapshots:
       luxon: 3.4.4
 
   '@akamai/compute-ui-core@1.1.0(luxon@3.4.4)(peggy@4.2.0)':
+    dependencies:
+      ipaddr.js: 2.4.0
+      ky: 2.0.2
+      zod: 4.4.3
+    optionalDependencies:
+      luxon: 3.4.4
+      peggy: 4.2.0
+
+  '@akamai/compute-ui-core@1.1.1-develop-20260817135918-1b5479a9b0e0988323114e9c9e8f33440422c06e(luxon@3.4.4)(peggy@4.2.0)':
     dependencies:
       ipaddr.js: 2.4.0
       ky: 2.0.2
