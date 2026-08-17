@@ -1,14 +1,15 @@
 import { Select } from '@akamai/cds-components/react/Select';
 import { useInferenceUsageQuery } from '@linode/queries';
-import { Box, Paper, Stack, Typography } from '@linode/ui';
 import React from 'react';
 
 import { StackedBarChart } from 'src/components/StackedBarChart';
 import { getExtraPresets, isMSWEnabled } from 'src/dev-tools/utils';
 import { transformApiDataToChartPayload } from 'src/features/InferencePlatform/Usage/usageUtils';
 
+import { Box, Paper, Stack, Typography } from '../../components';
 import { filterChartPayloadBySeries } from './chartUtils';
 import { DynamicChartUpdate } from './DynamicChartUpdate';
+import styles from './UsageSection.module.css';
 
 export const UsageSection = () => {
   // Check if Usage mock is enabled (evaluated at render time)
@@ -54,36 +55,12 @@ export const UsageSection = () => {
   );
 
   return (
-    <Paper
-      sx={{ border: 'none', borderRadius: 0, p: 0, mb: 2 }}
-      variant="outlined"
-    >
-      <Paper
-        sx={{
-          border: 'none',
-          borderRadius: 0,
-          mt: 0,
-          padding: '20px 26px 24px 6px',
-        }}
-      >
-        <Stack
-          alignContent="flex-start"
-          alignItems="flex-start"
-          direction="row"
-          justifyContent="space-between"
-          sx={{
-            mb: 1,
-            padding: '0px 0px 16px 14px',
-          }}
-        >
-          <Typography variant="h3">Usage - Tokens</Typography>
+    <Paper className={styles.usageSection}>
+      <Paper className={styles.usageSectionContent}>
+        <Stack className={styles.usageSectionHeader} direction="row">
+          <Typography className={styles.headerText}>Usage - Tokens</Typography>
 
-          <Box
-            sx={{
-              minWidth: 220,
-              mb: 0,
-            }}
-          >
+          <Box className={styles.selectWrapper}>
             <Select<{ label: string; value: string }>
               aria-label="Series"
               items={seriesOptions}
