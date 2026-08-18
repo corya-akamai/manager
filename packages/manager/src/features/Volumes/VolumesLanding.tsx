@@ -37,6 +37,8 @@ import { VolumesLandingEmptyState } from './VolumesLandingEmptyState';
 
 import type { Filter } from '@linode/api-v4';
 
+type OrderDirection = 'asc' | 'desc';
+
 export const VolumesLanding = () => {
   const navigate = useNavigate();
 
@@ -175,7 +177,7 @@ export const VolumesLanding = () => {
               marginTop: '10px',
               minWidth: '800px',
               '--token-component-table-header-outlined-border':
-                '--token-component-table-row-border',
+                'var(--token-component-table-row-border)',
             } as React.CSSProperties
           }
         >
@@ -185,8 +187,8 @@ export const VolumesLanding = () => {
               headerborder
             >
               <TableHeaderCell
-                onSort={() =>
-                  handleOrderChange('label', order === 'asc' ? 'desc' : 'asc')
+                onSort={({ detail }) =>
+                  handleOrderChange('label', detail as OrderDirection)
                 }
                 sortable
                 sorted={orderBy === 'label' ? order : undefined}
@@ -196,8 +198,8 @@ export const VolumesLanding = () => {
               </TableHeaderCell>
 
               <TableHeaderCell
-                onSort={() =>
-                  handleOrderChange('status', order === 'asc' ? 'desc' : 'asc')
+                onSort={({ detail }) =>
+                  handleOrderChange('status', detail as OrderDirection)
                 }
                 sortable
                 sorted={orderBy === 'status' ? order : undefined}
@@ -209,8 +211,8 @@ export const VolumesLanding = () => {
               <TableHeaderCell>Region</TableHeaderCell>
 
               <TableHeaderCell
-                onSort={() =>
-                  handleOrderChange('size', order === 'asc' ? 'desc' : 'asc')
+                onSort={({ detail }) =>
+                  handleOrderChange('size', detail as OrderDirection)
                 }
                 sortable
                 sorted={orderBy === 'size' ? order : undefined}
