@@ -1,6 +1,9 @@
-import { mfeLibBuild } from '@akamai/compute-ui-app-loader/plugins';
+import {
+  computeUiPortalProxy,
+  externalComputeUiPortalScript,
+  injectPortalConfig,
+} from '@akamai/compute-ui-portal/vite';
 import react from '@vitejs/plugin-react';
-import { resolve } from 'node:path';
 import { URL } from 'url';
 import svgr from 'vite-plugin-svgr';
 import { defineConfig, type Plugin } from 'vitest/config';
@@ -21,35 +24,23 @@ const cdsDarkTokensScope = (): Plugin => ({
   },
 });
 
-const mfe = mfeLibBuild({
-  entryJs: resolve(DIRNAME, 'src/entry.tsx'),
-  outDir: resolve(DIRNAME, 'build'),
-  serve: {
-    localAppName: 'cloud-manager-distributed',
-    localDistRoot: resolve(process.cwd(), 'build'),
-    appsRoot: resolve(process.cwd(), 'node_modules/@akamai'),
-  },
-});
-
 export default defineConfig({
-  build: mfe.build,
+  build: {
+    outDir: 'build',
+    rollupOptions: {
+      external: [/^\/libs\/compute-ui-portal\//],
+    },
+  },
   envPrefix: 'COMPUTE_',
   plugins: [
     cdsDarkTokensScope(),
     react(),
     svgr({ svgrOptions: { exportType: 'default' }, include: '**/*.svg' }),
     urlCanParsePolyfill(),
-    ...mfe.plugins,
+    computeUiPortalProxy(),
+    externalComputeUiPortalScript(),
+    injectPortalConfig(),
   ],
-  define: {
-    // Must be explicit: Rolldown (Vite 8) does not auto-substitute process.env.NODE_ENV
-    // in browser bundles, causing ReferenceError at runtime (see UIE-12467).
-    // Vite sets process.env.NODE_ENV to 'development'|'production' before running,
-    // so this correctly gives the dev bundle in serve mode and prod bundle in builds.
-    'process.env.NODE_ENV': JSON.stringify(
-      process.env.VITEST ? 'test' : (process.env.NODE_ENV ?? 'production')
-    ),
-  },
   resolve: {
     alias: {
       src: `${DIRNAME}/src`,

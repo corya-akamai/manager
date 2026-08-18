@@ -536,14 +536,11 @@ importers:
         specifier: ^4.4.2
         version: 4.4.2
     devDependencies:
-      '@akamai/compute-ui-app-loader':
-        specifier: ^1.0.0-staging-20260814174155-8f6600e7c90db861d2c713f473e91e3a73bd3755
-        version: 1.0.0-staging-20260814174155-8f6600e7c90db861d2c713f473e91e3a73bd3755
       '@akamai/compute-ui-portal':
-        specifier: latest
-        version: 1.0.4(@lit/react@1.0.8(@types/react@19.2.18))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+        specifier: 1.0.5
+        version: 1.0.5(@lit/react@1.0.8(@types/react@19.2.18))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@akamai/compute-ui-portal-menu':
-        specifier: latest
+        specifier: 1.0.4
         version: 1.0.4
       '@storybook/addon-a11y':
         specifier: ^10.5.7
@@ -977,7 +974,7 @@ packages:
     resolution: {integrity: sha512-Elp+iwUx5rN5+Y8xLt5/GRoG20WGoDCQ/1Fb+1LiGtvwbDavuSk0jhD/eZdckHAuzcDzccnkv+rEjyWfRx18gg==}
 
   '@akamai/cds-components@0.0.0-20260612001831':
-    resolution: {integrity: sha512-ZqcZVZa28bHaKfzZjK2g3DTeaTqa8VfKpXokiwbNq5uStbrt147O0E7xjg3rrpZ9N+YRMmCEHdHqiP8ZwrYCyw==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/cds-components/-/@akamai/cds-components-0.0.0-20260612001831.tgz}
+    resolution: {integrity: sha512-ZqcZVZa28bHaKfzZjK2g3DTeaTqa8VfKpXokiwbNq5uStbrt147O0E7xjg3rrpZ9N+YRMmCEHdHqiP8ZwrYCyw==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/@akamai/cds-components/-/@akamai/cds-components-0.0.0-20260612001831.tgz}
     peerDependencies:
       '@akamai/cds-icons': 0.0.0-20260612001831
       '@akamai/cds-tokens': 0.0.0-20260612001831
@@ -1031,7 +1028,7 @@ packages:
         optional: true
 
   '@akamai/cds-icons@0.0.0-20260612001831':
-    resolution: {integrity: sha512-dgLPh23+OeP9gYQOhL3IBU+uU9s41LFfhdyADrJH+kDIBzgLLTfvyOH72HPHjUVNsvR3g1yJHUeEcKc4yI6y0w==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/cds-icons/-/@akamai/cds-icons-0.0.0-20260612001831.tgz}
+    resolution: {integrity: sha512-dgLPh23+OeP9gYQOhL3IBU+uU9s41LFfhdyADrJH+kDIBzgLLTfvyOH72HPHjUVNsvR3g1yJHUeEcKc4yI6y0w==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/@akamai/cds-icons/-/@akamai/cds-icons-0.0.0-20260612001831.tgz}
     peerDependencies:
       lit: ^3.2.1
       react: ^18.0.0
@@ -1053,13 +1050,10 @@ packages:
         optional: true
 
   '@akamai/cds-tokens@0.0.0-20260612001831':
-    resolution: {integrity: sha512-A7XrdkmxkMWh30xtl2PWvL923wiump6pGpLUT27HomY3QZz+7jYTBN6lexVYYJkAg5ONXG4QdN9Em3nxrkTM2Q==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/cds-tokens/-/@akamai/cds-tokens-0.0.0-20260612001831.tgz}
+    resolution: {integrity: sha512-A7XrdkmxkMWh30xtl2PWvL923wiump6pGpLUT27HomY3QZz+7jYTBN6lexVYYJkAg5ONXG4QdN9Em3nxrkTM2Q==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/@akamai/cds-tokens/-/@akamai/cds-tokens-0.0.0-20260612001831.tgz}
 
   '@akamai/cds-tokens@0.0.0-20260622084103':
     resolution: {integrity: sha512-uSfYON0DkwDmErs1v5pmMWMAP6Vb6irAInzrBnEEU8jSfuN0t+NiY4yNeT4W/2DSZLAzu5sWGSy3+nSoOtsVgQ==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/cds-tokens/-/@akamai/cds-tokens-0.0.0-20260622084103.tgz}
-
-  '@akamai/compute-ui-app-loader@1.0.0-staging-20260814174155-8f6600e7c90db861d2c713f473e91e3a73bd3755':
-    resolution: {integrity: sha512-fa3+XI6RCPWp6dykI7yGSWGyST7w4l/AES8gEN2I46mVXbeRY4dObOnXil1YwFz62bj2PoS3JUTH/YrS3nG+MQ==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-app-loader/-/@akamai/compute-ui-app-loader-1.0.0-staging-20260814174155-8f6600e7c90db861d2c713f473e91e3a73bd3755.tgz}
 
   '@akamai/compute-ui-core@0.0.0-20260615155722':
     resolution: {integrity: sha512-GeyTIMBRxwJV7Y8jN+lk6fRElWnIkxWqGCyP1VGvc2JxeceX+RC2MeOTRtxswMQEY4ih27QwsR+bYUddVZnomQ==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-core/-/@akamai/compute-ui-core-0.0.0-20260615155722.tgz}
@@ -1098,7 +1092,7 @@ packages:
         optional: true
 
   '@akamai/compute-ui-core@1.1.1-develop-20260817135918-1b5479a9b0e0988323114e9c9e8f33440422c06e':
-    resolution: {integrity: sha512-1yyJC1QLhClvqeEYXHE+or7Omeiw42cq2+j7GQn/LkGkYAJBRYYQNdLjEAHQoM3CTvjPrBooWjGeGN9HNaeixQ==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-core/-/@akamai/compute-ui-core-1.1.1-develop-20260817135918-1b5479a9b0e0988323114e9c9e8f33440422c06e.tgz}
+    resolution: {integrity: sha512-1yyJC1QLhClvqeEYXHE+or7Omeiw42cq2+j7GQn/LkGkYAJBRYYQNdLjEAHQoM3CTvjPrBooWjGeGN9HNaeixQ==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-core/-/@akamai/compute-ui-core-1.1.1-develop-20260817135918-1b5479a9b0e0988323114e9c9e8f33440422c06e.tgz}
     peerDependencies:
       '@launchdarkly/js-client-sdk': ^4
       luxon: ^3
@@ -1112,10 +1106,10 @@ packages:
         optional: true
 
   '@akamai/compute-ui-portal-menu@1.0.4':
-    resolution: {integrity: sha512-srgNkP3iHlK0A9CwV+qz3zi3hTnrxBdPQBT5XuBmOlcohUCMR/mnM4aN2VfoFUNFT8snErISijC20ZT7XQ9F3w==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-portal-menu/-/@akamai/compute-ui-portal-menu-1.0.4.tgz}
+    resolution: {integrity: sha512-srgNkP3iHlK0A9CwV+qz3zi3hTnrxBdPQBT5XuBmOlcohUCMR/mnM4aN2VfoFUNFT8snErISijC20ZT7XQ9F3w==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-portal-menu/-/@akamai/compute-ui-portal-menu-1.0.4.tgz}
 
-  '@akamai/compute-ui-portal@1.0.4':
-    resolution: {integrity: sha512-IWLZJeF9pDMTJ5K2mS4CzfI8a/RfmRwjwk2TljbUJQORV8JTw0+ccnOXLq6vdkd8c4hHIFN9mDZwrdAJA9Ovew==, tarball: https://repos.akamai.com/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-portal/-/@akamai/compute-ui-portal-1.0.4.tgz}
+  '@akamai/compute-ui-portal@1.0.5':
+    resolution: {integrity: sha512-RLJHdlzLQOU9AGN/hxpg58yoxdP2123Fv3m2ZQpCfGIyRXq1PKQdIyXeMqYhPKFZZWa9hErYLnVxu4z2zEjgDw==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/@akamai/compute-ui-portal/-/@akamai/compute-ui-portal-1.0.5.tgz}
 
   '@algolia/cache-browser-local-storage@4.24.0':
     resolution: {integrity: sha512-t63W9BnoXVrGy9iYHBgObNXqYXM3tYXCjDSHeNwnsc324r4o5UiVKUiAB4THQ5z9U5hTj6qUvwg/Ez43ZD85ww==}
@@ -2013,10 +2007,10 @@ packages:
       eslint: ^9
 
   '@lit-labs/ssr-dom-shim@1.6.0':
-    resolution: {integrity: sha512-VHb0ALPMTlgKjM6yIxxoQNnpKyUKLD04VzeQdsiXkMqkvYlAHxq9glGLmgbb889/1GsohSOAjvQYoiBppXFqrQ==}
+    resolution: {integrity: sha512-VHb0ALPMTlgKjM6yIxxoQNnpKyUKLD04VzeQdsiXkMqkvYlAHxq9glGLmgbb889/1GsohSOAjvQYoiBppXFqrQ==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/@lit-labs/ssr-dom-shim/-/ssr-dom-shim-1.6.0.tgz}
 
   '@lit/context@1.1.6':
-    resolution: {integrity: sha512-M26qDE6UkQbZA2mQ3RjJ3Gzd8TxP+/0obMgE5HfkfLhEEyYE3Bui4A5XHiGPjy0MUGAyxB3QgVuw2ciS0kHn6A==}
+    resolution: {integrity: sha512-M26qDE6UkQbZA2mQ3RjJ3Gzd8TxP+/0obMgE5HfkfLhEEyYE3Bui4A5XHiGPjy0MUGAyxB3QgVuw2ciS0kHn6A==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/@lit/context/-/context-1.1.6.tgz}
 
   '@lit/react@1.0.8':
     resolution: {integrity: sha512-p2+YcF+JE67SRX3mMlJ1TKCSTsgyOVdAwd/nxp3NuV1+Cb6MWALbN6nT7Ld4tpmYofcE5kcaSY1YBB9erY+6fw==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/@lit/react/-/react-1.0.8.tgz}
@@ -2024,10 +2018,10 @@ packages:
       '@types/react': 17 || 18 || 19
 
   '@lit/reactive-element@2.1.2':
-    resolution: {integrity: sha512-pbCDiVMnne1lYUIaYNN5wrwQXDtHaYtg7YEFPeW+hws6U47WeFvISGUWekPGKWOP1ygrs0ef0o1VJMk1exos5A==}
+    resolution: {integrity: sha512-pbCDiVMnne1lYUIaYNN5wrwQXDtHaYtg7YEFPeW+hws6U47WeFvISGUWekPGKWOP1ygrs0ef0o1VJMk1exos5A==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/@lit/reactive-element/-/reactive-element-2.1.2.tgz}
 
   '@lit/task@1.0.3':
-    resolution: {integrity: sha512-1gJGJl8WON+2j0y9xfcD+XsS1rvcy3XDgsIhcdUW++yTR8ESjZW6o7dn8M8a4SZM8NnJe6ynS2cKWwsbfLOurg==}
+    resolution: {integrity: sha512-1gJGJl8WON+2j0y9xfcD+XsS1rvcy3XDgsIhcdUW++yTR8ESjZW6o7dn8M8a4SZM8NnJe6ynS2cKWwsbfLOurg==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/@lit/task/-/task-1.0.3.tgz}
 
   '@lukemorales/query-key-factory@1.3.4':
     resolution: {integrity: sha512-A3frRDdkmaNNQi6mxIshsDk4chRXWoXa05US8fBo4kci/H+lVmujS6QrwQLLGIkNIRFGjMqp2uKjC4XsLdydRw==}
@@ -3277,7 +3271,7 @@ packages:
     engines: {node: '>=12'}
 
   '@tanstack/query-core@5.51.24':
-    resolution: {integrity: sha512-qtIR0FMHUDIWyIQw87q4C+so7XaN59MsGfWrc6rgi2VTHrVZF3Hd0St2dbpqRetHf6XW5yY5lzTrXpTilPlxUg==}
+    resolution: {integrity: sha512-qtIR0FMHUDIWyIQw87q4C+so7XaN59MsGfWrc6rgi2VTHrVZF3Hd0St2dbpqRetHf6XW5yY5lzTrXpTilPlxUg==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/@tanstack/query-core/-/query-core-5.51.24.tgz}
 
   '@tanstack/query-devtools@5.51.16':
     resolution: {integrity: sha512-ajwuq4WnkNCMj/Hy3KR8d3RtZ6PSKc1dD2vs2T408MdjgKzQ3klVoL6zDgVO7X+5jlb5zfgcO3thh4ojPhfIaw==}
@@ -5169,7 +5163,7 @@ packages:
     engines: {node: '>=18'}
 
   ky@2.0.2:
-    resolution: {integrity: sha512-/GmXpo9F9W+f8n4Ivr2iH+7h7wL7jLbLKWkMlpflcCRb6kGjBfTlASEXaZ9qUgNTn4VgS0P2pwxxzQ4EM6Ulgg==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/ky/-/ky-2.0.2.tgz}
+    resolution: {integrity: sha512-/GmXpo9F9W+f8n4Ivr2iH+7h7wL7jLbLKWkMlpflcCRb6kGjBfTlASEXaZ9qUgNTn4VgS0P2pwxxzQ4EM6Ulgg==}
     engines: {node: '>=22'}
 
   language-subtag-registry@0.3.23:
@@ -5288,13 +5282,13 @@ packages:
     engines: {node: '>=20.0.0'}
 
   lit-element@4.2.2:
-    resolution: {integrity: sha512-aFKhNToWxoyhkNDmWZwEva2SlQia+jfG0fjIWV//YeTaWrVnOxD89dPKfigCUspXFmjzOEUQpOkejH5Ly6sG0w==}
+    resolution: {integrity: sha512-aFKhNToWxoyhkNDmWZwEva2SlQia+jfG0fjIWV//YeTaWrVnOxD89dPKfigCUspXFmjzOEUQpOkejH5Ly6sG0w==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/lit-element/-/lit-element-4.2.2.tgz}
 
   lit-html@3.3.3:
-    resolution: {integrity: sha512-el8M6jK2o3RXBnrSHX3ZKrsN8zEV63pSExTO1wYJz7QndGYZ8353e2a5PPX+qHe2aGayfnchQmkAojaWAREOIA==}
+    resolution: {integrity: sha512-el8M6jK2o3RXBnrSHX3ZKrsN8zEV63pSExTO1wYJz7QndGYZ8353e2a5PPX+qHe2aGayfnchQmkAojaWAREOIA==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/lit-html/-/lit-html-3.3.3.tgz}
 
   lit@3.3.2:
-    resolution: {integrity: sha512-NF9zbsP79l4ao2SNrH3NkfmFgN/hBYSQo90saIVI1o5GpjAdCPVstVzO1MrLOakHoEhYkrtRjPK6Ob521aoYWQ==}
+    resolution: {integrity: sha512-NF9zbsP79l4ao2SNrH3NkfmFgN/hBYSQo90saIVI1o5GpjAdCPVstVzO1MrLOakHoEhYkrtRjPK6Ob521aoYWQ==, tarball: https://repos.akamai.com:443/artifactory/api/npm/npmjs-repos/lit/-/lit-3.3.2.tgz}
 
   load-tsconfig@0.2.5:
     resolution: {integrity: sha512-IXO6OCs9yg8tMKzfPZ1YmheJbZCiEsnBdcB03l0OcfK9prKnJb96siuHCr5Fl37/yo9DnKU+TLpxzTUspw9shg==}
@@ -6967,10 +6961,6 @@ snapshots:
 
   '@akamai/cds-tokens@0.0.0-20260622084103': {}
 
-  '@akamai/compute-ui-app-loader@1.0.0-staging-20260814174155-8f6600e7c90db861d2c713f473e91e3a73bd3755':
-    dependencies:
-      lit: 3.3.2
-
   '@akamai/compute-ui-core@0.0.0-20260615155722(luxon@3.4.4)':
     dependencies:
       ipaddr.js: 2.4.0
@@ -7007,7 +6997,7 @@ snapshots:
 
   '@akamai/compute-ui-portal-menu@1.0.4': {}
 
-  '@akamai/compute-ui-portal@1.0.4(@lit/react@1.0.8(@types/react@19.2.18))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+  '@akamai/compute-ui-portal@1.0.5(@lit/react@1.0.8(@types/react@19.2.18))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@akamai/cds-components': 0.0.0-20260612001831(@akamai/cds-icons@0.0.0-20260612001831(lit@3.3.2)(react@19.2.8))(@akamai/cds-tokens@0.0.0-20260612001831)(@lit/context@1.1.6)(@lit/react@1.0.8(@types/react@19.2.18))(lit@3.3.2)(luxon@3.4.4)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@akamai/cds-icons': 0.0.0-20260612001831(lit@3.3.2)(react@19.2.8)

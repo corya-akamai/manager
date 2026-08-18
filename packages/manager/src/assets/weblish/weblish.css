@@ -1,3 +1,7 @@
+body {
+  background-color: black !important;
+}
+
 #terminal {
   margin: 0;
   padding: 0;
