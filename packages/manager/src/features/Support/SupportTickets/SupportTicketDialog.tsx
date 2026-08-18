@@ -423,6 +423,8 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
       return;
     }
 
+    const liveChatStartedAt = new Date().toISOString();
+
     liveChatInitializingRef.current = true;
     liveChatAbortedRef.current = false;
     reinitializeLiveChat();
@@ -460,6 +462,7 @@ export const SupportTicketDialog = (props: SupportTicketDialogProps) => {
       window.sessionStorage.setItem('LiveChatToken', chat_token);
       window.sessionStorage.setItem('LiveChatSubject', summary);
       window.sessionStorage.setItem('LiveChatDescription', description);
+      window.sessionStorage.setItem('LiveChatStartedAt', liveChatStartedAt);
       window.sessionStorage.setItem('EnableLiveChat', 'true');
 
       const liveChatOutcomePromise = new Promise<
