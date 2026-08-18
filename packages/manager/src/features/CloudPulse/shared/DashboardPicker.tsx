@@ -3,8 +3,10 @@ import {
   Box,
   ChevronDownIcon,
   ClickAwayListener,
+  LinkButton,
   Typography,
 } from '@linode/ui';
+import { useNavigate } from '@tanstack/react-router';
 import React, { useState } from 'react';
 
 import { StyledTriggerButton } from './DashboardPicker.styles';
@@ -24,13 +26,9 @@ export interface DashboardPickerProps {
    */
   disabled?: boolean;
   /**
-   * Error text shown below the panel when present.
+   * Is contextual view, to show the link to monitor all services or not. If true, the link will be hidden.
    */
-  errorText?: string;
-  /**
-   * Shows a loading state while dashboard options are being fetched.
-   */
-  loading?: boolean;
+  isContextualView?: boolean;
   /**
    * Called when a dashboard is selected or cleared.
    */
@@ -56,15 +54,15 @@ export interface DashboardPickerProps {
 export const DashboardPicker = ({
   aclpServices,
   disabled,
-  errorText,
-  loading,
   onChange,
   options,
   serviceTypeMap,
   showServiceTypeLabel = true,
   value,
+  isContextualView,
 }: DashboardPickerProps) => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleClose = () => {
     setOpen(false);
@@ -85,46 +83,65 @@ export const DashboardPicker = ({
 
   return (
     <ClickAwayListener onClickAway={handleClose}>
-      <Box sx={{ position: 'relative' }}>
+      <Box
+        sx={(theme) => ({
+          position: 'relative',
+          // single source of vertical inset shared by the trigger and the panel
+          paddingTop: theme.spacingFunction(24),
+          [theme.breakpoints.down('sm')]: {
+            paddingTop: theme.spacingFunction(16),
+          },
+        })}
+      >
         {/* Trigger — always rendered to hold layout, hidden when panel is open */}
-        <StyledTriggerButton
-          data-testid="dashboard-picker-trigger"
-          disabled={disabled}
-          onClick={() => setOpen(true)}
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="flex-end"
           sx={(theme) => ({
-            '& .dashboard-picker-trigger-icon': {
-              color: triggerTextSx(theme).color,
-            },
-            '&:hover .dashboard-picker-trigger-icon, &:hover .dashboard-picker-trigger-text':
-              {
-                color: theme.tokens.alias.Action.Primary.Hover,
-              },
-            marginLeft: theme.spacingFunction(16),
-            marginTop: theme.spacingFunction(32),
-            [theme.breakpoints.down('sm')]: {
-              marginLeft: 0,
-              marginTop: theme.spacingFunction(16),
+            alignItems: 'baseline',
+            visibility: open ? 'hidden' : 'visible',
+            [theme.breakpoints.down('lg')]: {
+              justifyContent: 'flex-start',
             },
           })}
-          type="button"
         >
-          <Typography
-            className="dashboard-picker-trigger-text"
-            sx={triggerTextSx}
-            variant="h2"
+          <StyledTriggerButton
+            data-pendo-id="cloudpulse-dashboard-picker-trigger"
+            data-testid="dashboard-picker-trigger"
+            disabled={disabled}
+            onClick={() => setOpen(true)}
+            sx={(theme) => ({
+              marginLeft: theme.spacingFunction(16),
+              [theme.breakpoints.down('sm')]: {
+                marginLeft: 0,
+              },
+            })}
+            type="button"
           >
-            {triggerLabel}
-          </Typography>
-          <ChevronDownIcon className="dashboard-picker-trigger-icon" />
-        </StyledTriggerButton>
+            <Typography sx={triggerTextSx} variant="h2">
+              {triggerLabel}
+            </Typography>
+            <ChevronDownIcon />
+          </StyledTriggerButton>
+          {isContextualView && (
+            <LinkButton
+              data-pendo-id="cloudpulse-dashboard-picker-monitor-all-services"
+              onClick={() => navigate({ to: '/metrics' })}
+              sx={(theme) => ({
+                marginLeft: theme.spacingFunction(8),
+              })}
+            >
+              Monitor all services
+            </LinkButton>
+          )}
+        </Box>
 
         {/* Panel — absolutely positioned to start at the same y as the trigger */}
         {open && (
           <DashboardPickerPanel
             aclpServices={aclpServices}
-            errorText={errorText}
             handleClose={handleClose}
-            loading={loading}
             onChange={onChange}
             options={options}
             serviceTypeMap={serviceTypeMap}

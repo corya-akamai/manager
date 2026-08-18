@@ -14,7 +14,10 @@ import { storage } from 'src/utilities/storage';
 import { useCloudPulseContext } from '../Context/useCloudPulseContext';
 import { GlobalFilterGroupByRenderer } from '../GroupBy/GlobalFilterGroupByRenderer';
 import { CloudPulseDashboardFilterBuilder } from '../shared/CloudPulseDashboardFilterBuilder';
-import { CloudPulseDashboardSelect } from '../shared/CloudPulseDashboardSelect';
+import {
+  CloudPulseDashboardSelect,
+  type DashboardDiscoveryState,
+} from '../shared/CloudPulseDashboardSelect';
 import { CloudPulseDateTimeRangePickerRenderer } from '../shared/CloudPulseDateTimeRangePickerRenderer';
 import { CloudPulseTooltip } from '../shared/CloudPulseTooltip';
 import {
@@ -35,6 +38,7 @@ import type { FilterValueType } from '../Dashboard/CloudPulseDashboardLanding';
 import type { AclpConfig, Dashboard, DateTimeWithPreset } from '@linode/api-v4';
 
 export interface GlobalFilterProperties {
+  appliedFilters?: React.ReactNode;
   handleAnyFilterChange(
     filterKey: string,
     filterValue: FilterValueType,
@@ -54,6 +58,7 @@ export interface GlobalFilterProperties {
 
 export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
   const {
+    appliedFilters,
     handleAnyFilterChange,
     handleDashboardChange,
     handleTimeDurationChange,
@@ -91,6 +96,8 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
     Dashboard | undefined
   >();
   const [timeDuration, setTimeDuration] = React.useState<DateTimeWithPreset>();
+  const [dashboardDiscoveryState, setDashboardDiscoveryState] =
+    React.useState<DashboardDiscoveryState>({ status: 'loading' });
 
   // Track whether we have already applied the saved time preference.
   // The picker's own useEffect fires on mount with defaultTimeDuration() because
@@ -209,21 +216,27 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
   const isImpersonatedUser =
     storage.authentication.token.get()?.toLowerCase().startsWith('admin') ??
     false;
+  const isDashboardDiscoveryReady = dashboardDiscoveryState.status === 'ready';
 
   return (
     <GridLegacy container>
       <GridLegacy item xs={12}>
         <Box
+          alignItems={{ lg: 'center', xs: 'flex-start' }}
           display="flex"
           flexDirection={{ lg: 'row', xs: 'column' }}
           flexWrap="wrap"
           gap={2}
           justifyContent="space-between"
-          m={3}
+          marginBottom={1}
+          marginLeft={2}
+          marginRight={2}
+          marginTop={1}
         >
           <CloudPulseDashboardSelect
             defaultValue={preferences?.dashboardId}
             handleDashboardChange={onDashboardChange}
+            onDashboardDiscoveryStateChange={setDashboardDiscoveryState}
             savePreferences={!isImpersonatedUser} // no need to save preferences impersonated user, as it is disabled
           />
           <Box
@@ -254,7 +267,7 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
                 size="small"
                 sx={(theme) => ({
                   marginBlockEnd: 'auto',
-                  marginTop: { md: theme.spacing(3.5) },
+                  marginTop: { md: theme.spacingFunction(24) },
                 })}
               >
                 <Reload height="24px" width="24px" />
@@ -276,7 +289,7 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
                   size="small"
                   sx={(theme) => ({
                     marginBlockEnd: 'auto',
-                    marginTop: { md: theme.spacingFunction(28) },
+                    marginTop: { md: theme.spacingFunction(24) },
                   })}
                 >
                   <DownloadIcon height="24px" width="24px" />
@@ -296,7 +309,7 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
           </Box>
         </Box>
       </GridLegacy>
-      {selectedDashboard && (
+      {(selectedDashboard || !isDashboardDiscoveryReady) && (
         <GridLegacy item xs={12}>
           <Divider
             sx={(theme) => ({
@@ -307,7 +320,7 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
         </GridLegacy>
       )}
 
-      {isUnAuthorizedError && (
+      {isDashboardDiscoveryReady && isUnAuthorizedError && (
         <GridLegacy item margin={2} xs={12}>
           <Notice
             text="You don't have permission to view the entities behind these metrics. Contact your account administrator to request access."
@@ -316,17 +329,25 @@ export const GlobalFilters = React.memo((props: GlobalFilterProperties) => {
         </GridLegacy>
       )}
 
-      {selectedDashboard && !isUnAuthorizedError && (
-        <CloudPulseDashboardFilterBuilder
-          dashboard={selectedDashboard}
-          emitFilterChange={emitFilterChange}
-          handleToggleAppliedFilter={handleToggleAppliedFilter}
-          isError={isError}
-          isLoading={isLoading}
-          isServiceAnalyticsIntegration={false}
-          preferences={preferences}
-        />
-      )}
+      {!isUnAuthorizedError &&
+        (!isDashboardDiscoveryReady || selectedDashboard) && (
+          <CloudPulseDashboardFilterBuilder
+            appliedFilters={appliedFilters}
+            dashboard={selectedDashboard}
+            dashboardErrorText={
+              dashboardDiscoveryState.status === 'error'
+                ? dashboardDiscoveryState.errorText
+                : undefined
+            }
+            dashboardLoading={dashboardDiscoveryState.status === 'loading'}
+            emitFilterChange={emitFilterChange}
+            handleToggleAppliedFilter={handleToggleAppliedFilter}
+            isError={isError}
+            isLoading={isLoading}
+            isServiceAnalyticsIntegration={false}
+            preferences={preferences}
+          />
+        )}
     </GridLegacy>
   );
 });

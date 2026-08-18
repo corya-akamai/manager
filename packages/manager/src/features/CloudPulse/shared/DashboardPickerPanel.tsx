@@ -2,7 +2,6 @@ import {
   BetaChip,
   Box,
   ChevronUpIcon,
-  CircleProgress,
   List,
   Paper,
   TextField,
@@ -37,17 +36,9 @@ export interface DashboardPickerPanelProps {
    */
   aclpServices?: Partial<AclpServices>;
   /**
-   * Error text rendered below the list section.
-   */
-  errorText?: string;
-  /**
    * Closes the picker panel.
    */
   handleClose: () => void;
-  /**
-   * Shows a loading spinner while options are being prepared.
-   */
-  loading?: boolean;
   /**
    * Called when a dashboard option is selected.
    */
@@ -86,9 +77,7 @@ export interface DashboardPickerPanelProps {
 
 export const DashboardPickerPanel = ({
   aclpServices,
-  errorText,
   handleClose,
-  loading,
   onChange,
   options,
   serviceTypeMap,
@@ -145,9 +134,15 @@ export const DashboardPickerPanel = ({
   }, []);
 
   return (
-    <Paper sx={panelSx}>
+    <Paper
+      aria-label="Dashboard picker"
+      data-pendo-id="cloudpulse-dashboard-picker-panel"
+      role="dialog"
+      sx={panelSx}
+    >
       <Box sx={{ width: '100%' }}>
         <StyledTriggerButton
+          data-pendo-id="cloudpulse-dashboard-picker-close"
           onClick={handleClose}
           sx={(theme) => ({
             ...closeTriggerButtonSx(theme),
@@ -167,7 +162,10 @@ export const DashboardPickerPanel = ({
           <ChevronUpIcon className="dashboard-picker-trigger-icon" />
         </StyledTriggerButton>
 
-        <Box sx={searchFieldContainerSx}>
+        <Box
+          data-pendo-id="cloudpulse-dashboard-picker-search"
+          sx={searchFieldContainerSx}
+        >
           <TextField
             hideLabel
             inputRef={mergeInputRef}
@@ -175,7 +173,10 @@ export const DashboardPickerPanel = ({
             noMarginTop
             placeholder="Search"
             slotProps={{
-              htmlInput: { ...restInputProps },
+              htmlInput: {
+                ...restInputProps,
+                'data-pendo-id': 'cloudpulse-dashboard-picker-search',
+              },
               input: {
                 startAdornment: (
                   <SearchIcon
@@ -196,71 +197,63 @@ export const DashboardPickerPanel = ({
           />
         </Box>
 
-        {loading ? (
-          <Box display="flex" justifyContent="center" p={2}>
-            <CircleProgress size="sm" />
-          </Box>
-        ) : (
-          <StyledListbox {...getListboxProps()}>
-            {(groupedOptions as AutocompleteGroupedOption<Dashboard>[]).map(
-              (group) => (
-                <StyledGroupSection component="li" key={group.key}>
-                  {showServiceTypeLabel && (
-                    <StyledGroupHeader>
-                      <StyledGroupLabel>
-                        {serviceTypeMap.get(
-                          group.group as CloudPulseServiceType
-                        ) ?? group.group}
-                      </StyledGroupLabel>
-                      {aclpServices?.[group.group as CloudPulseServiceType]
-                        ?.metrics?.beta && <BetaChip />}
-                    </StyledGroupHeader>
-                  )}
-                  <List disablePadding>
-                    {group.options.map((option, idx) => (
-                      <StyledOptionItem
-                        {...getOptionProps({
-                          index: group.index + idx,
-                          option,
-                        })}
-                        key={option.id}
+        <StyledListbox {...getListboxProps()}>
+          {(groupedOptions as AutocompleteGroupedOption<Dashboard>[]).map(
+            (group) => (
+              <StyledGroupSection component="li" key={group.key}>
+                {showServiceTypeLabel && (
+                  <StyledGroupHeader>
+                    <StyledGroupLabel>
+                      {serviceTypeMap.get(
+                        group.group as CloudPulseServiceType
+                      ) ?? group.group}
+                    </StyledGroupLabel>
+                    {aclpServices?.[group.group as CloudPulseServiceType]
+                      ?.metrics?.beta && <BetaChip />}
+                  </StyledGroupHeader>
+                )}
+                <List disablePadding>
+                  {group.options.map((option, idx) => (
+                    <StyledOptionItem
+                      data-pendo-id={`cloudpulse-dashboard-picker-option-${option.id}`}
+                      {...getOptionProps({
+                        index: group.index + idx,
+                        option,
+                      })}
+                      key={option.id}
+                    >
+                      <StyledOptionLabel
+                        data-pendo-id={option.label}
+                        variant="body1"
                       >
-                        <StyledOptionLabel variant="body1">
-                          {option.label}
-                        </StyledOptionLabel>
-                      </StyledOptionItem>
-                    ))}
-                  </List>
-                </StyledGroupSection>
-              )
-            )}
-            {groupedOptions.length === 0 && (
-              <Box
-                sx={(theme) => ({
-                  px: 1.5,
-                  py: 1,
-                  [theme.breakpoints.down('sm')]: {
-                    px: 1,
-                    py: 0.75,
-                  },
-                })}
+                        {option.label}
+                      </StyledOptionLabel>
+                    </StyledOptionItem>
+                  ))}
+                </List>
+              </StyledGroupSection>
+            )
+          )}
+          {groupedOptions.length === 0 && (
+            <Box
+              sx={(theme) => ({
+                px: 1.5,
+                py: 1,
+                [theme.breakpoints.down('sm')]: {
+                  px: 1,
+                  py: 0.75,
+                },
+              })}
+            >
+              <Typography
+                sx={(theme) => ({ color: theme.palette.text.secondary })}
+                variant="body2"
               >
-                <Typography
-                  sx={(theme) => ({ color: theme.palette.text.secondary })}
-                  variant="body2"
-                >
-                  No dashboards found
-                </Typography>
-              </Box>
-            )}
-          </StyledListbox>
-        )}
-
-        {errorText && (
-          <Typography color="error" sx={{ mt: 1 }} variant="body2">
-            {errorText}
-          </Typography>
-        )}
+                No dashboards found
+              </Typography>
+            </Box>
+          )}
+        </StyledListbox>
       </Box>
     </Paper>
   );

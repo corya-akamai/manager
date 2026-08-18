@@ -52,11 +52,26 @@ describe('DashboardPickerPanel', () => {
   it('renders trigger label, search input, and grouped options', () => {
     renderWithTheme(<DashboardPickerPanel {...baseProps} />);
 
+    expect(
+      screen.getByRole('dialog', { name: 'Dashboard picker' })
+    ).toHaveAttribute('data-pendo-id', 'cloudpulse-dashboard-picker-panel');
     expect(screen.getByText('Linodes - Storage Performance')).toBeVisible();
-    expect(screen.getByPlaceholderText('Search')).toBeVisible();
+    expect(
+      screen.getByText('Linodes - Storage Performance').closest('button')
+    ).toHaveAttribute('data-pendo-id', 'cloudpulse-dashboard-picker-close');
+    expect(screen.getByPlaceholderText('Search')).toHaveAttribute(
+      'data-pendo-id',
+      'cloudpulse-dashboard-picker-search'
+    );
     expect(screen.getByText('Linodes')).toBeVisible();
     expect(screen.getAllByText(selectedDashboardLabel).length).toBeGreaterThan(
       0
+    );
+    expect(
+      screen.getByRole('option', { name: selectedDashboardLabel })
+    ).toHaveAttribute(
+      'data-pendo-id',
+      `cloudpulse-dashboard-picker-option-${options[0].id}`
     );
   });
 
@@ -90,18 +105,5 @@ describe('DashboardPickerPanel', () => {
     await user.type(screen.getByPlaceholderText('Search'), 'does-not-exist');
 
     expect(screen.getByText('No dashboards found')).toBeVisible();
-  });
-
-  it('shows loading spinner and error text when provided', () => {
-    renderWithTheme(
-      <DashboardPickerPanel
-        {...baseProps}
-        errorText="Unable to load dashboards"
-        loading
-      />
-    );
-
-    expect(screen.getByRole('progressbar')).toBeVisible();
-    expect(screen.getByText('Unable to load dashboards')).toBeVisible();
   });
 });

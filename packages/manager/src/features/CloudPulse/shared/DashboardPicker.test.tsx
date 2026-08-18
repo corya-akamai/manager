@@ -58,6 +58,27 @@ describe('DashboardPicker', () => {
     );
 
     expect(screen.getByText('Select a Dashboard')).toBeVisible();
+    expect(screen.getByTestId(triggerTestId)).toHaveAttribute(
+      'data-pendo-id',
+      'cloudpulse-dashboard-picker-trigger'
+    );
+  });
+
+  it('adds a Pendo identifier to the contextual navigation link', () => {
+    renderWithTheme(
+      <DashboardPicker
+        isContextualView
+        onChange={mockOnChange}
+        options={[]}
+        serviceTypeMap={serviceTypeMap}
+        value={null}
+      />
+    );
+
+    expect(screen.getByText('Monitor all services')).toHaveAttribute(
+      'data-pendo-id',
+      'cloudpulse-dashboard-picker-monitor-all-services'
+    );
   });
 
   it('renders selected trigger text when a dashboard is selected', () => {
