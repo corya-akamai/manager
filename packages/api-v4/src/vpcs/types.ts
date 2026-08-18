@@ -37,6 +37,7 @@ export interface CreateVPCPayload {
 
 export interface UpdateVPCPayload {
   description?: string;
+  ipv4?: VPCIPv4Range[];
   label?: string;
 }
 
