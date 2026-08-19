@@ -36,7 +36,7 @@
     "@akamai/cds-components": "^1.0.1",
     "@akamai/cds-icons": "^1.0.0",
     "@akamai/cds-tokens": "^1.0.0",
-    "@akamai/compute-ui-core": "1.1.1-develop-20260817135918-1b5479a9b0e0988323114e9c9e8f33440422c06e",
+    "@akamai/compute-ui-core": "^1.1.1",
     "@braintree/sanitize-url": "^7.1.0",
     "@dnd-kit/core": "^6.1.0",
     "@dnd-kit/sortable": "^8.0.0",
@@ -113,7 +113,7 @@
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
-    "@akamai/compute-ui-portal": "1.0.5",
+    "@akamai/compute-ui-portal": "1.0.6-staging-20260818160409-7bd5fce9275849c45f9a824d8b736a16f7ea92bc",
     "@akamai/compute-ui-portal-menu": "1.0.4",
     "@storybook/addon-a11y": "^10.5.7",
     "@storybook/addon-docs": "^10.5.7",

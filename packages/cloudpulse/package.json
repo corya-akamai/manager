@@ -21,7 +21,7 @@
     "@akamai/cds-components": "^0.0.0-20260622084103",
     "@akamai/cds-icons": "^0.0.0-20260622084103",
     "@akamai/cds-tokens": "^0.0.0-20260622084103",
-    "@akamai/compute-ui-core": "^0.0.0-20260615155722",
+    "@akamai/compute-ui-core": "^1.1.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^7.1.0",
